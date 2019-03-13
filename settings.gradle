@@ -1,0 +1,2 @@
+include ':app', ':domain', ':data', ':cyber4j'
+project(':cyber4j').projectDir = new File('./cyber-android')

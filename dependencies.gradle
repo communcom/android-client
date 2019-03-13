@@ -1,0 +1,10 @@
+ext {
+    appVesrionCode = 1
+    appVersionName = "0.01"
+    minsdk = 19
+    targetsdk = 28
+    androidXVersion = "1.1.0-alpha02"
+    lifecycleVersion = "2.1.0-alpha02"
+    coroutinesVersion = "1.1.1"
+    junitVersion = "4.12"
+}

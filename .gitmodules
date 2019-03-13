@@ -1,0 +1,3 @@
+[submodule "cyber-android"]
+	path = cyber-android
+	url = https://github.com/GolosChain/cyber-android
