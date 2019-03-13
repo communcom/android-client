@@ -9,7 +9,7 @@ import io.golos.domain.Entity
 sealed class DiscussionEntity(
     val contentId: DiscussionId,
     val author: DiscussionAuthorEntity,
-    val community: CyberCommunity,
+    val community: CommunityEntity,
     val content: DiscussionContent,
     val votes: DiscussionVotes,
     val comments: DiscussionCommentsCount,
@@ -61,7 +61,7 @@ sealed class DiscussionEntity(
 class PostEntity(
     contentId: DiscussionId,
     author: DiscussionAuthorEntity,
-    community: CyberCommunity,
+    community: CommunityEntity,
     content: DiscussionContent,
     votes: DiscussionVotes,
     comments: DiscussionCommentsCount,
@@ -75,7 +75,7 @@ class PostEntity(
 class CommentEntity(
     contentId: DiscussionId,
     author: DiscussionAuthorEntity,
-    community: CyberCommunity,
+    community: CommunityEntity,
     content: DiscussionContent,
     votes: DiscussionVotes,
     comments: DiscussionCommentsCount,

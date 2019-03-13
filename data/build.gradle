@@ -8,9 +8,6 @@ android {
         targetSdkVersion targetsdk
         versionCode appVesrionCode
         versionName appVersionName
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -23,13 +20,20 @@ android {
 }
 
 dependencies {
-    implementation project(':cyber4j')
     implementation project(':domain')
+    implementation project(':cyber4j')
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    testImplementation "junit:junit:$junitVersion"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()

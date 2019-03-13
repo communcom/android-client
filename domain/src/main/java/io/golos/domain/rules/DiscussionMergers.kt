@@ -30,13 +30,16 @@ class PostFeedMerger : EntityMerger<FeedEntity<PostEntity>> {
     override fun invoke(new: FeedEntity<PostEntity>, old: FeedEntity<PostEntity>): FeedEntity<PostEntity> {
         if (new.discussions.isEmpty()) return new
         if (old.discussions.isEmpty()) return new
+        if (new.pageId == null) return new
 
         val firstOfNew = new.discussions.first()
 
         if (old.discussions.any { it.contentId == firstOfNew.contentId }) {
             val lastPos = old.discussions.indexOfLast { it.contentId == firstOfNew.contentId }
-            return FeedEntity(old.discussions.subList(0, lastPos) + new.discussions, new.nextPageId)
+            return FeedEntity(old.discussions.subList(0, lastPos) + new.discussions, old.nextPageId, new.nextPageId)
+        } else if (old.nextPageId == new.pageId) {
+            return FeedEntity(old.discussions + new.discussions, old.nextPageId, new.nextPageId)
         }
-        return new
+        return old
     }
 }

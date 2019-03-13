@@ -10,14 +10,8 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionId
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
-import io.golos.domain.model.CommentFeedpdateRequest
-import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.DiscussionsSort
-import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EmptyEntityProducer
-import io.golos.domain.rules.EntityMerger
-import io.golos.domain.rules.Logger
+import io.golos.domain.model.*
+import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**
@@ -25,7 +19,7 @@ import kotlinx.coroutines.CoroutineDispatcher
  */
 class PostsFeedRepository(
     private val apiService: PostsApiService,
-    feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<PostEntity>>,
+    feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
     postMerger: EntityMerger<PostEntity>,
     feedMerger: EntityMerger<FeedEntity<PostEntity>>,
@@ -60,7 +54,7 @@ class PostsFeedRepository(
 
 class CommentsFeedRepository(
     private val apiService: CommentsApiService,
-    feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<CommentEntity>>,
+    feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,
     postMerger: EntityMerger<CommentEntity>,
     feedMerger: EntityMerger<FeedEntity<CommentEntity>>,

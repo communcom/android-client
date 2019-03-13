@@ -5,6 +5,7 @@ ext {
     targetsdk = 28
     androidXVersion = "1.1.0-alpha02"
     lifecycleVersion = "2.1.0-alpha02"
+    archCoreTesting = "2.0.0"
     coroutinesVersion = "1.1.1"
     junitVersion = "4.12"
 }

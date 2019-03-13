@@ -5,6 +5,7 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import io.golos.domain.entities.DiscussionId
 import io.golos.domain.entities.FeedEntity
+import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.Result
 
@@ -31,7 +32,7 @@ interface Repository<D : Entity, Q : Identifiable> {
 
 }
 
-interface DiscussionsFeedRepository<T : Entity, Q : Identifiable>
+interface DiscussionsFeedRepository<T : Entity, Q : FeedUpdateRequest>
     : Repository<FeedEntity<T>, Q> {
 
     @AnyThread
