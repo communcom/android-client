@@ -1,3 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_vertical_editor_widget">12dp</dimen>
+    <dimen name="padding_horizontal_editor_widget">16dp</dimen>
+    <dimen name="size_editor_widget_avatar">40dp</dimen>
+
+    <dimen name="text_size_20_sp">20sp</dimen>
 </resources>
