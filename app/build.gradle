@@ -23,6 +23,26 @@ android {
         targetCompatibility 1.7
         sourceCompatibility 1.7
     }
+    configurations {
+        all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+        exclude 'lib/x86_64/darwin/libscrypt.dylib'
+        exclude 'lib/x86_64/freebsd/libscrypt.so'
+        exclude 'lib/x86_64/linux/libscrypt.so'
+        exclude 'org/bitcoinj/crypto/cacerts'
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
