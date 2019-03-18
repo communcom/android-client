@@ -7,11 +7,11 @@ import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.data.CommentsApiService
 import io.golos.data.PostsApiService
 import io.golos.domain.Logger
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.entities.DiscussionId
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.model.*
+import io.golos.domain.entities.*
+import io.golos.domain.model.CommentFeedUpdateRequest
+import io.golos.domain.model.CommunityFeedUpdateRequest
+import io.golos.domain.model.FeedUpdateRequest
+import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -34,7 +34,7 @@ class PostsFeedRepository(
         postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion {
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
         return apiService.getPost(CyberName(params.userId), params.permlink, params.refBlockNum)
     }
 
@@ -64,16 +64,16 @@ class CommentsFeedRepository(
     workerDispatcher: CoroutineDispatcher,
     logger: Logger
 ) :
-    AbstractDiscussionsRepository<CommentEntity, CommentFeedpdateRequest>(
+    AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
         postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion {
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getFeedOnBackground(updateRequest: CommentFeedpdateRequest): DiscussionsResult {
+    override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -1,5 +1,7 @@
 package io.golos.domain.model
 
+import io.golos.domain.entities.DiscussionsSort
+
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
@@ -23,7 +25,7 @@ interface FeedUpdateRequest : Identifiable {
 
 sealed class PostFeedUpdateRequest : FeedUpdateRequest
 
-sealed class CommentFeedpdateRequest : FeedUpdateRequest
+sealed class CommentFeedUpdateRequest : FeedUpdateRequest
 
 data class CommunityFeedUpdateRequest(
     val communityId: String,

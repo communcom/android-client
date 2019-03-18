@@ -10,7 +10,7 @@ import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.Entity
 import io.golos.domain.Logger
 import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.entities.DiscussionId
+import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
@@ -40,7 +40,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
     private val repositoryScope = CoroutineScope(mainDispatcher + SupervisorJob())
 
-    private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionId, Job>())
+    private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionIdEntity, Job>())
     private val feedJobMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     override val updateStates: LiveData<Map<Identifiable.Id, Result<Q>>>
@@ -50,7 +50,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         return discussionsFeedMap.putIfAbsentAndGet(params.id)
     }
 
-    override fun requestDiscussionUpdate(updatingDiscussionId: DiscussionId) {
+    override fun requestDiscussionUpdate(updatingDiscussionId: DiscussionIdEntity) {
         postJobMap[updatingDiscussionId]?.cancel()
 
         launch {
@@ -123,7 +123,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         }
     }
 
-    protected abstract suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion
+    protected abstract suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion
 
     protected abstract suspend fun getFeedOnBackground(updateRequest: Q): DiscussionsResult
 

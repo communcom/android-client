@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.data.postsApiService
 import io.golos.domain.*
 import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.DiscussionsSort
+import io.golos.domain.entities.DiscussionsSort
 import kotlinx.coroutines.Dispatchers
 import org.junit.Rule
 import org.junit.Test
@@ -25,9 +25,23 @@ class PostsFeedRepositoryTest {
 
     @Test
     fun getFeedTest() {
-        feedRepository.makeAction(CommunityFeedUpdateRequest("gls", 5, DiscussionsSort.FROM_OLD_TO_NEW, null))
+        feedRepository.makeAction(
+            CommunityFeedUpdateRequest(
+                "gls",
+                5,
+                DiscussionsSort.FROM_OLD_TO_NEW,
+                null
+            )
+        )
         val posts =
-            feedRepository.getAsLiveData(CommunityFeedUpdateRequest("gls", 0, DiscussionsSort.FROM_OLD_TO_NEW, null))
+            feedRepository.getAsLiveData(
+                CommunityFeedUpdateRequest(
+                    "gls",
+                    0,
+                    DiscussionsSort.FROM_OLD_TO_NEW,
+                    null
+                )
+            )
         println(posts)
     }
 }

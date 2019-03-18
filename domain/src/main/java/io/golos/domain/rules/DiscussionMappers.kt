@@ -17,7 +17,7 @@ class PostMapper : CyberToEntityMapper<CyberDiscussion, PostEntity> {
 
     override suspend fun invoke(cyberObject: CyberDiscussion): PostEntity {
         return PostEntity(
-            DiscussionId(
+            DiscussionIdEntity(
                 cyberObject.contentId.userId,
                 cyberObject.contentId.permlink,
                 cyberObject.contentId.refBlockNum
