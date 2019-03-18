@@ -7,4 +7,5 @@ ext {
     lifecycleVersion = "2.1.0-alpha02"
     coroutinesVersion = "1.1.1"
     junitVersion = "4.12"
+    glideVersion = "4.9.0"
 }

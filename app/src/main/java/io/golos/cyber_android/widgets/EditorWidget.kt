@@ -3,6 +3,8 @@ package io.golos.cyber_android.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_editor_widget.view.*
 
@@ -47,7 +49,9 @@ internal class EditorWidget : LinearLayout {
      * Loads user avatar into avatar ImageView
      */
     fun loadUserAvatar(url: String) {
-        //TODO replace with real implementation
-        avatar.setImageResource(R.drawable.img_example_avatar)
+        Glide.with(this)
+            .load(url)
+            .apply(RequestOptions.circleCropTransform())
+            .into(avatar)
     }
 }
