@@ -22,21 +22,27 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
+    <LinearLayout
             android:layout_marginTop="?attr/actionBarSize"
-            android:id="@+id/mainPager"
-            android:overScrollMode="never"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/mainPager"
+                android:overScrollMode="never"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navigationView"
-            app:menu="@menu/menu_navigation_main"
-            app:itemIconTint="@color/navigation_item_tint_color"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-    />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/navigationView"
+                app:menu="@menu/menu_navigation_main"
+                app:itemIconTint="@color/navigation_item_tint_color"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+        />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
