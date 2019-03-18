@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="action_settings">Settings</string>
+
+     <!--Main Screen Navigation-->
+    <string name="feed">Feed</string>
+    <string name="communities">Communities</string>
+    <string name="notifications">Notifications</string>
+    <string name="wallet">Wallet</string>
+    <string name="profile">Profile</string>
+
+    <!--Editor Widget-->
+    <string name="editor_widget_caption">What’s new?</string>
 </resources>

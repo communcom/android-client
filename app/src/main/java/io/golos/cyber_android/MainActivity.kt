@@ -3,28 +3,61 @@ package io.golos.cyber_android
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
-import io.golos.domain.interactors.model.CommunityModel
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import io.golos.cyber_android.ui.screens.communities.CommunitiesFragment
+import io.golos.cyber_android.ui.screens.feed.FeedFragment
+import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
+import io.golos.cyber_android.ui.screens.profile.ProfileFragment
+import io.golos.cyber_android.ui.screens.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.IndexOutOfBoundsException
 
 class MainActivity : AppCompatActivity() {
+
+    enum class Tabs(val index: Int, @IdRes val navItem: Int) {
+        FEED(0, R.id.navigation_feed),
+        COMMUNITIES(1, R.id.navigation_communities),
+        NOTIFICATIONS(2, R.id.navigation_notifications),
+        WALLET(3, R.id.navigation_wallet),
+        PROFILE(4, R.id.navigation_profile)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val myViewModel = ViewModelProviders.of(
-            this,
-            getServiceLocator.getCommunityFeedViewModelFactory(CommunityModel("gls", "gls", null))
-        ).get(CommunityFeedViewModel::class.java)
+        setupPager()
+        setupNavigationView()
+    }
 
+    private fun setupPager() {
+        mainPager.isUserInputEnabled = false
+        mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager) {
+            override fun getItem(position: Int): Fragment {
+                return when (Tabs.values().find { it.index == position }) {
+                    Tabs.FEED -> FeedFragment.newInstance()
+                    Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
+                    Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
+                    Tabs.WALLET -> WalletFragment.newInstance()
+                    Tabs.PROFILE -> ProfileFragment.newInstance()
+                    null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
+                }
+            }
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            override fun getItemCount() = Tabs.values().size
+        }
+    }
+
+    private fun setupNavigationView() {
+        navigationView.setOnNavigationItemSelectedListener {
+            val pageIndex = Tabs.values().find { tab -> it.itemId == tab.navItem }?.index
+            if (pageIndex != null)
+                mainPager.setCurrentItem(pageIndex, false)
+            return@setOnNavigationItemSelectedListener true
         }
     }
 

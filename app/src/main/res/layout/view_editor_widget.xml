@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:paddingStart="@dimen/padding_horizontal_editor_widget"
+              android:paddingEnd="0dp"
+              android:paddingTop="@dimen/padding_vertical_editor_widget"
+              android:paddingBottom="@dimen/padding_vertical_editor_widget"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:gravity="center_vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/avatar"
+            tools:srcCompat="@drawable/img_example_avatar"
+            android:layout_width="@dimen/size_editor_widget_avatar"
+            android:layout_height="@dimen/size_editor_widget_avatar"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/caption"
+            android:theme="@style/EditorWidgetCaptionTextStyle"
+            android:text="@string/editor_widget_caption"
+            android:layout_marginStart="@dimen/padding_horizontal_editor_widget"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/galleryButton"
+            app:srcCompat="@drawable/ic_editor_widget_camera"
+            android:paddingStart="@dimen/padding_horizontal_editor_widget"
+            android:paddingEnd="@dimen/padding_horizontal_editor_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+</LinearLayout>

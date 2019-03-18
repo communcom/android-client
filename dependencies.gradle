@@ -8,4 +8,7 @@ ext {
     archCoreTesting = "2.0.0"
     coroutinesVersion = "1.1.1"
     junitVersion = "4.12"
+    glideVersion = "4.9.0"
+    viewPager2Version = "1.0.0-alpha02"
+    navVersion = "2.0.0"
 }
