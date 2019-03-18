@@ -6,6 +6,7 @@ import io.golos.cyber4j.model.DiscussionTimeSort
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.data.CommentsApiService
 import io.golos.data.PostsApiService
+import io.golos.domain.Logger
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionId
 import io.golos.domain.entities.FeedEntity

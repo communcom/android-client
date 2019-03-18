@@ -8,6 +8,7 @@ import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.Entity
+import io.golos.domain.Logger
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionId
 import io.golos.domain.entities.FeedEntity
