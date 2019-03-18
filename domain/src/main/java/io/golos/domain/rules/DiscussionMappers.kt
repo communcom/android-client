@@ -13,7 +13,7 @@ data class FeedUpdateRequestsWithResult<Q : FeedUpdateRequest>(
     val discussionsResult: DiscussionsResult
 )
 
-class PostMapper : CyberToEntityMapper<CyberDiscussion, PostEntity> {
+class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity> {
 
     override suspend fun invoke(cyberObject: CyberDiscussion): PostEntity {
         return PostEntity(
@@ -22,27 +22,31 @@ class PostMapper : CyberToEntityMapper<CyberDiscussion, PostEntity> {
                 cyberObject.contentId.permlink,
                 cyberObject.contentId.refBlockNum
             ),
-            DiscussionAuthorEntity(cyberObject.author.userId.name, cyberObject.author.username),
+            DiscussionAuthorEntity(
+                cyberObject.author?.userId?.name ?: "unknown",
+                cyberObject.author?.username ?: "unknown"
+            ),
             CommunityEntity(cyberObject.community.id, cyberObject.community.name, cyberObject.community.getAvatarUrl),
             DiscussionContent(
                 cyberObject.content.title,
                 ContentBody(cyberObject.content.body.preview, cyberObject.content.body.full),
-                cyberObject.content.metadata
+                cyberObject.content.metadata?:""
             ),
             DiscussionVotes(cyberObject.votes.hasUpVote, cyberObject.votes.hasDownVote),
-            DiscussionCommentsCount(cyberObject.comments.count),
+            DiscussionCommentsCount(cyberObject.stats.commentsCount),
             DiscussionPayout(cyberObject.payout.rShares),
             DiscussionMetadata(cyberObject.meta.time)
         )
     }
 }
 
-class PostsFeedMapper(val postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>) :
+class CyberFeedToEntityMapper(val postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>) :
     CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>> {
 
     override suspend fun invoke(cyberObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<PostEntity> {
         return FeedEntity(
-            cyberObject.discussionsResult.items.map { postMapper(it) },
+            cyberObject.discussionsResult.items
+                .map { postMapper(it) },
             cyberObject.reedRequest.pageKey,
             cyberObject.discussionsResult.sequenceKey
         )

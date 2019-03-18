@@ -15,7 +15,10 @@ import io.golos.domain.entities.FeedEntity
 import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.Result
-import io.golos.domain.rules.*
+import io.golos.domain.rules.CyberToEntityMapper
+import io.golos.domain.rules.EmptyEntityProducer
+import io.golos.domain.rules.EntityMerger
+import io.golos.domain.rules.FeedUpdateRequestsWithResult
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -81,14 +84,12 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             discussionsFeedMap.putIfAbsentAndGet(params.id)
 
-            feedJobMap[params.id]?.cancel()
-
             feedsUpdatingStatesMap.value =
                 feedsUpdatingStatesMap.value.orEmpty() + (params.id to Result.Loading(params))
 
             val feed = getOnBackground { getFeedOnBackground(params) }
 
-            val feedEntity =  feedMapper.invoke(FeedUpdateRequestsWithResult(params, feed))
+            val feedEntity = feedMapper.invoke(FeedUpdateRequestsWithResult(params, feed))
 
             val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
 
@@ -99,7 +100,10 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             feedsUpdatingStatesMap.value =
                 feedsUpdatingStatesMap.value.orEmpty() + (params.id to Result.Success(params))
 
-        }.let { job -> feedJobMap[params.id] = job }
+        }.let { job ->
+            feedJobMap[params.id]?.cancel()
+            feedJobMap[params.id] = job
+        }
     }
 
     private fun <T> async(

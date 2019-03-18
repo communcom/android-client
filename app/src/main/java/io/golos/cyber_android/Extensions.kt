@@ -7,7 +7,7 @@ import io.golos.cyber_android.locator.ServiceLocator
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
 
-val Context.getServiceLocator: ServiceLocator
+val Context.serviceLocator: ServiceLocator
     get() = getSystemService(App.SERVICE_LOCATOR) as ServiceLocator
 
 

@@ -8,10 +8,12 @@ import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.data.Cyber4jApiService
 import io.golos.data.PostsApiService
 import io.golos.data.repositories.PostsFeedRepository
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.interactors.CommunityFeedUseCase
-import io.golos.domain.interactors.model.CommunityModel
+import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.rules.*
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 /**
@@ -23,8 +25,11 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
 
     private val postsApiService: PostsApiService by lazy { Cyber4jApiService(cyber4j) }
 
-    private val postMapper = PostMapper()
-    private val feedMapper = PostsFeedMapper(postMapper)
+    private val cyberPostToEntityMapper = CyberPostToEntityMapper()
+    private val postEntityToModelMapper = PostEntityToModelMapper()
+
+    private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
+    private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
 
     private val postMerger = PostMerger()
     private val feedMerger = PostFeedMerger()
@@ -37,29 +42,38 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
         }
     }
 
+    private val dispatchersProvider = object : DispatchersProvider {
+        override val uiDispatcher: CoroutineDispatcher
+            get() = Dispatchers.Main
+        override val workDispatcher: CoroutineDispatcher
+            get() = Dispatchers.Default
+    }
+
     private val communityFeedRepository by lazy {
         PostsFeedRepository(
             postsApiService,
-            feedMapper,
-            postMapper,
+            cyberFeedToEntityMapper,
+            cyberPostToEntityMapper,
             postMerger,
             feedMerger,
             emptyPostFeedProducer,
-            Dispatchers.Main,
-            Dispatchers.Default,
+            dispatchersProvider.uiDispatcher,
+            dispatchersProvider.workDispatcher,
             logger
         )
     }
 
-    override fun getCommunityFeedViewModelFactory(communityModel: CommunityModel): ViewModelProvider.Factory {
+    override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
                         CommunityFeedUseCase(
-                            communityModel,
-                            communityFeedRepository
+                            communityId,
+                            communityFeedRepository,
+                            feedEntityToModelMapper,
+                            dispatchersProvider
                         )
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")

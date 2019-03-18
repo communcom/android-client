@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.ui.screens.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.IndexOutOfBoundsException
 
 class MainActivity : AppCompatActivity() {
 
