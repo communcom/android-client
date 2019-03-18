@@ -6,10 +6,40 @@ import io.golos.domain.Entity
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
 
+class PostEntity(
+    contentId: DiscussionIdEntity,
+    author: DiscussionAuthorEntity,
+    community: CommunityEntity,
+    content: DiscussionContent,
+    votes: DiscussionVotes,
+    comments: DiscussionCommentsCount,
+    payout: DiscussionPayout,
+    meta: DiscussionMetadata
+) : DiscussionEntity(
+    contentId, author, community, content,
+    votes, comments, payout, null, null, meta
+)
+
+class CommentEntity(
+    contentId: DiscussionIdEntity,
+    author: DiscussionAuthorEntity,
+    community: CommunityEntity,
+    content: DiscussionContent,
+    votes: DiscussionVotes,
+    comments: DiscussionCommentsCount,
+    payout: DiscussionPayout,
+    postId: ParentId,
+    parentCommentId: ParentId,
+    meta: DiscussionMetadata
+) : DiscussionEntity(
+    contentId, author, community, content,
+    votes, comments, payout, postId, parentCommentId, meta
+)
+
 sealed class DiscussionEntity(
-    val contentId: DiscussionId,
+    val contentId: DiscussionIdEntity,
     val author: DiscussionAuthorEntity,
-    val community: CyberCommunity,
+    val community: CommunityEntity,
     val content: DiscussionContent,
     val votes: DiscussionVotes,
     val comments: DiscussionCommentsCount,
@@ -58,34 +88,6 @@ sealed class DiscussionEntity(
 
 }
 
-class PostEntity(
-    contentId: DiscussionId,
-    author: DiscussionAuthorEntity,
-    community: CyberCommunity,
-    content: DiscussionContent,
-    votes: DiscussionVotes,
-    comments: DiscussionCommentsCount,
-    payout: DiscussionPayout,
-    meta: DiscussionMetadata
-) : DiscussionEntity(
-    contentId, author, community, content,
-    votes, comments, payout, null, null, meta
-)
 
-class CommentEntity(
-    contentId: DiscussionId,
-    author: DiscussionAuthorEntity,
-    community: CyberCommunity,
-    content: DiscussionContent,
-    votes: DiscussionVotes,
-    comments: DiscussionCommentsCount,
-    payout: DiscussionPayout,
-    postId: ParentId,
-    parentCommentId: ParentId,
-    meta: DiscussionMetadata
-) : DiscussionEntity(
-    contentId, author, community, content,
-    votes, comments, payout, postId, parentCommentId, meta
-)
 
 

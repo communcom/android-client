@@ -6,18 +6,13 @@ import io.golos.cyber4j.model.DiscussionTimeSort
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.data.CommentsApiService
 import io.golos.data.PostsApiService
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.entities.DiscussionId
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.model.CommentFeedpdateRequest
+import io.golos.domain.Logger
+import io.golos.domain.entities.*
+import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.DiscussionsSort
+import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EmptyEntityProducer
-import io.golos.domain.rules.EntityMerger
-import io.golos.domain.rules.Logger
+import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**
@@ -25,7 +20,7 @@ import kotlinx.coroutines.CoroutineDispatcher
  */
 class PostsFeedRepository(
     private val apiService: PostsApiService,
-    feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<PostEntity>>,
+    feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
     postMerger: EntityMerger<PostEntity>,
     feedMerger: EntityMerger<FeedEntity<PostEntity>>,
@@ -39,7 +34,7 @@ class PostsFeedRepository(
         postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion {
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
         return apiService.getPost(CyberName(params.userId), params.permlink, params.refBlockNum)
     }
 
@@ -60,7 +55,7 @@ class PostsFeedRepository(
 
 class CommentsFeedRepository(
     private val apiService: CommentsApiService,
-    feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<CommentEntity>>,
+    feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,
     postMerger: EntityMerger<CommentEntity>,
     feedMerger: EntityMerger<FeedEntity<CommentEntity>>,
@@ -69,16 +64,16 @@ class CommentsFeedRepository(
     workerDispatcher: CoroutineDispatcher,
     logger: Logger
 ) :
-    AbstractDiscussionsRepository<CommentEntity, CommentFeedpdateRequest>(
+    AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
         postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion {
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getFeedOnBackground(updateRequest: CommentFeedpdateRequest): DiscussionsResult {
+    override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

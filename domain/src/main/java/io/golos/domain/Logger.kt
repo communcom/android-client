@@ -1,4 +1,4 @@
-package io.golos.domain.rules
+package io.golos.domain
 
 import androidx.annotation.AnyThread
 

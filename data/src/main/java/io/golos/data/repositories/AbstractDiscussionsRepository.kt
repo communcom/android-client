@@ -8,15 +8,14 @@ import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.Entity
-import io.golos.domain.model.Result
+import io.golos.domain.Logger
 import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.entities.DiscussionId
+import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
+import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EmptyEntityProducer
-import io.golos.domain.rules.EntityMerger
-import io.golos.domain.rules.Logger
+import io.golos.domain.model.Result
+import io.golos.domain.rules.*
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -25,8 +24,8 @@ import kotlin.collections.HashMap
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
 
- abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : Identifiable>(
-    private val feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<D>>,
+abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdateRequest>(
+    private val feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
     private val postMapper: CyberToEntityMapper<CyberDiscussion, D>,
     private val postMerger: EntityMerger<D>,
     private val feedMerger: EntityMerger<FeedEntity<D>>,
@@ -41,7 +40,7 @@ import kotlin.collections.HashMap
 
     private val repositoryScope = CoroutineScope(mainDispatcher + SupervisorJob())
 
-    private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionId, Job>())
+    private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionIdEntity, Job>())
     private val feedJobMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     override val updateStates: LiveData<Map<Identifiable.Id, Result<Q>>>
@@ -51,7 +50,7 @@ import kotlin.collections.HashMap
         return discussionsFeedMap.putIfAbsentAndGet(params.id)
     }
 
-    override fun requestDiscussionUpdate(updatingDiscussionId: DiscussionId) {
+    override fun requestDiscussionUpdate(updatingDiscussionId: DiscussionIdEntity) {
         postJobMap[updatingDiscussionId]?.cancel()
 
         launch {
@@ -89,7 +88,7 @@ import kotlin.collections.HashMap
 
             val feed = getOnBackground { getFeedOnBackground(params) }
 
-            val feedEntity = feedMapper.convertOnBackground(feed)
+            val feedEntity =  feedMapper.invoke(FeedUpdateRequestsWithResult(params, feed))
 
             val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
 
@@ -124,7 +123,7 @@ import kotlin.collections.HashMap
         }
     }
 
-    protected abstract suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion
+    protected abstract suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion
 
     protected abstract suspend fun getFeedOnBackground(updateRequest: Q): DiscussionsResult
 

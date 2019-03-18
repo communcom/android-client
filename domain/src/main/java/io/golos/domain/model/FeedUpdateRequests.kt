@@ -1,5 +1,7 @@
 package io.golos.domain.model
 
+import io.golos.domain.entities.DiscussionsSort
+
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
@@ -17,9 +19,13 @@ interface Identifiable {
     abstract class Id
 }
 
-sealed class PostFeedUpdateRequest : Identifiable
+interface FeedUpdateRequest : Identifiable {
+    val pageKey: String?
+}
 
-sealed class CommentFeedpdateRequest : Identifiable
+sealed class PostFeedUpdateRequest : FeedUpdateRequest
+
+sealed class CommentFeedUpdateRequest : FeedUpdateRequest
 
 data class CommunityFeedUpdateRequest(
     val communityId: String,
@@ -51,5 +57,9 @@ data class CommunityFeedUpdateRequest(
             return result
         }
     }
+    override val pageKey: String?
+        get() = sequenceKey
 }
+
+
 
