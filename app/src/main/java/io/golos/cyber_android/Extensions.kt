@@ -8,6 +8,6 @@ import io.golos.cyber_android.locator.ServiceLocator
  */
 
 val Context.serviceLocator: ServiceLocator
-    get() = applicationContext. getSystemService(App.SERVICE_LOCATOR) as ServiceLocator
+    get() = applicationContext.getSystemService(App.SERVICE_LOCATOR) as ServiceLocator
 
 

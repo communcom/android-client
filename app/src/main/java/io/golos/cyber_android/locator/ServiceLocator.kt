@@ -2,6 +2,9 @@ package io.golos.cyber_android.locator
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import io.golos.domain.interactors.feed.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.UserPostFeedUseCase
+import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
 
 /**
@@ -12,4 +15,9 @@ interface ServiceLocator {
 
     fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory
 
+    fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
+
+    fun getUserSubscriptionsFeedUseCase(user: String): UserSubscriptionsFeedUseCase
+
+    fun getUserPostFeedUseCase(user: String): UserPostFeedUseCase
 }

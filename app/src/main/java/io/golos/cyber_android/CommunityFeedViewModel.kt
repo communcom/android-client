@@ -1,7 +1,7 @@
 package io.golos.cyber_android
 
 import androidx.lifecycle.ViewModel
-import io.golos.domain.interactors.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.model.UpdateOption
 
 /**

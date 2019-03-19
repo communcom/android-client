@@ -8,11 +8,11 @@ import io.golos.data.CommentsApiService
 import io.golos.data.PostsApiService
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.FeedUpdateRequest
-import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.rules.*
+import io.golos.domain.model.*
+import io.golos.domain.rules.CyberToEntityMapper
+import io.golos.domain.rules.EmptyEntityProducer
+import io.golos.domain.rules.EntityMerger
+import io.golos.domain.rules.FeedUpdateRequestsWithResult
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**
@@ -43,13 +43,27 @@ class PostsFeedRepository(
             is CommunityFeedUpdateRequest -> apiService.getCommunityPosts(
                 updateRequest.communityId,
                 updateRequest.limit,
-                when (updateRequest.sort) {
-                    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
-                    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
-                },
+                updateRequest.sort.toDiscussionSort(),
+                updateRequest.sequenceKey
+            )
+            is UserSubscriptionsFeedUpdateRequest -> apiService.getCommunityPosts(
+                updateRequest.userId,
+                updateRequest.limit,
+                updateRequest.sort.toDiscussionSort(),
+                updateRequest.sequenceKey
+            )
+            is UserPostsUpdateRequest -> apiService.getUserPost(
+                updateRequest.userId,
+                updateRequest.limit,
+                updateRequest.sort.toDiscussionSort(),
                 updateRequest.sequenceKey
             )
         }
+    }
+
+    private fun DiscussionsSort.toDiscussionSort() = when (this) {
+        DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
+        DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
     }
 }
 

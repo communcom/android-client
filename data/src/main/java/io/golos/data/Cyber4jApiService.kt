@@ -26,6 +26,24 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService {
         return cyber4j.getPost(user, permlink, refBlockNum).getOrThrow()
     }
 
+    override fun getUserSubscriptions(
+        userId: String,
+        limit: Int,
+        sort: DiscussionTimeSort,
+        sequenceKey: String?
+    ): DiscussionsResult {
+        return cyber4j.getUserSubscriptions(CyberName(userId), limit, sort, sequenceKey).getOrThrow()
+    }
+
+    override fun getUserPost(
+        userId: String,
+        limit: Int,
+        sort: DiscussionTimeSort,
+        sequenceKey: String?
+    ): DiscussionsResult {
+        return cyber4j.getUserPosts(CyberName(userId), limit, sort, sequenceKey).getOrThrow()
+    }
+
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
         (this as? Either.Success)?.value ?: throw CyberServicesError(this as Either.Failure)
 }

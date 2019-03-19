@@ -24,6 +24,22 @@ interface PostsApiService {
         permlink: String,
         refBlockNum: Long
     ): CyberDiscussion
+
+    @WorkerThread
+    fun getUserSubscriptions(
+        userId: String,
+        limit: Int,
+        sort: DiscussionTimeSort,
+        sequenceKey: String? = null
+    ): DiscussionsResult
+
+    @WorkerThread
+    fun getUserPost(
+        userId: String,
+        limit: Int,
+        sort: DiscussionTimeSort,
+        sequenceKey: String? = null
+    ): DiscussionsResult
 }
 
 interface CommentsApiService {

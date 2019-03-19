@@ -14,7 +14,7 @@ import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
-import io.golos.domain.model.Result
+import io.golos.domain.model.QueryResult
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.EmptyEntityProducer
 import io.golos.domain.rules.EntityMerger
@@ -39,14 +39,14 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 ) : DiscussionsFeedRepository<D, Q> {
 
     private val discussionsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<FeedEntity<D>>> = hashMapOf()
-    private val feedsUpdatingStatesMap: MutableLiveData<Map<Identifiable.Id, Result<Q>>> = MutableLiveData()
+    private val feedsUpdatingStatesMap: MutableLiveData<Map<Identifiable.Id, QueryResult<Q>>> = MutableLiveData()
 
     private val repositoryScope = CoroutineScope(mainDispatcher + SupervisorJob())
 
     private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionIdEntity, Job>())
     private val feedJobMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
-    override val updateStates: LiveData<Map<Identifiable.Id, Result<Q>>>
+    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
         get() = this.feedsUpdatingStatesMap
 
     override fun getAsLiveData(params: Q): LiveData<FeedEntity<D>> {
@@ -85,7 +85,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             discussionsFeedMap.putIfAbsentAndGet(params.id)
 
             feedsUpdatingStatesMap.value =
-                feedsUpdatingStatesMap.value.orEmpty() + (params.id to Result.Loading(params))
+                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
             val feed = getOnBackground { getFeedOnBackground(params) }
 
@@ -98,7 +98,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             discussionsFeedMap[params.id]?.value = resultingFeed
 
             feedsUpdatingStatesMap.value =
-                feedsUpdatingStatesMap.value.orEmpty() + (params.id to Result.Success(params))
+                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Success(params))
 
         }.let { job ->
             feedJobMap[params.id]?.cancel()

@@ -7,7 +7,7 @@ import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
-import io.golos.domain.model.Result
+import io.golos.domain.model.QueryResult
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
@@ -28,7 +28,7 @@ interface Repository<D : Entity, Q : Identifiable> {
 
     /**progress of [makeAction] queries
      * */
-    abstract val updateStates: LiveData<Map<Identifiable.Id, Result<Q>>>
+    abstract val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
 
 }
 

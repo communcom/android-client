@@ -10,7 +10,9 @@ import io.golos.data.PostsApiService
 import io.golos.data.repositories.PostsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.interactors.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.UserPostFeedUseCase
+import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -80,6 +82,33 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
                 }
             }
         }
+    }
+
+    override fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase {
+        return CommunityFeedUseCase(
+            communityId,
+            communityFeedRepository,
+            feedEntityToModelMapper,
+            dispatchersProvider
+        )
+    }
+
+    override fun getUserSubscriptionsFeedUseCase(user: String): UserSubscriptionsFeedUseCase {
+        return UserSubscriptionsFeedUseCase(
+            user,
+            communityFeedRepository,
+            feedEntityToModelMapper,
+            dispatchersProvider
+        )
+    }
+
+    override fun getUserPostFeedUseCase(user: String): UserPostFeedUseCase {
+        return UserPostFeedUseCase(
+            user,
+            communityFeedRepository,
+            feedEntityToModelMapper,
+            dispatchersProvider
+        )
     }
 
     override val getAppContext: Context

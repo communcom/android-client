@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package io.golos.domain.model
 
 import io.golos.domain.entities.DiscussionsSort
@@ -38,7 +40,7 @@ data class CommunityFeedUpdateRequest(
         if (communityId.isEmpty()) throw IllegalStateException("communityId cannot be empty")
     }
 
-    inner class Id:Identifiable.Id(){
+    inner class Id : Identifiable.Id() {
         val _id = communityId
         val _sort = sort
         override fun equals(other: Any?): Boolean {
@@ -58,13 +60,86 @@ data class CommunityFeedUpdateRequest(
             result = 31 * result + _sort.hashCode()
             return result
         }
-
     }
 
     override val id = Id()
     override val pageKey: String?
         get() = sequenceKey
 }
+
+data class UserSubscriptionsFeedUpdateRequest(
+    val userId: String,
+    val limit: Int,
+    val sort: DiscussionsSort,
+    val sequenceKey: String? = null
+) : PostFeedUpdateRequest() {
+
+    override val id = Id()
+    override val pageKey: String?
+        get() = sequenceKey
+
+    inner class Id : Identifiable.Id() {
+        val _id = userId
+        val _sort = sort
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Id
+
+            if (_id != other._id) return false
+            if (_sort != other._sort) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = _id.hashCode()
+            result = 31 * result + _sort.hashCode()
+            return result
+        }
+
+
+    }
+}
+
+data class UserPostsUpdateRequest(
+    val userId: String,
+    val limit: Int,
+    val sort: DiscussionsSort,
+    val sequenceKey: String? = null
+) : PostFeedUpdateRequest() {
+
+    override val id = Id()
+    override val pageKey: String?
+        get() = sequenceKey
+
+    inner class Id : Identifiable.Id() {
+        val _id = userId
+        val _sort = sort
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Id
+
+            if (_id != other._id) return false
+            if (_sort != other._sort) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = _id.hashCode()
+            result = 31 * result + _sort.hashCode()
+            return result
+        }
+    }
+}
+
+
+
+
 
 
 

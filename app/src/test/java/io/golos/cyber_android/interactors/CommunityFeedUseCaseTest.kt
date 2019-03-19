@@ -4,12 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.feedEntityToModelMapper
 import io.golos.cyber_android.feedRepository
-import io.golos.domain.interactors.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.UpdateOption
 import junit.framework.Assert.assertTrue
-import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 
@@ -30,7 +29,7 @@ class CommunityFeedUseCaseTest {
     )
 
     @Test
-    fun testOne()  {
+    fun testOne() {
         var postFeed: PostFeed? = null
         case.subscribe()
         case.getAsLiveData.observeForever {
@@ -38,9 +37,23 @@ class CommunityFeedUseCaseTest {
         }
         case.requestFeedUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
 
+        assertTrue("fail of initial loading of posts", postFeed?.items?.size == 20)
 
-        print("postFeed")
-        assertTrue(postFeed != null)
+        case.requestFeedUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
+
+        assertTrue("fail of reloading first posts", postFeed?.items?.size == 20)
+
+        case.requestFeedUpdate(20, UpdateOption.FETCH_NEXT_PAGE)
+
+        assertTrue("error fetching second page of posts", postFeed?.items?.size == 40)
+
+        case.requestFeedUpdate(20, UpdateOption.FETCH_NEXT_PAGE)
+
+        assertTrue("error fetching third page of posts", postFeed?.items?.size == 60)
+
+        case.requestFeedUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
+
+        assertTrue("error loading fresh posts, after downloading 3 consecutive pages of feed", postFeed?.items?.size == 20)
 
     }
 }
