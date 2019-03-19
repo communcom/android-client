@@ -1,13 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.screens.feed.FeedFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-    <TextView
+    <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/feed"/>
+            android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/actionBar"
+                app:elevation="0dp"
+                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-</FrameLayout>
+            <EditText
+                    android:id="@+id/searchBar"
+                    style="@style/SearchBarTextStyle"
+                    android:hint="@string/hint_search"
+                    android:layout_marginTop="@dimen/margin_feed_search_bar"
+                    android:layout_marginStart="@dimen/margin_feed_search_bar"
+                    android:layout_marginEnd="@dimen/margin_feed_search_bar"
+                    android:paddingTop="@dimen/padding_vertical_feed_search_bar"
+                    android:paddingBottom="@dimen/padding_vertical_feed_search_bar"
+                    android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
+                    android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
+                    android:drawablePadding="@dimen/padding_feed_search_view_icon"
+                    android:drawableStart="@drawable/ic_search"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    app:tabMode="fixed"
+                    app:tabTextColor="@color/text_color_feed_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <View
+                    android:background="@color/light_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"/>
+
+            <io.golos.cyber_android.widgets.EditorWidget
+                    android:id="@+id/editorWidget"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <View
+                    android:background="@color/light_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/feedPager"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

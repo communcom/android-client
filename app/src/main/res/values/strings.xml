@@ -11,4 +11,7 @@
 
     <!--Editor Widget-->
     <string name="editor_widget_caption">What’s new?</string>
+    <string name="hint_search">Search</string>
+    <string name="tab_all">All</string>
+    <string name="tab_my_feed">My feed</string>
 </resources>

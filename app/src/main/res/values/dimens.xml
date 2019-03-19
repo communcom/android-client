@@ -5,4 +5,11 @@
     <dimen name="size_editor_widget_avatar">40dp</dimen>
 
     <dimen name="text_size_20_sp">20sp</dimen>
+
+    <!--Feed page-->
+    <dimen name="elevation_feed_search_bar">4dp</dimen>
+    <dimen name="margin_feed_search_bar">8dp</dimen>
+    <dimen name="padding_horizontal_feed_search_bar">15dp</dimen>
+    <dimen name="padding_vertical_feed_search_bar">12dp</dimen>
+    <dimen name="padding_feed_search_view_icon">35dp</dimen>
 </resources>
