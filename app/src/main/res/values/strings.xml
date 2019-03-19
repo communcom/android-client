@@ -11,7 +11,19 @@
 
     <!--Editor Widget-->
     <string name="editor_widget_caption">What’s new?</string>
+
+    <!--Feed Page-->
     <string name="hint_search">Search</string>
     <string name="tab_all">All</string>
     <string name="tab_my_feed">My feed</string>
+
+    <!--Sorting Widget-->
+    <string name="sort">Sort:</string>
+    <string name="sort_top">Top</string>
+    <string name="sort_new">New</string>
+    <string name="filter_time_24hr">Past 24 hours</string>
+    <string name="filter_time_week">Past week</string>
+    <string name="filter_time_month">Past month</string>
+    <string name="filter_time_year">Past year</string>
+    <string name="filter_time_of_all_time">Of all time</string>
 </resources>

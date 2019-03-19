@@ -25,7 +25,16 @@
         <item name="android:textSize">@dimen/text_size_20_sp</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:textColorHint">@color/dark_gray</item>
-
+        <item name="android:inputType">textCapSentences</item>
     </style>
 
+    <style name="SortingWidgetTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/clickable_text_color</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="SortingWidgetCaptionTextStyle" parent="SortingWidgetTextStyle">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
 </resources>

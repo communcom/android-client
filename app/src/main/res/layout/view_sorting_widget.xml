@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:paddingStart="@dimen/margin_horizontal_default_16dp"
+              android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+              android:paddingTop="@dimen/padding_top_sorting_widget"
+              android:paddingBottom="@dimen/padding_bottom_sorting_widget"
+              android:background="@color/light_gray"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:theme="@style/SortingWidgetCaptionTextStyle"
+            android:text="@string/sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/sorting"
+            android:theme="@style/SortingWidgetTextStyle"
+            android:drawableEnd="@drawable/ic_sorting_arrow"
+            android:drawablePadding="@dimen/padding_sorting_widget_arrow"
+            android:layout_marginStart="@dimen/margin_start_sorting_widget_sort"
+            android:text="@string/sort_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timeFiltering"
+            android:theme="@style/SortingWidgetTextStyle"
+            android:drawableEnd="@drawable/ic_sorting_arrow"
+            android:drawablePadding="@dimen/padding_sorting_widget_arrow"
+            android:layout_marginStart="@dimen/margin_start_sorting_widget_sort_by_time"
+            android:text="@string/filter_time_24hr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>
