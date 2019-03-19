@@ -68,6 +68,8 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation ("androidx.paging:paging-runtime:$pagingVersion")
+
     testImplementation project(':domain')
     testImplementation project(':cyber4j')
     testImplementation project(':data')

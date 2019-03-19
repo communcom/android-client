@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.view_sorting_widget.view.*
  */
 internal class SortingWidget : LinearLayout {
 
+    val listener: Listener? = null
+
     constructor(context: Context) : super(context) {
         init(context)
     }
@@ -28,11 +30,11 @@ internal class SortingWidget : LinearLayout {
         inflate(context, R.layout.view_sorting_widget, this)
 
         sorting.setOnClickListener {
-
+            listener?.onTrandringSortClick()
         }
 
         timeFiltering.setOnClickListener {
-
+            listener?.onTimeFilterClick()
         }
     }
 
@@ -42,5 +44,11 @@ internal class SortingWidget : LinearLayout {
 
     fun setTimeFilter(filter: TimeFilter) {
         timeFiltering.setText(filter.title)
+    }
+
+
+    interface Listener {
+        fun onTrandringSortClick()
+        fun onTimeFilterClick()
     }
 }

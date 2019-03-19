@@ -11,4 +11,5 @@ ext {
     glideVersion = "4.9.0"
     viewPager2Version = "1.0.0-alpha02"
     navVersion = "2.0.0"
+    pagingVersion = "2.1.0"
 }

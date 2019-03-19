@@ -30,14 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ViewModelProviders.of(
-            this,
-            serviceLocator.getCommunityFeedViewModelFactory(CommunityId("gls"))
-        )
-            .get(CommunityFeedViewModel::class.java)
-
-
-
         setupPager()
         setupNavigationView()
     }

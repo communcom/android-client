@@ -26,4 +26,9 @@
     <string name="filter_time_month">Past month</string>
     <string name="filter_time_year">Past year</string>
     <string name="filter_time_of_all_time">Of all time</string>
+
+    <!--Post Card-->
+    <string name="hint_add_comment">Add a comment...</string>
+    <string name="post_comments_count_format">%1$s Comments</string>
+    <string name="post_shares_count_format">%1$s Shares</string>
 </resources>
