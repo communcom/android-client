@@ -11,6 +11,7 @@ import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.PostFeed
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
@@ -28,7 +29,10 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
     private val dispatchersProvider: DispatchersProvider
 ) : UseCase<PostFeed> {
     private val postFeedLiveData = MutableLiveData<PostFeed>()
+    private val lastFetchedChunkLiveData = MutableLiveData<List<PostModel>>()
+
     private val feedUpdateLiveData = MutableLiveData<io.golos.domain.model.QueryResult<UpdateOption>>()
+
     private val mediatorLiveData = MediatorLiveData<Any>()
     private val observer = Observer<Any> {}
 
@@ -38,6 +42,8 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
 
     override val getAsLiveData: LiveData<PostFeed>
         get() = postFeedLiveData
+    val getLastFetchedChunk: LiveData<List<PostModel>>
+        get() = lastFetchedChunkLiveData
 
     val feedUpdateState: LiveData<io.golos.domain.model.QueryResult<UpdateOption>> =
         feedUpdateLiveData.distinctUntilChanged()
@@ -55,11 +61,23 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
             postFeedRepository.getAsLiveData(baseFeedUpdateRequest)
         ) { feedEntity: FeedEntity<PostEntity>? ->
             print("on new entity")
-            if (feedEntity == null) postFeedLiveData.value = PostFeed(emptyList())
+            if (feedEntity == null) {
+                postFeedLiveData.value = PostFeed(emptyList())
+                lastFetchedChunkLiveData.value = listOf()
+            }
             //TODO empty feed state
+
             else useCaseScope.launch {
                 val resultFeed = withContext(dispatchersProvider.workDispatcher) { feedMapper(feedEntity) }
+
+                val lastFeedItems = postFeedLiveData.value?.items.orEmpty()
+                val resultFeedItems = resultFeed.items
+
                 postFeedLiveData.value = resultFeed
+
+                if (feedEntity.pageId == null) lastFetchedChunkLiveData.value = resultFeedItems
+                else lastFetchedChunkLiveData.value = resultFeedItems - lastFeedItems
+
             }
         }
 
