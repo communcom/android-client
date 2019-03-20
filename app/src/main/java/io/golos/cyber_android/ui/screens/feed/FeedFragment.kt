@@ -28,9 +28,9 @@ import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.fragment_feed.*
 
-class FeedFragment : Fragment() {
+const val SORT_REQUEST_CODE = 100
 
-    private val SORT_REQUEST_CODE = 100
+class FeedFragment : Fragment() {
 
     private lateinit var viewModel: CommunityFeedViewModel
 
@@ -126,6 +126,14 @@ class FeedFragment : Fragment() {
                 Log.i("PostsDataSource s", "submit List 2")
             })
         }, object : PostsAdapter.Listener {
+            override fun onPostClick(post: PostModel) {
+                Toast.makeText(
+                    requireContext(),
+                    "post clicked post = ${post.contentId}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {
                 Toast.makeText(
                     requireContext(),
@@ -142,6 +150,18 @@ class FeedFragment : Fragment() {
             this,
             requireActivity().serviceLocator.getCommunityFeedViewModelFactory(CommunityId("gls"))
         ).get(CommunityFeedViewModel::class.java)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            (feedPager.adapter as FeedPagerAdapter).restoreState(savedInstanceState)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (feedPager.adapter as FeedPagerAdapter).saveState(outState)
     }
 
     companion object {
