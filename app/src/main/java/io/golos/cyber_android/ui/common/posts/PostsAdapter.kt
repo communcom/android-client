@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_post.view.*
 /**
  * [PagedListAdapter] for [PostEntity]
  */
-class PostsAdapter(val diffCallback: DiffUtil.ItemCallback<PostModel>, private val listener: Listener) :
+class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private val listener: Listener) :
     PagedListAdapter<PostModel, PostsAdapter.PostViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -43,7 +43,7 @@ class PostsAdapter(val diffCallback: DiffUtil.ItemCallback<PostModel>, private v
                 postAuthor.text = "4hr ago by ${postModel.author.username}"
                 postContentTitle.text = postModel.content.title
                 //todo replace with real data
-                postUpvotesCount.text = "234"
+                postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = true
 
                 postCommentsCount.text = String.format(

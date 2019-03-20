@@ -64,7 +64,6 @@ class FeedFragment : Fragment() {
             viewModel.requestRefresh()
         }
 
-
         //todo editorWidget
     }
 
@@ -143,6 +142,7 @@ class FeedFragment : Fragment() {
             }
 
         })
+        feedPager.isUserInputEnabled = false
     }
 
     private fun setupViewModel() {
