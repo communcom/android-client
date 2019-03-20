@@ -32,7 +32,7 @@ class AuthStateRepository(
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
-    private val authRequest =
+    val authRequest =
         AuthRequest("fkmiiibuntct".toCyberUser(), "5JyzKR94WqFxqcExLMcakd7SksEqkNDbo2GT4VvdRs4g3XyQrg8")
 
     private val authRequestsLiveData = MutableLiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>>()
@@ -40,10 +40,10 @@ class AuthStateRepository(
     private val authJobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     init {
-        authState.value = AuthState("".toCyberUser(), false)
-
         authApi.addAuthListener(object : AuthListener {
             override fun onAuthSuccess(forUser: CyberName) {
+                println("onAuthSuccess $forUser")
+
                 repositoryScope.launch {
                     authState.value = AuthState(forUser.toCyberUser(), true)
 
@@ -62,6 +62,8 @@ class AuthStateRepository(
 
             override fun onFail(e: Exception) {
                 logger(e)
+                println("onFail $e")
+
                 repositoryScope.launch {
                     authState.value = AuthState("".toCyberUser(), false)
                     val loadingQuery =
@@ -77,7 +79,6 @@ class AuthStateRepository(
                 }
             }
         })
-        makeAction(authRequest)
     }
 
     override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> {
@@ -88,6 +89,8 @@ class AuthStateRepository(
 
     override fun makeAction(params: AuthRequest) {
         repositoryScope.launch {
+            if (authState.value == null) authState.value = AuthState("".toCyberUser(), false)
+
             authRequestsLiveData.value =
                 authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
