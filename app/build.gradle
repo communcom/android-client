@@ -61,6 +61,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
     implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 
     testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
@@ -68,7 +69,6 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation ("androidx.paging:paging-runtime:$pagingVersion")
 
     testImplementation project(':domain')
     testImplementation project(':cyber4j')
