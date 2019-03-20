@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
-import io.golos.data.Cyber4jApiService
-import io.golos.data.PostsApiService
+import io.golos.data.api.Cyber4jApiService
+import io.golos.data.api.PostsApiService
 import io.golos.data.repositories.PostsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
@@ -93,18 +94,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
         )
     }
 
-    override fun getUserSubscriptionsFeedUseCase(user: String): UserSubscriptionsFeedUseCase {
+    override fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase {
         return UserSubscriptionsFeedUseCase(
-            user,
+            user.userId,
             communityFeedRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
     }
 
-    override fun getUserPostFeedUseCase(user: String): UserPostFeedUseCase {
+    override fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase {
         return UserPostFeedUseCase(
-            user,
+            user.userId,
             communityFeedRepository,
             feedEntityToModelMapper,
             dispatchersProvider

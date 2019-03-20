@@ -1,4 +1,4 @@
-package io.golos.data
+package io.golos.data.api
 
 import androidx.annotation.WorkerThread
 import io.golos.cyber4j.model.CyberDiscussion

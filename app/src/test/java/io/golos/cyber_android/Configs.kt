@@ -1,7 +1,7 @@
 package io.golos.cyber_android
 
 import io.golos.cyber4j.Cyber4J
-import io.golos.data.Cyber4jApiService
+import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.PostsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
