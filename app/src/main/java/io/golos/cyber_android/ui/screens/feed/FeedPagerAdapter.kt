@@ -1,21 +1,28 @@
 package io.golos.cyber_android.ui.screens.feed
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.common.posts.PostsDiffCallback
 import io.golos.domain.interactors.model.PostModel
 
-class FeedPagerAdapter(val allFeed: MutableList<PostModel>): RecyclerView.Adapter<FeedPagerAdapter.ViewHolder>() {
+class FeedPagerAdapter(
+    private val updateRequestCallBack: ((Tab) -> Unit),
+    private val listener: PostsAdapter.Listener): RecyclerView.Adapter<FeedPagerAdapter.ViewHolder>() {
 
-    enum class Tabs(@StringRes val title: Int) {
-        ALL(R.string.tab_all), MY_FEED(R.string.tab_my_feed)
+    enum class Tab(@StringRes val title: Int, val index: Int) {
+        ALL(R.string.tab_all, 0), MY_FEED(R.string.tab_my_feed, 1)
     }
+
+    private val holders = mutableMapOf<Tab, ViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val recyclerView = LayoutInflater.from(parent.context)
@@ -27,17 +34,25 @@ class FeedPagerAdapter(val allFeed: MutableList<PostModel>): RecyclerView.Adapte
         return ViewHolder(recyclerView)
     }
 
-    override fun getItemCount() = Tabs.values().size
+    override fun getItemCount() = Tab.values().size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == 0) {
-            holder.recyclerView.adapter = PostsAdapter(allFeed, object : PostsAdapter.Listener {
-                override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {
+        if (position == Tab.ALL.index) {
+            holder.recyclerView.adapter = PostsAdapter(PostsDiffCallback(), listener)
+            holders[Tab.ALL] = holder
+            Log.i("PostsDataSource s", "BIND!!!")
+            updateRequestCallBack.invoke(Tab.ALL)
 
-                }
-            })
         }
     }
+
+    fun submitAllList(list: PagedList<PostModel>) {
+        holders[Tab.ALL]?.let {
+            (it.recyclerView.adapter as PostsAdapter).submitList(list)
+        }
+    }
+
+
 
     class ViewHolder(val recyclerView: RecyclerView): RecyclerView.ViewHolder(recyclerView)
 

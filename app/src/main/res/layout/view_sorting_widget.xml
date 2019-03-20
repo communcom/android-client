@@ -17,6 +17,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/sorting"
+            android:freezesText="true"
             android:theme="@style/SortingWidgetTextStyle"
             android:drawableEnd="@drawable/ic_sorting_arrow"
             android:drawablePadding="@dimen/padding_sorting_widget_arrow"
@@ -27,6 +28,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/timeFiltering"
+            android:freezesText="true"
             android:theme="@style/SortingWidgetTextStyle"
             android:drawableEnd="@drawable/ic_sorting_arrow"
             android:drawablePadding="@dimen/padding_sorting_widget_arrow"
