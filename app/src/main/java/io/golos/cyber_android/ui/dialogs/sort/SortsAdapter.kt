@@ -24,7 +24,5 @@ class SortsAdapter(private val values: Array<SortingType>, private val listener:
         }
     }
 
-
-
     class ViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 }

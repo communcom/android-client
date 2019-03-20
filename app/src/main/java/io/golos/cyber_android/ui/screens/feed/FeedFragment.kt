@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,13 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.tabs.TabLayout
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.views.utils.BaseOnTabSelectedListener
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import io.golos.cyber_android.widgets.sorting.SortingType
@@ -48,10 +49,7 @@ class FeedFragment : Fragment() {
         setupViewModel()
         setupViewPager()
         setupSortingWidget()
-
-        TabLayoutMediator(tabLayout, feedPager) { tab, position ->
-            tab.setText(FeedPagerAdapter.Tab.values()[position].title)
-        }.attach()
+        setupTabLayout()
 
         searchBar.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -122,7 +120,6 @@ class FeedFragment : Fragment() {
             viewModel.pagedListLiveData.observe(this, Observer {
                 (feedPager.adapter as FeedPagerAdapter).submitAllList(it)
                 feedSwipeRefresh.isRefreshing = false
-                Log.i("PostsDataSource s", "submit List 2")
             })
         }, object : PostsAdapter.Listener {
             override fun onPostClick(post: PostModel) {
@@ -150,6 +147,22 @@ class FeedFragment : Fragment() {
             this,
             requireActivity().serviceLocator.getCommunityFeedViewModelFactory(CommunityId("gls"))
         ).get(CommunityFeedViewModel::class.java)
+    }
+
+    private fun setupTabLayout() {
+        TabLayoutMediator(tabLayout, feedPager) { tab, position ->
+            tab.setText(FeedPagerAdapter.Tab.values()[position].title)
+        }.attach()
+
+        tabLayout.addOnTabSelectedListener(object : BaseOnTabSelectedListener() {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                sortingWidget.visibility =
+                    if (FeedPagerAdapter.Tab.values()[tabLayout.selectedTabPosition] == FeedPagerAdapter.Tab.ALL)
+                        View.VISIBLE
+                    else
+                        View.GONE
+            }
+        })
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

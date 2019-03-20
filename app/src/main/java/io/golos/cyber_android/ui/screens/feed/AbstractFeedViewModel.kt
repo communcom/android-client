@@ -10,33 +10,39 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
-import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.map
 import io.golos.domain.model.PostFeedUpdateRequest
 
+/**
+ * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [PagedList] via [pagedListLiveData]
+ * property.
+ */
 abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feedUseCase: AbstractFeedUseCase<T>) : ViewModel() {
     companion object {
         private const val PAGE_SIZE = 20
     }
-    var pageNum = 0L
 
+
+    /**
+     * [LiveData] of [PagedList].
+     */
+    val pagedListLiveData: LiveData<PagedList<PostModel>>
+
+    private var page = 0L
     private val observer = Observer<Any> {}
-    private val feedLiveData = feedUseCase.getAsLiveData.map(Function<PostFeed, List<PostModel>> {
-        Log.i("PostsDataSource", "loaded $pageNum")
-        if (pageNum == 0L) {
-            initialCallback?.onResult(it.items, 0, 1)
+    private val feedLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<PostModel>, List<PostModel>> {
+        if (page == 0L) {
+            initialCallback?.onResult(it, 0, 1)
             initialCallback = null
         }
         else {
-            callbacks[pageNum]?.onResult(it.items, pageNum + 1)
-            callbacks[pageNum] = null
+            callbacks[page]?.onResult(it, page + 1)
+            callbacks[page] = null
         }
-        it.items
+        it
     })
-
-    val pagedListLiveData: LiveData<PagedList<PostModel>>
 
     private val dataSourceFactory = PostsDataSourceFactory(feedUseCase)
 
@@ -45,7 +51,6 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
 
     init {
         feedUseCase.subscribe()
-        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
 
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -59,7 +64,6 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
         feedLiveData.observeForever(observer)
     }
 
-
     override fun onCleared() {
         super.onCleared()
         feedUseCase.unsubscribe()
@@ -68,7 +72,7 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
 
     fun requestRefresh() {
         feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
-        pageNum = 0
+        page = 0
         dataSourceFactory.latestDataSource?.invalidate()
     }
 
@@ -87,18 +91,15 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
         override fun loadInitial(params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, PostModel>) {
             communityFeedUserCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
             initialCallback = callback
-            Log.i("PostsDataSource", "loadInitial")
         }
 
         override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, PostModel>) {
             communityFeedUserCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
             callbacks[params.key] = callback
-            pageNum++
-            Log.i("PostsDataSource", "loadAfter")
+            page++
         }
 
         override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, PostModel>) {
         }
-
     }
 }

@@ -22,8 +22,6 @@ class SortingTypeDialogFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dialog?.setOnShowListener { dialog ->
-        }
         return inflater.inflate(
             R.layout.dialog_sorting_type,
             container,

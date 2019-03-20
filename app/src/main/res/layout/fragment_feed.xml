@@ -29,7 +29,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <EditText
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_scrollFlags="scroll|snap"
                 android:id="@+id/searchBar"
                 style="@style/SearchBarTextStyle"
                 android:hint="@string/hint_search"
