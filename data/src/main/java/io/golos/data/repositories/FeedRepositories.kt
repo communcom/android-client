@@ -4,8 +4,8 @@ import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.model.DiscussionTimeSort
 import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.data.CommentsApiService
-import io.golos.data.PostsApiService
+import io.golos.data.api.CommentsApiService
+import io.golos.data.api.PostsApiService
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
 import io.golos.domain.model.*

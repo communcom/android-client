@@ -23,16 +23,21 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
                 cyberObject.contentId.refBlockNum
             ),
             DiscussionAuthorEntity(
-                cyberObject.author?.userId?.name ?: "unknown",
+                CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
                 cyberObject.author?.username ?: "unknown"
             ),
             CommunityEntity(cyberObject.community.id, cyberObject.community.name, cyberObject.community.getAvatarUrl),
             DiscussionContent(
                 cyberObject.content.title,
                 ContentBody(cyberObject.content.body.preview, cyberObject.content.body.full),
-                cyberObject.content.metadata?:""
+                cyberObject.content.metadata ?: ""
             ),
-            DiscussionVotes(cyberObject.votes.hasUpVote, cyberObject.votes.hasDownVote),
+            DiscussionVotes(
+                cyberObject.votes.hasUpVote,
+                cyberObject.votes.hasDownVote,
+                cyberObject.votes.upCount,
+                cyberObject.votes.downCount
+            ),
             DiscussionCommentsCount(cyberObject.stats.commentsCount),
             DiscussionPayout(cyberObject.payout.rShares),
             DiscussionMetadata(cyberObject.meta.time)

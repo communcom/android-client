@@ -1,17 +1,30 @@
-package io.golos.data
+package io.golos.data.api
 
 import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.DiscussionTimeSort
-import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.Either
+import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
+import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
-class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService {
+class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService, AuthApi, AuthListener {
+    private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
+
+    init {
+        cyber4j.addAuthListener(this)
+    }
+
+    override fun onAuthSuccess(forUser: CyberName) {
+        listeners.forEach { it.onAuthSuccess(forUser) }
+    }
+
+    override fun onFail(e: Exception) {
+        listeners.forEach { it.onFail(e) }
+    }
 
     override fun getCommunityPosts(
         communityId: String,
@@ -42,6 +55,14 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService {
         sequenceKey: String?
     ): DiscussionsResult {
         return cyber4j.getUserPosts(CyberName(userId), limit, sort, sequenceKey).getOrThrow()
+    }
+
+    override fun setActiveUserCreds(user: CyberName, activeKey: String) {
+        cyber4j.keyStorage.addAccountKeys(user, setOf(Pair(AuthType.ACTIVE, activeKey)))
+    }
+
+    override fun addAuthListener(listener: AuthListener) {
+        listeners.add(listener)
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

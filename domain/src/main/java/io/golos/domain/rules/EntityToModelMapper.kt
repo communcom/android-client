@@ -26,7 +26,12 @@ class PostEntityToModelMapper : EntityToModelMapper<PostEntity, PostModel> {
                 ContentBodyModel(entity.content.body.preview, entity.content.body.full),
                 entity.content.metadata
             ),
-            DiscussionVotesModel(entity.votes.hasUpVote, entity.votes.hasDownVote),
+            DiscussionVotesModel(
+                entity.votes.hasUpVote,
+                entity.votes.hasDownVote,
+                entity.votes.upCount,
+                entity.votes.downCount
+            ),
             DiscussionCommentsCountModel(entity.comments.count),
             DiscussionPayoutModel(entity.payout.rShares),
             DiscussionMetadataModel(entity.meta.time)

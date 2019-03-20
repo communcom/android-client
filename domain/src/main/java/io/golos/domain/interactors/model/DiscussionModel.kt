@@ -68,7 +68,9 @@ data class DiscussionMetadataModel(val time: Date) : Model
 data class DiscussionPayoutModel(val rShares: BigInteger) : Model
 data class DiscussionVotesModel(
     val hasUpVote: Boolean,
-    val hasDownVote: Boolean
+    val hasDownVote: Boolean,
+    val upCount: Int,
+    val downCount: Int
 ) : Model
 
 data class ParentIdModel(val userId: String, val permlink: String, val refBlockNum: Int) : Model
