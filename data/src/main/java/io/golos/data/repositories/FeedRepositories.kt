@@ -51,7 +51,7 @@ class PostsFeedRepository(
                 updateRequest.sort.toDiscussionSort(),
                 updateRequest.sequenceKey
             )
-            is UserSubscriptionsFeedUpdateRequest -> apiService.getCommunityPosts(
+            is UserSubscriptionsFeedUpdateRequest -> apiService.getUserSubscriptions(
                 updateRequest.userId,
                 updateRequest.limit,
                 updateRequest.sort.toDiscussionSort(),
