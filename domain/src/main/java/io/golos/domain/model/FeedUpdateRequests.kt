@@ -65,6 +65,7 @@ data class CommunityFeedUpdateRequest(
     override val id = Id()
     override val pageKey: String?
         get() = sequenceKey
+
 }
 
 data class UserSubscriptionsFeedUpdateRequest(

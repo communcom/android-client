@@ -1,16 +1,15 @@
 package io.golos.cyber_android
 
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import io.golos.cyber_android.locator.ServiceLocator
 import io.golos.cyber_android.locator.ServiceLocatorImpl
 
-
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-class App : MultiDexApplication() {
+class App : Application() {
     private lateinit var mServiceLocator: ServiceLocator
 
 
@@ -20,6 +19,9 @@ class App : MultiDexApplication() {
             Fabric.with(this, Crashlytics())
 
         mServiceLocator = ServiceLocatorImpl(this)
+        (mServiceLocator as ServiceLocatorImpl)
+            .authStateRepository.makeAction((mServiceLocator as ServiceLocatorImpl)
+            .authStateRepository.authRequest)//todo stub for testing
     }
 
     override fun getSystemService(name: String): Any {

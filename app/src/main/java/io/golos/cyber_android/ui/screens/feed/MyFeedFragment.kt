@@ -98,7 +98,7 @@ open class MyFeedFragment :
             requireActivity()
                 .serviceLocator
                 .getUserSubscriptionsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
-        ).get(UserSubscriptionsFeedViewModel::class.java)
+        ).get(UserSubscriptionsFeedFeedViewModel::class.java)
     }
 
     companion object {

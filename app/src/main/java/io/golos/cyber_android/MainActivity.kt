@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {
-                    Tabs.FEED -> FeedFragment.newInstance("gls", "tst3vtfkwvzw")
+                    Tabs.FEED -> FeedFragment.newInstance("gls", "destroyer2k")
                     Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     Tabs.WALLET -> WalletFragment.newInstance()

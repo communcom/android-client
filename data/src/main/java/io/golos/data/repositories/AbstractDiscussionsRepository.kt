@@ -15,10 +15,7 @@ import io.golos.domain.entities.FeedEntity
 import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EmptyEntityProducer
-import io.golos.domain.rules.EntityMerger
-import io.golos.domain.rules.FeedUpdateRequestsWithResult
+import io.golos.domain.rules.*
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -32,6 +29,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private val postMapper: CyberToEntityMapper<CyberDiscussion, D>,
     private val postMerger: EntityMerger<D>,
     private val feedMerger: EntityMerger<FeedEntity<D>>,
+    private val requestApprover: RequestApprover<Q>,
     private val emptyFeedProducer: EmptyEntityProducer<FeedEntity<D>>,
     mainDispatcher: CoroutineDispatcher,
     private val workerDispatcher: CoroutineDispatcher,
@@ -81,6 +79,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     //update feed
     override fun makeAction(params: Q) {
         launch {
+            if (!requestApprover.approve(params)) return@launch
 
             discussionsFeedMap.putIfAbsentAndGet(params.id)
 

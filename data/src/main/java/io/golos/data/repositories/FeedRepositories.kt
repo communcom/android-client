@@ -9,10 +9,7 @@ import io.golos.data.api.PostsApiService
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
 import io.golos.domain.model.*
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EmptyEntityProducer
-import io.golos.domain.rules.EntityMerger
-import io.golos.domain.rules.FeedUpdateRequestsWithResult
+import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**
@@ -24,6 +21,7 @@ class PostsFeedRepository(
     postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
     postMerger: EntityMerger<PostEntity>,
     feedMerger: EntityMerger<FeedEntity<PostEntity>>,
+    feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
     mainDispatcher: CoroutineDispatcher,
     workerDispatcher: CoroutineDispatcher,
@@ -31,7 +29,14 @@ class PostsFeedRepository(
 ) :
     AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
         feedMapper,
-        postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
+        postMapper,
+        postMerger,
+        feedMerger,
+        feedUpdateApprover,
+        emptyFeedProducer,
+        mainDispatcher,
+        workerDispatcher,
+        logger
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
@@ -73,6 +78,7 @@ class CommentsFeedRepository(
     postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,
     postMerger: EntityMerger<CommentEntity>,
     feedMerger: EntityMerger<FeedEntity<CommentEntity>>,
+    approver: RequestApprover<CommentFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<CommentEntity>>,
     mainDispatcher: CoroutineDispatcher,
     workerDispatcher: CoroutineDispatcher,
@@ -80,7 +86,7 @@ class CommentsFeedRepository(
 ) :
     AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
-        postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
+        postMapper, postMerger, feedMerger, approver, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {

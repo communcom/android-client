@@ -20,7 +20,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/searchBar"
-                app:layout_scrollFlags="scroll|snap"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 style="@style/SearchBarTextStyle"
                 android:hint="@string/hint_search"
                 android:layout_marginTop="@dimen/margin_feed_search_bar"

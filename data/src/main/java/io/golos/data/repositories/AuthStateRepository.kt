@@ -80,10 +80,8 @@ class AuthStateRepository(
     }
 
     override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> {
-        return MutableLiveData()
+        return authState.distinctUntilChanged()
     }
-
-    val getAuthState = authState.distinctUntilChanged()
 
     override fun makeAction(params: AuthRequest) {
         repositoryScope.launch {
