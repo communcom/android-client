@@ -7,4 +7,8 @@ import androidx.lifecycle.LiveData
  */
 interface UseCase<T> {
     abstract val getAsLiveData: LiveData<T>
+
+    fun subscribe() {}
+
+    fun unsubscribe() {}
 }

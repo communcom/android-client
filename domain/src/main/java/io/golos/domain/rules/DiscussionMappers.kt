@@ -53,7 +53,11 @@ class CyberFeedToEntityMapper(val postMapper: CyberToEntityMapper<CyberDiscussio
             cyberObject.discussionsResult.items
                 .map { postMapper(it) },
             cyberObject.reedRequest.pageKey,
-            cyberObject.discussionsResult.sequenceKey
+            cyberObject.discussionsResult.sequenceKey ?: feedEndMark
         )
+    }
+
+    companion object {
+        const val feedEndMark = "#last_page_mark#"
     }
 }

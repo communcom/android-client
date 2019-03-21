@@ -7,7 +7,7 @@ import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
-import io.golos.domain.entities.VoteRequest
+import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
 import kotlinx.coroutines.*
@@ -21,17 +21,17 @@ class VoteRepository(
     private val voteApi: VoteApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger
-) : Repository<VoteRequest, VoteRequest> {
+) : Repository<VoteRequestEntity, VoteRequestEntity> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
-    private val votingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<VoteRequest>>>()
+    private val votingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>()
     private val jobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
-    override fun getAsLiveData(params: VoteRequest): LiveData<VoteRequest> {
+    override fun getAsLiveData(params: VoteRequestEntity): LiveData<VoteRequestEntity> {
         return MutableLiveData()
     }
 
-    override fun makeAction(params: VoteRequest) {
+    override fun makeAction(params: VoteRequestEntity) {
         repositoryScope.launch {
             try {
                 votingStates.value = votingStates.value.orEmpty() + (params.id to QueryResult.Loading(params))
@@ -56,6 +56,6 @@ class VoteRepository(
         }
     }
 
-    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<VoteRequest>>>
+    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>
         get() = votingStates
 }

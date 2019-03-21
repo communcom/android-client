@@ -13,8 +13,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         mServiceLocator = ServiceLocatorImpl(this)
+        (mServiceLocator as ServiceLocatorImpl)
+            .authStateRepository.makeAction((mServiceLocator as ServiceLocatorImpl)
+            .authStateRepository.authRequest)//todo stub for testing
     }
 
     override fun getSystemService(name: String): Any {

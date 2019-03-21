@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.data.api.Cyber4jApiService
-import io.golos.data.api.PostsApiService
+import io.golos.data.repositories.AuthStateRepository
 import io.golos.data.repositories.PostsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -26,13 +26,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
 
     private val cyber4j by lazy { Cyber4J() }
 
-    private val postsApiService: PostsApiService by lazy { Cyber4jApiService(cyber4j) }
+    private val apiService: Cyber4jApiService by lazy { Cyber4jApiService(cyber4j) }
 
     private val cyberPostToEntityMapper = CyberPostToEntityMapper()
     private val postEntityToModelMapper = PostEntityToModelMapper()
 
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
+
+    private val approver = FeedUpdateApprover()
 
     private val postMerger = PostMerger()
     private val feedMerger = PostFeedMerger()
@@ -54,11 +56,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
 
     private val postFeedRepo by lazy {
         PostsFeedRepository(
-            postsApiService,
+            apiService,
             cyberFeedToEntityMapper,
             cyberPostToEntityMapper,
             postMerger,
             feedMerger,
+            approver,
             emptyPostFeedProducer,
             dispatchersProvider.uiDispatcher,
             dispatchersProvider.workDispatcher,
@@ -111,6 +114,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
             dispatchersProvider
         )
     }
+
+    val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
 
     override val getAppContext: Context
         get() = appContext

@@ -49,6 +49,7 @@ val feedRepository = PostsFeedRepository(
     cyberPostToEntityMapper,
     postMerger,
     feedMerger,
+    FeedUpdateApprover(),
     emptyPostFeedProducer,
     dispatchersProvider.uiDispatcher, dispatchersProvider.workDispatcher,
     logger

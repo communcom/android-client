@@ -53,7 +53,7 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
         option: UpdateOption
     )
 
-    fun subscribe() {
+    override fun subscribe() {
         mediatorLiveData.observeForever(observer)
         postFeedRepository.updateStates.observeForever(observer)
 
@@ -109,7 +109,7 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
         else UpdateOption.FETCH_NEXT_PAGE
 
 
-    fun unsubscribe() {
+    override fun unsubscribe() {
         mediatorLiveData.removeSource(postFeedRepository.getAsLiveData(baseFeedUpdateRequest))
         mediatorLiveData.removeObserver(observer)
         postFeedRepository.updateStates.removeObserver(observer)

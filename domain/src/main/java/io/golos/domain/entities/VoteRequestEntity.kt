@@ -7,7 +7,7 @@ import java.lang.IllegalArgumentException
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
  */
-data class VoteRequest(val power: Short, val discussionIdEntity: DiscussionIdEntity) : Entity, Identifiable {
+data class VoteRequestEntity(val power: Short, val discussionIdEntity: DiscussionIdEntity) : Entity, Identifiable {
     init {
         if (power > 10_000)throw IllegalArgumentException("vote range exceed, now $power")
         if (power < -10_000)throw IllegalArgumentException("vote range to low, now $power")
