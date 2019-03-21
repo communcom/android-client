@@ -47,7 +47,7 @@ open class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private 
                     DateUtils.createTimeLabel(postModel.meta.time.time, context),
                     postModel.author.username
                 )
-                postContentTitle.text = postModel.content.title
+                postContentTitle.text = postModel.content.body.preview
                 //todo replace with real data
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = true

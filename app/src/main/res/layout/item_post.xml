@@ -55,6 +55,8 @@
             android:id="@+id/postContentTitle"
             android:theme="@style/PostCardContentTitleTextStyle"
             tools:text="Discussion - The Dangerous Path Overwatch is Headed: Giving Players"
+            android:maxLength="300"
+            android:ellipsize="end"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/postAvatar"
