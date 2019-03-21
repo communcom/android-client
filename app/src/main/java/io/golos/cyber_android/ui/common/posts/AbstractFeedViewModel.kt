@@ -1,6 +1,5 @@
-package io.golos.cyber_android.ui.screens.feed
+package io.golos.cyber_android.ui.common.posts
 
-import android.util.Log
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -9,6 +8,8 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
+import io.golos.cyber_android.widgets.sorting.TimeFilter
+import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
@@ -23,7 +24,6 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
     companion object {
         private const val PAGE_SIZE = 20
     }
-
 
     /**
      * [LiveData] of [PagedList].

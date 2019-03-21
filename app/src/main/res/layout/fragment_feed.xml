@@ -5,19 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         tools:context=".MainActivity">
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/feedSwipeRefresh"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/feedPager"
-                android:overScrollMode="never"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -29,7 +19,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <EditText
-                app:layout_scrollFlags="scroll|snap"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:id="@+id/searchBar"
                 style="@style/SearchBarTextStyle"
                 android:hint="@string/hint_search"
@@ -53,27 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <View
-                android:background="@color/light_gray"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-
-        <io.golos.cyber_android.widgets.EditorWidget
-                android:id="@+id/editorWidget"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <View
-                android:background="@color/light_gray"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-
-        <io.golos.cyber_android.widgets.sorting.SortingWidget
-                android:id="@+id/sortingWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/feedPager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

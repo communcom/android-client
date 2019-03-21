@@ -10,24 +10,27 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.utils.DateUtils
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.item_post.view.*
 
 /**
  * [PagedListAdapter] for [PostEntity]
  */
-class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private val listener: Listener) :
-    PagedListAdapter<PostModel, PostsAdapter.PostViewHolder>(diffCallback) {
+open class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private val listener: Listener) :
+    PagedListAdapter<PostModel, RecyclerView.ViewHolder>(diffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
         return PostViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val post = getItem(position)
-        if (post != null)
+        if (post != null) {
+            holder as PostViewHolder
             holder.bind(post, listener)
+        }
     }
 
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,8 +42,11 @@ class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private val l
             //TODO maybe replace with data binding
             with(itemView) {
                 postCommunityName.text = postModel.community.name
-                //TODO combine with time
-                postAuthor.text = "4hr ago by ${postModel.author.username}"
+                postAuthor.text = String.format(
+                    context.resources.getString(R.string.post_time_and_author_format),
+                    DateUtils.createTimeLabel(postModel.meta.time.time, context),
+                    postModel.author.username
+                )
                 postContentTitle.text = postModel.content.title
                 //todo replace with real data
                 postUpvotesCount.text = "${postModel.payout.rShares}"

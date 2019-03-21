@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
     implementation "androidx.paging:paging-runtime:$pagingVersion"
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"

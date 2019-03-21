@@ -1,39 +1,33 @@
 package io.golos.cyber_android.ui.screens.feed
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.tabs.TabLayout
-import io.golos.cyber_android.CommunityFeedViewModel
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.views.utils.BaseOnTabSelectedListener
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import io.golos.cyber_android.widgets.sorting.SortingType
-import io.golos.cyber_android.widgets.sorting.SortingWidget
-import io.golos.cyber_android.widgets.sorting.TimeFilter
-import io.golos.cyber_android.widgets.sorting.TrendingSort
-import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 const val SORT_REQUEST_CODE = 100
+const val FEED_REQUEST_CODE = 101
 
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment(), FeedPageLiveDataProvider {
 
-    private lateinit var viewModel: CommunityFeedViewModel
+    enum class Tab(@StringRes val title: Int, val index: Int) {
+        ALL(R.string.tab_all, 0), MY_FEED(R.string.tab_my_feed, 1)
+    }
+
+    private lateinit var viewModel: FeedPageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +42,6 @@ class FeedFragment : Fragment() {
 
         setupViewModel()
         setupViewPager()
-        setupSortingWidget()
         setupTabLayout()
 
         searchBar.addTextChangedListener(object : BaseTextWatcher() {
@@ -57,128 +50,40 @@ class FeedFragment : Fragment() {
                 viewModel.onSearch(s.toString())
             }
         })
-
-        feedSwipeRefresh.setOnRefreshListener {
-            viewModel.requestRefresh()
-        }
-
-        //todo editorWidget
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SORT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            onSortSelected(data.getSerializableExtra(SortingTypeDialogFragment.RESULT_TAG) as SortingType)
-        }
-    }
-
-    private fun onSortSelected(sort: SortingType) {
-        when (sort) {
-            is TrendingSort -> {
-                sortingWidget.setTrendingSort(sort)
-                viewModel.onSort(sort)
-            }
-            is TimeFilter -> {
-                sortingWidget.setTimeFilter(sort)
-                viewModel.onFilter(sort)
-            }
-        }
-    }
-
-    private fun setupSortingWidget() {
-        sortingWidget.listener = object : SortingWidget.Listener {
-            override fun onTrendingSortClick() {
-                showSortingDialog(arrayOf(TrendingSort.NEW, TrendingSort.TOP))
-            }
-
-            override fun onTimeFilterClick() {
-                showSortingDialog(
-                    arrayOf(
-                        TimeFilter.PAST_24_HR,
-                        TimeFilter.PAST_WEEK,
-                        TimeFilter.PAST_MONTH,
-                        TimeFilter.PAST_YEAR,
-                        TimeFilter.OF_ALL_TIME
-                    )
-                )
-            }
-
-        }
-    }
-
-    private fun showSortingDialog(values: Array<SortingType>) {
-        SortingTypeDialogFragment
-            .newInstance(values)
-            .apply {
-                setTargetFragment(this@FeedFragment, SORT_REQUEST_CODE)
-            }
-            .show(requireFragmentManager(), null)
     }
 
     private fun setupViewPager() {
-        feedPager.adapter = FeedPagerAdapter({ tab ->
-            viewModel.pagedListLiveData.observe(this, Observer {
-                (feedPager.adapter as FeedPagerAdapter).submitAllList(it)
-                feedSwipeRefresh.isRefreshing = false
-            })
-        }, object : PostsAdapter.Listener {
-            override fun onPostClick(post: PostModel) {
-                Toast.makeText(
-                    requireContext(),
-                    "post clicked post = ${post.contentId}",
-                    Toast.LENGTH_SHORT
-                ).show()
+        feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager()) {
+            override fun getItem(position: Int): Fragment {
+                return when(position) {
+                    Tab.ALL.index -> AllFeedFragment.newInstance().apply {
+                        setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
+                    }
+                    Tab.MY_FEED.index -> MyFeedFragment.newInstance().apply {
+                        setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
+                    }
+                    else -> throw RuntimeException("Unsupported tab")
+                }
             }
 
-            override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {
-                Toast.makeText(
-                    requireContext(),
-                    "send comment = ${comment}, upvoted = $upvoted, downvoted = $downvoted",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            override fun getItemCount() = Tab.values().size
 
-        })
-        feedPager.isUserInputEnabled = false
+        }
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity().serviceLocator.getCommunityFeedViewModelFactory(CommunityId("gls"))
-        ).get(CommunityFeedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(FeedPageViewModel::class.java)
     }
 
     private fun setupTabLayout() {
         TabLayoutMediator(tabLayout, feedPager) { tab, position ->
-            tab.setText(FeedPagerAdapter.Tab.values()[position].title)
+            tab.setText(Tab.values()[position].title)
         }.attach()
-
-        tabLayout.addOnTabSelectedListener(object : BaseOnTabSelectedListener() {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                sortingWidget.visibility =
-                    if (FeedPagerAdapter.Tab.values()[tabLayout.selectedTabPosition] == FeedPagerAdapter.Tab.ALL)
-                        View.VISIBLE
-                    else
-                        View.GONE
-            }
-        })
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-            (feedPager.adapter as FeedPagerAdapter).restoreState(savedInstanceState)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        (feedPager.adapter as FeedPagerAdapter).saveState(outState)
-    }
+    override fun provideEventsLiveData() = viewModel.eventsLiveData
 
     companion object {
         fun newInstance() = FeedFragment()
     }
-
 }

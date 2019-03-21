@@ -10,21 +10,13 @@ import kotlinx.android.synthetic.main.view_editor_widget.view.*
 
 /**
  * Custom view which represents Editor Widget. It may produce two types of events -
- * gallery button click (handled via [galleryClickListener]) and widget click itself (handled via [widgetClickListener]).
+ * gallery button click and widget click itself (handled via [Listener]).
  * Also widget can display user avatar (via [loadUserAvatar] method).
  * This view doesn't support any custom xml attributes.
  */
 internal class EditorWidget : LinearLayout {
 
-    /**
-     * Click listener for gallery button
-     */
-    var galleryClickListener: (() -> Unit)? = null
-
-    /**
-     * Click listener for all of the view except gallery button
-     */
-    var widgetClickListener: (() -> Unit)? = null
+    var listener: Listener? = null
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -41,8 +33,8 @@ internal class EditorWidget : LinearLayout {
     private fun init(context: Context) {
         inflate(context, R.layout.view_editor_widget, this)
 
-        galleryButton.setOnClickListener { galleryClickListener?.invoke() }
-        rootView.setOnClickListener { widgetClickListener?.invoke() }
+        galleryButton.setOnClickListener { listener?.onGalleryClick() }
+        rootView.setOnClickListener { listener?.onWidgetClick() }
     }
 
     /**
@@ -53,5 +45,18 @@ internal class EditorWidget : LinearLayout {
             .load(url)
             .apply(RequestOptions.circleCropTransform())
             .into(avatar)
+    }
+
+    interface Listener {
+
+        /**
+         * Click listener for gallery button
+         */
+        fun onGalleryClick()
+
+        /**
+         * Click listener for all of the view except gallery button
+         */
+        fun onWidgetClick()
     }
 }

@@ -1,6 +1,8 @@
 package io.golos.cyber_android.widgets.sorting
 
 import android.content.Context
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
@@ -45,7 +47,6 @@ internal class SortingWidget : LinearLayout {
     fun setTimeFilter(filter: TimeFilter) {
         timeFiltering.setText(filter.title)
     }
-
 
     interface Listener {
         fun onTrendingSortClick()
