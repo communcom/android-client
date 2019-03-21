@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.AuthListener
 import io.golos.cyber4j.model.CyberName
 import io.golos.data.api.AuthApi
+import io.golos.data.toCyberUser
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.CyberUser
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
@@ -115,8 +115,4 @@ class AuthStateRepository(
         authRequestsLiveData.distinctUntilChanged()
 
 
-    private fun CyberName.toCyberUser() = CyberUser(this.name)
-    private fun CyberUser.toCyberName() = CyberName(this.userId)
-    private fun String.toCyberUser() = CyberUser(this)
-    private fun String.toCyberName() = CyberName(this)
 }

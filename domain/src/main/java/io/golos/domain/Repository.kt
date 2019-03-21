@@ -26,11 +26,9 @@ interface Repository<D : Entity, Q : Identifiable> {
     @AnyThread
     abstract fun makeAction(params: Q)
 
-    /**progress of [makeAction] queries
+    /**progress of [makeAction] queries. Identifiable.Id here is Q.id class
      * */
     abstract val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
-
-
 
 }
 

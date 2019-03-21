@@ -4,7 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.feedEntityToModelMapper
 import io.golos.cyber_android.feedRepository
-import io.golos.domain.interactors.feed.UserPostFeedUseCase
+import io.golos.domain.entities.CyberUser
+import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.UpdateOption
 import junit.framework.Assert.assertTrue
@@ -20,8 +21,8 @@ class UserPostUseCaseTest {
     @JvmField
     public val rule = InstantTaskExecutorRule()
 
-    val case = UserPostFeedUseCase(
-        "destroyer2k",
+    val case = UserSubscriptionsFeedUseCase(
+        CyberUser("destroyer2k"),
         feedRepository,
         feedEntityToModelMapper,
         dispatchersProvider
