@@ -5,7 +5,9 @@ import io.golos.domain.Entity
 import io.golos.domain.Model
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
+import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.*
+import io.golos.domain.model.VoteRequestModel
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
@@ -45,3 +47,27 @@ class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<Po
         return PostFeed(entity.discussions.map { postMapper(it) })
     }
 }
+
+class VoteRequestEntityToModel : EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
+    override suspend fun invoke(entity: VoteRequestEntity): VoteRequestModel {
+        return when (entity) {
+            is VoteRequestEntity.VoteForAPostRequestEntity -> VoteRequestModel.VoteForPostRequest(
+                entity.power,
+                DiscussionIdModel(
+                    entity.discussionIdEntity.userId,
+                    entity.discussionIdEntity.permlink,
+                    entity.discussionIdEntity.refBlockNum
+                )
+            )
+            is VoteRequestEntity.VoteForACommentRequestEntity -> VoteRequestModel.VoteForComentRequest(
+                entity.power,
+                DiscussionIdModel(
+                    entity.discussionIdEntity.userId,
+                    entity.discussionIdEntity.permlink,
+                    entity.discussionIdEntity.refBlockNum
+                )
+            )
+        }
+    }
+}
+

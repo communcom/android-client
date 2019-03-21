@@ -70,6 +70,9 @@ class PostsFeedRepository(
         DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
         DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
     }
+
+    override val allDataRequest: PostFeedUpdateRequest
+        get() = CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
 }
 
 class CommentsFeedRepository(
@@ -96,4 +99,7 @@ class CommentsFeedRepository(
     override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override val allDataRequest: CommentFeedUpdateRequest
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 }

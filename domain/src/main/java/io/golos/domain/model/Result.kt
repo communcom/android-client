@@ -9,8 +9,8 @@ sealed class Result<T> {
     data class Error<T>(val error: Throwable, val data: T?) : Result<T>()
 }
 
-sealed class QueryResult<Q> {
-    data class Success<Q>(val originalQuery: Q) : QueryResult<Q>()
-    data class Loading<Q>(val originalQuery: Q) : QueryResult<Q>()
-    data class Error<Q>(val error: Throwable, val originalQuery: Q) : QueryResult<Q>()
+sealed class QueryResult<Q>(open val originalQuery: Q) {
+    data class Success<Q>(override val originalQuery: Q) : QueryResult<Q>(originalQuery)
+    data class Loading<Q>(override val originalQuery: Q) : QueryResult<Q>(originalQuery)
+    data class Error<Q>(val error: Throwable, override val originalQuery: Q) : QueryResult<Q>(originalQuery)
 }

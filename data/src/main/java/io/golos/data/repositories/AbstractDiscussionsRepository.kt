@@ -48,6 +48,15 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         get() = this.feedsUpdatingStatesMap
 
     override fun getAsLiveData(params: Q): LiveData<FeedEntity<D>> {
+        if (params == allDataRequest) {
+            return MutableLiveData<FeedEntity<D>>()
+                .apply {
+                    value = getAllPostsAsLiveDataList().mapNotNull { it.value }
+                        .fold(FeedEntity(emptyList(), null, "stub")) { collector, item ->
+                            FeedEntity(collector?.discussions.orEmpty() + item.discussions, null, "stub")
+                        }
+                }
+        }
         return discussionsFeedMap.putIfAbsentAndGet(params.id)
     }
 

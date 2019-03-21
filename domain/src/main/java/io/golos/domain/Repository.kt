@@ -16,7 +16,13 @@ import io.golos.domain.model.QueryResult
  * Q is a query parameter for updating entity/entities
  */
 interface Repository<D : Entity, Q : Identifiable> {
+
+    val allDataRequest: Q
+
     @MainThread
+    /** get some particular entity for [params] request
+     *  repository obliged to give all it's data in response on [allDataRequest]
+     * */
     abstract fun getAsLiveData(params: Q): LiveData<D>
 
     /** make primary action (update, query, vote), depending on type of
@@ -29,6 +35,7 @@ interface Repository<D : Entity, Q : Identifiable> {
     /**progress of [makeAction] queries. Identifiable.Id here is Q.id class
      * */
     abstract val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
+
 
 }
 
