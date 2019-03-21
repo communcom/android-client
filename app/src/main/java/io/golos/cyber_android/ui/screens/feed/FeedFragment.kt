@@ -17,6 +17,10 @@ import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import io.golos.cyber_android.widgets.sorting.SortingType
 import kotlinx.android.synthetic.main.fragment_feed.*
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import android.graphics.drawable.Drawable
+import io.golos.cyber_android.ui.Tags
+
 
 const val SORT_REQUEST_CODE = 100
 const val FEED_REQUEST_CODE = 101
@@ -50,16 +54,19 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
                 viewModel.onSearch(s.toString())
             }
         })
+
+        val searchIcon = VectorDrawableCompat.create(resources, R.drawable.ic_search, null)
+        searchBar.setCompoundDrawablesWithIntrinsicBounds(searchIcon, null, null, null)
     }
 
     private fun setupViewPager() {
         feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager()) {
             override fun getItem(position: Int): Fragment {
-                return when(position) {
-                    Tab.ALL.index -> AllFeedFragment.newInstance().apply {
+                return when (position) {
+                    Tab.ALL.index -> AllFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!).apply {
                         setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
                     }
-                    Tab.MY_FEED.index -> MyFeedFragment.newInstance().apply {
+                    Tab.MY_FEED.index -> MyFeedFragment.newInstance(arguments?.getString(Tags.USER_ID)!!).apply {
                         setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
                     }
                     else -> throw RuntimeException("Unsupported tab")
@@ -84,6 +91,12 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
     override fun provideEventsLiveData() = viewModel.eventsLiveData
 
     companion object {
-        fun newInstance() = FeedFragment()
+        fun newInstance(communityName: String, userId: String) =
+            FeedFragment().apply {
+                arguments = Bundle().apply {
+                    putString(Tags.COMMUNITY_NAME, communityName)
+                    putString(Tags.USER_ID, userId)
+                }
+            }
     }
 }

@@ -35,8 +35,7 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,
                 cyberObject.votes.hasDownVote,
-                cyberObject.votes.upCount,
-                cyberObject.votes.downCount
+                1,1
             ),
             DiscussionCommentsCount(cyberObject.stats.commentsCount),
             DiscussionPayout(cyberObject.payout.rShares),

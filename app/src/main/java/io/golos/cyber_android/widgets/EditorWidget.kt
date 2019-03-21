@@ -1,6 +1,8 @@
 package io.golos.cyber_android.widgets
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
@@ -14,7 +16,7 @@ import kotlinx.android.synthetic.main.view_editor_widget.view.*
  * Also widget can display user avatar (via [loadUserAvatar] method).
  * This view doesn't support any custom xml attributes.
  */
-internal class EditorWidget : LinearLayout {
+class EditorWidget : LinearLayout {
 
     var listener: Listener? = null
 
@@ -59,4 +61,9 @@ internal class EditorWidget : LinearLayout {
          */
         fun onWidgetClick()
     }
+
+    /**
+     * State of the editor widget
+     */
+    class EditorWidgetState(var avatarUrl: String?)
 }

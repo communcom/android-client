@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <EditText
-                app:layout_scrollFlags="scroll|enterAlways"
+        <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/searchBar"
+                app:layout_scrollFlags="scroll|snap"
                 style="@style/SearchBarTextStyle"
                 android:hint="@string/hint_search"
                 android:layout_marginTop="@dimen/margin_feed_search_bar"
@@ -31,7 +31,6 @@
                 android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
                 android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
                 android:drawablePadding="@dimen/padding_feed_search_view_icon"
-                android:drawableStart="@drawable/ic_search"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

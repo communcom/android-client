@@ -20,7 +20,7 @@ import io.golos.domain.model.PostFeedUpdateRequest
  * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [PagedList] via [pagedListLiveData]
  * property.
  */
-abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feedUseCase: AbstractFeedUseCase<T>) : ViewModel() {
+abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(private val feedUseCase: AbstractFeedUseCase<out T>) : ViewModel() {
     companion object {
         private const val PAGE_SIZE = 20
     }
@@ -76,7 +76,7 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
         dataSourceFactory.latestDataSource?.invalidate()
     }
 
-    inner class PostsDataSourceFactory(private val communityFeedUserCase: AbstractFeedUseCase<T>): DataSource.Factory<Long, PostModel>() {
+    inner class PostsDataSourceFactory(private val communityFeedUserCase: AbstractFeedUseCase<out T>): DataSource.Factory<Long, PostModel>() {
 
         var latestDataSource: DataSource<Long, PostModel>? = null
 
@@ -86,7 +86,7 @@ abstract class AbstractFeedViewModel<T : PostFeedUpdateRequest>(private val feed
         }
     }
 
-    inner class PostsDataSource(private val communityFeedUserCase: AbstractFeedUseCase<T>) : PageKeyedDataSource<Long, PostModel>() {
+    inner class PostsDataSource(private val communityFeedUserCase: AbstractFeedUseCase<out T>) : PageKeyedDataSource<Long, PostModel>() {
 
         override fun loadInitial(params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, PostModel>) {
             communityFeedUserCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)

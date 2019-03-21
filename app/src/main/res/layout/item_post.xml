@@ -11,7 +11,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/postAvatar"
             android:layout_width="@dimen/size_post_card_avatar"
             android:layout_height="@dimen/size_post_card_avatar"
@@ -40,7 +40,7 @@
             app:layout_constraintTop_toBottomOf="@+id/postCommunityName"
             app:layout_constraintStart_toStartOf="@+id/postCommunityName"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/postMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
             android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/postVoteStatus"
             android:layout_width="@dimen/size_post_card_votes_count"
             android:layout_height="@dimen/size_post_card_votes_count"

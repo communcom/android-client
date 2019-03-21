@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter
 import io.golos.domain.model.PostFeedUpdateRequest
 
-abstract class AbstractFeedFragment<T : PostFeedUpdateRequest, VM : AbstractFeedViewModel<T>> : Fragment() {
+abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : AbstractFeedViewModel<T>> : Fragment() {
 
     open lateinit var viewModel: VM
 

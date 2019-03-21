@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -17,6 +18,10 @@ import io.golos.domain.interactors.model.CommunityId
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    init {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
 
     enum class Tabs(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),
@@ -39,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager) {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {
-                    Tabs.FEED -> FeedFragment.newInstance()
+                    Tabs.FEED -> FeedFragment.newInstance("gls", "tst3vtfkwvzw")
                     Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     Tabs.WALLET -> WalletFragment.newInstance()

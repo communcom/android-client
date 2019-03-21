@@ -1,10 +1,9 @@
 package io.golos.cyber_android.widgets.sorting
 
 import android.content.Context
-import android.os.Bundle
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_sorting_widget.view.*
 
@@ -38,6 +37,10 @@ internal class SortingWidget : LinearLayout {
         timeFiltering.setOnClickListener {
             listener?.onTimeFilterClick()
         }
+
+        val arrow = VectorDrawableCompat.create(resources, R.drawable.ic_sorting_arrow, null)
+        sorting.setCompoundDrawablesWithIntrinsicBounds(null, null, arrow, null)
+        timeFiltering.setCompoundDrawablesWithIntrinsicBounds(null, null, arrow, null)
     }
 
     fun setTrendingSort(sort: TrendingSort) {

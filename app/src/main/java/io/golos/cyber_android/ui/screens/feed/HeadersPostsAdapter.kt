@@ -24,8 +24,8 @@ import io.golos.domain.interactors.model.PostModel
 internal class HeadersPostsAdapter(
     diffCallback: DiffUtil.ItemCallback<PostModel>,
     listener: Listener,
-    private val supportEditorWidget: Boolean,
-    var supportSortingWidget: Boolean
+    private val isEditorWidgetSupported: Boolean,
+    var isSortingWidgetSupported: Boolean
 ) :
     PostsAdapter(diffCallback, listener) {
 
@@ -34,21 +34,17 @@ internal class HeadersPostsAdapter(
     private val POST_TYPE = 2
 
     val sortingWidgetState = SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)
-    val editorWidgetState = EditorWidgetState(null)
+    val editorWidgetState = EditorWidget.EditorWidgetState(null)
 
     var sortingWidgetListener: SortingWidget.Listener? = null
         set(value) {
-            if (!supportSortingWidget) {
-                throw RuntimeException("Sorting widget not supported")
-            }
+            checkSortingWidgetSupport()
             field = value
         }
 
     var editorWidgetListener: EditorWidget.Listener? = null
         set(value) {
-            if (!supportSortingWidget) {
-                throw RuntimeException("Editor widget not supported")
-            }
+            checkEditorWidgetSupport()
             field = value
         }
 
@@ -87,9 +83,9 @@ internal class HeadersPostsAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (supportEditorWidget) {
+        if (isEditorWidgetSupported) {
             if (position == 0) return EDITOR_TYPE
-            if (supportSortingWidget)
+            if (isSortingWidgetSupported)
                 if (position == 1) return SORTING_TYPE
         }
         return POST_TYPE
@@ -102,8 +98,8 @@ internal class HeadersPostsAdapter(
     /**
      * Return headers count to offset real content elements
      */
-    private fun getItemsOffset() = if (supportEditorWidget) 1 else 0 +
-            if (supportSortingWidget) 1 else 0
+    private fun getItemsOffset() = if (isEditorWidgetSupported) 1 else 0 +
+            if (isSortingWidgetSupported) 1 else 0
 
     private val adapterCallback = AdapterListUpdateCallback(this)
 
@@ -143,18 +139,33 @@ internal class HeadersPostsAdapter(
     }
 
     fun setTrendingSort(sort: TrendingSort) {
+        checkSortingWidgetSupport()
         sortingWidgetState.sort = sort
         notifyItemChanged(1)
     }
 
     fun setTimeFilter(filter: TimeFilter) {
+        checkSortingWidgetSupport()
         sortingWidgetState.filter = filter
         notifyItemChanged(1)
     }
 
     fun setAvatarUrl(url: String?) {
+        checkEditorWidgetSupport()
         editorWidgetState.avatarUrl = url
         notifyItemChanged(0)
+    }
+
+    private fun checkEditorWidgetSupport() {
+        if (!isEditorWidgetSupported) {
+            throw RuntimeException("Editor widget not supported")
+        }
+    }
+
+    private fun checkSortingWidgetSupport() {
+        if (!isSortingWidgetSupported) {
+            throw RuntimeException("Sorting widget not supported")
+        }
     }
 
     /**
@@ -162,7 +173,7 @@ internal class HeadersPostsAdapter(
      */
     class EditorWidgetViewHolder(val view: EditorWidget) : RecyclerView.ViewHolder(view) {
         fun bind(
-            editorWidgetState: EditorWidgetState,
+            editorWidgetState: EditorWidget.EditorWidgetState,
             editorWidgetListener: EditorWidget.Listener?
         ) {
             view.listener = editorWidgetListener
@@ -205,29 +216,6 @@ internal class HeadersPostsAdapter(
             val CREATOR: Parcelable.Creator<SortingWidgetState> = object : Parcelable.Creator<SortingWidgetState> {
                 override fun createFromParcel(source: Parcel): SortingWidgetState = SortingWidgetState(source)
                 override fun newArray(size: Int): Array<SortingWidgetState?> = arrayOfNulls(size)
-            }
-        }
-    }
-
-    /**
-     * State of the editor widget. Can be written to and restored from parcel
-     */
-    class EditorWidgetState(var avatarUrl: String?) : Parcelable {
-
-        constructor(source: Parcel) : this(source.readString())
-
-        override fun describeContents() = 0
-
-        override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-            dest.writeString(avatarUrl)
-        }
-
-        @Suppress("unused")
-        companion object {
-            @JvmField
-            val CREATOR: Parcelable.Creator<EditorWidgetState> = object : Parcelable.Creator<EditorWidgetState> {
-                override fun createFromParcel(source: Parcel): EditorWidgetState = EditorWidgetState(source)
-                override fun newArray(size: Int): Array<EditorWidgetState?> = arrayOfNulls(size)
             }
         }
     }
