@@ -15,7 +15,7 @@ import org.junit.Test
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-class UserPostUseCaseTest {
+class UserSubscriptionsCaseTest {
 
     @Rule
     @JvmField
