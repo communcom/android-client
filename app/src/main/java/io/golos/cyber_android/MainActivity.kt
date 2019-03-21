@@ -6,14 +6,12 @@ import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.ui.screens.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.ui.screens.wallet.WalletFragment
-import io.golos.domain.interactors.model.CommunityId
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,14 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        ViewModelProviders.of(
-            this,
-            serviceLocator.getCommunityFeedViewModelFactory(CommunityId("gls"))
-        )
-            .get(CommunityFeedViewModel::class.java)
-
-
 
         setupPager()
         setupNavigationView()

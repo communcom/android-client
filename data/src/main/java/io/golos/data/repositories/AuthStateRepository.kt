@@ -42,7 +42,6 @@ class AuthStateRepository(
     init {
         authApi.addAuthListener(object : AuthListener {
             override fun onAuthSuccess(forUser: CyberName) {
-                println("onAuthSuccess $forUser")
 
                 repositoryScope.launch {
                     authState.value = AuthState(forUser.toCyberUser(), true)
@@ -62,7 +61,6 @@ class AuthStateRepository(
 
             override fun onFail(e: Exception) {
                 logger(e)
-                println("onFail $e")
 
                 repositoryScope.launch {
                     authState.value = AuthState("".toCyberUser(), false)
