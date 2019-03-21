@@ -13,7 +13,9 @@ import io.golos.domain.model.PostFeedUpdateRequest
 open class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(feedUseCase: AbstractFeedUseCase<out T>) :
     AbstractFeedViewModel<T>(feedUseCase) {
 
-    //val timeFilterLiveDate = MutableLiveData<TimeFilter>()
+    val sortingWidgetState = MutableLiveData<HeadersPostsAdapter.SortingWidgetState>(
+        HeadersPostsAdapter.SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)
+    )
     val editorWidgetStateLiveData = MutableLiveData<EditorWidget.EditorWidgetState>(
         EditorWidget.EditorWidgetState("https://www.w3schools.com/howto/img_avatar.png")
     )
@@ -23,10 +25,10 @@ open class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(feedUseCase: Abst
     }
 
     fun onSort(sort: TrendingSort) {
-
+        sortingWidgetState.postValue(sortingWidgetState.value?.copy(sort = sort))
     }
 
     fun onFilter(filter: TimeFilter) {
-
+        sortingWidgetState.postValue(sortingWidgetState.value?.copy(filter = filter))
     }
 }

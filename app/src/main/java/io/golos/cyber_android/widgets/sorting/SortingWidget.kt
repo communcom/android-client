@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.view_sorting_widget.view.*
  * Custom view which represents Sorting Widget. With this widget user can change the way of sorting and filtering the feed -
  * sorting by new/top posts and filtering by time. Those sorts/filters represented by [TrendingSort] and [TimeFilter] enums.
  */
-internal class SortingWidget : LinearLayout {
+class SortingWidget : LinearLayout {
 
     var listener: Listener? = null
 

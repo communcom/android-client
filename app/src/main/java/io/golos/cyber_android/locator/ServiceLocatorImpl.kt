@@ -53,7 +53,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
             get() = Dispatchers.Default
     }
 
-    private val communityFeedRepository by lazy {
+    private val postFeedRepo by lazy {
         PostsFeedRepository(
             postsApiService,
             cyberFeedToEntityMapper,
@@ -75,7 +75,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
                         CommunityFeedUseCase(
                             communityId,
-                            communityFeedRepository,
+                            postFeedRepo,
                             feedEntityToModelMapper,
                             dispatchersProvider
                         )
@@ -103,7 +103,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
     override fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase {
         return CommunityFeedUseCase(
             communityId,
-            communityFeedRepository,
+            postFeedRepo,
             feedEntityToModelMapper,
             dispatchersProvider
         )
@@ -111,8 +111,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
 
     override fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase {
         return UserSubscriptionsFeedUseCase(
-            user.userId,
-            communityFeedRepository,
+            user,
+            postFeedRepo,
             feedEntityToModelMapper,
             dispatchersProvider
         )
@@ -120,8 +120,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
 
     override fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase {
         return UserPostFeedUseCase(
-            user.userId,
-            communityFeedRepository,
+            user,
+            postFeedRepo,
             feedEntityToModelMapper,
             dispatchersProvider
         )

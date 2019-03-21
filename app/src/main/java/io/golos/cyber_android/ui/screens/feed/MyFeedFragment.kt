@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
@@ -17,12 +16,8 @@ import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.common.posts.PostsDiffCallback
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.domain.entities.CyberUser
-import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.CommunityFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.model.UserSubscriptionsFeedUpdateRequest
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**
@@ -89,6 +84,14 @@ open class MyFeedFragment :
             })
     }
 
+    override fun setupWidgetsLiveData() {
+        viewModel.editorWidgetStateLiveData.observe(this, Observer {state ->
+            (feedList.adapter as HeadersPostsAdapter).apply {
+                editorWidgetState = state
+            }
+        })
+    }
+
     override fun setupViewModel() {
         viewModel = ViewModelProviders.of(
             this,
@@ -96,29 +99,6 @@ open class MyFeedFragment :
                 .serviceLocator
                 .getUserSubscriptionsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
         ).get(UserSubscriptionsFeedViewModel::class.java)
-
-        viewModel.editorWidgetStateLiveData.observe(this, Observer {state ->
-            (feedList.adapter as HeadersPostsAdapter).apply {
-                state.let {
-                    setAvatarUrl(state.avatarUrl)
-                }
-            }
-        })
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        //outState.putParcelable("editorState", (feedList.adapter as HeadersPostsAdapter).editorWidgetState)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        //val editorState = savedInstanceState?.getParcelable("editorState") as HeadersPostsAdapter.EditorWidgetState?
-//        (feedList.adapter as HeadersPostsAdapter).apply {
-//            editorState?.let {
-//                setAvatarUrl(editorState.avatarUrl)
-//            }
-//        }
     }
 
     companion object {

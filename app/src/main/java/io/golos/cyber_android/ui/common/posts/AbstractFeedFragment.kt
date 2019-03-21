@@ -20,6 +20,7 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
         setupViewModel()
         setupEventsProvider()
         setupFeedAdapter()
+        setupWidgetsLiveData()
         feedList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         viewModel.pagedListLiveData.observe(this, Observer {
             (feedList.adapter as HeadersPostsAdapter).submitList(it)
@@ -46,6 +47,11 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
      * Called when adapter of [feedList] receives some new data
      */
     abstract fun onNewData()
+
+    /**
+     * Called when adapter of [feedList] receives some new data
+     */
+    abstract fun setupWidgetsLiveData()
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

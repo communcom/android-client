@@ -11,7 +11,10 @@ import kotlin.collections.HashSet
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
-class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService, AuthApi, AuthListener {
+class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
+    AuthApi,
+    AuthListener,
+    VoteApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -65,6 +68,18 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService, AuthApi
         listeners.add(listener)
     }
 
+    override fun vote(
+        postOrCommentAuthor: CyberName,
+        postOrCommentPermlink: String,
+        postOrCommentRefBlockNum: Long,
+        voteStrength: Short
+    ): VoteResult {
+        return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, postOrCommentRefBlockNum, voteStrength)
+            .getOrThrow().extractResult()
+    }
+
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
         (this as? Either.Success)?.value ?: throw CyberServicesError(this as Either.Failure)
+
+    private fun <T> TransactionSuccessful<T>.extractResult() = this.processed.action_traces.first().act.data
 }

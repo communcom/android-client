@@ -1,9 +1,11 @@
 package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.feedEntityToModelMapper
 import io.golos.cyber_android.feedRepository
+import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.UpdateOption
@@ -21,7 +23,7 @@ class UserFeedUseCaseTest {
     public val rule = InstantTaskExecutorRule()
 
     val case = UserPostFeedUseCase(
-        "destroyer2k",
+        CyberUser("tst3vtfkwvzw"),
         feedRepository,
         feedEntityToModelMapper,
         dispatchersProvider

@@ -21,7 +21,7 @@ import io.golos.domain.interactors.model.PostModel
  * Extension of [PostsAdapter] that support two types of headers -
  * [EditorWidgetViewHolder] and [SortingWidgetViewHolder]
  */
-internal class HeadersPostsAdapter(
+class HeadersPostsAdapter(
     diffCallback: DiffUtil.ItemCallback<PostModel>,
     listener: Listener,
     private val isEditorWidgetSupported: Boolean,
@@ -33,8 +33,19 @@ internal class HeadersPostsAdapter(
     private val SORTING_TYPE = 1
     private val POST_TYPE = 2
 
-    val sortingWidgetState = SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)
-    val editorWidgetState = EditorWidget.EditorWidgetState(null)
+    var sortingWidgetState = SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)
+        set(value) {
+            checkSortingWidgetSupport()
+            field = value
+            notifyItemChanged(1)
+        }
+
+    var editorWidgetState = EditorWidget.EditorWidgetState(null)
+        set(value) {
+            checkEditorWidgetSupport()
+            field = value
+            notifyItemChanged(0)
+        }
 
     var sortingWidgetListener: SortingWidget.Listener? = null
         set(value) {
@@ -138,24 +149,6 @@ internal class HeadersPostsAdapter(
         return differ.currentList
     }
 
-    fun setTrendingSort(sort: TrendingSort) {
-        checkSortingWidgetSupport()
-        sortingWidgetState.sort = sort
-        notifyItemChanged(1)
-    }
-
-    fun setTimeFilter(filter: TimeFilter) {
-        checkSortingWidgetSupport()
-        sortingWidgetState.filter = filter
-        notifyItemChanged(1)
-    }
-
-    fun setAvatarUrl(url: String?) {
-        checkEditorWidgetSupport()
-        editorWidgetState.avatarUrl = url
-        notifyItemChanged(0)
-    }
-
     private fun checkEditorWidgetSupport() {
         if (!isEditorWidgetSupported) {
             throw RuntimeException("Editor widget not supported")
@@ -177,6 +170,7 @@ internal class HeadersPostsAdapter(
             editorWidgetListener: EditorWidget.Listener?
         ) {
             view.listener = editorWidgetListener
+            view.loadUserAvatar(editorWidgetState.avatarUrl ?: "")
         }
     }
 
@@ -197,7 +191,7 @@ internal class HeadersPostsAdapter(
     /**
      * State of the sorting widget. Can be written to and restored from parcel
      */
-    class SortingWidgetState(var sort: TrendingSort, var filter: TimeFilter) : Parcelable {
+    data class SortingWidgetState(var sort: TrendingSort, var filter: TimeFilter) : Parcelable {
         constructor(source: Parcel) : this(
             TrendingSort.valueOf(source.readString() ?: ""),
             TimeFilter.valueOf(source.readString() ?: "")

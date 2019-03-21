@@ -2,6 +2,7 @@ package io.golos.domain.interactors.feed
 
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
@@ -15,7 +16,7 @@ import io.golos.domain.rules.EntityToModelMapper
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
 class UserSubscriptionsFeedUseCase(
-    private val userId: String,
+    private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     feedMapper: EntityToModelMapper<FeedEntity<PostEntity>, PostFeed>,
     dispatchersProvider: DispatchersProvider
@@ -23,12 +24,12 @@ class UserSubscriptionsFeedUseCase(
 
 
     override val baseFeedUpdateRequest: UserSubscriptionsFeedUpdateRequest
-        get() = UserSubscriptionsFeedUpdateRequest(userId, 0, DiscussionsSort.FROM_NEW_TO_OLD, null)
+        get() = UserSubscriptionsFeedUpdateRequest(userId.userId, 0, DiscussionsSort.FROM_NEW_TO_OLD, null)
 
     override fun requestFeedUpdate(limit: Int, option: UpdateOption) {
         postFeedRepository.makeAction(
             UserSubscriptionsFeedUpdateRequest(
-                userId,
+                userId.userId,
                 limit,
                 DiscussionsSort.FROM_NEW_TO_OLD,
                 when (option.resolveUpdateOption()) {

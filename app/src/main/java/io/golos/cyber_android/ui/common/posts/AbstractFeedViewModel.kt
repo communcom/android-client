@@ -8,8 +8,6 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
-import io.golos.cyber_android.widgets.sorting.TimeFilter
-import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption

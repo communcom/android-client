@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.feed
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.serviceLocator
@@ -33,6 +34,15 @@ class AllFeedFragment : MyFeedFragment() {
     override fun setupFeedAdapter() {
         super.setupFeedAdapter()
         (feedList.adapter as HeadersPostsAdapter).isSortingWidgetSupported = true
+    }
+
+    override fun setupWidgetsLiveData() {
+        super.setupWidgetsLiveData()
+        viewModel.sortingWidgetState.observe(this, Observer {state ->
+            (feedList.adapter as HeadersPostsAdapter).apply {
+                sortingWidgetState = state
+            }
+        })
     }
 
     override fun setupViewModel() {
@@ -83,28 +93,10 @@ class AllFeedFragment : MyFeedFragment() {
     private fun onSortSelected(sort: SortingType) {
         when (sort) {
             is TrendingSort -> {
-                (feedList.adapter as HeadersPostsAdapter).setTrendingSort(sort)
                 viewModel.onSort(sort)
             }
             is TimeFilter -> {
-                (feedList.adapter as HeadersPostsAdapter).setTimeFilter(sort)
                 viewModel.onFilter(sort)
-            }
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("sortState", (feedList.adapter as HeadersPostsAdapter).sortingWidgetState)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val sortState = savedInstanceState?.getParcelable("sortState") as HeadersPostsAdapter.SortingWidgetState?
-        (feedList.adapter as HeadersPostsAdapter).apply {
-            sortState?.let {
-                setTrendingSort(sortState.sort)
-                setTimeFilter(sortState.filter)
             }
         }
     }
