@@ -48,7 +48,6 @@ class VoteUseCase(
         mediator.addSource(authState) {
             voteReadiness.value = it?.isUserLoggedIn == true
         }
-        authState.observeForever(observer)
 
         voteRepository.getAsLiveData(voteRepository.allDataRequest).observeForever(observer)
         mediator.addSource(voteRepository.getAsLiveData(voteRepository.allDataRequest)) {
@@ -64,7 +63,6 @@ class VoteUseCase(
             }
         }
 
-        voteRepository.updateStates.observeForever(observer)
         mediator.addSource(voteRepository.updateStates) { voteStates ->
             if (voteStates == null) return@addSource
             useCaseScope.launch {
@@ -98,17 +96,17 @@ class VoteUseCase(
                 votingStatesLiveData.value = newVoteStateMap
             }
         }
+
+        mediator.observeForever(observer)
     }
 
     override fun unsubscribe() {
         super.unsubscribe()
         val authState = authRepository.getAsLiveData(authRepository.allDataRequest)
         mediator.removeSource(authState)
-        authState.removeObserver(observer)
-        voteRepository.updateStates.removeObserver(observer)
         mediator.removeSource(voteRepository.updateStates)
-        voteRepository.getAsLiveData(voteRepository.allDataRequest).removeObserver(observer)
         mediator.removeSource(voteRepository.getAsLiveData(voteRepository.allDataRequest))
+        mediator.removeObserver(observer)
     }
 
 

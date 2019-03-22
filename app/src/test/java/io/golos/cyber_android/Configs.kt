@@ -2,7 +2,9 @@ package io.golos.cyber_android
 
 import io.golos.cyber4j.Cyber4J
 import io.golos.data.api.Cyber4jApiService
+import io.golos.data.repositories.AuthStateRepository
 import io.golos.data.repositories.PostsFeedRepository
+import io.golos.data.repositories.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.rules.*
@@ -16,13 +18,18 @@ import java.util.concurrent.Executors
  */
 val cyber4j by lazy { Cyber4J() }
 
-val postsApiService = Cyber4jApiService(Cyber4J())
+val apiService: Cyber4jApiService by lazy { Cyber4jApiService(cyber4j) }
 
 val cyberPostToEntityMapper = CyberPostToEntityMapper()
-val postEntityToModelMapper = PostEntityToModelMapper()
-
+val voteToEntityMapper = VoteRequestModelToEntityMapper()
 val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
+
+val postEntityToModelMapper = PostEntityToModelMapper()
 val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
+val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
+
+
+val approver = FeedUpdateApprover()
 
 val postMerger = PostMerger()
 val feedMerger = PostFeedMerger()
@@ -34,7 +41,7 @@ val logger = object : Logger {
         e.printStackTrace()
     }
 }
-private val exc = Executors.newSingleThreadExecutor()
+val exc = Executors.newSingleThreadExecutor()
 
 val dispatchersProvider = object : DispatchersProvider {
     override val uiDispatcher: CoroutineDispatcher
@@ -44,7 +51,7 @@ val dispatchersProvider = object : DispatchersProvider {
 }
 
 val feedRepository = PostsFeedRepository(
-    postsApiService,
+    apiService,
     cyberFeedToEntityMapper,
     cyberPostToEntityMapper,
     postMerger,
@@ -54,3 +61,7 @@ val feedRepository = PostsFeedRepository(
     dispatchersProvider.uiDispatcher, dispatchersProvider.workDispatcher,
     logger
 )
+
+val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
+
+val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
