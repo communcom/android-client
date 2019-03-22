@@ -88,12 +88,6 @@ class AllFeedFragment :
     }
 
     override fun setupEventsProvider() {
-        viewModel.editorWidgetStateLiveData.observe(this, Observer {state ->
-            (feedList.adapter as HeadersPostsAdapter).apply {
-                editorWidgetState = state
-            }
-        })
-
         (targetFragment as FeedPageLiveDataProvider)
             .provideEventsLiveData().observe(this, Observer {
                 when (it) {
@@ -106,6 +100,12 @@ class AllFeedFragment :
         viewModel.sortingWidgetState.observe(this, Observer {state ->
             (feedList.adapter as HeadersPostsAdapter).apply {
                 sortingWidgetState = state
+            }
+        })
+
+        viewModel.editorWidgetStateLiveData.observe(this, Observer {state ->
+            (feedList.adapter as HeadersPostsAdapter).apply {
+                editorWidgetState = state
             }
         })
     }
