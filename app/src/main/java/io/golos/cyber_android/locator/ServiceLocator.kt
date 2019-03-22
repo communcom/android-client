@@ -3,6 +3,7 @@ package io.golos.cyber_android.locator
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
@@ -21,4 +22,6 @@ interface ServiceLocator {
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase
 
     fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase
+
+    val voteUseCase: VoteUseCase
 }

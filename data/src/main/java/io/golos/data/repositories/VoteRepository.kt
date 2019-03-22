@@ -46,6 +46,7 @@ class VoteRepository(
                     )
                 }
                 lastSuccessFullyVotedItem.value = params
+                delay(2_000)
                 votingStates.value = votingStates.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {

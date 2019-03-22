@@ -8,9 +8,11 @@ import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.AuthStateRepository
 import io.golos.data.repositories.PostsFeedRepository
+import io.golos.data.repositories.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
@@ -29,10 +31,13 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
     private val apiService: Cyber4jApiService by lazy { Cyber4jApiService(cyber4j) }
 
     private val cyberPostToEntityMapper = CyberPostToEntityMapper()
-    private val postEntityToModelMapper = PostEntityToModelMapper()
-
+    private val voteToEntityMapper = VoteRequestModelToEntityMapper()
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
+
+    private val postEntityToModelMapper = PostEntityToModelMapper()
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
+    private val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
+
 
     private val approver = FeedUpdateApprover()
 
@@ -68,6 +73,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
             logger
         )
     }
+
+    val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
+
+    private val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -115,7 +124,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
         )
     }
 
-    val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
+    override val voteUseCase: VoteUseCase
+            by lazy {
+                VoteUseCase(
+                    authStateRepository, voteRepo, postFeedRepo,
+                    dispatchersProvider, voteEntityToPostMapper,
+                    voteToEntityMapper
+                )
+            }
+
 
     override val getAppContext: Context
         get() = appContext

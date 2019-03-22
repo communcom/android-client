@@ -48,7 +48,7 @@ class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<Po
     }
 }
 
-class VoteRequestEntityToModel : EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
+class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
     override suspend fun invoke(entity: VoteRequestEntity): VoteRequestModel {
         return when (entity) {
             is VoteRequestEntity.VoteForAPostRequestEntity -> VoteRequestModel.VoteForPostRequest(

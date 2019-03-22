@@ -18,10 +18,7 @@ import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
 import io.golos.domain.rules.EntityToModelMapper
 import io.golos.domain.rules.ModelToEntityMapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
@@ -56,7 +53,12 @@ class VoteUseCase(
         voteRepository.getAsLiveData(voteRepository.allDataRequest).observeForever(observer)
         mediator.addSource(voteRepository.getAsLiveData(voteRepository.allDataRequest)) {
             when (it) {
-                is VoteRequestEntity.VoteForAPostRequestEntity -> feedRepository.requestDiscussionUpdate(it.discussionIdEntity)
+                is VoteRequestEntity.VoteForAPostRequestEntity -> {
+                    useCaseScope.launch {
+                        delay(2_000)
+                        feedRepository.requestDiscussionUpdate(it.discussionIdEntity)
+                    }
+                }
                 else -> {
                 }
             }
