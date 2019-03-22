@@ -11,6 +11,7 @@ import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.CyberUser
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
@@ -112,5 +113,8 @@ class AuthStateRepository(
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>> =
         authRequestsLiveData.distinctUntilChanged()
 
-
+    override val allDataRequest: AuthRequest
+            by lazy {
+                AuthRequest(CyberUser("stub"), "stub")
+            }
 }

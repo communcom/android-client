@@ -6,19 +6,19 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
  */
-sealed class VoteRequest(val power: Short, val discussionIdEntity: DiscussionIdModel) : Model {
+sealed class VoteRequestModel(val power: Short, val discussionIdEntity: DiscussionIdModel) : Model {
 
     class VoteForPostRequest(power: Short, discussionIdEntity: DiscussionIdModel) :
-        VoteRequest(power, discussionIdEntity)
+        VoteRequestModel(power, discussionIdEntity)
 
     class VoteForComentRequest(power: Short, discussionIdEntity: DiscussionIdModel) :
-        VoteRequest(power, discussionIdEntity)
+        VoteRequestModel(power, discussionIdEntity)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as VoteRequest
+        other as VoteRequestModel
 
         if (power != other.power) return false
         if (discussionIdEntity != other.discussionIdEntity) return false
@@ -33,7 +33,7 @@ sealed class VoteRequest(val power: Short, val discussionIdEntity: DiscussionIdM
     }
 
     override fun toString(): String {
-        return "VoteRequest(power=$power, discussionIdEntity=$discussionIdEntity)"
+        return "VoteRequestModel(power=$power, discussionIdEntity=$discussionIdEntity)"
     }
 
 }

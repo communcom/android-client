@@ -7,6 +7,7 @@ import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
@@ -26,9 +27,10 @@ class VoteRepository(
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private val votingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>()
     private val jobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
+    private val lastSuccessFullyVotedItem = MutableLiveData<VoteRequestEntity>()
 
     override fun getAsLiveData(params: VoteRequestEntity): LiveData<VoteRequestEntity> {
-        return MutableLiveData()
+        return lastSuccessFullyVotedItem
     }
 
     override fun makeAction(params: VoteRequestEntity) {
@@ -43,6 +45,7 @@ class VoteRepository(
                         params.power
                     )
                 }
+                lastSuccessFullyVotedItem.value = params
                 votingStates.value = votingStates.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
@@ -56,6 +59,10 @@ class VoteRepository(
         }
     }
 
+    override val allDataRequest: VoteRequestEntity
+            by lazy {
+                VoteRequestEntity.VoteForAPostRequestEntity(0, DiscussionIdEntity("stub", "stub", Long.MIN_VALUE))
+            }
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>
         get() = votingStates
 }
