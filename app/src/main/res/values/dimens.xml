@@ -3,6 +3,41 @@
     <dimen name="padding_vertical_editor_widget">12dp</dimen>
     <dimen name="padding_horizontal_editor_widget">16dp</dimen>
     <dimen name="size_editor_widget_avatar">40dp</dimen>
+    <dimen name="margin_horizontal_default_16dp">16dp</dimen>
 
     <dimen name="text_size_20_sp">20sp</dimen>
+    <dimen name="text_size_16_sp">16sp</dimen>
+    <dimen name="text_size_14_sp">14sp</dimen>
+    <dimen name="text_size_12_sp">12sp</dimen>
+
+    <!--Feed page-->
+    <dimen name="elevation_feed_search_bar">4dp</dimen>
+    <dimen name="margin_feed_search_bar">8dp</dimen>
+    <dimen name="padding_horizontal_feed_search_bar">15dp</dimen>
+    <dimen name="padding_vertical_feed_search_bar">12dp</dimen>
+    <dimen name="padding_feed_search_view_icon">35dp</dimen>
+
+    <!--Sorting Widget-->
+    <dimen name="padding_top_sorting_widget">23dp</dimen>
+    <dimen name="padding_bottom_sorting_widget">15dp</dimen>
+    <dimen name="padding_sorting_widget_arrow">6dp</dimen>
+    <dimen name="margin_start_sorting_widget_sort">36dp</dimen>
+    <dimen name="margin_start_sorting_widget_sort_by_time">32dp</dimen>
+    <dimen name="padding_vertical_sorting_type">18dp</dimen>
+
+    <!--Post Card-->
+    <dimen name="margin_top_post_card_content">24dp</dimen>
+    <dimen name="size_post_card_avatar">40dp</dimen>
+    <dimen name="margin_top_post_card_menu">8dp</dimen>
+    <dimen name="margin_top_post_card_counters">28dp</dimen>
+    <dimen name="margin_horizontal_post_card_upvotes">8dp</dimen>
+    <dimen name="margin_horizontal_post_card_comments">24dp</dimen>
+    <dimen name="margin_top_post_card_comment">22dp</dimen>
+    <dimen name="margin_bottom_post_card_comment">18dp</dimen>
+    <dimen name="margin_horizontal_post_card_downvote">12dp</dimen>
+    <dimen name="corners_post_card_comment">100dp</dimen>
+    <dimen name="size_post_card_comment_buttons">36dp</dimen>
+    <dimen name="divider_post_card_height">8dp</dimen>
+    <dimen name="margin_top_post_card_media">16dp</dimen>
+    <dimen name="size_post_card_votes_count">16dp</dimen>
 </resources>

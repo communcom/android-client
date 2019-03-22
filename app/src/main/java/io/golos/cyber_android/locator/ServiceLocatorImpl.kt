@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
+import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedFeedViewModel
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.AuthStateRepository
 import io.golos.data.repositories.PostsFeedRepository
@@ -90,6 +91,20 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
                             feedEntityToModelMapper,
                             dispatchersProvider
                         )
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getUserSubscriptionsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    UserSubscriptionsFeedFeedViewModel::class.java -> UserSubscriptionsFeedFeedViewModel(
+                        getUserPostFeedUseCase(user)
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

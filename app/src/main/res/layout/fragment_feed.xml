@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.screens.feed.FeedFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        tools:context=".MainActivity">
 
-    <TextView
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            app:elevation="0dp"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/feed"/>
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/searchBar"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                style="@style/SearchBarTextStyle"
+                android:hint="@string/hint_search"
+                android:layout_marginTop="@dimen/margin_feed_search_bar"
+                android:layout_marginStart="@dimen/margin_feed_search_bar"
+                android:layout_marginEnd="@dimen/margin_feed_search_bar"
+                android:paddingTop="@dimen/padding_vertical_feed_search_bar"
+                android:paddingBottom="@dimen/padding_vertical_feed_search_bar"
+                android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
+                android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
+                android:drawablePadding="@dimen/padding_feed_search_view_icon"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                app:tabMode="fixed"
+                app:tabTextColor="@color/text_color_feed_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/feedPager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

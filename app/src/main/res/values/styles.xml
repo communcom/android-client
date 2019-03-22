@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -17,6 +17,54 @@
     <style name="EditorWidgetCaptionTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="SearchBarTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textColorHint">@color/dark_gray</item>
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+
+    <style name="SortingWidgetTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/clickable_text_color</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="SortingWidgetCaptionTextStyle" parent="SortingWidgetTextStyle">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="PostCardCommunityTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="PostCardAuthorTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="PostCardContentTitleTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="PostCardCountersTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="SortsTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
