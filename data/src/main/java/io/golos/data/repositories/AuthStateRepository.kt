@@ -85,13 +85,22 @@ class AuthStateRepository(
     }
 
     override fun makeAction(params: AuthRequest) {
+        if (params == allDataRequest) return
+
         repositoryScope.launch {
             if (authState.value == null) authState.value = AuthState("".toCyberUser(), false)
 
             authRequestsLiveData.value =
                 authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-            authApi.setActiveUserCreds(CyberName(params.user.userId), params.activeKey)
+            try {
+                authApi.setActiveUserCreds(CyberName(params.user.userId), params.activeKey)
+            } catch (e: java.lang.Exception) {
+                logger(e)
+                authRequestsLiveData.value =
+                    authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))
+            }
+
         }.let { job ->
             authJobsMap.entries.forEach {
                 it.value?.cancel()
