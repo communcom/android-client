@@ -11,6 +11,7 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.model.CommunityFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -22,23 +23,24 @@ import org.junit.Test
  * Created by yuri yurivladdurain@gmail.com on 2019-03-22.
  */
 class VoteUseCaseTest {
+
     @Rule
     @JvmField
     public val rule = InstantTaskExecutorRule()
 
-    val voteUseCase =
+    private val voteUseCase =
         VoteUseCase(
-            authStateRepository, voteRepo, feedRepository,
+            authStateRepository, voteRepo,
             dispatchersProvider, voteEntityToPostMapper,
             voteToEntityMapper
         )
 
-    val postRequest = CommunityFeedUpdateRequest("gls", 20, DiscussionsSort.FROM_NEW_TO_OLD)
+    private val postRequest = CommunityFeedUpdateRequest("gls", 20, DiscussionsSort.FROM_NEW_TO_OLD)
 
     @Before
     fun before() {
+        appCore.initialize()
         feedRepository.makeAction(postRequest)
-        authStateRepository.makeAction(authStateRepository.authRequest)
     }
 
     @Test
@@ -47,13 +49,15 @@ class VoteUseCaseTest {
         val mediator = MediatorLiveData<Any>()
         var feed: FeedEntity<PostEntity>? = null
         voteUseCase.subscribe()
+        voteUseCase.unsubscribe()
+        voteUseCase.subscribe()
 
         mediator.observeForever(observer)
         mediator.addSource(feedRepository.getAsLiveData(postRequest)) {
             feed = it
         }
 
-        mediator.addSource(authStateRepository.getAsLiveData(authStateRepository.authRequest)) {
+        mediator.addSource(authStateRepository.getAsLiveData(authStateRepository.allDataRequest)) {
             if (it?.isUserLoggedIn == true && feed?.discussions?.isEmpty() == false) {
                 launch {
                     val posts = feed!!.discussions
@@ -76,8 +80,6 @@ class VoteUseCaseTest {
             println(map)
         }
 
-        while (map?.entries?.firstOrNull() !is QueryResult.Success<*>){
-            delay(300)
-        }
+        assertTrue(feed!!.discussions.first().votes.hasUpVote)
     }
 }

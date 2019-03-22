@@ -1,12 +1,20 @@
 package io.golos.cyber_android
 
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.data.api.Cyber4jApiService
+import io.golos.data.repositories.AbstractDiscussionsRepository
 import io.golos.data.repositories.AuthStateRepository
 import io.golos.data.repositories.PostsFeedRepository
 import io.golos.data.repositories.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.Repository
+import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.PostEntity
+import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.model.AuthRequest
+import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -58,10 +66,22 @@ val feedRepository = PostsFeedRepository(
     feedMerger,
     FeedUpdateApprover(),
     emptyPostFeedProducer,
-    dispatchersProvider.uiDispatcher, dispatchersProvider.workDispatcher,
+    dispatchersProvider,
     logger
 )
 
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
 
 val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
+
+
+val appCore = AppCore(object : RepositoriesHolder {
+    override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
+        get() = feedRepository
+    override val authRepository: Repository<AuthState, AuthRequest>
+        get() = authStateRepository
+    override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
+        get() = voteRepo
+})
+
+

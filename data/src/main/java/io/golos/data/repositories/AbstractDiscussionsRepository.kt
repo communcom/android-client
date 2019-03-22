@@ -7,6 +7,7 @@ import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
 import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.Logger
 import io.golos.domain.entities.DiscussionEntity
@@ -31,21 +32,21 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private val feedMerger: EntityMerger<FeedEntity<D>>,
     private val requestApprover: RequestApprover<Q>,
     private val emptyFeedProducer: EmptyEntityProducer<FeedEntity<D>>,
-    mainDispatcher: CoroutineDispatcher,
-    private val workerDispatcher: CoroutineDispatcher,
+    private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger
 ) : DiscussionsFeedRepository<D, Q> {
 
     private val discussionsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<FeedEntity<D>>> = hashMapOf()
     private val feedsUpdatingStatesMap: MutableLiveData<Map<Identifiable.Id, QueryResult<Q>>> = MutableLiveData()
 
-    private val repositoryScope = CoroutineScope(mainDispatcher + SupervisorJob())
+    private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
     private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionIdEntity, Job>())
     private val feedJobMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
         get() = this.feedsUpdatingStatesMap
+
 
     override fun getAsLiveData(params: Q): LiveData<FeedEntity<D>> {
         if (params == allDataRequest) {
@@ -117,11 +118,11 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private fun <T> async(
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> T
-    ) = repositoryScope.async(workerDispatcher, start, block)
+    ) = repositoryScope.async(dispatchersProvider.workDispatcher, start, block)
 
     private suspend fun <T> getOnBackground(
         block: suspend CoroutineScope.() -> T
-    ) = kotlinx.coroutines.withContext(workerDispatcher, block)
+    ) = kotlinx.coroutines.withContext(dispatchersProvider.workDispatcher, block)
 
     private fun launch(
         exceptionCallback: (Exception) -> Unit = {},

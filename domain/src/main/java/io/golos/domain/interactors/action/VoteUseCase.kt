@@ -4,21 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.map
 import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
 import io.golos.domain.rules.EntityToModelMapper
 import io.golos.domain.rules.ModelToEntityMapper
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
@@ -26,7 +26,6 @@ import kotlinx.coroutines.*
 class VoteUseCase(
     private val authRepository: Repository<AuthState, AuthRequest>,
     private val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    private val feedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     private val dispatchersProvider: DispatchersProvider,
     private val voteEntityToModelMapper: EntityToModelMapper<VoteRequestEntity, VoteRequestModel>,
     private val voteModelToEntityMapper: ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
@@ -43,26 +42,10 @@ class VoteUseCase(
 
     override fun subscribe() {
         super.subscribe()
-        val authState = authRepository.getAsLiveData(authRepository.allDataRequest)
 
-        mediator.addSource(authState) {
+        mediator.addSource(authRepository.getAsLiveData(authRepository.allDataRequest)) {
             voteReadiness.value = it?.isUserLoggedIn == true
         }
-
-        voteRepository.getAsLiveData(voteRepository.allDataRequest).observeForever(observer)
-        mediator.addSource(voteRepository.getAsLiveData(voteRepository.allDataRequest)) {
-            when (it) {
-                is VoteRequestEntity.VoteForAPostRequestEntity -> {
-                    useCaseScope.launch {
-                        delay(2_000)
-                        feedRepository.requestDiscussionUpdate(it.discussionIdEntity)
-                    }
-                }
-                else -> {
-                }
-            }
-        }
-
         mediator.addSource(voteRepository.updateStates) { voteStates ->
             if (voteStates == null) return@addSource
             useCaseScope.launch {
@@ -102,10 +85,8 @@ class VoteUseCase(
 
     override fun unsubscribe() {
         super.unsubscribe()
-        val authState = authRepository.getAsLiveData(authRepository.allDataRequest)
-        mediator.removeSource(authState)
+        mediator.removeSource(authRepository.getAsLiveData(authRepository.allDataRequest))
         mediator.removeSource(voteRepository.updateStates)
-        mediator.removeSource(voteRepository.getAsLiveData(voteRepository.allDataRequest))
         mediator.removeObserver(observer)
     }
 
@@ -120,9 +101,7 @@ class VoteUseCase(
         } else {
             useCaseScope.launch(dispatchersProvider.workDispatcher) {
                 voteRepository.makeAction(
-                    voteModelToEntityMapper(
-                        request
-                    )
+                    voteModelToEntityMapper(request)
                 )
             }
         }

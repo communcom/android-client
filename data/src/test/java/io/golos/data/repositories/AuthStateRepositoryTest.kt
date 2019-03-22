@@ -2,7 +2,6 @@ package io.golos.data.repositories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber4j.Cyber4J
-
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.dispatchersProvider
 import io.golos.data.logger
@@ -25,11 +24,10 @@ class AuthStateRepositoryTest {
 
     @Test
     fun test() {
-        authStateRepository.makeAction(authStateRepository.authRequest)
-        var authState = authStateRepository.getAuthState.value
+        authStateRepository.makeAction(authStateRepository.allDataRequest)
+        var authState = authStateRepository.getAsLiveData(authStateRepository.allDataRequest).value
 
-
-        authStateRepository.getAuthState.observeForever() {
+        authStateRepository.getAsLiveData(authStateRepository.allDataRequest).observeForever {
             println("$it")
             authState = it
         }

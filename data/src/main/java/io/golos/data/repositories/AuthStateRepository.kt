@@ -11,7 +11,6 @@ import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.CyberUser
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
@@ -32,9 +31,6 @@ class AuthStateRepository(
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
-
-    val authRequest =
-        AuthRequest("fkmiiibuntct".toCyberUser(), "5JyzKR94WqFxqcExLMcakd7SksEqkNDbo2GT4VvdRs4g3XyQrg8")
 
     private val authRequestsLiveData = MutableLiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>>()
     private val authState = MutableLiveData<AuthState>()
@@ -85,8 +81,6 @@ class AuthStateRepository(
     }
 
     override fun makeAction(params: AuthRequest) {
-        if (params == allDataRequest) return
-
         repositoryScope.launch {
             if (authState.value == null) authState.value = AuthState("".toCyberUser(), false)
 
@@ -124,6 +118,6 @@ class AuthStateRepository(
 
     override val allDataRequest: AuthRequest
             by lazy {
-                AuthRequest(CyberUser("stub"), "stub")
+                AuthRequest("fkmiiibuntct".toCyberUser(), "5JyzKR94WqFxqcExLMcakd7SksEqkNDbo2GT4VvdRs4g3XyQrg8")
             }
 }

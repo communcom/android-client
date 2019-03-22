@@ -25,5 +25,5 @@ interface ServiceLocator {
 
     fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase
 
-    val voteUseCase: VoteUseCase
+    fun getVoteUseCase(): VoteUseCase
 }

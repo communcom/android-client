@@ -6,11 +6,11 @@ import io.golos.cyber4j.model.DiscussionTimeSort
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
 import io.golos.domain.model.*
 import io.golos.domain.rules.*
-import kotlinx.coroutines.CoroutineDispatcher
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
@@ -23,8 +23,7 @@ class PostsFeedRepository(
     feedMerger: EntityMerger<FeedEntity<PostEntity>>,
     feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
-    mainDispatcher: CoroutineDispatcher,
-    workerDispatcher: CoroutineDispatcher,
+    dispatchersProvider: DispatchersProvider,
     logger: Logger
 ) :
     AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
@@ -34,8 +33,7 @@ class PostsFeedRepository(
         feedMerger,
         feedUpdateApprover,
         emptyFeedProducer,
-        mainDispatcher,
-        workerDispatcher,
+        dispatchersProvider,
         logger
     ) {
 
@@ -83,13 +81,18 @@ class CommentsFeedRepository(
     feedMerger: EntityMerger<FeedEntity<CommentEntity>>,
     approver: RequestApprover<CommentFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<CommentEntity>>,
-    mainDispatcher: CoroutineDispatcher,
-    workerDispatcher: CoroutineDispatcher,
+    dispatchersProvider: DispatchersProvider,
     logger: Logger
 ) :
     AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
-        postMapper, postMerger, feedMerger, approver, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
+        postMapper,
+        postMerger,
+        feedMerger,
+        approver,
+        emptyFeedProducer,
+        dispatchersProvider,
+        logger
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {

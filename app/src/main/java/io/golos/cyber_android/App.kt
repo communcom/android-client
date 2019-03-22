@@ -11,6 +11,7 @@ import io.golos.cyber_android.locator.ServiceLocatorImpl
  */
 class App : MultiDexApplication() {
     private lateinit var mServiceLocator: ServiceLocator
+    private lateinit var appCore:AppCore
 
 
     override fun onCreate() {
@@ -19,9 +20,10 @@ class App : MultiDexApplication() {
             Fabric.with(this, Crashlytics())
 
         mServiceLocator = ServiceLocatorImpl(this)
-        (mServiceLocator as ServiceLocatorImpl)
-            .authStateRepository.makeAction((mServiceLocator as ServiceLocatorImpl)
-            .authStateRepository.authRequest)//todo stub for testing
+        appCore = AppCore(mServiceLocator as ServiceLocatorImpl)
+        appCore.initialize()
+
+
     }
 
     override fun getSystemService(name: String): Any {

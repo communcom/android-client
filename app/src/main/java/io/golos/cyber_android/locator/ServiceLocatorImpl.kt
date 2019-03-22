@@ -7,17 +7,24 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedFeedViewModel
 import io.golos.data.api.Cyber4jApiService
+import io.golos.data.repositories.AbstractDiscussionsRepository
 import io.golos.data.repositories.AuthStateRepository
 import io.golos.data.repositories.PostsFeedRepository
 import io.golos.data.repositories.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.Repository
+import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.entities.PostEntity
+import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.model.AuthRequest
+import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
+class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, RepositoriesHolder {
 
     private val cyber4j by lazy { Cyber4J() }
 
@@ -60,7 +67,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
             get() = Dispatchers.Default
     }
 
-    private val postFeedRepo by lazy {
+
+    override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>by lazy {
         PostsFeedRepository(
             apiService,
             cyberFeedToEntityMapper,
@@ -69,15 +77,19 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
             feedMerger,
             approver,
             emptyPostFeedProducer,
-            dispatchersProvider.uiDispatcher,
-            dispatchersProvider.workDispatcher,
+            dispatchersProvider,
             logger
         )
     }
 
-    val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
+    override val authRepository: Repository<AuthState, AuthRequest>
+            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger) }
 
-    private val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
+    override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
+            by lazy {
+                VoteRepository(apiService, dispatchersProvider, logger)
+            }
+
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -87,7 +99,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
                         CommunityFeedUseCase(
                             communityId,
-                            postFeedRepo,
+                            postFeedRepository,
                             feedEntityToModelMapper,
                             dispatchersProvider
                         )
@@ -115,7 +127,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
     override fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase {
         return CommunityFeedUseCase(
             communityId,
-            postFeedRepo,
+            postFeedRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
@@ -124,7 +136,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
     override fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase {
         return UserSubscriptionsFeedUseCase(
             user,
-            postFeedRepo,
+            postFeedRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
@@ -133,21 +145,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator {
     override fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase {
         return UserPostFeedUseCase(
             user,
-            postFeedRepo,
+            postFeedRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
     }
 
-    override val voteUseCase: VoteUseCase
-            by lazy {
-                VoteUseCase(
-                    authStateRepository, voteRepo, postFeedRepo,
-                    dispatchersProvider, voteEntityToPostMapper,
-                    voteToEntityMapper
-                )
-            }
-
+    override fun getVoteUseCase() =
+        VoteUseCase(
+            authRepository, voteRepository,
+            dispatchersProvider, voteEntityToPostMapper,
+            voteToEntityMapper
+        )
 
     override val getAppContext: Context
         get() = appContext
