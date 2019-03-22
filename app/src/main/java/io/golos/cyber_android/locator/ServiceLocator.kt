@@ -17,6 +17,8 @@ interface ServiceLocator {
 
     fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory
 
+    fun getUserSubscriptionsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory
+
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase

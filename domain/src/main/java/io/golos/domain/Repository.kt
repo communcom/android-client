@@ -37,6 +37,7 @@ interface Repository<D : Entity, Q : Identifiable> {
     abstract val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
 
 
+
 }
 
 interface DiscussionsFeedRepository<T : Entity, Q : FeedUpdateRequest>

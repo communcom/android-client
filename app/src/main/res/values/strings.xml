@@ -2,7 +2,7 @@
     <string name="app_name">My Application</string>
     <string name="action_settings">Settings</string>
 
-     <!--Main Screen Navigation-->
+    <!--Main Screen Navigation-->
     <string name="feed">Feed</string>
     <string name="communities">Communities</string>
     <string name="notifications">Notifications</string>
@@ -11,4 +11,30 @@
 
     <!--Editor Widget-->
     <string name="editor_widget_caption">What’s new?</string>
+
+    <!--Feed Page-->
+    <string name="hint_search">Search</string>
+    <string name="tab_all">All</string>
+    <string name="tab_my_feed">My feed</string>
+
+    <!--Sorting Widget-->
+    <string name="sort">Sort:</string>
+    <string name="sort_top">Top</string>
+    <string name="sort_new">New</string>
+    <string name="filter_time_24hr">Past 24 hours</string>
+    <string name="filter_time_week">Past week</string>
+    <string name="filter_time_month">Past month</string>
+    <string name="filter_time_year">Past year</string>
+    <string name="filter_time_of_all_time">Of all time</string>
+
+    <!--Post Card-->
+    <string name="hint_add_comment">Add a comment...</string>
+    <string name="post_comments_count_format">%1$s Comments</string>
+    <string name="post_shares_count_format">%1$s Shares</string>
+    <string name="post_time_and_author_format">%1$s by %2$s</string>
+
+    <!--Time Stamps-->
+    <string name="now_happened">Just now</string>
+    <string name="ago">back</string>
+
 </resources>
