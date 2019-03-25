@@ -2,10 +2,8 @@ package io.golos.domain.interactors.feed
 
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.DiscussionsSort
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.PostEntity
+import io.golos.domain.Repository
+import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.model.PostFeedUpdateRequest
@@ -18,9 +16,10 @@ import io.golos.domain.rules.EntityToModelMapper
 class UserSubscriptionsFeedUseCase(
     private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-    feedMapper: EntityToModelMapper<FeedEntity<PostEntity>, PostFeed>,
+    voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
+    feedMapper: EntityToModelMapper<FeedRelatedEntities, PostFeed>,
     dispatchersProvider: DispatchersProvider
-) : AbstractFeedUseCase<UserSubscriptionsFeedUpdateRequest>(postFeedRepository, feedMapper, dispatchersProvider) {
+) : AbstractFeedUseCase<UserSubscriptionsFeedUpdateRequest>(postFeedRepository, voteRepository, feedMapper, dispatchersProvider) {
 
 
     override val baseFeedUpdateRequest: UserSubscriptionsFeedUpdateRequest

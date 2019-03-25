@@ -2,9 +2,11 @@ package io.golos.domain.interactors.feed
 
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.Repository
 import io.golos.domain.entities.DiscussionsSort
-import io.golos.domain.entities.FeedEntity
+import io.golos.domain.entities.FeedRelatedEntities
 import io.golos.domain.entities.PostEntity
+import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.UpdateOption
@@ -18,9 +20,15 @@ import io.golos.domain.rules.EntityToModelMapper
 class CommunityFeedUseCase(
     private val communityId: CommunityId,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-    feedMapper: EntityToModelMapper<FeedEntity<PostEntity>, PostFeed>,
+    voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
+    feedMapper: EntityToModelMapper<FeedRelatedEntities, PostFeed>,
     dispatchersProvider: DispatchersProvider
-) : AbstractFeedUseCase<CommunityFeedUpdateRequest>(postFeedRepository, feedMapper, dispatchersProvider) {
+) : AbstractFeedUseCase<CommunityFeedUpdateRequest>(
+    postFeedRepository,
+    voteRepository,
+    feedMapper,
+    dispatchersProvider
+) {
 
 
     override val baseFeedUpdateRequest: CommunityFeedUpdateRequest

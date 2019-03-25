@@ -2,6 +2,7 @@ package io.golos.cyber_android.locator
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
@@ -14,6 +15,8 @@ import io.golos.domain.interactors.model.CommunityId
  */
 interface ServiceLocator {
     val getAppContext: Context
+
+    val dispatchersProvider: DispatchersProvider
 
     fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory
 

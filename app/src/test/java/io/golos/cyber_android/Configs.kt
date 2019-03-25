@@ -32,7 +32,7 @@ val cyberPostToEntityMapper = CyberPostToEntityMapper()
 val voteToEntityMapper = VoteRequestModelToEntityMapper()
 val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
-val postEntityToModelMapper = PostEntityToModelMapper()
+val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
 val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
 val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
@@ -82,6 +82,6 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = authStateRepository
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
         get() = voteRepo
-})
+}, dispatchersProvider)
 
 

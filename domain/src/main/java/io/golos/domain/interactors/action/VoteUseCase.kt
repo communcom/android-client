@@ -9,6 +9,7 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.UseCase
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.map
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.QueryResult
@@ -29,14 +30,14 @@ class VoteUseCase(
     private val dispatchersProvider: DispatchersProvider,
     private val voteEntityToModelMapper: EntityToModelMapper<VoteRequestEntity, VoteRequestModel>,
     private val voteModelToEntityMapper: ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
-) : UseCase<Map<VoteRequestModel, QueryResult<VoteRequestModel>>> {
+) : UseCase<Map<DiscussionIdModel, QueryResult<VoteRequestModel>>> {
 
     private val useCaseScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
     private val observer = Observer<Any> {}
     private val mediator = MediatorLiveData<Any>()
     private val voteReadiness = MutableLiveData<Boolean>()
-    private val votingStatesLiveData = MutableLiveData<Map<VoteRequestModel, QueryResult<VoteRequestModel>>>()
+    private val votingStatesLiveData = MutableLiveData<Map<DiscussionIdModel, QueryResult<VoteRequestModel>>>()
 
     val getVotingRediness: LiveData<Boolean> = voteReadiness
 
@@ -50,30 +51,9 @@ class VoteUseCase(
             if (voteStates == null) return@addSource
             useCaseScope.launch {
                 val newVoteStateMap = withContext(dispatchersProvider.workDispatcher) {
-                    val currentVotingStates = votingStatesLiveData.value.orEmpty().toMutableMap()
-
-                    voteStates.forEach { mapEntry ->
-                        val id = mapEntry.key as VoteRequestEntity.Id
-                        val queryResult = mapEntry.value
-
-                        val oldVotingRequestStateKey =
-                            currentVotingStates.keys.find {
-                                it.discussionIdEntity.refBlockNum == id.discussionIdEntity.refBlockNum
-                                        && queryResult.originalQuery.power == it.power
-                            }
-                        if (oldVotingRequestStateKey == null || !currentVotingStates.contains(oldVotingRequestStateKey)) {
-                            val voteModel = voteEntityToModelMapper(queryResult.originalQuery)
-                            currentVotingStates += (voteModel to queryResult.map(voteModel))
-                        } else {
-                            val oldValue = currentVotingStates[oldVotingRequestStateKey]!!
-
-                            if (oldValue::class.java != queryResult::class.java) {
-                                val voteModel = voteEntityToModelMapper(queryResult.originalQuery)
-                                currentVotingStates += (voteModel to queryResult.map(voteModel))
-                            }
-                        }
-                    }
-                    currentVotingStates
+                    voteStates.values
+                        .map { it.map(voteEntityToModelMapper(it.originalQuery)) }
+                        .associateBy { it.originalQuery.discussionIdEntity }
                 }
 
                 votingStatesLiveData.value = newVoteStateMap
@@ -94,10 +74,11 @@ class VoteUseCase(
     fun vote(request: VoteRequestModel) {
         if (voteReadiness.value != true) {
             System.err.println("cannot vote yet, waiting for auth to complete")
-            votingStatesLiveData.value = votingStatesLiveData.value.orEmpty() + (request to QueryResult.Error(
-                IllegalStateException("user not authed yet"),
-                request
-            ))
+            votingStatesLiveData.value =
+                votingStatesLiveData.value.orEmpty() + (request.discussionIdEntity to QueryResult.Error(
+                    IllegalStateException("user not authed yet"),
+                    request
+                ))
         } else {
             useCaseScope.launch(dispatchersProvider.workDispatcher) {
                 voteRepository.makeAction(
@@ -108,6 +89,6 @@ class VoteUseCase(
     }
 
 
-    override val getAsLiveData: LiveData<Map<VoteRequestModel, QueryResult<VoteRequestModel>>>
+    override val getAsLiveData: LiveData<Map<DiscussionIdModel, QueryResult<VoteRequestModel>>>
         get() = votingStatesLiveData
 }

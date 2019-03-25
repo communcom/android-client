@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.feedEntityToModelMapper
 import io.golos.cyber_android.feedRepository
+import io.golos.cyber_android.voteRepo
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
@@ -27,12 +28,14 @@ class UserFeedUseCaseTest {
     val case = UserPostFeedUseCase(
         CyberUser("tst3vtfkwvzw"),
         feedRepository,
+        voteRepo,
         feedEntityToModelMapper,
         dispatchersProvider
     )
     val communityFeedUseCase = CommunityFeedUseCase(
         CommunityId("gls"),
         feedRepository,
+        voteRepo,
         feedEntityToModelMapper,
         dispatchersProvider
     )

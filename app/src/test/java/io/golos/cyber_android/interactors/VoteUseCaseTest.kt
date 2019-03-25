@@ -8,12 +8,12 @@ import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.model.CommunityFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -35,7 +35,7 @@ class VoteUseCaseTest {
             voteToEntityMapper
         )
 
-    private val postRequest = CommunityFeedUpdateRequest("gls", 20, DiscussionsSort.FROM_NEW_TO_OLD)
+    private val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD)
 
     @Before
     fun before() {
@@ -59,27 +59,54 @@ class VoteUseCaseTest {
 
         mediator.addSource(authStateRepository.getAsLiveData(authStateRepository.allDataRequest)) {
             if (it?.isUserLoggedIn == true && feed?.discussions?.isEmpty() == false) {
-                launch {
-                    val posts = feed!!.discussions
-                    val firstPost = postEntityToModelMapper(posts.first())
-
-                    voteUseCase.vote(
-                        VoteRequestModel.VoteForPostRequest(
-                            (Math.random() * 10_000).toShort(),
-                            firstPost.contentId
-                        )
+                val firstPost = feed!!.discussions.first().contentId
+                val firstPostId = DiscussionIdModel(firstPost.userId, firstPost.permlink, firstPost.refBlockNum)
+                voteUseCase.vote(
+                    VoteRequestModel.VoteForPostRequest(
+                        (Math.random() * 10_000).toShort(),
+                        firstPostId
                     )
-                }
+                )
             }
         }
 
-        var map: Map<VoteRequestModel, QueryResult<VoteRequestModel>>? = null
-
+        var counter = -1
         mediator.addSource(voteUseCase.getAsLiveData) {
-            map = it
-            println(map)
+            counter++
+            println(it)
+            if (counter == 0) {
+                return@addSource
+            } else {
+                val item = it.values.first()
+
+                assertTrue(it.size == 1)
+
+                if (counter % 2 == 0) {
+                    assertTrue(item is QueryResult.Loading)
+                } else {
+                    assertTrue(item is QueryResult.Success)
+                }
+            }
+
+
         }
 
+        delay(3_000)
+
         assertTrue(feed!!.discussions.first().votes.hasUpVote)
+
+
+        val firstPost = feed!!.discussions.first().contentId
+        val firstPostId = DiscussionIdModel(firstPost.userId, firstPost.permlink, firstPost.refBlockNum)
+        voteUseCase.vote(
+            VoteRequestModel.VoteForPostRequest(
+                (Math.random() * -10_000).toShort(),
+                firstPostId
+            )
+        )
+
+        delay(3_000)
+
+        assertTrue(feed!!.discussions.first().votes.hasDownVote)
     }
 }

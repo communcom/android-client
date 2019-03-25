@@ -36,7 +36,11 @@ class VoteRepository(
     override fun makeAction(params: VoteRequestEntity) {
         repositoryScope.launch {
             try {
-                votingStates.value = votingStates.value.orEmpty() + (params.id to QueryResult.Loading(params))
+                val oldVotingStates = getCurrentValue()
+                val loadingPair = params.id to QueryResult.Loading(params)
+
+                votingStates.value = oldVotingStates + loadingPair
+
                 withContext(dispatchersProvider.workDispatcher) {
                     voteApi.vote(
                         params.discussionIdEntity.userId.toCyberName(),
@@ -45,12 +49,12 @@ class VoteRepository(
                         params.power
                     )
                 }
-                lastSuccessFullyVotedItem.value = params
                 delay(2_000)
-                votingStates.value = votingStates.value.orEmpty() + (params.id to QueryResult.Success(params))
+                lastSuccessFullyVotedItem.value = params
+                votingStates.value = getCurrentValue() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
-                votingStates.value = votingStates.value.orEmpty() + (params.id to QueryResult.Error(e, params))
+                votingStates.value = getCurrentValue() + (params.id to QueryResult.Error(e, params))
                 logger(e)
             }
 
@@ -59,6 +63,8 @@ class VoteRepository(
             jobsMap[params.id] = job
         }
     }
+
+    private fun getCurrentValue() = votingStates.value.orEmpty()
 
     override val allDataRequest: VoteRequestEntity
             by lazy {

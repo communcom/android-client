@@ -1,6 +1,7 @@
 package io.golos.cyber_android.locator
 
 import io.golos.data.repositories.AbstractDiscussionsRepository
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.PostEntity

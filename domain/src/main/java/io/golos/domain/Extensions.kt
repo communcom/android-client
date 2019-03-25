@@ -3,7 +3,9 @@ package io.golos.domain
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import io.golos.domain.interactors.model.ElapsedTime
 import io.golos.domain.model.QueryResult
+import java.util.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
@@ -19,3 +21,29 @@ fun <Q, T> QueryResult<Q>.map(param: T) =
         is QueryResult.Error<Q> -> QueryResult.Error(this.error, param)
         is QueryResult.Loading<Q> -> QueryResult.Loading(param)
     }
+
+
+internal fun Date.asElapsedTime(): ElapsedTime {
+    val fromTimeStamp = this.time
+
+    return fromTimeStamp.minutesElapsedFromTimeStamp().let { elapsedMinutesFromPostCreation ->
+        val hoursElapsed = elapsedMinutesFromPostCreation / 60
+        when {
+            elapsedMinutesFromPostCreation < 60 -> ElapsedTime(elapsedMinutesFromPostCreation, 0, 0)
+            hoursElapsed < 24 -> ElapsedTime(elapsedMinutesFromPostCreation, hoursElapsed, 0)
+            else -> {
+                val daysAgo = Math.round(hoursElapsed.toDouble() / 24)
+                ElapsedTime(elapsedMinutesFromPostCreation, hoursElapsed, daysAgo.toInt())
+            }
+        }
+    }
+}
+
+internal fun Long.minutesElapsedFromTimeStamp(): Int {
+    val currentTime = System.currentTimeMillis() - TimeZone.getDefault().getOffset(System.currentTimeMillis())
+    val dif = currentTime - this
+    val hour = 1000 * 60
+    val hoursAgo = dif / hour
+    return hoursAgo.toInt()
+}
+

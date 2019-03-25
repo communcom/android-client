@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.feedEntityToModelMapper
 import io.golos.cyber_android.feedRepository
+import io.golos.cyber_android.voteRepo
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.model.PostFeed
@@ -24,6 +25,7 @@ class UserSubscriptionsCaseTest {
     val case = UserSubscriptionsFeedUseCase(
         CyberUser("destroyer2k"),
         feedRepository,
+        voteRepo,
         feedEntityToModelMapper,
         dispatchersProvider
     )

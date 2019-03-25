@@ -64,13 +64,18 @@ data class ContentBodyModel(
     val full: String?
 ) : Model
 
-data class DiscussionMetadataModel(val time: Date) : Model
+data class DiscussionMetadataModel(val time: Date, val elapsedFormCreation: ElapsedTime) : Model
 data class DiscussionPayoutModel(val rShares: BigInteger) : Model
 data class DiscussionVotesModel(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
     val upCount: Int,
-    val downCount: Int
+    val downCount: Int,
+    val hasUpVoteProgress: Boolean,
+    val hasDownVotingProgress: Boolean,
+    val hasVoteCancelProgress: Boolean
 ) : Model
+
+data class ElapsedTime(val elapsedMinutes: Int, val elapsedHours: Int, val elapsedDays: Int)
 
 data class ParentIdModel(val userId: String, val permlink: String, val refBlockNum: Int) : Model

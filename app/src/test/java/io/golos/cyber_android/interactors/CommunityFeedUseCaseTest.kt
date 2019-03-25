@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.feedEntityToModelMapper
 import io.golos.cyber_android.feedRepository
+import io.golos.cyber_android.voteRepo
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostFeed
@@ -25,6 +26,7 @@ class CommunityFeedUseCaseTest {
     val case = CommunityFeedUseCase(
         CommunityId("gls"),
         feedRepository,
+        voteRepo,
         feedEntityToModelMapper,
         dispatchersProvider
     )

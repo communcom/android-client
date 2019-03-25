@@ -42,7 +42,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val voteToEntityMapper = VoteRequestModelToEntityMapper()
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
-    private val postEntityToModelMapper = PostEntityToModelMapper()
+    private val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
     private val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
@@ -60,7 +60,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    private val dispatchersProvider = object : DispatchersProvider {
+   override val dispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
             get() = Dispatchers.Main
         override val workDispatcher: CoroutineDispatcher
@@ -97,12 +97,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
-                        CommunityFeedUseCase(
-                            communityId,
-                            postFeedRepository,
-                            feedEntityToModelMapper,
-                            dispatchersProvider
-                        )
+                        getCommunityFeedUseCase(communityId)
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -128,6 +123,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return CommunityFeedUseCase(
             communityId,
             postFeedRepository,
+            voteRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
@@ -137,6 +133,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return UserSubscriptionsFeedUseCase(
             user,
             postFeedRepository,
+            voteRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
@@ -146,6 +143,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return UserPostFeedUseCase(
             user,
             postFeedRepository,
+            voteRepository,
             feedEntityToModelMapper,
             dispatchersProvider
         )
