@@ -106,7 +106,9 @@ class CommunityFeedUseCaseTest {
                 1 -> {
                     if (!firstPost.votes.hasUpVoteProgress) fail("post voting update was not displayed on model")
                 }
-                else -> if (firstPost.votes.hasUpVoteProgress) fail("post voting update was halted on model")
+                2 -> if (firstPost.votes.hasUpVoteProgress) fail("post voting update was halted on model")
+                3 -> if (!firstPost.votes.hasDownVotingProgress) fail("post downVoting update was not displayed on model")
+                4 -> if (firstPost.votes.hasDownVotingProgress) fail("post downVoting was halter")
             }
 
         }
@@ -114,6 +116,13 @@ class CommunityFeedUseCaseTest {
         delay(3_000)
 
         assertTrue(postFeed!!.items.first().votes.hasUpVote)
+
+
+        voteCase.vote(VoteRequestModel.VoteForPostRequest(-1_000, firstPost.contentId))
+
+        delay(3_000)
+
+        assertTrue(postFeed!!.items.first().votes.hasDownVote)
 
         assertTrue("last updated chunk update fails", lastUpdatedChunk?.size == 20)
     }

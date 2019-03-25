@@ -20,10 +20,7 @@ import io.golos.domain.model.Identifiable
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-19.
@@ -46,43 +43,40 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
 
     protected abstract val baseFeedUpdateRequest: Q
 
-    override val getAsLiveData: LiveData<PostFeed>
-            by lazy { postFeedLiveData.distinctUntilChanged() }
+    override val getAsLiveData: LiveData<PostFeed> = postFeedLiveData.distinctUntilChanged()
 
-    val getLastFetchedChunk: LiveData<List<PostModel>>
-            by lazy { lastFetchedChunkLiveData.distinctUntilChanged() }
+    val getLastFetchedChunk: LiveData<List<PostModel>> = lastFetchedChunkLiveData.distinctUntilChanged()
 
     val feedUpdateState: LiveData<io.golos.domain.model.QueryResult<UpdateOption>> =
         feedUpdateLiveData.distinctUntilChanged()
+
+    private var lastFeedJob: Job? = null
 
     abstract fun requestFeedUpdate(
         limit: Int = 20,
         option: UpdateOption
     )
 
-    protected fun onFeedRelatedDataChanges(
-        feedEntity: FeedEntity<PostEntity>?,
-        votes: Map<Identifiable.Id, QueryResult<VoteRequestEntity>>?
-    ) {
+    protected fun onFeedRelatedDataChanges() {
+        lastFeedJob?.cancel()
+        lastFeedJob = useCaseScope.launch {
+            val feedEntity = getLastFeedData()
+            val votes = getLastVoteData()
 
+            if (feedEntity == null) {
+                postFeedLiveData.value = PostFeed(emptyList())
+                lastFetchedChunkLiveData.value = listOf()
+                return@launch
+            }
+            //TODO empty feed state
 
-        if (feedEntity == null) {
-            postFeedLiveData.value = PostFeed(emptyList())
-            lastFetchedChunkLiveData.value = listOf()
-        }
-        //TODO empty feed state
-
-        else useCaseScope.launch {
             val resultFeed = withContext(dispatchersProvider.workDispatcher) {
                 feedMapper(
                     FeedRelatedEntities(
                         feedEntity,
-                        votes.orEmpty()
+                        votes
                     )
                 )
-            }
-            if (votes != null) {
-                println("onFeedRelatedDataChanges $votes")
             }
 
             val lastFeedItems = postFeedLiveData.value?.items.orEmpty()
@@ -96,16 +90,24 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
         }
     }
 
+    private fun getLastFeedData(): FeedEntity<PostEntity>? {
+        return postFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
+    }
+
+    private fun getLastVoteData(): Map<Identifiable.Id, QueryResult<VoteRequestEntity>> {
+        return voteRepository.updateStates.value.orEmpty()
+    }
+
     override fun subscribe() {
 
         mediatorLiveData.addSource(postFeedRepository.getAsLiveData(baseFeedUpdateRequest))
-        { feedEntity: FeedEntity<PostEntity>? ->
-            onFeedRelatedDataChanges(feedEntity, voteRepository.updateStates.value)
+        {
+            onFeedRelatedDataChanges()
         }
 
         mediatorLiveData.addSource(voteRepository.updateStates)
-        { voteStates ->
-            onFeedRelatedDataChanges(postFeedRepository.getAsLiveData(baseFeedUpdateRequest).value, voteStates)
+        {
+            onFeedRelatedDataChanges()
         }
 
         mediatorLiveData.addSource(postFeedRepository.updateStates) { updatesMap ->
