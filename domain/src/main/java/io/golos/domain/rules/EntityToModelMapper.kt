@@ -11,6 +11,7 @@ import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
+import java.util.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
@@ -20,15 +21,15 @@ interface EntityToModelMapper<E : Entity, M : Model> {
     suspend operator fun invoke(entity: E): M
 }
 
-class PostEntityEntitiesToModelMapper() :
+class PostEntityEntitiesToModelMapper :
     EntityToModelMapper<PostRelatedEntities, PostModel> {
-    private val cashedValues = HashMap<PostRelatedEntities, PostModel>()
+    private val cashedValues = Collections.synchronizedMap(HashMap<PostRelatedEntities, PostModel>())
 
     override suspend fun invoke(entity: PostRelatedEntities): PostModel {
         val post = entity.postEntity
         val voteEntity = entity.voteStateEntity
 
-        return cashedValues.getOrPut(entity) {
+        val out = cashedValues.getOrPut(entity) {
             PostModel(
                 DiscussionIdModel(post.contentId.userId, post.contentId.permlink, post.contentId.refBlockNum),
                 DiscussionAuthorModel(post.author.userId, post.author.username),
@@ -52,43 +53,14 @@ class PostEntityEntitiesToModelMapper() :
                 DiscussionMetadataModel(post.meta.time, post.meta.time.asElapsedTime())
             )
         }
-    }
-}
-
-
-class PostEntityToModelMapper : EntityToModelMapper<PostEntity, PostModel> {
-    private val cashedValues = HashMap<PostEntity, PostModel>()
-
-    override suspend fun invoke(entity: PostEntity): PostModel {
-        return cashedValues.getOrPut(entity) {
-            PostModel(
-                DiscussionIdModel(entity.contentId.userId, entity.contentId.permlink, entity.contentId.refBlockNum),
-                DiscussionAuthorModel(entity.author.userId, entity.author.username),
-                CommunityModel(CommunityId(entity.community.id), entity.community.name, entity.community.avatarUrl),
-                DiscussionContentModel(
-                    entity.content.title,
-                    ContentBodyModel(entity.content.body.preview, entity.content.body.full),
-                    entity.content.metadata
-                ),
-                DiscussionVotesModel(
-                    entity.votes.hasUpVote,
-                    entity.votes.hasDownVote,
-                    entity.votes.upCount,
-                    entity.votes.downCount,
-                    false, false, false
-                ),
-                DiscussionCommentsCountModel(entity.comments.count),
-                DiscussionPayoutModel(entity.payout.rShares),
-                DiscussionMetadataModel(entity.meta.time, ElapsedTime(0, 0, 0))
-            )
-        }
+        return out
     }
 }
 
 class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<PostRelatedEntities, PostModel>) :
     EntityToModelMapper<FeedRelatedEntities, PostFeed> {
 
-    private val cash = HashMap<PostEntity, PostRelatedEntities>()
+    private val cash = Collections.synchronizedMap(HashMap<PostEntity, PostRelatedEntities>())
 
     override suspend fun invoke(entity: FeedRelatedEntities): PostFeed {
         val posts = entity.feed.discussions
@@ -108,7 +80,7 @@ class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<Po
 }
 
 class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
-    private val cash = HashMap<VoteRequestEntity, VoteRequestModel>()
+    private val cash = Collections.synchronizedMap(HashMap<VoteRequestEntity, VoteRequestModel>())
 
     override suspend fun invoke(entity: VoteRequestEntity): VoteRequestModel {
         return cash.getOrPut(entity) {

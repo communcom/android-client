@@ -3,12 +3,14 @@ package io.golos.domain.rules
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.model.VoteRequestModel
+import java.util.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
  */
 class VoteRequestModelToEntityMapper : ModelToEntityMapper<VoteRequestModel, VoteRequestEntity> {
-    private val cash = HashMap<VoteRequestModel, VoteRequestEntity>()
+    private val cash = Collections.synchronizedMap(HashMap<VoteRequestModel, VoteRequestEntity>())
+
     override suspend fun invoke(model: VoteRequestModel): VoteRequestEntity {
         return cash.getOrPut(model) {
             return when (model) {

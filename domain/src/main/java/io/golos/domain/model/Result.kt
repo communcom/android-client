@@ -3,14 +3,60 @@ package io.golos.domain.model
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
-sealed class Result<T> {
-    data class Success<T>(val data: T) : Result<T>()
-    data class Loading<T>(val data: T) : Result<T>()
-    data class Error<T>(val error: Throwable, val data: T?) : Result<T>()
-}
+
 
 sealed class QueryResult<Q>(open val originalQuery: Q) {
-    data class Success<Q>(override val originalQuery: Q) : QueryResult<Q>(originalQuery)
-    data class Loading<Q>(override val originalQuery: Q) : QueryResult<Q>(originalQuery)
-    data class Error<Q>(val error: Throwable, override val originalQuery: Q) : QueryResult<Q>(originalQuery)
+
+    class Success<Q>(originalQuery: Q) : QueryResult<Q>(originalQuery){
+
+        override fun toString(): String {
+            return "QueryResult.Success(originalQuery = $originalQuery)"
+        }
+    }
+    class Loading<Q>(originalQuery: Q) : QueryResult<Q>(originalQuery){
+        override fun toString(): String {
+            return "QueryResult.Loading(originalQuery = $originalQuery)"
+        }
+    }
+    class Error<Q>(val error: Throwable, originalQuery: Q) : QueryResult<Q>(originalQuery) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Error<*>
+
+            if (error != other.error) return false
+            if (originalQuery != other.originalQuery) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = error.hashCode()
+            result = 31 * result + (originalQuery?.hashCode() ?: 0)
+            return result
+        }
+
+        override fun toString(): String {
+            return "QueryResult.Error(error=$error)"
+        }
+
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as QueryResult<*>
+
+        if (originalQuery != other.originalQuery) return false
+
+        return true
+    }
+
+
+    override fun hashCode(): Int {
+        return originalQuery?.hashCode() ?: 0
+    }
+
 }

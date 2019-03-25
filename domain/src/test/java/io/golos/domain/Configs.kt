@@ -12,7 +12,7 @@ internal val cyber4j by lazy { Cyber4J() }
 
 
 internal val cyberPostToEntityMapper = CyberPostToEntityMapper()
-internal val postEntityToModelMapper = PostEntityToModelMapper()
+internal val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
 
 internal val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 internal val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)

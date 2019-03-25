@@ -47,10 +47,10 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
     protected abstract val baseFeedUpdateRequest: Q
 
     override val getAsLiveData: LiveData<PostFeed>
-        get() = postFeedLiveData.distinctUntilChanged()
+            by lazy { postFeedLiveData.distinctUntilChanged() }
 
     val getLastFetchedChunk: LiveData<List<PostModel>>
-        get() = lastFetchedChunkLiveData.distinctUntilChanged()
+            by lazy { lastFetchedChunkLiveData.distinctUntilChanged() }
 
     val feedUpdateState: LiveData<io.golos.domain.model.QueryResult<UpdateOption>> =
         feedUpdateLiveData.distinctUntilChanged()
@@ -64,6 +64,7 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
         feedEntity: FeedEntity<PostEntity>?,
         votes: Map<Identifiable.Id, QueryResult<VoteRequestEntity>>?
     ) {
+
 
         if (feedEntity == null) {
             postFeedLiveData.value = PostFeed(emptyList())
@@ -80,6 +81,9 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
                     )
                 )
             }
+            if (votes != null) {
+                println("onFeedRelatedDataChanges $votes")
+            }
 
             val lastFeedItems = postFeedLiveData.value?.items.orEmpty()
             val resultFeedItems = resultFeed.items
@@ -87,7 +91,6 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
             postFeedLiveData.value = resultFeed
 
             if (feedEntity.pageId == null) lastFetchedChunkLiveData.value = resultFeedItems
-
             else if (lastFeedItems.size != resultFeed.items.size) lastFetchedChunkLiveData.value =
                 resultFeedItems - lastFeedItems
         }
@@ -138,6 +141,7 @@ abstract class AbstractFeedUseCase<Q : PostFeedUpdateRequest>(
     override fun unsubscribe() {
         mediatorLiveData.removeSource(postFeedRepository.getAsLiveData(baseFeedUpdateRequest))
         mediatorLiveData.removeSource(voteRepository.updateStates)
-        postFeedRepository.updateStates.removeObserver(observer)
+        mediatorLiveData.removeSource(postFeedRepository.updateStates)
+        mediatorLiveData.removeObserver(observer)
     }
 }
