@@ -126,18 +126,46 @@
             android:layout_height="@dimen/size_post_card_comment_buttons"
             android:background="@drawable/bg_post_card_upvote_button"
             app:srcCompat="@drawable/ic_upvote"
+            android:tint="@color/tint_upvote_button"
             app:layout_constraintStart_toStartOf="@+id/postVoteStatus"
             android:layout_marginTop="@dimen/margin_top_post_card_comment"
             app:layout_constraintTop_toBottomOf="@+id/postVoteStatus"
             android:layout_marginBottom="@dimen/margin_bottom_post_card_comment"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <ProgressBar
+            android:id="@+id/postUpvoteProgress"
+            android:visibility="gone"
+            android:indeterminateOnly="true"
+            android:layout_width="@dimen/size_post_card_comment_buttons"
+            android:layout_height="@dimen/size_post_card_comment_buttons"
+            android:background="@drawable/bg_post_card_upvote_button"
+            app:layout_constraintStart_toStartOf="@+id/postVoteStatus"
+            android:layout_marginTop="@dimen/margin_top_post_card_comment"
+            app:layout_constraintTop_toBottomOf="@+id/postVoteStatus"
+            android:layout_marginBottom="@dimen/margin_bottom_post_card_comment"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
     <ImageButton
             android:id="@+id/postDownvote"
             android:layout_width="@dimen/size_post_card_comment_buttons"
             android:layout_height="@dimen/size_post_card_comment_buttons"
             android:background="@drawable/bg_post_card_downvote_button"
+            android:tint="@color/tint_upvote_button"
             app:srcCompat="@drawable/ic_downvote"
+            app:layout_constraintStart_toEndOf="@+id/postUpvote"
+            android:layout_marginStart="@dimen/margin_horizontal_post_card_downvote"
+            app:layout_constraintTop_toTopOf="@+id/postUpvote"
+            app:layout_constraintBottom_toBottomOf="@+id/postUpvote"/>
+
+    <ProgressBar
+            android:id="@+id/postDownvoteProgress"
+            android:visibility="gone"
+            android:indeterminateOnly="true"
+            android:layout_width="@dimen/size_post_card_comment_buttons"
+            android:layout_height="@dimen/size_post_card_comment_buttons"
+            android:background="@drawable/bg_post_card_downvote_button"
             app:layout_constraintStart_toEndOf="@+id/postUpvote"
             android:layout_marginStart="@dimen/margin_horizontal_post_card_downvote"
             app:layout_constraintTop_toTopOf="@+id/postUpvote"

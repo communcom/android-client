@@ -53,6 +53,14 @@ open class MyFeedFragment :
         feedList.adapter = HeadersPostsAdapter(
             PostsDiffCallback(),
             object : PostsAdapter.Listener {
+                override fun onUpvoteClick(post: PostModel) {
+                    viewModel.onVote(post, 10_000)
+                }
+
+                override fun onDownvoteClick(post: PostModel) {
+                    viewModel.onVote(post, -10_000)
+                }
+
                 override fun onPostClick(post: PostModel) {
                     Toast.makeText(
                         requireContext(),

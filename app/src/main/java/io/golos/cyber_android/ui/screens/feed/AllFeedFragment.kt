@@ -25,9 +25,7 @@ import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.CommunityFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.model.UserSubscriptionsFeedUpdateRequest
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**
@@ -65,12 +63,21 @@ class AllFeedFragment :
         feedList.adapter = HeadersPostsAdapter(
             PostsDiffCallback(),
             object : PostsAdapter.Listener {
+                override fun onUpvoteClick(post: PostModel) {
+                    viewModel.onVote(post, 10_000)
+                }
+
+                override fun onDownvoteClick(post: PostModel) {
+                    viewModel.onVote(post, -10_000)
+                }
+
                 override fun onPostClick(post: PostModel) {
                     Toast.makeText(
                         requireContext(),
                         "post clicked post = ${post.contentId}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    (feedList.adapter as HeadersPostsAdapter).notifyItemChanged(0)
                 }
 
                 override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {
