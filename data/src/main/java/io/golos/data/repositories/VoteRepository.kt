@@ -33,13 +33,17 @@ class VoteRepository(
         return lastSuccessFullyVotedItem
     }
 
+    init {
+        votingStates.value = Collections.synchronizedMap(HashMap())
+    }
+
     override fun makeAction(params: VoteRequestEntity) {
         repositoryScope.launch {
             try {
                 val oldVotingStates = getCurrentValue()
                 val loadingPair = params.id to QueryResult.Loading(params)
 
-                votingStates.value = oldVotingStates + loadingPair
+                votingStates.value = oldVotingStates  + loadingPair
 
                 withContext(dispatchersProvider.workDispatcher) {
                     voteApi.vote(
@@ -49,7 +53,7 @@ class VoteRepository(
                         params.power
                     )
                 }
-                delay(2_000)
+                delay(3_000)
                 votingStates.value = getCurrentValue() + (params.id to QueryResult.Success(params))
                 lastSuccessFullyVotedItem.value = params
 
