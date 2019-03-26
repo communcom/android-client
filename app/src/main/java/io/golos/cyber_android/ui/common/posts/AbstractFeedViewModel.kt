@@ -53,6 +53,7 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     private var page = 0L
     private var pendingVotesRequestCount = 0
     private val observer = Observer<Any> {}
+    private val pendingVotes = mutableListOf<DiscussionIdModel>()
 
     private val feedLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<PostModel>, Any> {
         if (page == 0L) {
@@ -122,12 +123,10 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     }
 
     fun requestRefresh() {
-        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
         page = 0
         dataSourceFactory.latestDataSource?.invalidate()
     }
 
-    val pendingVotes = mutableListOf<DiscussionIdModel>()
 
     fun onVote(post: PostModel, power: Short) {
         val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
