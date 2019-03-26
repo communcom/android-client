@@ -1,5 +1,6 @@
 package io.golos.domain.rules
 
+import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
 
 /**
@@ -8,5 +9,11 @@ import io.golos.domain.model.PostFeedUpdateRequest
 class FeedUpdateApprover : RequestApprover<PostFeedUpdateRequest> {
     override fun approve(param: PostFeedUpdateRequest): Boolean {
         return param.pageKey != CyberFeedToEntityMapper.feedEndMark
+    }
+}
+
+class CommentUpdateApprover : RequestApprover<CommentFeedUpdateRequest> {
+    override fun approve(param: CommentFeedUpdateRequest): Boolean {
+        return param.pageKey != CyberCommentsToEntityMapper.feedEndMark
     }
 }

@@ -138,6 +138,46 @@ data class UserPostsUpdateRequest(
     }
 }
 
+data class CommentsOfApPostUpdateRequest(
+    val user: String,
+    val permlink: String,
+    val refBlockNum: Long,
+    val limit: Int,
+    val sort: DiscussionsSort,
+    val sequenceKey: String? = null
+) : CommentFeedUpdateRequest() {
+
+    override val id: Identifiable.Id
+        get() = Id()
+    override val pageKey: String?
+        get() = sequenceKey
+
+    inner class Id : Identifiable.Id() {
+        val _user = user
+        val _permlink = permlink
+        val _refBlockNum = refBlockNum
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Id
+
+            if (_user != other._user) return false
+            if (_permlink != other._permlink) return false
+            if (_refBlockNum != other._refBlockNum) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = _user.hashCode()
+            result = 31 * result + _permlink.hashCode()
+            result = 31 * result + _refBlockNum.hashCode()
+            return result
+        }
+    }
+}
+
 
 
 

@@ -1,5 +1,6 @@
 package io.golos.domain.rules
 
+import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
 
@@ -8,6 +9,12 @@ import io.golos.domain.entities.PostEntity
  */
 class EmptyPostFeedProducer : EmptyEntityProducer<FeedEntity<PostEntity>> {
     override fun invoke(): FeedEntity<PostEntity> {
+        return FeedEntity(emptyList(), null, "")
+    }
+}
+
+class EmptyCommentFeedProducer : EmptyEntityProducer<FeedEntity<CommentEntity>> {
+    override fun invoke(): FeedEntity<CommentEntity> {
         return FeedEntity(emptyList(), null, "")
     }
 }

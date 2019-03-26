@@ -64,13 +64,8 @@ class PostsFeedRepository(
         }
     }
 
-    private fun DiscussionsSort.toDiscussionSort() = when (this) {
-        DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
-        DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
-    }
-
-    override val allDataRequest: PostFeedUpdateRequest
-        get() = CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
+    override val allDataRequest: PostFeedUpdateRequest =
+        CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
 }
 
 class CommentsFeedRepository(
@@ -100,9 +95,23 @@ class CommentsFeedRepository(
     }
 
     override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return when (updateRequest) {
+            is CommentsOfApPostUpdateRequest -> apiService.getCommentsOfPost(
+                CyberName(updateRequest.user),
+                updateRequest.permlink,
+                updateRequest.refBlockNum,
+                updateRequest.limit,
+                updateRequest.sort.toDiscussionSort(),
+                updateRequest.sequenceKey
+            )
+        }
     }
 
-    override val allDataRequest: CommentFeedUpdateRequest
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    override val allDataRequest: CommentFeedUpdateRequest =
+        CommentsOfApPostUpdateRequest("stub", "stub", Long.MIN_VALUE, 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
+}
+
+internal fun DiscussionsSort.toDiscussionSort() = when (this) {
+    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
+    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
 }
