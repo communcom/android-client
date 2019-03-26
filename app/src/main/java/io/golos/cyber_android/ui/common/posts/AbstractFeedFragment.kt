@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter
+import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.domain.model.PostFeedUpdateRequest
 
 abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : AbstractFeedViewModel<T>> : Fragment() {
@@ -23,15 +24,16 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
         setupEventsProvider()
         setupFeedAdapter()
         setupWidgetsLiveData()
-        feedList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        val feedListLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        feedList.layoutManager = feedListLayoutManager
         (feedList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-        viewModel.pagedListLiveData.observe(this, Observer {
-            (feedList.adapter as HeadersPostsAdapter).submitList(it)
+        viewModel.feedLiveData.observe(this, Observer {
+            (feedList.adapter as HeadersPostsAdapter).submit(it)
             onNewData()
         })
 
         viewModel.voteReadinessLiveData.observe(this, Observer { event ->
-            event.getIfNotHandled()?.let {ready ->
+            event.getIfNotHandled()?.let { ready ->
                 if (ready)
                     Toast.makeText(requireContext(), "Ready to vote", Toast.LENGTH_SHORT).show()
             }
@@ -42,6 +44,24 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
                 Toast.makeText(requireContext(), "Vote Error", Toast.LENGTH_SHORT).show()
             }
         })
+
+        val paginationScrollListener = object : PaginationScrollListener(feedListLayoutManager, AbstractFeedViewModel.PAGE_SIZE) {
+            override fun loadMoreItems() {
+                viewModel.loadMore()
+            }
+        }
+        feedList.addOnScrollListener(paginationScrollListener)
+
+        viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
+            paginationScrollListener.isLoading = isLoading
+        })
+
+        viewModel.lastPageLiveData.observe(this, Observer { isLastPage ->
+            paginationScrollListener.isLastPage = isLastPage
+            (feedList.adapter as HeadersPostsAdapter).isLoading = !isLastPage
+        })
+
+
     }
 
     /**

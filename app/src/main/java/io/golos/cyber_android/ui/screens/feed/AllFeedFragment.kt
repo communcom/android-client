@@ -61,14 +61,13 @@ class AllFeedFragment :
 
     override fun setupFeedAdapter() {
         feedList.adapter = HeadersPostsAdapter(
-            PostsDiffCallback(),
             object : PostsAdapter.Listener {
                 override fun onUpvoteClick(post: PostModel) {
-                    viewModel.onVote(post, 10_000)
+                    viewModel.onUpvote(post)
                 }
 
                 override fun onDownvoteClick(post: PostModel) {
-                    viewModel.onVote(post, -10_000)
+                    viewModel.onDownvote(post)
                 }
 
                 override fun onPostClick(post: PostModel) {
@@ -101,6 +100,11 @@ class AllFeedFragment :
                     is FeedPageViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
                 }
             })
+
+        viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
+            if (!isLoading)
+                swipeRefresh.isRefreshing = false
+        })
     }
 
     override fun setupWidgetsLiveData() {

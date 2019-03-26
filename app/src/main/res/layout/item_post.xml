@@ -147,7 +147,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/postDownvote"
             android:layout_width="@dimen/size_post_card_comment_buttons"
             android:layout_height="@dimen/size_post_card_comment_buttons"
@@ -171,7 +171,7 @@
             app:layout_constraintTop_toTopOf="@+id/postUpvote"
             app:layout_constraintBottom_toBottomOf="@+id/postUpvote"/>
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/postSendComment"
             android:layout_width="@dimen/size_post_card_comment_buttons"
             android:layout_height="@dimen/size_post_card_comment_buttons"

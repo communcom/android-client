@@ -1,14 +1,14 @@
 package io.golos.cyber_android.ui.common.posts
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.golos.domain.entities.PostEntity
-import android.view.LayoutInflater
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.math.BigInteger
@@ -16,10 +16,25 @@ import java.math.BigInteger
 /**
  * [PagedListAdapter] for [PostEntity]
  */
-open class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private val listener: Listener) :
-    PagedListAdapter<PostModel, RecyclerView.ViewHolder>(diffCallback) {
 
-    val zero = BigInteger("0")
+abstract class PostsAdapter(private var values: List<PostModel>, private val listener: Listener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val zero = BigInteger("0")
+
+    fun submit(list: List<PostModel>) {
+        val diff = DiffUtil.calculateDiff(PostsDiffCallback(values, list))
+        values = list
+        dispatchUpdates(diff)
+    }
+
+    /**
+     * If adapter has any additional rows (like headers or footers) this method needs to be overriden to correctly dispatch
+     * updates to this adapter
+     */
+    abstract fun dispatchUpdates(diffResult: DiffUtil.DiffResult)
+
+    override fun getItemCount() = values.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
@@ -27,11 +42,9 @@ open class PostsAdapter(diffCallback: DiffUtil.ItemCallback<PostModel>, private 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val post = getItem(position)
-        if (post != null) {
-            holder as PostViewHolder
-            holder.bind(post, listener)
-        }
+        val post = values[position]
+        holder as PostViewHolder
+        holder.bind(post, listener)
     }
 
     inner class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
