@@ -65,7 +65,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             get() = Dispatchers.Main
         override val workDispatcher: CoroutineDispatcher
             get() = Dispatchers.Default
-    }
+       override val networkDispatcher: CoroutineDispatcher
+           get() =  Dispatchers.Default
+   }
 
 
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>by lazy {

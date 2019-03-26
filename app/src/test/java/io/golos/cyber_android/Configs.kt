@@ -56,6 +56,8 @@ val dispatchersProvider = object : DispatchersProvider {
         get() = Executor { command -> command?.run() }.asCoroutineDispatcher()
     override val workDispatcher: CoroutineDispatcher
         get() = Executor { command -> command?.run() }.asCoroutineDispatcher()
+    override val networkDispatcher: CoroutineDispatcher
+        get() = Executor { command -> command?.run() }.asCoroutineDispatcher()
 }
 
 val feedRepository = PostsFeedRepository(

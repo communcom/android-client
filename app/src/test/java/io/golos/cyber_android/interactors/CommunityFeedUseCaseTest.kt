@@ -8,6 +8,7 @@ import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
 import junit.framework.Assert.assertTrue
 import junit.framework.Assert.fail
@@ -22,25 +23,29 @@ import org.junit.Test
  */
 class CommunityFeedUseCaseTest {
 
+
     @Rule
     @JvmField
     public val rule = InstantTaskExecutorRule()
 
-    val case = CommunityFeedUseCase(
-        CommunityId("gls"),
-        feedRepository,
-        voteRepo,
-        feedEntityToModelMapper,
-        dispatchersProvider
-    )
-    val voteCase = VoteUseCase(
-        authStateRepository, voteRepo, dispatchersProvider, voteEntityToPostMapper,
-        voteToEntityMapper
-    )
+    lateinit var case: CommunityFeedUseCase
+
+    lateinit var voteCase: VoteUseCase
 
     @Before
     fun before() {
         appCore.initialize()
+        case = CommunityFeedUseCase(
+            CommunityId("gls"),
+            feedRepository,
+            voteRepo,
+            feedEntityToModelMapper,
+            dispatchersProvider
+        )
+        voteCase = VoteUseCase(
+            authStateRepository, voteRepo, dispatchersProvider, voteEntityToPostMapper,
+            voteToEntityMapper
+        )
     }
 
     @Test
@@ -66,7 +71,6 @@ class CommunityFeedUseCaseTest {
         assertTrue("fail of initial loading of posts", postFeed?.items?.size == 20)
         assertTrue("last updated chunk update fails", lastUpdatedChunk?.size == 20)
         assertTrue("fail of initial loading of posts", case.getAsLiveData.value?.items?.size == 20)
-
 
 
         case.requestFeedUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
@@ -95,7 +99,10 @@ class CommunityFeedUseCaseTest {
 
 
         val firstPost = postFeed!!.items.first()
+
         voteCase.vote(VoteRequestModel.VoteForPostRequest(1_000, firstPost.contentId))
+
+        voteCase.vote(VoteRequestModel.VoteForPostRequest(1_000, postFeed!!.items.last().contentId))
 
         var counter = 0
         case.getAsLiveData.observeForever {
@@ -113,17 +120,53 @@ class CommunityFeedUseCaseTest {
 
         }
 
-        delay(3_000)
 
+        while (voteCase.getAsLiveData.value.orEmpty()[firstPost.contentId] !is QueryResult.Success) {
+            delay(100)
+        }
+
+
+        delay(2_000)
         assertTrue(postFeed!!.items.first().votes.hasUpVote)
 
 
         voteCase.vote(VoteRequestModel.VoteForPostRequest(-1_000, firstPost.contentId))
 
-        delay(3_000)
+        while (voteCase.getAsLiveData.value.orEmpty()[firstPost.contentId] !is QueryResult.Success) {
+            delay(100)
+        }
+
+        delay(2_000)
 
         assertTrue(postFeed!!.items.first().votes.hasDownVote)
 
         assertTrue("last updated chunk update fails", lastUpdatedChunk?.size == 20)
+
+        (1..5).forEach {
+
+            val post = postFeed!!.items[it]
+
+
+            voteCase.vote(VoteRequestModel.VoteForPostRequest((Math.random() * 10_000).toShort(), post.contentId))
+
+
+            while (voteCase.getAsLiveData.value.orEmpty()[post.contentId] !is QueryResult.Success) {
+                delay(100)
+            }
+
+            delay(2_000)
+
+            assertTrue(postFeed!!.items[it].votes.hasUpVote)
+
+            voteCase.vote(VoteRequestModel.VoteForPostRequest((Math.random() * -10_000).toShort(), post.contentId))
+
+            while (voteCase.getAsLiveData.value.orEmpty()[post.contentId] !is QueryResult.Success) {
+                delay(100)
+            }
+
+            delay(2_000)
+
+            assertTrue(postFeed!!.items[it].votes.hasDownVote)
+        }
     }
 }
