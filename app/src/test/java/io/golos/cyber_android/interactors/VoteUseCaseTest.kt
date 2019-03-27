@@ -28,12 +28,8 @@ class VoteUseCaseTest {
     @JvmField
     public val rule = InstantTaskExecutorRule()
 
-    private val voteUseCase =
-        VoteUseCase(
-            authStateRepository, voteRepo,
-            dispatchersProvider, voteEntityToPostMapper,
-            voteToEntityMapper
-        )
+    private lateinit var voteUseCase:
+            VoteUseCase
 
     private val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD)
 
@@ -41,6 +37,11 @@ class VoteUseCaseTest {
     fun before() {
         appCore.initialize()
         feedRepository.makeAction(postRequest)
+        voteUseCase = VoteUseCase(
+            authStateRepository, voteRepo,
+            dispatchersProvider, voteEntityToPostMapper,
+            voteToEntityMapper
+        )
     }
 
     @Test

@@ -27,9 +27,9 @@ import kotlin.collections.HashMap
 
 abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdateRequest>(
     private val feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
-    private val postMapper: CyberToEntityMapper<CyberDiscussion, D>,
-    private val postMerger: EntityMerger<D>,
-    private val feedMerger: EntityMerger<FeedEntity<D>>,
+    private val discussionMapper: CyberToEntityMapper<CyberDiscussion, D>,
+    private val discussionMerger: EntityMerger<D>,
+    private val discussionDeedMerger: EntityMerger<FeedEntity<D>>,
     private val requestApprover: RequestApprover<Q>,
     private val emptyFeedProducer: EmptyEntityProducer<FeedEntity<D>>,
     private val dispatchersProvider: DispatchersProvider,
@@ -37,6 +37,10 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 ) : DiscussionsFeedRepository<D, Q> {
 
     private val discussionsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<FeedEntity<D>>> = hashMapOf()
+
+    private var discussionLiveData: MutableLiveData<D> = MutableLiveData()
+    private var activeUpdatingPost: DiscussionIdEntity? = null
+
     private val feedsUpdatingStatesMap: MutableLiveData<Map<Identifiable.Id, QueryResult<Q>>> = MutableLiveData()
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -61,14 +65,38 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         return discussionsFeedMap.putIfAbsentAndGet(params.id)
     }
 
+    override fun getDiscussionAsLiveData(discussionIdEntity: DiscussionIdEntity): LiveData<D> {
+
+        if (activeUpdatingPost == discussionIdEntity) discussionLiveData
+
+        if (discussionLiveData.value?.contentId == discussionIdEntity) return discussionLiveData
+
+        discussionLiveData = MutableLiveData()
+
+        discussionLiveData.value = getAllPostsAsLiveDataList()
+            .mapNotNull { it.value?.discussions }
+            .flatten()
+            .findLast { it.contentId == discussionIdEntity }
+
+        if (discussionLiveData.value == null) {
+            requestDiscussionUpdate(discussionIdEntity)
+        }
+
+        return discussionLiveData
+    }
+
     override fun requestDiscussionUpdate(updatingDiscussionId: DiscussionIdEntity) {
         postJobMap[updatingDiscussionId]?.cancel()
 
-        launch {
+        activeUpdatingPost = updatingDiscussionId
+
+        launch(exceptionCallback = {
+            activeUpdatingPost = null
+        }) {
 
             val updatedPost = getOnBackground { getDiscussionItem(updatingDiscussionId) }
 
-            val updatedPostEntity = postMapper.convertOnBackground(updatedPost)
+            val updatedPostEntity = discussionMapper.convertOnBackground(updatedPost)
 
             getAllPostsAsLiveDataList()
                 .forEach { feedLiveData ->
@@ -78,11 +106,20 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                     if (posts.any { it.contentId == updatingDiscussionId }) {
                         val postWithReplacedDiscussion = posts
                             .replaceByProducer({ postEntity -> postEntity.contentId == updatedPostEntity.contentId },
-                                { postEntity -> postMerger(updatedPostEntity, postEntity) })
+                                { postEntity -> discussionMerger(updatedPostEntity, postEntity) })
 
                         feedLiveData.value = feedLiveData.value?.copy(postWithReplacedDiscussion)
                     }
                 }
+
+
+            if (discussionLiveData.value?.contentId == updatedPostEntity.contentId ||
+                activeUpdatingPost == updatingDiscussionId
+            ) discussionLiveData.value =
+                updatedPostEntity
+
+            activeUpdatingPost = null
+
         }.let { job -> postJobMap[updatingDiscussionId] = job }
     }
 
@@ -102,7 +139,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
 
-            val resultingFeed = feedMerger(feedEntity, oldFeed)
+            val resultingFeed = discussionDeedMerger(feedEntity, oldFeed)
 
             discussionsFeedMap[params.id]?.value = resultingFeed
 

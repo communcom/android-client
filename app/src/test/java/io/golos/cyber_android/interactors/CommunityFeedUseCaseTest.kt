@@ -102,8 +102,6 @@ class CommunityFeedUseCaseTest {
 
         voteCase.vote(VoteRequestModel.VoteForPostRequest(1_000, firstPost.contentId))
 
-        voteCase.vote(VoteRequestModel.VoteForPostRequest(1_000, postFeed!!.items.last().contentId))
-
         var counter = 0
         case.getAsLiveData.observeForever {
             counter++

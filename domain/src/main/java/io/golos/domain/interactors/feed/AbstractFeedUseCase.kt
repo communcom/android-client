@@ -27,9 +27,9 @@ import kotlinx.coroutines.*
  */
 abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, M : DiscussionModel>(
     protected val discussionsFeedRepository: DiscussionsFeedRepository<E, Q>,
-    private val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
+    protected val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     protected val feedMapper: EntityToModelMapper<FeedRelatedEntities<E>, DiscussionsFeed<M>>,
-    private val dispatchersProvider: DispatchersProvider
+    protected val dispatchersProvider: DispatchersProvider
 ) : UseCase<DiscussionsFeed<M>> {
     private val postFeedLiveData = MutableLiveData<DiscussionsFeed<M>>()
     private val lastFetchedChunkLiveData = MutableLiveData<List<M>>()

@@ -9,7 +9,7 @@ import io.golos.domain.model.QueryResult
  */
 data class DiscussionRelatedEntities<E : DiscussionEntity>(
     val discussionEntity: E,
-    var voteStateEntity: QueryResult<VoteRequestEntity>?
+    val voteStateEntity: QueryResult<VoteRequestEntity>?
 ) : io.golos.domain.Entity
 
 data class FeedRelatedEntities<E : DiscussionEntity>(

@@ -18,8 +18,8 @@ import io.golos.domain.rules.EntityToModelMapper
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-27.
  */
-open class CommentsFeedUseCase(
-    private val postId: DiscussionIdModel,
+open class PostCommentsFeedUseCase(
+    protected val postId: DiscussionIdModel,
     commentsFeedRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     feedMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,

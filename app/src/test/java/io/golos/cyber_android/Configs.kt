@@ -30,6 +30,8 @@ val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
 val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
 val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
+val commentEntityToModelMapper = CommentEntityToModelMapper()
+val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
 val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
 val approver = FeedUpdateApprover()
@@ -42,6 +44,7 @@ val emptyPostFeedProducer = EmptyPostFeedProducer()
 
 val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
 val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
+
 
 val commentApprover = CommentUpdateApprover()
 

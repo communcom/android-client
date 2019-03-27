@@ -11,34 +11,33 @@ data class PostModel(
     override val contentId: DiscussionIdModel,
     override val author: DiscussionAuthorModel,
     val community: CommunityModel,
-    override val content: DiscussionContentModel,
-    val votes: DiscussionVotesModel,
-    override val comments: DiscussionCommentsCountModel,
+    val content: PostContentModel,
+    override val votes: DiscussionVotesModel,
+    val comments: DiscussionCommentsCountModel,
     override val payout: DiscussionPayoutModel,
     override val meta: DiscussionMetadataModel
 ) : DiscussionModel(
-    contentId, author, content,
-    comments, payout, meta
+    contentId, author, votes,
+    payout, meta
 )
 
 data class CommentModel(
     override val contentId: DiscussionIdModel,
     override val author: DiscussionAuthorModel,
-    override val content: DiscussionContentModel,
-    override val comments: DiscussionCommentsCountModel,
+    val content: CommentContentModel,
+    override val votes: DiscussionVotesModel,
     override val payout: DiscussionPayoutModel,
     val parentPostId: DiscussionIdModel,
-    val parentCommentId: ParentIdModel?,
+    val parentCommentId: DiscussionIdModel?,
     override val meta: DiscussionMetadataModel
 ) : DiscussionModel(
-    contentId, author, content, comments, payout, meta
+    contentId, author, votes, payout, meta
 )
 
 sealed class DiscussionModel(
     open val contentId: DiscussionIdModel,
     open val author: DiscussionAuthorModel,
-    open val content: DiscussionContentModel,
-    open val comments: DiscussionCommentsCountModel,
+    open val votes: DiscussionVotesModel,
     open val payout: DiscussionPayoutModel,
     open val meta: DiscussionMetadataModel
 ) : Model
@@ -51,7 +50,11 @@ data class DiscussionIdModel(
 ) : Model
 
 data class DiscussionCommentsCountModel(val count: Long) : Model
-data class DiscussionContentModel(val title: String, val body: ContentBodyModel, val metadata: Any) : Model
+
+data class PostContentModel(val title: String, val body: ContentBodyModel, val metadata: Any) : Model
+data class CommentContentModel(val body: ContentBodyModel, val metadata: Any) : Model
+
+
 data class ContentBodyModel(
     val preview: String?,
     val full: String?
@@ -70,5 +73,3 @@ data class DiscussionVotesModel(
 ) : Model
 
 data class ElapsedTime(val elapsedMinutes: Int, val elapsedHours: Int, val elapsedDays: Int)
-
-data class ParentIdModel(val userId: String, val permlink: String, val refBlockNum: Int) : Model

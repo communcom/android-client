@@ -13,6 +13,7 @@ import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import junit.framework.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -25,20 +26,26 @@ class UserFeedUseCaseTest {
     @JvmField
     public val rule = InstantTaskExecutorRule()
 
-    val case = UserPostFeedUseCase(
-        CyberUser("tst3vtfkwvzw"),
-        feedRepository,
-        voteRepo,
-        feedEntityToModelMapper,
-        dispatchersProvider
-    )
-    val communityFeedUseCase = CommunityFeedUseCase(
-        CommunityId("gls"),
-        feedRepository,
-        voteRepo,
-        feedEntityToModelMapper,
-        dispatchersProvider
-    )
+    lateinit var case: UserPostFeedUseCase
+    lateinit var communityFeedUseCase: CommunityFeedUseCase
+
+    @Before
+    fun before() {
+        case = UserPostFeedUseCase(
+            CyberUser("tst3vtfkwvzw"),
+            feedRepository,
+            voteRepo,
+            feedEntityToModelMapper,
+            dispatchersProvider
+        )
+        communityFeedUseCase = CommunityFeedUseCase(
+            CommunityId("gls"),
+            feedRepository,
+            voteRepo,
+            feedEntityToModelMapper,
+            dispatchersProvider
+        )
+    }
 
     @Test
     fun testOne() {

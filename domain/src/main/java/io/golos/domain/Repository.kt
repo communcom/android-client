@@ -3,6 +3,7 @@ package io.golos.domain
 import androidx.annotation.AnyThread
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
+import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.model.FeedUpdateRequest
@@ -20,31 +21,33 @@ interface Repository<D : Entity, Q : Identifiable> {
     val allDataRequest: Q
 
     @MainThread
-    /** get some particular entity for [params] request
-     *  repository obliged to give all it's data in response on [allDataRequest]
-     * */
-    abstract fun getAsLiveData(params: Q): LiveData<D>
+            /** get some particular entity for [params] request
+             *  repository obliged to give all it's data in response on [allDataRequest]
+             * */
+    fun getAsLiveData(params: Q): LiveData<D>
 
     /** make primary action (update, query, vote), depending on type of
      * a repository. Actions are qed, canceled and exposed
      * by [params.id] property.
      * */
     @AnyThread
-    abstract fun makeAction(params: Q)
+    fun makeAction(params: Q)
 
     /**progress of [makeAction] queries. Identifiable.Id here is Q.id class
      * */
-    abstract val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
-
+    val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
 
 
 }
 
-interface DiscussionsFeedRepository<T : Entity, Q : FeedUpdateRequest>
+interface DiscussionsFeedRepository<T : DiscussionEntity, Q : FeedUpdateRequest>
     : Repository<FeedEntity<T>, Q> {
 
     @AnyThread
-    abstract fun requestDiscussionUpdate(updatingDiscussionId: DiscussionIdEntity)
+    fun requestDiscussionUpdate(updatingDiscussionId: DiscussionIdEntity)
+
+    @MainThread
+    fun getDiscussionAsLiveData(discussionIdEntity: DiscussionIdEntity): LiveData<T>
 
 }
 
