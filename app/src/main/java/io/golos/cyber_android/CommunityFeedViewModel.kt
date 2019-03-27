@@ -5,6 +5,7 @@ import io.golos.cyber_android.ui.common.posts.AbstractFeedViewModel
 import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.model.CommunityFeedUpdateRequest
+import io.golos.domain.model.PostFeedUpdateRequest
 
 
 /**
@@ -13,4 +14,4 @@ import io.golos.domain.model.CommunityFeedUpdateRequest
 
 
 class CommunityFeedViewModel(communityFeedUserCase: CommunityFeedUseCase, voteUseCase: VoteUseCase) :
-    FeedPageTabViewModel<CommunityFeedUpdateRequest>(communityFeedUserCase, voteUseCase)
+    FeedPageTabViewModel<PostFeedUpdateRequest>(communityFeedUserCase, voteUseCase)

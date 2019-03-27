@@ -6,12 +6,14 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
+import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.map
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
@@ -21,7 +23,7 @@ import io.golos.domain.model.VoteRequestModel
  * property.
  */
 abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
-    private val feedUseCase: AbstractFeedUseCase<out T>,
+    private val feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
     private val voteUseCase: VoteUseCase
 ) : ViewModel() {
     companion object {
@@ -68,7 +70,7 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     /**
      * [LiveData] of all the [PostModel] items
      */
-    val feedLiveData = feedUseCase.getAsLiveData.map(Function<DiscussionsFeed, List<PostModel>> {
+    val feedLiveData = feedUseCase.getAsLiveData.map(Function<DiscussionsFeed<PostModel>, List<PostModel>> {
         it.items
     })
 
