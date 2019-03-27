@@ -110,6 +110,16 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     if (postModel.votes.hasUpVoteProgress || postModel.votes.hasVoteCancelProgress && postModel.votes.hasUpVote)
                         View.VISIBLE
                     else View.GONE
+
+                if (postModel.votes.hasUpVoteProgress
+                    || postModel.votes.hasDownVotingProgress
+                    || postModel.votes.hasVoteCancelProgress) {
+                    postUpvote.isEnabled = false
+                    postDownvote.isEnabled = false
+                } else {
+                    postUpvote.isEnabled = true
+                    postDownvote.isEnabled = true
+                }
             }
         }
     }

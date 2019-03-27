@@ -1,11 +1,9 @@
 package io.golos.cyber_android.ui.common.posts
 
-import android.util.Log
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PageKeyedDataSource
 import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.action.VoteUseCase
@@ -18,6 +16,7 @@ import io.golos.domain.map
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [LiveData] via [feedLiveData]
@@ -31,6 +30,8 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
         const val PAGE_SIZE = 20
     }
 
+    private val handledVotes = CopyOnWriteArrayList<DiscussionIdModel>()
+
     /**
      * [LiveData] that indicates if user is able to vote
      */
@@ -39,7 +40,18 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     /**
      * [LiveData] that indicates if there was error in vote process
      */
-    val voteErrorLiveData = MutableLiveData<Event<Any>>()
+    val voteErrorLiveData = MediatorLiveData<Event<DiscussionIdModel>>().apply {
+        addSource(voteUseCase.getAsLiveData) { map ->
+            map.forEach { (id, result) ->
+                if (result is QueryResult.Error && !handledVotes.contains(id)) {
+                    this.postValue(Event(id))
+                }
+                if (result !is QueryResult.Loading) {
+                    handledVotes.add(id)
+                }
+            }
+        }
+    }
 
     /**
      * [LiveData] that indicates if data is loading
@@ -61,11 +73,6 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     val feedLiveData = feedUseCase.getAsLiveData.map(Function<PostFeed, List<PostModel>> {
         it.items
     })
-
-    private val pendingVotes = mutableListOf<DiscussionIdModel>()
-
-    private val callbacks = mutableMapOf<Long, PageKeyedDataSource.LoadCallback<Long, PostModel>?>()
-    private var initialCallback: PageKeyedDataSource.LoadInitialCallback<Long, PostModel>? = null
 
     init {
         feedUseCase.subscribe()
@@ -89,14 +96,18 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
 
     fun onUpvote(post: PostModel) {
         val power = if (!post.votes.hasUpVote) 10_000.toShort() else 0.toShort()
-        val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
-        voteUseCase.vote(request)
+        vote(power, post)
     }
 
     fun onDownvote(post: PostModel) {
         val power = if (!post.votes.hasDownVote) (-10_000).toShort() else 0.toShort()
+        vote(power, post)
+    }
+
+    private fun vote(power: Short, post: PostModel) {
         val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
         voteUseCase.vote(request)
+        handledVotes.remove(post.contentId)
     }
 }
 
