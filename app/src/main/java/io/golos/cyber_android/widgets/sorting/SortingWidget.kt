@@ -1,6 +1,8 @@
 package io.golos.cyber_android.widgets.sorting
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
@@ -55,4 +57,9 @@ class SortingWidget : LinearLayout {
         fun onTrendingSortClick()
         fun onTimeFilterClick()
     }
+
+    /**
+     * State of the sorting widget
+     */
+    data class SortingWidgetState(var sort: TrendingSort, var filter: TimeFilter)
 }

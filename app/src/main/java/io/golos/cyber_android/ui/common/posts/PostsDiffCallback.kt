@@ -6,30 +6,30 @@ import io.golos.domain.interactors.model.PostModel
 /**
  * [DiffUtil.Callback] impl for [PostModel] lists
  */
-//class PostsDiffCallback(private val oldList: List<PostModel>, private val newList: List<PostModel>) :
-//    DiffUtil.Callback() {
-//
-//    override fun getOldListSize(): Int {
-//        return oldList.size
-//    }
-//
-//    override fun getNewListSize(): Int {
-//        return newList.size
-//    }
-//
-//    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-//        return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
-//    }
-//
-//    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-//        return oldList[oldItemPosition] == newList[newItemPosition]
-//    }
-//}
+class PostsDiffCallback(private val oldList: List<PostModel>, private val newList: List<PostModel>) :
+    DiffUtil.Callback() {
 
+    override fun getOldListSize(): Int {
+        return oldList.size
+    }
 
-class PostsDiffCallback: DiffUtil.ItemCallback<PostModel>() {
+    override fun getNewListSize(): Int {
+        return newList.size
+    }
 
-    override fun areItemsTheSame(oldItem: PostModel, newItem: PostModel) = oldItem.contentId == newItem.contentId
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].contentId == newList[newItemPosition].contentId
+    }
 
-    override fun areContentsTheSame(oldItem: PostModel, newItem: PostModel) = oldItem == newItem
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].votes == newList[newItemPosition].votes
+    }
 }
+
+
+//class PostsDiffCallback: DiffUtil.ItemCallback<PostModel>() {
+//
+//    override fun areItemsTheSame(oldItem: PostModel, newItem: PostModel) = oldItem.contentId == newItem.contentId
+//
+//    override fun areContentsTheSame(oldItem: PostModel, newItem: PostModel) = oldItem == newItem
+//}

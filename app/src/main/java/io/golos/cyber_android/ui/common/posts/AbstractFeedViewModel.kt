@@ -2,102 +2,117 @@ package io.golos.cyber_android.ui.common.posts
 
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PageKeyedDataSource
-import androidx.paging.PagedList
+import io.golos.cyber_android.utils.Event
+import io.golos.cyber_android.utils.asEvent
+import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
+import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.PostFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.map
 import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.model.QueryResult
+import io.golos.domain.model.VoteRequestModel
 
 /**
- * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [PagedList] via [pagedListLiveData]
+ * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [LiveData] via [feedLiveData]
  * property.
  */
-abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(private val feedUseCase: AbstractFeedUseCase<out T>) : ViewModel() {
+abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
+    private val feedUseCase: AbstractFeedUseCase<out T>,
+    private val voteUseCase: VoteUseCase
+) : ViewModel() {
     companion object {
-        private const val PAGE_SIZE = 20
+        const val PAGE_SIZE = 20
+    }
+
+    private val handledVotes = mutableSetOf<DiscussionIdModel>()
+
+    /**
+     * [LiveData] that indicates if user is able to vote
+     */
+    val voteReadinessLiveData = voteUseCase.getVotingRediness.asEvent()
+
+    /**
+     * [LiveData] that indicates if there was error in vote process
+     */
+    val voteErrorLiveData = MediatorLiveData<Event<DiscussionIdModel>>().apply {
+        addSource(voteUseCase.getAsLiveData) { map ->
+            map.forEach { (id, result) ->
+                if (result is QueryResult.Error && !handledVotes.contains(id)) {
+                    this.postValue(Event(id))
+                }
+                if (result !is QueryResult.Loading) {
+                    handledVotes.add(id)
+                }
+            }
+        }
     }
 
     /**
-     * [LiveData] of [PagedList].
+     * [LiveData] that indicates if data is loading
      */
-    val pagedListLiveData: LiveData<PagedList<PostModel>>
-
-    private var page = 0L
-    private val observer = Observer<Any> {}
-    private val feedLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<PostModel>, List<PostModel>> {
-        if (page == 0L) {
-            initialCallback?.onResult(it, 0, 1)
-            initialCallback = null
-        }
-        else {
-            callbacks[page]?.onResult(it, page + 1)
-            callbacks[page] = null
-        }
-        it
+    val loadingStatusLiveData = feedUseCase.feedUpdateState.map(Function<QueryResult<UpdateOption>, Boolean> {
+        it is QueryResult.Loading
     })
 
-    private val dataSourceFactory = PostsDataSourceFactory(feedUseCase)
+    /**
+     * [LiveData] that indicates if last page was reached
+     */
+    val lastPageLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<PostModel>, Boolean> {
+        it.size != PAGE_SIZE
+    })
 
-    private val callbacks = mutableMapOf<Long, PageKeyedDataSource.LoadCallback<Long, PostModel>?>()
-    private var initialCallback: PageKeyedDataSource.LoadInitialCallback<Long, PostModel>? = null
+    /**
+     * [LiveData] of all the [PostModel] items
+     */
+    val feedLiveData = feedUseCase.getAsLiveData.map(Function<PostFeed, List<PostModel>> {
+        it.items
+    })
 
     init {
         feedUseCase.subscribe()
-
-        val pagedListConfig = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(1)
-            .setPageSize(PAGE_SIZE)
-            .build()
-
-        pagedListLiveData = LivePagedListBuilder(dataSourceFactory, pagedListConfig)
-            .build()
-
-        feedLiveData.observeForever(observer)
+        voteUseCase.subscribe()
+        requestRefresh()
     }
 
     override fun onCleared() {
         super.onCleared()
         feedUseCase.unsubscribe()
-        feedLiveData.removeObserver(observer)
+        voteUseCase.unsubscribe()
     }
 
     fun requestRefresh() {
         feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
-        page = 0
-        dataSourceFactory.latestDataSource?.invalidate()
     }
 
-    inner class PostsDataSourceFactory(private val communityFeedUserCase: AbstractFeedUseCase<out T>): DataSource.Factory<Long, PostModel>() {
-
-        var latestDataSource: DataSource<Long, PostModel>? = null
-
-        override fun create(): DataSource<Long, PostModel> {
-            latestDataSource = PostsDataSource(communityFeedUserCase)
-            return latestDataSource!!
-        }
+    fun loadMore() {
+        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
     }
 
-    inner class PostsDataSource(private val communityFeedUserCase: AbstractFeedUseCase<out T>) : PageKeyedDataSource<Long, PostModel>() {
+    fun onUpvote(post: PostModel) {
+        val power = if (!post.votes.hasUpVote) 10_000.toShort() else 0.toShort()
+        vote(power, post)
+    }
 
-        override fun loadInitial(params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, PostModel>) {
-            communityFeedUserCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
-            initialCallback = callback
-        }
+    fun onDownvote(post: PostModel) {
+        val power = if (!post.votes.hasDownVote) (-10_000).toShort() else 0.toShort()
+        vote(power, post)
+    }
 
-        override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, PostModel>) {
-            communityFeedUserCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
-            callbacks[params.key] = callback
-            page++
-        }
-
-        override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, PostModel>) {
+    private fun vote(power: Short, post: PostModel) {
+        if (!post.votes.hasUpVoteProgress
+            && !post.votes.hasDownVotingProgress
+            && !post.votes.hasVoteCancelProgress
+        ) {
+            val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
+            voteUseCase.vote(request)
+            handledVotes.remove(post.contentId)
         }
     }
 }
+
+

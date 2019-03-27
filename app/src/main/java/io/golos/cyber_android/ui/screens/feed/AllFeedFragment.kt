@@ -25,9 +25,7 @@ import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.CommunityFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.model.UserSubscriptionsFeedUpdateRequest
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**
@@ -63,14 +61,22 @@ class AllFeedFragment :
 
     override fun setupFeedAdapter() {
         feedList.adapter = HeadersPostsAdapter(
-            PostsDiffCallback(),
             object : PostsAdapter.Listener {
+                override fun onUpvoteClick(post: PostModel) {
+                    viewModel.onUpvote(post)
+                }
+
+                override fun onDownvoteClick(post: PostModel) {
+                    viewModel.onDownvote(post)
+                }
+
                 override fun onPostClick(post: PostModel) {
                     Toast.makeText(
                         requireContext(),
                         "post clicked post = ${post.contentId}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    (feedList.adapter as HeadersPostsAdapter).notifyItemChanged(0)
                 }
 
                 override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {
@@ -94,6 +100,11 @@ class AllFeedFragment :
                     is FeedPageViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
                 }
             })
+
+        viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
+            if (!isLoading)
+                swipeRefresh.isRefreshing = false
+        })
     }
 
     override fun setupWidgetsLiveData() {

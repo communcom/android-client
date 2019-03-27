@@ -99,7 +99,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
-                        getCommunityFeedUseCase(communityId)
+                        getCommunityFeedUseCase(communityId),
+                        getVoteUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -113,7 +114,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     UserSubscriptionsFeedFeedViewModel::class.java -> UserSubscriptionsFeedFeedViewModel(
-                        getUserPostFeedUseCase(user)
+                        getUserPostFeedUseCase(user),
+                        getVoteUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

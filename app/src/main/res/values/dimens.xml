@@ -16,6 +16,7 @@
     <dimen name="padding_horizontal_feed_search_bar">15dp</dimen>
     <dimen name="padding_vertical_feed_search_bar">12dp</dimen>
     <dimen name="padding_feed_search_view_icon">35dp</dimen>
+    <dimen name="padding_list_loading">10dp</dimen>
 
     <!--Sorting Widget-->
     <dimen name="padding_top_sorting_widget">23dp</dimen>
