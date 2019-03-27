@@ -4,13 +4,16 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
+import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.model.AuthRequest
+import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -81,7 +84,7 @@ val feedRepository = PostsFeedRepository(
     logger
 )
 
-val commentsRepository = CommentsFeedRepository(
+val commentsFeedRepository = CommentsFeedRepository(
     apiService,
     cyberCommentFeedToEntityMapper,
     cyberCommentToEntityMapper,
@@ -105,6 +108,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = authStateRepository
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
         get() = voteRepo
+    override val commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>
+        get() = commentsFeedRepository
 }, dispatchersProvider)
 
 

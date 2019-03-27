@@ -36,7 +36,7 @@ class PostWithCommentsUseCaseTest {
             postId,
             feedRepository,
             postEntityToModelMapper,
-            commentsRepository,
+            commentsFeedRepository,
             voteRepo,
             commentFeeEntityToModelMapper,
             dispatchersProvider

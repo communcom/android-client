@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.CommunityFeedUseCase
-import io.golos.domain.interactors.feed.UserPostFeedUseCase
-import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
+import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.interactors.model.DiscussionIdModel
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
@@ -29,4 +28,8 @@ interface ServiceLocator {
     fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase
 
     fun getVoteUseCase(): VoteUseCase
+
+    fun getCommentsForAPostUseCase(postId: DiscussionIdModel): PostCommentsFeedUseCase
+
+    fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase
 }

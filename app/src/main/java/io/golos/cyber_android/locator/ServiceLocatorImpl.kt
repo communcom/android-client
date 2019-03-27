@@ -7,23 +7,18 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedFeedViewModel
 import io.golos.data.api.Cyber4jApiService
-import io.golos.data.repositories.AbstractDiscussionsRepository
-import io.golos.data.repositories.AuthStateRepository
-import io.golos.data.repositories.PostsFeedRepository
-import io.golos.data.repositories.VoteRepository
+import io.golos.data.repositories.*
+import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
-import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.CommunityFeedUseCase
-import io.golos.domain.interactors.feed.UserPostFeedUseCase
-import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
+import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.model.AuthRequest
+import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,6 +41,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
     private val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
+    private val commentEntityToModelMapper = CommentEntityToModelMapper()
+    private val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
+
 
     private val approver = FeedUpdateApprover()
 
@@ -54,20 +52,30 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     private val emptyPostFeedProducer = EmptyPostFeedProducer()
 
+    private val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
+    private val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
+
+    private val commentApprover = CommentUpdateApprover()
+
+    private val commentMerger = CommentMerger()
+    private val commentFeedMerger = CommentFeedMerger()
+
+    private val emptyCommentFeedProducer = EmptyCommentFeedProducer()
+
     private val logger = object : Logger {
         override fun invoke(e: Exception) {
             e.printStackTrace()
         }
     }
 
-   override val dispatchersProvider = object : DispatchersProvider {
+    override val dispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
             get() = Dispatchers.Main
         override val workDispatcher: CoroutineDispatcher
             get() = Dispatchers.Default
-       override val networkDispatcher: CoroutineDispatcher
-           get() =  Dispatchers.Default
-   }
+        override val networkDispatcher: CoroutineDispatcher
+            get() = Dispatchers.Default
+    }
 
 
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>by lazy {
@@ -79,6 +87,19 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             feedMerger,
             approver,
             emptyPostFeedProducer,
+            dispatchersProvider,
+            logger
+        )
+    }
+    override val commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest> by lazy {
+        CommentsFeedRepository(
+            apiService,
+            cyberCommentFeedToEntityMapper,
+            cyberCommentToEntityMapper,
+            commentMerger,
+            commentFeedMerger,
+            commentApprover,
+            emptyCommentFeedProducer,
             dispatchersProvider,
             logger
         )
@@ -159,6 +180,25 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             dispatchersProvider, voteEntityToPostMapper,
             voteToEntityMapper
         )
+
+    override fun getCommentsForAPostUseCase(postId: DiscussionIdModel): PostCommentsFeedUseCase {
+        return PostCommentsFeedUseCase(
+            postId, commentsRepository, voteRepository, commentFeeEntityToModelMapper,
+            dispatchersProvider
+        )
+    }
+
+    override fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase {
+        return PostWithCommentUseCase(
+            postId,
+            postFeedRepository,
+            postEntityToModelMapper,
+            commentsRepository,
+            voteRepository,
+            commentFeeEntityToModelMapper,
+            dispatchersProvider
+        )
+    }
 
     override val getAppContext: Context
         get() = appContext

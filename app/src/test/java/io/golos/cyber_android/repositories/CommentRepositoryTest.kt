@@ -1,7 +1,7 @@
 package io.golos.cyber_android.repositories
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.golos.cyber_android.commentsRepository
+import io.golos.cyber_android.commentsFeedRepository
 import io.golos.cyber_android.feedRepository
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionsSort
@@ -27,7 +27,7 @@ class CommentRepositoryTest {
     fun test() {
         val postRepo = feedRepository
 
-        val commentRepo = commentsRepository
+        val commentRepo = commentsFeedRepository
 
         val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD, null)
 

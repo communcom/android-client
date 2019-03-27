@@ -2,7 +2,7 @@ package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.commentFeeEntityToModelMapper
-import io.golos.cyber_android.commentsRepository
+import io.golos.cyber_android.commentsFeedRepository
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.voteRepo
 import io.golos.domain.interactors.feed.PostCommentsFeedUseCase
@@ -29,7 +29,7 @@ class CommentsFeedUseCaseTest {
     fun before() {
         commentsUseCase = PostCommentsFeedUseCase(
             DiscussionIdModel("tst2lwbafozq", "artemisfightswithhectoragainsthelios", 320697L),
-            commentsRepository,
+            commentsFeedRepository,
             voteRepo,
             commentFeeEntityToModelMapper,
             dispatchersProvider
