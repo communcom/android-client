@@ -14,7 +14,8 @@ import kotlin.collections.HashSet
 class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     AuthApi,
     AuthListener,
-    VoteApi {
+    VoteApi,
+    CommentsApiService {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -58,6 +59,21 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sequenceKey: String?
     ): DiscussionsResult {
         return cyber4j.getUserPosts(CyberName(userId), limit, sort, sequenceKey).getOrThrow()
+    }
+
+    override fun getCommentsOfPost(
+        user: CyberName,
+        permlink: String,
+        refBlockNum: Long,
+        limit: Int,
+        sort: DiscussionTimeSort,
+        sequenceKey: String?
+    ): DiscussionsResult {
+        return cyber4j.getCommentsOfPost(user, permlink, refBlockNum, limit, sort, sequenceKey).getOrThrow()
+    }
+
+    override fun getComment(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {

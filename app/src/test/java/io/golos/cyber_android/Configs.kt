@@ -3,10 +3,7 @@ package io.golos.cyber_android
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.data.api.Cyber4jApiService
-import io.golos.data.repositories.AbstractDiscussionsRepository
-import io.golos.data.repositories.AuthStateRepository
-import io.golos.data.repositories.PostsFeedRepository
-import io.golos.data.repositories.VoteRepository
+import io.golos.data.repositories.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
@@ -19,7 +16,6 @@ import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
@@ -36,7 +32,6 @@ val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
 val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
 val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
-
 val approver = FeedUpdateApprover()
 
 val postMerger = PostMerger()
@@ -44,12 +39,23 @@ val feedMerger = PostFeedMerger()
 
 val emptyPostFeedProducer = EmptyPostFeedProducer()
 
+
+val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
+val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
+
+val commentApprover = CommentUpdateApprover()
+
+val commentMerger = CommentMerger()
+val commentFeedMerger = CommentFeedMerger()
+
+val emptyCommentFeedProducer = EmptyCommentFeedProducer()
+
+
 val logger = object : Logger {
     override fun invoke(e: Exception) {
         e.printStackTrace()
     }
 }
-val exc = Executors.newSingleThreadExecutor()
 
 val dispatchersProvider = object : DispatchersProvider {
     override val uiDispatcher: CoroutineDispatcher
@@ -66,8 +72,20 @@ val feedRepository = PostsFeedRepository(
     cyberPostToEntityMapper,
     postMerger,
     feedMerger,
-    FeedUpdateApprover(),
+    approver,
     emptyPostFeedProducer,
+    dispatchersProvider,
+    logger
+)
+
+val commentsRepository = CommentsFeedRepository(
+    apiService,
+    cyberCommentFeedToEntityMapper,
+    cyberCommentToEntityMapper,
+    commentMerger,
+    commentFeedMerger,
+    commentApprover,
+    emptyCommentFeedProducer,
     dispatchersProvider,
     logger
 )

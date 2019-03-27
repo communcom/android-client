@@ -5,7 +5,11 @@ import java.math.BigInteger
 import java.util.*
 
 data class DiscussionCommentsCount(val count: Long) : Entity
-data class DiscussionContent(val title: String, val body: ContentBody, val metadata: Any) : Entity
+
+data class PostContent(val title: String, val body: ContentBody, val metadata: Any) : Entity
+
+data class CommentContent(val body: ContentBody, val metadata: Any) : Entity
+
 data class ContentBody(
     val preview: String?,
     val full: String?
