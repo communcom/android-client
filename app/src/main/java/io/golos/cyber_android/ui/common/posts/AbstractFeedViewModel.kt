@@ -16,7 +16,6 @@ import io.golos.domain.map
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
-import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [LiveData] via [feedLiveData]
@@ -30,7 +29,7 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
         const val PAGE_SIZE = 20
     }
 
-    private val handledVotes = CopyOnWriteArrayList<DiscussionIdModel>()
+    private val handledVotes = mutableSetOf<DiscussionIdModel>()
 
     /**
      * [LiveData] that indicates if user is able to vote
@@ -105,9 +104,14 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     }
 
     private fun vote(power: Short, post: PostModel) {
-        val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
-        voteUseCase.vote(request)
-        handledVotes.remove(post.contentId)
+        if (!post.votes.hasUpVoteProgress
+            && !post.votes.hasDownVotingProgress
+            && !post.votes.hasVoteCancelProgress
+        ) {
+            val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
+            voteUseCase.vote(request)
+            handledVotes.remove(post.contentId)
+        }
     }
 }
 
