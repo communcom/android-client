@@ -9,7 +9,7 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.PostFeed
+import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import junit.framework.Assert.assertTrue
@@ -43,10 +43,10 @@ class UserFeedUseCaseTest {
     @Test
     fun testOne() {
         val pageSize = 6
-        var userPostFeed: PostFeed? = null
+        var userPostFeed: DiscussionsFeed<PostModel>? = null
         var userLastChunkFeed: List<PostModel>? = null
 
-        var communititesPostFeed: PostFeed? = null
+        var communititesPostFeed: DiscussionsFeed<PostModel>? = null
         var communititesLastChunkPostFeed: List<PostModel>? = null
 
         case.subscribe()

@@ -9,6 +9,6 @@ sealed class Feed<T>(
     open val items: T
 ) : Model
 
-data class PostFeed(
-    override val items: List<PostModel>
-) : Feed<List<PostModel>>(items)
+data class DiscussionsFeed<M : DiscussionModel>(
+    override val items: List<M>
+) : Feed<List<M>>(items)

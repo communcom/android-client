@@ -8,7 +8,8 @@ import io.golos.domain.entities.FeedRelatedEntities
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.PostFeed
+import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.model.CommunityFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
@@ -21,9 +22,9 @@ class CommunityFeedUseCase(
     private val communityId: CommunityId,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    feedMapper: EntityToModelMapper<FeedRelatedEntities, PostFeed>,
+    feedMapper: EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>,
     dispatchersProvider: DispatchersProvider
-) : AbstractFeedUseCase<CommunityFeedUpdateRequest>(
+) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
     postFeedRepository,
     voteRepository,
     feedMapper,
@@ -35,7 +36,7 @@ class CommunityFeedUseCase(
             by lazy { CommunityFeedUpdateRequest(communityId.id, 0, DiscussionsSort.FROM_NEW_TO_OLD, null) }
 
     override fun requestFeedUpdate(limit: Int, option: UpdateOption) {
-        val myFeed = postFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
+        val myFeed = discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
         val nextPageId = myFeed?.nextPageId
         val resolvedOption = option.resolveUpdateOption()
         val request = CommunityFeedUpdateRequest(
@@ -47,6 +48,6 @@ class CommunityFeedUseCase(
                 UpdateOption.FETCH_NEXT_PAGE -> nextPageId
             }
         )
-        postFeedRepository.makeAction(request)
+        discussionsFeedRepository.makeAction(request)
     }
 }

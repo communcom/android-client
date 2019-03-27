@@ -4,7 +4,8 @@ import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.PostFeed
+import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.UserSubscriptionsFeedUpdateRequest
@@ -17,23 +18,28 @@ class UserSubscriptionsFeedUseCase(
     private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    feedMapper: EntityToModelMapper<FeedRelatedEntities, PostFeed>,
+    feedMapper: EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>,
     dispatchersProvider: DispatchersProvider
-) : AbstractFeedUseCase<UserSubscriptionsFeedUpdateRequest>(postFeedRepository, voteRepository, feedMapper, dispatchersProvider) {
+) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
+    postFeedRepository,
+    voteRepository,
+    feedMapper,
+    dispatchersProvider
+) {
 
 
     override val baseFeedUpdateRequest: UserSubscriptionsFeedUpdateRequest
         get() = UserSubscriptionsFeedUpdateRequest(userId.userId, 0, DiscussionsSort.FROM_NEW_TO_OLD, null)
 
     override fun requestFeedUpdate(limit: Int, option: UpdateOption) {
-        postFeedRepository.makeAction(
+        discussionsFeedRepository.makeAction(
             UserSubscriptionsFeedUpdateRequest(
                 userId.userId,
                 limit,
                 DiscussionsSort.FROM_NEW_TO_OLD,
                 when (option.resolveUpdateOption()) {
                     UpdateOption.REFRESH_FROM_BEGINNING -> null
-                    UpdateOption.FETCH_NEXT_PAGE -> postFeedRepository.getAsLiveData(baseFeedUpdateRequest).value?.nextPageId
+                    UpdateOption.FETCH_NEXT_PAGE -> discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value?.nextPageId
                 }
             )
         )

@@ -4,9 +4,9 @@ import androidx.annotation.WorkerThread
 import io.golos.domain.Entity
 import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
+import io.golos.domain.entities.DiscussionRelatedEntities
 import io.golos.domain.entities.FeedRelatedEntities
 import io.golos.domain.entities.PostEntity
-import io.golos.domain.entities.PostRelatedEntities
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.model.QueryResult
@@ -22,11 +22,12 @@ interface EntityToModelMapper<E : Entity, M : Model> {
 }
 
 class PostEntityEntitiesToModelMapper :
-    EntityToModelMapper<PostRelatedEntities, PostModel> {
-    private val cashedValues = Collections.synchronizedMap(HashMap<PostRelatedEntities, PostModel>())
+    EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel> {
+    private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
 
-    override suspend fun invoke(entity: PostRelatedEntities): PostModel {
-        val post = entity.postEntity
+    override suspend fun invoke(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
+        val post = entity.discussionEntity
+
         val voteEntity = entity.voteStateEntity
 
         val out = cashedValues.getOrPut(entity) {
@@ -57,23 +58,23 @@ class PostEntityEntitiesToModelMapper :
     }
 }
 
-class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<PostRelatedEntities, PostModel>) :
-    EntityToModelMapper<FeedRelatedEntities, PostFeed> {
+class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>) :
+    EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>> {
 
-    private val cash = Collections.synchronizedMap(HashMap<PostEntity, PostRelatedEntities>())
+    private val cash = Collections.synchronizedMap(HashMap<PostEntity, DiscussionRelatedEntities<PostEntity>>())
 
-    override suspend fun invoke(entity: FeedRelatedEntities): PostFeed {
+    override suspend fun invoke(entity: FeedRelatedEntities<PostEntity>): DiscussionsFeed<PostModel> {
         val posts = entity.feed.discussions
         val votes = entity.votes.values.associateBy { it.originalQuery.discussionIdEntity }
 
-        return PostFeed(posts
+        return DiscussionsFeed(posts
             .map { postEntity ->
                 cash.getOrPut(postEntity) {
-                    PostRelatedEntities(postEntity, null)
+                    DiscussionRelatedEntities(postEntity, null)
                 }
             }
             .onEach { postRelatedEntities ->
-                postRelatedEntities.voteStateEntity = votes[postRelatedEntities.postEntity.contentId]
+                postRelatedEntities.voteStateEntity = votes[postRelatedEntities.discussionEntity.contentId]
             }
             .map { postRelatedEntities -> postMapper(postRelatedEntities) })
     }

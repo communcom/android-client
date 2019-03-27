@@ -7,7 +7,8 @@ import io.golos.cyber_android.feedRepository
 import io.golos.cyber_android.voteRepo
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
-import io.golos.domain.interactors.model.PostFeed
+import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import junit.framework.Assert.assertTrue
 import org.junit.Rule
@@ -33,7 +34,7 @@ class UserSubscriptionsCaseTest {
     @Test
     fun testOne() {
         val pageSize = 3
-        var postFeed: PostFeed? = null
+        var postFeed: DiscussionsFeed<PostModel>? = null
         case.subscribe()
         case.getAsLiveData.observeForever {
             postFeed = it

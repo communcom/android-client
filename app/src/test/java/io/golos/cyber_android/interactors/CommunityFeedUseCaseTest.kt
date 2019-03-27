@@ -5,7 +5,7 @@ import io.golos.cyber_android.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.PostFeed
+import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.model.QueryResult
@@ -50,7 +50,7 @@ class CommunityFeedUseCaseTest {
 
     @Test
     fun testOne() = runBlocking {
-        var postFeed: PostFeed? = null
+        var postFeed: DiscussionsFeed<PostModel>? = null
         var lastUpdatedChunk: List<PostModel>? = null
         case.subscribe()
         case.unsubscribe()
