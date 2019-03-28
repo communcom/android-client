@@ -71,7 +71,8 @@ class CommentEntityToModelMapper :
                 DiscussionAuthorModel(comment.author.userId, comment.author.username),
                 CommentContentModel(
                     ContentBodyModel(comment.content.body.preview, comment.content.body.full),
-                    comment.content.metadata
+                    comment.content.metadata,
+                    if (comment.parentCommentId != null) 1 else 0
                 ),
                 DiscussionVotesModel(
                     comment.votes.hasUpVote,

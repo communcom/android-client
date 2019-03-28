@@ -71,6 +71,7 @@ class PostWithCommentUseCase(
             onRelatedDataChanges()
         }
         mediator.observeForever(observer)
+        postFeedRepository.requestDiscussionUpdate(DiscussionIdEntity.fromModel(postId))
     }
 
     private fun getPostEntity() =
