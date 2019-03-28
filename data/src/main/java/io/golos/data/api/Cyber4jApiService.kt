@@ -73,7 +73,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     }
 
     override fun getComment(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return cyber4j.getComment(user, permlink, refBlockNum).getOrThrow()
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {

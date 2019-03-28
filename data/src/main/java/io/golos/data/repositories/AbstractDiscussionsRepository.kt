@@ -98,6 +98,8 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             val updatedPostEntity = discussionMapper.convertOnBackground(updatedPost)
 
+            var mergedEntity: D? = null
+
             getAllPostsAsLiveDataList()
                 .forEach { feedLiveData ->
                     val feed = feedLiveData.value ?: return@forEach
@@ -106,7 +108,11 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                     if (posts.any { it.contentId == updatingDiscussionId }) {
                         val postWithReplacedDiscussion = posts
                             .replaceByProducer({ postEntity -> postEntity.contentId == updatedPostEntity.contentId },
-                                { postEntity -> discussionMerger(updatedPostEntity, postEntity) })
+                                { postEntity ->
+                                    val result = discussionMerger(updatedPostEntity, postEntity)
+                                    mergedEntity = result
+                                    result
+                                })
 
                         feedLiveData.value = feedLiveData.value?.copy(postWithReplacedDiscussion)
                     }
@@ -115,8 +121,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             if (discussionLiveData.value?.contentId == updatedPostEntity.contentId ||
                 activeUpdatingPost == updatingDiscussionId
-            ) discussionLiveData.value =
-                updatedPostEntity
+            ) discussionLiveData.value = mergedEntity ?: updatedPostEntity
 
             activeUpdatingPost = null
 
@@ -125,7 +130,12 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
     //update feed
     override fun makeAction(params: Q) {
-        launch {
+        launch(exceptionCallback = {
+
+            feedsUpdatingStatesMap.value =
+                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Error(it, params))
+
+        }) {
             if (!requestApprover.approve(params)) return@launch
 
             discussionsFeedMap.putIfAbsentAndGet(params.id)

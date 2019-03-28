@@ -52,7 +52,7 @@ data class DiscussionIdModel(
 data class DiscussionCommentsCountModel(val count: Long) : Model
 
 data class PostContentModel(val title: String, val body: ContentBodyModel, val metadata: Any) : Model
-data class CommentContentModel(val body: ContentBodyModel, val metadata: Any) : Model
+data class CommentContentModel(val body: ContentBodyModel, val metadata: Any, val commentLevel: Int) : Model
 
 
 data class ContentBodyModel(

@@ -91,7 +91,7 @@ class CommentsFeedRepository(
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return apiService.getComment(CyberName(params.userId), params.permlink, params.refBlockNum)
     }
 
     override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {
