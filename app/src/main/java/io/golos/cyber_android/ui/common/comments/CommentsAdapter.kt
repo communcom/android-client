@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.comments
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +59,7 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                     commentModel.meta.elapsedFormCreation.elapsedDays,
                     context
                 )
-                commentContent.text = commentModel.content.body.full
+                commentContent.text = commentModel.content.body.full ?: commentModel.content.body.preview
                 commentReply.setOnClickListener {
                     listener.onReplyClick(commentModel)
                 }
@@ -66,6 +67,10 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                 bindVoteButtons(commentModel, this)
                 commentUpvote.setOnClickListener { listener.onCommentUpvote(commentModel) }
                 commentDownvote.setOnClickListener { listener.onCommentDownvote(commentModel) }
+
+                commentRoot.setPadding(getPaddingStartForCommentLevel(commentModel.content.commentLevel, context), 0, 0, 0)
+                commentAvatar.layoutParams.width = getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
+                commentAvatar.layoutParams.height = getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
 
             }
         }
@@ -84,6 +89,18 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                     if (commentModel.votes.hasUpVoteProgress || commentModel.votes.hasVoteCancelProgress && commentModel.votes.hasUpVote)
                         View.VISIBLE
                     else View.GONE
+            }
+        }
+
+        private fun getAvatarSizeForCommentLevel(level: Int, context: Context): Int {
+            val baseSize = context.resources.getDimensionPixelSize(R.dimen.size_post_card_avatar)
+            return (baseSize * Math.pow(0.6, level.toDouble())).toInt()
+        }
+
+        private fun getPaddingStartForCommentLevel(level: Int, context: Context): Int {
+            return when(level) {
+                0 -> 0
+                else -> context.resources.getDimensionPixelSize(R.dimen.padding_start_comment_level_1)
             }
         }
     }
