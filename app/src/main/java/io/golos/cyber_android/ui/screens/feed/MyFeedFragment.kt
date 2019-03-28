@@ -13,9 +13,9 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.common.posts.PostsDiffCallback
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.PostFeedUpdateRequest
 import kotlinx.android.synthetic.main.fragment_feed_list.*
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
  * Fragment that represents MY FEED tab of the Feed Page
  */
 open class MyFeedFragment :
-    AbstractFeedFragment<PostFeedUpdateRequest, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
+    AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
 
@@ -110,7 +110,7 @@ open class MyFeedFragment :
             requireActivity()
                 .serviceLocator
                 .getUserSubscriptionsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
-        ).get(UserSubscriptionsFeedFeedViewModel::class.java)
+        ).get(UserSubscriptionsFeedViewModel::class.java)
     }
 
     companion object {

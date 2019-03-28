@@ -16,13 +16,14 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.common.posts.PostsDiffCallback
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.sorting.SortingType
 import io.golos.cyber_android.widgets.sorting.SortingWidget
 import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.PostFeedUpdateRequest
@@ -33,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
  * between them is [SortingWidget] in [HeadersPostsAdapter]
  */
 class AllFeedFragment :
-    AbstractFeedFragment<PostFeedUpdateRequest, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
+    AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
 
@@ -46,6 +47,8 @@ class AllFeedFragment :
     ): View? {
         return inflater.inflate(R.layout.fragment_feed_list, container, false)
     }
+
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -71,12 +74,7 @@ class AllFeedFragment :
                 }
 
                 override fun onPostClick(post: PostModel) {
-                    Toast.makeText(
-                        requireContext(),
-                        "post clicked post = ${post.contentId}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    (feedList.adapter as HeadersPostsAdapter).notifyItemChanged(0)
+                    startActivity(PostActivity.getIntent(requireContext(), post))
                 }
 
                 override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {

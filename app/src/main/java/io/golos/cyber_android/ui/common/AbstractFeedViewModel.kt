@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.posts
+package io.golos.cyber_android.ui.common
 
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
@@ -6,15 +6,15 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
-import io.golos.domain.entities.PostEntity
+import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.DiscussionsFeed
-import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.map
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
 
@@ -22,15 +22,15 @@ import io.golos.domain.model.VoteRequestModel
  * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [LiveData] via [feedLiveData]
  * property.
  */
-abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
-    private val feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
-    private val voteUseCase: VoteUseCase
+abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEntity, M : DiscussionModel>(
+    private val feedUseCase: AbstractFeedUseCase<out R, E, M>,
+    protected val voteUseCase: VoteUseCase
 ) : ViewModel() {
     companion object {
         const val PAGE_SIZE = 20
     }
 
-    private val handledVotes = mutableSetOf<DiscussionIdModel>()
+    protected val handledVotes = mutableSetOf<DiscussionIdModel>()
 
     /**
      * [LiveData] that indicates if user is able to vote
@@ -63,14 +63,14 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
     /**
      * [LiveData] that indicates if last page was reached
      */
-    val lastPageLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<PostModel>, Boolean> {
+    val lastPageLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<M>, Boolean> {
         it.size != PAGE_SIZE
     })
 
     /**
-     * [LiveData] of all the [PostModel] items
+     * [LiveData] of all the [DiscussionModel] items
      */
-    val feedLiveData = feedUseCase.getAsLiveData.map(Function<DiscussionsFeed<PostModel>, List<PostModel>> {
+    val feedLiveData = feedUseCase.getAsLiveData.map(Function<DiscussionsFeed<M>, List<M>> {
         it.items
     })
 
@@ -94,26 +94,32 @@ abstract class AbstractFeedViewModel<out T : PostFeedUpdateRequest>(
         feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
     }
 
-    fun onUpvote(post: PostModel) {
+    fun onUpvote(post: M) {
         val power = if (!post.votes.hasUpVote) 10_000.toShort() else 0.toShort()
         vote(power, post)
     }
 
-    fun onDownvote(post: PostModel) {
+    fun onDownvote(post: M) {
         val power = if (!post.votes.hasDownVote) (-10_000).toShort() else 0.toShort()
         vote(power, post)
     }
 
-    private fun vote(power: Short, post: PostModel) {
-        if (!post.votes.hasUpVoteProgress
-            && !post.votes.hasDownVotingProgress
-            && !post.votes.hasVoteCancelProgress
-        ) {
-            val request = VoteRequestModel.VoteForPostRequest(power, post.contentId)
-            voteUseCase.vote(request)
-            handledVotes.remove(post.contentId)
-        }
+    /**
+     * Make vote. This needs to be overriden to provide correct [VoteRequestModel].
+     * After that this request can be used in [vote] function
+     */
+    abstract fun vote(power: Short, discussionModel: M)
+
+    /**
+     * Make vote
+     * @param request vote request
+     * @param discussionIdModel id of entity to vote
+     */
+    protected fun vote(
+        request: VoteRequestModel,
+        discussionIdModel: DiscussionIdModel
+    ) {
+        voteUseCase.vote(request)
+        handledVotes.remove(discussionIdModel)
     }
 }
-
-

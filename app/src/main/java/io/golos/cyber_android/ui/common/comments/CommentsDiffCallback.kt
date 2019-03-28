@@ -1,12 +1,13 @@
-package io.golos.cyber_android.ui.common.posts
+package io.golos.cyber_android.ui.common.comments
 
 import androidx.recyclerview.widget.DiffUtil
+import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.PostModel
 
 /**
  * [DiffUtil.Callback] impl for [PostModel] lists
  */
-class PostsDiffCallback(private val oldList: List<PostModel>, private val newList: List<PostModel>) :
+class CommentsDiffCallback(private val oldList: List<CommentModel>, private val newList: List<CommentModel>) :
     DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

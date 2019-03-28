@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.screens.post.PostActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:liftOnScroll="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+                    android:id="@+id/back"
+                    android:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/header_post_card"/>
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

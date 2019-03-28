@@ -7,5 +7,5 @@ import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.UserPostsUpdateRequest
 import io.golos.domain.model.UserSubscriptionsFeedUpdateRequest
 
-class UserSubscriptionsFeedFeedViewModel(useCase: UserPostFeedUseCase, voteUseCase: VoteUseCase) :
+class UserSubscriptionsFeedViewModel(useCase: UserPostFeedUseCase, voteUseCase: VoteUseCase) :
     FeedPageTabViewModel<PostFeedUpdateRequest>(useCase, voteUseCase)

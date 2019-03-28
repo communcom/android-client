@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
-import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedFeedViewModel
+import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
+import io.golos.cyber_android.ui.screens.post.PostWithCommentsViewModel
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
 import io.golos.domain.DiscussionsFeedRepository
@@ -134,8 +135,23 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
-                    UserSubscriptionsFeedFeedViewModel::class.java -> UserSubscriptionsFeedFeedViewModel(
+                    UserSubscriptionsFeedViewModel::class.java -> UserSubscriptionsFeedViewModel(
                         getUserPostFeedUseCase(user),
+                        getVoteUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getPostWithCommentsViewModelFactory(postId: DiscussionIdModel): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    PostWithCommentsViewModel::class.java -> PostWithCommentsViewModel(
+                        getPostWithCommentsUseCase(postId),
                         getVoteUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")

@@ -17,6 +17,12 @@ import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
 import kotlinx.android.synthetic.main.item_loading.view.*
 
+
+private const val EDITOR_TYPE = 0
+private const val SORTING_TYPE = 1
+private const val POST_TYPE = 2
+private const val LOADING_TYPE = 3
+
 /**
  * Extension of [PostsAdapter] that support two types of headers -
  * [EditorWidgetViewHolder] and [SortingWidgetViewHolder]
@@ -28,12 +34,7 @@ class HeadersPostsAdapter(
 ) :
     PostsAdapter(emptyList(), listener) {
 
-    private val EDITOR_TYPE = 0
-    private val SORTING_TYPE = 1
-    private val POST_TYPE = 2
-    private val LOADING_TYPE = 3
-
-    var isLoading = true
+    override var isLoading = true
         set(value) {
             field = value
             notifyItemChanged(itemCount - 1)
