@@ -49,8 +49,7 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
         ) {
             with(itemView) {
                 //todo commentAvatar
-                //todo commentRating
-                commentRating.text = "42"
+                commentRating.text = (commentModel.votes.upCount - commentModel.votes.downCount).toString()
                 commentAuthorName.text = commentModel.author.username
                 commentDate.text = DateUtils.createTimeLabel(
                     commentModel.meta.time.time,
@@ -63,7 +62,11 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                 commentReply.setOnClickListener {
                     listener.onReplyClick(commentModel)
                 }
+
                 bindVoteButtons(commentModel, this)
+                commentUpvote.setOnClickListener { listener.onCommentUpvote(commentModel) }
+                commentDownvote.setOnClickListener { listener.onCommentDownvote(commentModel) }
+
             }
         }
 
@@ -89,9 +92,9 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
 
         fun onReplyClick(comment: CommentModel)
 
-        fun onUpvoteClick(comment: CommentModel)
+        fun onCommentUpvote(comment: CommentModel)
 
-        fun onDownvoteClick(comment: CommentModel)
+        fun onCommentDownvote(comment: CommentModel)
     }
 
 }

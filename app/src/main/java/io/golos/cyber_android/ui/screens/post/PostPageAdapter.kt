@@ -22,7 +22,7 @@ private const val COMMENT_TYPE = 1
 private const val COMMENT_INPUT_TYPE = 2
 private const val LOADING_TYPE = 3
 
-class PostAdapter(
+class PostPageAdapter(
     commentListener: CommentsAdapter.Listener,
     val listener: Listener
 ) :
@@ -42,21 +42,21 @@ class PostAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            POST_TYPE -> PostAdapter.PostViewHolder(
+            POST_TYPE -> PostPageAdapter.PostViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_post_header, parent,
                     false
                 )
             )
             COMMENT_TYPE -> super.onCreateViewHolder(parent, viewType)
-            LOADING_TYPE -> PostAdapter.LoadingViewHolder(
+            LOADING_TYPE -> PostPageAdapter.LoadingViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_loading,
                     parent,
                     false
                 )
             )
-            COMMENT_INPUT_TYPE -> PostAdapter.InputViewHolder(
+            COMMENT_INPUT_TYPE -> PostPageAdapter.InputViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_post_footer,
                     parent,

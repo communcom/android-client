@@ -13,6 +13,7 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.PostEntity
@@ -61,11 +62,7 @@ open class MyFeedFragment :
                 }
 
                 override fun onPostClick(post: PostModel) {
-                    Toast.makeText(
-                        requireContext(),
-                        "post clicked post = ${post.contentId}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    startActivity(PostActivity.getIntent(requireContext(), post))
                 }
 
                 override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {

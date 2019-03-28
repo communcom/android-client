@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.header_post_card.*
 /**
  * Fragment for single [PostModel] presentation
  */
-class PostFragment :
+class PostPageFragment :
     AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostWithCommentsViewModel>() {
     override val feedList: RecyclerView
         get() = postView
@@ -58,7 +58,7 @@ class PostFragment :
     }
 
     private fun bindPostModel(postModel: PostModel) {
-        (feedList.adapter as PostAdapter).postModel = postModel
+        (feedList.adapter as PostPageAdapter).postModel = postModel
         bindToolbar(postModel)
     }
 
@@ -84,17 +84,19 @@ class PostFragment :
     }
 
     override fun setupFeedAdapter() {
-        feedList.adapter = PostAdapter(object : CommentsAdapter.Listener {
-            override fun onUpvoteClick(comment: CommentModel) {
+        feedList.adapter = PostPageAdapter(object : CommentsAdapter.Listener {
+            override fun onCommentUpvote(comment: CommentModel) {
+                viewModel.onUpvote(comment)
             }
 
-            override fun onDownvoteClick(comment: CommentModel) {
+            override fun onCommentDownvote(comment: CommentModel) {
+                viewModel.onDownvote(comment)
             }
 
             override fun onReplyClick(comment: CommentModel) {
             }
 
-        }, object : PostAdapter.Listener {
+        }, object : PostPageAdapter.Listener {
             override fun onPostUpvote(postModel: PostModel) {
                 viewModel.onPostUpote()
             }

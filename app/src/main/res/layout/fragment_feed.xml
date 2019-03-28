@@ -5,8 +5,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
         tools:context=".MainActivity">
 
 
@@ -14,6 +12,8 @@
             android:id="@+id/actionBar"
             app:elevation="0dp"
             android:background="@color/white"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
