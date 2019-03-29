@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
@@ -21,6 +22,9 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.CommentFeedUpdateRequest
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
+
+
+const val INPUT_ANIM_DURATION = 400L
 
 /**
  * Fragment for single [PostModel] presentation
@@ -51,6 +55,32 @@ class PostPageFragment :
 
         postMenu.setColorFilter(Color.BLACK)
         back.setOnClickListener { activity?.finish() }
+
+        feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lastVisibleItem =
+                    (feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                adjustInputVisibility(lastVisibleItem)
+            }
+        })
+        postCommentParent.visibility = View.GONE
+        postCommentParent.alpha = 0f
+    }
+
+    private fun adjustInputVisibility(lastVisibleItem: Int) {
+        if (lastVisibleItem > 0) {
+            if (postCommentParent.visibility != View.VISIBLE)
+                postCommentParent.animate().withStartAction {
+                    postCommentParent.visibility = View.VISIBLE
+                    postCommentParent.alpha = 0f
+                }.alpha(1f).setDuration(INPUT_ANIM_DURATION).start()
+        } else {
+            if (postCommentParent.visibility != View.GONE)
+                postCommentParent.animate().withEndAction {
+                    postCommentParent.visibility = View.GONE
+                }.alpha(0f).setDuration(INPUT_ANIM_DURATION).start()
+        }
     }
 
     private fun showLoading() {

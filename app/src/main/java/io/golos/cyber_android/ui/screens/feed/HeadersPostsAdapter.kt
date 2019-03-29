@@ -23,6 +23,10 @@ private const val SORTING_TYPE = 1
 private const val POST_TYPE = 2
 private const val LOADING_TYPE = 3
 
+private const val EDITOR_POSITION = 0
+private const val SORTING_POSITION = 1
+
+
 /**
  * Extension of [PostsAdapter] that support two types of headers -
  * [EditorWidgetViewHolder] and [SortingWidgetViewHolder]
@@ -37,21 +41,24 @@ class HeadersPostsAdapter(
     override var isLoading = true
         set(value) {
             field = value
-            notifyItemChanged(itemCount - 1)
+            if (itemCount > 0)
+                notifyItemChanged(getLoadingViewHolderPosition())
         }
 
     var sortingWidgetState = SortingWidget.SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)
         set(value) {
             checkSortingWidgetSupport()
             field = value
-            notifyItemChanged(1)
+            if (itemCount > SORTING_POSITION)
+                notifyItemChanged(SORTING_POSITION)
         }
 
     var editorWidgetState = EditorWidget.EditorWidgetState(null)
         set(value) {
             checkEditorWidgetSupport()
             field = value
-            notifyItemChanged(0)
+            if (itemCount > EDITOR_POSITION)
+                notifyItemChanged(EDITOR_POSITION)
         }
 
     var sortingWidgetListener: SortingWidget.Listener? = null
@@ -119,10 +126,14 @@ class HeadersPostsAdapter(
             if (position == 0) return EDITOR_TYPE
             if (isSortingWidgetSupported && position == 1) return SORTING_TYPE
         }
-        if (position == itemCount - 1) return LOADING_TYPE
+        if (position == getLoadingViewHolderPosition()) return LOADING_TYPE
         return POST_TYPE
     }
 
+    /**
+     * Returns [getItemCount] of superclass but also adds [getItemsOffset] (which is amount of the headers in adapter)
+     * and 1 (which is loading view ath the bottom)
+     */
     override fun getItemCount(): Int {
         return super.getItemCount() + getItemsOffset() + 1
     }
@@ -149,6 +160,11 @@ class HeadersPostsAdapter(
     override fun dispatchUpdates(diffResult: DiffUtil.DiffResult) {
         diffResult.dispatchUpdatesTo(updateCallback)
     }
+
+    /**
+     * Returns position of loading view holder
+     */
+    private fun getLoadingViewHolderPosition() = itemCount - 1
 
     /**
      * Return headers count to offset real content elements

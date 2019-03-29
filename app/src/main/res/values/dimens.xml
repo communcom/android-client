@@ -56,4 +56,5 @@
     <dimen name="margin_top_comment_vote_buttons">10dp</dimen>
     <dimen name="margin_vertical_comment_reply">24dp</dimen>
     <dimen name="padding_start_comment_level_1">56dp</dimen>
+    <dimen name="padding_bottom_comments_list">60dp</dimen>
 </resources>

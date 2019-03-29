@@ -15,4 +15,5 @@
     <color name="middle_gray_2">#E5E5E5</color>
     <color name="dark_gray">#9B9FA2</color>
     <color name="blue_40">#666A80F5</color>
+    <color name="background_post_comment">#ffffff</color>
 </resources>

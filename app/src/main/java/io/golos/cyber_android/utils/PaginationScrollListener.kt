@@ -25,14 +25,6 @@ abstract class PaginationScrollListener(private val layoutManager: LinearLayoutM
                 loadMoreItems()
             }
         }
-
-//        if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
-//            && firstVisibleItemPosition >= 0
-//            && totalItemCount >= pageSize
-//        ) {
-//            loadMoreItems()
-//        }
-
     }
 
     protected abstract fun loadMoreItems()

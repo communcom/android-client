@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.post
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +12,25 @@ import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.item_loading.view.*
-import kotlinx.android.synthetic.main.item_post_footer.view.*
 import kotlinx.android.synthetic.main.item_post_header.view.*
 import java.math.BigInteger
 
 private const val POST_TYPE = 0
 private const val COMMENT_TYPE = 1
-private const val COMMENT_INPUT_TYPE = 2
-private const val LOADING_TYPE = 3
+private const val LOADING_TYPE = 2
+
+private const val POST_CARD_POSITION = 0
+
+
+/**
+ * This adapter have only one header - Post Card
+ */
+private const val HEADERS_COUNT = 1
+
+/**
+ * Position of the post header
+ */
+private const val POST_HEADER_POSITION = 0
 
 class PostPageAdapter(
     commentListener: CommentsAdapter.Listener,
@@ -31,13 +41,15 @@ class PostPageAdapter(
     override var isLoading = true
         set(value) {
             field = value
-            notifyItemChanged(itemCount - 2)
+            if (itemCount > 0)
+                notifyItemChanged(getLoadingViewHolderPosition())
         }
 
     var postModel: PostModel? = null
         set(value) {
             field = value
-            notifyItemChanged(0)
+            if (itemCount > POST_HEADER_POSITION)
+                notifyItemChanged(POST_HEADER_POSITION)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -56,13 +68,6 @@ class PostPageAdapter(
                     false
                 )
             )
-            COMMENT_INPUT_TYPE -> PostPageAdapter.InputViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_post_footer,
-                    parent,
-                    false
-                )
-            )
             else -> throw RuntimeException("Unsupported view type")
         }
     }
@@ -76,10 +81,6 @@ class PostPageAdapter(
                 }
             }
             COMMENT_TYPE -> super.onBindViewHolder(holder, position - getItemsOffset())
-            COMMENT_INPUT_TYPE -> {
-                holder as InputViewHolder
-                holder.bind("")
-            }
             LOADING_TYPE -> {
                 holder as LoadingViewHolder
                 holder.bind(isLoading)
@@ -90,16 +91,27 @@ class PostPageAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            0 -> POST_TYPE
-            itemCount - 2 -> LOADING_TYPE
-            itemCount - 1 -> COMMENT_INPUT_TYPE
+            POST_CARD_POSITION -> POST_TYPE
+            getLoadingViewHolderPosition() -> LOADING_TYPE
             else -> COMMENT_TYPE
         }
     }
 
-    private fun getItemsOffset() = 1
+    /**
+     * Return headers count to offset real content elements
+     */
+    private fun getItemsOffset() = HEADERS_COUNT
 
-    override fun getItemCount() = super.getItemCount() + 3
+    /**
+     * Returns [getItemCount] of superclass but also adds [getItemsOffset] (which is amount of the headers in adapter)
+     * and 1 (which is loading view ath the bottom)
+     */
+    override fun getItemCount() = super.getItemCount() + getItemsOffset() + 1
+
+    /**
+     * Returns position of loading view holder
+     */
+    private fun getLoadingViewHolderPosition() = itemCount - 1
 
     private val adapterCallback = AdapterListUpdateCallback(this)
     private val updateCallback = object : ListUpdateCallback {
@@ -132,18 +144,6 @@ class PostPageAdapter(
             isLoading: Boolean
         ) {
             view.progress.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
-    }
-
-
-    /**
-     * [RecyclerView.ViewHolder] for comment input
-     */
-    class InputViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(
-            text: String
-        ) {
-            view.postCommentBottom.setText(text)
         }
     }
 
@@ -202,8 +202,6 @@ class PostPageAdapter(
                     if (postModel.votes.hasUpVoteProgress || postModel.votes.hasVoteCancelProgress && postModel.votes.hasUpVote)
                         View.VISIBLE
                     else View.GONE
-
-                Log.i("dfsdfsdf", "up - ${postModel.votes.hasUpVote} | upPr - ${postModel.votes.hasUpVoteProgress} | d - ${postModel.votes.hasDownVote} | dPr - ${postModel.votes.hasDownVotingProgress} | cancel - ${postModel.votes.hasVoteCancelProgress}")
             }
         }
 

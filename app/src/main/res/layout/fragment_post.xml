@@ -17,6 +17,7 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <LinearLayout
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -36,9 +37,31 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+            android:paddingBottom="@dimen/padding_bottom_comments_list"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:id="@+id/postView"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+    <FrameLayout
+            android:id="@+id/postCommentParent"
+            android:background="@color/background_post_comment"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/postCommentBottom"
+                android:layout_marginTop="@dimen/margin_vertical_post_page_comment_edit_text"
+                android:layout_marginBottom="@dimen/margin_vertical_post_page_comment_edit_text"
+                android:hint="@string/hint_add_comment"
+                android:background="@drawable/bg_post_card_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+                android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+        />
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
