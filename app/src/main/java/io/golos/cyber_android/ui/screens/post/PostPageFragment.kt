@@ -2,9 +2,11 @@ package io.golos.cyber_android.ui.screens.post
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,22 +66,24 @@ class PostPageFragment :
                 adjustInputVisibility(lastVisibleItem)
             }
         })
-        postCommentParent.visibility = View.GONE
         postCommentParent.alpha = 0f
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
         if (lastVisibleItem > 0) {
-            if (postCommentParent.visibility != View.VISIBLE)
-                postCommentParent.animate().withStartAction {
-                    postCommentParent.visibility = View.VISIBLE
-                    postCommentParent.alpha = 0f
-                }.alpha(1f).setDuration(INPUT_ANIM_DURATION).start()
+            (feedList.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
+                resources.getDimensionPixelSize(R.dimen.padding_bottom_comments_list)
+                postCommentParent.animate()
+                    .alpha(1f)
+                    .setDuration(INPUT_ANIM_DURATION)
+                    .start()
         } else {
-            if (postCommentParent.visibility != View.GONE)
-                postCommentParent.animate().withEndAction {
-                    postCommentParent.visibility = View.GONE
-                }.alpha(0f).setDuration(INPUT_ANIM_DURATION).start()
+                postCommentParent.animate()
+                    .alpha(0f)
+                    .withEndAction {
+                        (feedList.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
+                    }.setDuration(INPUT_ANIM_DURATION)
+                    .start()
         }
     }
 

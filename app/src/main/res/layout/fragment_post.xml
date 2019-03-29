@@ -37,7 +37,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:paddingBottom="@dimen/padding_bottom_comments_list"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:id="@+id/postView"
