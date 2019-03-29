@@ -7,7 +7,7 @@ import io.golos.domain.entities.CyberUser
  */
 class AuthRequest(val user: CyberUser, val activeKey: String) : Identifiable {
 
-    inner class Id(val user: CyberUser, val activeKey: String) : Identifiable.Id() {
+    inner class Id(val user: CyberUser) : Identifiable.Id() {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -15,18 +15,18 @@ class AuthRequest(val user: CyberUser, val activeKey: String) : Identifiable {
             other as Id
 
             if (user != other.user) return false
-            if (activeKey != other.activeKey) return false
+
 
             return true
         }
 
         override fun hashCode(): Int {
-            var result = user.hashCode()
-            result = 31 * result + activeKey.hashCode()
-            return result
+            return user.hashCode()
         }
     }
 
     override val id: Identifiable.Id
-            by lazy { Id(user, activeKey) }
+            by lazy { Id(user) }
 }
+
+data class AuthRequestModel(val user: CyberUser, val activeKey: String)

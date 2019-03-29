@@ -72,13 +72,17 @@ class VoteUseCaseTest {
         }
 
         var counter = -1
+        var voteLoadingQueyState: QueryResult<VoteRequestModel>? = null
+
         mediator.addSource(voteUseCase.getAsLiveData) {
             counter++
-            println(it)
+
+
             if (counter == 0) {
                 return@addSource
             } else {
                 val item = it.values.first()
+                voteLoadingQueyState = item
 
                 assertTrue(it.size == 1)
 
@@ -91,6 +95,8 @@ class VoteUseCaseTest {
 
 
         }
+
+        while (voteLoadingQueyState is QueryResult.Loading) delay(200)
 
         delay(3_000)
 
@@ -106,6 +112,7 @@ class VoteUseCaseTest {
             )
         )
 
+        while (voteLoadingQueyState is QueryResult.Loading) delay(200)
         delay(3_000)
 
         assertTrue(feed!!.discussions.first().votes.hasDownVote)

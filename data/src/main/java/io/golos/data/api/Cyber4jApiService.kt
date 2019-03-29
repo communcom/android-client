@@ -26,6 +26,10 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         listeners.forEach { it.onAuthSuccess(forUser) }
     }
 
+    override fun getUserAccount(user: CyberName): UserProfile {
+        return cyber4j.getUserAccount(user).getOrThrow()
+    }
+
     override fun onFail(e: Exception) {
         listeners.forEach { it.onFail(e) }
     }
