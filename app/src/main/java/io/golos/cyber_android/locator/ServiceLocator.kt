@@ -21,6 +21,8 @@ interface ServiceLocator {
 
     fun getUserSubscriptionsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory
 
+    fun getPostWithCommentsViewModelFactory(postId: DiscussionIdModel): ViewModelProvider.Factory
+
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase

@@ -8,11 +8,17 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter
+import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
+import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.utils.PaginationScrollListener
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.entities.DiscussionEntity
+import io.golos.domain.interactors.model.DiscussionModel
+import io.golos.domain.model.FeedUpdateRequest
 
-abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : AbstractFeedViewModel<T>> : Fragment() {
+abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
+        E : DiscussionEntity,
+        M : DiscussionModel,
+        VM : AbstractFeedViewModel<R, E, M>> : Fragment() {
 
     open lateinit var viewModel: VM
 
@@ -27,8 +33,10 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
         val feedListLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         feedList.layoutManager = feedListLayoutManager
         (feedList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        @Suppress("UNCHECKED_CAST")
         viewModel.feedLiveData.observe(this, Observer {
-            (feedList.adapter as HeadersPostsAdapter).submit(it)
+            (feedList.adapter as AbstractDiscussionModelAdapter<M>).submit(it)
             onNewData()
         })
 
@@ -45,7 +53,7 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
             }
         })
 
-        val paginationScrollListener = object : PaginationScrollListener(feedListLayoutManager, AbstractFeedViewModel.PAGE_SIZE) {
+        val paginationScrollListener = object : PaginationScrollListener(feedListLayoutManager, AbstractPostFeedViewModel.PAGE_SIZE) {
             override fun loadMoreItems() {
                 viewModel.loadMore()
             }
@@ -56,9 +64,10 @@ abstract class AbstractFeedFragment<out T : PostFeedUpdateRequest, VM : Abstract
             paginationScrollListener.isLoading = isLoading
         })
 
+        @Suppress("UNCHECKED_CAST")
         viewModel.lastPageLiveData.observe(this, Observer { isLastPage ->
             paginationScrollListener.isLastPage = isLastPage
-            (feedList.adapter as HeadersPostsAdapter).isLoading = !isLastPage
+            (feedList.adapter as AbstractDiscussionModelAdapter<M>).isLoading = !isLastPage
         })
 
 

@@ -37,4 +37,8 @@
     <string name="now_happened">Just now</string>
     <string name="ago">back</string>
 
+    <!--Comment-->
+    <string name="reply">Reply</string>
+    <string name="comments_title_format">%1$s Comments</string>
+
 </resources>

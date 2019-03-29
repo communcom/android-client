@@ -5,9 +5,12 @@
     <dimen name="size_editor_widget_avatar">40dp</dimen>
     <dimen name="margin_horizontal_default_16dp">16dp</dimen>
 
+    <dimen name="text_size_22_sp">22sp</dimen>
     <dimen name="text_size_20_sp">20sp</dimen>
     <dimen name="text_size_16_sp">16sp</dimen>
+    <dimen name="text_size_15_sp">15sp</dimen>
     <dimen name="text_size_14_sp">14sp</dimen>
+    <dimen name="text_size_13_sp">13sp</dimen>
     <dimen name="text_size_12_sp">12sp</dimen>
 
     <!--Feed page-->
@@ -41,4 +44,19 @@
     <dimen name="divider_post_card_height">8dp</dimen>
     <dimen name="margin_top_post_card_media">16dp</dimen>
     <dimen name="size_post_card_votes_count">16dp</dimen>
+
+    <!--Post Page-->
+    <dimen name="margin_top_post_page_title">16dp</dimen>
+    <dimen name="margin_top_post_page_content">32dp</dimen>
+    <dimen name="margin_top_post_page_comments_title">55dp</dimen>
+    <dimen name="margin_top_post_page_comments">15dp</dimen>
+    <dimen name="margin_vertical_post_page_comment_edit_text">12dp</dimen>
+
+    <!--Comment-->
+    <dimen name="margin_top_comment_vote_buttons">10dp</dimen>
+    <dimen name="margin_vertical_comment_reply">24dp</dimen>
+    <dimen name="padding_start_comment_level_1">56dp</dimen>
+    <dimen name="padding_bottom_comments_list">60dp</dimen>
+    <dimen name="margin_vertical_comment_timestamp">8dp</dimen>
+    <dimen name="margin_end_comment_author">100dp</dimen>
 </resources>

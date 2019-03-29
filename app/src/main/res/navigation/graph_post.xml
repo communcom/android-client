@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/graph_feed"
+            tools:ignore="UnusedNavigation" app:startDestination="@id/postFragment">
+    <fragment android:id="@+id/postFragment" android:name="io.golos.cyber_android.ui.screens.post.PostPageFragment"
+              android:label="PostFragment"/>
+</navigation>

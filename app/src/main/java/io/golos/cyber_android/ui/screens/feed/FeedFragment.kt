@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.feed
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -10,16 +9,13 @@ import androidx.annotation.StringRes
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.TabLayoutMediator
-import io.golos.cyber_android.widgets.sorting.SortingType
 import kotlinx.android.synthetic.main.fragment_feed.*
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
-import android.graphics.drawable.Drawable
-import io.golos.cyber_android.ui.Tags
 
 
 const val SORT_REQUEST_CODE = 100

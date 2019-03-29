@@ -3,26 +3,28 @@ package io.golos.cyber_android.ui.common.posts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
+import kotlinx.android.synthetic.main.footer_post_card.view.*
+import kotlinx.android.synthetic.main.header_post_card.view.*
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.math.BigInteger
 
 /**
- * [PagedListAdapter] for [PostEntity]
+ * [RecyclerView.Adapter] for [PostEntity]
  */
 
 abstract class PostsAdapter(private var values: List<PostModel>, private val listener: Listener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    AbstractDiscussionModelAdapter<PostModel>() {
 
     private val zero = BigInteger("0")
 
-    fun submit(list: List<PostModel>) {
+    override fun submit(list: List<PostModel>) {
         val diff = DiffUtil.calculateDiff(PostsDiffCallback(values, list))
         values = list
         dispatchUpdates(diff)
@@ -54,8 +56,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             listener: Listener
         ) {
             with(itemView) {
-                postCommunityName.text = postModel.community.name
-                postAuthor.text = String.format(
+                postAuthorName.text = postModel.community.name
+                        postAuthor.text = String.format(
                     context.resources.getString(R.string.post_time_and_author_format),
                     DateUtils.createTimeLabel(
                         postModel.meta.time.time,
@@ -66,7 +68,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     ),
                     postModel.author.username
                 )
-                postContentTitle.text = postModel.content.body.preview
+                postContentPreview.text = postModel.content.body.preview
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > zero
 
