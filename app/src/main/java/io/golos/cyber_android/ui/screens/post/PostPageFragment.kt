@@ -59,31 +59,35 @@ class PostPageFragment :
         back.setOnClickListener { activity?.finish() }
 
         feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val lastVisibleItem =
-                    (feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                adjustInputVisibility(lastVisibleItem)
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
             }
         })
         postCommentParent.alpha = 0f
+        postCommentParent.visibility = View.GONE
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
         if (lastVisibleItem > 0) {
-            (feedList.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
-                resources.getDimensionPixelSize(R.dimen.padding_bottom_comments_list)
-                postCommentParent.animate()
+            postCommentParent.animate()
                     .alpha(1f)
                     .setDuration(INPUT_ANIM_DURATION)
+                    .withStartAction {
+                        postCommentParent.alpha = 0f
+                        postCommentParent.visibility = View.VISIBLE
+                    }
                     .start()
         } else {
-                postCommentParent.animate()
-                    .alpha(0f)
-                    .withEndAction {
-                        (feedList.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin = 0
-                    }.setDuration(INPUT_ANIM_DURATION)
-                    .start()
+            postCommentParent.animate()
+                .alpha(0f)
+                .setDuration(INPUT_ANIM_DURATION)
+                .withStartAction {
+                    postCommentParent.alpha = 1f
+                }.withEndAction {
+                    postCommentParent.visibility = View.GONE
+                }
+                .start()
         }
     }
 
