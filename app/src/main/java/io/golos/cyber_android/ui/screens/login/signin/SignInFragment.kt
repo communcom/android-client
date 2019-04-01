@@ -92,12 +92,13 @@ class SignInFragment : Fragment() {
     }
 
     private fun showLoading() {
-        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded)
+        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded) {
             loadingDialog.show(requireFragmentManager(), "loading")
+        }
     }
 
     private fun hideLoading() {
-        if (loadingDialog.dialog?.isShowing == true || loadingDialog.isAdded)
+        if (loadingDialog.fragmentManager != null)
             loadingDialog.dismiss()
     }
 
