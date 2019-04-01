@@ -14,6 +14,9 @@ import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import android.view.inputmethod.EditorInfo
+import androidx.navigation.fragment.findNavController
+
 
 class SignInFragment : Fragment() {
 
@@ -46,8 +49,20 @@ class SignInFragment : Fragment() {
             }
         })
 
+        key.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                signIn.performClick()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
         signIn.setOnClickListener {
             viewModel.signIn()
+        }
+
+        back.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         observeViewModel()
@@ -77,12 +92,12 @@ class SignInFragment : Fragment() {
     }
 
     private fun showLoading() {
-        if (loadingDialog.dialog?.isShowing != true)
+        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded)
             loadingDialog.show(requireFragmentManager(), "loading")
     }
 
     private fun hideLoading() {
-        if (loadingDialog.dialog?.isShowing == true)
+        if (loadingDialog.dialog?.isShowing == true || loadingDialog.isAdded)
             loadingDialog.dismiss()
     }
 
@@ -90,9 +105,11 @@ class SignInFragment : Fragment() {
      * Called when there was an error in login process, displays [NotificationDialog] with error message
      */
     private fun onError() {
-        NotificationDialog
-            .newInstance(getString(R.string.login_error))
-            .show(requireFragmentManager(), "notification")
+        if (requireFragmentManager().findFragmentByTag("notification") == null)
+            NotificationDialog
+                .newInstance(getString(R.string.login_error))
+                .show(requireFragmentManager(), "notification")
+        hideLoading()
     }
 
     private fun setupViewModel() {

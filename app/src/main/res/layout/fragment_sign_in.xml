@@ -90,6 +90,7 @@
                 <EditText
                         android:paddingTop="@dimen/padding_top_sign_in_edit_text"
                         android:maxLines="1"
+                        android:imeOptions="actionDone"
                         android:singleLine="true"
                         android:background="@android:color/transparent"
                         android:gravity="bottom"

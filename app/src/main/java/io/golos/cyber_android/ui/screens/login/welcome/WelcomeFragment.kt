@@ -14,10 +14,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.fragment_welcome.*
 
 const val ANIM_DURATION = 3000L
+const val USER_DRAG_ANIM_DELAY = 10000L
 
 class WelcomeFragment : Fragment() {
 
@@ -51,16 +53,26 @@ class WelcomeFragment : Fragment() {
     private fun setupSlidesPager(slides: List<SlideItem>) {
         slidesPager.adapter = WelcomeSlidesAdapter(slides)
         slidesIndicator.setupWithViewPager(slidesPager, slides.size)
+
+        slidesPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                    if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
+                        handler.removeCallbacks(switchSlideRunnable)
+                        handler.postDelayed(switchSlideRunnable, USER_DRAG_ANIM_DELAY)
+                    }
+            }
+        })
     }
 
     private fun getFirstSlideText(): Spannable {
         val firstSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_0_0))
         val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black))
-        firstSlideTextBegin.setSpan(blackColor, 0, firstSlideTextBegin.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        firstSlideTextBegin.setSpan(blackColor, 0, firstSlideTextBegin.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
         val firstSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_0_1))
         val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
-        firstSlideTextEnd.setSpan(blueColor, 0, firstSlideTextEnd.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        firstSlideTextEnd.setSpan(blueColor, 0, firstSlideTextEnd.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
         return SpannableStringBuilder(TextUtils.concat(firstSlideTextBegin, " ", firstSlideTextEnd))
     }
