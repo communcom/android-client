@@ -83,7 +83,7 @@ class SignInUseCase(
             signInStateLiveData.value = when {
                 updateStateInRepository.any { it is QueryResult.Success } && authStateInRepository.isUserLoggedIn -> SignInState.USER_LOGGED_IN
                 updateStateInRepository.any { it is QueryResult.Loading } -> SignInState.LOADING
-                else -> SignInState.LOG_IN_NEEDED
+                else -> SignInState.LOG_IS_NEEDED
             }
         }
     }

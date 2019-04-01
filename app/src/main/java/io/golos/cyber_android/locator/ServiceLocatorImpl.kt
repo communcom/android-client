@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
+import io.golos.cyber_android.ui.screens.login.AuthViewModel
+import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.post.PostWithCommentsViewModel
 import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
@@ -156,6 +158,34 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     PostWithCommentsViewModel::class.java -> PostWithCommentsViewModel(
                         getPostWithCommentsUseCase(postId),
                         getVoteUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getSignInViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    SignInViewModel::class.java -> SignInViewModel(
+                        getSignInUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getAuthViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    AuthViewModel::class.java -> AuthViewModel(
+                        getSignInUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

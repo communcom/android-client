@@ -5,4 +5,5 @@ object Tags {
     const val USER_ID = "USER_ID"
     const val PERM_LINK = "PERM_LINK"
     const val REF_BLOCK_NUM = "REF_BLOCK_NUM"
+    const val MESSAGE = "MESSAGE"
 }

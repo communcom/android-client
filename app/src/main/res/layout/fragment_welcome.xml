@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:paddingTop="@dimen/margin_vertical_default_16dp"
+              android:paddingBottom="@dimen/margin_vertical_default_16dp"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".ui.screens.login.welcome.WelcomeFragment">
+
+    <io.golos.cyber_android.views.WelcomePagerIndicatorView
+            android:id="@+id/slidesIndicator"
+            android:layout_marginStart="@dimen/margin_horizontal_default_8dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_8dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_welcome_pager_indicator"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/slidesPager"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    <TextView
+            android:id="@+id/signUp"
+            style="@style/SignUpButtonStyle"
+            android:layout_marginTop="@dimen/margin_top_welcome_buttons"
+            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
+            android:text="@string/sign_up"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/signIn"
+            style="@style/SignInButtonStyle"
+            android:background="@color/white"
+            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
+            android:text="@string/sign_in"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>
