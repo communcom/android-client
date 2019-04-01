@@ -79,19 +79,19 @@ class AuthUseCaseTest {
 
         delay(100)
 
-        assertEquals(SignInState.LOG_IS_NEEDED, signInState)
+        assertEquals(SignInState.LOG_IN_NEEDED, signInState)
 
         authUseCase.authWithCredentials(AuthRequestModel(CyberUser("sdgsdgsg"), "ssdgsd gsdgsdg3essd"))
 
 
         assertTrue(authResult!!.values.first() is QueryResult.Error)
-        assertEquals(SignInState.LOG_IS_NEEDED, signInState)
+        assertEquals(SignInState.LOG_IN_NEEDED, signInState)
 
         authUseCase.authWithCredentials(AuthRequestModel(CyberUser("sdgsdgsg"), "ssdgsd gsd235235gsdg3essd"))
 
         assertTrue(authResult!!.values.size == 1)
         assertTrue(authResult!!.values.first() is QueryResult.Error)
-        assertEquals(SignInState.LOG_IS_NEEDED, signInState)
+        assertEquals(SignInState.LOG_IN_NEEDED, signInState)
 
         authUseCase.authWithCredentials(
             AuthRequestModel(

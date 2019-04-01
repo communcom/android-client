@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -29,7 +28,7 @@ class LoginActivity : BaseActivity() {
         ).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {
-            if (it == SignInState.LOG_IS_NEEDED && postNavHost.findNavController().currentDestination == null)
+            if (it == SignInState.LOG_IN_NEEDED && postNavHost.findNavController().currentDestination == null)
                 initAuthFlow()
             if (it == SignInState.LOADING)
                 onLoading()
