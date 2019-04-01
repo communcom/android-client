@@ -19,9 +19,11 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.CommentFeedUpdateRequest
+import io.golos.domain.model.EmbedRequest
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -64,6 +66,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val commentFeedMerger = CommentFeedMerger()
 
     private val emptyCommentFeedProducer = EmptyCommentFeedProducer()
+
+    private val fromIframelyMapper = IfremlyEmbedMapper()
+    private val fromOEmbedMapper = OembedMapper()
 
     private val logger = object : Logger {
         override fun invoke(e: Exception) {
@@ -108,6 +113,11 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             logger
         )
     }
+
+    override val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
+            by lazy {
+                EmbedsRepository(apiService, dispatchersProvider, logger, fromIframelyMapper, fromOEmbedMapper)
+            }
 
     override val authRepository: Repository<AuthState, AuthRequest>
             by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, persister) }
@@ -224,5 +234,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getSignInUseCase(): SignInUseCase {
         return SignInUseCase(authRepository, dispatchersProvider)
+    }
+
+    override fun getEmbedsUseCase(): EmbedsUseCase {
+        return EmbedsUseCase(dispatchersProvider, embedsRepository)
     }
 }
