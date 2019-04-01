@@ -16,5 +16,6 @@ ext {
     fabricVersion = "2.9.9"
     legacyVersion = "1.0.0"
     fabricToolsVersion = "1.+"
-    materialVersion = "1.1.0-alpha04"
+    materialVersion = "1.1.0-alpha05"
+    moshiVersin = "1.8.0"
 }

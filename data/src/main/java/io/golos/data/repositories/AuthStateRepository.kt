@@ -8,10 +8,7 @@ import io.golos.cyber4j.utils.AuthUtils
 import io.golos.data.api.AuthApi
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
-import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
-import io.golos.domain.Repository
-import io.golos.domain.distinctUntilChanged
+import io.golos.domain.*
 import io.golos.domain.entities.AuthState
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.Identifiable
@@ -26,7 +23,8 @@ import kotlin.collections.HashMap
 class AuthStateRepository(
     private val authApi: AuthApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger
+    private val logger: Logger,
+    private val persister: Persister
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -40,17 +38,23 @@ class AuthStateRepository(
             override fun onAuthSuccess(forUser: CyberName) {
 
                 repositoryScope.launch {
-                    authState.value = AuthState(forUser.toCyberUser(), true)
+
 
                     val loadingQuery =
                         authRequestsLiveData.value?.entries?.find { (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId == forUser.name }
 
                     if (loadingQuery != null) {
+                        val finalAuthState = AuthState(forUser.toCyberUser(), true)
+                        authState.value = finalAuthState
+
                         val originalLoadingQuery = loadingQuery.value as QueryResult.Loading
                         authRequestsLiveData.value =
                             authRequestsLiveData.value.orEmpty() + (loadingQuery.key to QueryResult.Success(
                                 originalLoadingQuery.originalQuery
                             ))
+
+                        persister.saveAuthState(finalAuthState)
+                        persister.saveActiveKey(originalLoadingQuery.originalQuery.activeKey)
                     }
                 }
             }
@@ -73,10 +77,19 @@ class AuthStateRepository(
                 }
             }
         })
+
+        authState.value = AuthState("".toCyberUser(), false)
+
+        val authSavedAuthState = persister.getAuthState()
+        val key = persister.getActiveKey()
+
+        if (authSavedAuthState?.isUserLoggedIn == true && key != null) {
+            makeAction(AuthRequest(authSavedAuthState.user, key))
+        }
     }
 
     override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> {
-        return authState.distinctUntilChanged()
+        return authState
     }
 
     override fun makeAction(params: AuthRequest) {

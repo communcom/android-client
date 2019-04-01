@@ -4,14 +4,8 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
-import io.golos.domain.DiscussionsFeedRepository
-import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
-import io.golos.domain.Repository
-import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.*
+import io.golos.domain.entities.*
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
@@ -96,7 +90,26 @@ val commentsFeedRepository = CommentsFeedRepository(
     logger
 )
 
-val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger)
+private val persister = object : Persister {
+    override fun saveAuthState(state: AuthState) {
+
+    }
+
+    override fun getAuthState(): AuthState? {
+
+        return AuthState(CyberUser("fkmiiibuntct"), true)
+    }
+
+    override fun saveActiveKey(activeKey: String) {
+
+    }
+
+    override fun getActiveKey(): String? {
+        return "5JyzKR94WqFxqcExLMcakd7SksEqkNDbo2GT4VvdRs4g3XyQrg8"
+    }
+}
+
+val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
 
 val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
 

@@ -7,6 +7,7 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.post.PostWithCommentsViewModel
+import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
 import io.golos.domain.DiscussionsFeedRepository
@@ -18,6 +19,7 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.model.AuthRequest
 import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.PostFeedUpdateRequest
@@ -68,6 +70,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             e.printStackTrace()
         }
     }
+    private val persister = OnDevicePersister(appContext, logger)
 
     override val dispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
@@ -107,7 +110,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override val authRepository: Repository<AuthState, AuthRequest>
-            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger) }
+            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, persister) }
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
@@ -219,4 +222,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val getAppContext: Context
         get() = appContext
 
+    override fun getSignInUseCase(): SignInUseCase {
+        return SignInUseCase(authRepository, dispatchersProvider)
+    }
 }
