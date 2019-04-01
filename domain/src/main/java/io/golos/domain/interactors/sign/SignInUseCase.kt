@@ -69,6 +69,7 @@ class SignInUseCase(
 
             updateLogInState()
         }
+
     }
 
     private fun updateLogInState() {
