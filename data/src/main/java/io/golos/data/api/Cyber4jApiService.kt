@@ -15,7 +15,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     AuthApi,
     AuthListener,
     VoteApi,
-    CommentsApiService {
+    CommentsApiService,
+    EmbedApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -96,6 +97,14 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     ): VoteResult {
         return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, postOrCommentRefBlockNum, voteStrength)
             .getOrThrow().extractResult()
+    }
+
+    override fun getIframelyEmbed(url: String): IFramelyEmbedResult {
+        return cyber4j.getEmbedIframely(url).getOrThrow()
+    }
+
+    override fun getOEmbedEmbed(url: String): OEmbedResult {
+        return cyber4j.getEmbedOembed(url).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

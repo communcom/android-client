@@ -8,6 +8,10 @@ import io.golos.domain.Entity
 data class LinkEmbedResult(
     val summary: String,
     val provider: String,
+    val url: String,
+    val originalQueryUrl: String,
     val thumbnailImageUrl: String,
     /*h*w*/ val thumbnailSize: Pair<Int, Int>
 ) : Entity
+
+data class ProcessedLinksEntity(val embeds: Set<LinkEmbedResult>) : Entity

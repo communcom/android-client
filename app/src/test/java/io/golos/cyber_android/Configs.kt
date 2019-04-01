@@ -31,6 +31,9 @@ val commentEntityToModelMapper = CommentEntityToModelMapper()
 val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
 val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
+val fromIframelyMapper = IfremlyEmbedMapper()
+val fromOEmbedMapper = OembedMapper()
+
 val approver = FeedUpdateApprover()
 
 val postMerger = PostMerger()
@@ -88,6 +91,11 @@ val commentsFeedRepository = CommentsFeedRepository(
     emptyCommentFeedProducer,
     dispatchersProvider,
     logger
+)
+
+val embedsRepository = EmbedsRepository(
+    apiService, dispatchersProvider, logger,
+    fromIframelyMapper, fromOEmbedMapper
 )
 
 private val persister = object : Persister {
