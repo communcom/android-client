@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import io.golos.cyber_android.ui.base.BaseActivity
 import io.golos.cyber_android.ui.screens.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
@@ -15,11 +16,7 @@ import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.ui.screens.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-
-    init {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-    }
+class MainActivity : BaseActivity() {
 
     enum class Tabs(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),

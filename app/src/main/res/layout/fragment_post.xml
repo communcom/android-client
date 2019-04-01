@@ -53,7 +53,7 @@
 
     <FrameLayout
             android:id="@+id/postCommentParent"
-            android:background="@color/background_post_comment"
+            android:background="@color/bg_post_comment"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

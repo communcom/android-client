@@ -7,9 +7,10 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.base.BaseActivity
 import io.golos.domain.interactors.model.PostModel
 
-class PostActivity : AppCompatActivity() {
+class PostActivity : BaseActivity() {
 
     companion object {
         fun getIntent(context: Context, post: PostModel) =

@@ -8,6 +8,7 @@
     <color name="red">#FF5959</color>
     <color name="yellow">#FFE066</color>
     <color name="green">#9AE189</color>
+    <color name="purple">#673AB7</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="light_gray">#F3F5FA</color>
@@ -15,5 +16,8 @@
     <color name="middle_gray_2">#E5E5E5</color>
     <color name="dark_gray">#9B9FA2</color>
     <color name="blue_40">#666A80F5</color>
-    <color name="background_post_comment">#ffffff</color>
+    <color name="pale_black">#8A000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="bg_post_comment">#ffffff</color>
+    <color name="bg_dialog_color">#ffffff</color>
 </resources>

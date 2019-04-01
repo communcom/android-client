@@ -41,4 +41,21 @@
     <string name="reply">Reply</string>
     <string name="comments_title_format">%1$s Comments</string>
 
+    <!--Welcome-->
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="welcome_slides_text_0_0">Hundreds</string>
+    <string name="welcome_slides_text_0_1">of thematic communities</string>
+    <string name="welcome_slides_text_1">Subscribe to your\nfavorite communities</string>
+    <string name="welcome_slides_text_2">Read! Upvote!\nComment!</string>
+
+    <!--Sign In-->
+    <string name="sign_in_title_0">Welcome,</string>
+    <string name="sign_in_title_1">sign in to continue</string>
+    <string name="login">Login</string>
+    <string name="key">Key</string>
+    <string name="ok">Ok</string>
+    <string name="login_error">Wrong Login or Key</string>
+
+
 </resources>

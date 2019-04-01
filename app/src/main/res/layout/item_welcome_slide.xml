@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:gravity="bottom"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/slideImg"
+            android:layout_gravity="end"
+            tools:srcCompat="@drawable/img_welcome_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/slideText"
+            style="@style/WelcomeSlidesTextStyle"
+            android:layout_marginTop="@dimen/margin_top_welcome_caption"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_gravity="center_horizontal"
+            tools:text="@string/welcome_slides_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>
