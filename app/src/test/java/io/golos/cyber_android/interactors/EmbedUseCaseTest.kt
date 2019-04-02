@@ -2,7 +2,7 @@ package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.dispatchersProvider
-import io.golos.cyber_android.embedsRepository
+import io.golos.cyber_android.embededsRepository
 import io.golos.domain.interactors.model.ProccesedLinksModel
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.model.QueryResult
@@ -29,13 +29,13 @@ class EmbedUseCaseTest {
     fun before() {
         embedUseCase = EmbedsUseCase(
             dispatchersProvider,
-            embedsRepository
+            embededsRepository
         )
     }
 
     @Test
     fun testSomeEmbeds() = runBlocking {
-        val firstLink = "https://github.com/square/moshi"
+        val firstLink = "http://www.google.rU/"
         val secondLink  = "https://www.reddit.com/r/aww/comments/b80omf/youve_got_april_fooled_bro/"
 
         embedUseCase.subscribe()

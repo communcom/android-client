@@ -1,0 +1,32 @@
+package io.golos.domain.model
+
+import io.golos.cyber4j.model.CyberName
+import io.golos.cyber4j.model.DiscussionCreateMetadata
+import io.golos.cyber4j.model.Tag
+
+/**
+ * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
+ */
+sealed class DiscussionCreateRequest
+
+data class CreateCommentRequest(
+    val body: String,
+    val parentAccount: CyberName,
+    val parentPermlink: String,
+    val parentDiscussionRefBlockNum: Long,
+    val category: List<Tag>,
+    val metadata: DiscussionCreateMetadata,
+    val beneficiaries: List<io.golos.cyber4j.model.Beneficiary>,
+    val vestPayment: Boolean,
+    val tokenProp: Long
+) : DiscussionCreateRequest()
+
+data class CreatePostRequest(
+    val title: String,
+    val body: String,
+    val tags: List<io.golos.cyber4j.model.Tag>,
+    val metadata: DiscussionCreateMetadata,
+    val beneficiaries: List<io.golos.cyber4j.model.Beneficiary>,
+    val vestPayment: Boolean,
+    val tokenProp: Long
+):DiscussionCreateRequest()

@@ -1,0 +1,26 @@
+package io.golos.domain.interactors.model
+
+import io.golos.domain.Model
+
+/**
+ * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
+ */
+
+
+sealed class DiscussionCreationResultModel : Model
+
+data class PostCreationResultModel(val postId: DiscussionIdModel) : DiscussionCreationResultModel() {
+    companion object {
+        val empty = PostCreationResultModel(DiscussionIdModel("#mpty#", "#empty#", Long.MIN_VALUE))
+    }
+}
+
+data class CommentCreationResultModel(val commentId: DiscussionIdModel, val parentId: DiscussionIdModel) :
+    DiscussionCreationResultModel() {
+    companion object {
+        val empty = CommentCreationResultModel(
+            DiscussionIdModel("#mpty#", "#empty#", Long.MIN_VALUE),
+            DiscussionIdModel("#mpty#", "#empty#", Long.MIN_VALUE)
+        )
+    }
+}

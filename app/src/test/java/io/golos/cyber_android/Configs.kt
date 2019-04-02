@@ -6,9 +6,7 @@ import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
 import io.golos.domain.*
 import io.golos.domain.entities.*
-import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.model.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -53,6 +51,9 @@ val commentFeedMerger = CommentFeedMerger()
 
 val emptyCommentFeedProducer = EmptyCommentFeedProducer()
 
+val discussionCreationToEntityMapper = DiscussionCreateResultToEntityMapper()
+val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
+
 
 val logger = object : Logger {
     override fun invoke(e: Exception) {
@@ -93,7 +94,7 @@ val commentsFeedRepository = CommentsFeedRepository(
     logger
 )
 
-val embedsRepository = EmbedsRepository(
+val embededsRepository = EmbedsRepository(
     apiService, dispatchersProvider, logger,
     fromIframelyMapper, fromOEmbedMapper
 )
@@ -121,6 +122,13 @@ val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, l
 
 val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
 
+val discussionCreationRepo = DiscussionCreationRepository(
+    apiService, dispatchersProvider,
+    logger,
+    discussionEntityRequestToApiRequestMapper,
+    discussionCreationToEntityMapper
+)
+
 
 val appCore = AppCore(object : RepositoriesHolder {
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
@@ -131,6 +139,10 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = voteRepo
     override val commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>
         get() = commentsFeedRepository
+    override val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
+        get() = embededsRepository
+    override val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
+        get() = discussionCreationRepo
 }, dispatchersProvider)
 
 

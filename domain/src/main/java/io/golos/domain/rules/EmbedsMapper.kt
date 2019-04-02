@@ -18,7 +18,7 @@ class IfremlyEmbedMapper : CyberToEntityMapper<IFramelyEmbedResultRelatedData, L
         val firstThumbNail = embedData.links?.thumbnail?.firstOrNull()
         return LinkEmbedResult(
             embedData.meta?.title ?: embedData.meta?.description ?: "",
-            embedData.meta.site,
+            embedData.meta.site?:"",
             embedData.meta?.canonical.orEmpty(),
             url,
             firstThumbNail?.href ?: "",

@@ -16,7 +16,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     AuthListener,
     VoteApi,
     CommentsApiService,
-    EmbedApi {
+    EmbedApi,
+    DiscussionsCreationApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -105,6 +106,36 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun getOEmbedEmbed(url: String): OEmbedResult {
         return cyber4j.getEmbedOembed(url).getOrThrow()
+    }
+
+    override fun createComment(
+        body: String,
+        parentAccount: CyberName,
+        parentPermlink: String,
+        parentDiscussionRefBlockNum: Long,
+        category: List<Tag>,
+        metadata: DiscussionCreateMetadata,
+        beneficiaries: List<Beneficiary>,
+        vestPayment: Boolean,
+        tokenProp: Long
+    ): CreateDiscussionResult {
+        return cyber4j.createComment(
+            body, parentAccount, parentPermlink, parentDiscussionRefBlockNum,
+            category, metadata, beneficiaries, vestPayment, tokenProp
+        ).getOrThrow().extractResult()
+    }
+
+    override fun createPost(
+        title: String,
+        body: String,
+        tags: List<Tag>,
+        metadata: DiscussionCreateMetadata,
+        beneficiaries: List<Beneficiary>,
+        vestPayment: Boolean,
+        tokenProp: Long
+    ): CreateDiscussionResult {
+        return cyber4j.createPost(title, body, tags, metadata, beneficiaries, vestPayment, tokenProp).getOrThrow()
+            .extractResult()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

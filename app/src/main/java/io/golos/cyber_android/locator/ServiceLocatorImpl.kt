@@ -21,12 +21,10 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.EmbedRequest
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.model.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -72,6 +70,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val fromIframelyMapper = IfremlyEmbedMapper()
     private val fromOEmbedMapper = OembedMapper()
 
+    private val discussionCreationToEntityMapper = DiscussionCreateResultToEntityMapper()
+    private val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
+
     private val logger = object : Logger {
         override fun invoke(e: Exception) {
             e.printStackTrace()
@@ -115,6 +116,16 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             logger
         )
     }
+
+    override val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
+            by lazy {
+                DiscussionCreationRepository(
+                    apiService, dispatchersProvider,
+                    logger,
+                    discussionEntityRequestToApiRequestMapper,
+                    discussionCreationToEntityMapper
+                )
+            }
 
     override val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
             by lazy {
@@ -257,6 +268,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             commentFeeEntityToModelMapper,
             dispatchersProvider
         )
+    }
+
+    override fun getDiscussionPosterUseCase(): DiscussionPosterUseCase {
+        return DiscussionPosterUseCase(discussionCreationRepository, dispatchersProvider)
     }
 
     override val getAppContext: Context

@@ -10,3 +10,8 @@ interface CyberToEntityMapper<F, T : Entity> {
     @WorkerThread
     suspend operator fun invoke(cyberObject: F): T
 }
+
+interface EntityToCyberMapper<T : Entity, F> {
+    @WorkerThread
+    suspend operator fun invoke(entity: T): F
+}
