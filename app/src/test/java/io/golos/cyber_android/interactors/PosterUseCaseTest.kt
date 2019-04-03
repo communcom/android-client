@@ -17,7 +17,7 @@ import org.junit.Test
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
  */
-class PosterUseCase {
+class PosterUseCaseTest {
     @Rule
     @JvmField
     public val rule = InstantTaskExecutorRule()

@@ -12,10 +12,7 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.model.*
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.EntityToCyberMapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -58,7 +55,7 @@ class DiscussionCreationRepository(
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val discussionCreationResult = with(dispatchersProvider.workDispatcher) {
+                val discussionCreationResult = withContext(dispatchersProvider.workDispatcher) {
                     val request = toCyberRequestMapper(params)
                     val apiAnswer = when (request) {
                         is CreateCommentRequest -> discussionsCreationApi.createComment(
