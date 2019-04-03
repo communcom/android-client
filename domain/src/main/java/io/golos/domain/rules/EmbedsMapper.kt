@@ -16,12 +16,18 @@ class IfremlyEmbedMapper : CyberToEntityMapper<IFramelyEmbedResultRelatedData, L
         val url = cyberObject.originalRequestUrl
         val embedData = cyberObject.iframelyResult
         val firstThumbNail = embedData.links?.thumbnail?.firstOrNull()
+
+        val videoHtml = embedData.links?.player?.firstOrNull()?.html
+        val appHtml = embedData.links?.app?.firstOrNull()?.html
+
         return LinkEmbedResult(
             embedData.meta?.title ?: embedData.meta?.description ?: "",
-            embedData.meta.site?:"",
+            embedData.meta.site ?: "",
             embedData.meta?.canonical.orEmpty(),
+            videoHtml ?: appHtml ?: "",
             url,
             firstThumbNail?.href ?: "",
+
             (firstThumbNail?.media?.height ?: 0) to (firstThumbNail?.media?.width ?: 0)
         )
     }
@@ -36,6 +42,7 @@ class OembedMapper : CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResul
 
         return LinkEmbedResult(
             embedData.description, embedData.provider_name,
+            "",
             embedData.url,
             url,
             embedData.thumbnail_url,

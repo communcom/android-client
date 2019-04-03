@@ -75,7 +75,7 @@ class EmbedsUseCase(
                                     QueryResult.Success(
                                         LinkEmbedModel(
                                             result.summary, result.provider, result.url,
-                                            result.thumbnailImageUrl, result.thumbnailSize
+                                            result.thumbnailImageUrl, result.embeddedHtml, result.thumbnailSize
                                         )
                                     )
                                 } else {

@@ -14,10 +14,11 @@ data class LinkEmbedModel(
     val provider: String,
     val url: String,
     val thumbnailImageUrl: String,
+    val embedHtml: String,
     /*h*w*/ val thumbnailSize: Pair<Int, Int>
 ) : Model {
 
     companion object {
-        val empty = LinkEmbedModel("", "", "", "", 0 to 0)
+        val empty = LinkEmbedModel("", "", "", "", "",0 to 0)
     }
 }

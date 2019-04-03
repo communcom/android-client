@@ -9,6 +9,7 @@ data class LinkEmbedResult(
     val summary: String,
     val provider: String,
     val url: String,
+    val embeddedHtml: String,
     val originalQueryUrl: String,
     val thumbnailImageUrl: String,
     /*h*w*/ val thumbnailSize: Pair<Int, Int>
