@@ -35,8 +35,8 @@ class EmbedUseCaseTest {
 
     @Test
     fun testSomeEmbeds() = runBlocking {
-        val firstLink = "https://soundcloud.com/secret-service-862007284/old-town-road"
-        val secondLink  = "https://www.reddit.com/r/Instagramreality/comments/b6ssew/her_own_instagram_vs_tagged_photo_it_was_untagged/"
+        val firstLink = "https://music.yandex.ru/artist/165222"
+        val secondLink  = "https://music.yandex.ru/album/3100408/track/3869231"
 
         embedUseCase.subscribe()
         embedUseCase.unsubscribe()
