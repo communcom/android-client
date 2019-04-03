@@ -18,26 +18,29 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
 
     override suspend fun invoke(entity: DiscussionCreationRequestEntity): DiscussionCreateRequest {
         val tags = HashSet<String>()
+        val links = HashSet<String>()
 
         return when (entity) {
             is PostCreationRequestEntity -> {
                 tags.addAll(entity.tags)
                 extractHashTags(tags, entity.body)
+                extractLinks(links, entity.body)
 
                 CreatePostRequest(
                     entity.title, entity.body,
-                    tags.map { Tag(it) }, DiscussionCreateMetadata(emptyList(), emptyList()),
+                    tags.map { Tag(it) }, DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
                     emptyList(), true, 0
                 )
             }
             is CommentCreationRequestEntity -> {
                 tags.addAll(entity.tags)
                 extractHashTags(tags, entity.body)
+                extractLinks(links, entity.body)
 
                 CreateCommentRequest(
                     entity.body, entity.parentId.userId.toCyberName(),
                     entity.parentId.permlink, entity.parentId.refBlockNum,
-                    tags.map { Tag(it) }, DiscussionCreateMetadata(emptyList(), emptyList()),
+                    tags.map { Tag(it) }, DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
                     emptyList(), true, 0
                 )
             }
@@ -53,6 +56,18 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
             matchResult.groupValues.firstOrNull()?.takeIf { it.isNotEmpty() }?.apply {
 
                 toContainer.add(this.removePrefix("#"))
+            }
+        }
+        return toContainer
+    }
+
+    private fun extractLinks(toContainer: MutableCollection<String>, fromSource: String): MutableCollection<String> {
+
+        Regexps.link.findAll(fromSource, 0).forEach { matchResult ->
+
+            matchResult.groupValues.firstOrNull()?.takeIf { it.isNotEmpty() }?.apply {
+
+                toContainer.add(this.trim())
             }
         }
         return toContainer
