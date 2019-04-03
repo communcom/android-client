@@ -55,7 +55,7 @@ class EmbedsRepository(
             var result: LinkEmbedResult? = null
             try {
                 result = withContext(dispatchersProvider.workDispatcher) {
-                    val iframelyData = embedApi.getIframelyEmbed(params.url.toLowerCase())
+                    val iframelyData = embedApi.getIframelyEmbed(params.url)
                     toEmbedMapperIframely(IFramelyEmbedResultRelatedData(iframelyData, params.url))
                 }
             } catch (e: Exception) {
@@ -63,7 +63,7 @@ class EmbedsRepository(
 
                 try {
                     result = withContext(dispatchersProvider.workDispatcher) {
-                        val oembedData = embedApi.getOEmbedEmbed(params.url.toLowerCase())
+                        val oembedData = embedApi.getOEmbedEmbed(params.url)
                         toEmbedMapperOembed(OembedResultRelatedData(oembedData, params.url))
                     }
                 } catch (e: java.lang.Exception) {
