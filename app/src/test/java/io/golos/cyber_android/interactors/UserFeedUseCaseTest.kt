@@ -12,6 +12,7 @@ import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -98,7 +99,7 @@ class UserFeedUseCaseTest {
         communityFeedUseCase.requestFeedUpdate(pageSize, UpdateOption.FETCH_NEXT_PAGE)
         case.requestFeedUpdate(pageSize, UpdateOption.FETCH_NEXT_PAGE)
 
-        assertTrue("failed to load post next page of user posts", userPostFeed?.items?.size == 7)
+        assertEquals("failed to load post next page of user posts", 8,userPostFeed?.items?.size)
         assertTrue(
             "failed to load  post next page of community posts",
             communititesPostFeed?.items?.size == pageSize * 2

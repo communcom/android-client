@@ -23,23 +23,43 @@ class PostMerger : EntityMerger<PostEntity> {
     }
 }
 
-class PostFeedMerger : EntityMerger<FeedEntity<PostEntity>> {
-    override fun invoke(new: FeedEntity<PostEntity>, old: FeedEntity<PostEntity>): FeedEntity<PostEntity> {
-        if (new.discussions.isEmpty()) return new
-        if (old.discussions.isEmpty()) return new
-        if (new.pageId == null) return new
+class PostFeedMerger : EntityMerger<FeedRelatedData<PostEntity>> {
+    override fun invoke(
+        new: FeedRelatedData<PostEntity>,
+        old: FeedRelatedData<PostEntity>
+    ): FeedRelatedData<PostEntity> {
+        val oldFeed = old.feed
+        val newFeed = new.feed
 
-        val firstOfNew = new.discussions.first()
+        if (newFeed.discussions.isEmpty()) return new
+        if (oldFeed.discussions.isEmpty()) return new
+        if (newFeed.pageId == null) return new
 
-        if (old.discussions.any { it.contentId == firstOfNew.contentId }) {
-            val lastPos = old.discussions.indexOfLast { it.contentId == firstOfNew.contentId }
-            return FeedEntity(old.discussions.subList(0, lastPos) + new.discussions, old.nextPageId, new.nextPageId)
-        } else if (old.nextPageId == new.pageId) {
-            return FeedEntity(old.discussions + new.discussions, old.nextPageId, new.nextPageId)
+        val firstOfNew = newFeed.discussions.first()
+
+        if (oldFeed.discussions.any { it.contentId == firstOfNew.contentId }) {
+            val lastPos = oldFeed.discussions.indexOfLast { it.contentId == firstOfNew.contentId }
+            return FeedRelatedData(
+                FeedEntity(
+                    oldFeed.discussions.subList(0, lastPos) + newFeed.discussions,
+                    oldFeed.nextPageId,
+                    newFeed.nextPageId
+                ),
+                emptySet()
+            )
+        } else if (oldFeed.nextPageId == newFeed.pageId) {
+            return FeedRelatedData(
+                FeedEntity(
+                    oldFeed.discussions + newFeed.discussions,
+                    oldFeed.nextPageId,
+                    newFeed.nextPageId
+                ), emptySet()
+            )
         }
         return old
     }
 }
+
 
 class CommentMerger : EntityMerger<CommentEntity> {
 
@@ -59,20 +79,25 @@ class CommentMerger : EntityMerger<CommentEntity> {
     }
 }
 
-class CommentFeedMerger : EntityMerger<FeedEntity<CommentEntity>> {
-    override fun invoke(new: FeedEntity<CommentEntity>, old: FeedEntity<CommentEntity>): FeedEntity<CommentEntity> {
-        if (new.discussions.isEmpty()) return old
-        if (old.discussions.isEmpty()) return new
-        if (new.pageId == null) return new
+class CommentFeedMerger : EntityMerger<FeedRelatedData<CommentEntity>> {
+    override fun invoke(
+        new: FeedRelatedData<CommentEntity>,
+        old: FeedRelatedData<CommentEntity>
+    ): FeedRelatedData<CommentEntity> {
 
-        val firstOfNew = new.discussions.first()
+        val oldFeed = old.feed
+        val newFeed = new.feed
 
-        if (old.discussions.any { it.contentId == firstOfNew.contentId }) {
-            val lastPos = old.discussions.indexOfLast { it.contentId == firstOfNew.contentId }
-            return FeedEntity(old.discussions.subList(0, lastPos) + new.discussions, old.nextPageId, new.nextPageId)
-        } else if (old.nextPageId == new.pageId) {
-            return FeedEntity(old.discussions + new.discussions, old.nextPageId, new.nextPageId)
-        }
-        return old
+        if (newFeed.discussions.isEmpty()) return old
+        if (oldFeed.discussions.isEmpty()) return new
+        if (newFeed.pageId == null) return FeedRelatedData(new.feed, emptySet())
+
+
+        val newDiscussions = newFeed.discussions.filter { !new.fixedPositionEntities.contains(it) }
+
+        return FeedRelatedData(
+            FeedEntity(oldFeed.discussions + newDiscussions, oldFeed.nextPageId, newFeed.nextPageId),
+            new.fixedPositionEntities
+        )
     }
 }

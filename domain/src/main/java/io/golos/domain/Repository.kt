@@ -49,6 +49,9 @@ interface DiscussionsFeedRepository<T : DiscussionEntity, Q : FeedUpdateRequest>
     @MainThread
     fun getDiscussionAsLiveData(discussionIdEntity: DiscussionIdEntity): LiveData<T>
 
+    @MainThread
+    fun fixOnPositionDiscussion(discussion: T, parent: DiscussionIdEntity)
+
 }
 
 
