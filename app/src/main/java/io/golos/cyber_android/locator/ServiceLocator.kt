@@ -30,6 +30,8 @@ interface ServiceLocator {
 
     fun getAuthViewModelFactory(): ViewModelProvider.Factory
 
+    fun getEditorPageViewModelFactory(): ViewModelProvider.Factory
+
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase

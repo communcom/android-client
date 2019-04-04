@@ -13,8 +13,10 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
+import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
@@ -44,6 +46,7 @@ open class MyFeedFragment :
         swipeRefresh.setOnRefreshListener {
             viewModel.requestRefresh()
         }
+        setupEditorWidget()
     }
 
     override fun onNewData() {
@@ -91,6 +94,17 @@ open class MyFeedFragment :
             if (!isLoading)
                 swipeRefresh.isRefreshing = false
         })
+    }
+
+    private fun setupEditorWidget() {
+        (feedList.adapter as HeadersPostsAdapter).editorWidgetListener = object : EditorWidget.Listener {
+            override fun onGalleryClick() {
+            }
+
+            override fun onWidgetClick() {
+                startActivity(EditorPageActivity.getIntent(requireContext()))
+            }
+        }
     }
 
     override fun setupWidgetsLiveData() {

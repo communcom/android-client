@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
+import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
@@ -207,6 +208,22 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 return when (modelClass) {
                     AuthViewModel::class.java -> AuthViewModel(
                         getSignInUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditorPageViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditorPageViewModel::class.java -> EditorPageViewModel(
+                        getEmbedsUseCase(),
+                        getDiscussionPosterUseCase(),
+                        dispatchersProvider
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

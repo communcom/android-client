@@ -17,8 +17,10 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
+import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingType
 import io.golos.cyber_android.widgets.sorting.SortingWidget
 import io.golos.cyber_android.widgets.sorting.TimeFilter
@@ -56,6 +58,7 @@ class AllFeedFragment :
             viewModel.requestRefresh()
         }
         setupSortingWidget()
+        setupEditorWidget()
     }
 
     override fun onNewData() {
@@ -126,6 +129,17 @@ class AllFeedFragment :
                 .serviceLocator
                 .getCommunityFeedViewModelFactory(CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!))
         ).get(CommunityFeedViewModel::class.java)
+    }
+
+    private fun setupEditorWidget() {
+        (feedList.adapter as HeadersPostsAdapter).editorWidgetListener = object : EditorWidget.Listener {
+            override fun onGalleryClick() {
+            }
+
+            override fun onWidgetClick() {
+                startActivity(EditorPageActivity.getIntent(requireContext()))
+            }
+        }
     }
 
     private fun setupSortingWidget() {
