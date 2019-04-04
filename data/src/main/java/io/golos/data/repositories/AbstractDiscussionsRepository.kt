@@ -13,6 +13,7 @@ import io.golos.domain.Logger
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
+import io.golos.domain.entities.FeedRelatedData
 import io.golos.domain.model.FeedUpdateRequest
 import io.golos.domain.model.Identifiable
 import io.golos.domain.model.QueryResult
@@ -29,14 +30,14 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private val feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
     private val discussionMapper: CyberToEntityMapper<CyberDiscussion, D>,
     private val discussionMerger: EntityMerger<D>,
-    private val discussionDeedMerger: EntityMerger<FeedEntity<D>>,
+    private val discussionsFeedMerger: EntityMerger<FeedRelatedData<D>>,
     private val requestApprover: RequestApprover<Q>,
     private val emptyFeedProducer: EmptyEntityProducer<FeedEntity<D>>,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger
 ) : DiscussionsFeedRepository<D, Q> {
 
-    private val discussionsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<FeedEntity<D>>> = hashMapOf()
+    protected val discussionsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<FeedEntity<D>>> = hashMapOf()
 
     private var discussionLiveData: MutableLiveData<D> = MutableLiveData()
     private var activeUpdatingPost: DiscussionIdEntity? = null
@@ -48,6 +49,9 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private val postJobMap = Collections.synchronizedMap(HashMap<DiscussionIdEntity, Job>())
     private val feedJobMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
+    protected val fixedDiscussions: MutableMap<Identifiable.Id, Set<D>> =
+        Collections.synchronizedMap(HashMap<Identifiable.Id, Set<D>>())
+
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<Q>>>
         get() = this.feedsUpdatingStatesMap
 
@@ -56,9 +60,13 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         if (params == allDataRequest) {
             return MutableLiveData<FeedEntity<D>>()
                 .apply {
+
+                    val additionalItem =
+                        discussionLiveData.value?.let { listOf(it) } ?: emptyFeedProducer.invoke().discussions
+
                     value = getAllPostsAsLiveDataList().mapNotNull { it.value }
-                        .fold(FeedEntity(emptyList(), null, "stub")) { collector, item ->
-                            FeedEntity(collector?.discussions.orEmpty() + item.discussions, null, "stub")
+                        .fold(FeedEntity(additionalItem, null, "stub")) { collector, item ->
+                            FeedEntity(collector.discussions.orEmpty() + item.discussions, null, "stub")
                         }
                 }
         }
@@ -128,6 +136,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         }.let { job -> postJobMap[updatingDiscussionId] = job }
     }
 
+
     //update feed
     override fun makeAction(params: Q) {
         launch(exceptionCallback = {
@@ -149,9 +158,13 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
 
-            val resultingFeed = discussionDeedMerger(feedEntity, oldFeed)
+            val fixedEntities = fixedDiscussions[params.id] ?: hashSetOf()
 
-            discussionsFeedMap[params.id]?.value = resultingFeed
+            val resultingFeed =
+                discussionsFeedMerger(FeedRelatedData(feedEntity, fixedEntities), FeedRelatedData(oldFeed, hashSetOf()))
+
+            fixedDiscussions[params.id] = resultingFeed.fixedPositionEntities
+            discussionsFeedMap[params.id]?.value = resultingFeed.feed
 
             feedsUpdatingStatesMap.value =
                 feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Success(params))

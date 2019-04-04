@@ -77,6 +77,8 @@ class DiscussionCreationRepository(
                     toEntityResultMapper(apiAnswer)
                 }
 
+                delay(3_000)
+
                 (getAsLiveData(params) as MutableLiveData).value = discussionCreationResult
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Success(params))

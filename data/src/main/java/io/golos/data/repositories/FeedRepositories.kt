@@ -20,7 +20,7 @@ class PostsFeedRepository(
     feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
     postMerger: EntityMerger<PostEntity>,
-    feedMerger: EntityMerger<FeedEntity<PostEntity>>,
+    feedMerger: EntityMerger<FeedRelatedData<PostEntity>>,
     feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
     dispatchersProvider: DispatchersProvider,
@@ -39,6 +39,10 @@ class PostsFeedRepository(
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
         return apiService.getPost(CyberName(params.userId), params.permlink, params.refBlockNum)
+    }
+
+    override fun fixOnPositionDiscussion(discussion: PostEntity, parent: DiscussionIdEntity) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): DiscussionsResult {
@@ -73,7 +77,7 @@ class CommentsFeedRepository(
     feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,
     postMerger: EntityMerger<CommentEntity>,
-    feedMerger: EntityMerger<FeedEntity<CommentEntity>>,
+    feedMerger: EntityMerger<FeedRelatedData<CommentEntity>>,
     approver: RequestApprover<CommentFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<CommentEntity>>,
     dispatchersProvider: DispatchersProvider,
@@ -92,6 +96,63 @@ class CommentsFeedRepository(
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
         return apiService.getComment(CyberName(params.userId), params.permlink, params.refBlockNum)
+    }
+
+    override fun fixOnPositionDiscussion(discussion: CommentEntity, parent: DiscussionIdEntity) {
+
+
+        val commentsToAPosts = discussionsFeedMap
+            .filterKeys { id -> id is CommentsOfApPostUpdateRequest.Id }
+            .mapKeys { mapEntry ->
+                mapEntry.key as CommentsOfApPostUpdateRequest.Id
+            }
+
+        commentsToAPosts.filter { mapEntry ->
+            mapEntry.key._permlink == parent.permlink
+                    && mapEntry.key._refBlockNum == parent.refBlockNum
+                    && mapEntry.key._user == parent.userId
+        }
+            .onEach {
+                fixedDiscussions[it.key] = (fixedDiscussions[it.key] ?: emptySet()).toMutableSet().apply {
+                    add(discussion)
+                }
+
+            }
+            .values
+            .forEach { mutableLiveData ->
+                val commentsFeed = mutableLiveData.value ?: return@forEach
+
+                mutableLiveData.value = commentsFeed.copy(
+                    discussions = listOf(discussion) + commentsFeed.discussions
+                )
+            }
+
+
+        commentsToAPosts
+            .filter { mapEntry ->
+                mapEntry.value.value?.discussions.orEmpty().any { comment ->
+                    comment.contentId == parent
+                }
+            }
+            .onEach {
+                fixedDiscussions[it.key] = (fixedDiscussions[it.key] ?: emptySet()).toMutableSet().apply {
+                    add(discussion)
+                }
+            }
+            .values
+            .forEach { commentsLiveData ->
+                val commentsFeed = commentsLiveData.value ?: return@forEach
+                val commentsList = commentsFeed.discussions.toMutableList()
+                val parentCommentPosition = commentsList.indexOfLast { it.contentId == parent }
+                when (parentCommentPosition) {
+                    -1 -> return@forEach
+                    commentsList.lastIndex -> commentsList.add(discussion)
+                    else -> commentsList.add(parentCommentPosition + 1, discussion)
+                }
+
+                commentsLiveData.value = commentsFeed.copy(discussions = commentsList)
+            }
+
     }
 
     override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {

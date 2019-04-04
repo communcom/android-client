@@ -1,7 +1,10 @@
 package io.golos.cyber_android
 
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.entities.CommentCreationResultEntity
 import io.golos.domain.entities.VoteRequestEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -14,9 +17,18 @@ import java.util.concurrent.atomic.AtomicBoolean
 class AppCore(private val locator: RepositoriesHolder, private val dispatchersProvider: DispatchersProvider) {
     private val isInited = AtomicBoolean(false)
     private val scope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
+    private var lastCreatedComment: CommentCreationResultEntity? = null
+
+    private val observer = Observer<Any> {}
+    private val commentsMediator = MediatorLiveData<Any>()
+
     fun initialize() {
         if (isInited.get()) return
+
+        commentsMediator.observeForever(observer)
+
         synchronized(this) {
+
             isInited.set(true)
 //            locator
 //                .authRepository
@@ -39,6 +51,27 @@ class AppCore(private val locator: RepositoriesHolder, private val dispatchersPr
                     }
                 }
             }
+
+            locator.discussionCreationRepository.getAsLiveData(locator.discussionCreationRepository.allDataRequest)
+                .observeForever {
+                    val commentCreationResult = (it as? CommentCreationResultEntity) ?: return@observeForever
+                    lastCreatedComment = commentCreationResult
+
+                    commentsMediator.addSource(locator.commentsRepository.getDiscussionAsLiveData(commentCreationResult.commentId)) {
+                        onRelatedToCommentDataChanged()
+                    }
+                }
+
         }
+    }
+
+    private fun onRelatedToCommentDataChanged() {
+        val lastCommentCreatedId = lastCreatedComment ?: return
+        val comment =
+            locator.commentsRepository.getDiscussionAsLiveData(lastCommentCreatedId.commentId).value ?: return
+
+        if (comment.contentId != lastCommentCreatedId.commentId) return
+
+        locator.commentsRepository.fixOnPositionDiscussion(comment, lastCommentCreatedId.parentId)
     }
 }
