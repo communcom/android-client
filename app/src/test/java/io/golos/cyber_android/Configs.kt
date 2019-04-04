@@ -23,9 +23,17 @@ val cyberPostToEntityMapper = CyberPostToEntityMapper()
 val voteToEntityMapper = VoteRequestModelToEntityMapper()
 val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
-val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
+val postEntityToModelMapper = PostEntityEntitiesToModelMapper(object :HtmlToSpannableTransformer{
+    override fun transform(html: String): CharSequence {
+        return html
+    }
+})
 val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
-val commentEntityToModelMapper = CommentEntityToModelMapper()
+val commentEntityToModelMapper = CommentEntityToModelMapper(object :HtmlToSpannableTransformer{
+    override fun transform(html: String): CharSequence {
+        return html
+    }
+})
 val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
 val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
