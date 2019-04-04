@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.post.PostWithCommentsViewModel
+import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
@@ -43,11 +44,13 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val voteToEntityMapper = VoteRequestModelToEntityMapper()
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
-    private val postEntityToModelMapper = PostEntityEntitiesToModelMapper()
+    private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
+
+    private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
     private val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 
-    private val commentEntityToModelMapper = CommentEntityToModelMapper()
+    private val commentEntityToModelMapper = CommentEntityToModelMapper(fromHtmlTransformet)
     private val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
 
 

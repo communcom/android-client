@@ -2,6 +2,7 @@ package io.golos.domain.rules
 
 import androidx.annotation.WorkerThread
 import io.golos.domain.Entity
+import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
 import io.golos.domain.entities.*
@@ -9,6 +10,7 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.model.QueryResult
 import io.golos.domain.model.VoteRequestModel
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
@@ -18,9 +20,11 @@ interface EntityToModelMapper<E : Entity, M : Model> {
     suspend operator fun invoke(entity: E): M
 }
 
-class PostEntityEntitiesToModelMapper :
+class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
+
     EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel> {
     private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
+    private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
     override suspend fun invoke(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
         val post = entity.discussionEntity
@@ -34,7 +38,14 @@ class PostEntityEntitiesToModelMapper :
                 CommunityModel(CommunityId(post.community.id), post.community.name, post.community.avatarUrl),
                 PostContentModel(
                     post.content.title,
-                    ContentBodyModel(post.content.body.preview, post.content.body.full),
+                    ContentBodyModel(post.content.body.preview,
+                        cashedSpans.getOrPut(post.content.body.preview.orEmpty()) {
+                            htmlToSpannableTransformer.transform(post.content.body.preview.orEmpty())
+                        },
+                        post.content.body.full,
+                        cashedSpans.getOrPut(post.content.body.full.orEmpty()) {
+                            htmlToSpannableTransformer.transform(post.content.body.full.orEmpty())
+                        }),
                     post.content.metadata
                 ),
                 DiscussionVotesModel(
@@ -55,10 +66,14 @@ class PostEntityEntitiesToModelMapper :
     }
 }
 
-class CommentEntityToModelMapper :
+class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
     EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel> {
+
+
     private val cashedValues =
         Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<CommentEntity>, CommentModel>())
+    private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
+
 
     override suspend fun invoke(entity: DiscussionRelatedEntities<CommentEntity>): CommentModel {
         val comment = entity.discussionEntity
@@ -70,7 +85,14 @@ class CommentEntityToModelMapper :
                 DiscussionIdModel(comment.contentId.userId, comment.contentId.permlink, comment.contentId.refBlockNum),
                 DiscussionAuthorModel(comment.author.userId, comment.author.username),
                 CommentContentModel(
-                    ContentBodyModel(comment.content.body.preview, comment.content.body.full),
+                    ContentBodyModel(comment.content.body.preview,
+                        cashedSpans.getOrPut(comment.content.body.preview.orEmpty()) {
+                            htmlToSpannableTransformer.transform(comment.content.body.preview.orEmpty())
+                        },
+                        comment.content.body.full,
+                        cashedSpans.getOrPut(comment.content.body.full.orEmpty()) {
+                            htmlToSpannableTransformer.transform(comment.content.body.full.orEmpty())
+                        }),
                     comment.content.metadata,
                     if (comment.parentCommentId != null) 1 else 0
                 ),
