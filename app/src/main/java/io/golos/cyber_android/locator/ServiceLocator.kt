@@ -2,6 +2,7 @@ package io.golos.cyber_android.locator
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.action.VoteUseCase
@@ -30,7 +31,10 @@ interface ServiceLocator {
 
     fun getAuthViewModelFactory(): ViewModelProvider.Factory
 
-    fun getEditorPageViewModelFactory(): ViewModelProvider.Factory
+    fun getEditorPageViewModelFactory(
+        type: EditorPageViewModel.Type,
+        parentId: DiscussionIdModel?
+    ): ViewModelProvider.Factory
 
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 

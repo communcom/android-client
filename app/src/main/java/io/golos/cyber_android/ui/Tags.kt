@@ -6,4 +6,5 @@ object Tags {
     const val PERM_LINK = "PERM_LINK"
     const val REF_BLOCK_NUM = "REF_BLOCK_NUM"
     const val MESSAGE = "MESSAGE"
+    const val POST_TYPE = "POST_TYPE"
 }

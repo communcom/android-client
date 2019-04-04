@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.EditorWidget
@@ -102,7 +103,7 @@ open class MyFeedFragment :
             }
 
             override fun onWidgetClick() {
-                startActivity(EditorPageActivity.getIntent(requireContext()))
+                startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageViewModel.Type.POST))
             }
         }
     }

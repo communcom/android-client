@@ -24,10 +24,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.LinkEmbedModel
 import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_editor_page.*
@@ -99,6 +101,16 @@ class EditorPageFragment : LoadingFragment() {
                 }
             }
         }
+
+        setupFragmentType()
+    }
+
+    /**
+     * Sets the views states according to [getPostType]
+     */
+    private fun setupFragmentType() {
+        title.visibility = if (getPostType() == EditorPageViewModel.Type.COMMENT) View.GONE else View.VISIBLE
+        toolbarTitle.setText(if (getPostType() == EditorPageViewModel.Type.COMMENT) R.string.create_comment else R.string.create_post)
     }
 
     private fun observeViewModel() {
@@ -225,13 +237,22 @@ class EditorPageFragment : LoadingFragment() {
     }
 
     private fun setupViewModel() {
+        val type = getPostType()
+        val parentId = if (type == EditorPageViewModel.Type.COMMENT)
+            DiscussionIdModel(
+                arguments!!.getString(Tags.USER_ID)!!,
+                arguments!!.getString(Tags.PERM_LINK)!!,
+                arguments!!.getLong(Tags.REF_BLOCK_NUM)
+            ) else null
         viewModel = ViewModelProviders.of(
             this,
             requireActivity()
                 .serviceLocator
-                .getEditorPageViewModelFactory()
+                .getEditorPageViewModelFactory(type, parentId)
         ).get(EditorPageViewModel::class.java)
     }
+
+    private fun getPostType() = arguments!!.getSerializable(Tags.POST_TYPE) as EditorPageViewModel.Type
 
     override fun onPause() {
         super.onPause()

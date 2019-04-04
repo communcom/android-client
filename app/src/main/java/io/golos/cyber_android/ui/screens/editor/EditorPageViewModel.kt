@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.model.CommentCreationRequestModel
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.LinkEmbedModel
 import io.golos.domain.interactors.model.PostCreationRequestModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
@@ -18,8 +20,14 @@ import kotlinx.coroutines.*
 class EditorPageViewModel(
     private val embedsUseCase: EmbedsUseCase,
     private val posterUseCase: DiscussionPosterUseCase,
-    dispatchersProvider: DispatchersProvider
+    dispatchersProvider: DispatchersProvider,
+    private val postType: Type,
+    private val parentId: DiscussionIdModel?
 ) : ViewModel() {
+
+    enum class Type {
+        POST, COMMENT
+    }
 
     private val urlParserJobScope = CoroutineScope(dispatchersProvider.uiDispatcher)
     private var urlParserJob: Job? = null
@@ -114,12 +122,16 @@ class EditorPageViewModel(
      */
     fun post() {
         val tags = if (nsfw) listOf("nsfw") else listOf()
-        val postRequest = PostCreationRequestModel(title, content, tags)
+        val postRequest = when (postType) {
+            Type.POST -> PostCreationRequestModel(title, content, tags)
+            Type.COMMENT ->  CommentCreationRequestModel(content, parentId!!, tags)
+        }
         posterUseCase.createPostOrComment(postRequest)
     }
 
     private fun validate(title: String, content: String) {
-        val isValid = title.trim().length > 3 && content.trim().length > 3
+        val isValid = content.trim().length > 3
+                && (title.trim().length > 3 || postType == Type.COMMENT)
         validationResultLiveData.postValue(isValid)
     }
 

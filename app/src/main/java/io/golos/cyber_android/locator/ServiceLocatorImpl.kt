@@ -218,7 +218,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getEditorPageViewModelFactory(): ViewModelProvider.Factory {
+    override fun getEditorPageViewModelFactory(
+        type: EditorPageViewModel.Type,
+        parentId: DiscussionIdModel?
+    ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -226,7 +229,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     EditorPageViewModel::class.java -> EditorPageViewModel(
                         getEmbedsUseCase(),
                         getDiscussionPosterUseCase(),
-                        dispatchersProvider
+                        dispatchersProvider,
+                        type,
+                        parentId
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

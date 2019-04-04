@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post
 
+import android.util.Log
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.action.VoteUseCase

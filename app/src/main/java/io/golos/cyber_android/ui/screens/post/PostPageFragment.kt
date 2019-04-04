@@ -14,6 +14,8 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
@@ -55,6 +57,9 @@ class PostPageFragment :
 
         postMenu.setColorFilter(Color.BLACK)
         back.setOnClickListener { activity?.finish() }
+        postCommentBottom.setOnClickListener {
+            addRootComment()
+        }
 
         feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -66,16 +71,30 @@ class PostPageFragment :
         postCommentParent.visibility = View.GONE
     }
 
+    private fun addRootComment() {
+        addCommentByParent(getDiscussionId())
+    }
+
+    private fun addCommentByParent(discussionId: DiscussionIdModel) {
+        startActivity(
+            EditorPageActivity.getIntent(
+                requireContext(),
+                EditorPageViewModel.Type.COMMENT,
+                discussionId
+            )
+        )
+    }
+
     private fun adjustInputVisibility(lastVisibleItem: Int) {
         if (lastVisibleItem > 0) {
             postCommentParent.animate()
-                    .alpha(1f)
-                    .setDuration(INPUT_ANIM_DURATION)
-                    .withStartAction {
-                        postCommentParent.alpha = 0f
-                        postCommentParent.visibility = View.VISIBLE
-                    }
-                    .start()
+                .alpha(1f)
+                .setDuration(INPUT_ANIM_DURATION)
+                .withStartAction {
+                    postCommentParent.alpha = 0f
+                    postCommentParent.visibility = View.VISIBLE
+                }
+                .start()
         } else {
             postCommentParent.animate()
                 .alpha(0f)
@@ -130,6 +149,7 @@ class PostPageFragment :
             }
 
             override fun onReplyClick(comment: CommentModel) {
+                addCommentByParent(comment.contentId)
             }
 
         }, object : PostPageAdapter.Listener {
@@ -151,17 +171,21 @@ class PostPageFragment :
     }
 
     override fun setupViewModel() {
-        val id = DiscussionIdModel(
-            arguments!!.getString(Tags.USER_ID)!!,
-            arguments!!.getString(Tags.PERM_LINK)!!,
-            arguments!!.getLong(Tags.REF_BLOCK_NUM)
-        )
+        val id = getDiscussionId()
         viewModel = ViewModelProviders.of(
             this,
             requireActivity()
                 .serviceLocator
                 .getPostWithCommentsViewModelFactory(id)
         ).get(PostWithCommentsViewModel::class.java)
+    }
+
+    private fun getDiscussionId(): DiscussionIdModel {
+        return DiscussionIdModel(
+            arguments!!.getString(Tags.USER_ID)!!,
+            arguments!!.getString(Tags.PERM_LINK)!!,
+            arguments!!.getLong(Tags.REF_BLOCK_NUM)
+        )
     }
 
 

@@ -59,6 +59,7 @@
 
     <!--Editor Page-->
     <string name="create_post">Create Post</string>
+    <string name="create_comment">Create Comment</string>
     <string name="you_will_post_in">You will post in</string>
     <string name="title">Title</string>
     <string name="enter_text">Enter text...</string>
