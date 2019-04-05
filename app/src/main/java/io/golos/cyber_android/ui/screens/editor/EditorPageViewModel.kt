@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.interactors.model.CommentCreationRequestModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.LinkEmbedModel
-import io.golos.domain.interactors.model.PostCreationRequestModel
+import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.model.QueryResult
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class EditorPageViewModel(
@@ -22,7 +22,8 @@ class EditorPageViewModel(
     private val posterUseCase: DiscussionPosterUseCase,
     dispatchersProvider: DispatchersProvider,
     private val postType: Type,
-    private val parentId: DiscussionIdModel?
+    private val parentId: DiscussionIdModel?,
+    community: CommunityModel?
 ) : ViewModel() {
 
     enum class Type {
@@ -40,11 +41,12 @@ class EditorPageViewModel(
     private var title = ""
     private var content = ""
 
-    private var nsfw = false
-        set(value) {
-            field = value
-            nsfwLiveData.postValue(value)
-        }
+    /**
+     * [LiveData] for community that post will be created in
+     */
+    val communityLiveData = MutableLiveData<CommunityModel?>().apply {
+        postValue(community)
+    }
 
     /**
      * [LiveData] that indicates validness of the post content
@@ -70,12 +72,12 @@ class EditorPageViewModel(
     /**
      * [LiveData] for post creation process
      */
-    val postCreationResultLiveData = posterUseCase.getAsLiveData.asEvent()
+    val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
     /**
      * [LiveData] for "Not Safe For Work" switch
      */
-    val nsfwLiveData = MutableLiveData<Boolean>(nsfw)
+    val nsfwLiveData = MutableLiveData<Boolean>(false)
 
     init {
         embedsUseCase.subscribe()
@@ -83,7 +85,7 @@ class EditorPageViewModel(
     }
 
     fun switchNSFW() {
-        nsfw = !nsfw
+        nsfwLiveData.value = !nsfwLiveData.value!!
     }
 
     fun onTitleChanged(title: String) {
@@ -118,21 +120,24 @@ class EditorPageViewModel(
     }
 
     /**
-     * Creates new post. Result of creation can be listened by [postCreationResultLiveData]
+     * Creates new post. Result of creation can be listened by [discussionCreationLiveData]
      */
     fun post() {
-        val tags = if (nsfw) listOf("nsfw") else listOf()
-        val postRequest = when (postType) {
-            Type.POST -> PostCreationRequestModel(title, content, tags)
-            Type.COMMENT ->  CommentCreationRequestModel(content, parentId!!, tags)
+        if (validate(title, content)) {
+            val tags = if (nsfwLiveData.value!!) listOf("nsfw") else listOf()
+            val postRequest = when (postType) {
+                Type.POST -> PostCreationRequestModel(title, content, tags)
+                Type.COMMENT -> CommentCreationRequestModel(content, parentId!!, tags)
+            }
+            posterUseCase.createPostOrComment(postRequest)
         }
-        posterUseCase.createPostOrComment(postRequest)
     }
 
-    private fun validate(title: String, content: String) {
+    private fun validate(title: String, content: String): Boolean {
         val isValid = content.trim().length > 3
                 && (title.trim().length > 3 || postType == Type.COMMENT)
         validationResultLiveData.postValue(isValid)
+        return isValid
     }
 
     override fun onCleared() {

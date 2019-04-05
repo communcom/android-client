@@ -58,7 +58,9 @@ class PostPageAdapter(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_post_header, parent,
                     false
-                )
+                ).apply {
+                    postComment.visibility = View.GONE
+                }
             )
             COMMENT_TYPE -> super.onCreateViewHolder(parent, viewType)
             LOADING_TYPE -> PostPageAdapter.LoadingViewHolder(
@@ -159,9 +161,6 @@ class PostPageAdapter(
                 postMedia.visibility = View.VISIBLE
                 postMedia.setImageResource(R.drawable.img_example_media)
                 postContentPreview.visibility = View.GONE
-                postComment.visibility = View.GONE
-                postSendComment
-
 
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > BigInteger("0")

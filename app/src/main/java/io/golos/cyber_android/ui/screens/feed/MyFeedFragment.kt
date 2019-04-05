@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
@@ -22,6 +23,7 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**
@@ -69,12 +71,8 @@ open class MyFeedFragment :
                     startActivity(PostActivity.getIntent(requireContext(), post))
                 }
 
-                override fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean) {
-                    Toast.makeText(
-                        requireContext(),
-                        "send comment = $comment, upvoted = $upvoted, downvoted = $downvoted",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                override fun onSendClick(post: PostModel, comment: String) {
+                    viewModel.sendComment(post, comment)
                 }
             },
             isEditorWidgetSupported = true,
@@ -95,6 +93,19 @@ open class MyFeedFragment :
             if (!isLoading)
                 swipeRefresh.isRefreshing = false
         })
+
+        viewModel.discussionCreationLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading<*> -> showLoading()
+                    is QueryResult.Success<*> -> hideLoading()
+                    is QueryResult.Error<*> -> {
+                        hideLoading()
+                        Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
     }
 
     private fun setupEditorWidget() {
@@ -103,13 +114,18 @@ open class MyFeedFragment :
             }
 
             override fun onWidgetClick() {
-                startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageViewModel.Type.POST))
+                startActivity(
+                    EditorPageActivity.getIntent(
+                        requireContext(),
+                        EditorPageFragment.Args(EditorPageViewModel.Type.POST)
+                    )
+                )
             }
         }
     }
 
     override fun setupWidgetsLiveData() {
-        viewModel.editorWidgetStateLiveData.observe(this, Observer {state ->
+        viewModel.editorWidgetStateLiveData.observe(this, Observer { state ->
             (feedList.adapter as HeadersPostsAdapter).apply {
                 editorWidgetState = state
             }

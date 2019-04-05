@@ -2,13 +2,12 @@ package io.golos.cyber_android.ui.common.posts
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.utils.PaginationScrollListener
@@ -19,7 +18,7 @@ import io.golos.domain.model.FeedUpdateRequest
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         E : DiscussionEntity,
         M : DiscussionModel,
-        VM : AbstractFeedViewModel<R, E, M>> : Fragment() {
+        VM : AbstractFeedViewModel<R, E, M>> : LoadingFragment() {
 
     open lateinit var viewModel: VM
 

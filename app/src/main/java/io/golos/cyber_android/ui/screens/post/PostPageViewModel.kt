@@ -1,18 +1,15 @@
 package io.golos.cyber_android.ui.screens.post
 
-import android.util.Log
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.CommentFeedUpdateRequest
 import io.golos.domain.model.VoteRequestModel
 
-class PostWithCommentsViewModel(
+class PostPageViewModel(
     postWithCommentUseCase: PostWithCommentUseCase,
     voteUseCase: VoteUseCase
 ) : AbstractFeedViewModel<CommentFeedUpdateRequest, CommentEntity, CommentModel>(postWithCommentUseCase, voteUseCase) {

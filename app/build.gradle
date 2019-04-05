@@ -78,6 +78,7 @@ dependencies {
         transitive = true
     }
     implementation("com.squareup.moshi:moshi:$moshiVersin")
+    implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
 
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

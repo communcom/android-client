@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.common.posts
 
+import android.text.Editable
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.header_post_card.view.*
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.math.BigInteger
+
 
 /**
  * [RecyclerView.Adapter] for [PostEntity]
@@ -40,6 +44,20 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+
+        //fix for scrolling EditText inside RecyclerView
+        view.postComment.setOnTouchListener { v, event ->
+            if (view.postComment.hasFocus()) {
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_SCROLL -> {
+                        v.parent.requestDisallowInterceptTouchEvent(false)
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            return@setOnTouchListener false
+        }
         return PostViewHolder(view)
     }
 
@@ -57,7 +75,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
         ) {
             with(itemView) {
                 postAuthorName.text = postModel.community.name
-                        postAuthor.text = String.format(
+                postAuthor.text = String.format(
                     context.resources.getString(R.string.post_time_and_author_format),
                     DateUtils.createTimeLabel(
                         postModel.meta.time.time,
@@ -86,15 +104,21 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
 
                 postUpvote.setOnClickListener { listener.onUpvoteClick(postModel) }
                 postDownvote.setOnClickListener { listener.onDownvoteClick(postModel) }
-                postSendComment.setOnClickListener {
-                    listener.onSendClick(
-                        postModel,
-                        postComment.text.toString(),
-                        postUpvote.isActivated,
-                        postDownvote.isActivated
-                    )
+                postSend.setOnClickListener {
+                    listener.onSendClick(postModel, postComment.text.toString())
                 }
+
                 postRoot.setOnClickListener { listener.onPostClick(postModel) }
+
+                postComment.setText("")
+                postSend.isEnabled = false
+                postSend.alpha = 0.3f
+                postComment.addTextChangedListener(object : BaseTextWatcher() {
+                    override fun afterTextChanged(s: Editable?) {
+                        postSend.isEnabled = postComment.length() > 3
+                        postSend.alpha = if (postComment.length() > 3) 1f else 0.3f
+                    }
+                })
             }
         }
 
@@ -117,23 +141,16 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
     }
 
     /**
-     * Click listener of [PostsAdapter] items. Supports one operation -
-     * [onSendClick]
+     * Click listener of [PostsAdapter] items
      */
     interface Listener {
-
-        /**
-         * @param post post which gets new comment
-         * @param comment content of the new comment
-         * @param upvoted true if post was upvoted, false otherwise
-         * @param downvoted true if post was downvoted, false otherwise
-         */
-        fun onSendClick(post: PostModel, comment: String, upvoted: Boolean, downvoted: Boolean)
 
         /**
          * @param post post was clicked
          */
         fun onPostClick(post: PostModel)
+
+        fun onSendClick(post: PostModel, comment: String)
 
         fun onUpvoteClick(post: PostModel)
 

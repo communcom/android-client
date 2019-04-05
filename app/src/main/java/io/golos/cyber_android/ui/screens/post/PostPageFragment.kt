@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.domain.entities.CommentEntity
@@ -32,7 +33,7 @@ const val INPUT_ANIM_DURATION = 400L
  * Fragment for single [PostModel] presentation
  */
 class PostPageFragment :
-    AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostWithCommentsViewModel>() {
+    AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
     override val feedList: RecyclerView
         get() = postView
 
@@ -52,7 +53,7 @@ class PostPageFragment :
         })
 
         viewModel.loadingStatusLiveData.observe(this, Observer {
-            showLoading()
+            showFeedLoading()
         })
 
         postMenu.setColorFilter(Color.BLACK)
@@ -76,13 +77,18 @@ class PostPageFragment :
     }
 
     private fun addCommentByParent(discussionId: DiscussionIdModel) {
-        startActivity(
-            EditorPageActivity.getIntent(
-                requireContext(),
-                EditorPageViewModel.Type.COMMENT,
-                discussionId
+        viewModel.postLiveData.value?.let {
+            startActivity(
+                EditorPageActivity.getIntent(
+                    requireContext(),
+                    EditorPageFragment.Args(
+                        EditorPageViewModel.Type.COMMENT,
+                        discussionId,
+                        it.community
+                    )
+                )
             )
-        )
+        }
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
@@ -108,7 +114,7 @@ class PostPageFragment :
         }
     }
 
-    private fun showLoading() {
+    private fun showFeedLoading() {
 
     }
 
@@ -177,15 +183,15 @@ class PostPageFragment :
             requireActivity()
                 .serviceLocator
                 .getPostWithCommentsViewModelFactory(id)
-        ).get(PostWithCommentsViewModel::class.java)
+        ).get(PostPageViewModel::class.java)
     }
 
     private fun getDiscussionId(): DiscussionIdModel {
-        return DiscussionIdModel(
-            arguments!!.getString(Tags.USER_ID)!!,
-            arguments!!.getString(Tags.PERM_LINK)!!,
-            arguments!!.getLong(Tags.REF_BLOCK_NUM)
-        )
+        return requireContext()
+            .serviceLocator
+            .moshi
+            .adapter(DiscussionIdModel::class.java)
+            .fromJson(arguments!!.getString(Tags.DISCUSSION_ID)!!)!!
     }
 
 

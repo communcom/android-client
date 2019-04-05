@@ -7,11 +7,13 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -21,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
@@ -29,6 +32,7 @@ import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
+import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.LinkEmbedModel
 import io.golos.domain.model.QueryResult
@@ -36,7 +40,15 @@ import kotlinx.android.synthetic.main.fragment_editor_page.*
 
 const val GALLERY_REQUEST = 101
 
+const val TITLE_MAX_LENGTH = 256
+
 class EditorPageFragment : LoadingFragment() {
+
+    data class Args(
+        val type: EditorPageViewModel.Type,
+        val parentDiscussionId: DiscussionIdModel? = null,
+        val community: CommunityModel? = null
+    )
 
     private lateinit var viewModel: EditorPageViewModel
 
@@ -71,6 +83,7 @@ class EditorPageFragment : LoadingFragment() {
         })
 
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        title.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
 
         nsfw.setOnClickListener {
             viewModel.switchNSFW()
@@ -99,18 +112,34 @@ class EditorPageFragment : LoadingFragment() {
                     super.onPageFinished(view, url)
                     showPreviewLayout()
                 }
+
+                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                    return true
+                }
+
+                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                    return true
+                }
             }
         }
 
-        setupFragmentType()
+        setupFragmentType(getArgs().type)
+    }
+
+    private fun setupCommunity(community: CommunityModel) {
+        communityName.text = community.name
+        Glide.with(this)
+            .load(community.avatarUrl)
+            .apply(RequestOptions.circleCropTransform())
+            .into(communityAvatar)
     }
 
     /**
-     * Sets the views states according to [getPostType]
+     * Sets the views states according to [EditorPageViewModel.Type]
      */
-    private fun setupFragmentType() {
-        title.visibility = if (getPostType() == EditorPageViewModel.Type.COMMENT) View.GONE else View.VISIBLE
-        toolbarTitle.setText(if (getPostType() == EditorPageViewModel.Type.COMMENT) R.string.create_comment else R.string.create_post)
+    private fun setupFragmentType(type: EditorPageViewModel.Type) {
+        title.visibility = if (type == EditorPageViewModel.Type.COMMENT) View.GONE else View.VISIBLE
+        toolbarTitle.setText(if (type == EditorPageViewModel.Type.COMMENT) R.string.create_comment else R.string.create_post)
     }
 
     private fun observeViewModel() {
@@ -132,7 +161,7 @@ class EditorPageFragment : LoadingFragment() {
                 hidePreviewLayout()
         })
 
-        viewModel.postCreationResultLiveData.observe(this, Observer { event ->
+        viewModel.discussionCreationLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let { result ->
                 when (result) {
                     is QueryResult.Loading<*> -> onPostLoading()
@@ -144,6 +173,11 @@ class EditorPageFragment : LoadingFragment() {
 
         viewModel.nsfwLiveData.observe(this, Observer {
             nsfw.isActivated = it
+        })
+
+        viewModel.communityLiveData.observe(this, Observer {
+            if (it != null)
+                setupCommunity(it)
         })
     }
 
@@ -223,7 +257,7 @@ class EditorPageFragment : LoadingFragment() {
     }
 
     private fun onEmbedLoading() {
-        Toast.makeText(requireContext(), "Embed loading", Toast.LENGTH_SHORT).show()
+        linkPreviewProgress.visibility = View.VISIBLE
         linkPreviewWebView.visibility = View.GONE
         linkPreviewImageView.visibility = View.GONE
     }
@@ -234,35 +268,37 @@ class EditorPageFragment : LoadingFragment() {
 
     private fun showPreviewLayout() {
         linkPreviewLayout.visibility = View.VISIBLE
+        linkPreviewProgress.visibility = View.GONE
     }
 
     private fun setupViewModel() {
-        val type = getPostType()
-        val parentId = if (type == EditorPageViewModel.Type.COMMENT)
-            DiscussionIdModel(
-                arguments!!.getString(Tags.USER_ID)!!,
-                arguments!!.getString(Tags.PERM_LINK)!!,
-                arguments!!.getLong(Tags.REF_BLOCK_NUM)
-            ) else null
+        val args = getArgs()
         viewModel = ViewModelProviders.of(
             this,
             requireActivity()
                 .serviceLocator
-                .getEditorPageViewModelFactory(type, parentId)
+                .getEditorPageViewModelFactory(args.type, args.parentDiscussionId, args.community)
         ).get(EditorPageViewModel::class.java)
     }
 
-    private fun getPostType() = arguments!!.getSerializable(Tags.POST_TYPE) as EditorPageViewModel.Type
+    private fun getArgs() = requireContext()
+        .serviceLocator
+        .moshi
+        .adapter(Args::class.java)
+        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
 
     override fun onPause() {
-        super.onPause()
         linkPreviewWebView.onPause()
-        linkPreviewWebView.pauseTimers()
+        super.onPause()
     }
 
     override fun onResume() {
-        super.onResume()
         linkPreviewWebView.onResume()
-        linkPreviewWebView.resumeTimers()
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        linkPreviewWebView?.onDestroy()
+        super.onDestroy()
     }
 }
