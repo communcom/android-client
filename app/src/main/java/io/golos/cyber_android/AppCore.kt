@@ -55,15 +55,22 @@ class AppCore(private val locator: RepositoriesHolder, private val dispatchersPr
             locator.discussionCreationRepository.getAsLiveData(locator.discussionCreationRepository.allDataRequest)
                 .observeForever {
                     val commentCreationResult = (it as? CommentCreationResultEntity) ?: return@observeForever
-                    lastCreatedComment = commentCreationResult
 
-                    commentsMediator.addSource(locator.commentsRepository.getDiscussionAsLiveData(commentCreationResult.commentId)) {
-                        onRelatedToCommentDataChanged()
+                    if (lastCreatedComment != commentCreationResult) {
+                        lastCreatedComment = commentCreationResult
+                        commentsMediator.addSource(
+                            locator.commentsRepository.getDiscussionAsLiveData(
+                                commentCreationResult.commentId
+                            )
+                        ) { commentEntity ->
+                            commentEntity ?: return@addSource
+                            onRelatedToCommentDataChanged()
+                        }
                     }
                 }
-
         }
     }
+
 
     private fun onRelatedToCommentDataChanged() {
         val lastCommentCreatedId = lastCreatedComment ?: return
@@ -72,6 +79,9 @@ class AppCore(private val locator: RepositoriesHolder, private val dispatchersPr
 
         if (comment.contentId != lastCommentCreatedId.commentId) return
 
+        locator.postFeedRepository.requestDiscussionUpdate(comment.parentPostId)
+
         locator.commentsRepository.fixOnPositionDiscussion(comment, lastCommentCreatedId.parentId)
+
     }
 }
