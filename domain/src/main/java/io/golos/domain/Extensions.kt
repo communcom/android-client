@@ -40,7 +40,7 @@ internal fun Date.asElapsedTime(): ElapsedTime {
 }
 
 internal fun Long.minutesElapsedFromTimeStamp(): Int {
-    val currentTime = System.currentTimeMillis() - TimeZone.getDefault().getOffset(System.currentTimeMillis())
+    val currentTime = System.currentTimeMillis()
     val dif = currentTime - this
     val hour = 1000 * 60
     val hoursAgo = dif / hour
