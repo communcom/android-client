@@ -33,13 +33,13 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
     }
 
     fun sendComment(id: DiscussionIdModel, comment: String) {
-        if (validate(comment)) {
+        if (validateComment(comment)) {
             val postRequest = CommentCreationRequestModel(comment, id, emptyList())
             posterUseCase.createPostOrComment(postRequest)
         }
     }
 
-    private fun validate(comment: String) = comment.length > 3
+    protected open fun validateComment(comment: String) = comment.length > 3
 
     init {
         posterUseCase.subscribe()

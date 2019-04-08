@@ -13,6 +13,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.colorizeHashTags
+import io.golos.cyber_android.views.utils.colorizeLinks
 import kotlinx.android.synthetic.main.view_comment_widget.view.*
 
 
@@ -21,6 +23,13 @@ class CommentWidget @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     var listener: Listener? = null
+
+    var isSendEnabled: Boolean = false
+        set(value) {
+            field = value
+            sendButton.isEnabled = value
+            sendButton.alpha = if (sendButton.isEnabled) 1f else 0.3f
+        }
 
     init {
         inflate(context, R.layout.view_comment_widget, this)
@@ -31,11 +40,11 @@ class CommentWidget @JvmOverloads constructor(
         comment.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
-                sendButton.isEnabled = comment.length() > 3
+                listener?.onCommentChanged(s.toString())
+                s?.colorizeHashTags()
+                s?.colorizeLinks()
             }
         })
-
-        sendButton.isEnabled = false
     }
 
     /**
@@ -91,5 +100,7 @@ class CommentWidget @JvmOverloads constructor(
         fun onGalleryClick()
 
         fun onUserNameCleared()
+
+        fun onCommentChanged(text: String)
     }
 }

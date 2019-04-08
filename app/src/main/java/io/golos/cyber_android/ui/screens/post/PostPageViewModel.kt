@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.domain.entities.CommentEntity
@@ -22,28 +23,55 @@ class PostPageViewModel(
     posterUseCase
 ) {
 
-    val postLiveData = postWithCommentUseCase.getPostAsLiveData
-
-    val disscusionToReplyLiveData = MutableLiveData<DiscussionIdModel?>(null)
-
-    fun setDiscussionToReply(id: DiscussionIdModel) {
-        disscusionToReplyLiveData.postValue(id)
-    }
-
-    fun clearDiscussionToReply() {
-        disscusionToReplyLiveData.postValue(null)
+    enum class Visibility {
+        VISIBLE, GONE
     }
 
     /**
-     * Sends top level comment to post associated with this view model
+     * [LiveData] for post content
+     */
+    val postLiveData = postWithCommentUseCase.getPostAsLiveData
+
+    /**
+     * [LiveData] currently selected discussion to reply
+     */
+    val discussionToReplyLiveData = MutableLiveData<DiscussionIdModel?>(null)
+
+    /**
+     * [LiveData] that indicates validness of the user comment
+     */
+    val commentValidnessLiveData = MutableLiveData(false)
+
+    /**
+     * [LiveData] that indicates visibility of the comment input widget
+     */
+    val commentInputVisibilityLiveData = MutableLiveData(Visibility.GONE)
+
+    /**
+     * Sets [DiscussionIdModel] which should be used as a parent of a new comment (created via [sendComment])
+     */
+    fun setDiscussionToReply(id: DiscussionIdModel) {
+        discussionToReplyLiveData.postValue(id)
+    }
+
+    /**
+     * Clears currently selected [DiscussionIdModel] to reply
+     */
+    fun clearDiscussionToReply() {
+        discussionToReplyLiveData.postValue(null)
+    }
+
+    /**
+     * Sends comment to post associated with this view model. Method checks if there is selected [DiscussionIdModel] to reply
+     * and send it there or send it as a top level comment
      */
     fun sendComment(text: String) {
-        if (disscusionToReplyLiveData.value == null) {
+        if (discussionToReplyLiveData.value == null) {
             postLiveData.value?.let {
                 sendComment(it, text)
             }
         } else {
-            disscusionToReplyLiveData.value?.let {
+            discussionToReplyLiveData.value?.let {
                 sendComment(it, text)
             }
         }
@@ -56,7 +84,7 @@ class PostPageViewModel(
         }
     }
 
-    fun onPostUpote() {
+    fun onPostUpvote() {
         postLiveData.value?.let {
             val power = if (!it.votes.hasUpVote) 10_000.toShort() else 0.toShort()
             voteForPost(power, it)
@@ -74,7 +102,7 @@ class PostPageViewModel(
     }
 
 
-    fun voteForPost(power: Short, discussionModel: PostModel) {
+    private fun voteForPost(power: Short, discussionModel: PostModel) {
         if (!discussionModel.votes.hasUpVoteProgress
             && !discussionModel.votes.hasDownVotingProgress
             && !discussionModel.votes.hasVoteCancelProgress
@@ -82,5 +110,22 @@ class PostPageViewModel(
             val request = VoteRequestModel.VoteForPostRequest(power, discussionModel.contentId)
             vote(request, discussionModel.contentId)
         }
+    }
+
+    private var currentCommentText = ""
+
+    fun onCommentChanged(text: String) {
+        currentCommentText = text
+        commentValidnessLiveData.postValue(validateComment(text))
+    }
+
+    override fun validateComment(comment: String): Boolean {
+        return (super.validateComment(comment)
+                && (discussionToReplyLiveData.value == null
+                || comment.length > discussionToReplyLiveData.value!!.userId.length + 4))
+    }
+
+    fun setCommentInputVisibility(visibility: Visibility) {
+        commentInputVisibilityLiveData.postValue(visibility)
     }
 }

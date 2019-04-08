@@ -25,9 +25,10 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <ImageView
+                <ImageButton
                         android:id="@+id/close"
                         android:padding="@dimen/padding_toolbar_buttons_20dp"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_gravity="start|center_vertical"
                         app:srcCompat="@drawable/ic_close"
                         android:layout_width="wrap_content"
@@ -44,9 +45,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
 
-                <ImageView
+                <ImageButton
                         android:id="@+id/post"
                         android:padding="@dimen/padding_toolbar_buttons_20dp"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_gravity="start|center_vertical"
                         app:srcCompat="@drawable/ic_ok"
                         android:layout_width="wrap_content"
@@ -150,7 +152,7 @@
 
                     <im.delight.android.webview.AdvancedWebView
                             android:id="@+id/linkPreviewWebView"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:layout_marginTop="@dimen/margin_top_editor_page_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>

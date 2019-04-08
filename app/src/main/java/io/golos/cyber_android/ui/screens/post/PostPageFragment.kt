@@ -63,7 +63,8 @@ class PostPageFragment :
                 adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
             }
         })
-        adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
+        postCommentBottom.visibility = View.GONE
+        postCommentBottom.alpha = 0f
     }
 
     private fun observeViewModel() {
@@ -91,13 +92,25 @@ class PostPageFragment :
             }
         })
 
-        viewModel.disscusionToReplyLiveData.observe(this, Observer {
+        viewModel.discussionToReplyLiveData.observe(this, Observer {
             postCommentBottom.setUserToReply(it?.userId)
+        })
+
+        viewModel.commentValidnessLiveData.observe(this, Observer {
+            postCommentBottom.isSendEnabled = it
+        })
+
+        viewModel.commentInputVisibilityLiveData.observe(this, Observer {
+            setCommentInputVisibility(it)
         })
     }
 
     private fun setupCommentWidget() {
         postCommentBottom.listener = object : CommentWidget.Listener {
+            override fun onCommentChanged(text: String) {
+                viewModel.onCommentChanged(text)
+            }
+
             override fun onUserNameCleared() {
                 viewModel.clearDiscussionToReply()
             }
@@ -123,24 +136,31 @@ class PostPageFragment :
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
         if (lastVisibleItem > 0) {
-            postCommentBottom.animate()
-                .alpha(1f)
-                .setDuration(INPUT_ANIM_DURATION)
-                .withStartAction {
-                    postCommentBottom.alpha = 0f
-                    postCommentBottom.visibility = View.VISIBLE
-                }
-                .start()
+            viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.VISIBLE)
         } else {
-            postCommentBottom.animate()
-                .alpha(0f)
-                .setDuration(INPUT_ANIM_DURATION)
-                .withStartAction {
-                    postCommentBottom.alpha = 1f
-                }.withEndAction {
-                    postCommentBottom.visibility = View.GONE
-                }
-                .start()
+            viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.GONE)
+        }
+    }
+
+    private fun setCommentInputVisibility(visibility: PostPageViewModel.Visibility) {
+        if (visibility == PostPageViewModel.Visibility.VISIBLE) {
+            if (postCommentBottom.alpha == 0f)
+                postCommentBottom.animate()
+                    .alpha(1f)
+                    .setDuration(INPUT_ANIM_DURATION)
+                    .withStartAction {
+                        postCommentBottom.visibility = View.VISIBLE
+                    }
+                    .start()
+        } else {
+            if (postCommentBottom.alpha == 1f)
+                postCommentBottom.animate()
+                    .alpha(0f)
+                    .setDuration(INPUT_ANIM_DURATION)
+                    .withEndAction {
+                        postCommentBottom.visibility = View.GONE
+                    }
+                    .start()
         }
     }
 
@@ -190,7 +210,7 @@ class PostPageFragment :
 
         }, object : PostPageAdapter.Listener {
             override fun onPostUpvote(postModel: PostModel) {
-                viewModel.onPostUpote()
+                viewModel.onPostUpvote()
             }
 
             override fun onPostDownvote(postModel: PostModel) {

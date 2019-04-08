@@ -11,6 +11,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.colorizeHashTags
+import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
@@ -86,7 +88,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     ),
                     postModel.author.username
                 )
-                postContentPreview.text = postModel.content.body.preview
+                postContentPreview.text = postModel.content.body.previewCharSequence
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > zero
 
@@ -117,6 +119,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     override fun afterTextChanged(s: Editable?) {
                         postSend.isEnabled = postComment.length() > 3
                         postSend.alpha = if (postComment.length() > 3) 1f else 0.3f
+                        s?.colorizeHashTags()
+                        s?.colorizeLinks()
                     }
                 })
             }

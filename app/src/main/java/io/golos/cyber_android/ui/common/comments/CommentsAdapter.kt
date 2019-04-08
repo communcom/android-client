@@ -59,7 +59,7 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                     commentModel.meta.elapsedFormCreation.elapsedDays,
                     context
                 )
-                commentContent.text = commentModel.content.body.full ?: commentModel.content.body.preview
+                commentContent.text = commentModel.content.body.fulCharSequence.ifBlank { commentModel.content.body.previewCharSequence }
                 commentReply.setOnClickListener {
                     listener.onReplyClick(commentModel)
                 }
