@@ -110,5 +110,9 @@
     <dimen name="margin_top_editor_page_content">8dp</dimen>
     <dimen name="margin_top_editor_page_link_preview">12dp</dimen>
 
+    <!--Comment Widget-->
+    <dimen name="padding_comment_widget_gallery_button">6dp</dimen>
+    <dimen name="padding_comment_widget_send_button">10dp</dimen>
+
 
 </resources>

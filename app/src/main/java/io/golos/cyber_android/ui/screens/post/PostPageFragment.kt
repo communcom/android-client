@@ -1,10 +1,13 @@
 package io.golos.cyber_android.ui.screens.post
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,20 +17,21 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
-import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
-import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
-import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.CommentFeedUpdateRequest
+import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
 
 
 const val INPUT_ANIM_DURATION = 400L
+
+const val GALLERY_REQUEST = 101
 
 /**
  * Fragment for single [PostModel] presentation
@@ -47,7 +51,22 @@ class PostPageFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupViewModel()
+        setupCommentWidget()
+        observeViewModel()
 
+        postMenu.setColorFilter(Color.BLACK)
+        back.setOnClickListener { activity?.finish() }
+
+        feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
+            }
+        })
+        adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
+    }
+
+    private fun observeViewModel() {
         viewModel.postLiveData.observe(this, Observer {
             bindPostModel(it)
         })
@@ -56,59 +75,70 @@ class PostPageFragment :
             showFeedLoading()
         })
 
-        postMenu.setColorFilter(Color.BLACK)
-        back.setOnClickListener { activity?.finish() }
-        postCommentBottom.setOnClickListener {
-            addRootComment()
-        }
-
-        feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
+        viewModel.discussionCreationLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading<*> -> showLoading()
+                    is QueryResult.Success<*> -> {
+                        hideLoading()
+                        postCommentBottom.clearText()
+                    }
+                    is QueryResult.Error<*> -> {
+                        hideLoading()
+                        Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
-        postCommentParent.alpha = 0f
-        postCommentParent.visibility = View.GONE
+
+        viewModel.disscusionToReplyLiveData.observe(this, Observer {
+            postCommentBottom.setUserToReply(it?.userId)
+        })
     }
 
-    private fun addRootComment() {
-        addCommentByParent(getDiscussionId())
+    private fun setupCommentWidget() {
+        postCommentBottom.listener = object : CommentWidget.Listener {
+            override fun onUserNameCleared() {
+                viewModel.clearDiscussionToReply()
+            }
+
+            override fun onSendClick(text: String) {
+                viewModel.sendComment(text)
+            }
+
+            override fun onGalleryClick() {
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                )
+                intent.type = "image/*"
+                startActivityForResult(intent, GALLERY_REQUEST)
+            }
+        }
     }
 
     private fun addCommentByParent(discussionId: DiscussionIdModel) {
-        viewModel.postLiveData.value?.let {
-            startActivity(
-                EditorPageActivity.getIntent(
-                    requireContext(),
-                    EditorPageFragment.Args(
-                        EditorPageViewModel.Type.COMMENT,
-                        discussionId,
-                        it.community
-                    )
-                )
-            )
-        }
+        viewModel.setDiscussionToReply(discussionId)
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
         if (lastVisibleItem > 0) {
-            postCommentParent.animate()
+            postCommentBottom.animate()
                 .alpha(1f)
                 .setDuration(INPUT_ANIM_DURATION)
                 .withStartAction {
-                    postCommentParent.alpha = 0f
-                    postCommentParent.visibility = View.VISIBLE
+                    postCommentBottom.alpha = 0f
+                    postCommentBottom.visibility = View.VISIBLE
                 }
                 .start()
         } else {
-            postCommentParent.animate()
+            postCommentBottom.animate()
                 .alpha(0f)
                 .setDuration(INPUT_ANIM_DURATION)
                 .withStartAction {
-                    postCommentParent.alpha = 1f
+                    postCommentBottom.alpha = 1f
                 }.withEndAction {
-                    postCommentParent.visibility = View.GONE
+                    postCommentBottom.visibility = View.GONE
                 }
                 .start()
         }

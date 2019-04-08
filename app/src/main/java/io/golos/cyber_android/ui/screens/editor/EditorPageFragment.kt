@@ -101,6 +101,8 @@ class EditorPageFragment : LoadingFragment() {
         with(linkPreviewWebView) {
             @SuppressLint("SetJavaScriptEnabled")
             settings.javaScriptEnabled = true
+            settings.javaScriptCanOpenWindowsAutomatically = true
+            settings.domStorageEnabled = true
             //workaround for "bitmap.getWidth()" exception
             webChromeClient = object : WebChromeClient() {
                 override fun getDefaultVideoPoster(): Bitmap? {
@@ -249,7 +251,8 @@ class EditorPageFragment : LoadingFragment() {
     private fun loadEmbeddedHtml(model: LinkEmbedModel) {
         linkPreviewWebView.visibility = View.VISIBLE
         linkPreviewImageView.visibility = View.GONE
-        linkPreviewWebView.loadData(model.embedHtml, "text/html", "UTF-8")
+//        linkPreviewWebView.loadData(model.embedHtml, "text/html", "UTF-8")
+        linkPreviewWebView.loadDataWithBaseURL(" ", model.embedHtml, "text/javascript", "UTF-8", null)
     }
 
     private fun onEmbedError() {

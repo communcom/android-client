@@ -50,24 +50,9 @@
                 android:layout_height="match_parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-    <FrameLayout
-            android:id="@+id/postCommentParent"
-            android:background="@color/bg_post_comment"
-            android:layout_gravity="bottom"
+    <io.golos.cyber_android.widgets.CommentWidget
+            android:id="@+id/postCommentBottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-                android:id="@+id/postCommentBottom"
-                android:layout_marginTop="@dimen/margin_vertical_post_page_comment_edit_text"
-                android:layout_marginBottom="@dimen/margin_vertical_post_page_comment_edit_text"
-                android:hint="@string/hint_add_comment"
-                android:background="@drawable/bg_post_card_comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-                android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
-        />
-    </FrameLayout>
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>

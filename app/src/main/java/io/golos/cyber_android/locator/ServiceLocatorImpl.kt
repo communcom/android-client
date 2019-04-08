@@ -187,7 +187,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 return when (modelClass) {
                     PostPageViewModel::class.java -> PostPageViewModel(
                         getPostWithCommentsUseCase(postId),
-                        getVoteUseCase()
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
