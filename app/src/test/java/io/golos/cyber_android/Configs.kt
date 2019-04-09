@@ -1,11 +1,15 @@
 package io.golos.cyber_android
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
 import io.golos.domain.*
 import io.golos.domain.entities.*
+import io.golos.domain.interactors.model.CountryEntityToModelMapper
 import io.golos.domain.model.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,19 +27,21 @@ val cyberPostToEntityMapper = CyberPostToEntityMapper()
 val voteToEntityMapper = VoteRequestModelToEntityMapper()
 val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
-val postEntityToModelMapper = PostEntityEntitiesToModelMapper(object :HtmlToSpannableTransformer{
+val postEntityToModelMapper = PostEntityEntitiesToModelMapper(object : HtmlToSpannableTransformer {
     override fun transform(html: String): CharSequence {
         return html
     }
 })
 val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
-val commentEntityToModelMapper = CommentEntityToModelMapper(object :HtmlToSpannableTransformer{
+val commentEntityToModelMapper = CommentEntityToModelMapper(object : HtmlToSpannableTransformer {
     override fun transform(html: String): CharSequence {
         return html
     }
 })
 val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
 val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
+
+val toCountryModelMapper = CountryEntityToModelMapper()
 
 val fromIframelyMapper = IfremlyEmbedMapper()
 val fromOEmbedMapper = OembedMapper()
@@ -107,6 +113,9 @@ val embededsRepository = EmbedsRepository(
     fromIframelyMapper, fromOEmbedMapper
 )
 
+
+
+
 private val persister = object : Persister {
     override fun saveAuthState(state: AuthState) {
 
@@ -114,7 +123,7 @@ private val persister = object : Persister {
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberUser("fkmiiibuntct"), true)
+        return AuthState(CyberUser("vwxffciejffd"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -122,10 +131,9 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5JyzKR94WqFxqcExLMcakd7SksEqkNDbo2GT4VvdRs4g3XyQrg8"
+        return "5Jo1pRP35Vi4iFFgYYj2u3gjRVn4Ue7x4oti1wo2d3EPLbYLHnP"
     }
 }
-
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
 
 val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
@@ -136,6 +144,28 @@ val discussionCreationRepo = DiscussionCreationRepository(
     discussionEntityRequestToApiRequestMapper,
     discussionCreationToEntityMapper
 )
+
+val countriesRepo: Repository<CountriesList, CountriesRequest>
+        by lazy {
+            CountriesRepository(
+                dispatchersProvider,
+                object : CountriesProvider {
+
+                    override suspend fun getAllCountries(): List<CountryEntity> {
+                        println("getAllCountries")
+                        val contriesList =
+                            CountriesChooserUseCaseTest::class.java.classLoader.getResource("countries.json").readText()
+                        return Moshi.Builder().build().adapter<List<CountryEntity>>(
+                            Types.newParameterizedType(
+                                List::class.java,
+                                CountryEntity::class.java
+                            )
+                        ).fromJson(contriesList)!!
+                    }
+                },
+                logger
+            )
+        }
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -151,6 +181,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = embededsRepository
     override val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
         get() = discussionCreationRepo
+    override val countriesRepository: Repository<CountriesList, CountriesRequest>
+        get() = countriesRepo
 }, dispatchersProvider)
 
 

@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
@@ -25,9 +27,11 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
+import io.golos.domain.interactors.model.CountryEntityToModelMapper
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
+import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.model.*
 import io.golos.domain.rules.*
@@ -57,7 +61,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     private val commentEntityToModelMapper = CommentEntityToModelMapper(fromHtmlTransformet)
     private val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
-
+    private val toCountriesModelMapper = CountryEntityToModelMapper()
 
     private val approver = FeedUpdateApprover()
 
@@ -148,6 +152,27 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
                 VoteRepository(apiService, dispatchersProvider, logger)
+            }
+
+    override val countriesRepository: Repository<CountriesList, CountriesRequest>
+            by lazy {
+                CountriesRepository(
+                    dispatchersProvider,
+                    object : CountriesProvider {
+                        override suspend fun getAllCountries(): List<CountryEntity> {
+                            val contriesList =
+                                appContext.resources.openRawResource(R.raw.countries).readBytes().let { String(it) }
+                            println("contriesList = $contriesList")
+                            return moshi.adapter<List<CountryEntity>>(
+                                Types.newParameterizedType(
+                                    List::class.java,
+                                    CountryEntity::class.java
+                                )
+                            ).fromJson(contriesList)!!
+                        }
+                    },
+                    logger
+                )
             }
 
 
@@ -319,5 +344,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getEmbedsUseCase(): EmbedsUseCase {
         return EmbedsUseCase(dispatchersProvider, embedsRepository)
+    }
+
+    override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
+        return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
     }
 }

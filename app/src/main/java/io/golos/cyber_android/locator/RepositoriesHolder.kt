@@ -15,4 +15,5 @@ interface RepositoriesHolder {
     val commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>
     val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
     val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
+    val countriesRepository: Repository<CountriesList, CountriesRequest>
 }

@@ -6,6 +6,9 @@ import io.fabric.sdk.android.Fabric
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.cyber_android.locator.ServiceLocator
 import io.golos.cyber_android.locator.ServiceLocatorImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
@@ -29,8 +32,6 @@ class App : MultiDexApplication() {
             mServiceLocator.dispatchersProvider
         )
         appCore.initialize()
-
-
     }
 
     override fun getSystemService(name: String): Any {

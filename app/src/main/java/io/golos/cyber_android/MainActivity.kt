@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.ui.base.BaseActivity
@@ -36,7 +34,7 @@ class MainActivity : BaseActivity() {
 
     private fun setupPager() {
         mainPager.isUserInputEnabled = false
-        mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager) {
+        mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager, this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {
                     Tabs.FEED -> FeedFragment.newInstance("gls", "destroyer2k")

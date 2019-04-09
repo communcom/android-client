@@ -56,7 +56,7 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
     }
 
     private fun setupViewPager() {
-        feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager()) {
+        feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (position) {
                     Tab.ALL.index -> AllFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!).apply {
