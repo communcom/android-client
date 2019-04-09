@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.FromSpannedToHtmlTransformer
 import io.golos.domain.Repository
 import io.golos.domain.entities.CommentCreationResultEntity
 import io.golos.domain.entities.DiscussionCreationResultEntity
@@ -23,7 +24,8 @@ import kotlinx.coroutines.*
  */
 class DiscussionPosterUseCase(
     private val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val fromSpannableTransformer: FromSpannedToHtmlTransformer
 ) :
     UseCase<QueryResult<DiscussionCreationResultModel>> {
 
@@ -110,9 +112,13 @@ class DiscussionPosterUseCase(
     fun createPostOrComment(request: DiscussionCreationRequest) {
 
         val requestEntity = when (request) {
-            is PostCreationRequestModel -> PostCreationRequestEntity(request.title, request.body, request.tags)
+            is PostCreationRequestModel -> PostCreationRequestEntity(
+                request.title,
+                fromSpannableTransformer.transform(request.body),
+                request.tags
+            )
             is CommentCreationRequestModel -> CommentCreationRequestEntity(
-                request.body,
+                fromSpannableTransformer.transform(request.body),
                 request.parentId,
                 request.tags
             )

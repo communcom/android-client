@@ -2,6 +2,7 @@ package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.*
+import io.golos.domain.FromSpannedToHtmlTransformer
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.model.*
@@ -27,7 +28,12 @@ class PosterUseCaseTest {
 
     @Before
     fun before() {
-        useCase = DiscussionPosterUseCase(discussionCreationRepo, dispatchersProvider)
+        useCase = DiscussionPosterUseCase(discussionCreationRepo, dispatchersProvider, object :
+            FromSpannedToHtmlTransformer {
+            override fun transform(spanned: CharSequence): String {
+                return spanned.toString()
+            }
+        })
         appCore.initialize()
     }
 
@@ -117,7 +123,12 @@ class PosterUseCaseTest {
         }
         postWithCommentsUseCase.requestFeedUpdate(1, UpdateOption.FETCH_NEXT_PAGE)
 
-        val posterUseCase = DiscussionPosterUseCase(discussionCreationRepo, dispatchersProvider)
+        val posterUseCase =
+            DiscussionPosterUseCase(discussionCreationRepo, dispatchersProvider, object : FromSpannedToHtmlTransformer {
+                override fun transform(spanned: CharSequence): String {
+                    return spanned.toString()
+                }
+            })
 
         posterUseCase.subscribe()
 
@@ -142,7 +153,7 @@ class PosterUseCaseTest {
 
         assertTrue(postingState is QueryResult.Success)
 
-        assertEquals("root comment was not sent to post comments",2, comments?.items?.size)
+        assertEquals("root comment was not sent to post comments", 2, comments?.items?.size)
 
         val rootCommentCreationId = ((postingState as QueryResult.Success).originalQuery as CommentCreationResultModel)
 
@@ -162,15 +173,19 @@ class PosterUseCaseTest {
 
         val commentCreationId = ((postingState as QueryResult.Success).originalQuery as CommentCreationResultModel)
 
-        assertEquals("second level comment was not sent to comments list",3, comments?.items?.size)
+        assertEquals("second level comment was not sent to comments list", 3, comments?.items?.size)
 
         postWithCommentsUseCase.requestFeedUpdate(100, UpdateOption.FETCH_NEXT_PAGE)
 
 
         assertTrue(comments!!.items.size > 3)
 
-        assertTrue("new root comment was erased", comments!!.items.any { it.contentId == rootCommentCreationId.commentId })
-        assertTrue("new secondLevle comment was erased", comments!!.items.any { it.contentId == commentCreationId.commentId })
+        assertTrue(
+            "new root comment was erased",
+            comments!!.items.any { it.contentId == rootCommentCreationId.commentId })
+        assertTrue(
+            "new secondLevle comment was erased",
+            comments!!.items.any { it.contentId == commentCreationId.commentId })
 
         assertEquals("root comment duplicated", 1,
             comments!!.items

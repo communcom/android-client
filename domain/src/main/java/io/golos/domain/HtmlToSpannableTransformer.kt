@@ -6,3 +6,7 @@ package io.golos.domain
 interface HtmlToSpannableTransformer {
     fun transform(html: String): CharSequence
 }
+
+interface FromSpannedToHtmlTransformer {
+    fun transform(spanned: CharSequence): String
+}
