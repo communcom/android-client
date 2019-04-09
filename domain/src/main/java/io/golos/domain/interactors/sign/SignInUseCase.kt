@@ -97,6 +97,6 @@ class SignInUseCase(
     }
 
     fun authWithCredentials(request: AuthRequestModel) {
-        authRepo.makeAction(AuthRequest(request.user, request.activeKey))
+        authRepo.makeAction(AuthRequest(CyberUser(request.user.userId.trim()), request.activeKey.trim()))
     }
 }
