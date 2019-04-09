@@ -2,11 +2,14 @@ package io.golos.cyber_android.locator
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.moshi.Moshi
+import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
@@ -20,6 +23,8 @@ interface ServiceLocator {
 
     val dispatchersProvider: DispatchersProvider
 
+    val moshi: Moshi
+
     fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory
 
     fun getUserSubscriptionsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory
@@ -29,6 +34,12 @@ interface ServiceLocator {
     fun getSignInViewModelFactory(): ViewModelProvider.Factory
 
     fun getAuthViewModelFactory(): ViewModelProvider.Factory
+
+    fun getEditorPageViewModelFactory(
+        type: EditorPageViewModel.Type,
+        parentId: DiscussionIdModel?,
+        community: CommunityModel?
+    ): ViewModelProvider.Factory
 
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 

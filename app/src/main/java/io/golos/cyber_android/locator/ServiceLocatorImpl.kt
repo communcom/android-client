@@ -3,12 +3,14 @@ package io.golos.cyber_android.locator
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.moshi.Moshi
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.CommunityFeedViewModel
+import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
-import io.golos.cyber_android.ui.screens.post.PostWithCommentsViewModel
+import io.golos.cyber_android.ui.screens.post.PostPageViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
@@ -22,6 +24,7 @@ import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
@@ -46,6 +49,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
     private val fromSpannableToHtml = FromSpannedToHtmlTransformerImpl()
+
 
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
@@ -94,6 +98,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             get() = Dispatchers.Default
     }
 
+    override val moshi: Moshi by lazy { Moshi.Builder().build() }
 
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>by lazy {
         PostsFeedRepository(
@@ -153,7 +158,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 return when (modelClass) {
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
                         getCommunityFeedUseCase(communityId),
-                        getVoteUseCase()
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -167,8 +173,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     UserSubscriptionsFeedViewModel::class.java -> UserSubscriptionsFeedViewModel(
-                        getUserPostFeedUseCase(user),
-                        getVoteUseCase()
+                        getUserSubscriptionsFeedUseCase(user),
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -181,9 +188,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
-                    PostWithCommentsViewModel::class.java -> PostWithCommentsViewModel(
+                    PostPageViewModel::class.java -> PostPageViewModel(
                         getPostWithCommentsUseCase(postId),
-                        getVoteUseCase()
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -212,6 +220,29 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 return when (modelClass) {
                     AuthViewModel::class.java -> AuthViewModel(
                         getSignInUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditorPageViewModelFactory(
+        type: EditorPageViewModel.Type,
+        parentId: DiscussionIdModel?,
+        community: CommunityModel?
+    ): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditorPageViewModel::class.java -> EditorPageViewModel(
+                        getEmbedsUseCase(),
+                        getDiscussionPosterUseCase(),
+                        dispatchersProvider,
+                        type,
+                        parentId,
+                        community
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

@@ -156,4 +156,35 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="ToolbarTitleTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="EditorPostTitleTextStyle" parent="SearchBarTextStyle">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:inputType">textMultiLine</item>
+    </style>
+
+    <style name="EditorPostContentTextStyle" parent="SearchBarTextStyle">
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:autoLink">none</item>
+        <item name="android:textColorLink">@color/blue</item>
+    </style>
+
+    <style name="EditorPreviewSummaryTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="EditorPreviewProviderTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
 </resources>

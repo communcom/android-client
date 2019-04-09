@@ -5,24 +5,21 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.dialogs.LoadingDialog
+import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import kotlinx.android.synthetic.main.fragment_sign_in.*
-import android.view.inputmethod.EditorInfo
-import androidx.navigation.fragment.findNavController
 
 
-class SignInFragment : Fragment() {
+class SignInFragment : LoadingFragment() {
 
     private lateinit var viewModel: SignInViewModel
-
-    private val loadingDialog = LoadingDialog()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +66,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.validationResultLiveData.observe(this, Observer { isValid ->
+        viewModel.getValidationResultLiveData.observe(this, Observer { isValid ->
             signIn.isEnabled = isValid
         })
 
@@ -89,17 +86,6 @@ class SignInFragment : Fragment() {
                     onError()
             }
         })
-    }
-
-    private fun showLoading() {
-        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded) {
-            loadingDialog.show(requireFragmentManager(), "loading")
-        }
-    }
-
-    private fun hideLoading() {
-        if (loadingDialog.fragmentManager != null)
-            loadingDialog.dismiss()
     }
 
     /**

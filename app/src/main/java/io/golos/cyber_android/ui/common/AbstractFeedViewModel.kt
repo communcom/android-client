@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common
 
+import android.util.Log
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData

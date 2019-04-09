@@ -1,12 +1,15 @@
 package io.golos.cyber_android.ui.screens.post
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,22 +20,26 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.model.CommentFeedUpdateRequest
+import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
 
 
 const val INPUT_ANIM_DURATION = 400L
 
+const val GALLERY_REQUEST = 101
+
 /**
  * Fragment for single [PostModel] presentation
  */
 class PostPageFragment :
-    AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostWithCommentsViewModel>() {
+    AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
     override val feedList: RecyclerView
         get() = postView
 
@@ -46,14 +53,8 @@ class PostPageFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupViewModel()
-
-        viewModel.postLiveData.observe(this, Observer {
-            bindPostModel(it)
-        })
-
-        viewModel.loadingStatusLiveData.observe(this, Observer {
-            showLoading()
-        })
+        setupCommentWidget()
+        observeViewModel()
 
         postMenu.setColorFilter(Color.BLACK)
         back.setOnClickListener { activity?.finish() }
@@ -64,34 +65,122 @@ class PostPageFragment :
                 adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
             }
         })
-        postCommentParent.alpha = 0f
-        postCommentParent.visibility = View.GONE
+        postCommentBottom.visibility = View.GONE
+        postCommentBottom.alpha = 0f
+    }
+
+    private fun observeViewModel() {
+        viewModel.postLiveData.observe(this, Observer {
+            bindPostModel(it)
+        })
+
+        viewModel.loadingStatusLiveData.observe(this, Observer {
+            showFeedLoading()
+        })
+
+        viewModel.discussionCreationLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading<*> -> showLoading()
+                    is QueryResult.Success<*> -> {
+                        hideLoading()
+                        postCommentBottom.clearText()
+                    }
+                    is QueryResult.Error<*> -> {
+                        hideLoading()
+                        Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+
+        viewModel.getDiscussionToReplyLiveData.observe(this, Observer {
+            postCommentBottom.setUserToReply(it?.userId)
+        })
+
+        viewModel.getCommentValidnessLiveData.observe(this, Observer {
+            postCommentBottom.isSendEnabled = it
+        })
+
+        viewModel.getCommentInputVisibilityLiveData.observe(this, Observer {
+            setCommentInputVisibility(it)
+        })
+    }
+
+    private fun setupCommentWidget() {
+        postCommentBottom.listener = object : CommentWidget.Listener {
+            override fun onCommentChanged(text: CharSequence) {
+                viewModel.onCommentChanged(text)
+            }
+
+            override fun onUserNameCleared() {
+                viewModel.clearDiscussionToReply()
+            }
+
+            override fun onSendClick(text: CharSequence) {
+                viewModel.sendComment(text)
+            }
+
+            override fun onGalleryClick() {
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                )
+                intent.type = "image/*"
+                startActivityForResult(intent, GALLERY_REQUEST)
+            }
+        }
+    }
+
+    private fun addCommentByParent(discussionId: DiscussionIdModel) {
+        viewModel.setDiscussionToReply(discussionId)
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
         if (lastVisibleItem > 0) {
-            postCommentParent.animate()
-                    .alpha(1f)
-                    .setDuration(INPUT_ANIM_DURATION)
-                    .withStartAction {
-                        postCommentParent.alpha = 0f
-                        postCommentParent.visibility = View.VISIBLE
-                    }
-                    .start()
+            viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.VISIBLE)
         } else {
-            postCommentParent.animate()
-                .alpha(0f)
-                .setDuration(INPUT_ANIM_DURATION)
-                .withStartAction {
-                    postCommentParent.alpha = 1f
-                }.withEndAction {
-                    postCommentParent.visibility = View.GONE
-                }
-                .start()
+            viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.GONE)
         }
     }
 
-    private fun showLoading() {
+    private fun setCommentInputVisibility(visibility: PostPageViewModel.Visibility) {
+        if (visibility == PostPageViewModel.Visibility.VISIBLE) {
+            if (postCommentBottom.alpha == 0f)
+                postCommentBottom.animate()
+                    .alpha(1f)
+                    .setDuration(INPUT_ANIM_DURATION)
+                    .withStartAction {
+                        postCommentBottom.visibility = View.VISIBLE
+                    }
+                    .start()
+        } else {
+            if (postCommentBottom.alpha == 1f) {
+                postCommentBottom.animate()
+                    .alpha(0f)
+                    .setDuration(INPUT_ANIM_DURATION)
+                    .withEndAction {
+                        postCommentBottom?.visibility = View.GONE
+                    }
+                    .start()
+                hideKeyboard()
+            }
+        }
+    }
+
+    private fun hideKeyboard() {
+        requireActivity().currentFocus?.let { v ->
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        postCommentBottom.clearAnimation()
+    }
+
+    private fun showFeedLoading() {
 
     }
 
@@ -132,11 +221,13 @@ class PostPageFragment :
             }
 
             override fun onReplyClick(comment: CommentModel) {
+                addCommentByParent(comment.contentId)
+                (feedList.adapter as PostPageAdapter).scrollToComment(comment, feedList)
             }
 
         }, object : PostPageAdapter.Listener {
             override fun onPostUpvote(postModel: PostModel) {
-                viewModel.onPostUpote()
+                viewModel.onPostUpvote()
             }
 
             override fun onPostDownvote(postModel: PostModel) {
@@ -153,17 +244,21 @@ class PostPageFragment :
     }
 
     override fun setupViewModel() {
-        val id = DiscussionIdModel(
-            arguments!!.getString(Tags.USER_ID)!!,
-            arguments!!.getString(Tags.PERM_LINK)!!,
-            arguments!!.getLong(Tags.REF_BLOCK_NUM)
-        )
+        val id = getDiscussionId()
         viewModel = ViewModelProviders.of(
             this,
             requireActivity()
                 .serviceLocator
                 .getPostWithCommentsViewModelFactory(id)
-        ).get(PostWithCommentsViewModel::class.java)
+        ).get(PostPageViewModel::class.java)
+    }
+
+    private fun getDiscussionId(): DiscussionIdModel {
+        return requireContext()
+            .serviceLocator
+            .moshi
+            .adapter(DiscussionIdModel::class.java)
+            .fromJson(arguments!!.getString(Tags.DISCUSSION_ID)!!)!!
     }
 
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/galleryButton"
+            app:srcCompat="@drawable/ic_editor_widget_camera"
+            android:tint="@color/dark_gray"
+            android:background="@drawable/bg_comment_button"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:padding="@dimen/padding_comment_widget_gallery_button"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/comment"
+            android:layout_marginTop="@dimen/margin_vertical_default_16dp"
+            android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
+            tools:text=""
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/size_post_card_comment_buttons"
+            android:inputType="textCapSentences|textMultiLine|text"
+            android:scrollbars="vertical"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:hint="@string/hint_add_comment"
+            android:background="@drawable/bg_post_card_comment"
+            android:gravity="center_vertical"
+            android:maxLines="5"
+            />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/sendButton"
+            app:srcCompat="@drawable/ic_comment_send"
+            android:background="@drawable/bg_comment_button"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:padding="@dimen/padding_comment_widget_send_button"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

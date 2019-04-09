@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.feed
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -9,7 +10,9 @@ class FeedPageViewModel: ViewModel() {
         data class SearchEvent(val query: String): Event()
     }
 
-    val eventsLiveData = MutableLiveData<Event>()
+    private val eventsLiveData = MutableLiveData<Event>()
+
+    val getEventsLiveData = eventsLiveData as LiveData<Event>
 
     fun onSearch(query: String) {
         eventsLiveData.postValue(Event.SearchEvent(query))

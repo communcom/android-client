@@ -3,12 +3,10 @@ package io.golos.cyber_android.ui.screens.post
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AdapterListUpdateCallback
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListUpdateCallback
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
+import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.item_loading.view.*
@@ -58,7 +56,9 @@ class PostPageAdapter(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_post_header, parent,
                     false
-                )
+                ).apply {
+                    postComment.visibility = View.GONE
+                }
             )
             COMMENT_TYPE -> super.onCreateViewHolder(parent, viewType)
             LOADING_TYPE -> PostPageAdapter.LoadingViewHolder(
@@ -95,6 +95,12 @@ class PostPageAdapter(
             getLoadingViewHolderPosition() -> LOADING_TYPE
             else -> COMMENT_TYPE
         }
+    }
+
+
+    fun scrollToComment(commentModel: CommentModel, recyclerView: RecyclerView) {
+        if (values.contains(commentModel))
+            (recyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(values.indexOf(commentModel) + getItemsOffset(), 0)
     }
 
     /**
@@ -159,9 +165,6 @@ class PostPageAdapter(
                 postMedia.visibility = View.VISIBLE
                 postMedia.setImageResource(R.drawable.img_example_media)
                 postContentPreview.visibility = View.GONE
-                postComment.visibility = View.GONE
-                postSendComment
-
 
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > BigInteger("0")
@@ -180,7 +183,7 @@ class PostPageAdapter(
                 postDownvote.setOnClickListener { listener.onPostDownvote(postModel) }
 
                 postTitle.text = postModel.content.title
-                postContent.text = postModel.content.body.full ?: postModel.content.body.preview
+                postContent.text = postModel.content.body.fulCharSequence.ifBlank { postModel.content.body.previewCharSequence }
                 postCommentsTitle.text = String.format(
                     resources.getString(R.string.comments_title_format),
                     postModel.comments.count

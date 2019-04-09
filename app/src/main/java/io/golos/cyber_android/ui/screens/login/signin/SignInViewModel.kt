@@ -2,12 +2,10 @@ package io.golos.cyber_android.ui.screens.login.signin
 
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.CyberUser
-import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.map
 import io.golos.domain.model.AuthRequestModel
@@ -19,10 +17,12 @@ import io.golos.domain.model.QueryResult
  */
 class SignInViewModel(private val signInUseCase: SignInUseCase): ViewModel() {
 
+    private val validationResultLiveData = MutableLiveData<Boolean>(false)
+
     /**
      * [LiveData] that indicates validness of the credentials in [login] and [key] fields
      */
-    val validationResultLiveData = MutableLiveData<Boolean>(false)
+    val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
 
     /**
      * [LiveData] that indicates if loading is in progress

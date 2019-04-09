@@ -10,10 +10,15 @@ import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.model.PostFeedUpdateRequest
 
-open class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>, voteUseCase: VoteUseCase) :
-    AbstractPostFeedViewModel<T>(feedUseCase, voteUseCase) {
+abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
+    feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
+    voteUseCase: VoteUseCase,
+    posterUseCase: DiscussionPosterUseCase
+) :
+    AbstractPostFeedViewModel<T>(feedUseCase, voteUseCase, posterUseCase) {
 
     val sortingWidgetState = MutableLiveData<SortingWidget.SortingWidgetState>(
         SortingWidget.SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)

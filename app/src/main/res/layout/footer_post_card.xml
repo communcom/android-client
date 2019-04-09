@@ -81,10 +81,10 @@
             app:srcCompat="@drawable/ic_upvote"
             android:tint="@color/tint_upvote_button"
             app:layout_constraintStart_toStartOf="@+id/postVoteStatus"
-            android:layout_marginTop="@dimen/margin_top_post_card_comment"
-            app:layout_constraintTop_toBottomOf="@+id/postVoteStatus"
             android:layout_marginBottom="@dimen/margin_bottom_post_card_comment"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginTop="@dimen/margin_top_post_card_comment"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/postVoteStatus"/>
 
     <ProgressBar
             android:id="@+id/postUpvoteProgress"
@@ -124,7 +124,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/postUpvote"/>
 
     <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/postSendComment"
+            android:id="@+id/postSend"
             android:layout_width="@dimen/size_post_card_comment_buttons"
             android:layout_height="@dimen/size_post_card_comment_buttons"
             android:background="@drawable/bg_post_card_comment_button"
@@ -133,21 +133,27 @@
             app:layout_constraintTop_toTopOf="@+id/postUpvote"
             app:layout_constraintBottom_toBottomOf="@+id/postUpvote"/>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/postComment"
+            tools:text=""
             android:layout_width="0dp"
-            android:layout_height="@dimen/size_post_card_comment_buttons"
-            android:inputType="textPersonName"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/size_post_card_comment_buttons"
+            android:inputType="textCapSentences|textMultiLine|text"
+            android:scrollbars="vertical"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
             android:hint="@string/hint_add_comment"
+            android:layout_marginTop="@dimen/margin_top_post_card_comment"
             android:background="@drawable/bg_post_card_comment"
             android:gravity="center_vertical"
+            android:maxLines="5"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintEnd_toStartOf="@+id/postSendComment"
-            app:layout_constraintTop_toTopOf="@+id/postUpvote"
+            app:layout_constraintEnd_toStartOf="@+id/postSend"
             app:layout_constraintBottom_toBottomOf="@+id/postUpvote"
-            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/postDownvote"
             android:layout_marginStart="@dimen/margin_horizontal_post_card_downvote"
-            android:layout_marginEnd="@dimen/margin_horizontal_post_card_downvote"/>
+            android:layout_marginEnd="@dimen/margin_horizontal_post_card_downvote"
+            app:layout_constraintTop_toBottomOf="@+id/postVoteStatus"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

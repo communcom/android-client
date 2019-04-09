@@ -2,11 +2,11 @@ package io.golos.cyber_android.ui.common.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.model.PostFeedUpdateRequest
 import io.golos.domain.model.VoteRequestModel
 
@@ -16,10 +16,12 @@ import io.golos.domain.model.VoteRequestModel
  */
 abstract class AbstractPostFeedViewModel<out T : PostFeedUpdateRequest>(
     feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
-    voteUseCase: VoteUseCase
-) : AbstractFeedViewModel<T, PostEntity, PostModel>(
+    voteUseCase: VoteUseCase,
+    posterUseCase: DiscussionPosterUseCase
+) : AbstractFeedWithCommentsViewModel<T, PostEntity, PostModel>(
     feedUseCase,
-    voteUseCase
+    voteUseCase,
+    posterUseCase
 ) {
     companion object {
         const val PAGE_SIZE = 20
