@@ -73,7 +73,7 @@ class PostPageViewModel(
      * Sends comment to post associated with this view model. Method checks if there is selected [DiscussionIdModel] to reply
      * and send it there or send it as a top level comment
      */
-    fun sendComment(text: String) {
+    fun sendComment(text: CharSequence) {
         if (discussionToReplyLiveData.value == null) {
             postLiveData.value?.let {
                 sendComment(it, text)
@@ -120,14 +120,14 @@ class PostPageViewModel(
         }
     }
 
-    private var currentCommentText = ""
+    private var currentCommentText: CharSequence = ""
 
-    fun onCommentChanged(text: String) {
+    fun onCommentChanged(text: CharSequence) {
         currentCommentText = text
         commentValidnessLiveData.postValue(validateComment(text))
     }
 
-    override fun validateComment(comment: String): Boolean {
+    override fun validateComment(comment: CharSequence): Boolean {
         return (super.validateComment(comment)
                 && (discussionToReplyLiveData.value == null
                 || comment.length > discussionToReplyLiveData.value!!.userId.length + 4))

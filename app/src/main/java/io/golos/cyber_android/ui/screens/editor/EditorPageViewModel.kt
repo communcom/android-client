@@ -38,8 +38,8 @@ class EditorPageViewModel(
      */
     private var currentEmbeddedLink = ""
 
-    private var title = ""
-    private var content = ""
+    private var title: String = ""
+    private var content: CharSequence = ""
 
 
     private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
@@ -110,13 +110,13 @@ class EditorPageViewModel(
         validate(title, this.content)
     }
 
-    fun onContentChanged(content: String) {
+    fun onContentChanged(content: CharSequence) {
         this.content = content
         validate(this.title, content)
         parseUrl(content)
     }
 
-    private fun parseUrl(content: String) {
+    private fun parseUrl(content: CharSequence) {
         urlParserJob?.cancel()
         urlParserJob = urlParserJobScope.launch {
             delay(1_000)
@@ -150,7 +150,7 @@ class EditorPageViewModel(
         }
     }
 
-    private fun validate(title: String, content: String): Boolean {
+    private fun validate(title: CharSequence, content: CharSequence): Boolean {
         val isValid = content.trim().length > 3
                 && (title.trim().length > 3 || postType == Type.COMMENT)
         validationResultLiveData.postValue(isValid)

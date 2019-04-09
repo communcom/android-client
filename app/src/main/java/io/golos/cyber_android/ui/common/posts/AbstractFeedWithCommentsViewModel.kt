@@ -28,18 +28,18 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
      */
     val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
-    fun sendComment(discussion: DiscussionModel, comment: String) {
+    fun sendComment(discussion: DiscussionModel, comment: CharSequence) {
         sendComment(discussion.contentId, comment)
     }
 
-    fun sendComment(id: DiscussionIdModel, comment: String) {
+    fun sendComment(id: DiscussionIdModel, comment: CharSequence) {
         if (validateComment(comment)) {
             val postRequest = CommentCreationRequestModel(comment, id, emptyList())
             posterUseCase.createPostOrComment(postRequest)
         }
     }
 
-    protected open fun validateComment(comment: String) = comment.length > 3
+    protected open fun validateComment(comment: CharSequence) = comment.length > 3
 
     init {
         posterUseCase.subscribe()

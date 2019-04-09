@@ -82,7 +82,7 @@ class AllFeedFragment :
                     startActivity(PostActivity.getIntent(requireContext(), post))
                 }
 
-                override fun onSendClick(post: PostModel, comment: String) {
+                override fun onSendClick(post: PostModel, comment: CharSequence) {
                     viewModel.sendComment(post, comment)
                 }
             },

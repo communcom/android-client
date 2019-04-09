@@ -117,7 +117,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 postUpvote.setOnClickListener { listener.onUpvoteClick(postModel) }
                 postDownvote.setOnClickListener { listener.onDownvoteClick(postModel) }
                 postSend.setOnClickListener {
-                    listener.onSendClick(postModel, postComment.text.toString())
+                    listener.onSendClick(postModel, postComment.text ?: "")
                 }
 
                 postRoot.setOnClickListener { listener.onPostClick(postModel) }
@@ -157,7 +157,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
          */
         fun onPostClick(post: PostModel)
 
-        fun onSendClick(post: PostModel, comment: String)
+        fun onSendClick(post: PostModel, comment: CharSequence)
 
         fun onUpvoteClick(post: PostModel)
 

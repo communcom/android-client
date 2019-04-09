@@ -76,7 +76,9 @@ class EditorPageFragment : LoadingFragment() {
 
         content.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.onContentChanged(s.toString())
+                s?.let {
+                    viewModel.onContentChanged(it)
+                }
                 s?.colorizeHashTags()
                 s?.colorizeLinks()
             }

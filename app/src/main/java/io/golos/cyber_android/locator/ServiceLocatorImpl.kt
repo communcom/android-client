@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
+import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
@@ -47,6 +48,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
+    private val fromSpannableToHtml = FromSpannedToHtmlTransformerImpl()
+
 
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
@@ -304,7 +307,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override fun getDiscussionPosterUseCase(): DiscussionPosterUseCase {
-        return DiscussionPosterUseCase(discussionCreationRepository, dispatchersProvider)
+        return DiscussionPosterUseCase(discussionCreationRepository, dispatchersProvider, fromSpannableToHtml)
     }
 
     override val getAppContext: Context

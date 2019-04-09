@@ -109,7 +109,7 @@ class PostPageFragment :
 
     private fun setupCommentWidget() {
         postCommentBottom.listener = object : CommentWidget.Listener {
-            override fun onCommentChanged(text: String) {
+            override fun onCommentChanged(text: CharSequence) {
                 viewModel.onCommentChanged(text)
             }
 
@@ -117,7 +117,7 @@ class PostPageFragment :
                 viewModel.clearDiscussionToReply()
             }
 
-            override fun onSendClick(text: String) {
+            override fun onSendClick(text: CharSequence) {
                 viewModel.sendComment(text)
             }
 

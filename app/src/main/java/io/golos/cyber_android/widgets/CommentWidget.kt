@@ -35,12 +35,14 @@ class CommentWidget @JvmOverloads constructor(
         inflate(context, R.layout.view_comment_widget, this)
 
         galleryButton.setOnClickListener { listener?.onGalleryClick() }
-        sendButton.setOnClickListener { listener?.onSendClick(comment.text.toString()) }
+        sendButton.setOnClickListener { listener?.onSendClick(comment.text ?: "") }
 
         comment.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
-                listener?.onCommentChanged(s.toString())
+                s?.let {
+                    listener?.onCommentChanged(it)
+                }
                 s?.colorizeHashTags()
                 s?.colorizeLinks()
             }
@@ -96,12 +98,12 @@ class CommentWidget @JvmOverloads constructor(
     }
 
     interface Listener {
-        fun onSendClick(text: String)
+        fun onSendClick(text: CharSequence)
 
         fun onGalleryClick()
 
         fun onUserNameCleared()
 
-        fun onCommentChanged(text: String)
+        fun onCommentChanged(text: CharSequence)
     }
 }
