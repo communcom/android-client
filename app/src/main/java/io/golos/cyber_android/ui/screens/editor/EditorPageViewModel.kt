@@ -41,22 +41,26 @@ class EditorPageViewModel(
     private var title = ""
     private var content = ""
 
-    /**
-     * [LiveData] for community that post will be created in
-     */
-    val communityLiveData = MutableLiveData<CommunityModel?>().apply {
+
+    private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
         postValue(community)
     }
 
     /**
-     * [LiveData] that indicates validness of the post content
+     * [LiveData] for community that post will be created in
      */
-    val validationResultLiveData = MutableLiveData<Boolean>(false)
+    val getCommunityLiveData = communityLiveData as LiveData<CommunityModel?>
+
+
+    private val validationResultLiveData = MutableLiveData<Boolean>(false)
 
     /**
-     * [LiveData] for result of fetching the embedded content
+     * [LiveData] that indicates validness of the post content
      */
-    val embedLiveDate = MediatorLiveData<QueryResult<LinkEmbedModel>>().apply {
+    val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
+
+
+    private val embedLiveDate = MediatorLiveData<QueryResult<LinkEmbedModel>>().apply {
         addSource(embedsUseCase.getAsLiveData) {
             if (it.containsKey(currentEmbeddedLink)) {
                 postValue(it.getValue(currentEmbeddedLink))
@@ -65,23 +69,36 @@ class EditorPageViewModel(
     }
 
     /**
+     * [LiveData] for result of fetching the embedded content
+     */
+    val getEmbedLiveDate = embedLiveDate as LiveData<QueryResult<LinkEmbedModel>>
+
+
+    private val emptyEmbedLiveData = MutableLiveData<Boolean>(true)
+
+    /**
      * [LiveData] that indicates if there is no embedded content on page
      */
-    val emptyEmbedLiveData = MutableLiveData<Boolean>(true)
+    val getEmptyEmbedLiveData = emptyEmbedLiveData as LiveData<Boolean>
 
     /**
      * [LiveData] for post creation process
      */
     val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
+
+    private val nsfwLiveData = MutableLiveData<Boolean>(false)
+
     /**
      * [LiveData] for "Not Safe For Work" switch
      */
-    val nsfwLiveData = MutableLiveData<Boolean>(false)
+    val getNsfwLiveData = nsfwLiveData as LiveData<Boolean>
 
     init {
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
+
+        communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
 
     fun switchNSFW() {
@@ -124,7 +141,7 @@ class EditorPageViewModel(
      */
     fun post() {
         if (validate(title, content)) {
-            val tags = if (nsfwLiveData.value!!) listOf("nsfw") else listOf()
+            val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
             val postRequest = when (postType) {
                 Type.POST -> PostCreationRequestModel(title, content, tags)
                 Type.COMMENT -> CommentCreationRequestModel(content, parentId!!, tags)

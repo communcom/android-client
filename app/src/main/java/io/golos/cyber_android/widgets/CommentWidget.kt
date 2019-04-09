@@ -84,6 +84,7 @@ class CommentWidget @JvmOverloads constructor(
         val newText = SpannableStringBuilder("$userName ${comment.text}")
         newText.setSpan(StyleSpan(Typeface.BOLD), 0, userName.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
         comment.text = newText
+        comment.setSelection(newText.length)
     }
 
     private fun showKeyboard() {

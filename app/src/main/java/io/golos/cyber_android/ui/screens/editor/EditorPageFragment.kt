@@ -23,8 +23,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import im.delight.android.webview.AdvancedWebView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
@@ -109,11 +109,6 @@ class EditorPageFragment : LoadingFragment() {
                 }
             }
             webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    showPreviewLayout()
-                }
-
                 override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                     return true
                 }
@@ -122,6 +117,33 @@ class EditorPageFragment : LoadingFragment() {
                     return true
                 }
             }
+
+            setListener(requireActivity(), object : AdvancedWebView.Listener {
+                override fun onPageFinished(url: String?) {
+                    showPreviewLayout()
+                }
+
+                override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
+                    onEmbedError()
+                }
+
+                override fun onDownloadRequested(
+                    url: String?,
+                    suggestedFilename: String?,
+                    mimeType: String?,
+                    contentLength: Long,
+                    contentDisposition: String?,
+                    userAgent: String?
+                ) {
+                }
+
+                override fun onExternalPageRequest(url: String?) {
+                }
+
+                override fun onPageStarted(url: String?, favicon: Bitmap?) {
+                }
+
+            })
         }
 
         setupFragmentType(getArgs().type)
@@ -129,10 +151,11 @@ class EditorPageFragment : LoadingFragment() {
 
     private fun setupCommunity(community: CommunityModel) {
         communityName.text = community.name
-        Glide.with(this)
-            .load(community.avatarUrl)
-            .apply(RequestOptions.circleCropTransform())
-            .into(communityAvatar)
+        //todo return later
+//        Glide.with(this)
+//            .load(community.avatarUrl)
+//            .apply(RequestOptions.circleCropTransform())
+//            .into(communityAvatar)
     }
 
     /**
@@ -144,12 +167,12 @@ class EditorPageFragment : LoadingFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.validationResultLiveData.observe(this, Observer {
+        viewModel.getValidationResultLiveData.observe(this, Observer {
             post.isEnabled = it
             post.alpha = if (it) 1f else 0.3f
         })
 
-        viewModel.embedLiveDate.observe(this, Observer { result ->
+        viewModel.getEmbedLiveDate.observe(this, Observer { result ->
             when (result) {
                 is QueryResult.Loading -> onEmbedLoading()
                 is QueryResult.Success -> onEmbedResult(result.originalQuery)
@@ -157,7 +180,7 @@ class EditorPageFragment : LoadingFragment() {
             }
         })
 
-        viewModel.emptyEmbedLiveData.observe(this, Observer { isEmpty ->
+        viewModel.getEmptyEmbedLiveData.observe(this, Observer { isEmpty ->
             if (isEmpty)
                 hidePreviewLayout()
         })
@@ -172,11 +195,11 @@ class EditorPageFragment : LoadingFragment() {
             }
         })
 
-        viewModel.nsfwLiveData.observe(this, Observer {
+        viewModel.getNsfwLiveData.observe(this, Observer {
             nsfw.isActivated = it
         })
 
-        viewModel.communityLiveData.observe(this, Observer {
+        viewModel.getCommunityLiveData.observe(this, Observer {
             if (it != null)
                 setupCommunity(it)
         })
@@ -216,7 +239,6 @@ class EditorPageFragment : LoadingFragment() {
         linkPreviewWebView.visibility = View.GONE
         linkPreviewImageView.visibility = View.VISIBLE
 
-
         Glide.with(requireContext())
             .load(model.thumbnailImageUrl)
             .fitCenter()
@@ -238,7 +260,6 @@ class EditorPageFragment : LoadingFragment() {
                     isFirstResource: Boolean
                 ): Boolean {
                     linkPreviewLayout.post {
-                        showPreviewLayout()
                         linkPreviewImageView.setImageDrawable(resource)
                     }
                     return false
@@ -248,6 +269,7 @@ class EditorPageFragment : LoadingFragment() {
     }
 
     private fun loadEmbeddedHtml(model: LinkEmbedModel) {
+        showPreviewLayout()
         linkPreviewWebView.visibility = View.VISIBLE
         linkPreviewImageView.visibility = View.GONE
         linkPreviewWebView.loadDataWithBaseURL(model.url, model.embedHtml, "text/html", "UTF-8", null)
@@ -256,6 +278,7 @@ class EditorPageFragment : LoadingFragment() {
     private fun onEmbedError() {
         hidePreviewLayout()
         linkPreviewProgress.visibility = View.GONE
+        Toast.makeText(requireContext(), "Embedded content error", Toast.LENGTH_SHORT).show()
     }
 
     private fun onEmbedLoading() {

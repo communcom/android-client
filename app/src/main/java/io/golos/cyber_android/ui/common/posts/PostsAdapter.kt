@@ -60,6 +60,16 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             }
             return@setOnTouchListener false
         }
+
+        view.postComment.addTextChangedListener(object : BaseTextWatcher() {
+            override fun afterTextChanged(s: Editable?) {
+                view.postSend.isEnabled = view.postComment.length() > 3
+                view.postSend.alpha = if (view.postComment.length() > 3) 1f else 0.3f
+                s?.colorizeHashTags()
+                s?.colorizeLinks()
+            }
+        })
+
         return PostViewHolder(view)
     }
 
@@ -115,14 +125,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 postComment.setText("")
                 postSend.isEnabled = false
                 postSend.alpha = 0.3f
-                postComment.addTextChangedListener(object : BaseTextWatcher() {
-                    override fun afterTextChanged(s: Editable?) {
-                        postSend.isEnabled = postComment.length() > 3
-                        postSend.alpha = if (postComment.length() > 3) 1f else 0.3f
-                        s?.colorizeHashTags()
-                        s?.colorizeLinks()
-                    }
-                })
+
             }
         }
 

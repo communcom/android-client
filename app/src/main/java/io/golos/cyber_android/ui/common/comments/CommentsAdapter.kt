@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_comment.view.*
  * [RecyclerView.Adapter] for [PostEntity]
  */
 
-abstract class CommentsAdapter(private var values: List<CommentModel>, private val listener: Listener) :
+abstract class CommentsAdapter(protected var values: List<CommentModel>, private val listener: Listener) :
     AbstractDiscussionModelAdapter<CommentModel>() {
 
     override fun submit(list: List<CommentModel>) {
@@ -59,7 +59,8 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                     commentModel.meta.elapsedFormCreation.elapsedDays,
                     context
                 )
-                commentContent.text = commentModel.content.body.fulCharSequence.ifBlank { commentModel.content.body.previewCharSequence }
+                commentContent.text =
+                    commentModel.content.body.fulCharSequence.ifBlank { commentModel.content.body.previewCharSequence }
                 commentReply.setOnClickListener {
                     listener.onReplyClick(commentModel)
                 }
@@ -68,9 +69,16 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
                 commentUpvote.setOnClickListener { listener.onCommentUpvote(commentModel) }
                 commentDownvote.setOnClickListener { listener.onCommentDownvote(commentModel) }
 
-                commentRoot.setPadding(getPaddingStartForCommentLevel(commentModel.content.commentLevel, context), 0, 0, 0)
-                commentAvatar.layoutParams.width = getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
-                commentAvatar.layoutParams.height = getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
+                commentRoot.setPadding(
+                    getPaddingStartForCommentLevel(commentModel.content.commentLevel, context),
+                    0,
+                    0,
+                    0
+                )
+                commentAvatar.layoutParams.width =
+                    getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
+                commentAvatar.layoutParams.height =
+                    getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
 
             }
         }
@@ -98,7 +106,7 @@ abstract class CommentsAdapter(private var values: List<CommentModel>, private v
         }
 
         private fun getPaddingStartForCommentLevel(level: Int, context: Context): Int {
-            return when(level) {
+            return when (level) {
                 0 -> 0
                 else -> context.resources.getDimensionPixelSize(R.dimen.padding_start_comment_level_1)
             }

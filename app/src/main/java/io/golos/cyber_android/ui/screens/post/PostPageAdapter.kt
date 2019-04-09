@@ -3,12 +3,10 @@ package io.golos.cyber_android.ui.screens.post
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AdapterListUpdateCallback
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListUpdateCallback
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
+import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.item_loading.view.*
@@ -97,6 +95,12 @@ class PostPageAdapter(
             getLoadingViewHolderPosition() -> LOADING_TYPE
             else -> COMMENT_TYPE
         }
+    }
+
+
+    fun scrollToComment(commentModel: CommentModel, recyclerView: RecyclerView) {
+        if (values.contains(commentModel))
+            (recyclerView.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(values.indexOf(commentModel) + getItemsOffset(), 0)
     }
 
     /**

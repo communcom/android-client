@@ -32,20 +32,28 @@ class PostPageViewModel(
      */
     val postLiveData = postWithCommentUseCase.getPostAsLiveData
 
+    private val discussionToReplyLiveData = MutableLiveData<DiscussionIdModel?>(null)
+
     /**
      * [LiveData] currently selected discussion to reply
      */
-    val discussionToReplyLiveData = MutableLiveData<DiscussionIdModel?>(null)
+    val getDiscussionToReplyLiveData = discussionToReplyLiveData as LiveData<DiscussionIdModel?>
+
+
+    private val commentValidnessLiveData = MutableLiveData(false)
 
     /**
      * [LiveData] that indicates validness of the user comment
      */
-    val commentValidnessLiveData = MutableLiveData(false)
+    val getCommentValidnessLiveData = commentValidnessLiveData as LiveData<Boolean>
+
+
+    private val commentInputVisibilityLiveData = MutableLiveData(Visibility.GONE)
 
     /**
      * [LiveData] that indicates visibility of the comment input widget
      */
-    val commentInputVisibilityLiveData = MutableLiveData(Visibility.GONE)
+    val getCommentInputVisibilityLiveData = commentInputVisibilityLiveData as LiveData<Visibility>
 
     /**
      * Sets [DiscussionIdModel] which should be used as a parent of a new comment (created via [sendComment])

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -92,15 +94,15 @@ class PostPageFragment :
             }
         })
 
-        viewModel.discussionToReplyLiveData.observe(this, Observer {
+        viewModel.getDiscussionToReplyLiveData.observe(this, Observer {
             postCommentBottom.setUserToReply(it?.userId)
         })
 
-        viewModel.commentValidnessLiveData.observe(this, Observer {
+        viewModel.getCommentValidnessLiveData.observe(this, Observer {
             postCommentBottom.isSendEnabled = it
         })
 
-        viewModel.commentInputVisibilityLiveData.observe(this, Observer {
+        viewModel.getCommentInputVisibilityLiveData.observe(this, Observer {
             setCommentInputVisibility(it)
         })
     }
@@ -153,15 +155,29 @@ class PostPageFragment :
                     }
                     .start()
         } else {
-            if (postCommentBottom.alpha == 1f)
+            if (postCommentBottom.alpha == 1f) {
                 postCommentBottom.animate()
                     .alpha(0f)
                     .setDuration(INPUT_ANIM_DURATION)
                     .withEndAction {
-                        postCommentBottom.visibility = View.GONE
+                        postCommentBottom?.visibility = View.GONE
                     }
                     .start()
+                hideKeyboard()
+            }
         }
+    }
+
+    private fun hideKeyboard() {
+        requireActivity().currentFocus?.let { v ->
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        postCommentBottom.clearAnimation()
     }
 
     private fun showFeedLoading() {
@@ -206,6 +222,7 @@ class PostPageFragment :
 
             override fun onReplyClick(comment: CommentModel) {
                 addCommentByParent(comment.contentId)
+                (feedList.adapter as PostPageAdapter).scrollToComment(comment, feedList)
             }
 
         }, object : PostPageAdapter.Listener {

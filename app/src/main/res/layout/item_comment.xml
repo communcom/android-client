@@ -128,11 +128,13 @@
     <TextView
             android:id="@+id/commentReply"
             android:theme="@style/CommentReplyTextStyle"
+            android:background="?attr/selectableItemBackground"
             android:paddingStart="@dimen/margin_vertical_comment_reply"
             android:paddingEnd="@dimen/margin_vertical_comment_reply"
             android:text="@string/reply"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
             app:layout_constraintStart_toEndOf="@+id/commentDownvote"
             app:layout_constraintTop_toTopOf="@+id/commentUpvote"
             app:layout_constraintBottom_toBottomOf="@+id/commentUpvote"/>

@@ -66,7 +66,7 @@ class SignInFragment : LoadingFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.validationResultLiveData.observe(this, Observer { isValid ->
+        viewModel.getValidationResultLiveData.observe(this, Observer { isValid ->
             signIn.isEnabled = isValid
         })
 

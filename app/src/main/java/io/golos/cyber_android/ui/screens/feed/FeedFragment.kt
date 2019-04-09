@@ -84,7 +84,7 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
         }.attach()
     }
 
-    override fun provideEventsLiveData() = viewModel.eventsLiveData
+    override fun provideEventsLiveData() = viewModel.getEventsLiveData
 
     companion object {
         fun newInstance(communityName: String, userId: String) =
