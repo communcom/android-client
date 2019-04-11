@@ -25,13 +25,11 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
-import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.CommunityModel
-import io.golos.domain.interactors.model.CountryEntityToModelMapper
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
+import io.golos.domain.interactors.reg.SignOnUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.model.*
 import io.golos.domain.rules.*
@@ -62,6 +60,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val commentEntityToModelMapper = CommentEntityToModelMapper(fromHtmlTransformet)
     private val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
     private val toCountriesModelMapper = CountryEntityToModelMapper()
+
+    private val toRegistrationMapper = UserRegistrationStateEntityMapper()
 
     private val approver = FeedUpdateApprover()
 
@@ -152,6 +152,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
                 VoteRepository(apiService, dispatchersProvider, logger)
+            }
+    override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
+            by lazy {
+                RegistrationRepository(
+                    apiService, dispatchersProvider, logger, toRegistrationMapper
+                )
             }
 
     override val countriesRepository: Repository<CountriesList, CountriesRequest>
@@ -340,6 +346,13 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getSignInUseCase(): SignInUseCase {
         return SignInUseCase(authRepository, dispatchersProvider)
+    }
+
+    override fun getSignOnUseCase(
+        isInTestMode: Boolean,
+        testPassProvider: TestPassProvider
+    ): SignOnUseCase {
+        return SignOnUseCase(isInTestMode, registrationRepository, dispatchersProvider, testPassProvider)
     }
 
     override fun getEmbedsUseCase(): EmbedsUseCase {

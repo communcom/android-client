@@ -57,6 +57,7 @@ val emptyPostFeedProducer = EmptyPostFeedProducer()
 val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
 val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
 
+val toRegistrationMapper = UserRegistrationStateEntityMapper()
 
 val commentApprover = CommentUpdateApprover()
 
@@ -114,8 +115,6 @@ val embededsRepository = EmbedsRepository(
 )
 
 
-
-
 private val persister = object : Persister {
     override fun saveAuthState(state: AuthState) {
 
@@ -167,6 +166,14 @@ val countriesRepo: Repository<CountriesList, CountriesRequest>
             )
         }
 
+val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
+        by lazy {
+            RegistrationRepository(
+                apiService, dispatchersProvider, logger,
+                toRegistrationMapper
+            )
+        }
+
 
 val appCore = AppCore(object : RepositoriesHolder {
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
@@ -183,6 +190,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = discussionCreationRepo
     override val countriesRepository: Repository<CountriesList, CountriesRequest>
         get() = countriesRepo
+    override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
+        get() = regRepo
 }, dispatchersProvider)
 
 

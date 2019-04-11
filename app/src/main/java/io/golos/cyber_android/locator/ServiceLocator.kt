@@ -11,9 +11,11 @@ import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.TestPassProvider
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
+import io.golos.domain.interactors.reg.SignOnUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 
 /**
@@ -56,9 +58,13 @@ interface ServiceLocator {
 
     fun getSignInUseCase(): SignInUseCase
 
+    fun getSignOnUseCase(isInTestMode:Boolean,
+                         testPassProvider:TestPassProvider): SignOnUseCase
+
     fun getEmbedsUseCase(): EmbedsUseCase
 
     fun getDiscussionPosterUseCase(): DiscussionPosterUseCase
 
     fun getCountriesChooserUseCase(): CountriesChooserUseCase
+
 }

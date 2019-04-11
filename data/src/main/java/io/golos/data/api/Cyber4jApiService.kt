@@ -17,7 +17,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     VoteApi,
     CommentsApiService,
     EmbedApi,
-    DiscussionsCreationApi {
+    DiscussionsCreationApi,
+    RegistrationApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -136,6 +137,36 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     ): CreateDiscussionResult {
         return cyber4j.createPost(title, body, tags, metadata, beneficiaries, vestPayment, tokenProp).getOrThrow()
             .extractResult()
+    }
+
+    override fun getRegistrationState(phone: String): UserRegistrationStateResult {
+        return cyber4j.getRegistrationState(null, phone).getOrThrow()
+    }
+
+    override fun firstUserRegistrationStep(phone: String, testingPass: String?): FirstRegistrationStepResult {
+        return cyber4j.firstUserRegistrationStep(null, phone, testingPass).getOrThrow()
+    }
+
+    override fun verifyPhoneForUserRegistration(phone: String, code: Int): ResultOk {
+        return cyber4j.verifyPhoneForUserRegistration(phone, code).getOrThrow()
+    }
+
+    override fun setVerifiedUserName(user: CyberName, phone: String): ResultOk {
+        return cyber4j.setVerifiedUserName(user, phone).getOrThrow()
+    }
+
+    override fun writeUserToBlockChain(
+        userName: CyberName,
+        owner: String,
+        active: String,
+        posting: String,
+        memo: String
+    ): ResultOk {
+        return cyber4j.writeUserToBlockChain(userName, owner, active, posting, memo).getOrThrow()
+    }
+
+    override fun resendSmsCode(phone: String): ResultOk {
+        return cyber4j.resendSmsCode(phone).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

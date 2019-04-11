@@ -16,4 +16,5 @@ interface RepositoriesHolder {
     val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
     val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
     val countriesRepository: Repository<CountriesList, CountriesRequest>
+    val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
 }
