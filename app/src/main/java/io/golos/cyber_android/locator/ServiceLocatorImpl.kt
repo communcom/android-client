@@ -168,7 +168,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         override suspend fun getAllCountries(): List<CountryEntity> {
                             val contriesList =
                                 appContext.resources.openRawResource(R.raw.countries).readBytes().let { String(it) }
-                            println("contriesList = $contriesList")
                             return moshi.adapter<List<CountryEntity>>(
                                 Types.newParameterizedType(
                                     List::class.java,
