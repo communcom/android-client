@@ -1,6 +1,6 @@
 ext {
-    appVesrionCode = 1
-    appVersionName = "0.01"
+    appVesrionCode = 2
+    appVersionName = "0.02"
     minsdk = 19
     targetsdk = 28
     androidXVersion = "1.1.0-alpha02"
