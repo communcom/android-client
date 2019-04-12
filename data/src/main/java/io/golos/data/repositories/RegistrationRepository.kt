@@ -102,6 +102,6 @@ class RegistrationRepository(
         }
     }
 
-    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<RegistrationStepRequest>>>
-        get() = registrationRequestsLiveData
+    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<RegistrationStepRequest>>> =
+        registrationRequestsLiveData
 }

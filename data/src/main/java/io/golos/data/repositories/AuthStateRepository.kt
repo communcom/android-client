@@ -206,6 +206,6 @@ class AuthStateRepository(
 
     override val allDataRequest: AuthRequest
             by lazy {
-                AuthRequest("vwxffciejffd".toCyberUser(), "5Jo1pRP35Vi4iFFgYYj2u3gjRVn4Ue7x4oti1wo2d3EPLbYLHnP")
+                AuthRequest("anpacifgrlqe".toCyberUser(), "5JB6WdGo7tvArMP6u3FtwfYGzBei8wMEyaVyrACkczGrbA6BviF")
             }
 }

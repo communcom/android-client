@@ -122,7 +122,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     ): CreateDiscussionResult {
         return cyber4j.createComment(
             body, parentAccount, parentPermlink, parentDiscussionRefBlockNum,
-            category, metadata, beneficiaries, vestPayment, tokenProp
+            category, metadata, null, beneficiaries, vestPayment, tokenProp
         ).getOrThrow().extractResult()
     }
 
@@ -135,7 +135,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         vestPayment: Boolean,
         tokenProp: Long
     ): CreateDiscussionResult {
-        return cyber4j.createPost(title, body, tags, metadata, beneficiaries, vestPayment, tokenProp).getOrThrow()
+        return cyber4j.createPost(title, body, tags, metadata, null, beneficiaries, vestPayment, tokenProp).getOrThrow()
             .extractResult()
     }
 

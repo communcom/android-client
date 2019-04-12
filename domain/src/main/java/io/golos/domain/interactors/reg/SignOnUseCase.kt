@@ -14,6 +14,9 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.map
 import io.golos.domain.model.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -34,12 +37,15 @@ class SignOnUseCase(
     private val currentUserRegistrationLiveData = MutableLiveData<UserRegistrationStateModel>()
     private val updatingState = MutableLiveData<QueryResult<NextRegistrationStepRequestModel>>()
 
+    private val useCaseScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
+
     override val getAsLiveData: LiveData<UserRegistrationStateModel> =
         currentUserRegistrationLiveData
 
     val getUpdatingState: LiveData<QueryResult<NextRegistrationStepRequestModel>> = updatingState
 
     val getLastRegisteredUser: LiveData<GeneratedUserKeys> = lastRegisteredUser
+
 
     private var lastRequest: NextRegistrationStepRequestModel? = null
     private val registrationStepsObserver = Observer<UserRegistrationStateEntity> {
@@ -69,40 +75,43 @@ class SignOnUseCase(
         super.subscribe()
         mediator.observeForever(observer)
         mediator.addSource(registrationRepository.updateStates) {
-
-            val map = it
-            if (map.isNullOrEmpty()) updatingState.value = null
-            else {
-                val myState = map
-                    .filterKeys { (it as RegistrationStepRequest.Id)._phone == lastRequest?.phone }
-                    .values
-                    .firstOrNull()
-                if (myState == null) {
-                    updatingState.value = null
-                } else {
-                    val originalQuery = myState.originalQuery
-                    updatingState.value = myState.map(
-                        when (originalQuery) {
-                            is GetUserRegistrationStepRequest -> GetUserRegistrationStepRequestModel(originalQuery.phone)
-                            is SendSmsForVerificationRequest -> SendSmsForVerificationRequestModel(originalQuery.phone)
-                            is SendVerificationCodeRequest -> SendVerificationCodeRequestModel(
-                                originalQuery.phone,
-                                originalQuery.code
-                            )
-                            is SetUserNameRequest -> SetUserNameRequestModel(
-                                originalQuery.phone,
-                                originalQuery.userName
-                            )
-                            is SetUserKeysRequest -> WriteUserToBlockChainRequestModel(
-                                originalQuery.phone,
-                                originalQuery.userName
-                            )
-                            is ResendSmsVerificationCode -> ResendSmsVerificationCodeModel(originalQuery.phone)
-                        }
-                    )
+            useCaseScope.launch {
+                val map = it
+                if (map.isNullOrEmpty()) updatingState.value = null
+                else {
+                    val myState = map
+                        .filterKeys { (it as RegistrationStepRequest.Id)._phone == lastRequest?.phone }
+                        .values
+                        .firstOrNull()
+                    if (myState == null) {
+                        updatingState.value = null
+                    } else {
+                        val originalQuery = myState.originalQuery
+                        updatingState.value = myState.map(
+                            when (originalQuery) {
+                                is GetUserRegistrationStepRequest -> GetUserRegistrationStepRequestModel(originalQuery.phone)
+                                is SendSmsForVerificationRequest -> SendSmsForVerificationRequestModel(originalQuery.phone)
+                                is SendVerificationCodeRequest -> SendVerificationCodeRequestModel(
+                                    originalQuery.phone,
+                                    originalQuery.code
+                                )
+                                is SetUserNameRequest -> SetUserNameRequestModel(
+                                    originalQuery.phone,
+                                    originalQuery.userName
+                                )
+                                is SetUserKeysRequest -> WriteUserToBlockChainRequestModel(
+                                    originalQuery.phone,
+                                    originalQuery.userName
+                                )
+                                is ResendSmsVerificationCode -> ResendSmsVerificationCodeModel(originalQuery.phone)
+                            }
+                        )
+                    }
                 }
+
             }
         }
+
     }
 
     override fun unsubscribe() {
@@ -119,6 +128,7 @@ class SignOnUseCase(
     }
 
     fun makeRegistrationStep(param: NextRegistrationStepRequestModel) {
+
         val lastRequestLocal = lastRequest
         if (lastRequestLocal?.phone != param.phone) {
 
