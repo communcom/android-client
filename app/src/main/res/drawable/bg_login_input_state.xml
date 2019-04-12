@@ -19,6 +19,24 @@
         </layer-list>
     </item>
 
+    <item android:state_activated="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white"/>
+                    <size android:height="@dimen/height_login_input"/>
+                </shape>
+            </item>
+
+            <item android:bottom="0dp" android:gravity="bottom">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/blue"/>
+                    <size android:height="1dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
     <item>
         <layer-list>
             <item>

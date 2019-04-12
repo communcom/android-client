@@ -64,5 +64,21 @@
     <string name="title">Title</string>
     <string name="enter_text">Enter text...</string>
 
+    <!--Sign Up-->
+    <string name="select_country">Select Country</string>
+    <string name="phone_number">Phone number</string>
+    <string name="country_with_phone_code_format">%1$s (+%2$s)</string>
+    <string name="phone_format">+%1$s (___) ___-__-__</string>
+    <string name="phone_prefix_format">+%1$s</string>
+    <string name="verification">Verification</string>
+    <string name="enter_sms_code">Enter SMS-Code</string>
+    <string name="resend_verification_code">Resend verification code</string>
+    <string name="next">Next</string>
+    <string name="create_your_username">Create your username</string>
+    <string name="username">Username</string>
+    <string name="master_key_has_been_generated">Master Key has been generated</string>
+    <string name="download_master_key">You need Master Key for Sign in. Please,\ndownload it.</string>
+    <string name="download">Download</string>
+
 
 </resources>

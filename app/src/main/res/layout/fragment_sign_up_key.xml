@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+        android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+        tools:context=".ui.screens.login.signup.key.SignUpKeyFragment">
+
+    <ImageView
+            android:src="@drawable/img_sign_up_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            style="@style/EditorPreviewSummaryTextStyle"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_top_sign_up_master_key_title"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/master_key_has_been_generated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            style="@style/PostCardAuthorTextStyle"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_vertical_default_16dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/download_master_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/download"
+            style="@style/SignUpButtonStyle"
+            android:layout_marginTop="@dimen/margin_top_sign_up_download"
+            android:layout_marginBottom="@dimen/margin_bottom_sign_up_download"
+            android:text="@string/download"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

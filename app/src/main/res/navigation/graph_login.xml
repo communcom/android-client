@@ -8,8 +8,38 @@
               android:name="io.golos.cyber_android.ui.screens.login.welcome.WelcomeFragment"
               android:label="fragment_welcome" tools:layout="@layout/fragment_welcome">
         <action android:id="@+id/action_welcomeFragment_to_signInFragment" app:destination="@id/signInFragment"/>
+        <action android:id="@+id/action_welcomeFragment_to_signUpPhoneFragment"
+                app:destination="@id/signUpPhoneFragment"/>
     </fragment>
     <fragment android:id="@+id/signInFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signin.SignInFragment"
               android:label="fragment_sign_in" tools:layout="@layout/fragment_sign_in"/>
+    <fragment android:id="@+id/signUpPhoneFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.phone.SignUpPhoneFragment"
+              android:label="fragment_sign_up_phone" tools:layout="@layout/fragment_sign_up_phone">
+        <action android:id="@+id/action_signUpPhoneFragment_to_signUpCountryFragment"
+                app:destination="@id/signUpCountryFragment"/>
+        <action android:id="@+id/action_signUpPhoneFragment_to_signUpVerificationFragment"
+                app:enterAnim="@anim/slid_in_bottom"
+                app:exitAnim="@android:anim/fade_out"
+                app:destination="@id/signUpVerificationFragment"/>
+    </fragment>
+    <fragment android:id="@+id/signUpCountryFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryFragment"
+              android:label="fragment_sign_up_country" tools:layout="@layout/fragment_sign_up_country"/>
+    <fragment android:id="@+id/signUpVerificationFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.verification.SignUpVerificationFragment"
+              android:label="fragment_sign_up_verification" tools:layout="@layout/fragment_sign_up_verification">
+        <action android:id="@+id/action_signUpVerificationFragment_to_signUpNameFragment"
+                app:destination="@id/signUpNameFragment"/>
+    </fragment>
+    <fragment android:id="@+id/signUpNameFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.name.SignUpNameFragment"
+              android:label="fragment_sign_up_name" tools:layout="@layout/fragment_sign_up_name">
+        <action android:id="@+id/action_signUpNameFragment_to_signUpKeyFragment"
+                app:destination="@id/signUpKeyFragment"/>
+    </fragment>
+    <fragment android:id="@+id/signUpKeyFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.key.SignUpKeyFragment"
+              android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key"/>
 </navigation>
