@@ -2,108 +2,115 @@ package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.utils.toCyberName
+import io.golos.cyber_android.apiService
 import io.golos.cyber_android.dispatchersProvider
-import io.golos.cyber_android.regRepo
-import io.golos.domain.interactors.model.*
-import io.golos.domain.interactors.reg.SignOnUseCase
+import io.golos.cyber_android.logger
+import io.golos.data.repositories.AuthStateRepository
+import io.golos.domain.Persister
+import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.CyberUser
+import io.golos.domain.interactors.model.UserAuthState
+import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.model.AuthRequestModel
 import io.golos.domain.model.QueryResult
-import junit.framework.Assert.*
+import io.golos.domain.model.SignInState
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 /**
- * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
+ * Created by yuri yurivladdurain@gmail.com on 2019-03-29.
  */
 class SignInUseCaseTest {
     @Rule
     @JvmField
     public val rule = InstantTaskExecutorRule()
 
-    lateinit var case: SignOnUseCase
+    private lateinit var authUseCase: SignInUseCase
+    private lateinit var authStateRepository: AuthStateRepository
 
     @Before
     fun before() {
-        case = SignOnUseCase(true,
-            regRepo,
-            dispatchersProvider,
-            object : TestPassProvider {
-                override fun provide(): String {
-                    return SignInUseCaseTest::class.java.classLoader.getResource("phone_code.txt").readText()
-                }
-            })
+
+        authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, object : Persister {
+            override fun saveAuthState(state: AuthState) {
+
+            }
+
+            override fun getAuthState(): AuthState? {
+                return null
+            }
+
+            override fun saveActiveKey(activeKey: String) {
+
+            }
+
+            override fun getActiveKey(): String? {
+                return null
+            }
+        })
+        authUseCase = SignInUseCase(authStateRepository, dispatchersProvider)
     }
 
     @Test
-    fun testReg() = runBlocking {
-        case.subscribe()
-        case.unsubscribe()
-        case.subscribe()
+    fun test() = runBlocking {
+        authUseCase.subscribe()
 
-        var registrationStep = case.getAsLiveData.value
-        var updatingState = case.getUpdatingState.value
-        var lastRegisteredUser = case.getLastRegisteredUser.value
-
-        val randomPhone = generateRandomPhone()
-        val randomUser = generateRandomCommunName()
-
-
-        case.getAsLiveData.observeForever {
-            println("registrationResult = $it")
-            registrationStep = it
-        }
-        case.getUpdatingState.observeForever {
-            updatingState = it
-        }
-        case.getLastRegisteredUser.observeForever {
-            lastRegisteredUser = it
+        var authSate: UserAuthState? = null
+        authUseCase.getAsLiveData.observeForever {
+            println(it)
+            authSate = it
         }
 
-        case.makeRegistrationStep(SendSmsForVerificationRequestModel(randomPhone))
+        var authResult: Map<CyberUser, QueryResult<AuthRequestModel>>? = null
+        authUseCase.getLogInStates.observeForever {
+            println(it)
+            authResult = it
+        }
 
-        assertTrue(updatingState is QueryResult.Success)
+        var signInState: SignInState? = null
+        authUseCase.getSignInState.observeForever {
+            signInState = it
+        }
 
-        assertEquals(UnverifiedUserModel::class.java, registrationStep!!.javaClass)
+        delay(100)
 
-        case.makeRegistrationStep(
-            SendVerificationCodeRequestModel(
-                randomPhone,
-                (registrationStep as UnverifiedUserModel).smsCode!!
+        assertEquals(SignInState.LOG_IN_NEEDED, signInState)
+
+        authUseCase.authWithCredentials(AuthRequestModel(CyberUser("sdgsdgsg"), "ssdgsd gsdgsdg3essd"))
+
+
+        assertTrue(authResult!!.values.first() is QueryResult.Error)
+        assertEquals(SignInState.LOG_IN_NEEDED, signInState)
+
+        authUseCase.authWithCredentials(AuthRequestModel(CyberUser("sdgsdgsg"), "ssdgsd gsd235235gsdg3essd"))
+
+        assertTrue(authResult!!.values.size == 1)
+        assertTrue(authResult!!.values.first() is QueryResult.Error)
+        assertEquals(SignInState.LOG_IN_NEEDED, signInState)
+
+        authUseCase.authWithCredentials(
+            AuthRequestModel(
+                CyberUser("fkmiiibuntct"),
+                "5JyzKR94WqFxqcExLMcakd7SksEqkNDbo2GT4VvdRs4g3XyQrg8"
             )
         )
-        assertTrue(updatingState is QueryResult.Success)
 
-        assertTrue(registrationStep is VerifiedUserWithoutUserNameModel)
-
-        case.makeRegistrationStep(SetUserNameRequestModel(randomPhone, randomUser))
-        assertTrue(updatingState is QueryResult.Success)
+        assertTrue(authResult!!.values.size == 2)
+        assertTrue(authResult!![CyberUser("fkmiiibuntct")] is QueryResult.Loading)
+        assertEquals(SignInState.LOADING, signInState)
 
 
-        assertTrue(registrationStep is UnWrittenToBlockChainUserModel)
+        while (authResult!![CyberUser("fkmiiibuntct")] is QueryResult.Loading) delay(200)
 
-        case.makeRegistrationStep(WriteUserToBlockChainRequestModel(randomPhone, randomUser))
+        assertTrue(authSate!!.isUserLoggedIn)
+        assertEquals(CyberName("fkmiiibuntct"), authSate!!.userName)
+        assertTrue(authResult!![CyberUser("fkmiiibuntct")] is QueryResult.Success)
+        assertEquals(SignInState.USER_LOGGED_IN, signInState)
 
-        assertTrue(updatingState is QueryResult.Success)
-
-
-        assertTrue(registrationStep is RegisteredUserModel)
-        assertNotNull(lastRegisteredUser)
-    }
-
-    private fun generateRandomPhone(): String = StringBuilder("+7").let { sb ->
-        (0..10).forEach {
-            sb.append((Math.random() * 9).toInt())
-        }
-        sb.toString()
-    }
-
-    private fun generateRandomCommunName(): CyberName {
-        val builder = StringBuilder()
-        (0..11).forEach {
-            builder.append((Math.random() * 25).toChar() + 97)
-        }
-        return builder.toString().toCyberName()
     }
 }

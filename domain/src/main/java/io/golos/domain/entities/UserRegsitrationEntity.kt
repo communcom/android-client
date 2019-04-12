@@ -17,4 +17,7 @@ data class VerifiedUserWithoutUserName(private val type: String = "v_s") : UserR
 
 data class UnWrittenToBlockChainUser(val userName: CyberName) : UserRegistrationStateEntity()
 
-data class RegisteredUser(val userName: CyberName) : UserRegistrationStateEntity()
+data class RegisteredUser(
+    val userName: CyberName,
+    val masterPassword: String?
+) : UserRegistrationStateEntity()

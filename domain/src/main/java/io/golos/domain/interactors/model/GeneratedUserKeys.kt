@@ -9,8 +9,12 @@ import io.golos.domain.Model
 data class GeneratedUserKeys(
     val userName: CyberName,
     val masterPassword: String,
-    val ownerKey: String,
-    val activeKey: String,
-    val postingKey: String,
-    val memoKey: String
+    val ownerPublicKey: String,
+    val ownerPrivateKey: String,
+    val activePublicKey: String,
+    val activePrivateKey: String,
+    val postingPublicKey: String,
+    val postingPrivateKey: String,
+    val memoPublicKey: String,
+    val memoPrivateKey: String
 ) : Model

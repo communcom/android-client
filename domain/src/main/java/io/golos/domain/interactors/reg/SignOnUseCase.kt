@@ -31,8 +31,6 @@ class SignOnUseCase(
 
     private val lastRegisteredUser = MutableLiveData<GeneratedUserKeys>()
 
-    private var lastGeneratedKeys: GeneratedUserKeys? = null
-
     private val currentUserRegistrationLiveData = MutableLiveData<UserRegistrationStateModel>()
     private val updatingState = MutableLiveData<QueryResult<NextRegistrationStepRequestModel>>()
 
@@ -51,10 +49,14 @@ class SignOnUseCase(
             is UnverifiedUser -> UnverifiedUserModel(it.nextSmsVerification, it.smsCode)
             is VerifiedUserWithoutUserName -> VerifiedUserWithoutUserNameModel()
             is RegisteredUser -> {
-                if (it.userName == lastGeneratedKeys?.userName) {
-                    lastGeneratedKeys?.let { keys ->
-                        lastRegisteredUser.value = keys//todo move this state fiddling to repository
-                    }
+                val lastRequestLocal = lastRequest as? WriteUserToBlockChainRequestModel
+                if (it.userName == lastRequestLocal?.userName &&
+                    it.masterPassword != null
+                ) {
+                    lastRegisteredUser.value = generateUserKeys(
+                        lastRequestLocal.userName,
+                        it.masterPassword
+                    )
                 }
                 RegisteredUserModel(it.userName)
             }
@@ -67,8 +69,6 @@ class SignOnUseCase(
         super.subscribe()
         mediator.observeForever(observer)
         mediator.addSource(registrationRepository.updateStates) {
-
-            println(it)
 
             val map = it
             if (map.isNullOrEmpty()) updatingState.value = null
@@ -148,10 +148,15 @@ class SignOnUseCase(
                     SetUserKeysRequest(
                         param.phone,
                         userKeys.userName,
-                        userKeys.ownerKey,
-                        userKeys.activeKey,
-                        userKeys.postingKey,
-                        userKeys.memoKey
+                        userKeys.masterPassword,
+                        userKeys.ownerPublicKey,
+                        userKeys.ownerPrivateKey,
+                        userKeys.activePublicKey,
+                        userKeys.activePrivateKey,
+                        userKeys.postingPublicKey,
+                        userKeys.postingPrivateKey,
+                        userKeys.memoPublicKey,
+                        userKeys.memoPrivateKey
                     )
                 }
                 is ResendSmsVerificationCodeModel -> ResendSmsVerificationCode(param.phone)
@@ -159,22 +164,32 @@ class SignOnUseCase(
         )
     }
 
-    private fun generateUserKeys(forUser: CyberName): GeneratedUserKeys {
-        val masterPassword = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
-        val keys = AuthUtils.generatePublicWiFs(
+    private fun generateUserKeys(
+        forUser: CyberName,
+        masterPassword: String = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
+    ): GeneratedUserKeys {
+
+        val publicKey = AuthUtils.generatePublicWiFs(
             forUser.name,
             masterPassword,
             AuthType.values()
         )
-        val userKeys = GeneratedUserKeys(
+        val privateKeys = AuthUtils.generatePrivateWiFs(
+            forUser.name,
+            masterPassword,
+            AuthType.values()
+        )
+        return GeneratedUserKeys(
             forUser,
             masterPassword,
-            keys[AuthType.OWNER]!!,
-            keys[AuthType.ACTIVE]!!,
-            keys[AuthType.POSTING]!!,
-            keys[AuthType.MEMO]!!
+            publicKey.getValue(AuthType.OWNER),
+            privateKeys.getValue(AuthType.OWNER),
+            publicKey.getValue(AuthType.ACTIVE),
+            privateKeys.getValue(AuthType.ACTIVE),
+            publicKey.getValue(AuthType.POSTING),
+            privateKeys.getValue(AuthType.POSTING),
+            publicKey.getValue(AuthType.MEMO),
+            privateKeys.getValue(AuthType.MEMO)
         )
-        lastGeneratedKeys = userKeys
-        return userKeys
     }
 }

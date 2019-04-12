@@ -46,7 +46,7 @@ class RegistrationRepository(
 
     override fun makeAction(params: RegistrationStepRequest) {
         repositoryScope.launch {
-            registerJobsMap[params.id]?.cancel()
+
             registrationRequestsLiveData.value =
                 registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
@@ -55,33 +55,34 @@ class RegistrationRepository(
                     withContext(dispatchersProvider.workDispatcher) {
                         val actionResult =
                             @Suppress("IMPLICIT_CAST_TO_ANY")
-                        when (params) {
-                            is GetUserRegistrationStepRequest -> null
-                            is SendSmsForVerificationRequest ->
-                                registrationApi.firstUserRegistrationStep(params.phone, params.testCode)
-                            is SendVerificationCodeRequest ->
-                                registrationApi.verifyPhoneForUserRegistration(params.phone, params.code)
+                            when (params) {
+                                is GetUserRegistrationStepRequest -> null
+                                is SendSmsForVerificationRequest ->
+                                    registrationApi.firstUserRegistrationStep(params.phone, params.testCode)
+                                is SendVerificationCodeRequest ->
+                                    registrationApi.verifyPhoneForUserRegistration(params.phone, params.code)
 
-                            is SetUserNameRequest ->
-                                registrationApi.setVerifiedUserName(params.userName, params.phone)
+                                is SetUserNameRequest ->
+                                    registrationApi.setVerifiedUserName(params.userName, params.phone)
 
-                            is SetUserKeysRequest ->
-                                registrationApi.writeUserToBlockChain(
-                                    params.userName,
-                                    params.ownerKey,
-                                    params.activeKey,
-                                    params.postingKey,
-                                    params.memoKey
-                                )
-                            is ResendSmsVerificationCode ->
-                                registrationApi.resendSmsCode(params.phone)
-                        }
+                                is SetUserKeysRequest ->
+                                    registrationApi.writeUserToBlockChain(
+                                        params.userName,
+                                        params.ownerPublicKey,
+                                        params.activePublicKey,
+                                        params.postingPublicKey,
+                                        params.memoPublicKey
+                                    )
+                                is ResendSmsVerificationCode ->
+                                    registrationApi.resendSmsCode(params.phone)
+                            }
 
                         val regState = registrationApi.getRegistrationState(params.phone)
 
                         toRegistrationStateEntityMapper(
                             UserRegistrationStateRelatedData(
                                 actionResult,
+                                params,
                                 regState
                             )
                         )
@@ -96,17 +97,9 @@ class RegistrationRepository(
             }
 
         }.let { job ->
+            registerJobsMap[params.id]?.cancel()
             registerJobsMap[params.id] = job
         }
-    }
-
-    private suspend fun getUserRegState(phone: String): UserRegistrationStateEntity {
-        return toRegistrationStateEntityMapper(
-            UserRegistrationStateRelatedData(
-                null,
-                registrationApi.getRegistrationState(phone)
-            )
-        )
     }
 
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<RegistrationStepRequest>>>

@@ -4,6 +4,8 @@ import io.golos.cyber4j.model.FirstRegistrationStepResult
 import io.golos.cyber4j.model.UserRegistrationState
 import io.golos.cyber4j.model.UserRegistrationStateResult
 import io.golos.domain.entities.*
+import io.golos.domain.model.RegistrationStepRequest
+import io.golos.domain.model.SetUserKeysRequest
 import java.util.*
 
 /**
@@ -11,6 +13,7 @@ import java.util.*
  */
 class UserRegistrationStateRelatedData(
     val requestResult: Any?,
+    val request: RegistrationStepRequest,
     val stateRequestResult: UserRegistrationStateResult
 )
 
@@ -19,6 +22,7 @@ class UserRegistrationStateEntityMapper :
     override suspend fun invoke(cyberObject: UserRegistrationStateRelatedData): UserRegistrationStateEntity {
         val stateRequestResult = cyberObject.stateRequestResult
         val requestResult = cyberObject.requestResult
+        val stateRequest = cyberObject.request
 
         return when (cyberObject.stateRequestResult.state
             ?: throw IllegalArgumentException("server didn't returned reg state of user")) {
@@ -27,7 +31,8 @@ class UserRegistrationStateEntityMapper :
                 stateRequestResult.user ?: throw IllegalStateException(
                     "server" +
                             "didn't returned user name for some reason"
-                )
+                ),
+                (stateRequest as? SetUserKeysRequest)?.masterKey
             )
             UserRegistrationState.TO_BLOCK_CHAIN -> UnWrittenToBlockChainUser(
                 stateRequestResult.user ?: throw IllegalStateException(

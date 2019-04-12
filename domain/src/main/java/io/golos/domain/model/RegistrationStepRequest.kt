@@ -113,10 +113,15 @@ class SetUserNameRequest(phone: String, val userName: CyberName) : RegistrationS
 class SetUserKeysRequest(
     phone: String,
     val userName: CyberName,
-    val ownerKey: String,
-    val activeKey: String,
-    val postingKey: String,
-    val memoKey: String
+    val masterKey: String,
+    val ownerPublicKey: String,
+    val ownerPrivateKey: String,
+    val activePublicKey: String,
+    val activePrivateKey: String,
+    val postingPublicKey: String,
+    val postingPrivateKey: String,
+    val memoPublicKey: String,
+    val memoPrivateKey: String
 ) : RegistrationStepRequest(phone){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -126,10 +131,15 @@ class SetUserKeysRequest(
         other as SetUserKeysRequest
 
         if (userName != other.userName) return false
-        if (ownerKey != other.ownerKey) return false
-        if (activeKey != other.activeKey) return false
-        if (postingKey != other.postingKey) return false
-        if (memoKey != other.memoKey) return false
+        if (masterKey != other.masterKey) return false
+        if (ownerPublicKey != other.ownerPublicKey) return false
+        if (ownerPrivateKey != other.ownerPrivateKey) return false
+        if (activePublicKey != other.activePublicKey) return false
+        if (activePrivateKey != other.activePrivateKey) return false
+        if (postingPublicKey != other.postingPublicKey) return false
+        if (postingPrivateKey != other.postingPrivateKey) return false
+        if (memoPublicKey != other.memoPublicKey) return false
+        if (memoPrivateKey != other.memoPrivateKey) return false
 
         return true
     }
@@ -137,10 +147,15 @@ class SetUserKeysRequest(
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + userName.hashCode()
-        result = 31 * result + ownerKey.hashCode()
-        result = 31 * result + activeKey.hashCode()
-        result = 31 * result + postingKey.hashCode()
-        result = 31 * result + memoKey.hashCode()
+        result = 31 * result + masterKey.hashCode()
+        result = 31 * result + ownerPublicKey.hashCode()
+        result = 31 * result + ownerPrivateKey.hashCode()
+        result = 31 * result + activePublicKey.hashCode()
+        result = 31 * result + activePrivateKey.hashCode()
+        result = 31 * result + postingPublicKey.hashCode()
+        result = 31 * result + postingPrivateKey.hashCode()
+        result = 31 * result + memoPublicKey.hashCode()
+        result = 31 * result + memoPrivateKey.hashCode()
         return result
     }
 }
