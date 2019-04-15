@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="bottom|center_horizontal"
         android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
         android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
         tools:context=".ui.screens.login.signup.key.SignUpKeyFragment">

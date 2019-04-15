@@ -15,7 +15,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        buildConfigField "String" , "AUTH_TEST" ,  properties.getProperty('authtestpass')
+        buildConfigField "String" , "AUTH_TEST_PASS" ,  properties.getProperty('authtestpass')
     }
     buildTypes {
         release {
@@ -24,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.7
-        sourceCompatibility 1.7
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
     configurations {
         all*.exclude group: 'com.google.guava', module: 'listenablefuture'
@@ -83,6 +83,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi:$moshiVersin")
     implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
     implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
+    implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
 
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

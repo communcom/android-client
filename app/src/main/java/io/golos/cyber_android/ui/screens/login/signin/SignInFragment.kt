@@ -34,14 +34,12 @@ class SignInFragment : LoadingFragment() {
 
         login.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                super.afterTextChanged(s)
                 viewModel.onLoginInput(s.toString())
             }
         })
 
         key.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                super.afterTextChanged(s)
                 viewModel.onKeyInput(s.toString())
             }
         })

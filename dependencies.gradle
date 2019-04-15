@@ -20,4 +20,5 @@ ext {
     moshiVersin = "1.8.0"
     advancedWebViewVersion = "v3.0.0"
     decoroVersion = "1.3.5"
+    dirchooserVersion = "v1.1.17"
 }

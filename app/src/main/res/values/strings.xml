@@ -79,6 +79,7 @@
     <string name="master_key_has_been_generated">Master Key has been generated</string>
     <string name="download_master_key">You need Master Key for Sign in. Please,\ndownload it.</string>
     <string name="download">Download</string>
+    <string name="keys_format">Owner - %1$s \nActive - %2$s \nPosting - %3$s</string>
 
 
 </resources>

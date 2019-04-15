@@ -306,7 +306,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 return when (modelClass) {
                     SignUpViewModel::class.java -> SignUpViewModel(
                         getSignOnUseCase(true, object : TestPassProvider {
-                            override fun provide() = BuildConfig.AUTH_TEST
+                            override fun provide() = BuildConfig.AUTH_TEST_PASS
                         })
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")

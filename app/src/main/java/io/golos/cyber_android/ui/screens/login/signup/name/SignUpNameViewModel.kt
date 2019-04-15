@@ -1,10 +1,9 @@
 package io.golos.cyber_android.ui.screens.login.signup.name
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import io.golos.cyber4j.utils.toCyberName
+import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenViewModel
 
-class SignUpNameViewModel: ViewModel() {
+class SignUpNameViewModel : BaseSignUpScreenViewModel() {
 
     companion object {
         /**
@@ -13,24 +12,12 @@ class SignUpNameViewModel: ViewModel() {
         const val USERNAME_LENGTH = 12
     }
 
-    private val validnessLiveData = MutableLiveData(false)
-
-    /**
-     * [LiveData] that represents validness of the [username]
-     */
-    val getValidnessLiveData = validnessLiveData as LiveData<Boolean>
-
-    private var username = ""
-
-    /**
-     * Saves username into this ViewModel and validates it
-     */
-    fun onUsernameChanged(phone: String) {
-        this.username = phone.trim()
-        validnessLiveData.postValue(validate(this.username))
-    }
-
-    private fun validate(username: String): Boolean {
-        return username.length == USERNAME_LENGTH
+    override fun validate(field: String): Boolean {
+        return field.length == USERNAME_LENGTH && try {
+            field.toCyberName()
+            true
+        } catch (e: IllegalStateException) {
+            false
+        }
     }
 }

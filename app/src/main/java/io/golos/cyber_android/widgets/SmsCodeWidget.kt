@@ -47,12 +47,22 @@ class SmsCodeWidget @JvmOverloads constructor(
 
             it.setOnKeyListener { _, keyCode, event ->
                 if (event.action == KeyEvent.ACTION_DOWN) {
+                    //if user presses del
                     if (keyCode == KeyEvent.KEYCODE_DEL) {
+                        //if current digit view is empty and it's not the first digit
+                        if (it.text.isEmpty() && digits.indexOf(it) > 0)
+                            //then delete previous digit
+                            digits[digits.indexOf(it) - 1].setText("")
+                        //remove this digit anyway (if it's already empty then this will do nothing)
                         it.setText("")
+
+                        //request focus on previous digit (if it's not the first one)
                         if (digits.indexOf(it) > 0)
                             digits[digits.indexOf(it) - 1].requestFocus()
                     }
+                    //if user presses digit button and it's not the last digit
                     if (keyCode in DIGIT_KEYCODES && digits.indexOf(it) < digits.size - 1) {
+                        //then request focus for next digit
                         digits[digits.indexOf(it) + 1].requestFocus()
                     }
                 }
@@ -83,6 +93,10 @@ class SmsCodeWidget @JvmOverloads constructor(
         .map { it.text.toString() }
         .reduce { acc, text -> acc + text }
         .trim()
+
+    fun clearCode() {
+        digits.forEach { it.setText("") }
+    }
 
     interface Listener {
         /**

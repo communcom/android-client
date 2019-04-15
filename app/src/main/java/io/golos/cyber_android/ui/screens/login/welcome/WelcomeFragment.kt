@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
+import io.golos.cyber_android.views.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 
 const val ANIM_DURATION = 3000L
@@ -92,6 +93,7 @@ class WelcomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         handler.postDelayed(switchSlideRunnable, ANIM_DURATION)
+        ViewUtils.hideKeyboard(requireActivity())
     }
 }
 

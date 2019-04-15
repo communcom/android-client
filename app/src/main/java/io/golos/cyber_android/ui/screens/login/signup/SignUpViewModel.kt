@@ -1,10 +1,11 @@
 package io.golos.cyber_android.ui.screens.login.signup
 
-import android.util.Log
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber4j.utils.toCyberName
+import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignOnUseCase
@@ -16,16 +17,25 @@ import io.golos.domain.model.QueryResult
  */
 class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
 
-    private val stateLiveData = signOnUseCase.getAsLiveData
+    /**
+     * [LiveData] for current user registration state (see [UserRegistrationStateModel])
+     */
+    val stateLiveData = signOnUseCase.getAsLiveData.asEvent()
 
-    val updatingStateLiveData = signOnUseCase.getUpdatingState
+    /**
+     * [LiveData] for generated user keys
+     */
+    val keysLiveData = signOnUseCase.getLastRegisteredUser
 
+    val updatingStateLiveData = signOnUseCase.getUpdatingState.asEvent()
+
+    /**
+     * Provide update states for one subtype of [NextRegistrationStepRequestModel]
+     */
     inline fun <reified T : NextRegistrationStepRequestModel> getUpdatingStateForStep() =
-        updatingStateLiveData.map(Function<QueryResult<NextRegistrationStepRequestModel>, QueryResult<NextRegistrationStepRequestModel>?> {
-            if (it.originalQuery is T)
-                return@Function it
-            else null
-        }).asEvent()
+        updatingStateLiveData.map(Function<Event<QueryResult<NextRegistrationStepRequestModel>>, QueryResult<NextRegistrationStepRequestModel>?> {
+            return@Function it?.getIf { this?.originalQuery is T }
+        })
 
     private val selectedCountryLiveData = MutableLiveData<CountryModel?>(null)
 
@@ -41,17 +51,20 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
 
 
     private var currentPhone = ""
+    private var currentName = ""
 
     /**
      * Sends first sms code
      */
-    fun sendSmsCodeOn(phone: String) {
-        val normalizedPhone = "+${phone.replace("\\D+".toRegex(), "")}"
-        currentPhone = normalizedPhone
-        signOnUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(normalizedPhone))
+    fun sendCodeOn(phone: String) {
+        currentPhone = getNormalizedPhone(phone)
+        signOnUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
     }
 
-    fun verifySmsCode(code: String) {
+    /**
+     * Verifies sms code
+     */
+    fun verifyCode(code: String) {
         signOnUseCase.makeRegistrationStep(
             SendVerificationCodeRequestModel(
                 currentPhone,
@@ -59,6 +72,46 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
             )
         )
     }
+
+    /**
+     * Sends username
+     */
+    fun sendName(name: String) {
+        currentName = name
+        signOnUseCase.makeRegistrationStep(
+            SetUserNameRequestModel(currentPhone, name.toCyberName())
+        )
+    }
+
+    /**
+     * Writes user into blockchain
+     */
+    fun writeToBlockchain() {
+        signOnUseCase.makeRegistrationStep(
+            WriteUserToBlockChainRequestModel(currentPhone, currentName.toCyberName())
+        )
+    }
+
+    /**
+     * Resends sms code
+     */
+    fun resendCode() {
+        signOnUseCase.makeRegistrationStep(
+            ResendSmsVerificationCodeModel(currentPhone)
+        )
+    }
+
+    /**
+     * Requests update of the user registration state
+     */
+    fun updateRegisterState(phone: String) {
+        currentPhone = getNormalizedPhone(phone)
+        signOnUseCase.makeRegistrationStep(
+            GetUserRegistrationStepRequestModel(currentPhone)
+        )
+    }
+
+    private fun getNormalizedPhone(phone: String) = "+${phone.trim().replace("\\D+".toRegex(), "")}"
 
     init {
         signOnUseCase.subscribe()

@@ -6,6 +6,8 @@
         xmlns:tools="http://schemas.android.com/tools">
     <EditText
             android:id="@+id/smsCodeDigit0"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:imeOptions="actionNext"
             android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
             android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"

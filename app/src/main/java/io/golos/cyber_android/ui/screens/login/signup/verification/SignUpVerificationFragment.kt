@@ -5,14 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
+import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.widgets.SmsCodeWidget
+import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
+import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
+import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
 class SignUpVerificationFragment : LoadingFragment() {
@@ -41,26 +46,75 @@ class SignUpVerificationFragment : LoadingFragment() {
             }
 
             override fun onCodeChanged(code: String) {
-                viewModel.onCodeChanged(code)
+                viewModel.onFieldChanged(code)
             }
         }
 
+        resend.setOnClickListener { signUpViewModel.resendCode() }
         next.setOnClickListener { sendCode() }
 
-        smsCode.showKeyboard()
+        showKeyboardOnCodeInput()
     }
 
     private fun sendCode() {
-        viewModel.getCodeIfValid()?.let {
-            signUpViewModel.verifySmsCode(it)
+        viewModel.getFieldIfValid()?.let {
+            signUpViewModel.verifyCode(it)
         }
-        findNavController().navigate(R.id.action_signUpVerificationFragment_to_signUpNameFragment)
     }
 
     private fun observeViewModel() {
         viewModel.getValidnessLiveData.observe(this, Observer {
             next.isEnabled = it
         })
+
+        signUpViewModel.getUpdatingStateForStep<SendVerificationCodeRequestModel>().observe(this, Observer {
+            when (it) {
+                is QueryResult.Loading -> showLoading()
+                is QueryResult.Error -> onError()
+                is QueryResult.Success -> onSuccess()
+            }
+        })
+
+        signUpViewModel.getUpdatingStateForStep<ResendSmsVerificationCodeModel>().observe(this, Observer {
+            when (it) {
+                is QueryResult.Loading -> showLoading()
+                is QueryResult.Error -> onResendError()
+                is QueryResult.Success -> onResendSuccess()
+            }
+        })
+    }
+
+    private fun onSuccess() {
+        hideLoading()
+        findNavController().safeNavigate(
+            R.id.signUpVerificationFragment,
+            R.id.action_signUpVerificationFragment_to_signUpNameFragment
+        )
+    }
+
+    private fun onError() {
+        hideLoading()
+        Toast.makeText(requireContext(), "Verification error", Toast.LENGTH_SHORT).show()
+        smsCode.clearCode()
+        showKeyboardOnCodeInput()
+    }
+
+    private fun showKeyboardOnCodeInput() {
+        smsCode.post {
+            smsCode.showKeyboard()
+        }
+    }
+
+    private fun onResendSuccess() {
+        hideLoading()
+        Toast.makeText(requireContext(), "Resend success", Toast.LENGTH_SHORT).show()
+        smsCode.clearCode()
+        showKeyboardOnCodeInput()
+    }
+
+    private fun onResendError() {
+        hideLoading()
+        Toast.makeText(requireContext(), "Resend error", Toast.LENGTH_SHORT).show()
     }
 
     private fun setupViewModel() {

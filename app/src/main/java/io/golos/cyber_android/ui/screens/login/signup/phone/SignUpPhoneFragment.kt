@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.IdRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -17,13 +18,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
+import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.ViewUtils
-import io.golos.domain.interactors.model.CountryModel
-import io.golos.domain.interactors.model.SendSmsForVerificationRequestModel
+import io.golos.domain.interactors.model.*
 import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
@@ -58,14 +59,14 @@ class SignUpPhoneFragment : LoadingFragment() {
         }
 
         signUp.setOnClickListener {
-            viewModel.getPhoneIfValid()?.let {
-                signUpViewModel.sendSmsCodeOn(it)
+            viewModel.getFieldIfValid()?.let {
+                signUpViewModel.updateRegisterState(it)
             }
         }
 
         phone.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.onPhoneChanged(s.toString())
+                viewModel.onFieldChanged(s.toString())
             }
         })
 
@@ -84,12 +85,25 @@ class SignUpPhoneFragment : LoadingFragment() {
             signUp.isEnabled = it
         })
 
-        signUpViewModel.getUpdatingStateForStep<SendSmsForVerificationRequestModel>().observe(this, Observer { event ->
-            event?.getIfNotHandled().let {
+        signUpViewModel.getUpdatingStateForStep<SendSmsForVerificationRequestModel>().observe(this, Observer {
+            when (it) {
+                is QueryResult.Loading -> showLoading()
+                is QueryResult.Error -> onError()
+                is QueryResult.Success -> hideLoading()
+
+            }
+        })
+
+        signUpViewModel.stateLiveData.observe(this, Observer { event ->
+            event.getIfNotHandled()?.let {
                 when (it) {
-                    is QueryResult.Loading<*> -> showLoading()
-                    is QueryResult.Error -> onError()
-                    is QueryResult.Success -> onSuccess()
+                    is UnregisteredUserModel -> viewModel.getFieldIfValid()?.let { phone ->
+                        signUpViewModel.sendCodeOn(phone)
+                    }
+                    is UnverifiedUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpVerificationFragment)
+                    is VerifiedUserWithoutUserNameModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpNameFragment)
+                    is UnWrittenToBlockChainUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpNameFragment)
+                    is RegisteredUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpKeyFragment)
                 }
             }
         })
@@ -124,9 +138,12 @@ class SignUpPhoneFragment : LoadingFragment() {
         })
     }
 
-    private fun onSuccess() {
-        findNavController().navigate(R.id.action_signUpPhoneFragment_to_signUpVerificationFragment)
+    private fun navigateTo(@IdRes destination: Int) {
         hideLoading()
+        findNavController().safeNavigate(
+            R.id.signUpPhoneFragment,
+            destination
+        )
     }
 
     private fun onError() {
