@@ -34,7 +34,7 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
             PostContent(
                 cyberObject.content.title!!,
                 ContentBody(cyberObject.content.body.preview, cyberObject.content.body.full),
-                cyberObject.content.metadata ?: ""
+                ""
             ),
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,
@@ -82,7 +82,7 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
             ),
             CommentContent(
                 ContentBody(cyberObject.content.body.preview, cyberObject.content.body.full),
-                cyberObject.content.metadata ?: ""
+                 ""
             ),
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,

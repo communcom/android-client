@@ -22,9 +22,10 @@ import java.util.*
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
  */
-class SignOnUseCase(
+class SignUpUseCase(
     val inTestMode: Boolean,
     private val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>,
+    private val authRepository: Repository<AuthState, AuthRequest>,
     private val dispatchersProvider: DispatchersProvider,
     private val testPassProvider: TestPassProvider
 ) : UseCase<UserRegistrationStateModel> {
@@ -59,10 +60,20 @@ class SignOnUseCase(
                 if (it.userName == lastRequestLocal?.userName &&
                     it.masterPassword != null
                 ) {
-                    lastRegisteredUser.value = generateUserKeys(
+                    val registeredUser = generateUserKeys(
                         lastRequestLocal.userName,
                         it.masterPassword
                     )
+                    lastRegisteredUser.value = registeredUser
+
+                    if (authRepository.getAsLiveData(authRepository.allDataRequest).value?.isUserLoggedIn != true) {
+                        authRepository.makeAction(
+                            AuthRequest(
+                                CyberUser(registeredUser.userName.name),
+                                registeredUser.activePrivateKey
+                            )
+                        )
+                    }
                 }
                 RegisteredUserModel(it.userName)
             }
