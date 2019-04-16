@@ -27,7 +27,7 @@ class PostWithCommentsUseCaseTest {
     private lateinit var coomunityFeedUseCase: CommunityFeedUseCase
 
     private lateinit var voteUseCase: VoteUseCase
-    private val postId = DiscussionIdModel("d5gqchmbgrdj", "artemisfightswithcassandraagainstphoebe", 803)
+    private val postId = DiscussionIdModel("tst1ggrtqzvl", "zeusfightswithsemeleagainsteurynome", 140310)
 
     @Before
     fun before() {
