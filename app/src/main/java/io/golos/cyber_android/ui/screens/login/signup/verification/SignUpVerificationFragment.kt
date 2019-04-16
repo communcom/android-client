@@ -15,6 +15,7 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.widgets.SmsCodeWidget
+import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
 import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
 import io.golos.domain.model.QueryResult
@@ -70,7 +71,7 @@ class SignUpVerificationFragment : LoadingFragment() {
         signUpViewModel.getUpdatingStateForStep<SendVerificationCodeRequestModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Error -> onError()
+                is QueryResult.Error -> onError(it)
                 is QueryResult.Success -> onSuccess()
             }
         })
@@ -78,7 +79,7 @@ class SignUpVerificationFragment : LoadingFragment() {
         signUpViewModel.getUpdatingStateForStep<ResendSmsVerificationCodeModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Error -> onResendError()
+                is QueryResult.Error -> onResendError(it)
                 is QueryResult.Success -> onResendSuccess()
             }
         })
@@ -92,9 +93,9 @@ class SignUpVerificationFragment : LoadingFragment() {
         )
     }
 
-    private fun onError() {
+    private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        Toast.makeText(requireContext(), "Verification error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
         smsCode.clearCode()
         showKeyboardOnCodeInput()
     }
@@ -112,9 +113,9 @@ class SignUpVerificationFragment : LoadingFragment() {
         showKeyboardOnCodeInput()
     }
 
-    private fun onResendError() {
+    private fun onResendError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        Toast.makeText(requireContext(), "Resend error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setupViewModel() {
