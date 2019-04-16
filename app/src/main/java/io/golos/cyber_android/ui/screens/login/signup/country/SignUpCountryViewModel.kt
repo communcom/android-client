@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.NumberFormatException
 
 class SignUpCountryViewModel(
@@ -34,7 +31,7 @@ class SignUpCountryViewModel(
     fun makeSearch(query: String) {
         searchJob?.cancel()
         searchJob = searchJobScope.launch {
-            delay(500)
+            delay(220)
             try {
                 val countryCode = Integer.parseInt(query)
                 if (countryCode > 0)

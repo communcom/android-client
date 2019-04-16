@@ -16,6 +16,7 @@ import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
+import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.interactors.model.*
@@ -68,7 +69,7 @@ class SignUpNameFragment : LoadingFragment() {
         signUpViewModel.getUpdatingStateForStep<SetUserNameRequestModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Error -> onError()
+                is QueryResult.Error -> onError(it)
             }
         })
 
@@ -82,9 +83,13 @@ class SignUpNameFragment : LoadingFragment() {
         signUpViewModel.getUpdatingStateForStep<WriteUserToBlockChainRequestModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Error -> onError()
-                is QueryResult.Success -> onSuccess()
+                is QueryResult.Error -> onError(it)
+                //is QueryResult.Success -> onSuccess()
             }
+        })
+
+        signUpViewModel.keysLiveData.asEvent().observe(this, Observer {
+            onSuccess()
         })
     }
 
@@ -97,9 +102,9 @@ class SignUpNameFragment : LoadingFragment() {
 
     }
 
-    private fun onError() {
+    private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        Toast.makeText(requireContext(), "Name error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setupViewModel() {

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login.signup.key
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +10,25 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.obsez.android.lib.filechooser.ChooserDialog
+import io.golos.cyber_android.MainActivity
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.utils.PdfKeysUtils
+import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.GeneratedUserKeys
+import io.golos.domain.model.SignInState
 import kotlinx.android.synthetic.main.fragment_sign_up_key.*
 
 
 class SignUpKeyFragment : Fragment() {
 
-    private lateinit var viewModel: SignUpViewModel
+    private lateinit var signUpViewModel: SignUpViewModel
+    private lateinit var authViewModel: AuthViewModel
+
+    private var fileSavedSuccessful = false
+    private var authSuccessful = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +44,7 @@ class SignUpKeyFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.keysLiveData.observe(this, Observer { keys ->
+        signUpViewModel.keysLiveData.observe(this, Observer { keys ->
             download.setOnClickListener {
                 ChooserDialog(requireActivity())
                     .withFilter(true, false)
@@ -45,6 +54,14 @@ class SignUpKeyFragment : Fragment() {
                     }
                     .build()
                     .show()
+            }
+        })
+
+        authViewModel.authLiveData.asEvent().observe(this, Observer { event ->
+            event.getIfNotHandled()?.let {
+                authSuccessful = it == SignInState.USER_LOGGED_IN
+                if (authSuccessful && fileSavedSuccessful)
+                    navigateToMainScreen()
             }
         })
     }
@@ -61,15 +78,29 @@ class SignUpKeyFragment : Fragment() {
     }
 
     private fun onSaveSuccess() {
-        Toast.makeText(requireContext(), "Save success", Toast.LENGTH_SHORT).show()
+        fileSavedSuccessful = true
+        if (authSuccessful && fileSavedSuccessful)
+            navigateToMainScreen()
+    }
+
+    private fun navigateToMainScreen() {
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
+        signUpViewModel = ViewModelProviders.of(
             requireActivity(),
             requireContext()
                 .serviceLocator
                 .getSignUpViewModelFactory()
         ).get(SignUpViewModel::class.java)
+
+        authViewModel = ViewModelProviders.of(
+            requireActivity(),
+            requireContext()
+                .serviceLocator
+                .getAuthViewModelFactory()
+        ).get(AuthViewModel::class.java)
     }
 }

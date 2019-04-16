@@ -8,26 +8,26 @@ import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.*
-import io.golos.domain.interactors.reg.SignOnUseCase
+import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.map
 import io.golos.domain.model.QueryResult
 
 /**
  * Shared [ViewModel] for sign up process
  */
-class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
+class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
 
     /**
      * [LiveData] for current user registration state (see [UserRegistrationStateModel])
      */
-    val stateLiveData = signOnUseCase.getAsLiveData.asEvent()
+    val stateLiveData = signUpUseCase.getAsLiveData.asEvent()
 
     /**
      * [LiveData] for generated user keys
      */
-    val keysLiveData = signOnUseCase.getLastRegisteredUser
+    val keysLiveData = signUpUseCase.getLastRegisteredUser
 
-    val updatingStateLiveData = signOnUseCase.getUpdatingState.asEvent()
+    val updatingStateLiveData = signUpUseCase.getUpdatingState.asEvent()
 
     /**
      * Provide update states for one subtype of [NextRegistrationStepRequestModel]
@@ -58,14 +58,14 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
      */
     fun sendCodeOn(phone: String) {
         currentPhone = getNormalizedPhone(phone)
-        signOnUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
+        signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
     }
 
     /**
      * Verifies sms code
      */
     fun verifyCode(code: String) {
-        signOnUseCase.makeRegistrationStep(
+        signUpUseCase.makeRegistrationStep(
             SendVerificationCodeRequestModel(
                 currentPhone,
                 Integer.parseInt(code)
@@ -78,7 +78,7 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
      */
     fun sendName(name: String) {
         currentName = name
-        signOnUseCase.makeRegistrationStep(
+        signUpUseCase.makeRegistrationStep(
             SetUserNameRequestModel(currentPhone, name.toCyberName())
         )
     }
@@ -87,7 +87,7 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
      * Writes user into blockchain
      */
     fun writeToBlockchain() {
-        signOnUseCase.makeRegistrationStep(
+        signUpUseCase.makeRegistrationStep(
             WriteUserToBlockChainRequestModel(currentPhone, currentName.toCyberName())
         )
     }
@@ -96,7 +96,7 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
      * Resends sms code
      */
     fun resendCode() {
-        signOnUseCase.makeRegistrationStep(
+        signUpUseCase.makeRegistrationStep(
             ResendSmsVerificationCodeModel(currentPhone)
         )
     }
@@ -106,7 +106,7 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
      */
     fun updateRegisterState(phone: String) {
         currentPhone = getNormalizedPhone(phone)
-        signOnUseCase.makeRegistrationStep(
+        signUpUseCase.makeRegistrationStep(
             GetUserRegistrationStepRequestModel(currentPhone)
         )
     }
@@ -114,11 +114,11 @@ class SignUpViewModel(private val signOnUseCase: SignOnUseCase) : ViewModel() {
     private fun getNormalizedPhone(phone: String) = "+${phone.trim().replace("\\D+".toRegex(), "")}"
 
     init {
-        signOnUseCase.subscribe()
+        signUpUseCase.subscribe()
     }
 
     override fun onCleared() {
         super.onCleared()
-        signOnUseCase.unsubscribe()
+        signUpUseCase.unsubscribe()
     }
 }

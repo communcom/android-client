@@ -38,7 +38,7 @@ class SignUpPhoneFragment : LoadingFragment() {
 
     private lateinit var signUpViewModel: SignUpViewModel
 
-    private val emptyMask = UnderscoreDigitSlotsParser().parseSlots("____________")
+    private val emptyMask = UnderscoreDigitSlotsParser().parseSlots("_")
 
     private val phoneMaskWatcher = MaskFormatWatcher(MaskImpl.createTerminated(emptyMask))
 
@@ -88,7 +88,7 @@ class SignUpPhoneFragment : LoadingFragment() {
         signUpViewModel.getUpdatingStateForStep<SendSmsForVerificationRequestModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Error -> onError()
+                is QueryResult.Error -> onError(it)
                 is QueryResult.Success -> hideLoading()
 
             }
@@ -112,10 +112,15 @@ class SignUpPhoneFragment : LoadingFragment() {
             country.setText(countryModel?.countryName)
             countryInputLayout.isActivated = countryModel != null
 
-            if (countryModel != null)
+            if (countryModel != null) {
                 setupPhoneMask(countryModel)
+                phone.isEnabled = true
+                phoneInputLayout.isEnabled = true
+            }
             else {
                 phoneMaskWatcher.setMask(MaskImpl.createTerminated(emptyMask))
+                phone.isEnabled = false
+                phoneInputLayout.isEnabled = false
             }
 
 
@@ -146,9 +151,9 @@ class SignUpPhoneFragment : LoadingFragment() {
         )
     }
 
-    private fun onError() {
+    private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        Toast.makeText(requireContext(), "Phone error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setupPhoneMask(countryModel: CountryModel) {

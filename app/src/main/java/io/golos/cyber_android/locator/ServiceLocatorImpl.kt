@@ -32,7 +32,7 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
-import io.golos.domain.interactors.reg.SignOnUseCase
+import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.model.*
 import io.golos.domain.rules.*
@@ -384,8 +384,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override fun getSignOnUseCase(
         isInTestMode: Boolean,
         testPassProvider: TestPassProvider
-    ): SignOnUseCase {
-        return SignOnUseCase(isInTestMode, registrationRepository, dispatchersProvider, testPassProvider)
+    ): SignUpUseCase {
+        return SignUpUseCase(
+            isInTestMode,
+            registrationRepository,
+            authRepository,
+            dispatchersProvider,
+            testPassProvider
+        )
     }
 
     override fun getEmbedsUseCase(): EmbedsUseCase {
