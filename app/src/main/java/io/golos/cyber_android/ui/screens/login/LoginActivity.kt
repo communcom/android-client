@@ -33,8 +33,7 @@ class LoginActivity : BaseActivity() {
             if (it == SignInState.LOADING)
                 onLoading()
             if (it == SignInState.USER_LOGGED_IN)
-                initAuthFlow()
-                //navigateToMainScreen()
+                navigateToMainScreen()
         })
     }
 
