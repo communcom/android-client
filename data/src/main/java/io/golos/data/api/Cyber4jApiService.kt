@@ -43,11 +43,11 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getCommunityPosts(communityId, limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getCommunityPosts(communityId, ContentParsingType.WEB, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getPost(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getPost(user, permlink, refBlockNum).getOrThrow()
+        return cyber4j.getPost(user, permlink, refBlockNum, ContentParsingType.WEB).getOrThrow()
     }
 
     override fun getUserSubscriptions(
@@ -56,7 +56,10 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserSubscriptions(CyberName(userId), limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getUserSubscriptions(
+            CyberName(userId), ContentParsingType.WEB,
+            limit, sort, sequenceKey
+        ).getOrThrow()
     }
 
     override fun getUserPost(
@@ -65,7 +68,10 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserPosts(CyberName(userId), limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getUserPosts(
+            CyberName(userId), ContentParsingType.WEB,
+            limit, sort, sequenceKey
+        ).getOrThrow()
     }
 
     override fun getCommentsOfPost(
@@ -76,11 +82,17 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getCommentsOfPost(user, permlink, refBlockNum, limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getCommentsOfPost(
+            user, permlink, refBlockNum,
+            ContentParsingType.WEB, limit, sort, sequenceKey
+        ).getOrThrow()
     }
 
     override fun getComment(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getComment(user, permlink, refBlockNum).getOrThrow()
+        return cyber4j.getComment(
+            user, permlink, refBlockNum,
+            ContentParsingType.WEB
+        ).getOrThrow()
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {
