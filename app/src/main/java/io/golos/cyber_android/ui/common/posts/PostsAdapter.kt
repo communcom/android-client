@@ -98,7 +98,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     ),
                     postModel.author.username
                 )
-                postContentPreview.text = postModel.content.body.previewCharSequence
+               //postContentPreview.text = postModel.content.body.previewCharSequence
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > zero
 

@@ -13,10 +13,10 @@ class PostMerger : EntityMerger<PostEntity> {
             PostContent(
                 new.content.title,
                 ContentBody(
-                    new.content.body.preview ?: old.content.body.preview,
-                    new.content.body.full ?: old.content.body.full
-                ),
-                new.content.metadata
+                    if (new.content.body.preview.isNotEmpty()) new.content.body.preview else old.content.body.preview,
+                    if (new.content.body.full.isNotEmpty()) new.content.body.full else old.content.body.full,
+                    if (new.content.body.embeds.isNotEmpty()) new.content.body.embeds else old.content.body.embeds
+                )
             ),
             new.votes, new.comments, new.payout, new.meta
         )
@@ -68,10 +68,10 @@ class CommentMerger : EntityMerger<CommentEntity> {
             new.contentId, new.author,
             CommentContent(
                 ContentBody(
-                    new.content.body.preview ?: old.content.body.preview,
-                    new.content.body.full ?: old.content.body.full
-                ),
-                new.content.metadata
+                    if (new.content.body.preview.isNotEmpty()) new.content.body.preview else old.content.body.preview,
+                    if (new.content.body.full.isNotEmpty()) new.content.body.full else old.content.body.full,
+                    if (new.content.body.embeds.isNotEmpty()) new.content.body.embeds else old.content.body.embeds
+                )
             ),
             new.votes, new.payout,
             new.parentPostId, new.parentCommentId, new.meta

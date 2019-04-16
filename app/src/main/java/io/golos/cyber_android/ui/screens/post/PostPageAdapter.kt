@@ -183,7 +183,7 @@ class PostPageAdapter(
                 postDownvote.setOnClickListener { listener.onPostDownvote(postModel) }
 
                 postTitle.text = postModel.content.title
-                postContent.text = postModel.content.body.fulCharSequence.ifBlank { postModel.content.body.previewCharSequence }
+               // postContent.text = postModel.content.body.fulCharSequence.ifBlank { postModel.content.body.previewCharSequence }
                 postCommentsTitle.text = String.format(
                     resources.getString(R.string.comments_title_format),
                     postModel.comments.count
