@@ -1,11 +1,14 @@
 package io.golos.cyber_android.ui.screens.login.signup.key
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,6 +24,7 @@ import io.golos.domain.interactors.model.GeneratedUserKeys
 import io.golos.domain.model.SignInState
 import kotlinx.android.synthetic.main.fragment_sign_up_key.*
 
+const val PERMISSION_REQUEST = 100
 
 class SignUpKeyFragment : Fragment() {
 
@@ -29,6 +33,7 @@ class SignUpKeyFragment : Fragment() {
 
     private var fileSavedSuccessful = false
     private var authSuccessful = false
+    private var keys: GeneratedUserKeys? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,15 +50,17 @@ class SignUpKeyFragment : Fragment() {
 
     private fun observeViewModel() {
         signUpViewModel.keysLiveData.observe(this, Observer { keys ->
+            this.keys = keys
             download.setOnClickListener {
-                ChooserDialog(requireActivity())
-                    .withFilter(true, false)
-                    .displayPath(false)
-                    .withChosenListener { path, _ ->
-                        onSavePathSelected(path, keys)
-                    }
-                    .build()
-                    .show()
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST)
+                } else
+                    showSaveDialog()
             }
         })
 
@@ -64,6 +71,29 @@ class SignUpKeyFragment : Fragment() {
                     navigateToMainScreen()
             }
         })
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED))
+                showSaveDialog()
+            else onSaveError()
+            return
+        }
+    }
+
+    private fun showSaveDialog() {
+        keys?.let {
+            ChooserDialog(requireActivity())
+                .withFilter(true, false)
+                .displayPath(false)
+                .withChosenListener { path, _ ->
+                    onSavePathSelected(path, it)
+                }
+                .build()
+                .show()
+        }
     }
 
     private fun onSavePathSelected(path: String, keys: GeneratedUserKeys) {
