@@ -77,7 +77,8 @@ class RegistrationRepository(
                                     registrationApi.resendSmsCode(params.phone)
                             }
 
-                        val regState = registrationApi.getRegistrationState(params.phone)
+                        val regState = registrationApi.getRegistrationState(
+                            params.phone)
 
                         toRegistrationStateEntityMapper(
                             UserRegistrationStateRelatedData(

@@ -47,11 +47,12 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
                     cyberObject.content.embeds
                         .map {
                             EmbedEntity(
-                                it.result.type,
-                                it.result.title, it.result.url,
-                                it.result.author,
+                                it.result.type ?: "",
+                                it.result.title ?: "",
+                                it.result.url ?: "",
+                                it.result.author ?: "",
                                 it.result.provider_name ?: "",
-                                it.result.html
+                                it.result.html ?: ""
                             )
                         })
             ),
@@ -110,11 +111,12 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
                         }, cyberObject.content.embeds
                         .map {
                             EmbedEntity(
-                                it.result.type,
-                                it.result.title, it.result.url,
-                                it.result.author,
+                                it.result.type ?: "",
+                                it.result.title ?: "",
+                                it.result.url ?: "",
+                                it.result.author ?: "",
                                 it.result.provider_name ?: "",
-                                it.result.html
+                                it.result.html ?: ""
                             )
                         }
                 )
