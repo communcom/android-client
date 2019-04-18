@@ -12,6 +12,7 @@ import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.ViewUtils
 import kotlinx.android.synthetic.main.view_sms_code.view.*
 
+
 /**
  * Use this so we don't have to rely on [KeyEvent] constants order in comparison
  */
@@ -51,7 +52,7 @@ class SmsCodeWidget @JvmOverloads constructor(
                     if (keyCode == KeyEvent.KEYCODE_DEL) {
                         //if current digit view is empty and it's not the first digit
                         if (it.text.isEmpty() && digits.indexOf(it) > 0)
-                            //then delete previous digit
+                        //then delete previous digit
                             digits[digits.indexOf(it) - 1].setText("")
                         //remove this digit anyway (if it's already empty then this will do nothing)
                         it.setText("")
@@ -60,10 +61,18 @@ class SmsCodeWidget @JvmOverloads constructor(
                         if (digits.indexOf(it) > 0)
                             digits[digits.indexOf(it) - 1].requestFocus()
                     }
-                    //if user presses digit button and it's not the last digit
-                    if (keyCode in DIGIT_KEYCODES && digits.indexOf(it) < digits.size - 1) {
+                    //if user presses digit button
+                    if (keyCode in DIGIT_KEYCODES) {
+                        //and it's not the last digit
+                        if (digits.indexOf(it) < digits.size - 1)
                         //then request focus for next digit
-                        digits[digits.indexOf(it) + 1].requestFocus()
+                            digits[digits.indexOf(it) + 1].requestFocus()
+                        //if current digit is already not empty
+                        if (it.text.isNotEmpty())
+                        //then set text for the next (if any)
+                            if (digits.indexOf(it) < digits.size - 1)
+                            //then request focus for next digit
+                                digits[digits.indexOf(it) + 1].setText(DIGIT_KEYCODES.indexOf(keyCode).toString())
                     }
                 }
                 false
@@ -109,5 +118,4 @@ class SmsCodeWidget @JvmOverloads constructor(
          */
         fun onCodeChanged(code: String)
     }
-
 }
