@@ -2,6 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber4j.model.UserRegistrationState
+import io.golos.cyber4j.model.UserRegistrationStateResult
 import io.golos.data.api.RegistrationApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -77,7 +79,9 @@ class RegistrationRepository(
                                     registrationApi.resendSmsCode(params.phone)
                             }
 
-                        val regState = registrationApi.getRegistrationState(params.phone)
+                        val regState =
+                            if (params !is SetUserKeysRequest) registrationApi.getRegistrationState(params.phone)
+                            else UserRegistrationStateResult(UserRegistrationState.REGISTERED, params.userName)
 
                         toRegistrationStateEntityMapper(
                             UserRegistrationStateRelatedData(

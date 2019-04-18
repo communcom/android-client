@@ -39,7 +39,6 @@ class AuthStateRepository(
 
                 repositoryScope.launch {
 
-
                     val loadingQuery =
                         authRequestsLiveData.value?.entries?.find { (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId == forUser.name }
 
