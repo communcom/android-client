@@ -13,7 +13,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
@@ -40,6 +39,7 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity android:name=".ui.common.ImageViewerActivity"/>
     </application>
 
 </manifest>
