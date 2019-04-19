@@ -12,7 +12,7 @@ import java.io.IOException
 
 object PdfKeysUtils {
 
-    private const val PAGE_WIDTH = 600
+    private const val PAGE_WIDTH = 640
     private const val PAGE_HEIGHT = 1000
     private const val TEXT_PADDING_X = 40
     private const val TEXT_PADDING_Y = 60
@@ -26,13 +26,15 @@ object PdfKeysUtils {
      */
     fun saveTextAsPdfDocument(content: String, dirPath: String) = saveDocument(dirPath, generatePdf(content))
 
+    fun getKeysSavePathInDir(dirPath: String) = "$dirPath/keys.pdf"
+
     private fun saveDocument(dirPath: String, pdf: PdfDocument): Boolean {
         val file = File(dirPath)
         if (!file.exists()) {
             file.mkdirs()
         }
 
-        val filePath = File("$dirPath/keys.pdf")
+        val filePath = File(getKeysSavePathInDir(dirPath))
         return try {
             if (filePath.exists()) filePath.delete()
             pdf.writeTo(FileOutputStream(filePath))
@@ -70,6 +72,8 @@ object PdfKeysUtils {
 
     fun getKeysSummary(context: Context, keys: GeneratedUserKeys) = String.format(
         context.resources.getString(R.string.keys_format),
+        keys.masterPassword,
+        keys.userName.name,
         keys.ownerPrivateKey,
         keys.activePrivateKey,
         keys.postingPrivateKey

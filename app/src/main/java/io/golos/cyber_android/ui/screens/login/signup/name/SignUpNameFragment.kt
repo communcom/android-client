@@ -84,7 +84,6 @@ class SignUpNameFragment : LoadingFragment() {
             when (it) {
                 is QueryResult.Loading -> showLoading()
                 is QueryResult.Error -> onError(it)
-                //is QueryResult.Success -> onSuccess()
             }
         })
 
@@ -99,7 +98,6 @@ class SignUpNameFragment : LoadingFragment() {
             R.id.signUpNameFragment,
             R.id.action_signUpNameFragment_to_signUpKeyFragment
         )
-
     }
 
     private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
