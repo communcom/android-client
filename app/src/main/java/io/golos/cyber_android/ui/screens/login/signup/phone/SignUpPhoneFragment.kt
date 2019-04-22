@@ -3,15 +3,14 @@ package io.golos.cyber_android.ui.screens.login.signup.phone
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -19,24 +18,23 @@ import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
-import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.interactors.model.*
 import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
-import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 
 
-class SignUpPhoneFragment : LoadingFragment() {
+class SignUpPhoneFragment : BaseSignUpScreenFragment<SignUpPhoneViewModel>(SignUpPhoneViewModel::class.java) {
 
-    private lateinit var viewModel: SignUpPhoneViewModel
+    override val fieldToValidate: EditText
+        get() = phone
 
-    private lateinit var signUpViewModel: SignUpViewModel
+    override val continueButton: View
+        get() = signUp
 
     private val emptyMask = UnderscoreDigitSlotsParser().parseSlots("_")
 
@@ -51,8 +49,6 @@ class SignUpPhoneFragment : LoadingFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupViewModel()
-        observeViewModel()
 
         back.setOnClickListener {
             findNavController().navigateUp()
@@ -64,12 +60,6 @@ class SignUpPhoneFragment : LoadingFragment() {
             }
         }
 
-        phone.addTextChangedListener(object : BaseTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onFieldChanged(s.toString())
-            }
-        })
-
         listOf(countryInputLayout, country).forEach {
             it.setOnClickListener {
                 ViewUtils.hideKeyboard(requireActivity())
@@ -80,11 +70,8 @@ class SignUpPhoneFragment : LoadingFragment() {
         phoneMaskWatcher.installOn(phone)
     }
 
-    private fun observeViewModel() {
-        viewModel.getValidnessLiveData.observe(this, Observer {
-            signUp.isEnabled = it
-        })
-
+    override fun observeViewModel() {
+        super.observeViewModel()
         signUpViewModel.getUpdatingStateForStep<SendSmsForVerificationRequestModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
@@ -109,38 +96,40 @@ class SignUpPhoneFragment : LoadingFragment() {
         })
 
         signUpViewModel.getSelectedCountryLiveData.observe(this, Observer { countryModel ->
-            country.setText(countryModel?.countryName)
-            countryInputLayout.isActivated = countryModel != null
-
-            if (countryModel != null) {
-                setupPhoneMask(countryModel)
-                phone.isEnabled = true
-                phoneInputLayout.isEnabled = true
-            }
-            else {
-                phoneMaskWatcher.setMask(MaskImpl.createTerminated(emptyMask))
-                phone.isEnabled = false
-                phoneInputLayout.isEnabled = false
-            }
-
-
-            Glide.with(requireContext())
-                .load(countryModel?.thumbNailUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(object : CustomViewTarget<TextView, Drawable>(country) {
-                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                    }
-
-                    override fun onResourceCleared(placeholder: Drawable?) {
-                    }
-
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        country.setCompoundDrawablesWithIntrinsicBounds(null, null, resource, null)
-                    }
-
-                })
-
+            onCountrySelected(countryModel)
         })
+    }
+
+    private fun onCountrySelected(countryModel: CountryModel?) {
+        country.setText(countryModel?.countryName)
+        countryInputLayout.isActivated = countryModel != null
+
+        if (countryModel != null) {
+            setupPhoneMask(countryModel)
+            phone.isEnabled = true
+            phoneInputLayout.isEnabled = true
+        } else {
+            phoneMaskWatcher.setMask(MaskImpl.createTerminated(emptyMask))
+            phone.isEnabled = false
+            phoneInputLayout.isEnabled = false
+        }
+
+
+        Glide.with(requireContext())
+            .load(countryModel?.thumbNailUrl)
+            .apply(RequestOptions.circleCropTransform())
+            .into(object : CustomViewTarget<TextView, Drawable>(country) {
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                }
+
+                override fun onResourceCleared(placeholder: Drawable?) {
+                }
+
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    country.setCompoundDrawablesWithIntrinsicBounds(null, null, resource, null)
+                }
+
+            })
     }
 
     private fun navigateTo(@IdRes destination: Int) {
@@ -167,18 +156,5 @@ class SignUpPhoneFragment : LoadingFragment() {
 //            phone.setText(phonePrefix)
 
         ViewUtils.showKeyboard(phone)
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this
-        ).get(SignUpPhoneViewModel::class.java)
-
-        signUpViewModel = ViewModelProviders.of(
-            requireActivity(),
-            requireContext()
-                .serviceLocator
-                .getSignUpViewModelFactory()
-        ).get(SignUpViewModel::class.java)
     }
 }

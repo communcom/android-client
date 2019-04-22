@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
-import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
+import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
 import io.golos.cyber_android.widgets.SmsCodeWidget
 import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
@@ -21,11 +18,10 @@ import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
 import io.golos.domain.model.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
-class SignUpVerificationFragment : LoadingFragment() {
+class SignUpVerificationFragment : BaseSignUpScreenFragment<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
 
-    private lateinit var viewModel: SignUpVerificationViewModel
-
-    private lateinit var signUpViewModel: SignUpViewModel
+    override val continueButton: View
+        get() = next
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +32,6 @@ class SignUpVerificationFragment : LoadingFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupViewModel()
-        observeViewModel()
 
         close.setOnClickListener { findNavController().navigateUp() }
 
@@ -63,10 +57,8 @@ class SignUpVerificationFragment : LoadingFragment() {
         }
     }
 
-    private fun observeViewModel() {
-        viewModel.getValidnessLiveData.observe(this, Observer {
-            next.isEnabled = it
-        })
+    override fun observeViewModel() {
+        super.observeViewModel()
 
         signUpViewModel.getUpdatingStateForStep<SendVerificationCodeRequestModel>().observe(this, Observer {
             when (it) {
@@ -116,18 +108,5 @@ class SignUpVerificationFragment : LoadingFragment() {
     private fun onResendError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
         Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this
-        ).get(SignUpVerificationViewModel::class.java)
-
-        signUpViewModel = ViewModelProviders.of(
-            requireActivity(),
-            requireContext()
-                .serviceLocator
-                .getSignUpViewModelFactory()
-        ).get(SignUpViewModel::class.java)
     }
 }
