@@ -2,7 +2,9 @@
 
 package io.golos.domain.model
 
+import io.golos.cyber4j.model.CyberName
 import io.golos.domain.entities.DiscussionsSort
+import io.golos.domain.entities.EventTypeEntity
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
@@ -23,6 +25,44 @@ interface Identifiable {
 
 interface FeedUpdateRequest : Identifiable {
     val pageKey: String?
+}
+
+data class EventsFeedUpdateRequest(
+    val user: CyberName,
+    val types: Set<EventTypeEntity>,
+    val limit: Int,
+    val lastEventId: String? = null
+) : FeedUpdateRequest {
+    private val _id = Id()
+
+    override val id: Identifiable.Id
+        get() = _id
+
+    override val pageKey: String?
+        get() = lastEventId
+
+    inner class Id : Identifiable.Id() {
+        val _types = types
+        val _user = user
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Id
+
+            if (_types != other._types) return false
+            if (_user != other._user) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = _types.hashCode()
+            result = 31 * result + _user.hashCode()
+            return result
+        }
+
+    }
 }
 
 sealed class PostFeedUpdateRequest : FeedUpdateRequest

@@ -26,6 +26,7 @@ import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
@@ -177,6 +178,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         }
                     },
                     logger
+                )
+            }
+
+    override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
+            by lazy {
+                EventsRepository(
+                    apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+                    dispatchersProvider, logger
                 )
             }
 
@@ -366,5 +375,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
         return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
+    }
+
+    override fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase {
+        return EventsUseCase(
+            eventTypes,
+            eventsRepository,
+            authRepository,
+            EventEntityToModelMapper(),
+            dispatchersProvider
+        )
     }
 }

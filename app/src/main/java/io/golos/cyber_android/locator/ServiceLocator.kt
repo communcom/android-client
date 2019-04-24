@@ -6,12 +6,14 @@ import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.TestPassProvider
+import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
@@ -58,13 +60,17 @@ interface ServiceLocator {
 
     fun getSignInUseCase(): SignInUseCase
 
-    fun getSignOnUseCase(isInTestMode:Boolean,
-                         testPassProvider:TestPassProvider): SignUpUseCase
+    fun getSignOnUseCase(
+        isInTestMode: Boolean,
+        testPassProvider: TestPassProvider
+    ): SignUpUseCase
 
     fun getEmbedsUseCase(): EmbedsUseCase
 
     fun getDiscussionPosterUseCase(): DiscussionPosterUseCase
 
     fun getCountriesChooserUseCase(): CountriesChooserUseCase
+
+    fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase
 
 }

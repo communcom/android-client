@@ -122,7 +122,7 @@ private val persister = object : Persister {
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberUser("vwxffciejffd"), true)
+        return AuthState(CyberUser("xlvgwhfbffoo"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -130,7 +130,7 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5Jo1pRP35Vi4iFFgYYj2u3gjRVn4Ue7x4oti1wo2d3EPLbYLHnP"
+        return "5KAcT7zUPcR3U5XWLQ5LiZs3Ua8GvGAwkBSB4UGr8NgL152dsnb"
     }
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
@@ -173,6 +173,13 @@ val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
                 toRegistrationMapper
             )
         }
+val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
+        by lazy {
+            EventsRepository(
+                apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+                dispatchersProvider, logger
+            )
+        }
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -192,6 +199,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = countriesRepo
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
         get() = regRepo
+    override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
+        get() = eventsRepos
 }, dispatchersProvider)
 
 

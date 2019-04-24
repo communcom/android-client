@@ -18,7 +18,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     CommentsApiService,
     EmbedApi,
     DiscussionsCreationApi,
-    RegistrationApi {
+    RegistrationApi,
+    EventsApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -179,6 +180,29 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun resendSmsCode(phone: String): ResultOk {
         return cyber4j.resendSmsCode(phone).getOrThrow()
+    }
+
+    override fun getEvents(
+        userProfile: String,
+        afterId: String?,
+        limit: Int?,
+        markAsViewed: Boolean?,
+        freshOnly: Boolean?,
+        types: List<EventType>
+    ): EventsData {
+        return cyber4j.getEvents(userProfile, afterId, limit, markAsViewed, freshOnly, types).getOrThrow()
+    }
+
+    override fun markEventsAsRead(ids: List<String>): ResultOk {
+        return cyber4j.markEventsAsRead(ids).getOrThrow()
+    }
+
+    override fun markAllEventsAsRead(): ResultOk {
+        return cyber4j.markAllEventsAsRead().getOrThrow()
+    }
+
+    override fun getUnreadCount(profileId: String): FreshResult {
+        return cyber4j.getUnreadCount(profileId).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
