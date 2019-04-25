@@ -16,9 +16,9 @@ interface EventsApi {
         freshOnly: Boolean?, types: List<EventType>
     ): EventsData
 
-    fun markEventsAsRead(ids: List<String>): ResultOk
+    fun markEventsAsNotFresh(ids: List<String>): ResultOk
 
-    fun markAllEventsAsRead(): ResultOk
+    fun markAllEventsAsNotFresh(): ResultOk
 
-    fun getUnreadCount(profileId: String): FreshResult
+    fun getFreshNotifsCount(profileId: String): FreshResult
 }

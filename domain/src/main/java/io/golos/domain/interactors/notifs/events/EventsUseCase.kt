@@ -73,7 +73,7 @@ class EventsUseCase(
                     lastEventsJob?.cancel()
                     lastEventsJob = useCaseScope.launch {
                         val eventsList = it ?: return@launch
-                        freshLiveData.value = eventsList.unreadCount
+                        freshLiveData.value = eventsList.freshCount
                         eventsLiveData.value =
                             withContext(dispatchersProvider.workDispatcher) { eventsMapper(eventsList) }
                     }

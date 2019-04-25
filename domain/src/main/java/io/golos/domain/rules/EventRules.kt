@@ -14,46 +14,49 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
 
     override suspend fun invoke(cyberObject: EventsListDataWithQuery): EventsListEntity {
         return EventsListEntity(
-            cyberObject.data.total, cyberObject.data.fresh,
+            cyberObject.data.total,
+            cyberObject.data.fresh,
             cyberObject.query.lastEventId,
             cyberObject.data.data.map { event ->
                 cache.getOrPut(event) {
                     when (event) {
                         is VoteEvent -> VoteEventEntity(
                             event.actor.toEventActor(),
-                            event.post.toEventPost(),
+                            event.post?.toEventPost(),
                             event.comment?.toEventComment(),
+                            event.community.toEntity(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is FlagEvent -> FlagEventEntity(
                             event.actor.toEventActor(),
-                            event.post.toEventPost(),
+                            event.post?.toEventPost(),
                             event.comment?.toEventComment(),
+                            event.community.toEntity(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is TransferEvent -> TransferEventEntity(
                             event.value.toEventValue(),
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is SubscribeEvent -> SubscribeEventEntity(
                             event.community.toEntity(),
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is UnSubscribeEvent -> UnSubscribeEventEntity(
                             event.community.toEntity(),
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is ReplyEvent -> ReplyEventEntity(
@@ -64,7 +67,7 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.refBlockNum,
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is MentionEvent -> MentionEventEntity(
@@ -75,7 +78,7 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.refBlockNum,
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is RepostEvent -> RepostEventEntity(
@@ -85,13 +88,13 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.refBlockNum,
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is AwardEvent -> AwardEventEntity(
                             event.payout.toEventValue(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is CuratorAwardEvent -> CuratorAwardEventEntity(
@@ -101,25 +104,25 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.community.toEntity(),
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is MessageEvent -> MessageEventEntity(
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is WitnessVoteEvent -> WitnessVoteEventEntity(
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                         is WitnessCancelVoteEvent -> WitnessCancelVoteEventEntity(
                             event.actor.toEventActor(),
                             event._id,
-                            event.unread,
+                            event.fresh,
                             event.timestamp
                         )
                     }
@@ -139,7 +142,7 @@ class EventsEntityMerger : EntityMerger<EventsListEntity> {
     override fun invoke(new: EventsListEntity, old: EventsListEntity): EventsListEntity {
         if (old.isEmpty()) return new
         if (new.queryLastItemId == null) return new
-        return EventsListEntity(new.total, new.unreadCount, new.queryLastItemId, old.data + new.data)
+        return EventsListEntity(new.total, new.freshCount, new.queryLastItemId, old.data + new.data)
     }
 }
 

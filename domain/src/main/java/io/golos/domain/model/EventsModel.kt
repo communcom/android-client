@@ -21,19 +21,21 @@ sealed class EventModel : Model, IdentifiebleEvent
 
 data class VoteEventModel(
     val actor: EventActorModel,
-    val post: EventPostModel,
+    val post: EventPostModel?,
     val comment: EventCommentModel?,
+    val community: CommunityModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
 data class FlagEventModel(
     val actor: EventActorModel,
-    val post: EventPostModel,
+    val post: EventPostModel?,
     val comment: EventCommentModel?,
+    val community: CommunityModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -41,7 +43,7 @@ data class TransferEventModel(
     val value: EventValueModel,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -49,7 +51,7 @@ data class SubscribeEventModel(
     val community: CommunityModel,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -57,7 +59,7 @@ data class UnSubscribeEventModel(
     val community: CommunityModel,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -69,7 +71,7 @@ data class ReplyEventModel(
     val refBlockNum: Long,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -81,7 +83,7 @@ data class MentionEventModel(
     val refBlockNum: Long,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -92,14 +94,14 @@ data class RepostEventModel(
     val refBlockNum: Long,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
 data class AwardEventModel(
     val payout: EventValueModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
@@ -110,28 +112,28 @@ data class CuratorAwardEventModel(
     val community: CommunityModel,
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
 data class MessageEventModel(
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
 data class WitnessVoteEventModel(
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 
 data class WitnessCancelVoteEventModel(
     val actor: EventActorModel,
     override val eventId: String,
-    val isUnread: Boolean,
+    val isFresh: Boolean,
     val timestamp: Date
 ) : EventModel()
 

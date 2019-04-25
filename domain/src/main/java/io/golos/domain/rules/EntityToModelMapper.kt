@@ -192,39 +192,41 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                 when (event) {
                     is VoteEventEntity -> VoteEventModel(
                         event.actor.toModelActor(),
-                        event.post.toModelPost(),
+                        event.post?.toModelPost(),
                         event.comment?.toModelComment(),
+                        event.community.toModel(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is FlagEventEntity -> FlagEventModel(
                         event.actor.toModelActor(),
-                        event.post.toModelPost(),
+                        event.post?.toModelPost(),
                         event.comment?.toModelComment(),
+                        event.community.toModel(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is TransferEventEntity -> TransferEventModel(
                         event.value.toModelValue(),
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is SubscribeEventEntity -> SubscribeEventModel(
                         event.community.toModel(),
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is UnSubscribeEventEntity -> UnSubscribeEventModel(
                         event.community.toModel(),
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is ReplyEventEntity -> ReplyEventModel(
@@ -235,7 +237,7 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.refBlockNum,
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is MentionEventEntity -> MentionEventModel(
@@ -246,7 +248,7 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.refBlockNum,
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is RepostEventEntity -> RepostEventModel(
@@ -256,13 +258,13 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.refBlockNum,
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is AwardEventEntity -> AwardEventModel(
                         event.payout.toModelValue(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is CuratorAwardEventEntity -> CuratorAwardEventModel(
@@ -272,25 +274,25 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.community.toModel(),
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is MessageEventEntity -> MessageEventModel(
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is WitnessVoteEventEntity -> WitnessVoteEventModel(
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                     is WitnessCancelVoteEventEntity -> WitnessCancelVoteEventModel(
                         event.actor.toModelActor(),
                         event.eventId,
-                        event.isUnread,
+                        event.isFresh,
                         event.timestamp
                     )
                 }
