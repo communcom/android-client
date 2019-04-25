@@ -41,7 +41,10 @@ class AuthStateRepository(
 
 
                     val loadingQuery =
-                        authRequestsLiveData.value?.entries?.find { (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId == forUser.name }
+                        authRequestsLiveData.value?.entries?.find {
+                            val loadingUser =   (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
+                            loadingUser == forUser.name  || loadingUser == forUser.domainName
+                        }
 
                     if (loadingQuery != null) {
                         val finalAuthState = AuthState(forUser.toCyberUser(), true)
@@ -206,6 +209,6 @@ class AuthStateRepository(
 
     override val allDataRequest: AuthRequest
             by lazy {
-                AuthRequest("anpacifgrlqe".toCyberUser(), "5JB6WdGo7tvArMP6u3FtwfYGzBei8wMEyaVyrACkczGrbA6BviF")
+                AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ")
             }
 }
