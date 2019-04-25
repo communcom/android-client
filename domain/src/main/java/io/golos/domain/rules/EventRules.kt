@@ -14,7 +14,7 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
 
     override suspend fun invoke(cyberObject: EventsListDataWithQuery): EventsListEntity {
         return EventsListEntity(
-            cyberObject.data.total, cyberObject.data.unread,
+            cyberObject.data.total, cyberObject.data.fresh,
             cyberObject.query.lastEventId,
             cyberObject.data.data.map { event ->
                 cache.getOrPut(event) {
@@ -57,8 +57,9 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.timestamp
                         )
                         is ReplyEvent -> ReplyEventEntity(
-                            event.post.toEventPost(),
-                            event.comment?.toEventComment(),
+                            event.comment.toEventComment(),
+                            event.post?.toEventPost(),
+                            event.parentComment?.toEventComment(),
                             event.community.toEntity(),
                             event.refBlockNum,
                             event.actor.toEventActor(),
@@ -67,8 +68,9 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.timestamp
                         )
                         is MentionEvent -> MentionEventEntity(
-                            event.post.toEventPost(),
-                            event.comment?.toEventComment(),
+                            event.comment.toEventComment(),
+                            event.post?.toEventPost(),
+                            event.parentComment?.toEventComment(),
                             event.community.toEntity(),
                             event.refBlockNum,
                             event.actor.toEventActor(),
@@ -93,9 +95,11 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.timestamp
                         )
                         is CuratorAwardEvent -> CuratorAwardEventEntity(
-                            event.post.toEventPost(),
+                            event.post?.toEventPost(),
                             event.comment?.toEventComment(),
                             event.payout.toEventValue(),
+                            event.community.toEntity(),
+                            event.actor.toEventActor(),
                             event._id,
                             event.unread,
                             event.timestamp

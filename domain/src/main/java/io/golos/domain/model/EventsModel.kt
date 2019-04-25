@@ -62,8 +62,9 @@ data class UnSubscribeEventModel(
 ) : EventModel()
 
 data class ReplyEventModel(
-    val post: EventPostModel,
-    val comment: EventCommentModel?,
+    val comment: EventCommentModel,
+    val parentPost: EventPostModel?,
+    val parentComment: EventCommentModel?,
     val community: CommunityModel,
     val refBlockNum: Long,
     val actor: EventActorModel,
@@ -73,8 +74,9 @@ data class ReplyEventModel(
 ) : EventModel()
 
 data class MentionEventModel(
-    val post: EventPostModel,
-    val comment: EventCommentModel?,
+    val comment: EventCommentModel,
+    val parentPost: EventPostModel?,
+    val parentComment: EventCommentModel?,
     val community: CommunityModel,
     val refBlockNum: Long,
     val actor: EventActorModel,
@@ -102,9 +104,11 @@ data class AwardEventModel(
 ) : EventModel()
 
 data class CuratorAwardEventModel(
-    val post: EventPostModel,
+    val post: EventPostModel?,
     val comment: EventCommentModel?,
     val payout: EventValueModel,
+    val community: CommunityModel,
+    val actor: EventActorModel,
     override val eventId: String,
     val isUnread: Boolean,
     val timestamp: Date

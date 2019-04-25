@@ -41,7 +41,10 @@ class AuthStateRepository(
 
 
                     val loadingQuery =
-                        authRequestsLiveData.value?.entries?.find { (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId == forUser.name }
+                        authRequestsLiveData.value?.entries?.find {
+                            val loadingUserId =  (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
+                            loadingUserId == forUser.name || loadingUserId == forUser.domainName
+                        }
 
                     if (loadingQuery != null) {
                         val finalAuthState = AuthState(forUser.toCyberUser(), true)

@@ -66,8 +66,9 @@ data class UnSubscribeEventEntity(
 ) : EventEntity()
 
 data class ReplyEventEntity(
-    val post: EventPostEntity,
-    val comment: EventCommentEntity?,
+    val comment: EventCommentEntity,
+    val parentPost: EventPostEntity?,
+    val parentComment:EventCommentEntity?,
     val community: CommunityEntity,
     val refBlockNum: Long,
     val actor: EventActorEntity,
@@ -77,8 +78,9 @@ data class ReplyEventEntity(
 ) : EventEntity()
 
 data class MentionEventEntity(
-    val post: EventPostEntity,
-    val comment: EventCommentEntity?,
+    val comment: EventCommentEntity,
+    val parentPost: EventPostEntity?,
+    val parentComment:EventCommentEntity?,
     val community: CommunityEntity,
     val refBlockNum: Long,
     val actor: EventActorEntity,
@@ -106,9 +108,11 @@ data class AwardEventEntity(
 ) : EventEntity()
 
 data class CuratorAwardEventEntity(
-    val post: EventPostEntity,
+    val post: EventPostEntity?,
     val comment: EventCommentEntity?,
     val payout: EventValueEntity,
+    val community: CommunityEntity,
+    val actor:EventActorEntity,
     val eventId: String,
     val isUnread: Boolean,
     val timestamp: Date

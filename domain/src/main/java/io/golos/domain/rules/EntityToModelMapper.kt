@@ -228,8 +228,9 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.timestamp
                     )
                     is ReplyEventEntity -> ReplyEventModel(
-                        event.post.toModelPost(),
-                        event.comment?.toModelComment(),
+                        event.comment.toModelComment(),
+                        event.parentPost?.toModelPost(),
+                        event.parentComment?.toModelComment(),
                         event.community.toModel(),
                         event.refBlockNum,
                         event.actor.toModelActor(),
@@ -238,8 +239,9 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.timestamp
                     )
                     is MentionEventEntity -> MentionEventModel(
-                        event.post.toModelPost(),
-                        event.comment?.toModelComment(),
+                        event.comment.toModelComment(),
+                        event.parentPost?.toModelPost(),
+                        event.parentComment?.toModelComment(),
                         event.community.toModel(),
                         event.refBlockNum,
                         event.actor.toModelActor(),
@@ -264,9 +266,11 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.timestamp
                     )
                     is CuratorAwardEventEntity -> CuratorAwardEventModel(
-                        event.post.toModelPost(),
+                        event.post?.toModelPost(),
                         event.comment?.toModelComment(),
                         event.payout.toModelValue(),
+                        event.community.toModel(),
+                        event.actor.toModelActor(),
                         event.eventId,
                         event.isUnread,
                         event.timestamp

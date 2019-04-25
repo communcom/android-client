@@ -72,7 +72,6 @@ class EventsUseCase(
                 ) {
                     lastEventsJob?.cancel()
                     lastEventsJob = useCaseScope.launch {
-                        delay(100)
                         val eventsList = it ?: return@launch
                         freshLiveData.value = eventsList.unreadCount
                         eventsLiveData.value =
@@ -83,12 +82,15 @@ class EventsUseCase(
                 mediatorLiveData.addSource(eventsRepository.updateStates) {
                     it ?: return@addSource
                     val myState = it[baseRequest.id] ?: return@addSource
-                    eventsUpdateStateLiveData.value = myState.map(
-                        when (myState.originalQuery.lastEventId) {
-                            null -> UpdateOption.REFRESH_FROM_BEGINNING
-                            else -> UpdateOption.FETCH_NEXT_PAGE
-                        }
-                    )
+                    useCaseScope.launch {
+                        delay(100)
+                        eventsUpdateStateLiveData.value = myState.map(
+                            when (myState.originalQuery.lastEventId) {
+                                null -> UpdateOption.REFRESH_FROM_BEGINNING
+                                else -> UpdateOption.FETCH_NEXT_PAGE
+                            }
+                        )
+                    }
                 }
             }
         }

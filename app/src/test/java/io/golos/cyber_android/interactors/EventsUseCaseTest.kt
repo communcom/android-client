@@ -5,8 +5,11 @@ import io.golos.cyber_android.authStateRepository
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.eventsRepos
 import io.golos.domain.entities.EventTypeEntity
+import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.notifs.events.EventsUseCase
+import io.golos.domain.model.QueryResult
 import io.golos.domain.rules.EventEntityToModelMapper
+import junit.framework.Assert.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -56,7 +59,38 @@ class EventsUseCaseTest {
         useCase.getReadinessLiveData.observeForever {
             readiness = it
         }
+        var authResult = authStateRepository.updateStates.value
+            ?.values?.find {
+            it is QueryResult.Loading
+        }
+        authStateRepository.updateStates.observeForever {
+            authResult = it?.values?.find { it is QueryResult.Loading }
+        }
 
-        delay(20_000)
+        assertEquals(false, readiness)
+        assertTrue(authResult is QueryResult.Loading)
+        while (authResult is QueryResult.Loading) delay(100)
+        assertEquals(true, readiness)
+        useCase.requestUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
+
+        assertTrue(updatingState is QueryResult.Loading)
+        while (updatingState is QueryResult.Loading) delay(100)
+
+        assertNotNull(events)
+        assertTrue(events?.data!!.size == 20)
+
+        useCase.requestUpdate(20, UpdateOption.FETCH_NEXT_PAGE)
+        assertTrue(updatingState is QueryResult.Loading)
+
+        while (updatingState is QueryResult.Loading) delay(100)
+        assertTrue(events?.data!!.size == 40)
+
+        useCase.requestUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
+        assertTrue(updatingState is QueryResult.Loading)
+
+        while (updatingState is QueryResult.Loading) delay(100)
+        assertTrue(events?.data!!.size == 20)
+
+        assertTrue(unreads!! > -1)
     }
 }

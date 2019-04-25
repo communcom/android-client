@@ -122,7 +122,7 @@ private val persister = object : Persister {
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberUser("xlvgwhfbffoo"), true)
+        return AuthState(CyberUser("destroyer2k@golos"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -130,7 +130,7 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5KAcT7zUPcR3U5XWLQ5LiZs3Ua8GvGAwkBSB4UGr8NgL152dsnb"
+        return "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
     }
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
