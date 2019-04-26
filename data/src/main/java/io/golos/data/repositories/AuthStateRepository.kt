@@ -41,8 +41,8 @@ class AuthStateRepository(
 
                     val loadingQuery =
                         authRequestsLiveData.value?.entries?.find {
-                            val loadingUser =   (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
-                            loadingUser == forUser.name  || loadingUser == forUser.domainName
+                            val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
+                            loadingUser != null && (loadingUser == forUser.name || loadingUser == forUser.domainName)
                         }
 
                     if (loadingQuery != null) {
