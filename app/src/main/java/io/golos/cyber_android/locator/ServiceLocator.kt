@@ -16,6 +16,7 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
+import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 
 /**
@@ -58,13 +59,17 @@ interface ServiceLocator {
 
     fun getSignInUseCase(): SignInUseCase
 
-    fun getSignOnUseCase(isInTestMode:Boolean,
-                         testPassProvider:TestPassProvider): SignUpUseCase
+    fun getSignOnUseCase(
+        isInTestMode: Boolean,
+        testPassProvider: TestPassProvider
+    ): SignUpUseCase
 
     fun getEmbedsUseCase(): EmbedsUseCase
 
     fun getDiscussionPosterUseCase(): DiscussionPosterUseCase
 
     fun getCountriesChooserUseCase(): CountriesChooserUseCase
+
+    fun getSettingUserCase(): SettingsUseCase
 
 }

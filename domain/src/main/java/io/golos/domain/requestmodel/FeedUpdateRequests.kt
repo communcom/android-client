@@ -1,6 +1,6 @@
 @file:Suppress("PropertyName")
 
-package io.golos.domain.model
+package io.golos.domain.requestmodel
 
 import io.golos.domain.entities.DiscussionsSort
 

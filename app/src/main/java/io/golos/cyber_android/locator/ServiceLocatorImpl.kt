@@ -30,8 +30,9 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
+import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +53,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
     private val fromSpannableToHtml = FromSpannedToHtmlTransformerImpl()
 
+    private val deviceIdProvider = MyDeviceIdProvider(appContext)
 
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
@@ -180,6 +182,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    override val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
+            by lazy {
+                SettingsRepository(
+                    apiService,
+                    SettingsToEntityMapper(moshi),
+                    SettingToCyberMapper(),
+                    dispatchersProvider,
+                    deviceIdProvider,
+                    MyDefaultSettingProvider(),
+                    logger
+                )
+            }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -366,5 +380,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
         return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
+    }
+
+    override fun getSettingUserCase(): SettingsUseCase {
+        return SettingsUseCase(settingsRepository, authRepository)
     }
 }

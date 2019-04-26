@@ -1,7 +1,7 @@
 package io.golos.domain.rules
 
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.

@@ -1,4 +1,4 @@
-package io.golos.domain.model
+package io.golos.domain.requestmodel
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-09.

@@ -10,10 +10,11 @@ import io.golos.data.repositories.*
 import io.golos.domain.*
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.CountryEntityToModelMapper
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
+import java.util.*
 import java.util.concurrent.Executor
 
 /**
@@ -122,7 +123,7 @@ private val persister = object : Persister {
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberUser("vwxffciejffd"), true)
+        return AuthState(CyberUser("destroyer2k@golos"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -130,7 +131,7 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5Jo1pRP35Vi4iFFgYYj2u3gjRVn4Ue7x4oti1wo2d3EPLbYLHnP"
+        return "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
     }
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
@@ -174,6 +175,21 @@ val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             )
         }
 
+val settingsRepo = SettingsRepository(
+    apiService,
+    SettingsToEntityMapper(Moshi.Builder().build()),
+    SettingToCyberMapper(),
+    dispatchersProvider,
+    object : DeviceIdProvider {
+        private val id = UUID.randomUUID().toString()
+        override fun provide(): String {
+            return id
+        }
+    },
+    MyDefaultSettingProvider(),
+    logger
+)
+
 
 val appCore = AppCore(object : RepositoriesHolder {
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
@@ -192,6 +208,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = countriesRepo
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
         get() = regRepo
+    override val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
+        get() = settingsRepo
 }, dispatchersProvider)
 
 

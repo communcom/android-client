@@ -11,9 +11,9 @@ import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.map
-import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.AuthRequest
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
 import io.golos.domain.rules.EntityToModelMapper
 import io.golos.domain.rules.ModelToEntityMapper
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +39,7 @@ class VoteUseCase(
     private val voteReadiness = MutableLiveData<Boolean>()
     private val votingStatesLiveData = MutableLiveData<Map<DiscussionIdModel, QueryResult<VoteRequestModel>>>()
 
-    val getVotingRediness: LiveData<Boolean> = voteReadiness
+    val getVotingReadiness: LiveData<Boolean> = voteReadiness
 
     override fun subscribe() {
         super.subscribe()

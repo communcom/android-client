@@ -25,8 +25,8 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
 

@@ -13,10 +13,10 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.map
-import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.AuthRequestModel
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.SignInState
+import io.golos.domain.requestmodel.AuthRequest
+import io.golos.domain.requestmodel.AuthRequestModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.SignInState
 import kotlinx.coroutines.*
 
 /**

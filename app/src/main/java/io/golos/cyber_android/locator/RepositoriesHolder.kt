@@ -3,7 +3,7 @@ package io.golos.cyber_android.locator
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.Repository
 import io.golos.domain.entities.*
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-22.
@@ -17,4 +17,5 @@ interface RepositoriesHolder {
     val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
     val countriesRepository: Repository<CountriesList, CountriesRequest>
     val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
+    val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
 }

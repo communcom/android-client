@@ -6,9 +6,9 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.entities.CountriesList
-import io.golos.domain.model.CountriesRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.CountriesRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch

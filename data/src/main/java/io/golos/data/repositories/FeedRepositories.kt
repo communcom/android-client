@@ -9,7 +9,7 @@ import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 
 /**

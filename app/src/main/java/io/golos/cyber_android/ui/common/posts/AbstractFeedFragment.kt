@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.model.DiscussionModel
-import io.golos.domain.model.FeedUpdateRequest
+import io.golos.domain.requestmodel.FeedUpdateRequest
 
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         E : DiscussionEntity,

@@ -18,7 +18,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     CommentsApiService,
     EmbedApi,
     DiscussionsCreationApi,
-    RegistrationApi {
+    RegistrationApi,
+    SettingsApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -179,6 +180,18 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun resendSmsCode(phone: String): ResultOk {
         return cyber4j.resendSmsCode(phone).getOrThrow()
+    }
+
+    override fun setBasicSettings(deviceId: String, basic: Map<String, String>): ResultOk {
+        return cyber4j.setUserSettings(deviceId, basic, null, null).getOrThrow()
+    }
+
+    override fun setNotificationSettings(deviceId: String, notifSettings: MobileShowSettings): ResultOk {
+        return cyber4j.setUserSettings(deviceId, null, null, notifSettings).getOrThrow()
+    }
+
+    override fun getSettings(deviceId: String): UserSettings {
+        return cyber4j.getUserSettings(deviceId).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

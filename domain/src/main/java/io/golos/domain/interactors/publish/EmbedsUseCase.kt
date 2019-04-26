@@ -10,8 +10,8 @@ import io.golos.domain.entities.ProcessedLinksEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.LinkEmbedModel
 import io.golos.domain.interactors.model.ProccesedLinksModel
-import io.golos.domain.model.EmbedRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.EmbedRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 
 /**

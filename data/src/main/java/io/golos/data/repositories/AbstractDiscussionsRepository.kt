@@ -14,9 +14,9 @@ import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.FeedRelatedData
-import io.golos.domain.model.FeedUpdateRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.*
 import kotlinx.coroutines.*
 import java.util.*
