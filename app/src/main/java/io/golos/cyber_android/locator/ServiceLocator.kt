@@ -44,6 +44,10 @@ interface ServiceLocator {
         community: CommunityModel?
     ): ViewModelProvider.Factory
 
+    fun getSignUpCountryViewModelFactory(): ViewModelProvider.Factory
+
+    fun getSignUpViewModelFactory(): ViewModelProvider.Factory
+
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase

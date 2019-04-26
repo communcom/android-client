@@ -30,13 +30,13 @@ class AppCore(private val locator: RepositoriesHolder, private val dispatchersPr
         synchronized(this) {
 
             isInited.set(true)
-            locator
-                .authRepository
-                .makeAction(
-                    locator
-                        .authRepository
-                        .allDataRequest
-                )//todo stub for testing
+//            locator
+//                .authRepository
+//                .makeAction(
+//                    locator
+//                        .authRepository
+//                        .allDataRequest
+//                )//todo stub for testing
 
             locator.voteRepository.getAsLiveData(locator.voteRepository.allDataRequest).observeForever {
                 val vote = it ?: return@observeForever
