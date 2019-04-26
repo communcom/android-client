@@ -32,7 +32,7 @@ class LoginActivity : BaseActivity() {
                 initAuthFlow()
             if (it == SignInState.LOADING)
                 onLoading()
-            if (it == SignInState.USER_LOGGED_IN)
+            if (it == SignInState.USER_LOGGED_IN && postNavHost.findNavController().currentDestination == null)
                 navigateToMainScreen()
         })
     }

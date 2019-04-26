@@ -38,6 +38,11 @@ class SignInViewModel(private val signInUseCase: SignInUseCase): ViewModel() {
         it[currentUser] is QueryResult.Error
     }).asEvent()
 
+    /**
+     * [LiveData] that indicates current state of auth process
+     */
+    val authStateLiveData = signInUseCase.getAsLiveData.asEvent()
+
     private var login: String = ""
     private var key: String = ""
     private var currentUser: CyberUser? = null

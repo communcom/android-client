@@ -10,6 +10,9 @@ import io.golos.cyber_android.ui.Tags
 import kotlinx.android.synthetic.main.dialog_notification.*
 
 class NotificationDialog: DialogFragment() {
+
+    var listener: (() -> Unit)? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_notification, container)
     }
@@ -17,7 +20,10 @@ class NotificationDialog: DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         message.text = arguments?.getString(Tags.MESSAGE)
-        ok.setOnClickListener { dismiss() }
+        ok.setOnClickListener {
+            listener?.invoke()
+            dismiss()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

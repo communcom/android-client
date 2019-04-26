@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login.signin
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import io.golos.cyber_android.MainActivity
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
@@ -34,14 +36,12 @@ class SignInFragment : LoadingFragment() {
 
         login.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                super.afterTextChanged(s)
                 viewModel.onLoginInput(s.toString())
             }
         })
 
         key.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                super.afterTextChanged(s)
                 viewModel.onKeyInput(s.toString())
             }
         })
@@ -86,6 +86,20 @@ class SignInFragment : LoadingFragment() {
                     onError()
             }
         })
+
+        viewModel.authStateLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { state ->
+                if (state.isUserLoggedIn) {
+                    navigateToMainScreen()
+                }
+            }
+        })
+    }
+
+
+    private fun navigateToMainScreen() {
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
     /**

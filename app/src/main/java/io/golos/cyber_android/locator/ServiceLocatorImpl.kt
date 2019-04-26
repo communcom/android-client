@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
+import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
+import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
@@ -273,6 +276,37 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         type,
                         parentId,
                         community
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getSignUpCountryViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    SignUpCountryViewModel::class.java -> SignUpCountryViewModel(
+                        dispatchersProvider,
+                        getCountriesChooserUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getSignUpViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    SignUpViewModel::class.java -> SignUpViewModel(
+                        getSignOnUseCase(true, object : TestPassProvider {
+                            override fun provide() = BuildConfig.AUTH_TEST_PASS
+                        })
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

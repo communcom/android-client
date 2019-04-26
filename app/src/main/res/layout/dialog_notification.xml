@@ -21,6 +21,7 @@
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ok"
             android:layout_below="@+id/message"
+            android:background="?attr/selectableItemBackground"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/margin_top_notification_dialog_button"
             android:paddingTop="@dimen/padding_vertical_notification_dialog_button"

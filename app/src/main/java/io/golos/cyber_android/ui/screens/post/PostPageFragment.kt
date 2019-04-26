@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.screens.post.adapter.PostPageAdapter
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
@@ -165,17 +166,12 @@ class PostPageFragment :
                         postCommentBottom?.visibility = View.GONE
                     }
                     .start()
-                hideKeyboard()
+                ViewUtils.hideKeyboard(requireActivity())
             }
         }
     }
 
-    private fun hideKeyboard() {
-        requireActivity().currentFocus?.let { v ->
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
-        }
-    }
+
 
     override fun onPause() {
         super.onPause()

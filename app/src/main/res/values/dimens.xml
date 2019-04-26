@@ -5,10 +5,12 @@
     <dimen name="size_editor_widget_avatar">40dp</dimen>
     <dimen name="margin_horizontal_default_16dp">16dp</dimen>
     <dimen name="margin_vertical_default_16dp">16dp</dimen>
+    <dimen name="margin_vertical_default_8dp">8dp</dimen>
     <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
 
     <dimen name="text_size_34_sp">34sp</dimen>
     <dimen name="text_size_30_sp">30sp</dimen>
+    <dimen name="text_size_26_sp">26sp</dimen>
     <dimen name="text_size_22_sp">22sp</dimen>
     <dimen name="text_size_20_sp">20sp</dimen>
     <dimen name="text_size_17_sp">17sp</dimen>
@@ -114,6 +116,21 @@
     <!--Comment Widget-->
     <dimen name="padding_comment_widget_gallery_button">6dp</dimen>
     <dimen name="padding_comment_widget_send_button">10dp</dimen>
+
+
+    <!--Sign Up-->
+    <dimen name="margin_top_sign_up_inputs">32dp</dimen>
+    <dimen name="padding_sign_up_end_country">19dp</dimen>
+    <dimen name="size_country_flag">40dp</dimen>
+    <dimen name="margin_top_sign_up_sms_description">24dp</dimen>
+    <dimen name="corners_sign_up_sms_code_digit">12dp</dimen>
+    <dimen name="width_sign_up_sms_code_digit">48dp</dimen>
+    <dimen name="height_sign_up_sms_code_digit">56dp</dimen>
+    <dimen name="margin_vertical_sign_up_sms_code_digit">6dp</dimen>
+    <dimen name="margin_top_sign_up_sms_code">32dp</dimen>
+    <dimen name="margin_top_sign_up_master_key_title">38dp</dimen>
+    <dimen name="margin_top_sign_up_download">40dp</dimen>
+    <dimen name="margin_bottom_sign_up_download">33dp</dimen>
 
 
 </resources>

@@ -18,22 +18,14 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/searchBar"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                style="@style/SearchBarTextStyle"
-                android:hint="@string/hint_search"
+        <include
                 android:layout_marginTop="@dimen/margin_feed_search_bar"
                 android:layout_marginStart="@dimen/margin_feed_search_bar"
                 android:layout_marginEnd="@dimen/margin_feed_search_bar"
-                android:paddingTop="@dimen/padding_vertical_feed_search_bar"
-                android:paddingBottom="@dimen/padding_vertical_feed_search_bar"
-                android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
-                android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
-                android:drawablePadding="@dimen/padding_feed_search_view_icon"
-                android:background="@color/white"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                layout="@layout/view_search_bar"/>
 
         <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"

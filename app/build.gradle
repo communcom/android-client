@@ -13,6 +13,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        buildConfigField "String" , "AUTH_TEST_PASS" ,  properties.getProperty('authtestpass')
     }
     buildTypes {
         release {
@@ -21,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.7
-        sourceCompatibility 1.7
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
     configurations {
         all*.exclude group: 'com.google.guava', module: 'listenablefuture'
@@ -79,11 +82,15 @@ dependencies {
     }
     implementation("com.squareup.moshi:moshi:$moshiVersin")
     implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
+    implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
+    implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
 
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"

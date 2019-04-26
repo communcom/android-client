@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <EditText
+            android:id="@+id/smsCodeDigit0"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:imeOptions="actionNext"
+            android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+            android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+            style="@style/SmsCodeDigitTextStyle"
+            tools:text="9"
+            android:gravity="center"
+            android:background="@drawable/bg_sms_code_digit"
+            android:layout_width="@dimen/width_sign_up_sms_code_digit"
+            android:layout_height="@dimen/height_sign_up_sms_code_digit"/>
+
+    <EditText
+            android:id="@+id/smsCodeDigit1"
+            android:imeOptions="actionNext"
+            android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+            android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+            style="@style/SmsCodeDigitTextStyle"
+            tools:text="9"
+            android:gravity="center"
+            android:background="@drawable/bg_sms_code_digit"
+            android:layout_width="@dimen/width_sign_up_sms_code_digit"
+            android:layout_height="@dimen/height_sign_up_sms_code_digit"/>
+
+    <EditText
+            android:id="@+id/smsCodeDigit2"
+            android:imeOptions="actionNext"
+            android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+            android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+            style="@style/SmsCodeDigitTextStyle"
+            tools:text="9"
+            android:gravity="center"
+            android:background="@drawable/bg_sms_code_digit"
+            android:layout_width="@dimen/width_sign_up_sms_code_digit"
+            android:layout_height="@dimen/height_sign_up_sms_code_digit"/>
+
+    <EditText
+            android:id="@+id/smsCodeDigit3"
+            android:imeOptions="actionDone"
+            android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+            android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+            style="@style/SmsCodeDigitTextStyle"
+            tools:text="9"
+            android:gravity="center"
+            android:background="@drawable/bg_sms_code_digit"
+            android:layout_width="@dimen/width_sign_up_sms_code_digit"
+            android:layout_height="@dimen/height_sign_up_sms_code_digit"/>
+</LinearLayout>
