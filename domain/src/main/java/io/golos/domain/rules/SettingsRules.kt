@@ -5,7 +5,6 @@ import android.content.Context
 import android.provider.Settings
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.squareup.moshi.internal.Util
 import io.golos.cyber4j.model.MobileShowSettings
 import io.golos.cyber4j.model.NotificationSettings
 import io.golos.cyber4j.model.ServiceSettingsLanguage
@@ -25,7 +24,7 @@ import java.util.*
 class MyDefaultSettingProvider() : DefaultSettingProvider {
     override fun provide(): UserSettingEntity {
         return UserSettingEntity(
-            GeneralSettingEntity(NSFWSettingsEntity.ALWAYS_ALERT, "en"),
+            GeneralSettingEntity(NSFWSettingsEntity.ALERT_WARN, "en"),
             NotificationSettingsEntity(
                 true, true, true, true, true,
                 true, true, true, true, true, true,
@@ -70,9 +69,16 @@ class SettingsToEntityMapper(private val moshi: Moshi) : CyberToEntityMapper<Use
         val mapType = Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)
         val setting = moshi.adapter<Map<String, String>>(mapType).fromJsonValue(cyberObject.basic ?: "{}").orEmpty()
             .run {
-                GeneralSettingEntity(this["nsfw"]?.run { NSFWSettingsEntity.valueOf(this) }
-                    ?: NSFWSettingsEntity.ALWAYS_ALERT,
-                    this["languageCode"] ?: "en")
+                GeneralSettingEntity(
+                    this["nsfw"]?.run {
+                        try {
+                            NSFWSettingsEntity.valueOf(this)
+                        } catch (e: Exception) {
+                            NSFWSettingsEntity.ALERT_WARN
+                        }
+                    } ?: NSFWSettingsEntity.ALERT_WARN,
+                    this["languageCode"] ?: "en"
+                )
             }
 
         return UserSettingEntity(

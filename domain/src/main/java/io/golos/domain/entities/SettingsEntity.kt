@@ -6,7 +6,7 @@ import io.golos.domain.Entity
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.
  */
 enum class NSFWSettingsEntity : Entity {
-    ALWAYS_ALERT, ALERT_WARN, ALWAYS_HIDE
+    ALWAYS_SHOW, ALERT_WARN, ALWAYS_HIDE
 }
 
 data class GeneralSettingEntity(
