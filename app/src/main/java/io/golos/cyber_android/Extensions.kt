@@ -1,6 +1,8 @@
 package io.golos.cyber_android
 
 import android.content.Context
+import androidx.annotation.IdRes
+import androidx.navigation.NavController
 import io.golos.cyber_android.locator.ServiceLocator
 
 /**
@@ -9,5 +11,11 @@ import io.golos.cyber_android.locator.ServiceLocator
 
 val Context.serviceLocator: ServiceLocator
     get() = applicationContext.getSystemService(App.SERVICE_LOCATOR) as ServiceLocator
+
+
+fun NavController.safeNavigate(@IdRes from: Int, @IdRes action: Int) {
+    if (this.currentDestination?.id == from)
+        this.navigate(action)
+}
 
 

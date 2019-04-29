@@ -1,43 +1,28 @@
 package io.golos.cyber_android.ui.screens.feed
 
-import android.os.Bundle
-import android.os.Parcelable
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
-import androidx.paging.PagedList
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.common.posts.PostsDiffCallback
-import io.golos.domain.interactors.model.PostModel
-
 //class FeedPagerAdapter(private val updatesRequestCallBack: ((Tab) -> Unit),
 //    private val listener: PostsAdapter.Listener
-//): RecyclerView.Adapter<FeedPagerAdapter.ViewHolder>() {
+//): RecyclerView.Adapter<FeedPagerAdapter.NotificationViewHolder>() {
 //
 //    enum class Tab(@StringRes val title: Int, val index: Int) {
 //        ALL(R.string.tab_all, 0), MY_FEED(R.string.tab_my_feed, 1)
 //    }
 //
-//    private val holders = mutableMapOf<Tab, ViewHolder>()
+//    private val holders = mutableMapOf<Tab, NotificationViewHolder>()
 //
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
 //        val recyclerView = LayoutInflater.from(parent.context)
 //            .inflate(R.layout.item_feed_pager, parent, false) as RecyclerView
 //        recyclerView.layoutManager = LinearLayoutManager(parent.context, RecyclerView.VERTICAL, false)
 //        recyclerView.addItemDecoration(DividerItemDecoration(parent.context, DividerItemDecoration.VERTICAL).apply {
 //            setDrawable(ContextCompat.getDrawable(parent.context, R.drawable.divider_post_card)!!)
 //        })
-//        return ViewHolder(recyclerView)
+//        return NotificationViewHolder(recyclerView)
 //    }
 //
 //    override fun getItemCount() = Tab.values().size
 //
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
 //        if (position == Tab.ALL.index) {
 //            holder.recyclerView.adapter = PostsAdapter(PostsDiffCallback(), listener)
 //            holders[Tab.ALL] = holder
@@ -71,6 +56,6 @@ import io.golos.domain.interactors.model.PostModel
 //        }
 //    }
 //
-//    class ViewHolder(val recyclerView: RecyclerView): RecyclerView.ViewHolder(recyclerView)
+//    class NotificationViewHolder(val recyclerView: RecyclerView): RecyclerView.NotificationViewHolder(recyclerView)
 //
 //}

@@ -1,13 +1,13 @@
 package io.golos.cyber_android.ui.screens.feed
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.LoadingViewHolder
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter.EditorWidgetViewHolder
 import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter.SortingWidgetViewHolder
@@ -15,7 +15,6 @@ import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingWidget
 import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
-import kotlinx.android.synthetic.main.item_loading.view.*
 
 
 private const val EDITOR_TYPE = 0
@@ -96,7 +95,7 @@ class HeadersPostsAdapter(
                 )
             )
             POST_TYPE -> super.onCreateViewHolder(parent, viewType)
-            else -> throw RuntimeException("Unsupported view type")
+            else -> throw IllegalStateException("Unsupported view type")
         }
     }
 
@@ -194,17 +193,6 @@ class HeadersPostsAdapter(
         ) {
             view.listener = editorWidgetListener
             view.loadUserAvatar(editorWidgetState.avatarUrl ?: "")
-        }
-    }
-
-    /**
-     * [RecyclerView.ViewHolder] for indicating loading process
-     */
-    class LoadingViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(
-            isLoading: Boolean
-        ) {
-            view.progress.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 

@@ -11,14 +11,19 @@ abstract class LoadingFragment: Fragment() {
 
     private val loadingDialog = LoadingDialog()
 
+    private var wasAdded = false
+
     protected fun showLoading() {
-        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded) {
+        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded && !wasAdded) {
             loadingDialog.show(requireFragmentManager(), "loading")
+            wasAdded = true
         }
     }
 
     protected fun hideLoading() {
-        if (loadingDialog.fragmentManager != null)
+        if (loadingDialog.fragmentManager != null && wasAdded) {
             loadingDialog.dismiss()
+            wasAdded = false
+        }
     }
 }

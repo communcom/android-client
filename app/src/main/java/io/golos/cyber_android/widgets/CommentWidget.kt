@@ -1,6 +1,5 @@
 package io.golos.cyber_android.widgets
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Editable
@@ -9,10 +8,10 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.AttributeSet
-import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
 import kotlinx.android.synthetic.main.view_comment_widget.view.*
@@ -78,7 +77,8 @@ class CommentWidget @JvmOverloads constructor(
                 }
                 return@InputFilter source
             })
-            showKeyboard()
+
+            ViewUtils.showKeyboard(comment)
         }
     }
 
@@ -89,13 +89,7 @@ class CommentWidget @JvmOverloads constructor(
         comment.setSelection(newText.length)
     }
 
-    private fun showKeyboard() {
-        comment.requestFocus()
-        (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).showSoftInput(
-            comment,
-            InputMethodManager.HIDE_IMPLICIT_ONLY
-        )
-    }
+
 
     interface Listener {
         fun onSendClick(text: CharSequence)

@@ -5,14 +5,48 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/white"/>
+                    <solid android:color="@color/blue"/>
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
                     <size android:height="@dimen/height_login_input"/>
                 </shape>
             </item>
 
-            <item android:bottom="0dp" android:gravity="bottom">
+            <item android:bottom="1dp">
+                <shape android:shape="rectangle">
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <solid android:color="@color/white"/>
+                    <size android:height="1dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_activated="true">
+        <layer-list>
+            <item>
                 <shape android:shape="rectangle">
                     <solid android:color="@color/blue"/>
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <size android:height="@dimen/height_login_input"/>
+                </shape>
+            </item>
+
+            <item android:bottom="1dp">
+                <shape android:shape="rectangle">
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <solid android:color="@color/white"/>
                     <size android:height="1dp"/>
                 </shape>
             </item>
@@ -23,7 +57,7 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/light_gray"/>
+                    <solid android:color="@color/dark_gray"/>
                     <corners android:bottomLeftRadius="0dp"
                              android:bottomRightRadius="0dp"
                              android:topLeftRadius="4dp"
@@ -32,9 +66,13 @@
                 </shape>
             </item>
 
-            <item android:bottom="0dp" android:gravity="bottom">
+            <item android:bottom="1dp">
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/dark_gray"/>
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <solid android:color="@color/light_gray"/>
                     <size android:height="1dp"/>
                 </shape>
             </item>

@@ -1,11 +1,19 @@
-package io.golos.cyber_android
+package io.golos.cyber_android.ui.screens.main
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import io.golos.cyber_android.R
+import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.BaseActivity
 import io.golos.cyber_android.ui.screens.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
@@ -13,8 +21,13 @@ import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.ui.screens.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.view_notification_badge.*
+
 
 class MainActivity : BaseActivity() {
+
+    private lateinit var viewModel: MainActivityViewModel
+
 
     enum class Tabs(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),
@@ -30,6 +43,40 @@ class MainActivity : BaseActivity() {
 
         setupPager()
         setupNavigationView()
+        setupViewModel()
+        observeViewModel()
+
+        addNotificationsBadge()
+    }
+
+    private fun observeViewModel() {
+        viewModel.unreadNotificationsLiveData.observe(this, Observer {
+            refreshNotificationsBadge(it)
+        })
+    }
+
+    private var notificationsBadge: View? = null
+
+    private fun addNotificationsBadge() {
+        val menuView = navigationView.getChildAt(0) as BottomNavigationMenuView
+        val itemView = menuView.getChildAt(Tabs.NOTIFICATIONS.index) as BottomNavigationItemView
+        notificationsBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false)
+        notificationsBadge?.visibility = View.GONE
+        itemView.addView(notificationsBadge)
+    }
+
+    private fun refreshNotificationsBadge(count: Int) {
+        //notificationsBadge?.visibility = View.VISIBLE
+        notificationsBadge?.visibility = if (count == 0) View.GONE else View.VISIBLE
+        updatesCount?.text = if (count > 99) "99" else count.toString()
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            serviceLocator
+                .getMainActivityViewModelFactory()
+        ).get(MainActivityViewModel::class.java)
     }
 
     private fun setupPager() {

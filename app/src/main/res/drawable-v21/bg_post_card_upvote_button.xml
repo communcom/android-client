@@ -9,7 +9,7 @@
             </item>
         </ripple>
     </item>
-    <item >
+    <item>
         <ripple android:color="@color/white">
             <item>
                 <shape android:shape="oval">
