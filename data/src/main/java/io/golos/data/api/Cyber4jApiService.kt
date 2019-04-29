@@ -5,6 +5,7 @@ import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
+import java.io.File
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -18,7 +19,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     CommentsApiService,
     EmbedApi,
     DiscussionsCreationApi,
-    RegistrationApi {
+    RegistrationApi,
+    ImageUploadApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -176,6 +178,10 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun resendSmsCode(phone: String): ResultOk {
         return cyber4j.resendSmsCode(phone).getOrThrow()
+    }
+
+    override fun uploadImage(file: File): String {
+        return cyber4j.uploadImage(file).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

@@ -28,6 +28,7 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
+import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
@@ -183,6 +184,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
+            by lazy { ImageUploadRepository(apiService, dispatchersProvider, logger) }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -400,5 +403,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
         return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
+    }
+
+    override fun getImageUploadUseCase(): ImageUploadUseCase {
+        return ImageUploadUseCase(imageUploadRepository)
     }
 }

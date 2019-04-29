@@ -173,6 +173,7 @@ val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
                 toRegistrationMapper
             )
         }
+val imageUploadRepo = ImageUploadRepository(apiService, dispatchersProvider, logger)
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -192,6 +193,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = countriesRepo
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
         get() = regRepo
+    override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
+        get() = imageUploadRepo
 }, dispatchersProvider)
 
 
