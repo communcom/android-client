@@ -52,6 +52,7 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity android:name=".ui.common.ImageViewerActivity"/>
     </application>
 
 </manifest>

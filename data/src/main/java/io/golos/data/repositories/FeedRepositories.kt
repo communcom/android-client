@@ -173,6 +173,6 @@ class CommentsFeedRepository(
 }
 
 internal fun DiscussionsSort.toDiscussionSort() = when (this) {
-    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
-    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
+    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.SEQUENTIALLY
+    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.INVERTED
 }
