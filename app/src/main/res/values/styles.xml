@@ -31,6 +31,7 @@
     <style name="SortingWidgetTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/clickable_text_color</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -192,6 +193,74 @@
         <item name="android:textSize">@dimen/text_size_26_sp</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:inputType">number</item>
+    </style>
+
+    <style name="ProfileAvatarTextStyle">
+        <item name="android:textSize">@dimen/text_size_42_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ProfileUserNameTextStyle">
+        <item name="android:textSize">@dimen/text_size_24_sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ProfileJoinedTextStyle">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="EditBioTextStyle">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="ProfileFollowersCountTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="ProfileFollowersTextStyle" parent="ProfileFollowersCountTextStyle">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_13_sp</item>
+    </style>
+
+    <style name="ProfileControlTextStyle">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="SettingsSectionTitleTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:paddingStart">@dimen/margin_horizontal_default_16dp</item>
+        <item name="android:paddingEnd">@dimen/margin_horizontal_default_16dp</item>
+    </style>
+
+    <style name="SettingsOptionTitleTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_16_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="SettingsSelectedOptionTitleTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="ChangeAllPasswordsTextStyle" parent="EditBioTextStyle">
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
     </style>
 
 </resources>

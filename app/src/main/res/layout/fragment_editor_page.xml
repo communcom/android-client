@@ -241,9 +241,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-        <ImageView
+        <View
                 android:layout_alignParentTop="true"
-                android:src="@color/middle_gray"
+                android:background="@color/middle_gray"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
     </RelativeLayout>
