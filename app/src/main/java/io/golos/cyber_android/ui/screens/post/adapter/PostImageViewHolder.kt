@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_content_image.view.*
 class PostImageViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(imageRowModel: ImageRowModel) {
         view.progressBar.visibility = View.VISIBLE
-
+        view.image.setImageDrawable(null)
         Glide.with(view)
             .load(imageRowModel.src)
             .listener(object : RequestListener<Drawable> {

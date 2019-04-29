@@ -1,14 +1,13 @@
 package io.golos.cyber_android.ui.screens.post
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -217,7 +216,10 @@ class PostPageFragment :
                     }
 
                     override fun onWebLinkClick(url: String) {
-                        Toast.makeText(requireContext(), "Comment link click $url", Toast.LENGTH_SHORT).show()
+                        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        if (webIntent.resolveActivity(requireActivity().packageManager) != null) {
+                            startActivity(webIntent)
+                        }
                     }
 
                     override fun onCommentUpvote(comment: CommentModel) {

@@ -10,7 +10,7 @@ import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.domain.interactors.model.*
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 
-private const val POST_TYPE = 0
+private const val POST_CONTROLS_TYPE = 0
 private const val COMMENT_TYPE = 1
 private const val LOADING_TYPE = 2
 
@@ -48,7 +48,7 @@ class PostPageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            POST_TYPE -> PostViewHolder(
+            POST_CONTROLS_TYPE -> PostControlsViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_post_header, parent,
                     false
@@ -100,8 +100,8 @@ class PostPageAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            POST_TYPE -> {
-                holder as PostViewHolder
+            POST_CONTROLS_TYPE -> {
+                holder as PostControlsViewHolder
                 postModel?.let {
                     holder.bind(it, listener)
                 }
@@ -146,7 +146,7 @@ class PostPageAdapter(
                 return CONTENT_EMBED_TYPE
         }
         return when (position) {
-            getPostControlsPosition() -> POST_TYPE
+            getPostControlsPosition() -> POST_CONTROLS_TYPE
             getCommentsTitlePosition() -> COMMENT_TITLE_TYPE
             getLoadingViewHolderPosition() -> LOADING_TYPE
             else -> COMMENT_TYPE
@@ -154,7 +154,7 @@ class PostPageAdapter(
     }
 
     /**
-     * Content starts after embeds and one [PostViewHolder] (with controls like upvote, downvote etc)
+     * Content starts after embeds and one [PostControlsViewHolder] (with controls like upvote, downvote etc)
      */
     private fun getPostContentPositionStart() = getEmbedsCount() + 1
 

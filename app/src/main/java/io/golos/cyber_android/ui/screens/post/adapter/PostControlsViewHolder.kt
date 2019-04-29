@@ -9,9 +9,9 @@ import kotlinx.android.synthetic.main.item_post_header.view.*
 import java.math.BigInteger
 
 /**
- * [RecyclerView.ViewHolder] for displaying post content
+ * [RecyclerView.ViewHolder] for displaying post controls (like upvote, downvote etc)
  */
-class PostViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+class PostControlsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     fun bind(
         postModel: PostModel,
         listener: PostPageAdapter.Listener

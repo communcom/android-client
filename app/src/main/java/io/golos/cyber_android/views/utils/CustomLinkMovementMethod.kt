@@ -8,7 +8,7 @@ import android.widget.TextView
 /**
  * [LinkMovementMethod] that allows to manually handle link clicks
  */
-class ImageLinkMovementMethod(private val listener: Listener) : LinkMovementMethod() {
+class CustomLinkMovementMethod(private val listener: Listener) : LinkMovementMethod() {
 
     /**
      * List of image links which this Movement method should handle. Other link will be considered as usual web links
