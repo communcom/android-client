@@ -1,7 +1,8 @@
-package io.golos.domain.model
+package io.golos.domain.requestmodel
 
 import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Model
+import io.golos.domain.asElapsedTime
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import java.util.*
@@ -27,7 +28,9 @@ data class VoteEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel() {
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class FlagEventModel(
     val actor: EventActorModel,
@@ -37,7 +40,9 @@ data class FlagEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class TransferEventModel(
     val value: EventValueModel,
@@ -45,7 +50,9 @@ data class TransferEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class SubscribeEventModel(
     val community: CommunityModel,
@@ -53,7 +60,9 @@ data class SubscribeEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class UnSubscribeEventModel(
     val community: CommunityModel,
@@ -61,7 +70,9 @@ data class UnSubscribeEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class ReplyEventModel(
     val comment: EventCommentModel,
@@ -73,7 +84,9 @@ data class ReplyEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class MentionEventModel(
     val comment: EventCommentModel,
@@ -85,7 +98,9 @@ data class MentionEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class RepostEventModel(
     val post: EventPostModel,
@@ -96,14 +111,18 @@ data class RepostEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class AwardEventModel(
     val payout: EventValueModel,
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class CuratorAwardEventModel(
     val post: EventPostModel?,
@@ -114,28 +133,36 @@ data class CuratorAwardEventModel(
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class MessageEventModel(
     val actor: EventActorModel,
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class WitnessVoteEventModel(
     val actor: EventActorModel,
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 data class WitnessCancelVoteEventModel(
     val actor: EventActorModel,
     override val eventId: String,
     val isFresh: Boolean,
     val timestamp: Date
-) : EventModel()
+) : EventModel(){
+    val elapsedTime = timestamp.asElapsedTime()
+}
 
 
 data class EventValueModel(val amount: Double, val currency: String) : Model

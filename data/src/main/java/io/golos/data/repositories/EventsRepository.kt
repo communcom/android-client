@@ -10,9 +10,9 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.entities.EventsListDataWithQuery
 import io.golos.domain.entities.EventsListEntity
-import io.golos.domain.model.EventsFeedUpdateRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.EventsFeedUpdateRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover

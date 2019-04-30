@@ -3,7 +3,7 @@ package io.golos.domain.entities
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.model.EventsData
 import io.golos.domain.Entity
-import io.golos.domain.model.EventsFeedUpdateRequest
+import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import java.util.*
 
 /**
