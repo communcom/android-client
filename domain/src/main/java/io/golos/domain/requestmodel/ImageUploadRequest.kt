@@ -1,4 +1,4 @@
-package io.golos.domain.model
+package io.golos.domain.requestmodel
 
 import java.io.File
 

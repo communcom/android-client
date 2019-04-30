@@ -20,8 +20,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     EmbedApi,
     DiscussionsCreationApi,
     RegistrationApi,
-    SettingsApi {
-    RegistrationApi,
+    SettingsApi,
     ImageUploadApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 

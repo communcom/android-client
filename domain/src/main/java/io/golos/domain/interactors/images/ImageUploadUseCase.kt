@@ -10,8 +10,8 @@ import io.golos.domain.entities.UploadedImagesEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UploadedImageModel
 import io.golos.domain.interactors.model.UploadedImagesModel
-import io.golos.domain.model.ImageUploadRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.ImageUploadRequest
+import io.golos.domain.requestmodel.QueryResult
 import java.io.File
 
 /**

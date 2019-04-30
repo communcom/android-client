@@ -21,7 +21,7 @@ import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.interactors.model.*
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser

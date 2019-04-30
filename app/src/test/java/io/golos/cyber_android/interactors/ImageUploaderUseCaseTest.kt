@@ -3,7 +3,7 @@ package io.golos.cyber_android.interactors
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.imageUploadRepo
 import io.golos.domain.interactors.images.ImageUploadUseCase
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import junit.framework.Assert.assertNotSame
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay
