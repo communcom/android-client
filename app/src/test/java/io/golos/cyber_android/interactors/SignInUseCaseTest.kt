@@ -11,9 +11,9 @@ import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.model.AuthRequestModel
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.SignInState
+import io.golos.domain.requestmodel.AuthRequestModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.SignInState
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay
@@ -62,11 +62,13 @@ class SignInUseCaseTest {
 
         var authSate: UserAuthState? = null
         authUseCase.getAsLiveData.observeForever {
+            println(it)
             authSate = it
         }
 
         var authResult: Map<CyberUser, QueryResult<AuthRequestModel>>? = null
         authUseCase.getLogInStates.observeForever {
+            println(it)
             authResult = it
         }
 
@@ -91,23 +93,24 @@ class SignInUseCaseTest {
         assertTrue(authResult!!.values.first() is QueryResult.Error)
         assertEquals(SignInState.LOG_IN_NEEDED, signInState)
 
+        val userName = "ytffsdngnifm"
         authUseCase.authWithCredentials(
             AuthRequestModel(
-                CyberUser("anpacifgrlqe"),
-                "5JB6WdGo7tvArMP6u3FtwfYGzBei8wMEyaVyrACkczGrbA6BviF"
+                CyberUser(userName),
+                "5JDKpgecZxiE3DXUZ4GZR4nAPLNJyz9UGVVp4aTNbnwD7U94n44"
             )
         )
 
         assertTrue(authResult!!.values.size == 2)
-        assertTrue(authResult!![CyberUser("anpacifgrlqe")] is QueryResult.Loading)
+        assertTrue(authResult!![CyberUser(userName)] is QueryResult.Loading)
         assertEquals(SignInState.LOADING, signInState)
 
 
-        while (authResult!![CyberUser("anpacifgrlqe")] is QueryResult.Loading) delay(200)
+        while (authResult!![CyberUser(userName)] is QueryResult.Loading) delay(200)
 
         assertTrue(authSate!!.isUserLoggedIn)
-        assertEquals(CyberName("anpacifgrlqe"), authSate!!.userName)
-        assertTrue(authResult!![CyberUser("anpacifgrlqe")] is QueryResult.Success)
+        assertEquals(CyberName(userName), authSate!!.userName)
+        assertTrue(authResult!![CyberUser(userName)] is QueryResult.Success)
         assertEquals(SignInState.USER_LOGGED_IN, signInState)
 
     }

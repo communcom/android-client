@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.edit.settings
+package io.golos.cyber_android.ui.screens.profile.edit.settings.notifications
 
 import androidx.recyclerview.widget.DiffUtil
 

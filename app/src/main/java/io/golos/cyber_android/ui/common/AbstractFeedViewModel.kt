@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.common
 
-import android.util.Log
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -15,9 +14,9 @@ import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.map
-import io.golos.domain.model.FeedUpdateRequest
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
 
 /**
  * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [LiveData] via [feedLiveData]
@@ -36,7 +35,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
     /**
      * [LiveData] that indicates if user is able to vote
      */
-    val voteReadinessLiveData = voteUseCase.getVotingRediness.asEvent()
+    val voteReadinessLiveData = voteUseCase.getVotingReadiness.asEvent()
 
     /**
      * [LiveData] that indicates if there was error in vote process

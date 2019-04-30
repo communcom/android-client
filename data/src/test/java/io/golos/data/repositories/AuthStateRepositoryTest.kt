@@ -5,7 +5,7 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.dispatchersProvider
 import io.golos.data.logger
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import junit.framework.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test

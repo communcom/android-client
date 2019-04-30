@@ -26,7 +26,7 @@ import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.utils.PdfKeysUtils
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.GeneratedUserKeys
-import io.golos.domain.model.SignInState
+import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.fragment_sign_up_key.*
 import java.io.File
 

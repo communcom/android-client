@@ -10,7 +10,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

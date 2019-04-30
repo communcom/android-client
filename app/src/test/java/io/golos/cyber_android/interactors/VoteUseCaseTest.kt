@@ -9,9 +9,9 @@ import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

@@ -12,8 +12,8 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.CountriesListModel
 import io.golos.domain.interactors.model.CountryModel
 import io.golos.domain.map
-import io.golos.domain.model.CountriesRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.CountriesRequest
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 

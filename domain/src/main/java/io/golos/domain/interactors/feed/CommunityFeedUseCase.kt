@@ -11,8 +11,8 @@ import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
 
 /**

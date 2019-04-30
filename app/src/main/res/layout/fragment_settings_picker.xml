@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+    <com.google.android.material.appbar.AppBarLayout
+            app:elevation="0dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:id="@+id/actionBar"
+            android:background="@color/white"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <LinearLayout
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <ImageButton
+                    android:id="@+id/back"
+                    android:padding="@dimen/padding_toolbar_buttons_20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_gravity="start|center_vertical"
+                    app:srcCompat="@drawable/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/toolbarTitle"
+                    style="@style/ToolbarTitleTextStyle"
+                    android:text="@string/nsfw_content"
+                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/margin_vertical_default_16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:overScrollMode="never"
+            android:id="@+id/settingsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

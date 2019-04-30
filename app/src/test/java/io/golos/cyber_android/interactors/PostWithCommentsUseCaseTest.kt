@@ -6,8 +6,8 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.model.*
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
 import junit.framework.Assert.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

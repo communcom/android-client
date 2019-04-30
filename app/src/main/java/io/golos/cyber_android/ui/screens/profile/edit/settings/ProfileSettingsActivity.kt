@@ -15,11 +15,6 @@ class ProfileSettingsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_settings_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ProfileSettingsFragment.newInstance())
-                .commitNow()
-        }
     }
 
 }

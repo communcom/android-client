@@ -9,7 +9,7 @@ import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.EntityToCyberMapper
 import kotlinx.coroutines.*

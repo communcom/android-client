@@ -35,7 +35,7 @@ import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.LinkEmbedModel
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_editor_page.*
 
 const val GALLERY_REQUEST = 101

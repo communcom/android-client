@@ -4,7 +4,7 @@ import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import io.golos.domain.interactors.model.ElapsedTime
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import java.util.*
 
 /**

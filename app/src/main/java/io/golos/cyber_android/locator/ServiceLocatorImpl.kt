@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
@@ -33,8 +34,9 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
+import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +57,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
     private val fromSpannableToHtml = FromSpannedToHtmlTransformerImpl()
 
+    private val deviceIdProvider = MyDeviceIdProvider(appContext)
 
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
@@ -183,6 +186,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    override val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
+            by lazy {
+                SettingsRepository(
+                    apiService,
+                    SettingsToEntityMapper(moshi),
+                    SettingToCyberMapper(),
+                    dispatchersProvider,
+                    deviceIdProvider,
+                    MyDefaultSettingProvider(),
+                    logger
+                )
+            }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -314,6 +329,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    override fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase()) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
     override fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase {
         return CommunityFeedUseCase(
             communityId,
@@ -400,5 +427,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
         return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
+    }
+
+    override fun getSettingUserCase(): SettingsUseCase {
+        return SettingsUseCase(settingsRepository, authRepository)
     }
 }

@@ -150,6 +150,7 @@
     <dimen name="padding_profile_follower_photo">2dp</dimen>
     <dimen name="margin_start_profile_follower_photo">-6dp</dimen>
     <dimen name="margin_top_settings_general">20dp</dimen>
+    <dimen name="margin_top_settings_language">12dp</dimen>
 
 
 </resources>

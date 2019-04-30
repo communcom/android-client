@@ -13,10 +13,10 @@ import io.golos.domain.entities.PostCreationResultEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.map
-import io.golos.domain.model.CommentCreationRequestEntity
-import io.golos.domain.model.DiscussionCreationRequestEntity
-import io.golos.domain.model.PostCreationRequestEntity
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.CommentCreationRequestEntity
+import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
+import io.golos.domain.requestmodel.PostCreationRequestEntity
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 
 /**

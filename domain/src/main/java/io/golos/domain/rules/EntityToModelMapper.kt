@@ -7,8 +7,8 @@ import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
 import kotlin.collections.HashMap
 

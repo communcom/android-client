@@ -9,7 +9,7 @@ import io.golos.domain.entities.CommentCreationResultEntity
 import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.PostCreationResultEntity
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.

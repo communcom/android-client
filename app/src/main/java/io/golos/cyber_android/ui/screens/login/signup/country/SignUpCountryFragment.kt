@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.domain.interactors.model.CountryModel
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 

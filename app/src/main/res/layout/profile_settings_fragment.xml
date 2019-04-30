@@ -47,6 +47,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+            android:id="@+id/settings"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -62,46 +63,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:id="@+id/languageTitle"
-                    android:text="@string/interface_language"
+            <LinearLayout
+                    android:id="@+id/languageButton"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginTop="@dimen/margin_top_settings_language"
+                    android:paddingTop="@dimen/margin_vertical_default_8dp"
+                    android:paddingBottom="@dimen/margin_vertical_default_8dp"
                     android:paddingStart="@dimen/margin_horizontal_default_16dp"
                     android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                    android:layout_marginTop="@dimen/margin_top_settings_general"
-                    style="@style/SettingsOptionTitleTextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            <TextView
-                    android:id="@+id/language"
-                    tools:text="English"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                    android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                    style="@style/SettingsSelectedOptionTitleTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:text="@string/interface_language"
+                        style="@style/SettingsOptionTitleTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:id="@+id/language"
+                        tools:text="English"
+                        style="@style/SettingsSelectedOptionTitleTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
 
 
-            <TextView
-                    android:id="@+id/nsfwTitle"
-                    android:text="@string/nsfw_content"
+            <LinearLayout
+                    android:id="@+id/nsfwButton"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginBottom="@dimen/margin_top_settings_language"
+                    android:paddingTop="@dimen/margin_vertical_default_8dp"
+                    android:paddingBottom="@dimen/margin_vertical_default_8dp"
                     android:paddingStart="@dimen/margin_horizontal_default_16dp"
                     android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                    android:layout_marginTop="@dimen/margin_vertical_default_16dp"
-                    style="@style/SettingsOptionTitleTextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            <TextView
-                    android:id="@+id/nsfw"
-                    tools:text="@string/always_alert"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                    android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                    style="@style/SettingsSelectedOptionTitleTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:id="@+id/nsfwTitle"
+                        android:text="@string/nsfw_content"
+                        style="@style/SettingsOptionTitleTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:id="@+id/nsfw"
+                        tools:text="@string/always_alert"
+                        style="@style/SettingsSelectedOptionTitleTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
 
             <View
                     android:background="@color/middle_gray"
-                    android:layout_marginTop="@dimen/margin_vertical_default_16dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
 
@@ -120,12 +133,14 @@
                     android:layout_height="wrap_content"/>
 
             <View
+                    android:visibility="gone"
                     android:background="@color/middle_gray"
                     android:layout_marginTop="@dimen/margin_vertical_default_8dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
 
             <TextView
+                    android:visibility="gone"
                     android:text="@string/passwords"
                     android:layout_marginTop="@dimen/margin_top_settings_general"
                     style="@style/SettingsSectionTitleTextStyle"
@@ -133,6 +148,7 @@
                     android:layout_height="wrap_content"/>
 
             <RelativeLayout
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_top_settings_general"
                     android:paddingStart="@dimen/margin_horizontal_default_16dp"
                     android:paddingEnd="0dp"
@@ -170,6 +186,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_vertical_default_16dp"
                     android:paddingStart="@dimen/margin_horizontal_default_16dp"
                     android:paddingEnd="0dp"
@@ -206,6 +223,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_top_settings_general"
                     android:paddingStart="@dimen/margin_horizontal_default_16dp"
                     android:paddingEnd="0dp"
@@ -242,6 +260,7 @@
             </RelativeLayout>
 
             <TextView
+                    android:visibility="gone"
                     android:id="@+id/editBio"
                     android:text="@string/change_all_passwords"
                     style="@style/ChangeAllPasswordsTextStyle"

@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
-import io.golos.domain.model.FeedUpdateRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.

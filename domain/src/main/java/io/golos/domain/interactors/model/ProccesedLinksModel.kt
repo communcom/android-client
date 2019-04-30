@@ -1,7 +1,7 @@
 package io.golos.domain.interactors.model
 
 import io.golos.domain.Model
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.

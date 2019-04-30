@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.post
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -8,7 +7,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -26,8 +24,8 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
 

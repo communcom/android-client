@@ -15,7 +15,7 @@ import io.golos.cyber_android.widgets.SmsCodeWidget
 import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
 import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
 class SignUpVerificationFragment : BaseSignUpScreenFragment<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {

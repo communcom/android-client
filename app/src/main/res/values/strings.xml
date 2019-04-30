@@ -102,7 +102,9 @@
     <string name="general">General</string>
     <string name="interface_language">Interface language</string>
     <string name="nsfw_content">NSFW content</string>
-    <string name="always_alert">Always alert</string>
+    <string name="always_alert">Always warn</string>
+    <string name="always_hide">Always hide</string>
+    <string name="always_show">Always show</string>
     <string name="upvote">Upvote</string>
     <string name="downvote">Downvote</string>
     <string name="points_transfer">Points transfer</string>
@@ -112,6 +114,7 @@
     <string name="following">Following</string>
     <string name="repost">Repost</string>
     <string name="passwords">Passwords</string>
+    <string name="missing_setting_descr">MISSING DESCRIPTION</string>
     <string name="posting_password">Posting password</string>
     <string name="active_password">Active password</string>
     <string name="owner_password">Owner password</string>
@@ -121,6 +124,11 @@
     <string name="delete_current_cover">Delete current cover</string>
     <string name="delete_current_photo">Delete current photo</string>
     <string name="change_position">Change position</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
 
 
 </resources>

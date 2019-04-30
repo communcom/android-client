@@ -1,4 +1,4 @@
-package io.golos.domain.model
+package io.golos.domain.requestmodel
 
 import io.golos.domain.Model
 import io.golos.domain.interactors.model.DiscussionIdModel

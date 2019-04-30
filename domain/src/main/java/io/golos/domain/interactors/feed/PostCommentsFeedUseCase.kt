@@ -11,8 +11,8 @@ import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.CommentsOfApPostUpdateRequest
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
 
 /**

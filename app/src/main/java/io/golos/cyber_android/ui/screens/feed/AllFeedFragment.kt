@@ -30,8 +30,8 @@ import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**

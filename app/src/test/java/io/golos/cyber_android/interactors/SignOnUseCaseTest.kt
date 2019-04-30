@@ -8,7 +8,7 @@ import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.regRepo
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import junit.framework.Assert.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

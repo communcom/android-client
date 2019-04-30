@@ -10,7 +10,7 @@ import io.golos.domain.interactors.model.CommentCreationRequestModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
-import io.golos.domain.model.FeedUpdateRequest
+import io.golos.domain.requestmodel.FeedUpdateRequest
 
 /**
  * Extends [AbstractFeedViewModel] with ability to create comments via [sendComment] method. Result of creation

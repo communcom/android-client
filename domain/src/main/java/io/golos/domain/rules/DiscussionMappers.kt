@@ -3,7 +3,7 @@ package io.golos.domain.rules
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.domain.entities.*
-import io.golos.domain.model.FeedUpdateRequest
+import io.golos.domain.requestmodel.FeedUpdateRequest
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
