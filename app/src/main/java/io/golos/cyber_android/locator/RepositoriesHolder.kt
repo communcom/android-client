@@ -19,4 +19,5 @@ interface RepositoriesHolder {
     val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
     val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
     val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
+    val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
 }

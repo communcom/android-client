@@ -21,7 +21,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     DiscussionsCreationApi,
     RegistrationApi,
     SettingsApi,
-    ImageUploadApi {
+    ImageUploadApi,
+    EventsApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -195,6 +196,29 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun getSettings(deviceId: String): UserSettings {
         return cyber4j.getUserSettings(deviceId).getOrThrow()
+    }
+
+    override fun getEvents(
+        userProfile: String,
+        afterId: String?,
+        limit: Int?,
+        markAsViewed: Boolean?,
+        freshOnly: Boolean?,
+        types: List<EventType>
+    ): EventsData {
+        return cyber4j.getEvents(userProfile, afterId, limit, markAsViewed, freshOnly, types).getOrThrow()
+    }
+
+    override fun markEventsAsNotFresh(ids: List<String>): ResultOk {
+        return cyber4j.markEventsAsNotFresh(ids).getOrThrow()
+    }
+
+    override fun markAllEventsAsNotFresh(): ResultOk {
+        return cyber4j.markAllEventsAsNotFresh().getOrThrow()
+    }
+
+    override fun getFreshNotifsCount(profileId: String): FreshResult {
+        return cyber4j.getFreshNotificationCount(profileId).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

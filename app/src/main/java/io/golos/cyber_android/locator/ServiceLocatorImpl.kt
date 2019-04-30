@@ -30,6 +30,7 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
@@ -200,6 +201,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
     override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
             by lazy { ImageUploadRepository(apiService, dispatchersProvider, logger) }
+    override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
+            by lazy {
+                EventsRepository(
+                    apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+                    dispatchersProvider, logger
+                )
+            }
+
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -425,5 +434,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getImageUploadUseCase(): ImageUploadUseCase {
         return ImageUploadUseCase(imageUploadRepository)
+    }
+
+    override fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase {
+        return EventsUseCase(
+            eventTypes,
+            eventsRepository,
+            authRepository,
+            EventEntityToModelMapper(),
+            dispatchersProvider
+        )
     }
 }

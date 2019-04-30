@@ -190,6 +190,13 @@ val settingsRepo = SettingsRepository(
     MyDefaultSettingProvider(),
     logger
 )
+val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
+        by lazy {
+            EventsRepository(
+                apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+                dispatchersProvider, logger
+            )
+        }
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -213,6 +220,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = settingsRepo
     override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
         get() = imageUploadRepo
+    override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
+        get() = eventsRepos
 }, dispatchersProvider)
 
 
