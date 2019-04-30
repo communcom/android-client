@@ -1,14 +1,13 @@
 package io.golos.cyber_android.ui.screens.post
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,9 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.screens.post.adapter.PostPageAdapter
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.CommentModel
@@ -137,7 +139,7 @@ class PostPageFragment :
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
-        if (lastVisibleItem > 0) {
+        if (lastVisibleItem >= (feedList.adapter as PostPageAdapter).getCommentsTitlePosition()) {
             viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.VISIBLE)
         } else {
             viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.GONE)
@@ -163,17 +165,12 @@ class PostPageFragment :
                         postCommentBottom?.visibility = View.GONE
                     }
                     .start()
-                hideKeyboard()
+                ViewUtils.hideKeyboard(requireActivity())
             }
         }
     }
 
-    private fun hideKeyboard() {
-        requireActivity().currentFocus?.let { v ->
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
-        }
-    }
+
 
     override fun onPause() {
         super.onPause()
@@ -211,30 +208,47 @@ class PostPageFragment :
     }
 
     override fun setupFeedAdapter() {
-        feedList.adapter = PostPageAdapter(object : CommentsAdapter.Listener {
-            override fun onCommentUpvote(comment: CommentModel) {
-                viewModel.onUpvote(comment)
-            }
+        feedList.adapter =
+            PostPageAdapter(viewLifecycleOwner,
+                object : CommentsAdapter.Listener {
+                    override fun onImageLinkClick(url: String) {
+                        startActivity(ImageViewerActivity.getIntent(requireContext(), url))
+                    }
 
-            override fun onCommentDownvote(comment: CommentModel) {
-                viewModel.onDownvote(comment)
-            }
+                    override fun onWebLinkClick(url: String) {
+                        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        if (webIntent.resolveActivity(requireActivity().packageManager) != null) {
+                            startActivity(webIntent)
+                        }
+                    }
 
-            override fun onReplyClick(comment: CommentModel) {
-                addCommentByParent(comment.contentId)
-                (feedList.adapter as PostPageAdapter).scrollToComment(comment, feedList)
-            }
+                    override fun onCommentUpvote(comment: CommentModel) {
+                        viewModel.onUpvote(comment)
+                    }
 
-        }, object : PostPageAdapter.Listener {
-            override fun onPostUpvote(postModel: PostModel) {
-                viewModel.onPostUpvote()
-            }
+                    override fun onCommentDownvote(comment: CommentModel) {
+                        viewModel.onDownvote(comment)
+                    }
 
-            override fun onPostDownvote(postModel: PostModel) {
-                viewModel.onPostDownvote()
-            }
+                    override fun onReplyClick(comment: CommentModel) {
+                        addCommentByParent(comment.contentId)
+                        (feedList.adapter as PostPageAdapter).scrollToComment(
+                            comment,
+                            feedList
+                        )
+                    }
 
-        })
+                },
+                object : PostPageAdapter.Listener {
+                    override fun onPostUpvote(postModel: PostModel) {
+                        viewModel.onPostUpvote()
+                    }
+
+                    override fun onPostDownvote(postModel: PostModel) {
+                        viewModel.onPostDownvote()
+                    }
+
+                })
     }
 
     override fun onNewData() {

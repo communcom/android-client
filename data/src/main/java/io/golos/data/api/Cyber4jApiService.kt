@@ -5,6 +5,7 @@ import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
+import java.io.File
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -20,6 +21,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     DiscussionsCreationApi,
     RegistrationApi,
     SettingsApi {
+    RegistrationApi,
+    ImageUploadApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -44,11 +47,11 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getCommunityPosts(communityId, ContentParsingType.WEB, limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getPost(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getPost(user, permlink, refBlockNum, ContentParsingType.WEB).getOrThrow()
+        return cyber4j.getPost(user, permlink, refBlockNum, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun getUserSubscriptions(
@@ -57,10 +60,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserSubscriptions(
-            CyberName(userId), ContentParsingType.WEB,
-            limit, sort, sequenceKey
-        ).getOrThrow()
+        return cyber4j.getUserSubscriptions(CyberName(userId), ContentParsingType.MOBILE, limit, sort, sequenceKey)
+            .getOrThrow()
     }
 
     override fun getUserPost(
@@ -69,10 +70,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserPosts(
-            CyberName(userId), ContentParsingType.WEB,
-            limit, sort, sequenceKey
-        ).getOrThrow()
+        return cyber4j.getUserPosts(CyberName(userId), ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getCommentsOfPost(
@@ -84,16 +82,18 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sequenceKey: String?
     ): DiscussionsResult {
         return cyber4j.getCommentsOfPost(
-            user, permlink, refBlockNum,
-            ContentParsingType.WEB, limit, sort, sequenceKey
+            user,
+            permlink,
+            refBlockNum,
+            ContentParsingType.MOBILE,
+            limit,
+            sort,
+            sequenceKey
         ).getOrThrow()
     }
 
     override fun getComment(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getComment(
-            user, permlink, refBlockNum,
-            ContentParsingType.WEB
-        ).getOrThrow()
+        return cyber4j.getComment(user, permlink, refBlockNum, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {
@@ -180,6 +180,10 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun resendSmsCode(phone: String): ResultOk {
         return cyber4j.resendSmsCode(phone).getOrThrow()
+    }
+
+    override fun uploadImage(file: File): String {
+        return cyber4j.uploadImage(file).getOrThrow()
     }
 
     override fun setBasicSettings(deviceId: String, basic: Map<String, String>): ResultOk {

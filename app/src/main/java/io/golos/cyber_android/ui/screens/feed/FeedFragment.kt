@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_feed.*
+import kotlinx.android.synthetic.main.view_search_bar.*
 
 
 const val SORT_REQUEST_CODE = 100

@@ -2,6 +2,8 @@ package io.golos.domain.rules
 
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.cyber4j.model.ImageRow
+import io.golos.cyber4j.model.TextRow
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
 
@@ -33,8 +35,26 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
             ),
             PostContent(
                 cyberObject.content.title!!,
-                ContentBody(cyberObject.content.body.preview, cyberObject.content.body.full),
-                ""
+                ContentBody(
+                    cyberObject.content.body.preview ?: "",
+                    cyberObject.content.body.mobile.orEmpty().map {
+                        when (it) {
+                            is ImageRow -> ImageRowEntity(it.src)
+                            is TextRow -> TextRowEntity(it.content)
+                        }
+                    }
+                    ,
+                    cyberObject.content.embeds
+                        .map {
+                            EmbedEntity(
+                                it.result.type ?: "",
+                                it.result.title ?: "",
+                                it.result.url ?: "",
+                                it.result.author ?: "",
+                                it.result.provider_name ?: "",
+                                it.result.html ?: ""
+                            )
+                        })
             ),
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,
@@ -81,8 +101,25 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
                 cyberObject.author?.username ?: "unknown"
             ),
             CommentContent(
-                ContentBody(cyberObject.content.body.preview, cyberObject.content.body.full),
-                 ""
+                ContentBody("",
+                    cyberObject.content.body.mobile.orEmpty()
+                        .map {
+                            when (it) {
+                                is ImageRow -> ImageRowEntity(it.src)
+                                is TextRow -> TextRowEntity(it.content)
+                            }
+                        }, cyberObject.content.embeds
+                        .map {
+                            EmbedEntity(
+                                it.result.type ?: "",
+                                it.result.title ?: "",
+                                it.result.url ?: "",
+                                it.result.author ?: "",
+                                it.result.provider_name ?: "",
+                                it.result.html ?: ""
+                            )
+                        }
+                )
             ),
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,

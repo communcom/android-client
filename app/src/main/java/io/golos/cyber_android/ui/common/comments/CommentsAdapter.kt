@@ -9,8 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.views.utils.CustomLinkMovementMethod
+import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.interactors.model.ContentBodyModel
+import io.golos.domain.interactors.model.ImageRowModel
+import io.golos.domain.interactors.model.TextRowModel
 import kotlinx.android.synthetic.main.item_comment.view.*
 
 
@@ -39,10 +44,27 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val post = values[position]
         holder as CommentViewHolder
-        holder.bind(post, listener)
+        holder.bind(
+            post,
+            listener
+        )
     }
 
     inner class CommentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        init {
+            view.commentContent.movementMethod = CustomLinkMovementMethod(object: CustomLinkMovementMethod.Listener {
+                override fun onImageLinkClicked(url: String): Boolean {
+                    listener.onImageLinkClick(url)
+                    return true
+                }
+
+                override fun onWebLinkClicked(url: String): Boolean {
+                    listener.onWebLinkClick(url)
+                    return true
+                }
+            })
+        }
 
         fun bind(
             commentModel: CommentModel,
@@ -59,8 +81,13 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                     commentModel.meta.elapsedFormCreation.elapsedDays,
                     context
                 )
-                commentContent.text =
-                    commentModel.content.body.fulCharSequence.ifBlank { commentModel.content.body.previewCharSequence }
+                commentContent.text = commentModel.content.body.toCommentContent()
+                commentContent.colorizeLinks()
+                (commentContent.movementMethod as CustomLinkMovementMethod).imageLinks =
+                    commentModel.content.body.full
+                        .filterIsInstance<ImageRowModel>()
+                        .map { it.src }
+
                 commentReply.setOnClickListener {
                     listener.onReplyClick(commentModel)
                 }
@@ -120,6 +147,22 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         fun onCommentUpvote(comment: CommentModel)
 
         fun onCommentDownvote(comment: CommentModel)
+
+        fun onImageLinkClick(url: String)
+
+        fun onWebLinkClick(url: String)
+    }
+
+    private fun ContentBodyModel.toCommentContent(): CharSequence {
+        val builder = StringBuilder()
+        for (row in full) {
+            when (row) {
+                is TextRowModel -> builder.append(row.text)
+                is ImageRowModel -> builder.append(row.src)
+            }
+            builder.append("\n")
+        }
+        return builder
     }
 
 }

@@ -35,7 +35,7 @@
     <TextView
             android:id="@+id/signIn"
             style="@style/SignInButtonStyle"
-            android:background="@color/white"
+            android:background="?attr/selectableItemBackground"
             android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
             android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
             android:text="@string/sign_in"
