@@ -197,6 +197,8 @@ val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
                 dispatchersProvider, logger
             )
         }
+val userMetadataRepos = UserMetadataRepository(apiService, dispatchersProvider, logger,
+    UserMetadataToEntityMapper())
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -222,6 +224,8 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = imageUploadRepo
     override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
         get() = eventsRepos
+    override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 }, dispatchersProvider)
 
 

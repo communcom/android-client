@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
@@ -37,6 +38,7 @@ import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -208,7 +210,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     dispatchersProvider, logger
                 )
             }
-
+    override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+            by lazy {
+                UserMetadataRepository(apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
+            }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -444,5 +449,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             EventEntityToModelMapper(),
             dispatchersProvider
         )
+    }
+
+    override fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase {
+        return UserMetadataUseCase(forUser, userMetadataRepository)
     }
 }
