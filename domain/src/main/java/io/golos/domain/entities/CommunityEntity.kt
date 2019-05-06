@@ -1,5 +1,6 @@
 package io.golos.domain.entities
 
+import io.golos.cyber4j.model.CyberCommunity
 import io.golos.domain.Entity
 
 /**
@@ -9,4 +10,10 @@ data class CommunityEntity(
     val id: String,
     val name: String,
     val avatarUrl: String?
-) : Entity
+) : Entity {
+    companion object {
+        fun fromCyber(cyberObject: CyberCommunity) =
+            CommunityEntity(cyberObject.id, cyberObject.name, cyberObject.getAvatarUrl)
+    }
+}
+

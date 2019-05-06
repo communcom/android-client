@@ -190,6 +190,15 @@ val settingsRepo = SettingsRepository(
     MyDefaultSettingProvider(),
     logger
 )
+val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
+        by lazy {
+            EventsRepository(
+                apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+                dispatchersProvider, logger
+            )
+        }
+val userMetadataRepos = UserMetadataRepository(apiService, dispatchersProvider, logger,
+    UserMetadataToEntityMapper())
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -213,6 +222,10 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = settingsRepo
     override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
         get() = imageUploadRepo
+    override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
+        get() = eventsRepos
+    override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 }, dispatchersProvider)
 
 

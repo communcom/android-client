@@ -3,9 +3,11 @@ package io.golos.cyber_android.locator
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.images.ImageUploadUseCase
@@ -13,12 +15,14 @@ import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.TestPassProvider
+import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCase
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
@@ -85,4 +89,7 @@ interface ServiceLocator {
 
     fun getSettingUserCase(): SettingsUseCase
 
+    fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase
+
+    fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase
 }

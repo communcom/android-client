@@ -7,8 +7,7 @@ import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
-import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.VoteRequestModel
+import io.golos.domain.requestmodel.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -192,6 +191,142 @@ class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, Vo
     }
 }
 
+class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsListModel> {
+    private val cache = Collections.synchronizedMap(HashMap<EventEntity, EventModel>())
 
+    override suspend fun invoke(entity: EventsListEntity): EventsListModel {
+        return EventsListModel(entity.data.map { event ->
+            cache.getOrPut(event) {
+                when (event) {
+                    is VoteEventEntity -> VoteEventModel(
+                        event.actor.toModelActor(),
+                        event.post?.toModelPost(),
+                        event.comment?.toModelComment(),
+                        event.community.toModel(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is FlagEventEntity -> FlagEventModel(
+                        event.actor.toModelActor(),
+                        event.post?.toModelPost(),
+                        event.comment?.toModelComment(),
+                        event.community.toModel(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is TransferEventEntity -> TransferEventModel(
+                        event.value.toModelValue(),
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is SubscribeEventEntity -> SubscribeEventModel(
+                        event.community.toModel(),
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is UnSubscribeEventEntity -> UnSubscribeEventModel(
+                        event.community.toModel(),
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is ReplyEventEntity -> ReplyEventModel(
+                        event.comment.toModelComment(),
+                        event.parentPost?.toModelPost(),
+                        event.parentComment?.toModelComment(),
+                        event.community.toModel(),
+                        event.refBlockNum,
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is MentionEventEntity -> MentionEventModel(
+                        event.comment.toModelComment(),
+                        event.parentPost?.toModelPost(),
+                        event.parentComment?.toModelComment(),
+                        event.community.toModel(),
+                        event.refBlockNum,
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is RepostEventEntity -> RepostEventModel(
+                        event.post.toModelPost(),
+                        event.comment?.toModelComment(),
+                        event.community.toModel(),
+                        event.refBlockNum,
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is AwardEventEntity -> AwardEventModel(
+                        event.payout.toModelValue(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is CuratorAwardEventEntity -> CuratorAwardEventModel(
+                        event.post?.toModelPost(),
+                        event.comment?.toModelComment(),
+                        event.payout.toModelValue(),
+                        event.community.toModel(),
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is MessageEventEntity -> MessageEventModel(
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is WitnessVoteEventEntity -> WitnessVoteEventModel(
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                    is WitnessCancelVoteEventEntity -> WitnessCancelVoteEventModel(
+                        event.actor.toModelActor(),
+                        event.eventId,
+                        event.isFresh,
+                        event.timestamp
+                    )
+                }
+            }
+        })
+    }
+
+    private fun EventActorEntity.toModelActor() = EventActorModel(this.id, this.avatarUrl)
+    private fun EventPostEntity.toModelPost() = EventPostModel(
+        DiscussionIdModel(
+            this.contentId.userId,
+            this.contentId.permlink,
+            this.contentId.refBlockNum
+        ), this.title
+    )
+
+    private fun EventCommentEntity.toModelComment() =
+        EventCommentModel(
+            DiscussionIdModel(
+                this.contentId.userId, this.contentId.permlink,
+                this.contentId.refBlockNum
+            ), this.body
+        )
+
+    private fun EventValueEntity.toModelValue() = EventValueModel(this.amount, this.currency)
+    private fun CommunityEntity.toModel() = CommunityModel(CommunityId(this.id), this.name, this.avatarUrl)
+}
 
 

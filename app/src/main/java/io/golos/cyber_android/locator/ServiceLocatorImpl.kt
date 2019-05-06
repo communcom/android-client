@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
@@ -33,12 +34,14 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -203,6 +206,17 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
     override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
             by lazy { ImageUploadRepository(apiService, dispatchersProvider, logger) }
+    override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
+            by lazy {
+                EventsRepository(
+                    apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+                    dispatchersProvider, logger
+                )
+            }
+    override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+            by lazy {
+                UserMetadataRepository(apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
+            }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -464,5 +478,19 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override fun getImageUploadUseCase(): ImageUploadUseCase {
         return ImageUploadUseCase(imageUploadRepository)
+    }
+
+    override fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase {
+        return EventsUseCase(
+            eventTypes,
+            eventsRepository,
+            authRepository,
+            EventEntityToModelMapper(),
+            dispatchersProvider
+        )
+    }
+
+    override fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase {
+        return UserMetadataUseCase(forUser, userMetadataRepository)
     }
 }

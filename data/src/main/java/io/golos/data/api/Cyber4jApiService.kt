@@ -21,7 +21,9 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     DiscussionsCreationApi,
     RegistrationApi,
     SettingsApi,
-    ImageUploadApi {
+    ImageUploadApi,
+    EventsApi,
+    UserMetadataApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -195,6 +197,99 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun getSettings(deviceId: String): UserSettings {
         return cyber4j.getUserSettings(deviceId).getOrThrow()
+    }
+
+    override fun getEvents(
+        userProfile: String,
+        afterId: String?,
+        limit: Int?,
+        markAsViewed: Boolean?,
+        freshOnly: Boolean?,
+        types: List<EventType>
+    ): EventsData {
+        return cyber4j.getEvents(userProfile, afterId, limit, markAsViewed, freshOnly, types).getOrThrow()
+    }
+
+    override fun markEventsAsNotFresh(ids: List<String>): ResultOk {
+        return cyber4j.markEventsAsNotFresh(ids).getOrThrow()
+    }
+
+    override fun markAllEventsAsNotFresh(): ResultOk {
+        return cyber4j.markAllEventsAsNotFresh().getOrThrow()
+    }
+
+    override fun getFreshNotifsCount(profileId: String): FreshResult {
+        return cyber4j.getFreshNotificationCount(profileId).getOrThrow()
+    }
+
+    override fun setUserMetadata(
+        type: String?,
+        app: String?,
+        email: String?,
+        phone: String?,
+        facebook: String?,
+        instagram: String?,
+        telegram: String?,
+        vk: String?,
+        website: String?,
+        first_name: String?,
+        last_name: String?,
+        name: String?,
+        birthDate: String?,
+        gender: String?,
+        location: String?,
+        city: String?,
+        about: String?,
+        occupation: String?,
+        iCan: String?,
+        lookingFor: String?,
+        businessCategory: String?,
+        backgroundImage: String?,
+        coverImage: String?,
+        profileImage: String?,
+        userImage: String?,
+        icoAddress: String?,
+        targetDate: String?,
+        targetPlan: String?,
+        targetPointA: String?,
+        targetPointB: String?
+    ): ProfileMetadataUpdateResult {
+        return cyber4j.setUserMetadata(
+            type,
+            app,
+            email,
+            phone,
+            facebook,
+            instagram,
+            telegram,
+            vk,
+            website,
+            first_name,
+            last_name,
+            name,
+            birthDate,
+            gender,
+            location,
+            city,
+            about,
+            occupation,
+            iCan,
+            lookingFor,
+            businessCategory,
+            backgroundImage,
+            coverImage,
+            profileImage,
+            userImage,
+            icoAddress,
+            targetDate,
+            targetPlan,
+            targetPointA,
+            targetPointB
+        ).getOrThrow().extractResult()
+    }
+
+    override fun getUserMetadata(user: CyberName): UserMetadata {
+        return cyber4j.getUserMetadata(user).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
