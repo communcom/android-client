@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.screens.feed.AllFeedFragment
 import io.golos.cyber_android.ui.screens.feed.FeedPageLiveDataProvider
 import io.golos.cyber_android.ui.screens.feed.FeedPageViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.bio.EditBioActivity
 import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsActivity
@@ -24,7 +25,9 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 const val REQUEST_UPDATE_COVER_DIALOG = 101
-const val REQUEST_UPDATE_COVER = 102
+const val REQUEST_UPDATE_PHOTO_DIALOG = 102
+const val REQUEST_UPDATE_COVER = 103
+const val REQUEST_UPDATE_PHOTO = 104
 
 class ProfileFragment : Fragment(), FeedPageLiveDataProvider {
     override fun provideEventsLiveData(): LiveData<FeedPageViewModel.Event> = MutableLiveData<FeedPageViewModel.Event>()
@@ -50,6 +53,13 @@ class ProfileFragment : Fragment(), FeedPageLiveDataProvider {
         updateCover.setOnClickListener {
             ImagePickerDialog.newInstance(ImagePickerDialog.Target.COVER).apply {
                 setTargetFragment(this@ProfileFragment, REQUEST_UPDATE_COVER_DIALOG)
+            }.show(requireFragmentManager(), "cover")
+        }
+
+
+        updatePhoto.setOnClickListener {
+            ImagePickerDialog.newInstance(ImagePickerDialog.Target.AVATAR).apply {
+                setTargetFragment(this@ProfileFragment, REQUEST_UPDATE_PHOTO_DIALOG)
             }.show(requireFragmentManager(), "cover")
         }
 
@@ -88,26 +98,45 @@ class ProfileFragment : Fragment(), FeedPageLiveDataProvider {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_UPDATE_COVER_DIALOG) {
-            when (resultCode) {
+            val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    startActivityForResult(
-                        EditProfileCoverActivity
-                            .getIntent(
-                                requireContext(),
-                                EditProfileCoverActivity.ImageSource.GALLERY
-                            ), REQUEST_UPDATE_COVER
-                    )
+                    EditProfileCoverActivity.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    startActivityForResult(
-                        EditProfileCoverActivity
-                            .getIntent(
-                                requireContext(),
-                                EditProfileCoverActivity.ImageSource.CAMERA
-                            ), REQUEST_UPDATE_COVER
-                    )
-                ImagePickerDialog.RESULT_DELETE ->
+                    EditProfileCoverActivity.ImageSource.CAMERA
+                ImagePickerDialog.RESULT_DELETE -> {
                     Toast.makeText(requireContext(), "Delete cover", Toast.LENGTH_SHORT).show()
+                    null
+                }
+                else -> null
             }
+            if (target != null) startActivityForResult(
+                EditProfileCoverActivity
+                    .getIntent(
+                        requireContext(),
+                        target
+                    ), REQUEST_UPDATE_COVER
+            )
+        }
+
+        if (requestCode == REQUEST_UPDATE_PHOTO_DIALOG) {
+            val target = when (resultCode) {
+                ImagePickerDialog.RESULT_GALLERY ->
+                    EditProfileCoverActivity.ImageSource.GALLERY
+                ImagePickerDialog.RESULT_CAMERA ->
+                    EditProfileCoverActivity.ImageSource.CAMERA
+                ImagePickerDialog.RESULT_DELETE -> {
+                    Toast.makeText(requireContext(), "Delete cover", Toast.LENGTH_SHORT).show()
+                    null
+                }
+                else -> null
+            }
+            if (target != null) startActivityForResult(
+                EditProfileAvatarActivity
+                    .getIntent(
+                        requireContext(),
+                        target
+                    ), REQUEST_UPDATE_PHOTO
+            )
         }
     }
 

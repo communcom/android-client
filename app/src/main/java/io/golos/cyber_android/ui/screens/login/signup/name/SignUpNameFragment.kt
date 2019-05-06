@@ -52,8 +52,8 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
         }
     }
 
-     override fun observeViewModel() {
-         super.observeViewModel()
+    override fun observeViewModel() {
+        super.observeViewModel()
 
         signUpViewModel.getUpdatingStateForStep<SetUserNameRequestModel>().observe(this, Observer {
             when (it) {

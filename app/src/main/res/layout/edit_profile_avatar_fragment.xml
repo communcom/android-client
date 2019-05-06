@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+
+    <com.google.android.material.appbar.AppBarLayout
+            app:elevation="0dp"
+            android:id="@+id/actionBar"
+            android:background="@color/white"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <LinearLayout
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageButton
+                    android:id="@+id/close"
+                    android:padding="@dimen/padding_toolbar_buttons_20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_gravity="start|center_vertical"
+                    app:srcCompat="@drawable/ic_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/toolbarTitle"
+                    style="@style/ToolbarTitleTextStyle"
+                    android:text="@string/change_position"
+                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+            <ImageButton
+                    android:id="@+id/post"
+                    android:padding="@dimen/padding_toolbar_buttons_20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_gravity="start|center_vertical"
+                    app:srcCompat="@drawable/ic_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+            android:background="@drawable/bg_update_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <!--<io.golos.cyber_android.views.TouchImageView-->
+                <!--android:id="@+id/avatar"-->
+                <!--tools:srcCompat="@drawable/img_example_media"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:scaleType="center"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="200dp"-->
+        <!--/>-->
+
+        <ImageView
+                android:id="@+id/avatar"
+                tools:background="@color/green"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_profile_cover"
+        />
+
+
+        <ImageView
+                android:id="@+id/avatarOverlay"
+                app:srcCompat="@drawable/img_avatar_crop_area"
+                android:adjustViewBounds="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+        />
+
+        <ImageButton
+                android:id="@+id/rotate"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/avatarOverlay"
+                android:layout_margin="@dimen/margin_vertical_default_8dp"
+                app:srcCompat="@drawable/ic_rotate"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

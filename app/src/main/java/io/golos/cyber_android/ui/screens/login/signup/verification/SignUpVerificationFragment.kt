@@ -18,7 +18,8 @@ import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
-class SignUpVerificationFragment : BaseSignUpScreenFragment<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
+class SignUpVerificationFragment :
+    BaseSignUpScreenFragment<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
 
     override val continueButton: View
         get() = next

@@ -8,6 +8,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
+import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -63,6 +64,10 @@ interface ServiceLocator {
 
     fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory
 
+    fun getEditProfileCoverViewModelFactory(): ViewModelProvider.Factory
+
+    fun getEditProfileAvatarViewModelFactory(): ViewModelProvider.Factory
+
     fun getSignInUseCase(): SignInUseCase
 
     fun getSignOnUseCase(
@@ -75,6 +80,8 @@ interface ServiceLocator {
     fun getDiscussionPosterUseCase(): DiscussionPosterUseCase
 
     fun getCountriesChooserUseCase(): CountriesChooserUseCase
+
+    fun getImageUploadUseCase(): ImageUploadUseCase
 
     fun getSettingUserCase(): SettingsUseCase
 

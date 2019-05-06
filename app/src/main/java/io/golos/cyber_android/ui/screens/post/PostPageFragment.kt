@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.post
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -15,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.screens.post.adapter.PostPageAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.widgets.CommentWidget
@@ -136,7 +139,7 @@ class PostPageFragment :
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
-        if (lastVisibleItem > 0) {
+        if (lastVisibleItem >= (feedList.adapter as PostPageAdapter).getCommentsTitlePosition()) {
             viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.VISIBLE)
         } else {
             viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.GONE)
@@ -205,30 +208,47 @@ class PostPageFragment :
     }
 
     override fun setupFeedAdapter() {
-        feedList.adapter = PostPageAdapter(object : CommentsAdapter.Listener {
-            override fun onCommentUpvote(comment: CommentModel) {
-                viewModel.onUpvote(comment)
-            }
+        feedList.adapter =
+            PostPageAdapter(viewLifecycleOwner,
+                object : CommentsAdapter.Listener {
+                    override fun onImageLinkClick(url: String) {
+                        startActivity(ImageViewerActivity.getIntent(requireContext(), url))
+                    }
 
-            override fun onCommentDownvote(comment: CommentModel) {
-                viewModel.onDownvote(comment)
-            }
+                    override fun onWebLinkClick(url: String) {
+                        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        if (webIntent.resolveActivity(requireActivity().packageManager) != null) {
+                            startActivity(webIntent)
+                        }
+                    }
 
-            override fun onReplyClick(comment: CommentModel) {
-                addCommentByParent(comment.contentId)
-                (feedList.adapter as PostPageAdapter).scrollToComment(comment, feedList)
-            }
+                    override fun onCommentUpvote(comment: CommentModel) {
+                        viewModel.onUpvote(comment)
+                    }
 
-        }, object : PostPageAdapter.Listener {
-            override fun onPostUpvote(postModel: PostModel) {
-                viewModel.onPostUpvote()
-            }
+                    override fun onCommentDownvote(comment: CommentModel) {
+                        viewModel.onDownvote(comment)
+                    }
 
-            override fun onPostDownvote(postModel: PostModel) {
-                viewModel.onPostDownvote()
-            }
+                    override fun onReplyClick(comment: CommentModel) {
+                        addCommentByParent(comment.contentId)
+                        (feedList.adapter as PostPageAdapter).scrollToComment(
+                            comment,
+                            feedList
+                        )
+                    }
 
-        })
+                },
+                object : PostPageAdapter.Listener {
+                    override fun onPostUpvote(postModel: PostModel) {
+                        viewModel.onPostUpvote()
+                    }
+
+                    override fun onPostDownvote(postModel: PostModel) {
+                        viewModel.onPostDownvote()
+                    }
+
+                })
     }
 
     override fun onNewData() {

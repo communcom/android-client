@@ -1,11 +1,13 @@
 package io.golos.cyber_android.views.utils
 
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.util.Log
+import android.widget.TextView
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -17,6 +19,58 @@ private val EMPTY_STRING = emptyArray<String>()
  * Replacement for [Linkify] that doesn't reapply spans if there is already appropriate ones.
  */
 object CustomLinkify {
+
+    /**
+     * Applies a regex to the text of a TextView turning the matches into
+     * links.  If links are found then UrlSpans are applied to the link
+     * text match areas, and the movement method for the text is changed
+     * to LinkMovementMethod.
+     *
+     * @param text         TextView whose text is to be marked-up with links
+     * @param pattern      Regex pattern to be used for finding links
+     * @param scheme       URL scheme string (eg `http://`) to be
+     * prepended to the links that do not start with this scheme.
+     */
+    fun addLinks(
+        text: TextView,
+        pattern: Pattern,
+        scheme: String?
+    ) {
+        addLinks(text, pattern, scheme, null, null, null)
+    }
+
+    /**
+     * Applies a regex to the text of a TextView turning the matches into
+     * links.  If links are found then UrlSpans are applied to the link
+     * text match areas, and the movement method for the text is changed
+     * to LinkMovementMethod.
+     *
+     * @param text TextView whose text is to be marked-up with links.
+     * @param pattern Regex pattern to be used for finding links.
+     * @param defaultScheme The default scheme to be prepended to links if the link does not
+     * start with one of the `schemes` given.
+     * @param schemes Array of schemes (eg `http://`) to check if the link found
+     * contains a scheme. Passing a null or empty value means prepend defaultScheme
+     * to all links.
+     * @param matchFilter  The filter that is used to allow the client code additional control
+     * over which pattern matches are to be converted into links.
+     * @param transformFilter Filter to allow the client code to update the link found.
+     */
+    private fun addLinks(
+        text: TextView, pattern: Pattern,
+        defaultScheme: String?, schemes: Array<String>?,
+        matchFilter: Linkify.MatchFilter?, transformFilter: Linkify.TransformFilter?
+    ) {
+        val spannable = SpannableString.valueOf(text.text)
+
+        val linksAdded = addLinks(
+            spannable, pattern, defaultScheme, schemes, matchFilter,
+            transformFilter
+        )
+        if (linksAdded) {
+            text.text = spannable
+        }
+    }
 
     /**
      *  Applies a regex to a Spannable turning the matches into

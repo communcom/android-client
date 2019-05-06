@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/text"
+        android:theme="@style/PostContentTextStyle"
+        android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+        android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+        android:layout_marginBottom="@dimen/margin_bottom_post_page_content_row"
+        tools:text="sdfsfdsfsdfsdfsdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>

@@ -27,7 +27,7 @@ class PostWithCommentsUseCaseTest {
     private lateinit var coomunityFeedUseCase: CommunityFeedUseCase
 
     private lateinit var voteUseCase: VoteUseCase
-    private val postId = DiscussionIdModel("tst2lwbafozq", "artemisfightswithhectoragainsthelios", 320697L)
+    private val postId = DiscussionIdModel("tst1ggrtqzvl", "zeusfightswithsemeleagainsteurynome", 140310)
 
     @Before
     fun before() {
@@ -71,6 +71,12 @@ class PostWithCommentsUseCaseTest {
         postWithCommmentsUseCase.getLastFetchedChunk.observeForever {
             lastUpdatedChunk = it
         }
+        var post = postWithCommmentsUseCase.getPostAsLiveData.value
+
+        postWithCommmentsUseCase.getPostAsLiveData.observeForever {
+            post = it
+        }
+
 
         postWithCommmentsUseCase.requestFeedUpdate(pageSize, UpdateOption.FETCH_NEXT_PAGE)
 
@@ -91,9 +97,7 @@ class PostWithCommentsUseCaseTest {
             postWithCommmentsUseCase.getAsLiveData.value?.items?.size
         )
 
-        postWithCommmentsUseCase.getPostAsLiveData.observeForever {
 
-        }
 
         assertTrue(postWithCommmentsUseCase.getPostAsLiveData.value != null)
 
@@ -223,8 +227,16 @@ class PostWithCommentsUseCaseTest {
 
         postWithCommmentsUseCase.requestFeedUpdate(1, UpdateOption.FETCH_NEXT_PAGE)
 
+        var post = postWithCommmentsUseCase.getPostAsLiveData.value
+
+        postWithCommmentsUseCase.getPostAsLiveData.observeForever {
+            post = it
+        }
+
 
         assertEquals("fail of initial loading of comments", 1, comments?.items?.size)
+        assertTrue(post!!.content.body.preview.isNotEmpty())
+        assertTrue(post!!.content.body.full.isNotEmpty())
 
         val commentToVote = comments!!.items.first()
         var votResult: QueryResult<VoteRequestModel>? = null
