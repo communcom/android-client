@@ -251,7 +251,7 @@ class PostPageFragment :
                 })
     }
 
-    override fun onNewData() {
+    override fun onNewData(data: List<CommentModel>) {
     }
 
     override fun setupWidgetsLiveData() {

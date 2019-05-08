@@ -240,6 +240,10 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
+    <style name="ProfileFollowingControlTextStyle" parent="ProfileControlTextStyle">
+        <item name="android:textColor">@color/text_color_feed_tabs</item>
+    </style>
+
     <style name="SettingsSectionTitleTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
@@ -267,6 +271,12 @@
     <style name="DragLabelTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_13_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="ProfilePostsEmptyDescriptionTextStyle">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 

@@ -41,7 +41,7 @@ class MainActivity : BaseActivity() {
                     Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     Tabs.WALLET -> WalletFragment.newInstance()
-                    Tabs.PROFILE -> ProfileFragment.newInstance()
+                    Tabs.PROFILE -> ProfileFragment.newInstance("destroyer2k@golos")
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
             }

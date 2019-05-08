@@ -10,13 +10,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
+import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import kotlinx.android.synthetic.main.edit_bio_fragment.*
 
 class EditBioFragment : Fragment() {
 
+    data class Args(
+        val initialBio: String
+    )
+
     companion object {
-        fun newInstance() = EditBioFragment()
+        fun newInstance(serializedArgs: String) = EditBioFragment().apply {
+            arguments = Bundle().apply {
+                putString(Tags.ARGS, serializedArgs)
+            }
+        }
     }
 
     private lateinit var viewModel: EditBioViewModel
@@ -43,6 +53,7 @@ class EditBioFragment : Fragment() {
         post.setOnClickListener { requireActivity().finish() }
 
         bio.filters = arrayOf(InputFilter.LengthFilter(EditBioViewModel.MAX_BIO_LENGTH))
+        bio.setText(getArgs().initialBio)
     }
 
     private fun observeViewModel() {
@@ -60,5 +71,11 @@ class EditBioFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(EditBioViewModel::class.java)
     }
+
+    private fun getArgs() = requireContext()
+        .serviceLocator
+        .moshi
+        .adapter(Args::class.java)
+        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
 
 }

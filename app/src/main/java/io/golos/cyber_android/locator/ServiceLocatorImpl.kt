@@ -17,9 +17,11 @@ import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
+import io.golos.cyber_android.ui.screens.profile.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
+import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
@@ -365,7 +367,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
-                    EditProfileCoverViewModel::class.java -> EditProfileCoverViewModel(getImageUploadUseCase(), dispatchersProvider) as T
+                    EditProfileCoverViewModel::class.java -> EditProfileCoverViewModel(
+                        getImageUploadUseCase(),
+                        dispatchersProvider
+                    ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
@@ -377,7 +382,40 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
-                    EditProfileAvatarViewModel::class.java -> EditProfileAvatarViewModel(getImageUploadUseCase(), dispatchersProvider) as T
+                    EditProfileAvatarViewModel::class.java -> EditProfileAvatarViewModel(
+                        getImageUploadUseCase(),
+                        dispatchersProvider
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    ProfileViewModel::class.java -> ProfileViewModel(getUserMetadataUseCase(forUser),
+                        getSignInUseCase(),
+                        forUser) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getUserPostsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
+                        getUserPostFeedUseCase(user),
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
+                    ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }

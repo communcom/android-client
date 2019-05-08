@@ -125,6 +125,8 @@ class HeadersPostsAdapter(
         if (isEditorWidgetSupported) {
             if (position == 0) return EDITOR_TYPE
             if (isSortingWidgetSupported && position == 1) return SORTING_TYPE
+        } else {
+            if (isSortingWidgetSupported && position == 0) return SORTING_TYPE
         }
         if (position == getLoadingViewHolderPosition()) return LOADING_TYPE
         return POST_TYPE
