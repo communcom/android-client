@@ -2,7 +2,7 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.EventType
+import io.golos.cyber4j.services.model.EventType
 import io.golos.data.api.EventsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger

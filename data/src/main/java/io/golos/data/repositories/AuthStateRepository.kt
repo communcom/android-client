@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.AuthListener
 import io.golos.cyber4j.model.CyberName
+import io.golos.cyber4j.services.model.AuthListener
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.data.api.AuthApi
 import io.golos.data.toCyberName

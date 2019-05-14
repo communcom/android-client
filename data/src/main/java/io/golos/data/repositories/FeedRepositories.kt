@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.DiscussionTimeSort
 import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.cyber4j.services.model.DiscussionTimeSort
 import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider

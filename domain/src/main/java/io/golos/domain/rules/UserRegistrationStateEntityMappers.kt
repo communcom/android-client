@@ -1,8 +1,8 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.model.FirstRegistrationStepResult
-import io.golos.cyber4j.model.UserRegistrationState
-import io.golos.cyber4j.model.UserRegistrationStateResult
+import io.golos.cyber4j.services.model.FirstRegistrationStepResult
+import io.golos.cyber4j.services.model.UserRegistrationState
+import io.golos.cyber4j.services.model.UserRegistrationStateResult
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.RegistrationStepRequest
 import io.golos.domain.requestmodel.SetUserKeysRequest

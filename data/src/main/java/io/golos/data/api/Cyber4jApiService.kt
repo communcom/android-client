@@ -2,6 +2,7 @@ package io.golos.data.api
 
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.*
+import io.golos.cyber4j.services.model.*
 import io.golos.cyber4j.utils.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
@@ -288,7 +289,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         ).getOrThrow().extractResult()
     }
 
-    override fun getUserMetadata(user: CyberName): UserMetadata {
+    override fun getUserMetadata(user: CyberName): UserMetadataResult {
         return cyber4j.getUserMetadata(user).getOrThrow()
     }
 

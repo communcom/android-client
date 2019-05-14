@@ -3,7 +3,7 @@ package io.golos.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.UserMetadata
+import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.data.api.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -23,7 +23,7 @@ class UserMetadataRepository(
     private val metadadataApi: UserMetadataApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toEntityMapper: CyberToEntityMapper<UserMetadata, UserMetadataEntity>
+    private val toEntityMapper: CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>
 ) : Repository<UserMetadataCollectionEntity, UserMetadataRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())

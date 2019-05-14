@@ -1,13 +1,13 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.model.UserMetadata
+import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.domain.entities.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
  */
-class UserMetadataToEntityMapper : CyberToEntityMapper<UserMetadata, UserMetadataEntity> {
-    override suspend fun invoke(cyberObject: UserMetadata): UserMetadataEntity {
+class UserMetadataToEntityMapper : CyberToEntityMapper<UserMetadataResult, UserMetadataEntity> {
+    override suspend fun invoke(cyberObject: UserMetadataResult): UserMetadataEntity {
         return UserMetadataEntity(
             UserPersonalDataEntity(
                 cyberObject.personal?.avatarUrl,

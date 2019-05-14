@@ -1,6 +1,6 @@
 package io.golos.domain.entities
 
-import io.golos.cyber4j.model.CyberCommunity
+import io.golos.cyber4j.services.model.CyberCommunity
 import io.golos.domain.Entity
 
 /**
