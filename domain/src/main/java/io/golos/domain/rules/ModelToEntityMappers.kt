@@ -2,7 +2,7 @@ package io.golos.domain.rules
 
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
 
 /**

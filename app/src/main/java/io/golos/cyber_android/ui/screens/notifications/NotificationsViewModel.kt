@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.map
-import io.golos.domain.model.EventsListModel
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.EventsListModel
+import io.golos.domain.requestmodel.QueryResult
 
 
 class NotificationsViewModel(private val eventsUseCase: EventsUseCase): ViewModel() {

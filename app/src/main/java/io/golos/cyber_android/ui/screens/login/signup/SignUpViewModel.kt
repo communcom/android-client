@@ -10,7 +10,7 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.map
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 
 /**
  * Shared [ViewModel] for sign up process

@@ -1,7 +1,7 @@
 package io.golos.domain.rules
 
-import io.golos.domain.model.CreatePostRequest
-import io.golos.domain.model.PostCreationRequestEntity
+import io.golos.domain.requestmodel.CreatePostRequest
+import io.golos.domain.requestmodel.PostCreationRequestEntity
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

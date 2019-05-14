@@ -18,7 +18,7 @@ import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.SetUserNameRequestModel
 import io.golos.domain.interactors.model.UnWrittenToBlockChainUserModel
 import io.golos.domain.interactors.model.WriteUserToBlockChainRequestModel
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_name.*
 
 class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpNameViewModel::class.java) {
@@ -52,8 +52,8 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
         }
     }
 
-     override fun observeViewModel() {
-         super.observeViewModel()
+    override fun observeViewModel() {
+        super.observeViewModel()
 
         signUpViewModel.getUpdatingStateForStep<SetUserNameRequestModel>().observe(this, Observer {
             when (it) {

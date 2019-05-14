@@ -7,8 +7,8 @@ import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.model.UserSubscriptionsFeedUpdateRequest
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.UserSubscriptionsFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
 
 /**

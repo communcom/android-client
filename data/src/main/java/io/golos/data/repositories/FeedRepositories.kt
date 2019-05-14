@@ -2,14 +2,14 @@ package io.golos.data.repositories
 
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.DiscussionTimeSort
 import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.cyber4j.services.model.DiscussionTimeSort
 import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 
 /**
@@ -173,6 +173,6 @@ class CommentsFeedRepository(
 }
 
 internal fun DiscussionsSort.toDiscussionSort() = when (this) {
-    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
-    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
+    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.SEQUENTIALLY
+    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.INVERTED
 }

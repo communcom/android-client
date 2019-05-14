@@ -15,7 +15,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        buildConfigField "String" , "AUTH_TEST_PASS" ,  properties.getProperty('authtestpass')
+        buildConfigField "String", "AUTH_TEST_PASS", properties.getProperty('authtestpass')
     }
     buildTypes {
         release {

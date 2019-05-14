@@ -10,8 +10,8 @@ import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.VoteRequestModel
 
 class PostPageViewModel(
     postWithCommentUseCase: PostWithCommentUseCase,

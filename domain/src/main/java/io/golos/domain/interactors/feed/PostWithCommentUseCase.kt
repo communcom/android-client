@@ -12,8 +12,8 @@ import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.CommentFeedUpdateRequest
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 

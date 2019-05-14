@@ -16,9 +16,9 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.model.FeedUpdateRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 
@@ -34,7 +34,7 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
     private val postFeedLiveData = MutableLiveData<DiscussionsFeed<M>>()
     private val lastFetchedChunkLiveData = MutableLiveData<List<M>>()
 
-    private val feedUpdateLiveData = MutableLiveData<io.golos.domain.model.QueryResult<UpdateOption>>()
+    private val feedUpdateLiveData = MutableLiveData<io.golos.domain.requestmodel.QueryResult<UpdateOption>>()
 
     private val mediatorLiveData = MediatorLiveData<Any>()
     private val observer = Observer<Any> {}
@@ -47,7 +47,7 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
 
     val getLastFetchedChunk: LiveData<List<M>> = lastFetchedChunkLiveData.distinctUntilChanged()
 
-    val feedUpdateState: LiveData<io.golos.domain.model.QueryResult<UpdateOption>> =
+    val feedUpdateState: LiveData<io.golos.domain.requestmodel.QueryResult<UpdateOption>> =
         feedUpdateLiveData.distinctUntilChanged()
 
     private var lastFeedJob: Job? = null
@@ -115,13 +115,13 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
 
             feedUpdateLiveData.value = when (myFeedUpdatingState) {
                 null -> null
-                is io.golos.domain.model.QueryResult.Success -> io.golos.domain.model.QueryResult.Success(
+                is io.golos.domain.requestmodel.QueryResult.Success -> io.golos.domain.requestmodel.QueryResult.Success(
                     myFeedUpdatingState.originalQuery.toUpdateOption()
                 )
-                is io.golos.domain.model.QueryResult.Loading -> io.golos.domain.model.QueryResult.Loading(
+                is io.golos.domain.requestmodel.QueryResult.Loading -> io.golos.domain.requestmodel.QueryResult.Loading(
                     myFeedUpdatingState.originalQuery.toUpdateOption()
                 )
-                is io.golos.domain.model.QueryResult.Error -> io.golos.domain.model.QueryResult.Error(
+                is io.golos.domain.requestmodel.QueryResult.Error -> io.golos.domain.requestmodel.QueryResult.Error(
                     myFeedUpdatingState.error,
                     myFeedUpdatingState.originalQuery.toUpdateOption()
                 )

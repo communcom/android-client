@@ -8,8 +8,8 @@ import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.model.QueryResult
-import io.golos.domain.model.VoteRequestModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
 import junit.framework.Assert.assertTrue
 import junit.framework.Assert.fail
 import kotlinx.coroutines.delay

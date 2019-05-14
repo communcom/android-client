@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.model.DiscussionModel
-import io.golos.domain.model.FeedUpdateRequest
+import io.golos.domain.requestmodel.FeedUpdateRequest
 
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         E : DiscussionEntity,
@@ -35,9 +35,9 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         (feedList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         @Suppress("UNCHECKED_CAST")
-        viewModel.feedLiveData.observe(this, Observer {
-            (feedList.adapter as AbstractDiscussionModelAdapter<M>).submit(it)
-            onNewData()
+        viewModel.feedLiveData.observe(this, Observer {data ->
+            (feedList.adapter as AbstractDiscussionModelAdapter<M>).submit(data)
+            onNewData(data)
         })
 
         viewModel.voteReadinessLiveData.observe(this, Observer { event ->
@@ -91,7 +91,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     /**
      * Called when adapter of [feedList] receives some new data
      */
-    abstract fun onNewData()
+    abstract fun onNewData(data: List<M>)
 
     /**
      * Called when adapter of [feedList] receives some new data

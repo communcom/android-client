@@ -5,7 +5,7 @@ import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.embededsRepository
 import io.golos.domain.interactors.model.ProccesedLinksModel
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay

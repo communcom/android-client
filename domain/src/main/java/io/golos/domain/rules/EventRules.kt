@@ -1,8 +1,8 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.model.*
+import io.golos.cyber4j.services.model.*
 import io.golos.domain.entities.*
-import io.golos.domain.model.EventsFeedUpdateRequest
+import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import java.util.*
 import kotlin.collections.HashMap
 

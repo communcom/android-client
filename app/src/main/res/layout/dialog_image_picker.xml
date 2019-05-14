@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fromGallery"
+            style="@style/SortsTextStyle"
+            android:gravity="center_vertical"
+            android:text="@string/choose_from_gallery"
+            android:drawableStart="@drawable/ic_gallery"
+            android:drawablePadding="30dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:paddingStart="@dimen/margin_horizontal_default_16dp"
+            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fromCamera"
+            style="@style/SortsTextStyle"
+            android:gravity="center_vertical"
+            android:text="@string/make_a_photo"
+            android:drawableStart="@drawable/ic_camera"
+            android:drawablePadding="30dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:paddingStart="@dimen/margin_horizontal_default_16dp"
+            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/remove"
+            style="@style/SortsTextStyle"
+            android:gravity="center_vertical"
+            tools:text="@string/delete_current_cover"
+            android:drawableStart="@drawable/ic_delete"
+            android:drawablePadding="30dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:paddingStart="@dimen/margin_horizontal_default_16dp"
+            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

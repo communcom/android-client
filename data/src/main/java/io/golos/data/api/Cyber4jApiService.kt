@@ -2,9 +2,11 @@ package io.golos.data.api
 
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.*
+import io.golos.cyber4j.services.model.*
 import io.golos.cyber4j.utils.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
+import java.io.File
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -19,7 +21,10 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     EmbedApi,
     DiscussionsCreationApi,
     RegistrationApi,
-    EventsApi {
+    SettingsApi,
+    ImageUploadApi,
+    EventsApi,
+    UserMetadataApi {
     private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
 
     init {
@@ -44,11 +49,11 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getCommunityPosts(communityId, ContentParsingType.WEB, limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getPost(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getPost(user, permlink, refBlockNum, ContentParsingType.WEB).getOrThrow()
+        return cyber4j.getPost(user, permlink, refBlockNum, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun getUserSubscriptions(
@@ -57,10 +62,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserSubscriptions(
-            CyberName(userId), ContentParsingType.WEB,
-            limit, sort, sequenceKey
-        ).getOrThrow()
+        return cyber4j.getUserSubscriptions(CyberName(userId), ContentParsingType.MOBILE, limit, sort, sequenceKey)
+            .getOrThrow()
     }
 
     override fun getUserPost(
@@ -69,10 +72,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sort: DiscussionTimeSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserPosts(
-            CyberName(userId), ContentParsingType.WEB,
-            limit, sort, sequenceKey
-        ).getOrThrow()
+        return cyber4j.getUserPosts(CyberName(userId), ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getCommentsOfPost(
@@ -84,16 +84,18 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         sequenceKey: String?
     ): DiscussionsResult {
         return cyber4j.getCommentsOfPost(
-            user, permlink, refBlockNum,
-            ContentParsingType.WEB, limit, sort, sequenceKey
+            user,
+            permlink,
+            refBlockNum,
+            ContentParsingType.MOBILE,
+            limit,
+            sort,
+            sequenceKey
         ).getOrThrow()
     }
 
     override fun getComment(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getComment(
-            user, permlink, refBlockNum,
-            ContentParsingType.WEB
-        ).getOrThrow()
+        return cyber4j.getComment(user, permlink, refBlockNum, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {
@@ -182,6 +184,22 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         return cyber4j.resendSmsCode(phone).getOrThrow()
     }
 
+    override fun uploadImage(file: File): String {
+        return cyber4j.uploadImage(file).getOrThrow()
+    }
+
+    override fun setBasicSettings(deviceId: String, basic: Map<String, String>): ResultOk {
+        return cyber4j.setUserSettings(deviceId, basic, null, null).getOrThrow()
+    }
+
+    override fun setNotificationSettings(deviceId: String, notifSettings: MobileShowSettings): ResultOk {
+        return cyber4j.setUserSettings(deviceId, null, null, notifSettings).getOrThrow()
+    }
+
+    override fun getSettings(deviceId: String): UserSettings {
+        return cyber4j.getUserSettings(deviceId).getOrThrow()
+    }
+
     override fun getEvents(
         userProfile: String,
         afterId: String?,
@@ -203,6 +221,76 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun getFreshNotifsCount(profileId: String): FreshResult {
         return cyber4j.getFreshNotificationCount(profileId).getOrThrow()
+    }
+
+    override fun setUserMetadata(
+        type: String?,
+        app: String?,
+        email: String?,
+        phone: String?,
+        facebook: String?,
+        instagram: String?,
+        telegram: String?,
+        vk: String?,
+        website: String?,
+        first_name: String?,
+        last_name: String?,
+        name: String?,
+        birthDate: String?,
+        gender: String?,
+        location: String?,
+        city: String?,
+        about: String?,
+        occupation: String?,
+        iCan: String?,
+        lookingFor: String?,
+        businessCategory: String?,
+        backgroundImage: String?,
+        coverImage: String?,
+        profileImage: String?,
+        userImage: String?,
+        icoAddress: String?,
+        targetDate: String?,
+        targetPlan: String?,
+        targetPointA: String?,
+        targetPointB: String?
+    ): ProfileMetadataUpdateResult {
+        return cyber4j.setUserMetadata(
+            type,
+            app,
+            email,
+            phone,
+            facebook,
+            instagram,
+            telegram,
+            vk,
+            website,
+            first_name,
+            last_name,
+            name,
+            birthDate,
+            gender,
+            location,
+            city,
+            about,
+            occupation,
+            iCan,
+            lookingFor,
+            businessCategory,
+            backgroundImage,
+            coverImage,
+            profileImage,
+            userImage,
+            icoAddress,
+            targetDate,
+            targetPlan,
+            targetPointA,
+            targetPointB
+        ).getOrThrow().extractResult()
+    }
+
+    override fun getUserMetadata(user: CyberName): UserMetadataResult {
+        return cyber4j.getUserMetadata(user).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

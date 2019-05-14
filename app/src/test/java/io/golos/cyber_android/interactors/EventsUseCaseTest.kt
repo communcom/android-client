@@ -7,7 +7,7 @@ import io.golos.cyber_android.eventsRepos
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.notifs.events.EventsUseCase
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EventEntityToModelMapper
 import junit.framework.Assert.*
 import kotlinx.coroutines.delay
@@ -77,7 +77,7 @@ class EventsUseCaseTest {
         while (updatingState is QueryResult.Loading) delay(100)
 
         assertNotNull(events)
-        assertTrue(events?.data!!.size == 20)
+        assertEquals(20, events?.data!!.size)
 
         useCase.requestUpdate(20, UpdateOption.FETCH_NEXT_PAGE)
         assertTrue(updatingState is QueryResult.Loading)

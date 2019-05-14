@@ -10,9 +10,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.LoadingViewHolder
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.domain.interactors.model.ElapsedTime
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import kotlinx.android.synthetic.main.item_notification.view.*
-import java.util.*
 
 private const val ITEM_TYPE = 0
 private const val LOADING_TYPE = 1
@@ -76,8 +75,8 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 is VoteEventModel -> bindEvent(item)
                 is FlagEventModel -> bindEvent(item)
                 is TransferEventModel -> bindEvent(item)
-                is SubscribeEventModel -> skip(item)
-                is UnSubscribeEventModel -> skip(item)
+                is SubscribeEventModel -> bindEvent(item)
+                is UnSubscribeEventModel -> bindEvent(item)
                 is ReplyEventModel -> bindEvent(item)
                 is MentionEventModel -> bindEvent(item)
                 is RepostEventModel -> bindItem(item)
@@ -89,10 +88,32 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
+        private fun bindEvent(item: SubscribeEventModel) {
+            with(itemView) {
+                loadUserAvatar(item.actor.avatarUrl)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.community.name)
+                summary.text = item.getMessage(itemView.context)
+                icon.setImageResource(R.drawable.ic_notifications_follow)
+                icon.setBackgroundResource(R.drawable.bg_notification_icon_transfer)
+                icon.visibility = View.VISIBLE
+            }
+        }
+
+        private fun bindEvent(item: UnSubscribeEventModel) {
+            with(itemView) {
+                loadUserAvatar(item.actor.avatarUrl)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.community.name)
+                summary.text = item.getMessage(itemView.context)
+                icon.setImageResource(R.drawable.ic_notifications_follow)
+                icon.setBackgroundResource(R.drawable.bg_notification_icon_transfer)
+                icon.visibility = View.VISIBLE
+            }
+        }
+
         private fun bindEvent(item: MentionEventModel) {
             with(itemView) {
                 loadUserAvatar(item.actor.avatarUrl)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime(), item.community.name)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.community.name)
                 summary.text = item.getMessage(itemView.context)
                 icon.setImageResource(R.drawable.ic_notifications)
                 icon.setBackgroundResource(R.drawable.bg_notification_icon_mention)
@@ -103,7 +124,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun bindItem(item: RepostEventModel) {
             with(itemView) {
                 loadUserAvatar(item.actor.avatarUrl)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime(), item.community.name)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.community.name)
                 summary.text = item.getMessage(itemView.context)
                 icon.setImageResource(R.drawable.ic_send)
                 icon.setBackgroundResource(R.drawable.bg_notification_icon_transfer)
@@ -120,7 +141,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             with(itemView) {
                 avatar.setImageResource(R.drawable.ic_notifications_rewards_posts)
                 avatar.setBackgroundResource(R.drawable.bg_notifications_awards)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime(), item.community.name)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.community.name)
                 summary.text = item.getMessage(itemView.context)
                 icon.visibility = View.GONE
             }
@@ -129,7 +150,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun bindEvent(item: ReplyEventModel) {
             with(itemView) {
                 loadUserAvatar(item.actor.avatarUrl)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime(), item.community.name)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.community.name)
                 summary.text = item.getMessage(itemView.context)
                 icon.setImageResource(R.drawable.ic_notifications_comment)
                 icon.setBackgroundResource(R.drawable.bg_notification_icon_transfer)
@@ -140,7 +161,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun bindEvent(item: VoteEventModel) {
             with(itemView) {
                 loadUserAvatar(item.actor.avatarUrl)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime(), item.actor.id.name)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.actor.id.name)
                 summary.text = item.getMessage(itemView.context)
                 icon.setImageResource(R.drawable.ic_upvote)
                 icon.setBackgroundResource(R.drawable.bg_notification_icon_upvote)
@@ -151,7 +172,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun bindEvent(item: FlagEventModel) {
             with(itemView) {
                 loadUserAvatar(item.actor.avatarUrl)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime(), item.actor.id.name)
+                setTimestamp(item.timestamp.time, item.elapsedTime, item.actor.id.name)
                 summary.text = item.getMessage(itemView.context)
                 icon.setImageResource(R.drawable.ic_downvote)
                 icon.setBackgroundResource(R.drawable.bg_notification_icon_downvote)
@@ -162,7 +183,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun bindEvent(item: TransferEventModel) {
             with(itemView) {
                 loadUserAvatar(item.actor.avatarUrl)
-                setTimestamp(item.timestamp.time, item.timestamp.asElapsedTime())
+                setTimestamp(item.timestamp.time, item.elapsedTime)
                 summary.text = item.getMessage(itemView.context)
                 icon.setImageResource(R.drawable.ic_notification_sent_points)
                 icon.setBackgroundResource(R.drawable.bg_notification_icon_transfer)
@@ -205,33 +226,6 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             if (!avatarUrl.isNullOrBlank())
                 Glide.with(itemView.context).load(avatarUrl).into(avatar)
             else Glide.with(itemView.context).load(R.drawable.img_example_avatar).into(avatar)
-        }
-
-
-        private fun Date.asElapsedTime(): ElapsedTime {
-            //todo delete me
-            val fromTimeStamp = this.time
-
-            return fromTimeStamp.minutesElapsedFromTimeStamp().let { elapsedMinutesFromPostCreation ->
-                val hoursElapsed = elapsedMinutesFromPostCreation / 60
-                when {
-                    elapsedMinutesFromPostCreation < 60 -> ElapsedTime(elapsedMinutesFromPostCreation, 0, 0)
-                    hoursElapsed < 24 -> ElapsedTime(elapsedMinutesFromPostCreation, hoursElapsed, 0)
-                    else -> {
-                        val daysAgo = Math.round(hoursElapsed.toDouble() / 24)
-                        ElapsedTime(elapsedMinutesFromPostCreation, hoursElapsed, daysAgo.toInt())
-                    }
-                }
-            }
-        }
-
-        private fun Long.minutesElapsedFromTimeStamp(): Int {
-            //todo delete me
-            val currentTime = System.currentTimeMillis()
-            val dif = currentTime - this
-            val hour = 1000 * 60
-            val hoursAgo = dif / hour
-            return hoursAgo.toInt()
         }
     }
 }

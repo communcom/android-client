@@ -11,7 +11,7 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
-import io.golos.domain.model.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
 
 abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
     feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,

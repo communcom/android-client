@@ -10,10 +10,11 @@ import io.golos.data.repositories.*
 import io.golos.domain.*
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.CountryEntityToModelMapper
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
+import java.util.*
 import java.util.concurrent.Executor
 
 /**
@@ -173,6 +174,22 @@ val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
                 toRegistrationMapper
             )
         }
+val imageUploadRepo = ImageUploadRepository(apiService, dispatchersProvider, logger)
+
+val settingsRepo = SettingsRepository(
+    apiService,
+    SettingsToEntityMapper(Moshi.Builder().build()),
+    SettingToCyberMapper(),
+    dispatchersProvider,
+    object : DeviceIdProvider {
+        private val id = UUID.randomUUID().toString()
+        override fun provide(): String {
+            return id
+        }
+    },
+    MyDefaultSettingProvider(),
+    logger
+)
 val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
         by lazy {
             EventsRepository(
@@ -180,6 +197,8 @@ val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
                 dispatchersProvider, logger
             )
         }
+val userMetadataRepos = UserMetadataRepository(apiService, dispatchersProvider, logger,
+    UserMetadataToEntityMapper())
 
 
 val appCore = AppCore(object : RepositoriesHolder {
@@ -199,8 +218,14 @@ val appCore = AppCore(object : RepositoriesHolder {
         get() = countriesRepo
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
         get() = regRepo
+    override val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
+        get() = settingsRepo
+    override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
+        get() = imageUploadRepo
     override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
         get() = eventsRepos
+    override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 }, dispatchersProvider)
 
 

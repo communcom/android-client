@@ -30,13 +30,12 @@ import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**
- * Fragment that represents ALL tab of the Feed Page. Derived from [MyFeedFragment] since the only difference
- * between them is [SortingWidget] in [HeadersPostsAdapter]
+ * Fragment that represents ALL tab of the Feed Page.
  */
 class AllFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
@@ -63,7 +62,7 @@ class AllFeedFragment :
         setupEditorWidget()
     }
 
-    override fun onNewData() {
+    override fun onNewData(data: List<PostModel>) {
         swipeRefresh.isRefreshing = false
     }
 

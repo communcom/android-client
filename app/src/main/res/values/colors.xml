@@ -7,11 +7,13 @@
     <color name="blue">#6A80F5</color>
     <color name="red">#FF5959</color>
     <color name="yellow">#FFE066</color>
+    <color name="orange">#EEA041</color>
     <color name="green">#9AE189</color>
     <color name="purple">#673AB7</color>
-    <color name="orange">#EEA041</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="black_40">#66000000</color>
+    <color name="black_20">#33000000</color>
     <color name="light_gray">#F3F5FA</color>
     <color name="light_gray_2">#F6F7FB</color>
     <color name="middle_gray">#E5E7ED</color>

@@ -6,7 +6,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import io.golos.cyber_android.R
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 
 internal val boldSpan = StyleSpan(Typeface.BOLD)
 
@@ -59,6 +59,26 @@ internal fun ReplyEventModel.getMessage(context: Context): CharSequence {
         context.resources.getString(R.string.event_reply_format),
         this.actor.id.name,
         this.comment.body
+    )
+    return SpannableStringBuilder(message).apply {
+        setSpan(boldSpan, 0, this@getMessage.actor.id.name.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+    }
+}
+
+internal fun SubscribeEventModel.getMessage(context: Context): CharSequence {
+    val message = String.format(
+        context.resources.getString(R.string.event_subscribe_format),
+        this.actor.id.name
+    )
+    return SpannableStringBuilder(message).apply {
+        setSpan(boldSpan, 0, this@getMessage.actor.id.name.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+    }
+}
+
+internal fun UnSubscribeEventModel.getMessage(context: Context): CharSequence {
+    val message = String.format(
+        context.resources.getString(R.string.event_unsubscribe_format),
+        this.actor.id.name
     )
     return SpannableStringBuilder(message).apply {
         setSpan(boldSpan, 0, this@getMessage.actor.id.name.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)

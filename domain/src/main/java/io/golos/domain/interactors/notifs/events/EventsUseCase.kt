@@ -13,10 +13,10 @@ import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.map
-import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.EventsFeedUpdateRequest
-import io.golos.domain.model.EventsListModel
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.AuthRequest
+import io.golos.domain.requestmodel.EventsFeedUpdateRequest
+import io.golos.domain.requestmodel.EventsListModel
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 

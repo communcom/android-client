@@ -9,7 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.BaseActivity
 import io.golos.cyber_android.ui.screens.main.MainActivity
-import io.golos.domain.model.SignInState
+import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {

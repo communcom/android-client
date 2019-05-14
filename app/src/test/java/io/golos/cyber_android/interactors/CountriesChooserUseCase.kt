@@ -8,7 +8,7 @@ import io.golos.cyber_android.countriesRepo
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.toCountryModelMapper
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.QueryResult
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

@@ -53,19 +53,36 @@ data class DiscussionCommentsCountModel(val count: Long) : Model
 
 data class PostContentModel(
     val title: String,
-    val body: ContentBodyModel,
-    val metadata: Any
+    val body: ContentBodyModel
 ) : Model
 
-data class CommentContentModel(val body: ContentBodyModel, val metadata: Any, val commentLevel: Int) : Model
+data class CommentContentModel(
+    val body: ContentBodyModel,
+    val commentLevel: Int
+) : Model
+
+data class EmbedModel(
+    val type: String,
+    val title: String,
+    val url: String,
+    val author: String,
+    val provider_name: String,
+    val html: String
+) : Model
+
+sealed class ContentRowModel : Model
+
+data class TextRowModel(val text: CharSequence) : ContentRowModel()
+
+data class ImageRowModel(val src: String) : ContentRowModel()
 
 
 data class ContentBodyModel(
-    val preview: String?,
-    val previewCharSequence: CharSequence,
-    val full: String?,
-    val fulCharSequence: CharSequence
+    val preview: CharSequence,
+    val full: List<ContentRowModel>,
+    val embeds: List<EmbedModel>
 ) : Model
+
 
 data class DiscussionMetadataModel(val time: Date, val elapsedFormCreation: ElapsedTime) : Model
 data class DiscussionPayoutModel(val rShares: BigInteger) : Model

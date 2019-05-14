@@ -7,8 +7,8 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
-import io.golos.domain.model.CommentsOfApPostUpdateRequest
-import io.golos.domain.model.CommunityFeedUpdateRequest
+import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
+import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Rule

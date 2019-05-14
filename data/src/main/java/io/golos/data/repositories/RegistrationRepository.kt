@@ -2,14 +2,14 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.UserRegistrationState
-import io.golos.cyber4j.model.UserRegistrationStateResult
+import io.golos.cyber4j.services.model.UserRegistrationState
+import io.golos.cyber4j.services.model.UserRegistrationStateResult
 import io.golos.data.api.RegistrationApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.entities.UserRegistrationStateEntity
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.UserRegistrationStateRelatedData
 import kotlinx.coroutines.*

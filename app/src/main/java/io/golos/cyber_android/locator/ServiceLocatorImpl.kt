@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
@@ -15,9 +16,15 @@ import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
-import io.golos.cyber_android.ui.screens.main.MainActivityViewModel
+import io.golos.cyber_android.ui.screens.main.MainViewModel
 import io.golos.cyber_android.ui.screens.notifications.NotificationsViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
+import io.golos.cyber_android.ui.screens.profile.ProfileViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
+import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
@@ -30,14 +37,17 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
+import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
+import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.model.*
+import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +68,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
     private val fromSpannableToHtml = FromSpannedToHtmlTransformerImpl()
 
+    private val deviceIdProvider = MyDeviceIdProvider(appContext)
 
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
@@ -186,6 +197,20 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    override val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
+            by lazy {
+                SettingsRepository(
+                    apiService,
+                    SettingsToEntityMapper(moshi),
+                    SettingToCyberMapper(),
+                    dispatchersProvider,
+                    deviceIdProvider,
+                    MyDefaultSettingProvider(),
+                    logger
+                )
+            }
+    override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
+            by lazy { ImageUploadRepository(apiService, dispatchersProvider, logger) }
     override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
             by lazy {
                 EventsRepository(
@@ -193,7 +218,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     dispatchersProvider, logger
                 )
             }
-
+    override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+            by lazy {
+                UserMetadataRepository(apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
+            }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
@@ -339,12 +367,101 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getMainActivityViewModelFactory(): ViewModelProvider.Factory {
+    override fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
-                    MainActivityViewModel::class.java -> MainActivityViewModel(
+                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase()) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditProfileCoverViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditProfileCoverViewModel::class.java -> EditProfileCoverViewModel(
+                        getUserMetadataUseCase(forUser),
+                        getImageUploadUseCase(),
+                        dispatchersProvider
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditProfileAvatarViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditProfileAvatarViewModel::class.java -> EditProfileAvatarViewModel(
+                        getUserMetadataUseCase(forUser),
+                        getImageUploadUseCase(),
+                        dispatchersProvider
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditProfileBioViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditProfileBioViewModel::class.java -> EditProfileBioViewModel(
+                        getUserMetadataUseCase(forUser)
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    ProfileViewModel::class.java -> ProfileViewModel(getUserMetadataUseCase(forUser),
+                        getSignInUseCase(),
+                        forUser) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getUserPostsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
+                        getUserPostFeedUseCase(user),
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getMainViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    MainViewModel::class.java -> MainViewModel(
+                        getSignInUseCase(),
                         getEventsUseCase(EventTypeEntity.values().toSet())
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
@@ -441,6 +558,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
     }
 
+    override fun getSettingUserCase(): SettingsUseCase {
+        return SettingsUseCase(settingsRepository, authRepository)
+    }
+
+    override fun getImageUploadUseCase(): ImageUploadUseCase {
+        return ImageUploadUseCase(imageUploadRepository)
+    }
+
     override fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase {
         return EventsUseCase(
             eventTypes,
@@ -449,5 +574,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             EventEntityToModelMapper(),
             dispatchersProvider
         )
+    }
+
+    override fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase {
+        return UserMetadataUseCase(forUser, userMetadataRepository)
     }
 }

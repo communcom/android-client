@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.BaseActivity
@@ -26,9 +27,6 @@ import kotlinx.android.synthetic.main.view_notification_badge.*
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var viewModel: MainActivityViewModel
-
-
     enum class Tabs(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),
         COMMUNITIES(1, R.id.navigation_communities),
@@ -37,21 +35,28 @@ class MainActivity : BaseActivity() {
         PROFILE(4, R.id.navigation_profile)
     }
 
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupPager()
-        setupNavigationView()
+        addNotificationsBadge()
         setupViewModel()
         observeViewModel()
 
-        addNotificationsBadge()
     }
 
     private fun observeViewModel() {
         viewModel.unreadNotificationsLiveData.observe(this, Observer {
             refreshNotificationsBadge(it)
+        })
+
+        viewModel.authStateLiveData.observe(this, Observer { authState ->
+            authState.getIfNotHandled()?.run {
+                setupPager(this.userName)
+                setupNavigationView()
+            }
         })
     }
 
@@ -66,8 +71,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshNotificationsBadge(count: Int) {
-        //notificationsBadge?.visibility = View.VISIBLE
-        notificationsBadge?.visibility = if (count == 0) View.GONE else View.VISIBLE
+        notificationsBadge?.visibility = View.VISIBLE
+        //notificationsBadge?.visibility = if (count == 0) View.GONE else View.VISIBLE
         updatesCount?.text = if (count > 99) "99" else count.toString()
     }
 
@@ -75,20 +80,20 @@ class MainActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(
             this,
             serviceLocator
-                .getMainActivityViewModelFactory()
-        ).get(MainActivityViewModel::class.java)
+                .getMainViewModelFactory()
+        ).get(MainViewModel::class.java)
     }
 
-    private fun setupPager() {
+    private fun setupPager(user: CyberName) {
         mainPager.isUserInputEnabled = false
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager, this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {
-                    Tabs.FEED -> FeedFragment.newInstance("gls", "destroyer2k")
+                    Tabs.FEED -> FeedFragment.newInstance("gls", user.name)
                     Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     Tabs.WALLET -> WalletFragment.newInstance()
-                    Tabs.PROFILE -> ProfileFragment.newInstance()
+                    Tabs.PROFILE -> ProfileFragment.newInstance(user.name)
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
             }

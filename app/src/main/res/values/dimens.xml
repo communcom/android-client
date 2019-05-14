@@ -8,9 +8,11 @@
     <dimen name="margin_vertical_default_8dp">8dp</dimen>
     <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
 
+    <dimen name="text_size_42_sp">42sp</dimen>
     <dimen name="text_size_34_sp">34sp</dimen>
     <dimen name="text_size_30_sp">30sp</dimen>
     <dimen name="text_size_26_sp">26sp</dimen>
+    <dimen name="text_size_24_sp">24sp</dimen>
     <dimen name="text_size_22_sp">22sp</dimen>
     <dimen name="text_size_20_sp">20sp</dimen>
     <dimen name="text_size_17_sp">17sp</dimen>
@@ -55,9 +57,10 @@
     <!--Post Page-->
     <dimen name="margin_top_post_page_title">16dp</dimen>
     <dimen name="margin_top_post_page_content">32dp</dimen>
-    <dimen name="margin_top_post_page_comments_title">55dp</dimen>
+    <dimen name="margin_top_post_page_comments_title">47dp</dimen>
     <dimen name="margin_top_post_page_comments">15dp</dimen>
     <dimen name="margin_vertical_post_page_comment_edit_text">12dp</dimen>
+    <dimen name="margin_bottom_post_page_content_row">8dp</dimen>
 
     <!--Comment-->
     <dimen name="margin_top_comment_vote_buttons">10dp</dimen>
@@ -131,6 +134,30 @@
     <dimen name="margin_top_sign_up_download">40dp</dimen>
     <dimen name="margin_bottom_sign_up_download">33dp</dimen>
 
+    <!--Profile-->
+    <dimen name="padding_profile_avatar">5dp</dimen>
+    <dimen name="size_profile_avatar">110dp</dimen>
+    <dimen name="size_profile_photo_button">30dp</dimen>
+    <dimen name="margin_top_profile_username">10dp</dimen>
+    <dimen name="padding_profile_edit_bio_button">18dp</dimen>
+    <dimen name="padding_bottom_profile_followers_layout">24dp</dimen>
+    <dimen name="padding_horizontal_profile_followers_button">14dp</dimen>
+    <dimen name="padding_vertical_profile_followers_button">12dp</dimen>
+    <dimen name="height_profile_cover">155dp</dimen>
+    <dimen name="margin_top_profile_controls">30dp</dimen>
+    <dimen name="padding_drawable_profile_control">14dp</dimen>
+    <dimen name="width_drawable_profile_control">109dp</dimen>
+    <dimen name="size_profile_follower_photo">22dp</dimen>
+    <dimen name="padding_profile_follower_photo">2dp</dimen>
+    <dimen name="margin_start_profile_follower_photo">-6dp</dimen>
+    <dimen name="margin_top_settings_general">20dp</dimen>
+    <dimen name="margin_top_settings_language">12dp</dimen>
+    <dimen name="margin_top_cover_drag_label">30dp</dimen>
+    <dimen name="corners_cover_drag_label">4dp</dimen>
+    <dimen name="padding_cover_drag_label_drawable">13dp</dimen>
+    <dimen name="margin_top_profile_empty_posts_description">25dp</dimen>
+    <dimen name="margin_vertical_profile_empty_posts">50dp</dimen>
+
     <!--Notifications-->
     <dimen name="padding_top_notification">10dp</dimen>
     <dimen name="padding_bottom_notification">8dp</dimen>
@@ -140,5 +167,6 @@
     <dimen name="padding_notification_icon">5dp</dimen>
     <dimen name="size_notification_icon">20dp</dimen>
     <dimen name="size_notification_badge">18dp</dimen>
+
 
 </resources>

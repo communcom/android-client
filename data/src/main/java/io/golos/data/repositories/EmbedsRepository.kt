@@ -8,9 +8,9 @@ import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.entities.LinkEmbedResult
 import io.golos.domain.entities.ProcessedLinksEntity
-import io.golos.domain.model.EmbedRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.EmbedRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.IFramelyEmbedResultRelatedData
 import io.golos.domain.rules.OembedResultRelatedData

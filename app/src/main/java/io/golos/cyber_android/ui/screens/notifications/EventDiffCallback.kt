@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.notifications
 
 import androidx.recyclerview.widget.DiffUtil
-import io.golos.domain.model.EventModel
+import io.golos.domain.requestmodel.EventModel
 
 /**
  * [DiffUtil.Callback] impl for [EventModel] lists

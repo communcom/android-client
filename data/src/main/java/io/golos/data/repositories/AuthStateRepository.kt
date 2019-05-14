@@ -2,17 +2,17 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.AuthListener
 import io.golos.cyber4j.model.CyberName
+import io.golos.cyber4j.services.model.AuthListener
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.data.api.AuthApi
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
 import io.golos.domain.*
 import io.golos.domain.entities.AuthState
-import io.golos.domain.model.AuthRequest
-import io.golos.domain.model.Identifiable
-import io.golos.domain.model.QueryResult
+import io.golos.domain.requestmodel.AuthRequest
+import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap

@@ -7,7 +7,7 @@ import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
-import io.golos.domain.model.*
+import io.golos.domain.requestmodel.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -37,15 +37,15 @@ class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: Ht
                 CommunityModel(CommunityId(post.community.id), post.community.name, post.community.avatarUrl),
                 PostContentModel(
                     post.content.title,
-                    ContentBodyModel(post.content.body.preview,
-                        cashedSpans.getOrPut(post.content.body.preview.orEmpty()) {
-                            htmlToSpannableTransformer.transform(post.content.body.preview.orEmpty())
+                    ContentBodyModel(
+                        cashedSpans.getOrPut(post.content.body.preview ?: "") {
+                            htmlToSpannableTransformer.transform(post.content.body.preview ?: "")
                         },
-                        post.content.body.full,
-                        cashedSpans.getOrPut(post.content.body.full.orEmpty()) {
-                            htmlToSpannableTransformer.transform(post.content.body.full.orEmpty())
-                        }),
-                    post.content.metadata
+                        post.content.body.full.map { rowEntity ->
+                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
+                        },
+                        post.content.body.embeds.map { it.toEmbedModel() }
+                    )
                 ),
                 DiscussionVotesModel(
                     post.votes.hasUpVote,
@@ -84,15 +84,11 @@ class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToS
                 DiscussionIdModel(comment.contentId.userId, comment.contentId.permlink, comment.contentId.refBlockNum),
                 DiscussionAuthorModel(comment.author.userId, comment.author.username),
                 CommentContentModel(
-                    ContentBodyModel(comment.content.body.preview,
-                        cashedSpans.getOrPut(comment.content.body.preview.orEmpty()) {
-                            htmlToSpannableTransformer.transform(comment.content.body.preview.orEmpty())
+                    ContentBodyModel("",
+                        comment.content.body.full.map { rowEntity ->
+                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
                         },
-                        comment.content.body.full,
-                        cashedSpans.getOrPut(comment.content.body.full.orEmpty()) {
-                            htmlToSpannableTransformer.transform(comment.content.body.full.orEmpty())
-                        }),
-                    comment.content.metadata,
+                        comment.content.body.embeds.map { it.toEmbedModel() }),
                     if (comment.parentCommentId != null) 1 else 0
                 ),
                 DiscussionVotesModel(
@@ -121,6 +117,18 @@ class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToS
         return out
     }
 }
+
+private fun ContentRowEntity.toContentRowModel(
+    transformer: HtmlToSpannableTransformer,
+    cache: MutableMap<String, CharSequence>
+): ContentRowModel {
+    return when (this) {
+        is ImageRowEntity -> ImageRowModel(src)
+        is TextRowEntity -> TextRowModel(cache.getOrPut(text) { transformer.transform(text) })
+    }
+}
+
+private fun EmbedEntity.toEmbedModel() = EmbedModel(type, title, url, author, provider_name, html)
 
 
 class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>) :
@@ -179,6 +187,29 @@ class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, Vo
                     )
                 )
             }
+        }
+    }
+}
+
+class UserMetadataEntityToModelMapper : EntityToModelMapper<UserMetadataEntity, UserMetadataModel> {
+    override suspend fun invoke(entity: UserMetadataEntity): UserMetadataModel {
+        return with(entity) {
+            UserMetadataModel(
+                UserPersonalDataModel(
+                    personal.avatarUrl, personal.coverUrl, personal.biography,
+                    ContactsModel(
+                        personal.contacts?.facebook, personal.contacts?.telegram, personal.contacts?.whatsApp,
+                        personal.contacts?.weChat
+                    )
+
+                ), UserSubscriptionsModel(subscriptions.usersCount, subscriptions.communitiesCount)
+                , UserStatsModel(stats.postsCount, stats.commentsCount)
+                , userId
+                , username
+                , SubscribersModel(subscribers.usersCount, subscribers.communitiesCount)
+                , createdAt
+                , isSubscribed
+            )
         }
     }
 }
