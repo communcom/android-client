@@ -8,9 +8,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
-import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverActivity
+import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverFragment
 import java.io.File
 
 private const val REQUEST_IMAGE_CAPTURE = 200
@@ -25,7 +24,7 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
         clearCache(requireContext())
 
         if (savedInstanceState == null) {
-            if (getImageSource() == EditProfileCoverActivity.ImageSource.CAMERA) {
+            if (getImageSource() == EditProfileCoverFragment.ImageSource.CAMERA) {
                 takeCameraPhoto()
             } else {
                 pickGalleryPhoto()
@@ -33,8 +32,7 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
         }
     }
 
-    private fun getImageSource() = (arguments?.getSerializable(Tags.ARGS) as? EditProfileCoverActivity.ImageSource
-        ?: EditProfileCoverActivity.ImageSource.CAMERA)
+    abstract fun getImageSource() : EditProfileCoverFragment.ImageSource
 
     private fun pickGalleryPhoto() {
         val pickPhoto = Intent(
@@ -63,7 +61,6 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
                                 input?.copyTo(fileOut)
                             }
                     }
-
                     onImagePicked(Uri.fromFile(imageFile))
                 }
             } else {

@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.screens.profile
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
 import io.golos.cyber4j.model.CyberName
+import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
 import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -15,17 +15,14 @@ import io.golos.domain.requestmodel.QueryResult
 class ProfileViewModel(
     private val userMetadataUseCase: UserMetadataUseCase,
     private val signInUseCase: SignInUseCase,
-    private val forUser: CyberName
-) : ViewModel() {
+    internal val forUser: CyberName
+) : BaseEditProfileViewModel(userMetadataUseCase) {
 
     data class Profile(val metadata: UserMetadataModel, val isMyUser: Boolean) {
         companion object {
             val EMPTY = Profile(UserMetadataModel.empty, false)
         }
     }
-
-
-    private val getMetadataLiveData = userMetadataUseCase.getAsLiveData
 
     /**
      * [LiveData] that indicates if profile of this view model is the actual profile of an app user
@@ -75,17 +72,20 @@ class ProfileViewModel(
         }
     }
 
+    fun clearProfileCover() {
+        userMetadataUseCase.updateMetadata(newCoverUrl = "")
+    }
+
+    fun clearProfileAvatar() {
+        userMetadataUseCase.updateMetadata(newProfileImageUrl = "")
+    }
 
     init {
-        userMetadataUseCase.subscribe()
         signInUseCase.subscribe()
     }
 
     override fun onCleared() {
         super.onCleared()
-        userMetadataUseCase.unsubscribe()
         signInUseCase.unsubscribe()
-//        profileLiveData.removeSource(getMetadataLiveData)
-//        profileLiveData.removeSource(getMyUserLiveData)
     }
 }

@@ -23,7 +23,7 @@
         <activity android:name=".ui.screens.profile.edit.settings.ProfileSettingsActivity">
         </activity>
         <activity
-                android:name=".ui.screens.profile.edit.bio.EditBioActivity"
+                android:name=".ui.screens.profile.edit.bio.EditProfileBioActivity"
                 android:windowSoftInputMode="adjustResize"/>
 
         <provider

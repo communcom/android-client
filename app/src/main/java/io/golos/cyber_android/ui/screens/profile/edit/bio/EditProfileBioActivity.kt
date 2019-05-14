@@ -8,12 +8,12 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.BaseActivity
 
-class EditBioActivity : BaseActivity() {
+class EditProfileBioActivity : BaseActivity() {
 
     companion object {
-        fun getIntent(context: Context, args: EditBioFragment.Args) = Intent(context, EditBioActivity::class.java).apply {
+        fun getIntent(context: Context, args: EditProfileBioFragment.Args) = Intent(context, EditProfileBioActivity::class.java).apply {
             putExtra(Tags.ARGS,
-                context.serviceLocator.moshi.adapter(EditBioFragment.Args::class.java)
+                context.serviceLocator.moshi.adapter(EditProfileBioFragment.Args::class.java)
                 .toJson(args))
         }
     }
@@ -24,7 +24,7 @@ class EditBioActivity : BaseActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container,
-                    EditBioFragment.newInstance(intent.getStringExtra(Tags.ARGS))
+                    EditProfileBioFragment.newInstance(intent.getStringExtra(Tags.ARGS))
                 )
                 .commitNow()
         }

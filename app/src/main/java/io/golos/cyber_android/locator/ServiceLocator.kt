@@ -70,11 +70,15 @@ interface ServiceLocator {
 
     fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory
 
-    fun getEditProfileCoverViewModelFactory(): ViewModelProvider.Factory
+    fun getEditProfileCoverViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
 
-    fun getEditProfileAvatarViewModelFactory(): ViewModelProvider.Factory
+    fun getEditProfileAvatarViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
+
+    fun getEditProfileBioViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
 
     fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
+
+    fun getMainViewModelFactory(): ViewModelProvider.Factory
 
     fun getSignInUseCase(): SignInUseCase
 

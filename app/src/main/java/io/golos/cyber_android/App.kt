@@ -1,6 +1,8 @@
 package io.golos.cyber_android
 
 import androidx.multidex.MultiDexApplication
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.cyber_android.locator.ServiceLocator
 import io.golos.cyber_android.locator.ServiceLocatorImpl
@@ -17,7 +19,7 @@ class App : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        //Fabric.with(this, Crashlytics())
+        Fabric.with(this, Crashlytics())
 
         mServiceLocator = ServiceLocatorImpl(this)
         mRepositoriesHolder = mServiceLocator as RepositoriesHolder

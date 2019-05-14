@@ -62,6 +62,7 @@
         <io.golos.cyber_android.views.TouchImageView
                 android:id="@+id/coverImage"
                 app:srcCompat="@color/blue"
+                tools:src="@drawable/img_example_media"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

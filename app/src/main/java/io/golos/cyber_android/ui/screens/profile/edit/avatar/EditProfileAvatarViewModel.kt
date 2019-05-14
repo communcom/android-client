@@ -1,12 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile.edit.avatar
 
 import androidx.arch.core.util.Function
-import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
 import io.golos.cyber_android.utils.Compressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.UploadedImageModel
 import io.golos.domain.interactors.model.UploadedImagesModel
+import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,10 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class EditProfileAvatarViewModel(
+    private val userMetadataUseCase: UserMetadataUseCase,
     private val imageUploadUseCase: ImageUploadUseCase,
     val dispatchersProvider: DispatchersProvider
-) : ViewModel() {
+) : BaseEditProfileViewModel(userMetadataUseCase) {
 
     private val uiScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private val workerScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -48,5 +50,9 @@ class EditProfileAvatarViewModel(
     override fun onCleared() {
         super.onCleared()
         imageUploadUseCase.unsubscribe()
+    }
+
+    fun updateAvatar(url: String) {
+        userMetadataUseCase.updateMetadata(newProfileImageUrl = url)
     }
 }

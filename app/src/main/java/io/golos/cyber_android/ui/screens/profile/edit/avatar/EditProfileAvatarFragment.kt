@@ -11,18 +11,25 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.screens.profile.edit.BaseProfileImageFragment
-import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverActivity
-import io.golos.domain.interactors.model.UploadedImageModel
+import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverFragment
+import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*
 import java.io.File
 
 
 class EditProfileAvatarFragment : BaseProfileImageFragment() {
+
+    data class Args(
+        val user: CyberName,
+        val source: EditProfileCoverFragment.ImageSource
+    )
 
     private lateinit var viewModel: EditProfileAvatarViewModel
 
@@ -59,14 +66,24 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
             when (it) {
                 is QueryResult.Error -> onError()
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Success -> onSuccess(it.originalQuery)
+                is QueryResult.Success -> viewModel.updateAvatar(it.originalQuery.url)
+            }
+        })
+
+        viewModel.getMetadataUpdateStateLiveData.asEvent().observe(this, Observer { event ->
+            event?.getIfNotHandled()?.let {
+                when (it) {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Error -> onError()
+                    is QueryResult.Success -> onSuccess()
+                }
             }
         })
     }
 
-    private fun onSuccess(result: UploadedImageModel) {
+    private fun onSuccess() {
         hideLoading()
-        Toast.makeText(requireContext(), "result = ${result.url}", Toast.LENGTH_SHORT).show()
+        requireActivity().finish()
     }
 
     private fun onError() {
@@ -87,6 +104,7 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
         selectedUri = uri
         Glide.with(requireContext())
             .load(uri)
+            .apply(RequestOptions.circleCropTransform())
             .into(avatar)
     }
 
@@ -95,15 +113,24 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getEditProfileAvatarViewModelFactory()
+                .getEditProfileAvatarViewModelFactory(getArgs().user)
         ).get(EditProfileAvatarViewModel::class.java)
     }
 
+    override fun getImageSource() = getArgs().source
+
+    private fun getArgs() = requireContext()
+        .serviceLocator
+        .moshi
+        .adapter(Args::class.java)
+        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
+
+
     companion object {
-        fun newInstance(source: EditProfileCoverActivity.ImageSource) =
+        fun newInstance(serializedArgs: String) =
             EditProfileAvatarFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(Tags.ARGS, source)
+                    putString(Tags.ARGS, serializedArgs)
                 }
             }
     }

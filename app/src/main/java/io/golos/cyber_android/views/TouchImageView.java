@@ -210,6 +210,7 @@ public class TouchImageView extends AppCompatImageView {
         return new PointF(rect.left * getImageWidth(), rect.top * getImageHeight());
     }
 
+
     /**
      * Save the current matrix and view dimensions
      * in the prevMatrix and prevView variables.

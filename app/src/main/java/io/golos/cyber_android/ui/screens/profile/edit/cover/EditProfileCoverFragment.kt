@@ -9,17 +9,31 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.screens.profile.edit.BaseProfileImageFragment
-import io.golos.domain.interactors.model.UploadedImageModel
+import io.golos.cyber_android.utils.asEvent
+import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.edit_profile_cover_fragment.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class EditProfileCoverFragment : BaseProfileImageFragment() {
+
+    enum class ImageSource {
+        CAMERA, GALLERY
+    }
+
+    data class Args(
+        val user: CyberName,
+        val source: ImageSource
+    )
 
     private lateinit var viewModel: EditProfileCoverViewModel
 
@@ -42,18 +56,59 @@ class EditProfileCoverFragment : BaseProfileImageFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.uploadingStateLiveData.observe(this, Observer {
+        viewModel.getFileUploadingStateLiveData.observe(this, Observer {
             when (it) {
                 is QueryResult.Error -> onError()
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Success -> onSuccess(it.originalQuery)
+                is QueryResult.Success -> viewModel.updateCover(it.originalQuery.url)
+            }
+        })
+
+        viewModel.getMetadataUpdateStateLiveData.asEvent().observe(this, Observer { event ->
+            event?.getIfNotHandled()?.let {
+                when (it) {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Error -> onError()
+                    is QueryResult.Success -> onSuccess()
+                }
+            }
+        })
+
+        viewModel.getMetadataLiveData.observe(this, Observer { result ->
+            when (result) {
+                is QueryResult.Success -> bindProfile(result.originalQuery)
             }
         })
     }
 
-    private fun onSuccess(result: UploadedImageModel) {
+    private fun bindProfile(profile: UserMetadataModel) {
+        avatarText.text = profile.username
+
+        if (profile.personal.avatarUrl.isNullOrBlank()) {
+            avatar.setImageDrawable(null)
+            avatarText.visibility = View.VISIBLE
+        } else {
+            Glide.with(requireContext())
+                .load(profile.personal.avatarUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar)
+            avatarText.visibility = View.GONE
+        }
+
+        username.text = profile.username
+
+        joined.text = String.format(
+            getString(R.string.profile_creation_date_caption_format),
+            SimpleDateFormat(
+                getString(R.string.profile_creation_date_format),
+                Locale.US
+            ).format(profile.createdAt)
+        )
+    }
+
+    private fun onSuccess() {
         hideLoading()
-        Toast.makeText(requireContext(), "result = ${result.url}", Toast.LENGTH_SHORT).show()
+        requireActivity().finish()
     }
 
     private fun onError() {
@@ -63,9 +118,9 @@ class EditProfileCoverFragment : BaseProfileImageFragment() {
 
     private fun confirm() {
         showLoading()
-        val translation = coverImage.translation
+        val zoomedRect = coverImage.zoomedRect
         selectedUri?.let { uri ->
-            viewModel.uploadFile(File(uri.path), translation.x, translation.y)
+            viewModel.uploadFile(File(uri.path), zoomedRect.left, zoomedRect.top, zoomedRect.width(), zoomedRect.height())
         }
     }
 
@@ -81,15 +136,23 @@ class EditProfileCoverFragment : BaseProfileImageFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getEditProfileCoverViewModelFactory()
+                .getEditProfileCoverViewModelFactory(getArgs().user)
         ).get(EditProfileCoverViewModel::class.java)
     }
 
+    override fun getImageSource() = getArgs().source
+
+    private fun getArgs() = requireContext()
+        .serviceLocator
+        .moshi
+        .adapter(Args::class.java)
+        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
+
     companion object {
-        fun newInstance(source: EditProfileCoverActivity.ImageSource) =
+        fun newInstance(serializedArgs: String) =
             EditProfileCoverFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(Tags.ARGS, source)
+                    putString(Tags.ARGS, serializedArgs)
                 }
             }
     }

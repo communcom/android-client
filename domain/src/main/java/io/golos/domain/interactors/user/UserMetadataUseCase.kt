@@ -12,6 +12,7 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.UserMetadataFetchRequest
 import io.golos.domain.requestmodel.UserMetadataRequest
+import io.golos.domain.requestmodel.UserMetadataUpdateRequest
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
@@ -25,6 +26,11 @@ class UserMetadataUseCase(
 
     protected val userMetadataLiveData = MutableLiveData<QueryResult<UserMetadataModel>>()
     protected val fetchMyUserRequest = UserMetadataFetchRequest(user)
+
+    private val metadataUpdateResultLiveData = MutableLiveData<QueryResult<UserMetadataRequest>>()
+    val getUpdateResultLiveData: LiveData<QueryResult<UserMetadataRequest>> = metadataUpdateResultLiveData
+
+    private var lastUpdateRequest: UserMetadataUpdateRequest? = null
 
     override val getAsLiveData: LiveData<QueryResult<UserMetadataModel>>
         get() = userMetadataLiveData
@@ -62,20 +68,35 @@ class UserMetadataUseCase(
                         , isSubscribed
                     )
                 }
-            val myUserUpdating =
-                userMetadataRepository.updateStates.value.orEmpty()[fetchMyUserRequest.id] ?: return@addSource
 
-            val resultingState = when (myUserUpdating) {
-                is QueryResult.Error -> QueryResult.Error(myUserUpdating.error, myUser ?: UserMetadataModel.empty)
-                is QueryResult.Loading -> QueryResult.Loading(myUser ?: UserMetadataModel.empty)
-                is QueryResult.Success -> QueryResult.Success(
-                    myUser ?: throw IllegalStateException(
-                        "successfully fetched user is not in repository, " +
-                                "this should not happen "
+            userMetadataRepository.updateStates.value.orEmpty()[fetchMyUserRequest.id]?.let { myUserUpdating ->
+                val resultingState = when (myUserUpdating) {
+                    is QueryResult.Error -> QueryResult.Error(myUserUpdating.error, myUser ?: UserMetadataModel.empty)
+                    is QueryResult.Loading -> QueryResult.Loading(myUser ?: UserMetadataModel.empty)
+                    is QueryResult.Success -> QueryResult.Success(
+                        myUser ?: throw IllegalStateException(
+                            "successfully fetched user is not in repository, " +
+                                    "this should not happen "
+                        )
                     )
-                )
+                }
+                userMetadataLiveData.value = resultingState
             }
-            userMetadataLiveData.value = resultingState
+
+            userMetadataRepository.updateStates.value.orEmpty()[lastUpdateRequest?.id]?.let { myUserUpdating ->
+                metadataUpdateResultLiveData.value = myUserUpdating
+            }
+        }
+    }
+
+    fun updateMetadata(
+        newBio: String? = null,
+        newCoverUrl: String? = null,
+        newProfileImageUrl: String? = null
+    ) {
+        lastUpdateRequest = UserMetadataUpdateRequest(user, newBio, newCoverUrl, newProfileImageUrl)
+        lastUpdateRequest?.let {
+            userMetadataRepository.makeAction(it)
         }
     }
 
