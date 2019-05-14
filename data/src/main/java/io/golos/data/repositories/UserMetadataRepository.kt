@@ -10,10 +10,7 @@ import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.entities.UserMetadataEntity
-import io.golos.domain.requestmodel.Identifiable
-import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.UserMetadataFetchRequest
-import io.golos.domain.requestmodel.UserMetadataRequest
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
 import kotlinx.coroutines.*
 import java.util.*
@@ -55,6 +52,22 @@ class UserMetadataRepository(
                             metadadataApi.getUserMetadata(params.user)
                                 .run { toEntityMapper(this) }
                         }
+                        savedMetadata.value =
+                            UserMetadataCollectionEntity(savedMetadata.value?.map.orEmpty() + (params.user to updatedMeta))
+                    }
+
+                    is UserMetadataUpdateRequest -> {
+                        val updatedMeta = withContext(dispatchersProvider.workDispatcher) {
+                            metadadataApi.setUserMetadata(
+                                about = params.bio,
+                                coverImage = params.coverImageUrl,
+                                profileImage = params.profileImageUrl
+                            )
+                            delay(3_000)
+                            metadadataApi.getUserMetadata(params.user)
+                                .run { toEntityMapper(this) }
+                        }
+
                         savedMetadata.value =
                             UserMetadataCollectionEntity(savedMetadata.value?.map.orEmpty() + (params.user to updatedMeta))
                     }

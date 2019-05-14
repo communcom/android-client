@@ -54,6 +54,8 @@ interface ServiceLocator {
 
     fun getSignUpViewModelFactory(): ViewModelProvider.Factory
 
+    fun getUserPostsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory
+
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase
@@ -65,6 +67,18 @@ interface ServiceLocator {
     fun getCommentsForAPostUseCase(postId: DiscussionIdModel): PostCommentsFeedUseCase
 
     fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase
+
+    fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory
+
+    fun getEditProfileCoverViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
+
+    fun getEditProfileAvatarViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
+
+    fun getEditProfileBioViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
+
+    fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
+
+    fun getMainViewModelFactory(): ViewModelProvider.Factory
 
     fun getSignInUseCase(): SignInUseCase
 

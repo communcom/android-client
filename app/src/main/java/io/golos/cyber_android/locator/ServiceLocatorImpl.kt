@@ -9,6 +9,7 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.CommunityFeedViewModel
+import io.golos.cyber_android.MainViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
@@ -17,6 +18,12 @@ import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
+import io.golos.cyber_android.ui.screens.profile.ProfileViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
+import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.OnDevicePersister
@@ -339,6 +346,106 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                             override fun provide() = BuildConfig.AUTH_TEST_PASS
                         })
                     ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase()) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditProfileCoverViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditProfileCoverViewModel::class.java -> EditProfileCoverViewModel(
+                        getUserMetadataUseCase(forUser),
+                        getImageUploadUseCase(),
+                        dispatchersProvider
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditProfileAvatarViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditProfileAvatarViewModel::class.java -> EditProfileAvatarViewModel(
+                        getUserMetadataUseCase(forUser),
+                        getImageUploadUseCase(),
+                        dispatchersProvider
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getEditProfileBioViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    EditProfileBioViewModel::class.java -> EditProfileBioViewModel(
+                        getUserMetadataUseCase(forUser)
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    ProfileViewModel::class.java -> ProfileViewModel(getUserMetadataUseCase(forUser),
+                        getSignInUseCase(),
+                        forUser) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getUserPostsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
+                        getUserPostFeedUseCase(user),
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
+                    ) as T
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getMainViewModelFactory(): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    MainViewModel::class.java -> MainViewModel(getSignInUseCase()) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }

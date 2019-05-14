@@ -52,7 +52,7 @@ open class MyFeedFragment :
         setupEditorWidget()
     }
 
-    override fun onNewData() {
+    override fun onNewData(data: List<PostModel>) {
         swipeRefresh.isRefreshing = false
     }
 

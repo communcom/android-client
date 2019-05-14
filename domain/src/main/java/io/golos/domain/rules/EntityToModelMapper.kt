@@ -191,6 +191,29 @@ class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, Vo
     }
 }
 
+class UserMetadataEntityToModelMapper : EntityToModelMapper<UserMetadataEntity, UserMetadataModel> {
+    override suspend fun invoke(entity: UserMetadataEntity): UserMetadataModel {
+        return with(entity) {
+            UserMetadataModel(
+                UserPersonalDataModel(
+                    personal.avatarUrl, personal.coverUrl, personal.biography,
+                    ContactsModel(
+                        personal.contacts?.facebook, personal.contacts?.telegram, personal.contacts?.whatsApp,
+                        personal.contacts?.weChat
+                    )
+
+                ), UserSubscriptionsModel(subscriptions.usersCount, subscriptions.communitiesCount)
+                , UserStatsModel(stats.postsCount, stats.commentsCount)
+                , userId
+                , username
+                , SubscribersModel(subscribers.usersCount, subscribers.communitiesCount)
+                , createdAt
+                , isSubscribed
+            )
+        }
+    }
+}
+
 class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsListModel> {
     private val cache = Collections.synchronizedMap(HashMap<EventEntity, EventModel>())
 

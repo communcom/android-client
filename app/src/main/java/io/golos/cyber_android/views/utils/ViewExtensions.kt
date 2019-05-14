@@ -2,7 +2,6 @@ package io.golos.cyber_android.views.utils
 
 import android.text.Editable
 import android.text.Spannable
-import android.text.util.Linkify
 import android.widget.TextView
 import java.util.regex.Pattern
 

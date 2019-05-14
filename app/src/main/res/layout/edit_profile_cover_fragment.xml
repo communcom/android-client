@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+
+    <com.google.android.material.appbar.AppBarLayout
+            app:elevation="0dp"
+            android:id="@+id/actionBar"
+            android:background="@color/white"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <LinearLayout
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageButton
+                    android:id="@+id/close"
+                    android:padding="@dimen/padding_toolbar_buttons_20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_gravity="start|center_vertical"
+                    app:srcCompat="@drawable/ic_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/toolbarTitle"
+                    style="@style/ToolbarTitleTextStyle"
+                    android:text="@string/change_position"
+                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+            <ImageButton
+                    android:id="@+id/post"
+                    android:padding="@dimen/padding_toolbar_buttons_20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_gravity="start|center_vertical"
+                    app:srcCompat="@drawable/ic_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <io.golos.cyber_android.views.TouchImageView
+                android:id="@+id/coverImage"
+                app:srcCompat="@color/blue"
+                tools:src="@drawable/img_example_media"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_profile_cover"
+        />
+
+        <TextView
+                android:text="@string/drag_photo"
+                style="@style/DragLabelTextStyle"
+                android:layout_marginTop="@dimen/margin_top_cover_drag_label"
+                android:background="@drawable/bg_cover_drag"
+                android:drawableStart="@drawable/ic_drag"
+                android:drawablePadding="@dimen/padding_cover_drag_label_drawable"
+                android:paddingTop="@dimen/margin_vertical_default_8dp"
+                android:paddingBottom="@dimen/margin_vertical_default_8dp"
+                android:paddingStart="@dimen/padding_cover_drag_label_drawable"
+                android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        <ImageView
+                android:id="@+id/avatar"
+                android:padding="@dimen/padding_profile_avatar"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/img_example_avatar"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_profile_avatar"
+                android:layout_width="@dimen/size_profile_avatar"
+                android:layout_height="@dimen/size_profile_avatar"
+                android:layout_alignBottom="@+id/coverImage"
+                app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+                app:layout_constraintTop_toBottomOf="@+id/coverImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+                android:id="@+id/avatarText"
+                style="@style/ProfileAvatarTextStyle"
+                tools:text="S"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/avatar"
+                app:layout_constraintStart_toStartOf="@+id/avatar"
+                app:layout_constraintBottom_toBottomOf="@+id/avatar"
+                app:layout_constraintTop_toTopOf="@+id/avatar"/>
+
+        <TextView
+                android:id="@+id/username"
+                android:layout_marginTop="@dimen/margin_top_profile_username"
+                style="@style/ProfileUserNameTextStyle"
+                tools:text="sergey.marchenko"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/avatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+                android:id="@+id/joined"
+                style="@style/ProfileJoinedTextStyle"
+                tools:text="Joined April 12, 2018"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/username"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

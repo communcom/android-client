@@ -5,7 +5,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.ui.base.BaseActivity
 import io.golos.cyber_android.ui.screens.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
@@ -24,24 +27,43 @@ class MainActivity : BaseActivity() {
         PROFILE(4, R.id.navigation_profile)
     }
 
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupPager()
-        setupNavigationView()
+        setupViewModel()
+        observeViewModel()
     }
 
-    private fun setupPager() {
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            serviceLocator
+                .getMainViewModelFactory()
+        ).get(MainViewModel::class.java)
+    }
+
+    private fun observeViewModel() {
+        viewModel.authStateLiveData.observe(this, Observer { authState ->
+            authState.getIfNotHandled()?.run {
+                setupPager(this.userName)
+                setupNavigationView()
+            }
+        })
+    }
+
+    private fun setupPager(user: CyberName) {
         mainPager.isUserInputEnabled = false
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager, this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {
-                    Tabs.FEED -> FeedFragment.newInstance("gls", "destroyer2k")
+                    Tabs.FEED -> FeedFragment.newInstance("gls", user.name)
                     Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     Tabs.WALLET -> WalletFragment.newInstance()
-                    Tabs.PROFILE -> ProfileFragment.newInstance()
+                    Tabs.PROFILE -> ProfileFragment.newInstance(user.name)
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
             }

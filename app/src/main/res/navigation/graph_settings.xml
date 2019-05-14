@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/graph_settings" app:startDestination="@id/profileSettingsFragment">
+
+    <fragment android:id="@+id/NSFWSettingsFragment"
+              android:name="io.golos.cyber_android.ui.screens.profile.edit.settings.nsfw.NSFWSettingsFragment"
+              android:label="NSFWSettingsFragment"/>
+
+    <fragment android:id="@+id/LanguageSettingsFragment"
+              android:name="io.golos.cyber_android.ui.screens.profile.edit.settings.language.LanguageSettingsFragment"
+              android:label="NSFWSettingsFragment"/>
+    <fragment android:id="@+id/profileSettingsFragment"
+              android:name="io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsFragment"
+              android:label="ProfileSettingsFragment">
+        <action android:id="@+id/action_profileSettingsFragment_to_NSFWSettingsFragment"
+                app:destination="@id/NSFWSettingsFragment"/>
+        <action android:id="@+id/action_profileSettingsFragment_to_LanguageSettingsFragment"
+                app:destination="@id/LanguageSettingsFragment"/>
+    </fragment>
+</navigation>

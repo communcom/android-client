@@ -3,17 +3,17 @@ package io.golos.cyber_android.ui.screens.post.adapter
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.view.View
-import android.webkit.*
-import androidx.recyclerview.widget.RecyclerView
-import io.golos.domain.interactors.model.EmbedModel
-import kotlinx.android.synthetic.main.item_content_embed.view.*
-import android.webkit.WebView
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.recyclerview.widget.RecyclerView
+import io.golos.domain.interactors.model.EmbedModel
+import kotlinx.android.synthetic.main.item_content_embed.view.*
 
 
 class PostEmbedViewHolder(val view: View) : RecyclerView.ViewHolder(view), LifecycleObserver {
