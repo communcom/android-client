@@ -6,5 +6,7 @@ import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 
-class UserPostsFeedViewModel(feedUseCase: UserPostFeedUseCase, voteUseCase: VoteUseCase, posterUseCase: DiscussionPosterUseCase) :
+class UserPostsFeedViewModel(feedUseCase: UserPostFeedUseCase,
+                             voteUseCase: VoteUseCase,
+                             posterUseCase: DiscussionPosterUseCase) :
     FeedPageTabViewModel<PostFeedUpdateRequest>(feedUseCase, voteUseCase, posterUseCase)

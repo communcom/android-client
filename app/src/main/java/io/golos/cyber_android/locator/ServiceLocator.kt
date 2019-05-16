@@ -36,11 +36,13 @@ interface ServiceLocator {
 
     fun getDefaultViewModelFactory(): ViewModelProvider.Factory
 
-    fun getViewModelFactoryByCyberUser(user: CyberUser): ViewModelProvider.Factory
+    fun getUserPostsFeedViewModelFactory(forUser: CyberUser): ViewModelProvider.Factory
+
+    fun getUserSubscriptionsFeedViewModelFactory(forUser: CyberUser, appUser: CyberName): ViewModelProvider.Factory
 
     fun getViewModelFactoryByCyberName(forUser: CyberName): ViewModelProvider.Factory
 
-    fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory
+    fun getCommunityFeedViewModelFactory(communityId: CommunityId, forUser: CyberName): ViewModelProvider.Factory
 
     fun getPostWithCommentsViewModelFactory(postId: DiscussionIdModel): ViewModelProvider.Factory
 

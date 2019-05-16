@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
@@ -125,7 +126,7 @@ open class MyFeedFragment :
     }
 
     override fun setupWidgetsLiveData() {
-        viewModel.editorWidgetStateLiveData.observe(this, Observer { state ->
+        viewModel.getEditorWidgetStateLiveData.observe(this, Observer { state ->
             (feedList.adapter as HeadersPostsAdapter).apply {
                 editorWidgetState = state
             }
@@ -137,7 +138,9 @@ open class MyFeedFragment :
             this,
             requireActivity()
                 .serviceLocator
-                .getViewModelFactoryByCyberUser(CyberUser(arguments?.getString(Tags.USER_ID)!!))
+                .getUserSubscriptionsFeedViewModelFactory(
+                    CyberUser(arguments?.getString(Tags.USER_ID)!!),
+                    arguments?.getString(Tags.USER_ID)!!.toCyberName())
         ).get(UserSubscriptionsFeedViewModel::class.java)
     }
 

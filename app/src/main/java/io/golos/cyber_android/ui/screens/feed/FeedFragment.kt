@@ -60,7 +60,7 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
         feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (position) {
-                    Tab.ALL.index -> AllFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!).apply {
+                    Tab.ALL.index -> AllFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!, arguments?.getString(Tags.USER_ID)!!).apply {
                         setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
                     }
                     Tab.MY_FEED.index -> MyFeedFragment.newInstance(arguments?.getString(Tags.USER_ID)!!).apply {

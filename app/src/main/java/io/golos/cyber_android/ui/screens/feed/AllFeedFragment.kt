@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
@@ -119,13 +120,13 @@ class AllFeedFragment :
     }
 
     override fun setupWidgetsLiveData() {
-        viewModel.sortingWidgetState.observe(this, Observer { state ->
+        viewModel.getSortingWidgetStateLiveData.observe(this, Observer { state ->
             (feedList.adapter as HeadersPostsAdapter).apply {
                 sortingWidgetState = state
             }
         })
 
-        viewModel.editorWidgetStateLiveData.observe(this, Observer { state ->
+        viewModel.getEditorWidgetStateLiveData.observe(this, Observer { state ->
             (feedList.adapter as HeadersPostsAdapter).apply {
                 editorWidgetState = state
             }
@@ -137,7 +138,9 @@ class AllFeedFragment :
             this,
             requireActivity()
                 .serviceLocator
-                .getCommunityFeedViewModelFactory(CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!))
+                .getCommunityFeedViewModelFactory(
+                    CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!),
+                    arguments?.getString(Tags.USER_ID)!!.toCyberName())
         ).get(CommunityFeedViewModel::class.java)
     }
 
@@ -205,10 +208,11 @@ class AllFeedFragment :
     }
 
     companion object {
-        fun newInstance(communityName: String) =
+        fun newInstance(communityName: String, userId: String) =
             AllFeedFragment().apply {
                 arguments = Bundle().apply {
                     putString(Tags.COMMUNITY_NAME, communityName)
+                    putString(Tags.USER_ID, userId)
                 }
             }
     }

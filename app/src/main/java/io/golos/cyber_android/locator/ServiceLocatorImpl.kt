@@ -223,7 +223,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 UserMetadataRepository(apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
             }
 
-    override fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory {
+    override fun getCommunityFeedViewModelFactory(communityId: CommunityId, forUser: CyberName): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -231,7 +231,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
                         getCommunityFeedUseCase(communityId),
                         getVoteUseCase(),
-                        getDiscussionPosterUseCase()
+                        getDiscussionPosterUseCase(),
+                        getUserMetadataUseCase(forUser)
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -239,24 +240,35 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getViewModelFactoryByCyberUser(user: CyberUser): ViewModelProvider.Factory {
+    override fun getUserPostsFeedViewModelFactory(forUser: CyberUser): ViewModelProvider.Factory {
+        return object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return when (modelClass) {
+                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
+                        getUserPostFeedUseCase(forUser),
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
+                    ) as T
+
+
+                    else -> throw IllegalStateException("$modelClass is unsupported")
+                }
+            }
+        }
+    }
+
+    override fun getUserSubscriptionsFeedViewModelFactory(forUser: CyberUser, appUser: CyberName): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     UserSubscriptionsFeedViewModel::class.java -> UserSubscriptionsFeedViewModel(
-                        getUserSubscriptionsFeedUseCase(user),
+                        getUserSubscriptionsFeedUseCase(forUser),
                         getVoteUseCase(),
-                        getDiscussionPosterUseCase()
+                        getDiscussionPosterUseCase(),
+                        getUserMetadataUseCase(appUser)
                     ) as T
-
-                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
-                        getUserPostFeedUseCase(user),
-                        getVoteUseCase(),
-                        getDiscussionPosterUseCase()
-                    ) as T
-
-
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
