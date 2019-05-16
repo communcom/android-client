@@ -1,6 +1,5 @@
 package io.golos.cyber_android.widgets
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Editable
@@ -9,7 +8,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.AttributeSet
-import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.views.utils.BaseTextWatcher

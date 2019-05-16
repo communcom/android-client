@@ -98,14 +98,14 @@ class SignUpCountryFragment : LoadingFragment() {
             this,
             requireContext()
                 .serviceLocator
-                .getSignUpCountryViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignUpCountryViewModel::class.java)
 
         signUpViewModel = ViewModelProviders.of(
             requireActivity(),
             requireContext()
                 .serviceLocator
-                .getSignUpViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignUpViewModel::class.java)
     }
 }

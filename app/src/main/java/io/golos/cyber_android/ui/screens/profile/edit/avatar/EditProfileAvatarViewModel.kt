@@ -25,7 +25,10 @@ class EditProfileAvatarViewModel(
     private val uiScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private val workerScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
-    val uploadingStateLiveData = imageUploadUseCase.getAsLiveData
+    /**
+     * State of uploading image to remote server
+     */
+    val getFileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
         .map(Function<UploadedImagesModel, QueryResult<UploadedImageModel>> {
             return@Function it.map[lastFile?.absolutePath ?: ""]
         })
@@ -36,6 +39,13 @@ class EditProfileAvatarViewModel(
         imageUploadUseCase.subscribe()
     }
 
+    /**
+     * Uploads image file to remote server. Image will be compressed and cropped to square before that.
+     * @param file image file
+     * @param transX padding on x axis
+     * @param transY padding on y axis
+     * @param rotation degrees on which image should be rotated
+     */
     fun uploadFile(file: File, transX: Float, transY: Float, rotation: Float) {
         uiScope.launch {
             val compressedFile = withContext(workerScope.coroutineContext) {
@@ -52,6 +62,9 @@ class EditProfileAvatarViewModel(
         imageUploadUseCase.unsubscribe()
     }
 
+    /**
+     * Updates user avatar in user metadata
+     */
     fun updateAvatar(url: String) {
         userMetadataUseCase.updateMetadata(newProfileImageUrl = url)
     }

@@ -62,7 +62,7 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.uploadingStateLiveData.observe(this, Observer {
+        viewModel.getFileUploadingStateLiveData.observe(this, Observer {
             when (it) {
                 is QueryResult.Error -> onError()
                 is QueryResult.Loading -> showLoading()
@@ -113,7 +113,7 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getEditProfileAvatarViewModelFactory(getArgs().user)
+                .getViewModelFactoryByCyberName(getArgs().user)
         ).get(EditProfileAvatarViewModel::class.java)
     }
 

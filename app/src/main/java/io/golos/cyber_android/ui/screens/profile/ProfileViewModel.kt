@@ -31,9 +31,7 @@ class ProfileViewModel(
         it.userName == forUser
     })
 
-    /**
-     * [LiveData] for profile
-     */
+
     private val profileLiveData = MediatorLiveData<QueryResult<Profile>>().apply {
         var metadata: QueryResult<UserMetadataModel>? = null
         var isMyUser: Boolean? = null
@@ -52,25 +50,10 @@ class ProfileViewModel(
         }
     }
 
+    /**
+     * [LiveData] for profile.
+     */
     val getProfileLiveData: LiveData<QueryResult<Profile>> = profileLiveData
-
-    private fun MediatorLiveData<QueryResult<Profile>>.postProfileData(
-        metadataResult: QueryResult<UserMetadataModel>?,
-        isMyUserResult: Boolean
-    ) {
-        when (metadataResult) {
-            is QueryResult.Success -> postValue(
-                QueryResult.Success(
-                    Profile(
-                        metadataResult.originalQuery,
-                        isMyUserResult
-                    )
-                )
-            )
-            is QueryResult.Error -> postValue(QueryResult.Error(metadataResult.error, Profile.EMPTY))
-            is QueryResult.Loading -> postValue(QueryResult.Loading(Profile.EMPTY))
-        }
-    }
 
     fun clearProfileCover() {
         userMetadataUseCase.updateMetadata(newCoverUrl = "")
@@ -87,5 +70,24 @@ class ProfileViewModel(
     override fun onCleared() {
         super.onCleared()
         signInUseCase.unsubscribe()
+    }
+}
+
+
+private fun MediatorLiveData<QueryResult<ProfileViewModel.Profile>>.postProfileData(
+    metadataResult: QueryResult<UserMetadataModel>?,
+    isMyUserResult: Boolean
+) {
+    when (metadataResult) {
+        is QueryResult.Success -> postValue(
+            QueryResult.Success(
+                ProfileViewModel.Profile(
+                    metadataResult.originalQuery,
+                    isMyUserResult
+                )
+            )
+        )
+        is QueryResult.Error -> postValue(QueryResult.Error(metadataResult.error, ProfileViewModel.Profile.EMPTY))
+        is QueryResult.Loading -> postValue(QueryResult.Loading(ProfileViewModel.Profile.EMPTY))
     }
 }

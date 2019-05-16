@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/root"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/padding_top_notification"
+                android:paddingBottom="@dimen/padding_bottom_notification"
+                android:paddingStart="@dimen/padding_start_notification"
+                android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <FrameLayout
+            android:id="@+id/avatarParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/avatar"
+                tools:srcCompat="@drawable/img_example_avatar"
+                tools:background="@drawable/bg_notifications_awards"
+                android:scaleType="centerInside"
+                android:layout_marginStart="@dimen/margin_notification_avatar"
+                android:layout_marginBottom="@dimen/margin_notification_avatar"
+                android:layout_width="@dimen/size_notification_avatar"
+                android:layout_height="@dimen/size_notification_avatar"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                tools:background="@drawable/bg_notification_icon_transfer"
+                android:id="@+id/icon"
+                android:layout_gravity="bottom|start"
+                android:baselineAlignBottom="true"
+                tools:srcCompat="@drawable/ic_notifications"
+                android:tint="@color/white"
+                android:padding="@dimen/padding_notification_icon"
+                android:layout_width="@dimen/size_notification_icon"
+                android:layout_height="@dimen/size_notification_icon"/>
+    </FrameLayout>
+
+    <TextView
+            android:id="@+id/timestamp"
+            style="@style/PostCardAuthorTextStyle"
+            android:layout_toEndOf="@+id/avatarParent"
+            android:layout_alignTop="@+id/avatarParent"
+            tools:text="4 hr ago by Sergey Marchenko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+    />
+
+    <TextView
+            android:id="@+id/summary"
+            style="@style/PostCardCommunityTextStyle"
+            android:layout_toEndOf="@+id/avatarParent"
+            android:layout_below="@+id/timestamp"
+            tools:text="brandonk upvoted you in post: Wallpaper Pictures | Download..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:ellipsize="end"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+    />
+
+
+</RelativeLayout>

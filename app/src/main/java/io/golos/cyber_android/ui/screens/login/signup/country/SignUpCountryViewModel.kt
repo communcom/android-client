@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
-import kotlinx.coroutines.*
-import java.lang.NumberFormatException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SignUpCountryViewModel(
     dispatchersProvider: DispatchersProvider,

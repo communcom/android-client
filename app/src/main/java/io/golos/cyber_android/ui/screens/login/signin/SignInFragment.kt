@@ -10,11 +10,11 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import io.golos.cyber_android.MainActivity
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
@@ -118,7 +118,7 @@ class SignInFragment : LoadingFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getSignInViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignInViewModel::class.java)
     }
 }

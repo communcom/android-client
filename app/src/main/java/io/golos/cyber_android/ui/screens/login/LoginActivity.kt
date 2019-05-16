@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import io.golos.cyber_android.MainActivity
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.BaseActivity
+import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -24,7 +24,7 @@ class LoginActivity : BaseActivity() {
         val viewModel = ViewModelProviders.of(
             this,
             serviceLocator
-                .getAuthViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {

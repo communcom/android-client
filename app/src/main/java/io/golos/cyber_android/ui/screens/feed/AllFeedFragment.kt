@@ -92,8 +92,8 @@ class AllFeedFragment :
     }
 
     override fun setupEventsProvider() {
-        (targetFragment as FeedPageLiveDataProvider)
-            .provideEventsLiveData().observe(this, Observer {
+        (targetFragment as? FeedPageLiveDataProvider)
+            ?.provideEventsLiveData()?.observe(this, Observer {
                 when (it) {
                     is FeedPageViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
                 }

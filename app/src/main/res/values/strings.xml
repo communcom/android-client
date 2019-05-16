@@ -133,4 +133,20 @@
     <string name="you_have_not_made_any_posts">You have not made any post</string>
 
 
+
+    <!--Notifications-->
+    <string name="event_time_and_actor_format">%1$s in %2$s</string>
+    <string name="event_upvote_post_format">%1$s upvoted you in post: %2$s</string>
+    <string name="event_downvote_post_format">%1$s downvoted you in post: %2$s</string>
+    <string name="event_upvote_format">%1$s upvoted you</string>
+    <string name="event_downvote_format">%1$s downvoted you</string>
+    <string name="event_transfer_format">Received %1$s %2$s from %3$s</string>
+    <string name="event_reply_format">%1$s replied you comment: “%2$s”</string>
+    <string name="event_curator_award_post_format">Rewards for post: %1$s</string>
+    <string name="event_curator_award_format">Rewards for post</string>
+    <string name="event_mention_format">%1$s mention you in comment: “%2$s”</string>
+    <string name="event_repost_format">%1$s made a repost of your post “%2$s”</string>
+    <string name="event_subscribe_format">%1$s is following you</string>
+    <string name="event_unsubscribe_format">%1$s is not following you</string>
+
 </resources>

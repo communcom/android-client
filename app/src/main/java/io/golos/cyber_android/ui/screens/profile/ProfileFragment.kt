@@ -42,6 +42,11 @@ const val REQUEST_UPDATE_PHOTO_DIALOG = 102
 const val REQUEST_UPDATE_COVER = 103
 const val REQUEST_UPDATE_PHOTO = 104
 
+/**
+ * Fragment that represents user profile. [ProfileViewModel] produces [ProfileViewModel.Profile] objects, that
+ * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isMyUser boolean value. This value
+ * is used in this fragment to determine if this Profile Page belongs to the actual user that uses the app.
+ */
 class ProfileFragment : LoadingFragment() {
 
     enum class Tab(@StringRes val title: Int, val index: Int) {
@@ -115,6 +120,9 @@ class ProfileFragment : LoadingFragment() {
         Toast.makeText(requireContext(), "loading profile error", Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * Binds user metadata to this profile.
+     */
     private fun bindProfile(profile: UserMetadataModel) {
         updateEditBioControls(profile)
         updatePersonalData(profile)
@@ -122,6 +130,9 @@ class ProfileFragment : LoadingFragment() {
         updateFollowing(profile)
     }
 
+    /**
+     * Updates the state of the "Follow" control, depending on whether or not this profile is followed by the app user
+     */
     private fun updateFollowing(profile: UserMetadataModel) {
         follow.isActivated = profile.isSubscribed
         follow.setCompoundDrawablesWithIntrinsicBounds(
@@ -134,11 +145,17 @@ class ProfileFragment : LoadingFragment() {
         )
     }
 
+    /**
+     * Updates profile stats like count of the followers and following (including both users and communities)
+     */
     private fun updateStats(profile: UserMetadataModel) {
         followersCount.text = (profile.subscribers.usersCount + profile.subscribers.communitiesCount).toString()
         followingsCount.text = (profile.subscriptions.usersCount + profile.subscriptions.communitiesCount).toString()
     }
 
+    /**
+     * Updates personal data like username, avatar cover etc
+     */
     private fun updatePersonalData(profile: UserMetadataModel) {
         if (profile.personal.coverUrl.isNullOrBlank())
             cover.setImageDrawable(null)
@@ -171,6 +188,9 @@ class ProfileFragment : LoadingFragment() {
         bio.text = profile.personal.biography
     }
 
+    /**
+     * Changes some controls visibility depending on whether or not this profile is the actual app user profile
+     */
     private fun updateControlsVisibility(isActiveUserProfile: Boolean) {
         if (isActiveUserProfile) {
             updatePhoto.visibility = View.VISIBLE
@@ -188,6 +208,9 @@ class ProfileFragment : LoadingFragment() {
         }
     }
 
+    /**
+     * Sets click listeners on Edit Bio button
+     */
     private fun updateEditBioControls(profile: UserMetadataModel) {
         listOf(bio, editBio).forEach {
             it.setOnClickListener {
@@ -275,7 +298,7 @@ class ProfileFragment : LoadingFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getProfileViewModelFactory(getUserName().toCyberName())
+                .getViewModelFactoryByCyberName(getUserName().toCyberName())
         ).get(ProfileViewModel::class.java)
     }
 

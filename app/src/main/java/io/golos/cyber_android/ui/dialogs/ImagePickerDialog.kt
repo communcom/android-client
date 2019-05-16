@@ -11,10 +11,20 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog.Companion.RESULT_CAMERA
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog.Companion.RESULT_DELETE
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog.Companion.RESULT_GALLERY
 import kotlinx.android.synthetic.main.dialog_image_picker.*
 
 const val REQUEST_CAMERA_PERMISSIONS = 200
 
+/**
+ * [BottomSheetDialogFragment] that provides possibility to pick the way to obtain some picture.
+ * There are 3 possible outcomes - [RESULT_GALLERY] for gallery image, [RESULT_CAMERA] for camera image and [RESULT_DELETE]
+ * for deleting current image.
+ * This dialog checks all permission by itself. If calling site received one of the above result codes then app already has
+ * all required permissions.
+ */
 class ImagePickerDialog : BottomSheetDialogFragment() {
 
     enum class Target(@StringRes val removeMsg: Int) {

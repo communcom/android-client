@@ -17,12 +17,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.obsez.android.lib.filechooser.ChooserDialog
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.MainActivity
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
+import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.cyber_android.utils.PdfKeysUtils
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.GeneratedUserKeys
@@ -167,14 +167,14 @@ class SignUpKeyFragment : Fragment() {
             requireActivity(),
             requireContext()
                 .serviceLocator
-                .getSignUpViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignUpViewModel::class.java)
 
         authViewModel = ViewModelProviders.of(
             requireActivity(),
             requireContext()
                 .serviceLocator
-                .getAuthViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(AuthViewModel::class.java)
     }
 }

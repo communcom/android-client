@@ -15,6 +15,12 @@ import java.io.File
 private const val REQUEST_IMAGE_CAPTURE = 200
 private const val REQUEST_GALLERY_IMAGE = 201
 
+/**
+ * Base fragment for screens that updates some image of the user profile.
+ * Incapsulates all logic of the image picking, fileproviders etc (but not permissions).
+ * Child should only override [onImagePicked] method and use images and [getImageSource] to provide source of
+ * the image (like camera or gallery)
+ */
 abstract class BaseProfileImageFragment : LoadingFragment() {
 
     private var currentImageFileName = ""
@@ -32,6 +38,9 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
         }
     }
 
+    /**
+     * Override this to provide source of the image to pick
+     */
     abstract fun getImageSource() : EditProfileCoverFragment.ImageSource
 
     private fun pickGalleryPhoto() {
@@ -70,6 +79,9 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
         }
     }
 
+    /**
+     * Called when image was successfully picked
+     */
     abstract fun onImagePicked(uri: Uri)
 
     private fun onCancel() {

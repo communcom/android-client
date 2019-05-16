@@ -158,5 +158,15 @@
     <dimen name="margin_top_profile_empty_posts_description">25dp</dimen>
     <dimen name="margin_vertical_profile_empty_posts">50dp</dimen>
 
+    <!--Notifications-->
+    <dimen name="padding_top_notification">10dp</dimen>
+    <dimen name="padding_bottom_notification">8dp</dimen>
+    <dimen name="padding_start_notification">12dp</dimen>
+    <dimen name="margin_notification_avatar">4dp</dimen>
+    <dimen name="size_notification_avatar">56dp</dimen>
+    <dimen name="padding_notification_icon">5dp</dimen>
+    <dimen name="size_notification_icon">20dp</dimen>
+    <dimen name="size_notification_badge">18dp</dimen>
+
 
 </resources>
