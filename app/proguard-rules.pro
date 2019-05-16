@@ -21,3 +21,11 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class io.golos.** { *; }
+
+-keepclassmembers class * implements android.os.Parcelable {
+    static ** CREATOR;
+}
+
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}

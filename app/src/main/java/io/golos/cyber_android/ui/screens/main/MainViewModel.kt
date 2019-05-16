@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -16,7 +15,7 @@ class MainViewModel(private val signInUseCase: SignInUseCase,
     /**
      * [LiveData] that indicates current state of auth process
      */
-    val authStateLiveData = signInUseCase.getAsLiveData.asEvent()
+    val authStateLiveData = signInUseCase.getAsLiveData
 
     init {
         signInUseCase.subscribe()

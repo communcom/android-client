@@ -34,15 +34,15 @@ interface ServiceLocator {
 
     val moshi: Moshi
 
+    fun getDefaultViewModelFactory(): ViewModelProvider.Factory
+
+    fun getViewModelFactoryByCyberUser(user: CyberUser): ViewModelProvider.Factory
+
+    fun getViewModelFactoryByCyberName(forUser: CyberName): ViewModelProvider.Factory
+
     fun getCommunityFeedViewModelFactory(communityId: CommunityId): ViewModelProvider.Factory
 
-    fun getUserSubscriptionsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory
-
     fun getPostWithCommentsViewModelFactory(postId: DiscussionIdModel): ViewModelProvider.Factory
-
-    fun getSignInViewModelFactory(): ViewModelProvider.Factory
-
-    fun getAuthViewModelFactory(): ViewModelProvider.Factory
 
     fun getEditorPageViewModelFactory(
         type: EditorPageViewModel.Type,
@@ -50,19 +50,8 @@ interface ServiceLocator {
         community: CommunityModel?
     ): ViewModelProvider.Factory
 
-    fun getSignUpCountryViewModelFactory(): ViewModelProvider.Factory
-
-    fun getSignUpViewModelFactory(): ViewModelProvider.Factory
-
-    fun getUserPostsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory
-
-    fun getNotificationsViewModelFactory(): ViewModelProvider.Factory
 
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
-
-    fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase
-
-    fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase
 
     fun getVoteUseCase(): VoteUseCase
 
@@ -70,17 +59,9 @@ interface ServiceLocator {
 
     fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase
 
-    fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory
+    fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase
 
-    fun getEditProfileCoverViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
-
-    fun getEditProfileAvatarViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
-
-    fun getEditProfileBioViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
-
-    fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory
-
-    fun getMainViewModelFactory(): ViewModelProvider.Factory
+    fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase
 
     fun getSignInUseCase(): SignInUseCase
 

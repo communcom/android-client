@@ -118,7 +118,7 @@ class SignInFragment : LoadingFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getSignInViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignInViewModel::class.java)
     }
 }

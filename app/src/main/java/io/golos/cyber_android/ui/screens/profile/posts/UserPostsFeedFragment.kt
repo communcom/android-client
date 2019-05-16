@@ -140,7 +140,7 @@ open class UserPostsFeedFragment :
             this,
             requireActivity()
                 .serviceLocator
-                .getUserPostsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
+                .getViewModelFactoryByCyberUser(CyberUser(arguments?.getString(Tags.USER_ID)!!))
         ).get(UserPostsFeedViewModel::class.java)
     }
 

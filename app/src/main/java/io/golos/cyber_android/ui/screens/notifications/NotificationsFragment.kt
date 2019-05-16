@@ -15,6 +15,10 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.utils.PaginationScrollListener
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
+/**
+ * [Fragment] that represents Notification Page of the main screen. Contains a list of events, supports infinite
+ * scrolling and swipe-to-refresh
+ */
 class NotificationsFragment : Fragment() {
 
     private lateinit var viewModel: NotificationsViewModel
@@ -88,7 +92,7 @@ class NotificationsFragment : Fragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getNotificationsViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(NotificationsViewModel::class.java)
     }
 

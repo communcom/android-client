@@ -53,10 +53,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.authStateLiveData.observe(this, Observer { authState ->
-            authState.getIfNotHandled()?.run {
-                setupPager(this.userName)
-                setupNavigationView()
-            }
+            setupPager(authState.userName)
+            setupNavigationView()
         })
     }
 
@@ -80,12 +78,13 @@ class MainActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(
             this,
             serviceLocator
-                .getMainViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(MainViewModel::class.java)
     }
 
     private fun setupPager(user: CyberName) {
         mainPager.isUserInputEnabled = false
+        mainPager.offscreenPageLimit = Tabs.values().size
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager, this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {

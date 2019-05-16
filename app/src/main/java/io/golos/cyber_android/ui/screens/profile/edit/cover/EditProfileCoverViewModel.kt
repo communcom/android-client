@@ -25,6 +25,9 @@ class EditProfileCoverViewModel(
     private val uiScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private val workerScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
+    /**
+     * State of uploading image to remote server
+     */
     val getFileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
         .map(Function<UploadedImagesModel, QueryResult<UploadedImageModel>> {
             return@Function it.map[lastFile?.absolutePath ?: ""]
@@ -36,6 +39,14 @@ class EditProfileCoverViewModel(
         imageUploadUseCase.subscribe()
     }
 
+    /**
+     * Uploads image file to remote server. Image will be compressed and cropped to square before that.
+     * @param file image file
+     * @param x padding on x axis in % of original image width
+     * @param y padding on y axis in % of original image height
+     * @param width required image width in % of original image width
+     * @param height required image height in % of original image height
+     */
     fun uploadFile(file: File, x: Float, y: Float, width: Float, height: Float) {
         uiScope.launch {
             val compressedFile = withContext(workerScope.coroutineContext) {
@@ -46,6 +57,9 @@ class EditProfileCoverViewModel(
         }
     }
 
+    /**
+     * Updates user cover in user metadata
+     */
     fun updateCover(imageUrl: String) {
         userMetadataUseCase.updateMetadata(newCoverUrl = imageUrl)
     }

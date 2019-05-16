@@ -7,10 +7,22 @@ import androidx.annotation.FloatRange
 import java.io.File
 import java.io.IOException
 
+/**
+ * Utils class for compressing images before sending it to backend
+ */
 object Compressor {
 
     private const val MAX_SIZE = 500f
 
+    /**
+     * Compresses image file and returns new compressed file (which will rewrite original file)
+     * @param file original image file
+     * @param transX padding on x axis
+     * @param transY padding on y axis
+     * @param rotation degrees on which image should be rotated
+     * @param toSquare should image be cropped to squre by least dimension
+     * @return compressed image file, rewrites original file
+     * */
     @Throws(IOException::class)
     fun compressImageFile(
         file: File,
@@ -61,8 +73,15 @@ object Compressor {
         return file
     }
 
-
-
+    /**
+     * Compresses image file and returns new compressed file (which will rewrite original file)
+     * @param file original image file
+     * @param paddingXPercent padding on x axis in % of original image width
+     * @param paddingYPercent padding on y axis in % of original image height
+     * @param requiredWidthPercent required image width in % of original image width
+     * @param requiredHeightPercent required image height in % of original image height
+     * @return compressed image file, rewrites original file
+     * */
     @Throws(IOException::class)
     fun compressImageFile(
         file: File,

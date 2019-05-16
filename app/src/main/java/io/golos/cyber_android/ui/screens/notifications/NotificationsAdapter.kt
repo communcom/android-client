@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.LoadingViewHolder
+import io.golos.cyber_android.ui.screens.notifications.NotificationsAdapter.NotificationViewHolder
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.domain.interactors.model.ElapsedTime
 import io.golos.domain.requestmodel.*
@@ -17,6 +18,11 @@ private const val ITEM_TYPE = 0
 private const val LOADING_TYPE = 1
 
 
+/**
+ * [RecyclerView.Adapter] for [EventModel] objects. Most of the view contains timestamp, message (see [EventMessagesUtils]),
+ * icon and avatar.
+ * For additional information see [NotificationViewHolder.bindEvent] methods.
+ */
 class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var values: List<EventModel> = emptyList()
 
@@ -70,6 +76,10 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private fun getLoadingViewHolderPosition() = itemCount - 1
 
     class NotificationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        /**
+         * Binds [EventModel] to this [NotificationViewHolder]. This method only passes item to corresponding
+         * [bindEvent] method
+         */
         fun bind(item: EventModel) {
             when (item) {
                 is VoteEventModel -> bindEvent(item)
@@ -86,6 +96,14 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 is WitnessVoteEventModel -> skip(item)
                 is WitnessCancelVoteEventModel -> skip(item)
             }
+        }
+
+        /**
+         * Calling this method indicates that this [EventModel] wasn't handled due to missing design for this type of event.
+         * TODO all of the event should be handled, this method should be removed in future
+         */
+        private fun skip(item: EventModel) {
+            itemView.summary.text = "skiped " + item.javaClass.name
         }
 
         private fun bindEvent(item: SubscribeEventModel) {
@@ -131,11 +149,6 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 icon.visibility = View.VISIBLE
             }
         }
-
-        private fun skip(item: EventModel) {
-            itemView.summary.text = "skiped " + item.javaClass.name
-        }
-
 
         private fun bindEvent(item: CuratorAwardEventModel) {
             with(itemView) {
@@ -191,6 +204,12 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
+        /**
+         * Creates timestamp for this ViewHolder and appends actor name to it.
+         * @param time time of the event
+         * @param elapsedTime [ElapsedTime] passed after event. This should be provided by model
+         * @param actorName name of the actor which should be appended to timestamp
+         */
         private fun View.setTimestamp(
             time: Long,
             elapsedTime: ElapsedTime,
@@ -209,6 +228,11 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             )
         }
 
+        /**
+         * Creates timestamp for this ViewHolder.
+         * @param time time of the event
+         * @param elapsedTime [ElapsedTime] passed after event. This should be provided by model
+         */
         private fun View.setTimestamp(
             time: Long,
             elapsedTime: ElapsedTime
@@ -222,6 +246,10 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             )
         }
 
+        /**
+         * Loads user avatar into this ViewHolder.
+         * @param avatarUrl url of the avatar, nullable. If null, then default image will be loaded
+         */
         private fun View.loadUserAvatar(avatarUrl: String?) {
             if (!avatarUrl.isNullOrBlank())
                 Glide.with(itemView.context).load(avatarUrl).into(avatar)

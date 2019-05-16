@@ -70,7 +70,7 @@ class LanguageSettingsFragment : LoadingFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getProfileSettingsViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(ProfileSettingsViewModel::class.java)
     }
 

@@ -101,7 +101,7 @@ class EditProfileBioFragment : LoadingFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getEditProfileBioViewModelFactory(getArgs().user)
+                .getViewModelFactoryByCyberName(getArgs().user)
         ).get(EditProfileBioViewModel::class.java)
     }
 

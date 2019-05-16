@@ -239,7 +239,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getUserSubscriptionsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory {
+    override fun getViewModelFactoryByCyberUser(user: CyberUser): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -249,6 +249,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getVoteUseCase(),
                         getDiscussionPosterUseCase()
                     ) as T
+
+                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
+                        getUserPostFeedUseCase(user),
+                        getVoteUseCase(),
+                        getDiscussionPosterUseCase()
+                    ) as T
+
+
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
@@ -271,7 +279,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getSignInViewModelFactory(): ViewModelProvider.Factory {
+    override fun getDefaultViewModelFactory(): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -279,19 +287,31 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     SignInViewModel::class.java -> SignInViewModel(
                         getSignInUseCase()
                     ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
 
-    override fun getAuthViewModelFactory(): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
                     AuthViewModel::class.java -> AuthViewModel(
                         getSignInUseCase()
+                    ) as T
+
+                    SignUpCountryViewModel::class.java -> SignUpCountryViewModel(
+                        dispatchersProvider,
+                        getCountriesChooserUseCase()
+                    ) as T
+
+                    SignUpViewModel::class.java -> SignUpViewModel(
+                        getSignOnUseCase(true, object : TestPassProvider {
+                            override fun provide() = BuildConfig.AUTH_TEST_PASS
+                        })
+                    ) as T
+
+                    NotificationsViewModel::class.java -> NotificationsViewModel(
+                        getEventsUseCase(EventTypeEntity.values().toSet())
+                    ) as T
+
+                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase()) as T
+
+                    MainViewModel::class.java -> MainViewModel(
+                        getSignInUseCase(),
+                        getEventsUseCase(EventTypeEntity.values().toSet())
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -322,64 +342,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getSignUpCountryViewModelFactory(): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
-                    SignUpCountryViewModel::class.java -> SignUpCountryViewModel(
-                        dispatchersProvider,
-                        getCountriesChooserUseCase()
-                    ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
-
-    override fun getSignUpViewModelFactory(): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
-                    SignUpViewModel::class.java -> SignUpViewModel(
-                        getSignOnUseCase(true, object : TestPassProvider {
-                            override fun provide() = BuildConfig.AUTH_TEST_PASS
-                        })
-                    ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
-
-    override fun getNotificationsViewModelFactory(): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
-                    NotificationsViewModel::class.java -> NotificationsViewModel(
-                        getEventsUseCase(EventTypeEntity.values().toSet())
-                    ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
-
-    override fun getProfileSettingsViewModelFactory(): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
-                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase()) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
-
-    override fun getEditProfileCoverViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
+    override fun getViewModelFactoryByCyberName(forUser: CyberName): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -389,81 +352,20 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getImageUploadUseCase(),
                         dispatchersProvider
                     ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
 
-    override fun getEditProfileAvatarViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
                     EditProfileAvatarViewModel::class.java -> EditProfileAvatarViewModel(
                         getUserMetadataUseCase(forUser),
                         getImageUploadUseCase(),
                         dispatchersProvider
                     ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
 
-    override fun getEditProfileBioViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
                     EditProfileBioViewModel::class.java -> EditProfileBioViewModel(
                         getUserMetadataUseCase(forUser)
                     ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
 
-    override fun getProfileViewModelFactory(forUser: CyberName): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
                     ProfileViewModel::class.java -> ProfileViewModel(getUserMetadataUseCase(forUser),
                         getSignInUseCase(),
                         forUser) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
-
-    override fun getUserPostsFeedViewModelFactory(user: CyberUser): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
-                    UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
-                        getUserPostFeedUseCase(user),
-                        getVoteUseCase(),
-                        getDiscussionPosterUseCase()
-                    ) as T
-                    else -> throw IllegalStateException("$modelClass is unsupported")
-                }
-            }
-        }
-    }
-
-    override fun getMainViewModelFactory(): ViewModelProvider.Factory {
-        return object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return when (modelClass) {
-                    MainViewModel::class.java -> MainViewModel(
-                        getSignInUseCase(),
-                        getEventsUseCase(EventTypeEntity.values().toSet())
-                    ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }

@@ -24,7 +24,7 @@ class LoginActivity : BaseActivity() {
         val viewModel = ViewModelProviders.of(
             this,
             serviceLocator
-                .getAuthViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {

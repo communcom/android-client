@@ -167,14 +167,14 @@ class SignUpKeyFragment : Fragment() {
             requireActivity(),
             requireContext()
                 .serviceLocator
-                .getSignUpViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignUpViewModel::class.java)
 
         authViewModel = ViewModelProviders.of(
             requireActivity(),
             requireContext()
                 .serviceLocator
-                .getAuthViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(AuthViewModel::class.java)
     }
 }

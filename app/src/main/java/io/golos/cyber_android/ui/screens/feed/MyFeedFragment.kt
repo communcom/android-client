@@ -82,8 +82,8 @@ open class MyFeedFragment :
     }
 
     override fun setupEventsProvider() {
-        (targetFragment as FeedPageLiveDataProvider)
-            .provideEventsLiveData().observe(this, Observer {
+        (targetFragment as? FeedPageLiveDataProvider)
+            ?.provideEventsLiveData()?.observe(this, Observer {
                 when (it) {
                     is FeedPageViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
                 }
@@ -137,7 +137,7 @@ open class MyFeedFragment :
             this,
             requireActivity()
                 .serviceLocator
-                .getUserSubscriptionsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
+                .getViewModelFactoryByCyberUser(CyberUser(arguments?.getString(Tags.USER_ID)!!))
         ).get(UserSubscriptionsFeedViewModel::class.java)
     }
 

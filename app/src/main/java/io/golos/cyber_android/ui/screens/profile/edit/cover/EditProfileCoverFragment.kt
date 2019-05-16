@@ -136,7 +136,7 @@ class EditProfileCoverFragment : BaseProfileImageFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getEditProfileCoverViewModelFactory(getArgs().user)
+                .getViewModelFactoryByCyberName(getArgs().user)
         ).get(EditProfileCoverViewModel::class.java)
     }
 

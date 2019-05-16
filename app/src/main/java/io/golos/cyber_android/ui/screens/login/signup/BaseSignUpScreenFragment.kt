@@ -59,7 +59,7 @@ abstract class BaseSignUpScreenFragment<VM: BaseSignUpScreenViewModel>(private v
             requireActivity(),
             requireContext()
                 .serviceLocator
-                .getSignUpViewModelFactory()
+                .getDefaultViewModelFactory()
         ).get(SignUpViewModel::class.java)
     }
 }

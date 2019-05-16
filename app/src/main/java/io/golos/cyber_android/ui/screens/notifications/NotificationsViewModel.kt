@@ -1,10 +1,12 @@
 package io.golos.cyber_android.ui.screens.notifications
 
 import androidx.arch.core.util.Function
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.map
+import io.golos.domain.requestmodel.EventModel
 import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
 
@@ -23,6 +25,9 @@ class NotificationsViewModel(private val eventsUseCase: EventsUseCase): ViewMode
 
     val readinessLiveData = eventsUseCase.getReadinessLiveData
 
+    /**
+     * [LiveData] there was an error during loading
+     */
     val errorStatusLiveData = eventsUseCase.getUpdatingState.map(Function<QueryResult<UpdateOption>, Boolean> {
         it is QueryResult.Error
     })
@@ -45,10 +50,16 @@ class NotificationsViewModel(private val eventsUseCase: EventsUseCase): ViewMode
         requestRefresh()
     }
 
+    /**
+     * Requests full refresh of the data. New data can be listened by [feedLiveData]
+     */
     fun requestRefresh() {
         eventsUseCase.requestUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
     }
 
+    /**
+     * Requests new page of the data. New data can be listened by [feedLiveData]
+     */
     fun loadMore() {
         eventsUseCase.requestUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
     }
