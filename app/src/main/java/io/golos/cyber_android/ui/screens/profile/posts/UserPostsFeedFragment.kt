@@ -99,7 +99,7 @@ open class UserPostsFeedFragment :
     }
 
     override fun setupWidgetsLiveData() {
-        viewModel.sortingWidgetState.observe(this, Observer { state ->
+        viewModel.getSortingWidgetStateLiveData.observe(this, Observer { state ->
             (feedList.adapter as HeadersPostsAdapter).apply {
                 sortingWidgetState = state
             }
@@ -140,7 +140,7 @@ open class UserPostsFeedFragment :
             this,
             requireActivity()
                 .serviceLocator
-                .getViewModelFactoryByCyberUser(CyberUser(arguments?.getString(Tags.USER_ID)!!))
+                .getUserPostsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
         ).get(UserPostsFeedViewModel::class.java)
     }
 

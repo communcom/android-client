@@ -16,11 +16,10 @@ import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.BaseActivity
-import io.golos.cyber_android.ui.screens.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
-import io.golos.cyber_android.ui.screens.wallet.WalletFragment
+import io.golos.cyber_android.utils.asEvent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 
@@ -29,10 +28,10 @@ class MainActivity : BaseActivity() {
 
     enum class Tabs(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),
-        COMMUNITIES(1, R.id.navigation_communities),
-        NOTIFICATIONS(2, R.id.navigation_notifications),
-        WALLET(3, R.id.navigation_wallet),
-        PROFILE(4, R.id.navigation_profile)
+        //COMMUNITIES(1, R.id.navigation_communities),
+        NOTIFICATIONS(1, R.id.navigation_notifications),
+        //WALLET(3, R.id.navigation_wallet),
+        PROFILE(2, R.id.navigation_profile)
     }
 
     private lateinit var viewModel: MainViewModel
@@ -44,7 +43,6 @@ class MainActivity : BaseActivity() {
         addNotificationsBadge()
         setupViewModel()
         observeViewModel()
-
     }
 
     private fun observeViewModel() {
@@ -52,9 +50,11 @@ class MainActivity : BaseActivity() {
             refreshNotificationsBadge(it)
         })
 
-        viewModel.authStateLiveData.observe(this, Observer { authState ->
-            setupPager(authState.userName)
-            setupNavigationView()
+        viewModel.authStateLiveData.asEvent().observe(this, Observer { authState ->
+            authState.getIfNotHandled()?.let {
+                setupPager(it.userName)
+                setupNavigationView()
+            }
         })
     }
 
@@ -89,9 +89,9 @@ class MainActivity : BaseActivity() {
             override fun getItem(position: Int): Fragment {
                 return when (Tabs.values().find { it.index == position }) {
                     Tabs.FEED -> FeedFragment.newInstance("gls", user.name)
-                    Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
+                    //Tabs.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tabs.NOTIFICATIONS -> NotificationsFragment.newInstance()
-                    Tabs.WALLET -> WalletFragment.newInstance()
+                    //Tabs.WALLET -> WalletFragment.newInstance()
                     Tabs.PROFILE -> ProfileFragment.newInstance(user.name)
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }

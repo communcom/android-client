@@ -4,17 +4,17 @@
           android:title="@string/feed"
           android:icon="@drawable/ic_feed" />
 
-    <item android:id="@+id/navigation_communities"
-          android:title="@string/communities"
-          android:icon="@drawable/ic_communities" />
+    <!--<item android:id="@+id/navigation_communities"-->
+          <!--android:title="@string/communities"-->
+          <!--android:icon="@drawable/ic_communities" />-->
 
     <item android:id="@+id/navigation_notifications"
           android:title="@string/notifications"
           android:icon="@drawable/ic_notifications" />
 
-    <item android:id="@+id/navigation_wallet"
-          android:title="@string/wallet"
-          android:icon="@drawable/ic_wallet" />
+    <!--<item android:id="@+id/navigation_wallet"-->
+          <!--android:title="@string/wallet"-->
+          <!--android:icon="@drawable/ic_wallet" />-->
 
     <item android:id="@+id/navigation_profile"
           android:title="@string/profile"

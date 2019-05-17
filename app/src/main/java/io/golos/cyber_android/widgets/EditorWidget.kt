@@ -1,13 +1,12 @@
 package io.golos.cyber_android.widgets
 
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.widgets.EditorWidget.Listener
 import kotlinx.android.synthetic.main.view_editor_widget.view.*
 
 /**
@@ -43,10 +42,16 @@ class EditorWidget : LinearLayout {
      * Loads user avatar into avatar ImageView
      */
     fun loadUserAvatar(url: String) {
-        Glide.with(this)
-            .load(url)
-            .apply(RequestOptions.circleCropTransform())
-            .into(avatar)
+        if (url.isNotBlank())
+            Glide.with(this)
+                .load(url)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar)
+        else
+            Glide.with(this)
+                .load(R.drawable.img_example_avatar)
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar)
     }
 
     interface Listener {
