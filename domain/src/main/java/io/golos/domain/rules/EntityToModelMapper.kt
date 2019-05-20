@@ -33,7 +33,7 @@ class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: Ht
         val out = cashedValues.getOrPut(entity) {
             PostModel(
                 DiscussionIdModel(post.contentId.userId, post.contentId.permlink, post.contentId.refBlockNum),
-                DiscussionAuthorModel(post.author.userId, post.author.username),
+                DiscussionAuthorModel(post.author.userId, post.author.username, post.author.avatarUrl),
                 CommunityModel(CommunityId(post.community.id), post.community.name, post.community.avatarUrl),
                 PostContentModel(
                     post.content.title,
@@ -82,7 +82,7 @@ class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToS
         val out = cashedValues.getOrPut(entity) {
             CommentModel(
                 DiscussionIdModel(comment.contentId.userId, comment.contentId.permlink, comment.contentId.refBlockNum),
-                DiscussionAuthorModel(comment.author.userId, comment.author.username),
+                DiscussionAuthorModel(comment.author.userId, comment.author.username, comment.author.avatarUrl),
                 CommentContentModel(
                     ContentBodyModel("",
                         comment.content.body.full.map { rowEntity ->

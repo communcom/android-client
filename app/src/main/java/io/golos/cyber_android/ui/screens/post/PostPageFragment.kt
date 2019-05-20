@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
@@ -187,8 +189,17 @@ class PostPageFragment :
     }
 
     private fun bindToolbar(postModel: PostModel) {
-        //postAvatar
         //postMenu
+        if (postModel.author.avatarUrl.isNotBlank())
+            Glide.with(requireContext())
+                .load(postModel.author.avatarUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into(postAvatar)
+        else
+            Glide.with(requireContext())
+                .load(R.drawable.img_example_avatar)
+                .apply(RequestOptions.circleCropTransform())
+                .into(postAvatar)
 
         postAuthorName.text = postModel.community.name
         postAuthor.text = String.format(

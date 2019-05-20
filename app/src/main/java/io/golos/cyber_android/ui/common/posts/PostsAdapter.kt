@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
@@ -86,6 +88,19 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             listener: Listener
         ) {
             with(itemView) {
+
+                if (postModel.author.avatarUrl.isNotBlank())
+                    Glide.with(itemView.context)
+                        .load(postModel.author.avatarUrl)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(postAvatar)
+                else
+                    Glide.with(itemView.context)
+                        .load(R.drawable.img_example_avatar)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(postAvatar)
+
+
                 postAuthorName.text = postModel.community.name
                 postAuthor.text = String.format(
                     context.resources.getString(R.string.post_time_and_author_format),

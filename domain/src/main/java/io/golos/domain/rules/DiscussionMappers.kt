@@ -26,7 +26,8 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
             ),
             DiscussionAuthorEntity(
                 CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
-                cyberObject.author?.username ?: "unknown"
+                cyberObject.author?.username ?: "unknown",
+                cyberObject.author?.avatarUrl ?: ""
             ),
             CommunityEntity(
                 cyberObject.community!!.id,
@@ -98,7 +99,8 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
             ),
             DiscussionAuthorEntity(
                 CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
-                cyberObject.author?.username ?: "unknown"
+                cyberObject.author?.username ?: "unknown",
+                cyberObject.author?.avatarUrl ?: ""
             ),
             CommentContent(
                 ContentBody("",
