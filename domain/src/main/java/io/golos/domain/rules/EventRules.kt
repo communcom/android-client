@@ -1,5 +1,6 @@
 package io.golos.domain.rules
 
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.services.model.*
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
@@ -131,7 +132,7 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
         )
     }
 
-    private fun Actor.toEventActor() = EventActorEntity(this.id, this.avatarUrl)
+    private fun Actor.toEventActor() = EventActorEntity(this.id ?: CyberName(""), this.avatarUrl)
     private fun Post.toEventPost() = EventPostEntity(DiscussionIdEntity.fromCyber(this.contentId), this.title)
     private fun Comment.toEventComment() = EventCommentEntity(DiscussionIdEntity.fromCyber(this.contentId), this.body)
     private fun Value.toEventValue() = EventValueEntity(this.amount, this.currency)

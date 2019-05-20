@@ -48,14 +48,20 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
                     cyberObject.content.embeds
                         .map {
                             EmbedEntity(
-                                it.result.type ?: "",
-                                it.result.title ?: "",
-                                it.result.url ?: "",
-                                it.result.author ?: "",
-                                it.result.provider_name ?: "",
-                                it.result.html ?: ""
+                                it.result?.type ?: "",
+                                it.result?.title ?: "",
+                                it.result?.url ?: "",
+                                it.result?.author ?: "",
+                                it.result?.provider_name ?: "",
+                                it.result?.html ?: ""
                             )
-                        })
+                        },
+                    cyberObject.content.body.mobilePreview.orEmpty().map {
+                        when (it) {
+                            is ImageRow -> ImageRowEntity(it.src)
+                            is TextRow -> TextRowEntity(it.content)
+                        }
+                    })
             ),
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,
@@ -113,13 +119,20 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
                         }, cyberObject.content.embeds
                         .map {
                             EmbedEntity(
-                                it.result.type ?: "",
-                                it.result.title ?: "",
-                                it.result.url ?: "",
-                                it.result.author ?: "",
-                                it.result.provider_name ?: "",
-                                it.result.html ?: ""
+                                it.result?.type ?: "",
+                                it.result?.title ?: "",
+                                it.result?.url ?: "",
+                                it.result?.author ?: "",
+                                it.result?.provider_name ?: "",
+                                it.result?.html ?: ""
                             )
+                        },
+                    cyberObject.content.body.mobilePreview.orEmpty()
+                        .map {
+                            when (it) {
+                                is ImageRow -> ImageRowEntity(it.src)
+                                is TextRow -> TextRowEntity(it.content)
+                            }
                         }
                 )
             ),

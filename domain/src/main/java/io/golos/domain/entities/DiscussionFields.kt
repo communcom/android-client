@@ -16,7 +16,8 @@ data class CommentContent(val body: ContentBody) : Entity
 data class ContentBody(
     val preview: String,
     val full: List<ContentRowEntity>,
-    val embeds: List<EmbedEntity>
+    val embeds: List<EmbedEntity>,
+    val mobilePreview : List<ContentRowEntity>
 ) : Entity
 
 data class EmbedEntity(

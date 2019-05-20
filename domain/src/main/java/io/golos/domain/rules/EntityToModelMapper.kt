@@ -38,13 +38,13 @@ class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: Ht
                 PostContentModel(
                     post.content.title,
                     ContentBodyModel(
-                        cashedSpans.getOrPut(post.content.body.preview ?: "") {
-                            htmlToSpannableTransformer.transform(post.content.body.preview ?: "")
-                        },
                         post.content.body.full.map { rowEntity ->
                             rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
                         },
-                        post.content.body.embeds.map { it.toEmbedModel() }
+                        post.content.body.embeds.map { it.toEmbedModel() },
+                        post.content.body.mobilePreview.map { rowEntity ->
+                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
+                        }
                     )
                 ),
                 DiscussionVotesModel(
@@ -84,11 +84,14 @@ class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToS
                 DiscussionIdModel(comment.contentId.userId, comment.contentId.permlink, comment.contentId.refBlockNum),
                 DiscussionAuthorModel(comment.author.userId, comment.author.username, comment.author.avatarUrl),
                 CommentContentModel(
-                    ContentBodyModel("",
+                    ContentBodyModel(
                         comment.content.body.full.map { rowEntity ->
                             rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
                         },
-                        comment.content.body.embeds.map { it.toEmbedModel() }),
+                        comment.content.body.embeds.map { it.toEmbedModel() },
+                        comment.content.body.mobilePreview.map { rowEntity ->
+                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
+                        }),
                     if (comment.parentCommentId != null) 1 else 0
                 ),
                 DiscussionVotesModel(
