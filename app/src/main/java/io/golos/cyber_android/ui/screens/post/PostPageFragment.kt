@@ -85,12 +85,13 @@ class PostPageFragment :
         viewModel.discussionCreationLiveData.observe(this, Observer {
             it.getIfNotHandled()?.let { result ->
                 when (result) {
-                    is QueryResult.Loading<*> -> showLoading()
-                    is QueryResult.Success<*> -> {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> {
                         hideLoading()
                         postCommentBottom.clearText()
+                        viewModel.clearDiscussionToReply()
                     }
-                    is QueryResult.Error<*> -> {
+                    is QueryResult.Error -> {
                         hideLoading()
                         Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
                     }

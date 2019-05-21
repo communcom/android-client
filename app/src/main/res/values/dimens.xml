@@ -57,7 +57,7 @@
 
     <!--Post Page-->
     <dimen name="margin_top_post_page_title">16dp</dimen>
-    <dimen name="margin_top_post_page_content">32dp</dimen>
+    <dimen name="margin_top_post_page_content">28dp</dimen>
     <dimen name="margin_top_post_page_comments_title">47dp</dimen>
     <dimen name="margin_top_post_page_comments">15dp</dimen>
     <dimen name="margin_vertical_post_page_comment_edit_text">12dp</dimen>
