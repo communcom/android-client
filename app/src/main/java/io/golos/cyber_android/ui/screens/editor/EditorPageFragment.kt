@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.editor
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -215,6 +216,7 @@ class EditorPageFragment : LoadingFragment() {
     private fun onPostResult() {
         Toast.makeText(requireContext(), "Post creation success", Toast.LENGTH_SHORT).show()
         hideLoading()
+        activity?.setResult(Activity.RESULT_OK)
         activity?.finish()
     }
 

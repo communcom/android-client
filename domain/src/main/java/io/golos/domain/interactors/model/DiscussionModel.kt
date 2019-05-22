@@ -78,9 +78,9 @@ data class ImageRowModel(val src: String) : ContentRowModel()
 
 
 data class ContentBodyModel(
-    val preview: CharSequence,
     val full: List<ContentRowModel>,
-    val embeds: List<EmbedModel>
+    val embeds: List<EmbedModel>,
+    val mobilePreview: List<ContentRowModel>
 ) : Model
 
 

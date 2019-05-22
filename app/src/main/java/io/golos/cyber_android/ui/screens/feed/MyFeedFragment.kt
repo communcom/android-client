@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.feed
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
 /**
  * Fragment that represents MY FEED tab of the Feed Page
  */
+
 open class MyFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
@@ -115,13 +118,20 @@ open class MyFeedFragment :
             }
 
             override fun onWidgetClick() {
-                startActivity(
+                startActivityForResult(
                     EditorPageActivity.getIntent(
                         requireContext(),
                         EditorPageFragment.Args(EditorPageViewModel.Type.POST)
-                    )
+                    ), REQUEST_POST_CREATION
                 )
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_POST_CREATION && resultCode == Activity.RESULT_OK) {
+            viewModel.requestRefresh()
         }
     }
 

@@ -39,7 +39,7 @@
     <dimen name="padding_vertical_sorting_type">18dp</dimen>
 
     <!--Post Card-->
-    <dimen name="margin_top_post_card_content">24dp</dimen>
+    <dimen name="margin_top_post_card_content">20dp</dimen>
     <dimen name="size_post_card_avatar">40dp</dimen>
     <dimen name="margin_top_post_card_menu">8dp</dimen>
     <dimen name="margin_top_post_card_counters">28dp</dimen>
@@ -53,10 +53,11 @@
     <dimen name="divider_post_card_height">8dp</dimen>
     <dimen name="margin_top_post_card_media">16dp</dimen>
     <dimen name="size_post_card_votes_count">16dp</dimen>
+    <dimen name="height_max_post_card_media">223dp</dimen>
 
     <!--Post Page-->
     <dimen name="margin_top_post_page_title">16dp</dimen>
-    <dimen name="margin_top_post_page_content">32dp</dimen>
+    <dimen name="margin_top_post_page_content">28dp</dimen>
     <dimen name="margin_top_post_page_comments_title">47dp</dimen>
     <dimen name="margin_top_post_page_comments">15dp</dimen>
     <dimen name="margin_vertical_post_page_comment_edit_text">12dp</dimen>

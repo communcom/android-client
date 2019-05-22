@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
@@ -71,7 +73,17 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
             listener: Listener
         ) {
             with(itemView) {
-                //todo commentAvatar
+                if (commentModel.author.avatarUrl.isNotBlank())
+                    Glide.with(itemView.context)
+                        .load(commentModel.author.avatarUrl)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(commentAvatar)
+                else
+                    Glide.with(itemView.context)
+                        .load(R.drawable.img_example_avatar)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(commentAvatar)
+
                 commentRating.text = (commentModel.votes.upCount - commentModel.votes.downCount).toString()
                 commentAuthorName.text = commentModel.author.username
                 commentDate.text = DateUtils.createTimeLabel(

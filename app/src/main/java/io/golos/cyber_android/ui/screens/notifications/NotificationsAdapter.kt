@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.LoadingViewHolder
 import io.golos.cyber_android.ui.screens.notifications.NotificationsAdapter.NotificationViewHolder
@@ -252,7 +253,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          */
         private fun View.loadUserAvatar(avatarUrl: String?) {
             if (!avatarUrl.isNullOrBlank())
-                Glide.with(itemView.context).load(avatarUrl).into(avatar)
+                Glide.with(itemView.context).load(avatarUrl).apply(RequestOptions.circleCropTransform()).into(avatar)
             else Glide.with(itemView.context).load(R.drawable.img_example_avatar).into(avatar)
         }
     }

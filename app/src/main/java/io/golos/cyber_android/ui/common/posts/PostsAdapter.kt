@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
@@ -14,7 +16,9 @@ import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.entities.PostEntity
+import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.model.TextRowModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.header_post_card.view.*
 import kotlinx.android.synthetic.main.item_post.view.*
@@ -86,6 +90,19 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             listener: Listener
         ) {
             with(itemView) {
+
+                if (postModel.author.avatarUrl.isNotBlank())
+                    Glide.with(itemView.context)
+                        .load(postModel.author.avatarUrl)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(postAvatar)
+                else
+                    Glide.with(itemView.context)
+                        .load(R.drawable.img_example_avatar)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(postAvatar)
+
+
                 postAuthorName.text = postModel.community.name
                 postAuthor.text = String.format(
                     context.resources.getString(R.string.post_time_and_author_format),
@@ -98,7 +115,20 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     ),
                     postModel.author.username
                 )
-                postContentPreview.text = postModel.content.body.preview
+                postContentPreview.text =
+                    (postModel.content.body.mobilePreview.find { it is TextRowModel } as? TextRowModel)?.text
+
+                val postImage = postModel.content.body.mobilePreview.find { it is ImageRowModel } as? ImageRowModel
+                if (postImage != null) {
+                    postMedia.visibility = View.VISIBLE
+                    Glide.with(itemView.context)
+                        .load(postImage.src)
+                        .into(postMedia)
+                } else {
+                    postMedia.setImageResource(0)
+                    postMedia.visibility = View.GONE
+                }
+
                 postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > zero
 

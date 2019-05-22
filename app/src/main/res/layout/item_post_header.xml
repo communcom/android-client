@@ -14,6 +14,7 @@
 
     <TextView
             android:id="@+id/postTitle"
+            android:layout_marginBottom="@dimen/margin_top_post_page_content"
             android:layout_marginTop="@dimen/margin_top_post_page_title"
             android:theme="@style/PostTitleTextStyle"
             tools:text="Discussion - The Dangerous Path Overwatch is Headed: Giving Players"
@@ -24,7 +25,6 @@
 
     <TextView
             android:id="@+id/postContent"
-            android:layout_marginTop="@dimen/margin_top_post_page_content"
             android:theme="@style/PostContentTextStyle"
             tools:text="Discussion - The Dangerous Path Overwatch is Headed: Giving Players"
             android:layout_width="match_parent"

@@ -38,6 +38,9 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
 /**
  * Fragment that represents ALL tab of the Feed Page.
  */
+
+const val REQUEST_POST_CREATION = 205
+
 class AllFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
@@ -150,15 +153,16 @@ class AllFeedFragment :
             }
 
             override fun onWidgetClick() {
-                startActivity(
+                startActivityForResult(
                     EditorPageActivity.getIntent(
                         requireContext(),
                         EditorPageFragment.Args(EditorPageViewModel.Type.POST)
-                    )
+                    ), REQUEST_POST_CREATION
                 )
             }
         }
     }
+
 
     private fun setupSortingWidget() {
         (feedList.adapter as HeadersPostsAdapter).sortingWidgetListener = object : SortingWidget.Listener {
@@ -193,6 +197,9 @@ class AllFeedFragment :
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SORT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             onSortSelected(data.getSerializableExtra(SortingTypeDialogFragment.RESULT_TAG) as SortingType)
+        }
+        if (requestCode == REQUEST_POST_CREATION && resultCode == Activity.RESULT_OK) {
+            viewModel.requestRefresh()
         }
     }
 

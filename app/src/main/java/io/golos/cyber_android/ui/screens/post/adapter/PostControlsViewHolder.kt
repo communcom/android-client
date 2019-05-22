@@ -38,11 +38,10 @@ class PostControlsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
             postTitle.text = postModel.content.title
             postTitle.visibility =
-                if (postModel.content.body.full.isEmpty() && postModel.content.body.embeds.isEmpty())
+                if (postModel.content.title.isNotBlank())
                     View.VISIBLE
                 else
                     View.GONE
-            postContent.text = postModel.content.body.preview
             postContent.visibility =
                 if (postModel.content.body.full.isEmpty() && postModel.content.body.embeds.isEmpty())
                     View.VISIBLE

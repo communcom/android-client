@@ -170,8 +170,8 @@ class HeadersPostsAdapter(
     /**
      * Return headers count to offset real content elements
      */
-    private fun getItemsOffset() = if (isEditorWidgetSupported) 1 else 0 +
-            if (isSortingWidgetSupported) 1 else 0
+    private fun getItemsOffset() = (if (isEditorWidgetSupported) 1 else 0)+
+            (if (isSortingWidgetSupported) 1 else 0)
 
     private fun checkEditorWidgetSupport() {
         if (!isEditorWidgetSupported) {
