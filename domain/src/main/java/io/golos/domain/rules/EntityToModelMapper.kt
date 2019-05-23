@@ -32,7 +32,7 @@ class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: Ht
 
         val out = cashedValues.getOrPut(entity) {
             PostModel(
-                DiscussionIdModel(post.contentId.userId, post.contentId.permlink, post.contentId.refBlockNum),
+                DiscussionIdModel(post.contentId.userId, post.contentId.permlink),
                 DiscussionAuthorModel(post.author.userId, post.author.username, post.author.avatarUrl),
                 CommunityModel(CommunityId(post.community.id), post.community.name, post.community.avatarUrl),
                 PostContentModel(
@@ -81,7 +81,7 @@ class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToS
 
         val out = cashedValues.getOrPut(entity) {
             CommentModel(
-                DiscussionIdModel(comment.contentId.userId, comment.contentId.permlink, comment.contentId.refBlockNum),
+                DiscussionIdModel(comment.contentId.userId, comment.contentId.permlink),
                 DiscussionAuthorModel(comment.author.userId, comment.author.username, comment.author.avatarUrl),
                 CommentContentModel(
                     ContentBodyModel(
@@ -106,11 +106,10 @@ class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToS
                 DiscussionPayoutModel(comment.payout.rShares),
                 DiscussionIdModel(
                     comment.parentPostId.userId,
-                    comment.parentPostId.permlink,
-                    comment.parentPostId.refBlockNum
+                    comment.parentPostId.permlink
                 ),
                 comment.parentCommentId?.let {
-                    DiscussionIdModel(it.userId, it.permlink, it.refBlockNum)
+                    DiscussionIdModel(it.userId, it.permlink)
                 },
                 DiscussionMetadataModel(
                     comment.meta.time, comment.meta.time.asElapsedTime()
@@ -177,16 +176,14 @@ class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, Vo
                     entity.power,
                     DiscussionIdModel(
                         entity.discussionIdEntity.userId,
-                        entity.discussionIdEntity.permlink,
-                        entity.discussionIdEntity.refBlockNum
+                        entity.discussionIdEntity.permlink
                     )
                 )
                 is VoteRequestEntity.VoteForACommentRequestEntity -> VoteRequestModel.VoteForComentRequest(
                     entity.power,
                     DiscussionIdModel(
                         entity.discussionIdEntity.userId,
-                        entity.discussionIdEntity.permlink,
-                        entity.discussionIdEntity.refBlockNum
+                        entity.discussionIdEntity.permlink
                     )
                 )
             }
@@ -338,16 +335,14 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
     private fun EventPostEntity.toModelPost() = EventPostModel(
         DiscussionIdModel(
             this.contentId.userId,
-            this.contentId.permlink,
-            this.contentId.refBlockNum
+            this.contentId.permlink
         ), this.title
     )
 
     private fun EventCommentEntity.toModelComment() =
         EventCommentModel(
             DiscussionIdModel(
-                this.contentId.userId, this.contentId.permlink,
-                this.contentId.refBlockNum
+                this.contentId.userId, this.contentId.permlink
             ), this.body
         )
 

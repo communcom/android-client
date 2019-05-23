@@ -86,20 +86,17 @@ class DiscussionPosterUseCase(
                         is PostCreationResultEntity -> QueryResult.Success<DiscussionCreationResultModel>(
                             PostCreationResultModel(
                                 DiscussionIdModel(
-                                    createdPostLiveData.postId.userId, createdPostLiveData.postId.permlink,
-                                    createdPostLiveData.postId.refBlockNum
+                                    createdPostLiveData.postId.userId, createdPostLiveData.postId.permlink
                                 )
                             )
                         )
                         is CommentCreationResultEntity -> QueryResult.Success<DiscussionCreationResultModel>(
                             CommentCreationResultModel(
                                 DiscussionIdModel(
-                                    createdPostLiveData.commentId.userId, createdPostLiveData.commentId.permlink,
-                                    createdPostLiveData.commentId.refBlockNum
+                                    createdPostLiveData.commentId.userId, createdPostLiveData.commentId.permlink
                                 ),
                                 DiscussionIdModel(
-                                    createdPostLiveData.parentId.userId, createdPostLiveData.parentId.permlink,
-                                    createdPostLiveData.parentId.refBlockNum
+                                    createdPostLiveData.parentId.userId, createdPostLiveData.parentId.permlink
                                 )
                             )
                         )

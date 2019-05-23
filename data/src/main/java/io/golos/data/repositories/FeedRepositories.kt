@@ -38,7 +38,7 @@ class PostsFeedRepository(
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
-        return apiService.getPost(CyberName(params.userId), params.permlink, params.refBlockNum)
+        return apiService.getPost(CyberName(params.userId), params.permlink)
     }
 
     override fun fixOnPositionDiscussion(discussion: PostEntity, parent: DiscussionIdEntity) {
@@ -95,7 +95,7 @@ class CommentsFeedRepository(
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
-        return apiService.getComment(CyberName(params.userId), params.permlink, params.refBlockNum)
+        return apiService.getComment(CyberName(params.userId), params.permlink)
     }
 
     override fun fixOnPositionDiscussion(discussion: CommentEntity, parent: DiscussionIdEntity) {
@@ -109,7 +109,6 @@ class CommentsFeedRepository(
 
         commentsToAPosts.filter { mapEntry ->
             mapEntry.key._permlink == parent.permlink
-                    && mapEntry.key._refBlockNum == parent.refBlockNum
                     && mapEntry.key._user == parent.userId
         }
             .onEach {
@@ -160,7 +159,6 @@ class CommentsFeedRepository(
             is CommentsOfApPostUpdateRequest -> apiService.getCommentsOfPost(
                 CyberName(updateRequest.user),
                 updateRequest.permlink,
-                updateRequest.refBlockNum,
                 updateRequest.limit,
                 updateRequest.sort.toDiscussionSort(),
                 updateRequest.sequenceKey
@@ -169,7 +167,7 @@ class CommentsFeedRepository(
     }
 
     override val allDataRequest: CommentFeedUpdateRequest =
-        CommentsOfApPostUpdateRequest("stub", "stub", Long.MIN_VALUE, 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
+        CommentsOfApPostUpdateRequest("stub", "stub",0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
 }
 
 internal fun DiscussionsSort.toDiscussionSort() = when (this) {

@@ -18,16 +18,14 @@ class VoteRequestModelToEntityMapper : ModelToEntityMapper<VoteRequestModel, Vot
                     model.power,
                     DiscussionIdEntity(
                         model.discussionIdEntity.userId,
-                        model.discussionIdEntity.permlink,
-                        model.discussionIdEntity.refBlockNum
+                        model.discussionIdEntity.permlink
                     )
                 )
                 is VoteRequestModel.VoteForComentRequest -> VoteRequestEntity.VoteForACommentRequestEntity(
                     model.power,
                     DiscussionIdEntity(
                         model.discussionIdEntity.userId,
-                        model.discussionIdEntity.permlink,
-                        model.discussionIdEntity.refBlockNum
+                        model.discussionIdEntity.permlink
                     )
                 )
             }

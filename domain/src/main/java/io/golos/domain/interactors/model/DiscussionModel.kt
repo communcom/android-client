@@ -45,8 +45,7 @@ sealed class DiscussionModel(
 
 data class DiscussionIdModel(
     val userId: String,
-    val permlink: String,
-    val refBlockNum: Long
+    val permlink: String
 ) : Model
 
 data class DiscussionCommentsCountModel(val count: Long) : Model

@@ -38,7 +38,7 @@ class DiscussionCreationRepository(
 
     private val lastCreateResultRequest = CommentCreationRequestEntity(
         "#stub#",
-        DiscussionIdModel("#stub#", "#stub#", Long.MIN_VALUE), emptyList()
+        DiscussionIdModel("#stub#", "#stub#"), emptyList()
     )
 
     override val allDataRequest: DiscussionCreationRequestEntity
@@ -62,7 +62,6 @@ class DiscussionCreationRepository(
                             request.body,
                             request.parentAccount,
                             request.parentPermlink,
-                            request.parentDiscussionRefBlockNum,
                             request.category,
                             request.metadata,
                             request.beneficiaries,
