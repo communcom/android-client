@@ -129,7 +129,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     postMedia.visibility = View.GONE
                 }
 
-                postUpvotesCount.text = "${postModel.votes.upCount - postModel.votes.downCount}"
+                postUpvotesCount.text = "${postModel.payout.rShares}"
                 postVoteStatus.isActivated = postModel.payout.rShares > zero
 
                 postCommentsCount.text = String.format(
