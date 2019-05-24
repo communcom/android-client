@@ -13,10 +13,7 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.map
-import io.golos.domain.requestmodel.AuthRequest
-import io.golos.domain.requestmodel.AuthRequestModel
-import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.SignInState
+import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 
 /**
@@ -98,5 +95,9 @@ class SignInUseCase(
 
     fun authWithCredentials(request: AuthRequestModel) {
         authRepo.makeAction(AuthRequest(CyberUser(request.user.userId.trim()), request.activeKey.trim()))
+    }
+
+    fun logOut() {
+        authRepo.makeAction(LogOutRequest())
     }
 }

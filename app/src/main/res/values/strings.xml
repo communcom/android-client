@@ -112,6 +112,9 @@
     <string name="change_position">Change position</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_question">Are you sure you want to log out?</string>
+    <string name="cancel">Cancel</string>
 
     <!--Profile-->
     <string name="edit_bio">Edit Bio</string>

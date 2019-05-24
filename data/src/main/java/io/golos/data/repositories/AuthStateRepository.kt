@@ -12,6 +12,7 @@ import io.golos.domain.*
 import io.golos.domain.entities.AuthState
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
+import io.golos.domain.requestmodel.LogOutRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 import java.util.*
@@ -96,6 +97,14 @@ class AuthStateRepository(
 
     override fun makeAction(params: AuthRequest) {
         repositoryScope.launch {
+
+            if (params is LogOutRequest) {
+                val logOutState = AuthState("".toCyberUser(), false)
+                persister.saveAuthState(logOutState)
+                authState.value = logOutState
+                return@launch
+            }
+
             if (authState.value == null) authState.value = AuthState("".toCyberUser(), false)
             else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
