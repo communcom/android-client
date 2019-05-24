@@ -127,7 +127,7 @@
     </style>
 
     <style name="SignInButtonStyle" parent="SignUpButtonStyle">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/clickable_text_color</item>
         <item name="android:background">@color/white</item>
     </style>
 

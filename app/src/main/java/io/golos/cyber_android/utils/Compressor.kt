@@ -45,7 +45,7 @@ object Compressor {
 
             val matrix = Matrix()
             matrix.postScale(1 / scaleFactor, 1 / scaleFactor)
-            matrix.postRotate(rotation)
+            matrix.setRotate(rotation)
 
             val x = transX.toInt()
             val y = transY.toInt()
@@ -114,6 +114,7 @@ object Compressor {
 
             val matrix = Matrix()
             matrix.postScale(1 / scaleFactor, 1 / scaleFactor)
+            matrix.setRotate(0f)
 
             val scaledBitmap = Bitmap.createBitmap(
                 bitmap,

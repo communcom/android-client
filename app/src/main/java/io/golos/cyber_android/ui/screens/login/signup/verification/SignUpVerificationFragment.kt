@@ -46,7 +46,10 @@ class SignUpVerificationFragment :
             }
         }
 
-        resend.setOnClickListener { signUpViewModel.resendCode() }
+        resend.setOnClickListener {
+            signUpViewModel.resendCode()
+            viewModel.restartResendTimer()
+        }
         next.setOnClickListener { sendCode() }
 
         showKeyboardOnCodeInput()
@@ -74,6 +77,20 @@ class SignUpVerificationFragment :
                 is QueryResult.Loading -> showLoading()
                 is QueryResult.Error -> onResendError(it)
                 is QueryResult.Success -> onResendSuccess()
+            }
+        })
+
+        viewModel.getSecondsUntilResendLiveData.observe(this, Observer { secondsRemain ->
+
+            if (secondsRemain > 0) {
+                resend.text = String.format(
+                    getString(R.string.resend_verification_code_w_time_format),
+                    secondsRemain
+                )
+                resend.isEnabled = false
+            } else {
+                resend.setText(R.string.resend_verification_code)
+                resend.isEnabled = true
             }
         })
     }

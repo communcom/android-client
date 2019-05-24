@@ -61,6 +61,7 @@ class EditProfileBioFragment : LoadingFragment() {
 
         bio.filters = arrayOf(InputFilter.LengthFilter(EditProfileBioViewModel.MAX_BIO_LENGTH))
         bio.setText(getArgs().initialBio)
+        bio.setSelection(bio.text.length)
     }
 
     private fun observeViewModel() {

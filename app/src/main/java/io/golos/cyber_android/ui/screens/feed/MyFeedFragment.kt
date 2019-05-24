@@ -99,7 +99,7 @@ open class MyFeedFragment :
                 }
             },
             isEditorWidgetSupported = true,
-            isSortingWidgetSupported = false
+            isSortingWidgetSupported = true
         )
         feedList.addItemDecoration(TopDividerItemDecoration(requireContext()))
     }
