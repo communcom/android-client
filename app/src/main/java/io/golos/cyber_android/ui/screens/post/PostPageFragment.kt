@@ -44,6 +44,9 @@ const val GALLERY_REQUEST = 101
  */
 class PostPageFragment :
     AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
+
+    data class Args(val id: DiscussionIdModel, val scrollToComments: Boolean = false)
+
     override val feedList: RecyclerView
         get() = postView
 
@@ -76,6 +79,9 @@ class PostPageFragment :
     private fun observeViewModel() {
         viewModel.postLiveData.observe(this, Observer {
             bindPostModel(it)
+//            if (getArgs().scrollToComments && it.content.body.full.isNotEmpty()) {
+//                feedList.scrollToPosition((feedList.adapter as PostPageAdapter).getCommentsTitlePosition() + 1)
+//            }
         })
 
         viewModel.loadingStatusLiveData.observe(this, Observer {
@@ -100,7 +106,9 @@ class PostPageFragment :
         })
 
         viewModel.getDiscussionToReplyLiveData.observe(this, Observer {
-            postCommentBottom.setUserToReply(it?.userId)
+            if (it != null)
+                postCommentBottom.setUserToReply("@${it.userId}")
+            else postCommentBottom.clearText()
         })
 
         viewModel.getCommentValidnessLiveData.observe(this, Observer {
@@ -270,7 +278,7 @@ class PostPageFragment :
     }
 
     override fun setupViewModel() {
-        val id = getDiscussionId()
+        val id = getArgs().id
         viewModel = ViewModelProviders.of(
             this,
             requireActivity()
@@ -279,13 +287,11 @@ class PostPageFragment :
         ).get(PostPageViewModel::class.java)
     }
 
-    private fun getDiscussionId(): DiscussionIdModel {
-        return requireContext()
-            .serviceLocator
-            .moshi
-            .adapter(DiscussionIdModel::class.java)
-            .fromJson(arguments!!.getString(Tags.DISCUSSION_ID)!!)!!
-    }
+    private fun getArgs() = requireContext()
+        .serviceLocator
+        .moshi
+        .adapter(PostPageFragment.Args::class.java)
+        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
 
 
 }

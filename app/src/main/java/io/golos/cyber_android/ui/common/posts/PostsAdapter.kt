@@ -67,8 +67,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
 
         view.postComment.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                view.postSend.isEnabled = view.postComment.length() > 3
-                view.postSend.alpha = if (view.postComment.length() > 3) 1f else 0.3f
+                view.postSend.isEnabled = view.postComment.length() > 0
+                view.postSend.alpha = if (view.postComment.length() > 0) 1f else 0.3f
                 s?.colorizeHashTags()
                 s?.colorizeLinks()
             }
@@ -129,13 +129,18 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     postMedia.visibility = View.GONE
                 }
 
-                postUpvotesCount.text = "${postModel.payout.rShares}"
+                postUpvotesCount.text = "${postModel.votes.upCount - postModel.votes.downCount}"
                 postVoteStatus.isActivated = postModel.payout.rShares > zero
 
                 postCommentsCount.text = String.format(
                     context.resources.getString(R.string.post_comments_count_format),
                     postModel.comments.count
                 )
+                postCommentsCount.setOnClickListener {
+                    listener.onPostCommentsClick(postModel)
+                }
+
+
                 //todo replace with real data
                 postSharesCount.text = String.format(
                     context.resources.getString(R.string.post_shares_count_format),
@@ -186,6 +191,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
          * @param post post was clicked
          */
         fun onPostClick(post: PostModel)
+
+        fun onPostCommentsClick(post: PostModel)
 
         fun onSendClick(post: PostModel, comment: CharSequence)
 

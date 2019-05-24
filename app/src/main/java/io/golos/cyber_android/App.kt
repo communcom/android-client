@@ -19,7 +19,8 @@ class App : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        Fabric.with(this, Crashlytics())
+        if (!BuildConfig.DEBUG)
+            Fabric.with(this, Crashlytics())
 
         mServiceLocator = ServiceLocatorImpl(this)
         mRepositoriesHolder = mServiceLocator as RepositoriesHolder

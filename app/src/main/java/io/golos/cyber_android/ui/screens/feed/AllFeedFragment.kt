@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post.PostActivity
+import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingType
@@ -82,11 +83,20 @@ class AllFeedFragment :
                 }
 
                 override fun onPostClick(post: PostModel) {
-                    startActivity(PostActivity.getIntent(requireContext(), post))
+                    startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(post.contentId)))
                 }
 
                 override fun onSendClick(post: PostModel, comment: CharSequence) {
                     viewModel.sendComment(post, comment)
+                }
+
+                override fun onPostCommentsClick(post: PostModel) {
+                    startActivity(
+                        PostActivity.getIntent(
+                            requireContext(),
+                            PostPageFragment.Args(post.contentId, true)
+                        )
+                    )
                 }
             },
             isEditorWidgetSupported = true,
@@ -143,7 +153,8 @@ class AllFeedFragment :
                 .serviceLocator
                 .getCommunityFeedViewModelFactory(
                     CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!),
-                    arguments?.getString(Tags.USER_ID)!!.toCyberName())
+                    arguments?.getString(Tags.USER_ID)!!.toCyberName()
+                )
         ).get(CommunityFeedViewModel::class.java)
     }
 

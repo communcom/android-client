@@ -68,10 +68,13 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
             })
         }
 
+        var model: CommentModel? = null
+
         fun bind(
             commentModel: CommentModel,
             listener: Listener
         ) {
+            this.model = commentModel
             with(itemView) {
                 if (commentModel.author.avatarUrl.isNotBlank())
                     Glide.with(itemView.context)

@@ -8,18 +8,16 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.BaseActivity
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
 
 class PostActivity : BaseActivity() {
 
     companion object {
-        fun getIntent(context: Context, post: PostModel) =
+        fun getIntent(context: Context, args: PostPageFragment.Args) =
             Intent(context, PostActivity::class.java).apply {
                 putExtra(
-                    Tags.DISCUSSION_ID,
-                    context.serviceLocator.moshi.adapter(DiscussionIdModel::class.java)
-                        .toJson(post.contentId)
+                    Tags.ARGS,
+                    context.serviceLocator.moshi.adapter(PostPageFragment.Args::class.java)
+                        .toJson(args)
                 )
             }
     }

@@ -151,8 +151,8 @@ class EditorPageViewModel(
     }
 
     private fun validate(title: CharSequence, content: CharSequence): Boolean {
-        val isValid = content.trim().length > 3
-                && (title.trim().length > 3 || postType == Type.COMMENT)
+        val isValid = content.trim().isNotEmpty()
+                && (title.trim().isNotEmpty() || postType == Type.COMMENT)
         validationResultLiveData.postValue(isValid)
         return isValid
     }
