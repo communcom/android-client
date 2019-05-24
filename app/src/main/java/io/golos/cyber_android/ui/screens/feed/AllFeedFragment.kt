@@ -98,6 +98,10 @@ class AllFeedFragment :
                         )
                     )
                 }
+
+                override fun onPostShare(post: PostModel) {
+
+                }
             },
             isEditorWidgetSupported = true,
             isSortingWidgetSupported = true

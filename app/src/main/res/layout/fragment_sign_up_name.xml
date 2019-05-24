@@ -77,7 +77,7 @@
                     android:gravity="bottom"
                     android:inputType="textNoSuggestions"
                     android:layout_gravity="bottom"
-                    android:digits="abcdefghijklmnopqrstuvwxyz1234567890"
+                    android:digits="abcdefghijklmnopqrstuvwxyz1234567890@"
                     android:id="@+id/username"
                     android:textSize="@dimen/text_size_16_sp"
                     android:layout_width="match_parent"

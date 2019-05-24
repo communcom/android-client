@@ -35,7 +35,7 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        username.filters = arrayOf(InputFilter.LengthFilter(SignUpNameViewModel.USERNAME_LENGTH))
+        username.filters = arrayOf(InputFilter.LengthFilter(SignUpNameViewModel.MAX_USERNAME_LENGTH))
 
         back.setOnClickListener { findNavController().navigateUp() }
         next.setOnClickListener {

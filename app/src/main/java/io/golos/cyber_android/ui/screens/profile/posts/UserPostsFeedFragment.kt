@@ -94,6 +94,10 @@ open class UserPostsFeedFragment :
                         )
                     )
                 }
+
+                override fun onPostShare(post: PostModel) {
+
+                }
             },
             isEditorWidgetSupported = false,
             isSortingWidgetSupported = true
