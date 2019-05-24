@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter
 import io.golos.cyber_android.ui.screens.feed.SORT_REQUEST_CODE
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.sorting.SortingType
 import io.golos.cyber_android.widgets.sorting.SortingWidget
@@ -97,6 +98,10 @@ open class UserPostsFeedFragment :
 
                 override fun onPostShare(post: PostModel) {
 
+                }
+
+                override fun onAuthorClick(post: PostModel) {
+                    startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
             },
             isEditorWidgetSupported = false,

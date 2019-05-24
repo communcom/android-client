@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.screens.post.adapter.PostPageAdapter
+import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.widgets.CommentWidget
@@ -222,6 +223,10 @@ class PostPageFragment :
             ),
             postModel.author.username
         )
+
+        postHeaderLayout.setOnClickListener {
+            startActivity(ProfileActivity.getIntent(requireContext(), postModel.author.userId.userId))
+        }
     }
 
     override fun setupEventsProvider() {
@@ -231,6 +236,10 @@ class PostPageFragment :
         feedList.adapter =
             PostPageAdapter(viewLifecycleOwner,
                 object : CommentsAdapter.Listener {
+                    override fun onAuthorClick(userId: String) {
+                        startActivity(ProfileActivity.getIntent(requireContext(), userId))
+                    }
+
                     override fun onImageLinkClick(url: String) {
                         startActivity(ImageViewerActivity.getIntent(requireContext(), url))
                     }

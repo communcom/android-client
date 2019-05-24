@@ -136,7 +136,6 @@
     <string name="you_have_not_made_any_posts">You have not made any post</string>
 
 
-
     <!--Notifications-->
     <string name="event_time_and_actor_format">%1$s in %2$s</string>
     <string name="event_upvote_post_format">%1$s upvoted you in post: %2$s</string>

@@ -159,6 +159,10 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     }
                     false
                 }
+
+                postHeader.setOnClickListener {
+                    listener.onAuthorClick(postModel)
+                }
             }
         }
 
@@ -199,6 +203,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
         fun onUpvoteClick(post: PostModel)
 
         fun onDownvoteClick(post: PostModel)
+
+        fun onAuthorClick(post: PostModel)
     }
 
 }
