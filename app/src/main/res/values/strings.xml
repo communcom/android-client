@@ -14,7 +14,7 @@
 
     <!--Feed Page-->
     <string name="hint_search">Search</string>
-    <string name="tab_all">All</string>
+    <string name="tab_all">Trending</string>
     <string name="tab_my_feed">My feed</string>
 
     <!--Sorting Widget-->

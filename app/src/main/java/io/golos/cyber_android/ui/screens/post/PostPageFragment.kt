@@ -143,6 +143,12 @@ class PostPageFragment :
                 intent.type = "image/*"
                 startActivityForResult(intent, GALLERY_REQUEST)
             }
+
+            override fun onUsernameClick() {
+                viewModel.getDiscussionToReplyLiveData.value?.userId?.let { userId ->
+                    startActivity(ProfileActivity.getIntent(requireContext(), userId))
+                }
+            }
         }
     }
 
@@ -181,7 +187,6 @@ class PostPageFragment :
             }
         }
     }
-
 
 
     override fun onPause() {

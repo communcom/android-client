@@ -7,7 +7,7 @@
         android:layout_height="wrap_content">
     <TextView
             android:id="@+id/postContentPreview"
-            android:theme="@style/PostCardPreviewTextStyle"
+            style="@style/PostCardTitleTextStyle"
             tools:text="Discussion - The Dangerous Path Overwatch is Headed: Giving Players"
             android:maxLength="300"
             android:ellipsize="end"
