@@ -42,7 +42,7 @@ class CommentRepositoryTest {
 
         val commentRequest = CommentsOfApPostUpdateRequest(
             post!!.contentId.userId,
-            post!!.contentId.permlink, post!!.contentId.refBlockNum,
+            post!!.contentId.permlink,
             3,
             DiscussionsSort.FROM_NEW_TO_OLD,
             null

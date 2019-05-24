@@ -10,7 +10,6 @@ interface VoteApi {
     fun vote(
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: String,
-        postOrCommentRefBlockNum: Long,
         voteStrength: Short
     ): VoteResult
 }

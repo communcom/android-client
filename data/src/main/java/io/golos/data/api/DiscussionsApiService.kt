@@ -21,8 +21,7 @@ interface PostsApiService {
     @WorkerThread
     fun getPost(
         user: CyberName,
-        permlink: String,
-        refBlockNum: Long
+        permlink: String
     ): CyberDiscussion
 
     @WorkerThread
@@ -47,7 +46,6 @@ interface CommentsApiService {
     fun getCommentsOfPost(
         user: CyberName,
         permlink: String,
-        refBlockNum: Long,
         limit: Int,
         sort: DiscussionTimeSort,
         sequenceKey: String? = null
@@ -56,7 +54,6 @@ interface CommentsApiService {
     @WorkerThread
     fun getComment(
         user: CyberName,
-        permlink: String,
-        refBlockNum: Long
+        permlink: String
     ): CyberDiscussion
 }

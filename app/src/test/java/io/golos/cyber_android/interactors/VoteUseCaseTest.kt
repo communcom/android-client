@@ -61,7 +61,7 @@ class VoteUseCaseTest {
         mediator.addSource(authStateRepository.getAsLiveData(authStateRepository.allDataRequest)) {
             if (it?.isUserLoggedIn == true && feed?.discussions?.isEmpty() == false) {
                 val firstPost = feed!!.discussions.first().contentId
-                val firstPostId = DiscussionIdModel(firstPost.userId, firstPost.permlink, firstPost.refBlockNum)
+                val firstPostId = DiscussionIdModel(firstPost.userId, firstPost.permlink)
                 voteUseCase.vote(
                     VoteRequestModel.VoteForPostRequest(
                         (Math.random() * 10_000).toShort(),
@@ -104,7 +104,7 @@ class VoteUseCaseTest {
 
 
         val firstPost = feed!!.discussions.first().contentId
-        val firstPostId = DiscussionIdModel(firstPost.userId, firstPost.permlink, firstPost.refBlockNum)
+        val firstPostId = DiscussionIdModel(firstPost.userId, firstPost.permlink)
         voteUseCase.vote(
             VoteRequestModel.VoteForPostRequest(
                 (Math.random() * -10_000).toShort(),

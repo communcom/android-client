@@ -13,7 +13,6 @@ data class CreateCommentRequest(
     val body: String,
     val parentAccount: CyberName,
     val parentPermlink: String,
-    val parentDiscussionRefBlockNum: Long,
     val category: List<Tag>,
     val metadata: DiscussionCreateMetadata,
     val beneficiaries: List<io.golos.cyber4j.model.Beneficiary>,

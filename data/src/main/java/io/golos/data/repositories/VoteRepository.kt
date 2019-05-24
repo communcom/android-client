@@ -49,7 +49,6 @@ class VoteRepository(
                     voteApi.vote(
                         params.discussionIdEntity.userId.toCyberName(),
                         params.discussionIdEntity.permlink,
-                        params.discussionIdEntity.refBlockNum,
                         params.power
                     )
                 }
@@ -73,7 +72,7 @@ class VoteRepository(
 
     override val allDataRequest: VoteRequestEntity
             by lazy {
-                VoteRequestEntity.VoteForAPostRequestEntity(0, DiscussionIdEntity("stub", "stub", Long.MIN_VALUE))
+                VoteRequestEntity.VoteForAPostRequestEntity(0, DiscussionIdEntity("stub", "stub"))
             }
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>
         get() = votingStates

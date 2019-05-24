@@ -104,7 +104,7 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
     /**
      * Requests update of the user registration state
      */
-    fun updateRegisterState(phone: String) {
+    fun updateRegisterState(phone: String = currentPhone) {
         currentPhone = getNormalizedPhone(phone)
         signUpUseCase.makeRegistrationStep(
             GetUserRegistrationStepRequestModel(currentPhone)

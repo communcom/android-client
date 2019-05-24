@@ -39,7 +39,7 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
 
                 CreateCommentRequest(
                     entity.body, entity.parentId.userId.toCyberName(),
-                    entity.parentId.permlink, entity.parentId.refBlockNum,
+                    entity.parentId.permlink,
                     tags.map { Tag(it) }, DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
                     emptyList(), true, 0
                 )
@@ -83,17 +83,17 @@ class DiscussionCreateResultToEntityMapper :
             true -> PostCreationResultEntity(
                 DiscussionIdEntity(
                     cyberObject.message_id.author.name,
-                    cyberObject.message_id.permlink, cyberObject.message_id.ref_block_num
+                    cyberObject.message_id.permlink
                 )
             )
             false -> CommentCreationResultEntity(
                 DiscussionIdEntity(
                     cyberObject.message_id.author.name,
-                    cyberObject.message_id.permlink, cyberObject.message_id.ref_block_num
+                    cyberObject.message_id.permlink
                 ),
                 DiscussionIdEntity(
                     cyberObject.parent_id.author.name,
-                    cyberObject.parent_id.permlink, cyberObject.parent_id.ref_block_num
+                    cyberObject.parent_id.permlink
                 )
             )
         }

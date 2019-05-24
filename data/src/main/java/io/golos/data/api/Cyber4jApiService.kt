@@ -52,8 +52,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
-    override fun getPost(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getPost(user, permlink, refBlockNum, ContentParsingType.MOBILE).getOrThrow()
+    override fun getPost(user: CyberName, permlink: String): CyberDiscussion {
+        return cyber4j.getPost(user, permlink, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun getUserSubscriptions(
@@ -78,7 +78,6 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     override fun getCommentsOfPost(
         user: CyberName,
         permlink: String,
-        refBlockNum: Long,
         limit: Int,
         sort: DiscussionTimeSort,
         sequenceKey: String?
@@ -86,7 +85,6 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         return cyber4j.getCommentsOfPost(
             user,
             permlink,
-            refBlockNum,
             ContentParsingType.MOBILE,
             limit,
             sort,
@@ -94,8 +92,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         ).getOrThrow()
     }
 
-    override fun getComment(user: CyberName, permlink: String, refBlockNum: Long): CyberDiscussion {
-        return cyber4j.getComment(user, permlink, refBlockNum, ContentParsingType.MOBILE).getOrThrow()
+    override fun getComment(user: CyberName, permlink: String): CyberDiscussion {
+        return cyber4j.getComment(user, permlink, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {
@@ -109,10 +107,9 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     override fun vote(
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: String,
-        postOrCommentRefBlockNum: Long,
         voteStrength: Short
     ): VoteResult {
-        return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, postOrCommentRefBlockNum, voteStrength)
+        return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength)
             .getOrThrow().extractResult()
     }
 
@@ -128,7 +125,6 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         body: String,
         parentAccount: CyberName,
         parentPermlink: String,
-        parentDiscussionRefBlockNum: Long,
         category: List<Tag>,
         metadata: DiscussionCreateMetadata,
         beneficiaries: List<Beneficiary>,
@@ -136,7 +132,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         tokenProp: Long
     ): CreateDiscussionResult {
         return cyber4j.createComment(
-            body, parentAccount, parentPermlink, parentDiscussionRefBlockNum,
+            body, parentAccount, parentPermlink,
             category, metadata, null, beneficiaries, vestPayment, tokenProp
         ).getOrThrow().extractResult()
     }

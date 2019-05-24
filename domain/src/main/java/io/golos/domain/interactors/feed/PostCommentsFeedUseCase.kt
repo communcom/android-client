@@ -37,9 +37,8 @@ open class PostCommentsFeedUseCase(
                 CommentsOfApPostUpdateRequest(
                     postId.userId,
                     postId.permlink,
-                    postId.refBlockNum,
                     0,
-                    DiscussionsSort.FROM_NEW_TO_OLD,
+                    DiscussionsSort.FROM_OLD_TO_NEW,
                     null
                 )
             }
@@ -51,9 +50,8 @@ open class PostCommentsFeedUseCase(
         val request = CommentsOfApPostUpdateRequest(
             postId.userId,
             postId.permlink,
-            postId.refBlockNum,
             limit,
-            DiscussionsSort.FROM_NEW_TO_OLD,
+            DiscussionsSort.FROM_OLD_TO_NEW,
             when (resolvedOption) {
                 UpdateOption.REFRESH_FROM_BEGINNING -> null
                 UpdateOption.FETCH_NEXT_PAGE -> nextPageId

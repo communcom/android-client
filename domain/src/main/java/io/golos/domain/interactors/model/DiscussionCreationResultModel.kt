@@ -11,7 +11,7 @@ sealed class DiscussionCreationResultModel : Model
 
 data class PostCreationResultModel(val postId: DiscussionIdModel) : DiscussionCreationResultModel() {
     companion object {
-        val empty = PostCreationResultModel(DiscussionIdModel("#mpty#", "#empty#", Long.MIN_VALUE))
+        val empty = PostCreationResultModel(DiscussionIdModel("#mpty#", "#empty#"))
     }
 }
 
@@ -19,8 +19,8 @@ data class CommentCreationResultModel(val commentId: DiscussionIdModel, val pare
     DiscussionCreationResultModel() {
     companion object {
         val empty = CommentCreationResultModel(
-            DiscussionIdModel("#mpty#", "#empty#", Long.MIN_VALUE),
-            DiscussionIdModel("#mpty#", "#empty#", Long.MIN_VALUE)
+            DiscussionIdModel("#mpty#", "#empty#"),
+            DiscussionIdModel("#mpty#", "#empty#")
         )
     }
 }

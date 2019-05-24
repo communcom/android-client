@@ -21,8 +21,7 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
         return PostEntity(
             DiscussionIdEntity(
                 cyberObject.contentId.userId,
-                cyberObject.contentId.permlink,
-                cyberObject.contentId.refBlockNum
+                cyberObject.contentId.permlink
             ),
             DiscussionAuthorEntity(
                 CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
@@ -100,8 +99,7 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
         return CommentEntity(
             DiscussionIdEntity(
                 cyberObject.contentId.userId,
-                cyberObject.contentId.permlink,
-                cyberObject.contentId.refBlockNum
+                cyberObject.contentId.permlink
             ),
             DiscussionAuthorEntity(
                 CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
@@ -144,10 +142,10 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
             ),
             DiscussionPayout(cyberObject.payout.rShares),
             cyberObject.parent!!.post!!.contentId.let {
-                DiscussionIdEntity(it.userId, it.permlink, it.refBlockNum)
+                DiscussionIdEntity(it.userId, it.permlink)
             },
             cyberObject.parent?.comment?.contentId?.let {
-                DiscussionIdEntity(it.userId, it.permlink, it.refBlockNum)
+                DiscussionIdEntity(it.userId, it.permlink)
             },
             DiscussionMetadata(cyberObject.meta.time)
         )

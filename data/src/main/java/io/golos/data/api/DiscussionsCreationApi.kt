@@ -14,7 +14,6 @@ interface DiscussionsCreationApi {
         body: String,
         parentAccount: CyberName,
         parentPermlink: String,
-        parentDiscussionRefBlockNum: Long,
         category: List<Tag>,
         metadata: DiscussionCreateMetadata,
         beneficiaries: List<io.golos.cyber4j.model.Beneficiary> = emptyList(),
