@@ -319,7 +319,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getEventsUseCase(EventTypeEntity.values().toSet())
                     ) as T
 
-                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase()) as T
+                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase(), getSignInUseCase()) as T
 
                     MainViewModel::class.java -> MainViewModel(
                         getSignInUseCase(),

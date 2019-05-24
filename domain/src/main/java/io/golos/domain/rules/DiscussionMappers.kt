@@ -6,6 +6,7 @@ import io.golos.cyber4j.model.ImageRow
 import io.golos.cyber4j.model.TextRow
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
+import java.math.BigInteger
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
@@ -69,7 +70,7 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
                 cyberObject.votes.downCount
             ),
             DiscussionCommentsCount(cyberObject.stats!!.commentsCount),
-            DiscussionPayout(cyberObject.payout.rShares),
+            DiscussionPayout(cyberObject.payout.rShares.orZero()),
             DiscussionMetadata(cyberObject.meta.time)
         )
     }
@@ -140,7 +141,7 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
                 cyberObject.votes.upCount,
                 cyberObject.votes.downCount
             ),
-            DiscussionPayout(cyberObject.payout.rShares),
+            DiscussionPayout(cyberObject.payout.rShares.orZero()),
             cyberObject.parent!!.post!!.contentId.let {
                 DiscussionIdEntity(it.userId, it.permlink)
             },
@@ -168,3 +169,8 @@ class CyberCommentsToEntityMapper(val postMapper: CyberToEntityMapper<CyberDiscu
         val feedEndMark = "#feed_end_mark#"
     }
 }
+
+/**
+ * TODO remove later
+ */
+private fun BigInteger?.orZero() = this ?: BigInteger("0")

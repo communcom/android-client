@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.edit.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.screens.login.LoginActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSettingsAdapter
 import io.golos.domain.entities.NSFWSettingsEntity
@@ -58,8 +61,21 @@ class ProfileSettingsFragment : LoadingFragment() {
 
         back.setOnClickListener { requireActivity().finish() }
 
+        logOut.setOnClickListener {
+            ConfirmationDialog.newInstance(getString(R.string.log_out_question)).apply {
+                listener = ::logOut
+            }.show(requireFragmentManager(), "logOut")
+        }
+
         setupViewModel()
         observeViewModel()
+    }
+
+    private fun logOut() {
+        viewModel.logOut()
+        startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
     }
 
     private fun observeViewModel() {

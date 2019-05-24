@@ -130,7 +130,7 @@ class PostPageViewModel(
     override fun validateComment(comment: CharSequence): Boolean {
         return (super.validateComment(comment)
                 && (discussionToReplyLiveData.value == null
-                || comment.length > discussionToReplyLiveData.value!!.userId.length + 4))
+                || comment.length > discussionToReplyLiveData.value!!.userId.length + 1))
     }
 
     fun setCommentInputVisibility(visibility: Visibility) {

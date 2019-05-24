@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.AppCompatDrawableManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -83,6 +83,7 @@ class ProfileFragment : LoadingFragment() {
             }.show(requireFragmentManager(), "cover")
         }
 
+        back.setOnClickListener { requireActivity().finish() }
 
         followersPhotosView.setPhotosUrls(listOf("", "", ""))
         followingPhotosView.setPhotosUrls(listOf("", ""))
@@ -94,14 +95,14 @@ class ProfileFragment : LoadingFragment() {
             when (result) {
                 is QueryResult.Success -> {
                     bindProfile(result.originalQuery.metadata)
-                    updateControlsVisibility(result.originalQuery.isMyUser)
+                    updateControlsAccessibility(result.originalQuery.isMyUser)
                 }
                 is QueryResult.Error -> onError()
                 is QueryResult.Loading -> onLoading()
             }
         })
 
-        viewModel.getMetadataUpdateStateLiveData.asEvent().observe(this, Observer {event ->
+        viewModel.getMetadataUpdateStateLiveData.asEvent().observe(this, Observer { event ->
             event.getIfNotHandled()?.let {
                 when (it) {
                     is QueryResult.Success -> hideLoading()
@@ -137,12 +138,13 @@ class ProfileFragment : LoadingFragment() {
         follow.isActivated = profile.isSubscribed
         follow.setCompoundDrawablesWithIntrinsicBounds(
             null,
-            ContextCompat.getDrawable(
+            AppCompatDrawableManager.get().getDrawable(
                 requireContext(),
                 if (profile.isSubscribed) R.drawable.ic_following_active else R.drawable.ic_following_inactive
             ),
             null, null
         )
+
     }
 
     /**
@@ -191,13 +193,14 @@ class ProfileFragment : LoadingFragment() {
     /**
      * Changes some controls visibility depending on whether or not this profile is the actual app user profile
      */
-    private fun updateControlsVisibility(isActiveUserProfile: Boolean) {
+    private fun updateControlsAccessibility(isActiveUserProfile: Boolean) {
         if (isActiveUserProfile) {
             updatePhoto.visibility = View.VISIBLE
             updateCover.visibility = View.VISIBLE
             settings.visibility = View.VISIBLE
             follow.visibility = View.GONE
             sentPoints.visibility = View.GONE
+            back.visibility = View.GONE
         } else {
             updatePhoto.visibility = View.GONE
             updateCover.visibility = View.GONE
@@ -205,6 +208,9 @@ class ProfileFragment : LoadingFragment() {
             follow.visibility = View.VISIBLE
             sentPoints.visibility = View.VISIBLE
             editBio.visibility = View.GONE
+            back.visibility = View.VISIBLE
+            bio.setOnClickListener { }
+            editBio.setOnClickListener { }
         }
     }
 

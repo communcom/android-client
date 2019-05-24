@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import io.golos.cyber_android.BuildConfig
@@ -23,7 +24,7 @@ private const val REQUEST_GALLERY_IMAGE = 201
  */
 abstract class BaseProfileImageFragment : LoadingFragment() {
 
-    private var currentImageFileName = ""
+    private var currentImageFile: Uri? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -41,7 +42,7 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
     /**
      * Override this to provide source of the image to pick
      */
-    abstract fun getImageSource() : EditProfileCoverFragment.ImageSource
+    abstract fun getImageSource(): EditProfileCoverFragment.ImageSource
 
     private fun pickGalleryPhoto() {
         val pickPhoto = Intent(
@@ -54,7 +55,19 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_IMAGE_CAPTURE -> if (resultCode == Activity.RESULT_OK) {
-                onImagePicked(getCacheImagePath(currentImageFileName))
+                currentImageFile?.let {
+                    val path = File(requireActivity().externalCacheDir, "camera")
+                    if (!path.exists()) path.mkdirs()
+                    val imageFile = File(path, System.currentTimeMillis().toString() + ".jpg")
+                    requireContext().contentResolver.openInputStream(it).use { input ->
+                        imageFile
+                            .outputStream()
+                            .use { fileOut ->
+                                input?.copyTo(fileOut)
+                            }
+                    }
+                    onImagePicked(Uri.fromFile(imageFile))
+                }
             } else {
                 onCancel()
             }
@@ -90,24 +103,22 @@ abstract class BaseProfileImageFragment : LoadingFragment() {
     }
 
     private fun takeCameraPhoto() {
-        currentImageFileName = System.currentTimeMillis().toString() + ".jpg"
+        currentImageFile = getCacheImagePath(System.currentTimeMillis().toString() + ".jpg")
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(currentImageFileName))
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentImageFile)
         if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
 
     private fun getCacheImagePath(fileName: String): Uri {
-        val path = File(requireActivity().externalCacheDir, "camera")
-        if (!path.exists()) path.mkdirs()
-        val image = File(path, fileName)
+        val file = File.createTempFile(
+            "JPG_",
+            fileName,
+            requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        )
 
-        return if (android.os.Build.VERSION.SDK_INT >= 24) {
-            FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".fileprovider", image)
-        } else {
-            Uri.fromFile(image)
-        }
+        return FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".fileprovider", file)
     }
 
     /**

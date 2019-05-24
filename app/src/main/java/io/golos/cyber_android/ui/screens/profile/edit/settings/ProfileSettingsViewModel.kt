@@ -10,13 +10,16 @@ import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.toS
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.interactors.settings.SettingsUseCase
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.ChangeBasicSettingsRequestModel
 import io.golos.domain.requestmodel.ChangeNotificationSettingRequestModel
 import io.golos.domain.requestmodel.GeneralSettingsModel
 import io.golos.domain.requestmodel.UserSettingModel
 
-class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase) : ViewModel() {
+class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
+                               private val signInUseCase: SignInUseCase
+) : ViewModel() {
 
     /**
      * [LiveData] for users notification settings
@@ -66,12 +69,18 @@ class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase) : V
         }
     }
 
+    fun logOut() {
+        signInUseCase.logOut()
+    }
+
     init {
         settingsUseCase.subscribe()
+        signInUseCase.subscribe()
     }
 
     override fun onCleared() {
         super.onCleared()
         settingsUseCase.unsubscribe()
+        signInUseCase.unsubscribe()
     }
 }

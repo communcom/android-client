@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import kotlinx.android.synthetic.main.dialog_notification.*
+import kotlinx.android.synthetic.main.dialog_confirmation.*
 
-class NotificationDialog: DialogFragment() {
+class ConfirmationDialog: DialogFragment() {
 
     var listener: (() -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_notification, container)
+        return inflater.inflate(R.layout.dialog_confirmation, container)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -22,6 +22,9 @@ class NotificationDialog: DialogFragment() {
         message.text = arguments?.getString(Tags.MESSAGE)
         ok.setOnClickListener {
             listener?.invoke()
+            dismiss()
+        }
+        cancel.setOnClickListener {
             dismiss()
         }
     }
@@ -32,7 +35,7 @@ class NotificationDialog: DialogFragment() {
     }
 
     companion object {
-        fun newInstance(message: String) = NotificationDialog().apply {
+        fun newInstance(message: String) = ConfirmationDialog().apply {
             arguments = Bundle().apply {
                 putString(Tags.MESSAGE, message)
             }

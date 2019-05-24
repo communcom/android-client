@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-22.
  */
-class AppCore(private val locator: RepositoriesHolder, private val dispatchersProvider: DispatchersProvider) {
+class AppCore(private val locator: RepositoriesHolder, dispatchersProvider: DispatchersProvider) {
     private val isInited = AtomicBoolean(false)
     private val scope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private var lastCreatedComment: CommentCreationResultEntity? = null
@@ -64,6 +64,11 @@ class AppCore(private val locator: RepositoriesHolder, private val dispatchersPr
                             )
                         ) { commentEntity ->
                             commentEntity ?: return@addSource
+                            commentsMediator.removeSource(
+                                locator.commentsRepository.getDiscussionAsLiveData(
+                                    commentCreationResult.commentId
+                                )
+                            )
                             onRelatedToCommentDataChanged()
                         }
                     }
@@ -78,6 +83,8 @@ class AppCore(private val locator: RepositoriesHolder, private val dispatchersPr
             locator.commentsRepository.getDiscussionAsLiveData(lastCommentCreatedId.commentId).value ?: return
 
         if (comment.contentId != lastCommentCreatedId.commentId) return
+
+        //lastCreatedComment = null
 
         locator.postFeedRepository.requestDiscussionUpdate(comment.parentPostId)
 

@@ -14,7 +14,7 @@
 
     <!--Feed Page-->
     <string name="hint_search">Search</string>
-    <string name="tab_all">All</string>
+    <string name="tab_all">Trending</string>
     <string name="tab_my_feed">My feed</string>
 
     <!--Sorting Widget-->
@@ -73,6 +73,7 @@
     <string name="verification">Verification</string>
     <string name="enter_sms_code">Enter SMS-Code</string>
     <string name="resend_verification_code">Resend verification code</string>
+    <string name="resend_verification_code_w_time_format">Resend verification code 0:%1$02d</string>
     <string name="next">Next</string>
     <string name="create_your_username">Create your username</string>
     <string name="username">Username</string>
@@ -112,6 +113,9 @@
     <string name="change_position">Change position</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_question">Are you sure you want to log out?</string>
+    <string name="cancel">Cancel</string>
 
     <!--Profile-->
     <string name="edit_bio">Edit Bio</string>
@@ -131,7 +135,6 @@
     <string name="profile_creation_date_format">MMMM dd, yyyy</string>
     <string name="no_posts">No posts</string>
     <string name="you_have_not_made_any_posts">You have not made any post</string>
-
 
 
     <!--Notifications-->

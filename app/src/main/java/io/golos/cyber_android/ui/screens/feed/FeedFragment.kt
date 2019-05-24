@@ -25,7 +25,7 @@ const val FEED_REQUEST_CODE = 101
 class FeedFragment : Fragment(), FeedPageLiveDataProvider {
 
     enum class Tab(@StringRes val title: Int, val index: Int) {
-        ALL(R.string.tab_all, 0), MY_FEED(R.string.tab_my_feed, 1)
+        MY_FEED(R.string.tab_my_feed, 0), ALL(R.string.tab_all, 1)
     }
 
     private lateinit var viewModel: FeedPageViewModel

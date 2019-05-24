@@ -9,11 +9,12 @@ class SignUpNameViewModel : BaseSignUpScreenViewModel() {
         /**
          * Exact length of the username that is valid
          */
-        const val USERNAME_LENGTH = 12
+        const val MIN_USERNAME_LENGTH = 1
+        const val MAX_USERNAME_LENGTH = 32
     }
 
     override fun validate(field: String): Boolean {
-        return field.length == USERNAME_LENGTH && try {
+        return field.length in (MIN_USERNAME_LENGTH .. MAX_USERNAME_LENGTH) && try {
             field.toCyberName()
             true
         } catch (e: IllegalStateException) {

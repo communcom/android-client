@@ -5,7 +5,7 @@ import io.golos.domain.entities.CyberUser
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
-class AuthRequest(val user: CyberUser, val activeKey: String) : Identifiable {
+open class AuthRequest(val user: CyberUser, val activeKey: String) : Identifiable {
 
     inner class Id(val user: CyberUser) : Identifiable.Id() {
         override fun equals(other: Any?): Boolean {
@@ -28,5 +28,7 @@ class AuthRequest(val user: CyberUser, val activeKey: String) : Identifiable {
     override val id: Identifiable.Id
             by lazy { Id(user) }
 }
+
+class LogOutRequest: AuthRequest(CyberUser(""), "")
 
 data class AuthRequestModel(val user: CyberUser, val activeKey: String)

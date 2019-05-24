@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
@@ -104,7 +103,6 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
         selectedUri = uri
         Glide.with(requireContext())
             .load(uri)
-            .apply(RequestOptions.circleCropTransform())
             .into(avatar)
     }
 

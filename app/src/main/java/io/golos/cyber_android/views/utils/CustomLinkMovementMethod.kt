@@ -18,7 +18,7 @@ class CustomLinkMovementMethod(private val listener: Listener) : LinkMovementMet
     override fun onTouchEvent(
         widget: TextView,
         buffer: android.text.Spannable,
-        event: android.view.MotionEvent
+        event: MotionEvent
     ): Boolean {
         val action = event.action
         if (action == MotionEvent.ACTION_UP) {

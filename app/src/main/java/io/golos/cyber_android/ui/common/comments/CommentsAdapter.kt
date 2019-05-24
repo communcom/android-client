@@ -68,10 +68,13 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
             })
         }
 
+        var model: CommentModel? = null
+
         fun bind(
             commentModel: CommentModel,
             listener: Listener
         ) {
+            this.model = commentModel
             with(itemView) {
                 if (commentModel.author.avatarUrl.isNotBlank())
                     Glide.with(itemView.context)
@@ -119,6 +122,10 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                 commentAvatar.layoutParams.height =
                     getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
 
+                listOf(commentAuthorParent, commentAvatar, commentDate).forEach {
+                    it.setOnClickListener { listener.onAuthorClick(commentModel.author.userId.userId) }
+                }
+
             }
         }
 
@@ -163,6 +170,8 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         fun onImageLinkClick(url: String)
 
         fun onWebLinkClick(url: String)
+
+        fun onAuthorClick(userId: String)
     }
 
     private fun ContentBodyModel.toCommentContent(): CharSequence {

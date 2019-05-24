@@ -35,6 +35,18 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
+                    android:id="@+id/back"
+                    android:visibility="gone"
+                    android:padding="@dimen/margin_horizontal_default_16dp"
+                    app:srcCompat="@drawable/ic_back"
+                    android:tint="@color/white"
+                    android:background="?attr/selectableItemBackground"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <ImageView
                     android:id="@+id/avatar"
                     android:padding="@dimen/padding_profile_avatar"
                     android:scaleType="centerCrop"
@@ -182,7 +194,6 @@
                         app:layout_constraintEnd_toEndOf="parent"/>
 
             </LinearLayout>
-
 
 
             <LinearLayout

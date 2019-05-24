@@ -1,10 +1,11 @@
 package io.golos.cyber_android.ui.common.posts
 
-import android.text.Editable
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,13 +13,9 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
-import io.golos.cyber_android.views.utils.BaseTextWatcher
-import io.golos.cyber_android.views.utils.colorizeHashTags
-import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.interactors.model.TextRowModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.header_post_card.view.*
 import kotlinx.android.synthetic.main.item_post.view.*
@@ -65,14 +62,10 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             return@setOnTouchListener false
         }
 
-        view.postComment.addTextChangedListener(object : BaseTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-                view.postSend.isEnabled = view.postComment.length() > 3
-                view.postSend.alpha = if (view.postComment.length() > 3) 1f else 0.3f
-                s?.colorizeHashTags()
-                s?.colorizeLinks()
-            }
-        })
+        view.postComment.apply {
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+        }
 
         return PostViewHolder(view)
     }
@@ -116,7 +109,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     postModel.author.username
                 )
                 postContentPreview.text =
-                    (postModel.content.body.mobilePreview.find { it is TextRowModel } as? TextRowModel)?.text
+                    postModel.content.title
+                //(postModel.content.body.mobilePreview.find { it is TextRowModel } as? TextRowModel)?.text
 
                 val postImage = postModel.content.body.mobilePreview.find { it is ImageRowModel } as? ImageRowModel
                 if (postImage != null) {
@@ -136,6 +130,11 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     context.resources.getString(R.string.post_comments_count_format),
                     postModel.comments.count
                 )
+                postCommentsCount.setOnClickListener {
+                    listener.onPostCommentsClick(postModel)
+                }
+
+
                 //todo replace with real data
                 postSharesCount.text = String.format(
                     context.resources.getString(R.string.post_shares_count_format),
@@ -146,16 +145,24 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
 
                 postUpvote.setOnClickListener { listener.onUpvoteClick(postModel) }
                 postDownvote.setOnClickListener { listener.onDownvoteClick(postModel) }
-                postSend.setOnClickListener {
-                    listener.onSendClick(postModel, postComment.text ?: "")
+                postShare.setOnClickListener {
+                    listener.onPostShare(postModel)
                 }
 
                 postRoot.setOnClickListener { listener.onPostClick(postModel) }
 
                 postComment.setText("")
-                postSend.isEnabled = false
-                postSend.alpha = 0.3f
+                postComment.setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_DONE && postComment.text?.isNotBlank() == true) {
+                        listener.onSendClick(postModel, postComment.text ?: "")
+                        return@setOnEditorActionListener true
+                    }
+                    false
+                }
 
+                postHeader.setOnClickListener {
+                    listener.onAuthorClick(postModel)
+                }
             }
         }
 
@@ -187,11 +194,17 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
          */
         fun onPostClick(post: PostModel)
 
+        fun onPostCommentsClick(post: PostModel)
+
+        fun onPostShare(post: PostModel)
+
         fun onSendClick(post: PostModel, comment: CharSequence)
 
         fun onUpvoteClick(post: PostModel)
 
         fun onDownvoteClick(post: PostModel)
+
+        fun onAuthorClick(post: PostModel)
     }
 
 }

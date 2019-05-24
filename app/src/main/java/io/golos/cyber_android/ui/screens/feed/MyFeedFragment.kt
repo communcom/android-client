@@ -20,6 +20,8 @@ import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post.PostActivity
+import io.golos.cyber_android.ui.screens.post.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.domain.entities.CyberUser
@@ -72,15 +74,32 @@ open class MyFeedFragment :
                 }
 
                 override fun onPostClick(post: PostModel) {
-                    startActivity(PostActivity.getIntent(requireContext(), post))
+                    startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(post.contentId)))
                 }
 
                 override fun onSendClick(post: PostModel, comment: CharSequence) {
                     viewModel.sendComment(post, comment)
                 }
+
+                override fun onPostCommentsClick(post: PostModel) {
+                    startActivity(
+                        PostActivity.getIntent(
+                            requireContext(),
+                            PostPageFragment.Args(post.contentId, true)
+                        )
+                    )
+                }
+
+                override fun onPostShare(post: PostModel) {
+
+                }
+
+                override fun onAuthorClick(post: PostModel) {
+                    startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
+                }
             },
             isEditorWidgetSupported = true,
-            isSortingWidgetSupported = false
+            isSortingWidgetSupported = true
         )
         feedList.addItemDecoration(TopDividerItemDecoration(requireContext()))
     }

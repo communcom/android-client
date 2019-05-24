@@ -39,7 +39,7 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
         }
     }
 
-    protected open fun validateComment(comment: CharSequence) = comment.length > 3
+    protected open fun validateComment(comment: CharSequence) = comment.isNotEmpty()
 
     init {
         posterUseCase.subscribe()
