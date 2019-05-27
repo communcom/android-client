@@ -84,11 +84,18 @@ class ProfileFragment : LoadingFragment() {
         }
 
         back.setOnClickListener { requireActivity().finish() }
+        back.visibility = if (isSeparateActivity()) View.VISIBLE else View.GONE
 
         followersPhotosView.setPhotosUrls(listOf("", "", ""))
         followingPhotosView.setPhotosUrls(listOf("", ""))
         subscribersPhotosView.visibility = View.GONE
     }
+
+    /**
+     * Returns true if this fragment is located on separate [ProfileActivity]. This way we need to show
+     * dedicated back button
+     */
+    private fun isSeparateActivity() = activity is ProfileActivity
 
     private fun observeViewModel() {
         viewModel.getProfileLiveData.observe(this, Observer { result ->
@@ -200,7 +207,6 @@ class ProfileFragment : LoadingFragment() {
             settings.visibility = View.VISIBLE
             follow.visibility = View.GONE
             sentPoints.visibility = View.GONE
-            back.visibility = View.GONE
         } else {
             updatePhoto.visibility = View.GONE
             updateCover.visibility = View.GONE

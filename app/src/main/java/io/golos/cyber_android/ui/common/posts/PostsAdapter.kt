@@ -124,7 +124,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 }
 
                 postUpvotesCount.text = "${postModel.payout.rShares}"
-                postVoteStatus.isActivated = postModel.payout.rShares > zero
+                postVoteStatus.isActivated = postModel.payout.rShares >= zero
 
                 postCommentsCount.text = String.format(
                     context.resources.getString(R.string.post_comments_count_format),

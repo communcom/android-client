@@ -130,7 +130,7 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
     }
 
     private fun Actor.toEventActor() = EventActorEntity(this.id ?: CyberName(""), this.avatarUrl)
-    private fun Post.toEventPost() = EventPostEntity(DiscussionIdEntity.fromCyber(this.contentId), this.title)
+    private fun Post.toEventPost() = EventPostEntity(DiscussionIdEntity.fromCyber(this.contentId), this.title ?: "")
     private fun Comment.toEventComment() = EventCommentEntity(DiscussionIdEntity.fromCyber(this.contentId), this.body)
     private fun Value.toEventValue() = EventValueEntity(this.amount, this.currency)
     private fun CyberCommunity.toEntity() = CommunityEntity.fromCyber(this)

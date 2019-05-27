@@ -69,8 +69,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun refreshNotificationsBadge(count: Int) {
-        notificationsBadge?.visibility = View.VISIBLE
-        //notificationsBadge?.visibility = if (count == 0) View.GONE else View.VISIBLE
+        notificationsBadge?.visibility = if (count == 0) View.GONE else View.VISIBLE
         updatesCount?.text = if (count > 99) "99" else count.toString()
     }
 

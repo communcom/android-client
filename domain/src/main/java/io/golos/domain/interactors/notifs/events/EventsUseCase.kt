@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import io.golos.cyber4j.model.CyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
+import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.entities.EventsListEntity
@@ -54,6 +55,10 @@ class EventsUseCase(
 
     val getUpdatingState: LiveData<QueryResult<UpdateOption>> = eventsUpdateStateLiveData
 
+    private val lastFetchedChunkLiveData = MutableLiveData<EventsListModel>()
+
+    val getLastFetchedChunk: LiveData<EventsListModel> = lastFetchedChunkLiveData.distinctUntilChanged()
+
     override fun subscribe() {
         super.subscribe()
         mediatorLiveData.observeForever(observer)
@@ -74,8 +79,13 @@ class EventsUseCase(
                     lastEventsJob = useCaseScope.launch {
                         val eventsList = it ?: return@launch
                         freshLiveData.value = eventsList.freshCount
+                        val newEvents = withContext(dispatchersProvider.workDispatcher) { eventsMapper(eventsList) }
+                        lastFetchedChunkLiveData.value = if (eventsLiveData.value == null)
+                            newEvents
+                        else
+                            EventsListModel(newEvents.data - (eventsLiveData.value?.data ?: emptyList()))
                         eventsLiveData.value =
-                            withContext(dispatchersProvider.workDispatcher) { eventsMapper(eventsList) }
+                            newEvents
                     }
                 }
 

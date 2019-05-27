@@ -64,7 +64,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
      * [LiveData] that indicates if last page was reached
      */
     val lastPageLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<M>, Boolean> {
-        it.size != PAGE_SIZE
+        it.size != PAGE_SIZE || it.isEmpty()
     })
 
     /**

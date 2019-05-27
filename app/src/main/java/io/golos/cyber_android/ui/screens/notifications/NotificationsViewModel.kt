@@ -35,8 +35,8 @@ class NotificationsViewModel(private val eventsUseCase: EventsUseCase): ViewMode
     /**
      * [LiveData] that indicates if last page was reached
      */
-    val lastPageLiveData = eventsUseCase.getAsLiveData.map(Function<EventsListModel, Boolean> {
-        it.size % PAGE_SIZE != 0
+    val lastPageLiveData = eventsUseCase.getLastFetchedChunk.map(Function<EventsListModel, Boolean> {
+        it.size % PAGE_SIZE != 0 || it.isEmpty()
     })
 
 
