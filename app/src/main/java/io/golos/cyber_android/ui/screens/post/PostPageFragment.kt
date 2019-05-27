@@ -80,13 +80,16 @@ class PostPageFragment :
     private fun observeViewModel() {
         viewModel.postLiveData.observe(this, Observer {
             bindPostModel(it)
-//            if (getArgs().scrollToComments && it.content.body.full.isNotEmpty()) {
-//                feedList.scrollToPosition((feedList.adapter as PostPageAdapter).getCommentsTitlePosition() + 1)
-//            }
         })
+
 
         viewModel.loadingStatusLiveData.observe(this, Observer {
             showFeedLoading()
+        })
+
+
+        viewModel.getFullyLoadedLiveData.observe(this, Observer { isLoaded ->
+            if (isLoaded) scrollIfNeeded()
         })
 
         viewModel.discussionCreationLiveData.observe(this, Observer {
@@ -119,6 +122,23 @@ class PostPageFragment :
         viewModel.getCommentInputVisibilityLiveData.observe(this, Observer {
             setCommentInputVisibility(it)
         })
+    }
+
+    private var scrolled = false
+
+    private fun scrollIfNeeded() {
+        if (getArgs().scrollToComments
+            && !scrolled
+        ) {
+            //need to slightly delay the scrolling due to adapter updating
+            feedList.postDelayed({
+                (feedList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                    (feedList.adapter as PostPageAdapter).getCommentsTitlePosition(),
+                    0
+                )
+            }, 50)
+            scrolled = true
+        }
     }
 
     private fun setupCommentWidget() {

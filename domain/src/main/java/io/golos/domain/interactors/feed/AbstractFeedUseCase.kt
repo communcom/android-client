@@ -34,7 +34,7 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
     private val postFeedLiveData = MutableLiveData<DiscussionsFeed<M>>()
     private val lastFetchedChunkLiveData = MutableLiveData<List<M>>()
 
-    private val feedUpdateLiveData = MutableLiveData<io.golos.domain.requestmodel.QueryResult<UpdateOption>>()
+    private val feedUpdateLiveData = MutableLiveData<QueryResult<UpdateOption>>()
 
     private val mediatorLiveData = MediatorLiveData<Any>()
     private val observer = Observer<Any> {}
@@ -47,7 +47,7 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
 
     val getLastFetchedChunk: LiveData<List<M>> = lastFetchedChunkLiveData.distinctUntilChanged()
 
-    val feedUpdateState: LiveData<io.golos.domain.requestmodel.QueryResult<UpdateOption>> =
+    val feedUpdateState: LiveData<QueryResult<UpdateOption>> =
         feedUpdateLiveData.distinctUntilChanged()
 
     private var lastFeedJob: Job? = null
@@ -115,13 +115,13 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
 
             feedUpdateLiveData.value = when (myFeedUpdatingState) {
                 null -> null
-                is io.golos.domain.requestmodel.QueryResult.Success -> io.golos.domain.requestmodel.QueryResult.Success(
+                is QueryResult.Success -> QueryResult.Success(
                     myFeedUpdatingState.originalQuery.toUpdateOption()
                 )
-                is io.golos.domain.requestmodel.QueryResult.Loading -> io.golos.domain.requestmodel.QueryResult.Loading(
+                is QueryResult.Loading -> QueryResult.Loading(
                     myFeedUpdatingState.originalQuery.toUpdateOption()
                 )
-                is io.golos.domain.requestmodel.QueryResult.Error -> io.golos.domain.requestmodel.QueryResult.Error(
+                is QueryResult.Error -> QueryResult.Error(
                     myFeedUpdatingState.error,
                     myFeedUpdatingState.originalQuery.toUpdateOption()
                 )

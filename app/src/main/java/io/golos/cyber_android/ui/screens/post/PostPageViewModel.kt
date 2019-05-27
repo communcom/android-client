@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.post
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
+import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
@@ -54,6 +56,30 @@ class PostPageViewModel(
      * [LiveData] that indicates visibility of the comment input widget
      */
     val getCommentInputVisibilityLiveData = commentInputVisibilityLiveData as LiveData<Visibility>
+
+
+    private val fullyLoadedLiveData = MediatorLiveData<Boolean>().apply {
+        var feedReady = false
+        var postReady = false
+        addSource(feedLiveData) {
+            feedReady = true
+            postLoadingStatus(feedReady, postReady)
+        }
+
+        addSource(postLiveData) {
+            postReady = true
+            postLoadingStatus(feedReady, postReady)
+        }
+
+        addSource(loadingStatusLiveData) {
+            postLoadingStatus(feedReady, postReady)
+        }
+    }
+
+    /**
+     * [LiveData] that post is fully loaded (including post itself and first page of comments)
+     */
+    val getFullyLoadedLiveData = fullyLoadedLiveData.distinctUntilChanged() as LiveData<Boolean>
 
     /**
      * Sets [DiscussionIdModel] which should be used as a parent of a new comment (created via [sendComment])
@@ -135,5 +161,13 @@ class PostPageViewModel(
 
     fun setCommentInputVisibility(visibility: Visibility) {
         commentInputVisibilityLiveData.postValue(visibility)
+    }
+
+
+    private fun MediatorLiveData<Boolean>.postLoadingStatus(
+        feedReady: Boolean,
+        postReady: Boolean
+    ) {
+        postValue(feedReady && postReady && loadingStatusLiveData.value == false)
     }
 }
