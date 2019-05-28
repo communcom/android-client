@@ -136,7 +136,7 @@ class PostPageFragment :
                     (feedList.adapter as PostPageAdapter).getCommentsTitlePosition(),
                     0
                 )
-            }, 50)
+            }, 500)
             scrolled = true
         }
     }
@@ -162,12 +162,6 @@ class PostPageFragment :
                 )
                 intent.type = "image/*"
                 startActivityForResult(intent, GALLERY_REQUEST)
-            }
-
-            override fun onUsernameClick() {
-                viewModel.getDiscussionToReplyLiveData.value?.userId?.let { userId ->
-                    startActivity(ProfileActivity.getIntent(requireContext(), userId))
-                }
             }
         }
     }
@@ -261,7 +255,7 @@ class PostPageFragment :
         feedList.adapter =
             PostPageAdapter(viewLifecycleOwner,
                 object : CommentsAdapter.Listener {
-                    override fun onAuthorClick(userId: String) {
+                    override fun onUsernameClick(userId: String) {
                         startActivity(ProfileActivity.getIntent(requireContext(), userId))
                     }
 

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.posts
 
+import android.text.InputFilter
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
@@ -66,6 +68,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             imeOptions = EditorInfo.IME_ACTION_DONE
             setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
         }
+
+        view.postComment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
 
         return PostViewHolder(view)
     }

@@ -10,6 +10,10 @@ import android.widget.TextView
  */
 class CustomLinkMovementMethod(private val listener: Listener) : LinkMovementMethod() {
 
+    enum class LinkType {
+        IMAGE, USERNAME, WEB
+    }
+
     /**
      * List of image links which this Movement method should handle. Other link will be considered as usual web links
      */
@@ -38,10 +42,11 @@ class CustomLinkMovementMethod(private val listener: Listener) : LinkMovementMet
             val link = buffer.getSpans(off, off, URLSpan::class.java)
             if (link.isNotEmpty()) {
                 val url = link[0].url
-                val handled = if (imageLinks.contains(url))
-                    listener.onImageLinkClicked(url)
-                else
-                    listener.onWebLinkClicked(url)
+                val handled = when {
+                    imageLinks.contains(url) -> listener.onLinkClick(url, LinkType.IMAGE)
+                    Patterns.USERNAME.matcher(url).matches() -> listener.onLinkClick(url, LinkType.USERNAME)
+                    else -> listener.onLinkClick(url, LinkType.WEB)
+                }
                 return if (handled) {
                     true
                 } else super.onTouchEvent(widget, buffer, event)
@@ -51,7 +56,6 @@ class CustomLinkMovementMethod(private val listener: Listener) : LinkMovementMet
     }
 
     interface Listener {
-        fun onImageLinkClicked(url: String): Boolean
-        fun onWebLinkClicked(url: String): Boolean
+        fun onLinkClick(url: String, type: LinkType): Boolean
     }
 }
