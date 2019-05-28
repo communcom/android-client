@@ -71,7 +71,7 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.timestamp
                         )
                         is MentionEvent -> MentionEventEntity(
-                            event.comment.toEventComment(),
+                            event.comment?.toEventComment(),
                             event.post?.toEventPost(),
                             event.parentComment?.toEventComment(),
                             event.community.toEntity(),

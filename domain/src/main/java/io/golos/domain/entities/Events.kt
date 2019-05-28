@@ -79,7 +79,7 @@ data class ReplyEventEntity(
 ) : EventEntity()
 
 data class MentionEventEntity(
-    val comment: EventCommentEntity,
+    val comment: EventCommentEntity?,
     val parentPost: EventPostEntity?,
     val parentComment: EventCommentEntity?,
     val community: CommunityEntity,

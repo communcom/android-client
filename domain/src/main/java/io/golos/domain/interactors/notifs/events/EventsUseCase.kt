@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
@@ -68,7 +67,7 @@ class EventsUseCase(
             if (it?.isUserLoggedIn == true && !isSubscribedOnEvents && authedUserName != null) {
                 isSubscribedOnEvents = true
                 val baseRequest = EventsFeedUpdateRequest(
-                    CyberName(authedUserName.userId),
+                    authedUserName,
                     eventTypes, 0
                 )
 
@@ -123,7 +122,7 @@ class EventsUseCase(
         if (option == UpdateOption.REFRESH_FROM_BEGINNING || eventsLiveData.value.isNullOrEmpty()) {
             eventsRepository.makeAction(
                 EventsFeedUpdateRequest(
-                    CyberName(authedUserName.userId),
+                    authedUserName,
                     eventTypes,
                     limit
                 )
@@ -132,7 +131,7 @@ class EventsUseCase(
             val lastId = eventsLiveData.value.orEmpty().lastOrNull()?.eventId
             eventsRepository.makeAction(
                 EventsFeedUpdateRequest(
-                    CyberName(authedUserName.userId),
+                    authedUserName,
                     eventTypes,
                     limit,
                     lastId
@@ -153,7 +152,7 @@ class EventsUseCase(
             mediatorLiveData.removeSource(
                 eventsRepository.getAsLiveData(
                     EventsFeedUpdateRequest(
-                        CyberName(authedUserName.userId),
+                        authedUserName,
                         eventTypes, 0
                     )
                 )

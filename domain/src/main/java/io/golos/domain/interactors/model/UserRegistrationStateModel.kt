@@ -1,6 +1,5 @@
 package io.golos.domain.interactors.model
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Model
 import java.util.*
 
@@ -47,4 +46,4 @@ class VerifiedUserWithoutUserNameModel : UserRegistrationStateModel() {
      }
  }
 
-data class RegisteredUserModel(val userName: CyberName) : UserRegistrationStateModel()
+data class RegisteredUserModel(val userName: String) : UserRegistrationStateModel()

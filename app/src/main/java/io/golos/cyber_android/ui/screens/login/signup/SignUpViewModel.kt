@@ -4,7 +4,6 @@ import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.*
@@ -79,7 +78,7 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
     fun sendName(name: String) {
         currentName = name
         signUpUseCase.makeRegistrationStep(
-            SetUserNameRequestModel(currentPhone, name.toCyberName())
+            SetUserNameRequestModel(currentPhone, name)
         )
     }
 
@@ -88,7 +87,7 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
      */
     fun writeToBlockchain() {
         signUpUseCase.makeRegistrationStep(
-            WriteUserToBlockChainRequestModel(currentPhone, currentName.toCyberName())
+            WriteUserToBlockChainRequestModel(currentPhone, currentName)
         )
     }
 

@@ -1,7 +1,7 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.services.model.FirstRegistrationStepResult
+import io.golos.cyber4j.services.model.RegisterResult
 import io.golos.cyber4j.services.model.ResultOk
 import io.golos.cyber4j.services.model.UserRegistrationStateResult
 
@@ -18,15 +18,15 @@ interface RegistrationApi {
 
     fun verifyPhoneForUserRegistration(phone: String, code: Int): ResultOk
 
-    fun setVerifiedUserName(user: CyberName, phone: String): ResultOk
+    fun setVerifiedUserName(user: String, phone: String): ResultOk
 
     fun writeUserToBlockChain(
-        userName: CyberName,
+        userName: String,
         owner: String,
         active: String,
         posting: String,
         memo: String
-    ): ResultOk
+    ): RegisterResult
 
     fun resendSmsCode(phone: String): ResultOk
 }

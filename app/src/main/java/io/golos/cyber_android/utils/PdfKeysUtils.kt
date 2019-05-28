@@ -73,7 +73,7 @@ object PdfKeysUtils {
     fun getKeysSummary(context: Context, keys: GeneratedUserKeys) = String.format(
         context.resources.getString(R.string.keys_format),
         keys.masterPassword,
-        keys.userName.name,
+        keys.userName,
         keys.ownerPrivateKey,
         keys.activePrivateKey,
         keys.postingPrivateKey

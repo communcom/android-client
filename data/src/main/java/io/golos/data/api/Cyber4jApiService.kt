@@ -7,15 +7,12 @@ import io.golos.cyber4j.utils.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
 import java.io.File
-import java.util.*
-import kotlin.collections.HashSet
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
 class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     AuthApi,
-    AuthListener,
     VoteApi,
     CommentsApiService,
     EmbedApi,
@@ -25,22 +22,21 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     ImageUploadApi,
     EventsApi,
     UserMetadataApi {
-    private val listeners = Collections.synchronizedSet(HashSet<AuthListener>())
-
-    init {
-        cyber4j.addAuthListener(this)
-    }
-
-    override fun onAuthSuccess(forUser: CyberName) {
-        listeners.forEach { it.onAuthSuccess(forUser) }
-    }
 
     override fun getUserAccount(user: CyberName): UserProfile {
         return cyber4j.getUserAccount(user).getOrThrow()
     }
 
-    override fun onFail(e: Exception) {
-        listeners.forEach { it.onFail(e) }
+    override fun getAuthSecret(): AuthSecret {
+        return cyber4j.getAuthSecret().getOrThrow()
+    }
+
+    override fun authWithSecret(user: String, secret: String, signedSecret: String): AuthResult {
+        return cyber4j.authWithSecret(user, secret, signedSecret).getOrThrow()
+    }
+
+    override fun resolveCanonicalCyberName(name: String): ResolvedProfile {
+        return cyber4j.resolveCanonicalCyberName(name, "cyber").getOrThrow()
     }
 
     override fun getCommunityPosts(
@@ -98,10 +94,6 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {
         cyber4j.keyStorage.addAccountKeys(user, setOf(Pair(AuthType.ACTIVE, activeKey)))
-    }
-
-    override fun addAuthListener(listener: AuthListener) {
-        listeners.add(listener)
     }
 
     override fun vote(
@@ -162,17 +154,17 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         return cyber4j.verifyPhoneForUserRegistration(phone, code).getOrThrow()
     }
 
-    override fun setVerifiedUserName(user: CyberName, phone: String): ResultOk {
+    override fun setVerifiedUserName(user: String, phone: String): ResultOk {
         return cyber4j.setVerifiedUserName(user, phone).getOrThrow()
     }
 
     override fun writeUserToBlockChain(
-        userName: CyberName,
+        userName: String,
         owner: String,
         active: String,
         posting: String,
         memo: String
-    ): ResultOk {
+    ): RegisterResult {
         return cyber4j.writeUserToBlockChain(userName, owner, active, posting, memo).getOrThrow()
     }
 

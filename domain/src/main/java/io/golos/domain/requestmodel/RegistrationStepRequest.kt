@@ -1,7 +1,5 @@
 package io.golos.domain.requestmodel
 
-import io.golos.cyber4j.model.CyberName
-
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
  */
@@ -90,7 +88,7 @@ class SendVerificationCodeRequest(phone: String, val code: Int) : RegistrationSt
     }
 }
 
-class SetUserNameRequest(phone: String, val userName: CyberName) : RegistrationStepRequest(phone){
+class SetUserNameRequest(phone: String, val userName: String) : RegistrationStepRequest(phone){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -112,7 +110,7 @@ class SetUserNameRequest(phone: String, val userName: CyberName) : RegistrationS
 
 class SetUserKeysRequest(
     phone: String,
-    val userName: CyberName,
+    val userName: String,
     val masterKey: String,
     val ownerPublicKey: String,
     val ownerPrivateKey: String,

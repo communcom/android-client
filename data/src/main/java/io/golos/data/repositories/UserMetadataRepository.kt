@@ -30,7 +30,7 @@ class UserMetadataRepository(
 
     private val savedMetadata = MutableLiveData<UserMetadataCollectionEntity>()
     private val metadataUpdateStates = MutableLiveData<Map<Identifiable.Id, QueryResult<UserMetadataRequest>>>()
-    private val allRequest = UserMetadataFetchRequest(CyberName("alldata@androidapplication"))
+    private val allRequest = UserMetadataFetchRequest(CyberName("alldata"))
     private val jobsMap = Collections.synchronizedMap(HashMap<UserMetadataRequest, Job>())
 
     override val allDataRequest: UserMetadataFetchRequest
