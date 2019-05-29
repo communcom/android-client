@@ -28,7 +28,7 @@ class CommentsFeedUseCaseTest {
     @Before
     fun before() {
         commentsUseCase = PostCommentsFeedUseCase(
-            DiscussionIdModel("tst2lwbafozq", "artemisfightswithhectoragainsthelios", 320697L),
+            DiscussionIdModel("tst2lwbafozq", "artemisfightswithhectoragainsthelios"),
             commentsFeedRepository,
             voteRepo,
             commentFeeEntityToModelMapper,

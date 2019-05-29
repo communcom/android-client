@@ -50,12 +50,11 @@ class AuthStateRepository(
     private fun auth(name: String, key: String): AuthResult? {
         try {
             val secret = authApi.getAuthSecret()
-            val authResult = authApi.authWithSecret(
+            return authApi.authWithSecret(
                 name,
                 secret.secret,
                 StringSigner.signString(secret.secret, key)
             )
-            return authResult
         } catch (e: Exception) {
             onAuthFail(e)
         }
@@ -166,7 +165,7 @@ class AuthStateRepository(
                     return@launch
                 }
 
-                val activeKey = account.permissions.find { it.perm_name == "active" }
+                val activeKey = account.permissions.find { it.perm_name.compareTo("active") == 0 }
 
                 if (activeKey == null) {
                     authRequestsLiveData.value =
@@ -208,12 +207,12 @@ class AuthStateRepository(
                 return@launch
             }
 
-            val authResult = auth(params.user.userId, params.activeKey)!!
 
             try {
+                val authResult = auth(params.user.userId, params.activeKey)!!
                 authApi.setActiveUserCreds(authResult.user, params.activeKey)
                 onAuthSuccess(authResult.user, params.user)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 logger(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))

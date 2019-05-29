@@ -89,7 +89,7 @@ class PostPageFragment :
 
 
         viewModel.getFullyLoadedLiveData.observe(this, Observer { isLoaded ->
-            if (isLoaded) scrollIfNeeded()
+            if (isLoaded) scrollToCommentsIfNeeded()
         })
 
         viewModel.discussionCreationLiveData.observe(this, Observer {
@@ -126,7 +126,7 @@ class PostPageFragment :
 
     private var scrolled = false
 
-    private fun scrollIfNeeded() {
+    private fun scrollToCommentsIfNeeded() {
         if (getArgs().scrollToComments
             && !scrolled
         ) {
@@ -136,7 +136,7 @@ class PostPageFragment :
                     (feedList.adapter as PostPageAdapter).getCommentsTitlePosition(),
                     0
                 )
-            }, 500)
+            }, 700)
             scrolled = true
         }
     }
