@@ -137,10 +137,12 @@ private val persister = object : Persister {
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
 
-val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
+val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, logger)
 
 val discussionCreationRepo = DiscussionCreationRepository(
-    apiService, dispatchersProvider,
+    apiService,
+    apiService,
+    dispatchersProvider,
     logger,
     discussionEntityRequestToApiRequestMapper,
     discussionCreationToEntityMapper
@@ -198,7 +200,7 @@ val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
                 dispatchersProvider, logger
             )
         }
-val userMetadataRepos = UserMetadataRepository(apiService, dispatchersProvider, logger,
+val userMetadataRepos = UserMetadataRepository(apiService, apiService, dispatchersProvider, logger,
     UserMetadataToEntityMapper())
 
 

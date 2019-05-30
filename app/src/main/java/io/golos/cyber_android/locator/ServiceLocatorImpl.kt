@@ -151,7 +151,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
             by lazy {
                 DiscussionCreationRepository(
-                    apiService, dispatchersProvider,
+                    apiService,
+                    apiService,
+                    dispatchersProvider,
                     logger,
                     discussionEntityRequestToApiRequestMapper,
                     discussionCreationToEntityMapper
@@ -168,7 +170,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
-                VoteRepository(apiService, dispatchersProvider, logger)
+                VoteRepository(apiService, apiService, dispatchersProvider, logger)
             }
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             by lazy {
@@ -220,7 +222,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
     override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
             by lazy {
-                UserMetadataRepository(apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
+                UserMetadataRepository(apiService, apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
             }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId, forUser: CyberName): ViewModelProvider.Factory {

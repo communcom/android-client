@@ -21,7 +21,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     SettingsApi,
     ImageUploadApi,
     EventsApi,
-    UserMetadataApi {
+    UserMetadataApi,
+    TransactionsApi {
 
     override fun getUserAccount(user: CyberName): UserProfile {
         return cyber4j.getUserAccount(user).getOrThrow()
@@ -100,9 +101,9 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: String,
         voteStrength: Short
-    ): VoteResult {
+    ): TransactionSuccessful<VoteResult> {
         return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength)
-            .getOrThrow().extractResult()
+            .getOrThrow()
     }
 
     override fun getIframelyEmbed(url: String): IFramelyEmbedResult {
@@ -122,11 +123,11 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): CreateDiscussionResult {
+    ): kotlin.Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult> {
         return cyber4j.createComment(
             body, parentAccount, parentPermlink,
             category, metadata, null, beneficiaries, vestPayment, tokenProp
-        ).getOrThrow().extractResult()
+        ).getOrThrow().run { this to this.extractResult() }
     }
 
     override fun createPost(
@@ -137,9 +138,9 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): CreateDiscussionResult {
-        return cyber4j.createPost(title, body, tags, metadata, null, beneficiaries, vestPayment, tokenProp).getOrThrow()
-            .extractResult()
+    ): kotlin.Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult> {
+        return cyber4j.createPost(title, body, tags, metadata, null, beneficiaries, vestPayment, tokenProp)
+            .getOrThrow().run { this to this.extractResult() }
     }
 
     override fun getRegistrationState(phone: String): UserRegistrationStateResult {
@@ -242,7 +243,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         targetPlan: String?,
         targetPointA: String?,
         targetPointB: String?
-    ): ProfileMetadataUpdateResult {
+    ): TransactionSuccessful<ProfileMetadataUpdateResult> {
         return cyber4j.setUserMetadata(
             type,
             app,
@@ -274,11 +275,15 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
             targetPlan,
             targetPointA,
             targetPointB
-        ).getOrThrow().extractResult()
+        ).getOrThrow()
     }
 
     override fun getUserMetadata(user: CyberName): UserMetadataResult {
         return cyber4j.getUserMetadata(user).getOrThrow()
+    }
+
+    override fun waitForTransaction(transactionId: String): ResultOk {
+        return cyber4j.waitForTransaction(transactionId).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

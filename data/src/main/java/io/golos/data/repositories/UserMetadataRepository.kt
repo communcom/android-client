@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.services.model.UserMetadataResult
+import io.golos.data.api.TransactionsApi
 import io.golos.data.api.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -21,6 +22,7 @@ import kotlin.collections.HashMap
  */
 class UserMetadataRepository(
     private val metadadataApi: UserMetadataApi,
+    private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val toEntityMapper: CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>
@@ -58,12 +60,12 @@ class UserMetadataRepository(
 
                     is UserMetadataUpdateRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.workDispatcher) {
-                            metadadataApi.setUserMetadata(
+                            val transactionResult = metadadataApi.setUserMetadata(
                                 about = params.bio,
                                 coverImage = params.coverImageUrl,
                                 profileImage = params.profileImageUrl
                             )
-                            delay(3_000)
+                            transactionsApi.waitForTransaction(transactionResult.transaction_id)
                             metadadataApi.getUserMetadata(params.user)
                                 .run { toEntityMapper(this) }
                         }
@@ -73,7 +75,7 @@ class UserMetadataRepository(
                     }
                 }
                 metadataUpdateStates.value =
-                    metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Success(params as UserMetadataRequest))
+                    metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
                 logger(e)

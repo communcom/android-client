@@ -1,9 +1,6 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.model.CreateDiscussionResult
-import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.DiscussionCreateMetadata
-import io.golos.cyber4j.model.Tag
+import io.golos.cyber4j.model.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
@@ -16,18 +13,18 @@ interface DiscussionsCreationApi {
         parentPermlink: String,
         category: List<Tag>,
         metadata: DiscussionCreateMetadata,
-        beneficiaries: List<io.golos.cyber4j.model.Beneficiary> = emptyList(),
+        beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): CreateDiscussionResult
+    ): Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult>
 
     fun createPost(
         title: String,
         body: String,
-        tags: List<io.golos.cyber4j.model.Tag>,
+        tags: List<Tag>,
         metadata: DiscussionCreateMetadata,
-        beneficiaries: List<io.golos.cyber4j.model.Beneficiary> = emptyList(),
+        beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): CreateDiscussionResult
+    ): Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult>
 }

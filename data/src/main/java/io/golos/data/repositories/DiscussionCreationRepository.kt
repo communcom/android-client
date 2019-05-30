@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CreateDiscussionResult
 import io.golos.data.api.DiscussionsCreationApi
+import io.golos.data.api.TransactionsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
@@ -21,6 +22,7 @@ import kotlin.collections.HashMap
  */
 class DiscussionCreationRepository(
     private val discussionsCreationApi: DiscussionsCreationApi,
+    private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
@@ -73,10 +75,9 @@ class DiscussionCreationRepository(
                             request.metadata, request.beneficiaries, request.vestPayment, request.tokenProp
                         )
                     }
-                    toEntityResultMapper(apiAnswer)
+                    transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
+                    toEntityResultMapper(apiAnswer.second)
                 }
-
-                delay(3_000)
 
                 (getAsLiveData(params) as MutableLiveData).value = discussionCreationResult
                 updateStateLiveData.value =
