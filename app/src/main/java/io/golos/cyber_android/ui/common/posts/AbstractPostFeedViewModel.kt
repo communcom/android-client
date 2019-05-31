@@ -34,7 +34,7 @@ abstract class AbstractPostFeedViewModel<out T : PostFeedUpdateRequest>(
         ) {
             val request = VoteRequestModel.VoteForPostRequest(power, discussionModel.contentId)
             voteUseCase.vote(request)
-            handledVotes.remove(discussionModel.contentId)
+            pendingVotes.add(discussionModel.contentId)
         }
     }
 }

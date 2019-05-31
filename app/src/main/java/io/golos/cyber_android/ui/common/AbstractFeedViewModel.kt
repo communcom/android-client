@@ -4,7 +4,6 @@ import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
@@ -30,7 +29,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         const val PAGE_SIZE = 20
     }
 
-    protected val handledVotes = mutableSetOf<DiscussionIdModel>()
+    protected val pendingVotes = mutableSetOf<DiscussionIdModel>()
 
     /**
      * [LiveData] that indicates if user is able to vote
@@ -40,18 +39,21 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
     /**
      * [LiveData] that indicates if there was error in vote process
      */
-    val voteErrorLiveData = MediatorLiveData<Event<DiscussionIdModel>>().apply {
+    private val voteErrorLiveData = MediatorLiveData<DiscussionIdModel>().apply {
         addSource(voteUseCase.getAsLiveData) { map ->
             map.forEach { (id, result) ->
-                if (result is QueryResult.Error && !handledVotes.contains(id)) {
-                    this.postValue(Event(id))
+                if (result is QueryResult.Error && pendingVotes.contains(id)) {
+                    this.postValue(id)
                 }
                 if (result !is QueryResult.Loading) {
-                    handledVotes.add(id)
+                    pendingVotes.remove(id)
                 }
             }
         }
     }
+
+
+    val getVoteErrorLiveData = voteErrorLiveData.asEvent()
 
     /**
      * [LiveData] that indicates if data is loading
@@ -120,6 +122,6 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         discussionIdModel: DiscussionIdModel
     ) {
         voteUseCase.vote(request)
-        handledVotes.remove(discussionIdModel)
+        pendingVotes.add(discussionIdModel)
     }
 }

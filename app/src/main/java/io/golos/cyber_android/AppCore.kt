@@ -84,8 +84,6 @@ class AppCore(private val locator: RepositoriesHolder, dispatchersProvider: Disp
 
         if (comment.contentId != lastCommentCreatedId.commentId) return
 
-        //lastCreatedComment = null
-
         locator.postFeedRepository.requestDiscussionUpdate(comment.parentPostId)
 
         locator.commentsRepository.fixOnPositionDiscussion(comment, lastCommentCreatedId.parentId)
