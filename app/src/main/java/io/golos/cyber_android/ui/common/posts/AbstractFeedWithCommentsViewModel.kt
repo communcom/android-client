@@ -29,10 +29,20 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
      */
     val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
+    /**
+     * Sends comment to discussion
+     * @param discussion [DiscussionModel] from where [DiscussionIdModel] will be extracted
+     * @param comment comment content
+     */
     fun sendComment(discussion: DiscussionModel, comment: CharSequence) {
         sendComment(discussion.contentId, comment)
     }
 
+    /**
+     * Sends comment to discussion
+     * @param id id of a parent discussion
+     * @param comment comment content
+     */
     fun sendComment(id: DiscussionIdModel, comment: CharSequence) {
         if (validateComment(comment)) {
             val postRequest = CommentCreationRequestModel(comment, id, emptyList())
@@ -40,7 +50,8 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
         }
     }
 
-    protected open fun validateComment(comment: CharSequence) = comment.isNotBlank() && comment.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
+    protected open fun validateComment(comment: CharSequence) =
+        comment.isNotBlank() && comment.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
 
     init {
         posterUseCase.subscribe()

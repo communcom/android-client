@@ -47,9 +47,7 @@ class CustomLinkMovementMethod(private val listener: Listener) : LinkMovementMet
                     Patterns.USERNAME.matcher(url).matches() -> listener.onLinkClick(url, LinkType.USERNAME)
                     else -> listener.onLinkClick(url, LinkType.WEB)
                 }
-                return if (handled) {
-                    true
-                } else super.onTouchEvent(widget, buffer, event)
+                return handled || super.onTouchEvent(widget, buffer, event)
             }
         }
         return super.onTouchEvent(widget, buffer, event)

@@ -11,13 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber4j.utils.toCyberName
-import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
@@ -38,12 +38,12 @@ import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 
 /**
- * Fragment that represents ALL tab of the Feed Page.
+ * Fragment that represents TRENDING tab of the Feed Page.
  */
 
 const val REQUEST_POST_CREATION = 205
 
-class AllFeedFragment :
+class TrendingFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
@@ -208,7 +208,7 @@ class AllFeedFragment :
         SortingTypeDialogFragment
             .newInstance(values)
             .apply {
-                setTargetFragment(this@AllFeedFragment, SORT_REQUEST_CODE)
+                setTargetFragment(this@TrendingFeedFragment, SORT_REQUEST_CODE)
             }
             .show(requireFragmentManager(), null)
     }
@@ -236,7 +236,7 @@ class AllFeedFragment :
 
     companion object {
         fun newInstance(communityName: String, userId: String) =
-            AllFeedFragment().apply {
+            TrendingFeedFragment().apply {
                 arguments = Bundle().apply {
                     putString(Tags.COMMUNITY_NAME, communityName)
                     putString(Tags.USER_ID, userId)

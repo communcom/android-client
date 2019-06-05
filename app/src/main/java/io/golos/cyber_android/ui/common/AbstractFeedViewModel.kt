@@ -29,6 +29,12 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         const val PAGE_SIZE = 20
     }
 
+    /**
+     * Set of votes this ViewModel should handle.
+     * When [vote] method is invoked we add id of a discussion to vote into this set.
+     * After that in [voteErrorLiveData] we remove ids of requests that are completed (eg not [QueryResult.Loading]).
+     * This way we can handle all vote errors associated with this ViewModel.
+     */
     protected val pendingVotes = mutableSetOf<DiscussionIdModel>()
 
     /**

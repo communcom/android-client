@@ -15,7 +15,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.utils.ValidationConstants
-import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
@@ -25,7 +24,7 @@ import java.math.BigInteger
 
 
 /**
- * [RecyclerView.Adapter] for [PostEntity]
+ * [RecyclerView.Adapter] for [PostModel]
  */
 
 abstract class PostsAdapter(private var values: List<PostModel>, private val listener: Listener) :
@@ -189,12 +188,12 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
     }
 
     /**
-     * Click listener of [PostsAdapter] items
+     * Click listener of a [PostsAdapter] items
      */
     interface Listener {
 
         /**
-         * @param post post was clicked
+         * @param post post that was clicked
          */
         fun onPostClick(post: PostModel)
 

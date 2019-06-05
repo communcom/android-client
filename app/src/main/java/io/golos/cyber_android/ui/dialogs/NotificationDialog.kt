@@ -9,6 +9,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import kotlinx.android.synthetic.main.dialog_notification.*
 
+/**
+ * Dialog that provides some notification to user
+ */
 class NotificationDialog: DialogFragment() {
 
     var listener: (() -> Unit)? = null

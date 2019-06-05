@@ -8,8 +8,8 @@ import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
