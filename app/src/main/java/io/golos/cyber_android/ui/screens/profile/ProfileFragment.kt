@@ -20,6 +20,7 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioActivity
@@ -84,11 +85,18 @@ class ProfileFragment : LoadingFragment() {
         }
 
         back.setOnClickListener { requireActivity().finish() }
+        back.visibility = if (isSeparateActivity()) View.VISIBLE else View.GONE
 
         followersPhotosView.setPhotosUrls(listOf("", "", ""))
         followingPhotosView.setPhotosUrls(listOf("", ""))
         subscribersPhotosView.visibility = View.GONE
     }
+
+    /**
+     * Returns true if this fragment is located on separate [ProfileActivity]. This way we need to show
+     * dedicated back button
+     */
+    private fun isSeparateActivity() = activity is ProfileActivity
 
     private fun observeViewModel() {
         viewModel.getProfileLiveData.observe(this, Observer { result ->
@@ -97,7 +105,7 @@ class ProfileFragment : LoadingFragment() {
                     bindProfile(result.originalQuery.metadata)
                     updateControlsAccessibility(result.originalQuery.isMyUser)
                 }
-                is QueryResult.Error -> onError()
+                is QueryResult.Error -> onError(result)
                 is QueryResult.Loading -> onLoading()
             }
         })
@@ -117,8 +125,26 @@ class ProfileFragment : LoadingFragment() {
         Toast.makeText(requireContext(), "loading profile", Toast.LENGTH_SHORT).show()
     }
 
-    private fun onError() {
-        Toast.makeText(requireContext(), "loading profile error", Toast.LENGTH_SHORT).show()
+    private fun onError(result: QueryResult.Error<ProfileViewModel.Profile>? = null) {
+        when {
+            //profile with this username wasn't found
+            result?.originalQuery == ProfileViewModel.Profile.NOT_FOUND && isSeparateActivity() -> {
+                //and its separate activity, so it can be finished safely
+                NotificationDialog.newInstance(getString(R.string.user_not_found_message))
+                    .run {
+                        isCancelable = false
+                        listener = this@ProfileFragment.requireActivity()::finish
+                        show(this@ProfileFragment.requireFragmentManager(), "404_not_found")
+                    }
+            }
+            result?.originalQuery == ProfileViewModel.Profile.NOT_FOUND && !isSeparateActivity() -> {
+                //and its not separate activity, so we cannot finish it
+                Toast.makeText(requireContext(), getString(R.string.user_not_found_message), Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(requireContext(), "loading profile error", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
@@ -200,7 +226,6 @@ class ProfileFragment : LoadingFragment() {
             settings.visibility = View.VISIBLE
             follow.visibility = View.GONE
             sentPoints.visibility = View.GONE
-            back.visibility = View.GONE
         } else {
             updatePhoto.visibility = View.GONE
             updateCover.visibility = View.GONE

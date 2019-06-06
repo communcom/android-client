@@ -9,6 +9,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import kotlinx.android.synthetic.main.dialog_confirmation.*
 
+/**
+ * Dialog that asks for some confirmation from user.
+ */
 class ConfirmationDialog: DialogFragment() {
 
     var listener: (() -> Unit)? = null

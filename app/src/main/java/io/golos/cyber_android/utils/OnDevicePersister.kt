@@ -10,14 +10,17 @@ import io.golos.domain.entities.AuthState
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
  */
+
+const val PREFS_NAME = "sp_2"
+
 class OnDevicePersister(
     private val context: Context,
     private val logger: Logger
 ) : Persister {
     private val encryptor = EnCryptor(context)
     private val decryptor = DeCryptor()
-    private val editor = context.getSharedPreferences("sp_1", Context.MODE_PRIVATE).edit()
-    private val prefs = context.getSharedPreferences("sp_1", Context.MODE_PRIVATE)
+    private val editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()
+    private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     private val moshi = Moshi.Builder().build()
 
 

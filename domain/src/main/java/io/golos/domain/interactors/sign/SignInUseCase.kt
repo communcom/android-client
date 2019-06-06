@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber4j.utils.toCyberName
+import io.golos.cyber4j.model.CyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
@@ -45,7 +45,7 @@ class SignInUseCase(
         mediator.addSource(authRepo.getAsLiveData(authRepo.allDataRequest)) {
 
             authState.value =
-                UserAuthState(it.isUserLoggedIn, it.user.userId.toCyberName())
+                UserAuthState(it.isUserLoggedIn, it.user)
 
             updateLogInState()
 
@@ -75,7 +75,7 @@ class SignInUseCase(
 
             delay(100)
             val authStateInRepository =
-                authRepo.getAsLiveData(authRepo.allDataRequest).value ?: AuthState(CyberUser(""), false)
+                authRepo.getAsLiveData(authRepo.allDataRequest).value ?: AuthState(CyberName(""), false)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             signInStateLiveData.value = when {

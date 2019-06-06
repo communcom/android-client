@@ -1,6 +1,7 @@
 package io.golos.data.api
 
 import io.golos.cyber4j.model.CyberName
+import io.golos.cyber4j.model.TransactionSuccessful
 import io.golos.cyber4j.model.VoteResult
 
 /**
@@ -11,5 +12,5 @@ interface VoteApi {
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: String,
         voteStrength: Short
-    ): VoteResult
+    ): TransactionSuccessful<VoteResult>
 }

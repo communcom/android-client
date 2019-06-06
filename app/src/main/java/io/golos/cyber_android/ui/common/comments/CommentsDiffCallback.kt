@@ -2,10 +2,9 @@ package io.golos.cyber_android.ui.common.comments
 
 import androidx.recyclerview.widget.DiffUtil
 import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.PostModel
 
 /**
- * [DiffUtil.Callback] impl for [PostModel] lists
+ * [DiffUtil.Callback] impl for [CommentModel] lists
  */
 class CommentsDiffCallback(private val oldList: List<CommentModel>, private val newList: List<CommentModel>) :
     DiffUtil.Callback() {

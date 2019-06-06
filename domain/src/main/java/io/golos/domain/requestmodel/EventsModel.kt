@@ -88,7 +88,7 @@ data class ReplyEventModel(
 }
 
 data class MentionEventModel(
-    val comment: EventCommentModel,
+    val comment: EventCommentModel?,
     val parentPost: EventPostModel?,
     val parentComment: EventCommentModel?,
     val community: CommunityModel,

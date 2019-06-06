@@ -135,6 +135,7 @@
     <string name="profile_creation_date_format">MMMM dd, yyyy</string>
     <string name="no_posts">No posts</string>
     <string name="you_have_not_made_any_posts">You have not made any post</string>
+    <string name="user_not_found_message">404 not found</string>
 
 
     <!--Notifications-->

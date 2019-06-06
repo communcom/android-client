@@ -42,7 +42,7 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
             signUpViewModel.updateRegisterState()
         }
 
-        username.post {
+        username?.post {
             ViewUtils.showKeyboard(username)
         }
     }
@@ -61,8 +61,8 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
             event.getIfNotHandled()?.let {
                 when (it) {
                     is VerifiedUserWithoutUserNameModel -> {
-                        viewModel.getFieldIfValid()?.let {
-                            signUpViewModel.sendName(it)
+                        viewModel.getFieldIfValid()?.let { name ->
+                            signUpViewModel.sendName(name)
                         }
                     }
                     is UnWrittenToBlockChainUserModel -> signUpViewModel.writeToBlockchain()

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.posts
 
+import android.text.InputFilter
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -13,7 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
-import io.golos.domain.entities.PostEntity
+import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
@@ -23,7 +24,7 @@ import java.math.BigInteger
 
 
 /**
- * [RecyclerView.Adapter] for [PostEntity]
+ * [RecyclerView.Adapter] for [PostModel]
  */
 
 abstract class PostsAdapter(private var values: List<PostModel>, private val listener: Listener) :
@@ -66,6 +67,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             imeOptions = EditorInfo.IME_ACTION_DONE
             setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
         }
+
+        view.postComment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
 
         return PostViewHolder(view)
     }
@@ -124,7 +127,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 }
 
                 postUpvotesCount.text = "${postModel.payout.rShares}"
-                postVoteStatus.isActivated = postModel.payout.rShares > zero
+                postVoteStatus.isActivated = postModel.payout.rShares >= zero
 
                 postCommentsCount.text = String.format(
                     context.resources.getString(R.string.post_comments_count_format),
@@ -185,12 +188,12 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
     }
 
     /**
-     * Click listener of [PostsAdapter] items
+     * Click listener of a [PostsAdapter] items
      */
     interface Listener {
 
         /**
-         * @param post post was clicked
+         * @param post post that was clicked
          */
         fun onPostClick(post: PostModel)
 

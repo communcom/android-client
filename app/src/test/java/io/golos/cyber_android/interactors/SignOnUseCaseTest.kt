@@ -1,8 +1,6 @@
 package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.authStateRepository
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.regRepo
@@ -180,11 +178,11 @@ class SignOnUseCaseTest {
         sb.toString()
     }
 
-    private fun generateRandomCommunName(): CyberName {
+    private fun generateRandomCommunName(): String {
         val builder = StringBuilder()
         (0..11).forEach {
             builder.append((Math.random() * 25).toChar() + 97)
         }
-        return builder.toString().toCyberName()
+        return builder.toString()
     }
 }

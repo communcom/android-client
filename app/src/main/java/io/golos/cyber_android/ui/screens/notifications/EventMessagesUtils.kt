@@ -14,7 +14,7 @@ internal fun MentionEventModel.getMessage(context: Context): CharSequence {
     val message = String.format(
         context.resources.getString(R.string.event_mention_format),
         this.actor.id.name,
-        this.comment.body
+        this.comment?.body
     )
     return SpannableStringBuilder(message).apply {
         setSpan(boldSpan, 0, this@getMessage.actor.id.name.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)

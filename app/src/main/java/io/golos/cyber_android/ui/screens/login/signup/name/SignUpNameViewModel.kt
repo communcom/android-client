@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.login.signup.name
 
-import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenViewModel
 
 class SignUpNameViewModel : BaseSignUpScreenViewModel() {
@@ -14,11 +13,6 @@ class SignUpNameViewModel : BaseSignUpScreenViewModel() {
     }
 
     override fun validate(field: String): Boolean {
-        return field.length in (MIN_USERNAME_LENGTH .. MAX_USERNAME_LENGTH) && try {
-            field.toCyberName()
-            true
-        } catch (e: IllegalStateException) {
-            false
-        }
+        return field.length in (MIN_USERNAME_LENGTH .. MAX_USERNAME_LENGTH)
     }
 }

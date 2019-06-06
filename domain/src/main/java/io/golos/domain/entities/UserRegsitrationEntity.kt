@@ -1,6 +1,5 @@
 package io.golos.domain.entities
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Entity
 import java.util.*
 
@@ -15,9 +14,9 @@ data class UnverifiedUser(val nextSmsVerification: Date, val smsCode: Int? = nul
 
 data class VerifiedUserWithoutUserName(private val type: String = "v_s") : UserRegistrationStateEntity()
 
-data class UnWrittenToBlockChainUser(val userName: CyberName) : UserRegistrationStateEntity()
+data class UnWrittenToBlockChainUser(val userName: String) : UserRegistrationStateEntity()
 
 data class RegisteredUser(
-    val userName: CyberName,
+    val userName: String,
     val masterPassword: String?
 ) : UserRegistrationStateEntity()

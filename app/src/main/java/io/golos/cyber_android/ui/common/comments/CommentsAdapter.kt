@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.CustomLinkMovementMethod
 import io.golos.cyber_android.views.utils.colorizeLinks
+import io.golos.cyber_android.views.utils.colorizeUsernames
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.ContentBodyModel
@@ -56,13 +57,14 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
 
         init {
             view.commentContent.movementMethod = CustomLinkMovementMethod(object: CustomLinkMovementMethod.Listener {
-                override fun onImageLinkClicked(url: String): Boolean {
-                    listener.onImageLinkClick(url)
-                    return true
-                }
 
-                override fun onWebLinkClicked(url: String): Boolean {
-                    listener.onWebLinkClick(url)
+                override fun onLinkClick(url: String, type: CustomLinkMovementMethod.LinkType): Boolean {
+                    when (type) {
+                        CustomLinkMovementMethod.LinkType.IMAGE -> listener.onImageLinkClick(url)
+                        //username contains @, we need to trim it first
+                        CustomLinkMovementMethod.LinkType.USERNAME -> listener.onUsernameClick(url.substring(1))
+                        CustomLinkMovementMethod.LinkType.WEB -> listener.onWebLinkClick(url)
+                    }
                     return true
                 }
             })
@@ -98,6 +100,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                 )
                 commentContent.text = commentModel.content.body.toCommentContent()
                 commentContent.colorizeLinks()
+                commentContent.colorizeUsernames()
                 (commentContent.movementMethod as CustomLinkMovementMethod).imageLinks =
                     commentModel.content.body.full
                         .filterIsInstance<ImageRowModel>()
@@ -123,7 +126,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                     getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
 
                 listOf(commentAuthorParent, commentAvatar, commentDate).forEach {
-                    it.setOnClickListener { listener.onAuthorClick(commentModel.author.userId.userId) }
+                    it.setOnClickListener { listener.onUsernameClick(commentModel.author.userId.userId) }
                 }
 
             }
@@ -171,7 +174,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
 
         fun onWebLinkClick(url: String)
 
-        fun onAuthorClick(userId: String)
+        fun onUsernameClick(userId: String)
     }
 
     private fun ContentBodyModel.toCommentContent(): CharSequence {

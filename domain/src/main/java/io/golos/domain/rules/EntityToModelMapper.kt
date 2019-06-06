@@ -271,7 +271,7 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.timestamp
                     )
                     is MentionEventEntity -> MentionEventModel(
-                        event.comment.toModelComment(),
+                        event.comment?.toModelComment(),
                         event.parentPost?.toModelPost(),
                         event.parentComment?.toModelComment(),
                         event.community.toModel(),

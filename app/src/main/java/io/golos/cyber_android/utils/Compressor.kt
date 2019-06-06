@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import androidx.annotation.FloatRange
 import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 
 /**
@@ -32,19 +33,16 @@ object Compressor {
         toSquare: Boolean = false
     ): File {
         file.inputStream().use { originalFileStream ->
-            val bitmap = BitmapFactory.decodeStream(
-                originalFileStream,
-                null,
-                BitmapFactory.Options()
-            )
+
+            val opts = getDecodeOptions(originalFileStream, MAX_SIZE.toInt(), MAX_SIZE.toInt())
+
+            val bitmap = file.inputStream().use {
+                BitmapFactory.decodeStream(it, null, opts)
+            }
+
             bitmap!!
-            val scaleFactor = Math.max(
-                bitmap.width / MAX_SIZE,
-                bitmap.height / MAX_SIZE
-            )
 
             val matrix = Matrix()
-            matrix.postScale(1 / scaleFactor, 1 / scaleFactor)
             matrix.setRotate(rotation)
 
             val x = transX.toInt()
@@ -95,11 +93,11 @@ object Compressor {
         requiredHeightPercent: Float? = null
     ): File {
         file.inputStream().use { originalFileStream ->
-            val bitmap = BitmapFactory.decodeStream(
-                originalFileStream,
-                null,
-                BitmapFactory.Options()
-            )
+            val opts = getDecodeOptions(originalFileStream, MAX_SIZE.toInt(), MAX_SIZE.toInt())
+
+            val bitmap = file.inputStream().use {
+                BitmapFactory.decodeStream(it, null, opts)
+            }
             bitmap!!
 
             val x = (paddingXPercent * bitmap.width).toInt()
@@ -107,13 +105,7 @@ object Compressor {
             val width = requiredWidthPercent?.times(bitmap.width)?.toInt() ?: (bitmap.width - paddingXPercent).toInt()
             val height = requiredHeightPercent?.times(bitmap.height)?.toInt() ?: (bitmap.height - paddingYPercent).toInt()
 
-            val scaleFactor = Math.max(
-                width / MAX_SIZE,
-                height / MAX_SIZE
-            )
-
             val matrix = Matrix()
-            matrix.postScale(1 / scaleFactor, 1 / scaleFactor)
             matrix.setRotate(0f)
 
             val scaledBitmap = Bitmap.createBitmap(
@@ -129,5 +121,39 @@ object Compressor {
             }
         }
         return file
+    }
+
+    private fun getDecodeOptions(
+        fis: FileInputStream,
+        reqWidth: Int,
+        reqHeight: Int
+    ): BitmapFactory.Options {
+        return BitmapFactory.Options().apply {
+            inJustDecodeBounds = true
+            BitmapFactory.decodeStream(fis, null, this)
+            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+            inJustDecodeBounds = false
+        }
+    }
+
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
     }
 }

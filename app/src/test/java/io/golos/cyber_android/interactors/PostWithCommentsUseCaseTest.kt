@@ -27,7 +27,7 @@ class PostWithCommentsUseCaseTest {
     private lateinit var coomunityFeedUseCase: CommunityFeedUseCase
 
     private lateinit var voteUseCase: VoteUseCase
-    private val postId = DiscussionIdModel("tst1ggrtqzvl", "zeusfightswithsemeleagainsteurynome", 140310)
+    private val postId = DiscussionIdModel("tst1ggrtqzvl", "zeusfightswithsemeleagainsteurynome")
 
     @Before
     fun before() {
@@ -168,11 +168,11 @@ class PostWithCommentsUseCaseTest {
             when (counter) {
                 0 -> {
                     assertNotNull("post was not fetched for some reason", post)
-                    assertNotNull("post body-preview was null, it must not be that", post?.content?.body?.preview)
+                    assertNotNull("post body-preview was null, it must not be that", post?.content?.body?.mobilePreview)
                 }
                 1 -> {
                     assertNotNull("post was not fetched for some reason", post)
-                    assertNotNull("post body-preview was null, it must not be that", post?.content?.body?.preview)
+                    assertNotNull("post body-preview was null, it must not be that", post?.content?.body?.mobilePreview)
                     assertNotNull("post body-full was null, it must not be that", post?.content?.body?.full)
                 }
             }
@@ -235,7 +235,7 @@ class PostWithCommentsUseCaseTest {
 
 
         assertEquals("fail of initial loading of comments", 1, comments?.items?.size)
-        assertTrue(post!!.content.body.preview.isNotEmpty())
+        assertTrue(post!!.content.body.mobilePreview.isNotEmpty())
         assertTrue(post!!.content.body.full.isNotEmpty())
 
         val commentToVote = comments!!.items.first()

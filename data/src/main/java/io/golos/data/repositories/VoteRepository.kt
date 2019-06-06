@@ -2,6 +2,7 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.data.api.TransactionsApi
 import io.golos.data.api.VoteApi
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
@@ -20,6 +21,7 @@ import kotlin.collections.HashMap
  */
 class VoteRepository(
     private val voteApi: VoteApi,
+    private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger
 ) : Repository<VoteRequestEntity, VoteRequestEntity> {
@@ -43,16 +45,16 @@ class VoteRepository(
                 val oldVotingStates = getCurrentValue()
                 val loadingPair = params.id to QueryResult.Loading(params)
 
-                votingStates.value = oldVotingStates  + loadingPair
+                votingStates.value = oldVotingStates + loadingPair
 
                 withContext(dispatchersProvider.workDispatcher) {
-                    voteApi.vote(
+                    val transactionResult = voteApi.vote(
                         params.discussionIdEntity.userId.toCyberName(),
                         params.discussionIdEntity.permlink,
                         params.power
                     )
+                    transactionsApi.waitForTransaction(transactionResult.transaction_id)
                 }
-                delay(3_000)
                 votingStates.value = getCurrentValue() + (params.id to QueryResult.Success(params))
                 lastSuccessFullyVotedItem.value = params
 

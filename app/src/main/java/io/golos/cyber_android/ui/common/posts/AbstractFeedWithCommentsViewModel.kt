@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.common.posts
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
+import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
@@ -28,10 +29,20 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
      */
     val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
+    /**
+     * Sends comment to discussion
+     * @param discussion [DiscussionModel] from where [DiscussionIdModel] will be extracted
+     * @param comment comment content
+     */
     fun sendComment(discussion: DiscussionModel, comment: CharSequence) {
         sendComment(discussion.contentId, comment)
     }
 
+    /**
+     * Sends comment to discussion
+     * @param id id of a parent discussion
+     * @param comment comment content
+     */
     fun sendComment(id: DiscussionIdModel, comment: CharSequence) {
         if (validateComment(comment)) {
             val postRequest = CommentCreationRequestModel(comment, id, emptyList())
@@ -39,7 +50,8 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
         }
     }
 
-    protected open fun validateComment(comment: CharSequence) = comment.isNotEmpty()
+    protected open fun validateComment(comment: CharSequence) =
+        comment.isNotBlank() && comment.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
 
     init {
         posterUseCase.subscribe()

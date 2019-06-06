@@ -15,6 +15,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import kotlinx.android.synthetic.main.activity_image_viewer.*
 
+/**
+ * Activity that allows to see one image by its url
+ */
 class ImageViewerActivity : AppCompatActivity() {
 
     companion object {

@@ -3,6 +3,7 @@ package io.golos.cyber_android
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.data.api.Cyber4jApiService
@@ -123,7 +124,7 @@ private val persister = object : Persister {
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberUser("destroyer2k@golos"), true)
+        return AuthState(CyberName("tst1fddizlpd"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -131,15 +132,17 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
+        return "5KPsQEAtq9xVgeUSqH5eQnMN8ih3yuiHL63md6GNFH4iqj2bDLP"
     }
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
 
-val voteRepo = VoteRepository(apiService, dispatchersProvider, logger)
+val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, logger)
 
 val discussionCreationRepo = DiscussionCreationRepository(
-    apiService, dispatchersProvider,
+    apiService,
+    apiService,
+    dispatchersProvider,
     logger,
     discussionEntityRequestToApiRequestMapper,
     discussionCreationToEntityMapper
@@ -197,7 +200,7 @@ val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
                 dispatchersProvider, logger
             )
         }
-val userMetadataRepos = UserMetadataRepository(apiService, dispatchersProvider, logger,
+val userMetadataRepos = UserMetadataRepository(apiService, apiService, dispatchersProvider, logger,
     UserMetadataToEntityMapper())
 
 

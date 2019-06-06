@@ -1,15 +1,16 @@
 package io.golos.cyber_android.widgets
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
-import android.text.*
-import android.text.style.ClickableSpan
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.AttributeSet
-import android.view.View
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
+import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.views.utils.*
 import kotlinx.android.synthetic.main.view_comment_widget.view.*
 
@@ -45,6 +46,7 @@ class CommentWidget @JvmOverloads constructor(
         })
 
         comment.movementMethod = MultilineLinkMovementMethod()
+        comment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
     }
 
     /**
@@ -53,6 +55,7 @@ class CommentWidget @JvmOverloads constructor(
     fun clearText() {
         userName = null
         comment.setText("")
+        comment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
     }
 
     private var userName: String? = null
@@ -75,7 +78,7 @@ class CommentWidget @JvmOverloads constructor(
                     }
                 }
                 return@InputFilter source
-            })
+            }, InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH + userName.length))
 
             ViewUtils.showKeyboard(comment)
         }
@@ -84,17 +87,6 @@ class CommentWidget @JvmOverloads constructor(
     private fun addUserName(userName: String) {
         val newText = SpannableStringBuilder("$userName ${comment.text}")
         newText.setSpan(StyleSpan(Typeface.BOLD), 0, userName.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        newText.setSpan(object : ClickableSpan() {
-            override fun onClick(textView: View) {
-                listener?.onUsernameClick()
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.color = Color.BLACK
-                ds.isUnderlineText = false
-            }
-        }, 0, userName.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
         comment.text = newText
         comment.setSelection(newText.length)
     }
@@ -109,7 +101,5 @@ class CommentWidget @JvmOverloads constructor(
         fun onUserNameCleared()
 
         fun onCommentChanged(text: CharSequence)
-
-        fun onUsernameClick()
     }
 }

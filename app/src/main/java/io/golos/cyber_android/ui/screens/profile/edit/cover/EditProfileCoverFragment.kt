@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.edit.cover
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +11,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.screens.profile.edit.BaseProfileImageFragment
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.views.TouchImageView
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.edit_profile_cover_fragment.*
@@ -128,7 +132,18 @@ class EditProfileCoverFragment : BaseProfileImageFragment() {
         selectedUri = uri
         Glide.with(requireContext())
             .load(uri)
-            .into(coverImage)
+            .into(object : CustomViewTarget<TouchImageView, Drawable>(coverImage) {
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                }
+
+                override fun onResourceCleared(placeholder: Drawable?) {
+                }
+
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    coverImage.setImageDrawable(resource)
+                }
+
+            })
     }
 
     private fun setupViewModel() {

@@ -46,7 +46,7 @@ class PostEmbedViewHolder(val view: View) : RecyclerView.ViewHolder(view), Lifec
             //workaround for "bitmap.getWidth()" exception
             webChromeClient = object : WebChromeClient() {
                 override fun getDefaultVideoPoster(): Bitmap? {
-                    return android.graphics.Bitmap.createBitmap(50, 50, android.graphics.Bitmap.Config.ARGB_8888)
+                    return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
                 }
             }
             webViewClient = object : WebViewClient() {

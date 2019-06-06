@@ -5,7 +5,6 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.cyber4j.model.AuthType
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
@@ -69,7 +68,7 @@ class SignUpUseCase(
                     if (authRepository.getAsLiveData(authRepository.allDataRequest).value?.isUserLoggedIn != true) {
                         authRepository.makeAction(
                             AuthRequest(
-                                CyberUser(registeredUser.userName.name),
+                                CyberUser(registeredUser.userName),
                                 registeredUser.activePrivateKey
                             )
                         )
@@ -186,17 +185,17 @@ class SignUpUseCase(
     }
 
     private fun generateUserKeys(
-        forUser: CyberName,
+        forUser: String,
         masterPassword: String = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
     ): GeneratedUserKeys {
 
         val publicKey = AuthUtils.generatePublicWiFs(
-            forUser.name,
+            forUser,
             masterPassword,
             AuthType.values()
         )
         val privateKeys = AuthUtils.generatePrivateWiFs(
-            forUser.name,
+            forUser,
             masterPassword,
             AuthType.values()
         )

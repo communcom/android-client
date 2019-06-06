@@ -2,6 +2,7 @@ package io.golos.data.api
 
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.model.ProfileMetadataUpdateResult
+import io.golos.cyber4j.model.TransactionSuccessful
 import io.golos.cyber4j.services.model.UserMetadataResult
 
 /**
@@ -39,7 +40,7 @@ interface UserMetadataApi {
         targetPlan: String? = null,
         targetPointA: String? = null,
         targetPointB: String? = null
-    ): ProfileMetadataUpdateResult
+    ): TransactionSuccessful<ProfileMetadataUpdateResult>
 
     fun getUserMetadata(user: CyberName): UserMetadataResult
 }

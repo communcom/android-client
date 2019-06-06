@@ -20,6 +20,8 @@
 
     <EditText
             android:id="@+id/smsCodeDigit1"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:imeOptions="actionNext"
             android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
             android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
@@ -32,6 +34,8 @@
 
     <EditText
             android:id="@+id/smsCodeDigit2"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:imeOptions="actionNext"
             android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
             android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
@@ -44,6 +48,8 @@
 
     <EditText
             android:id="@+id/smsCodeDigit3"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:imeOptions="actionDone"
             android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
             android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"

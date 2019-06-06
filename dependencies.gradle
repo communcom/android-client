@@ -1,5 +1,5 @@
 ext {
-    appVesrionCode = 5
+    appVesrionCode = 6
     appVersionName = "0.$appVesrionCode"
     minsdk = 19
     targetsdk = 28

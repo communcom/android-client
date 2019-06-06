@@ -25,7 +25,7 @@ const val FEED_REQUEST_CODE = 101
 class FeedFragment : Fragment(), FeedPageLiveDataProvider {
 
     enum class Tab(@StringRes val title: Int, val index: Int) {
-        MY_FEED(R.string.tab_my_feed, 0), ALL(R.string.tab_all, 1)
+        MY_FEED(R.string.tab_my_feed, 0), TRENDING(R.string.tab_all, 1)
     }
 
     private lateinit var viewModel: FeedPageViewModel
@@ -60,7 +60,7 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
         feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
             override fun getItem(position: Int): Fragment {
                 return when (position) {
-                    Tab.ALL.index -> AllFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!, arguments?.getString(Tags.USER_ID)!!).apply {
+                    Tab.TRENDING.index -> TrendingFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!, arguments?.getString(Tags.USER_ID)!!).apply {
                         setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
                     }
                     Tab.MY_FEED.index -> MyFeedFragment.newInstance(arguments?.getString(Tags.USER_ID)!!).apply {

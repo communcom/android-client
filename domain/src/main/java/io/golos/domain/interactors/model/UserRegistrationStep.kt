@@ -1,6 +1,5 @@
 package io.golos.domain.interactors.model
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Model
 
 /**
@@ -15,10 +14,10 @@ data class SendSmsForVerificationRequestModel(override val phone: String) : Next
 data class SendVerificationCodeRequestModel(override val phone: String, val code: Int) :
     NextRegistrationStepRequestModel(phone)
 
-data class SetUserNameRequestModel(override val phone: String, val userName: CyberName) :
+data class SetUserNameRequestModel(override val phone: String, val userName: String) :
     NextRegistrationStepRequestModel(phone)
 
-data class WriteUserToBlockChainRequestModel(override val phone: String, val userName: CyberName) :
+data class WriteUserToBlockChainRequestModel(override val phone: String, val userName: String) :
     NextRegistrationStepRequestModel(phone)
 
 data class ResendSmsVerificationCodeModel(override val phone: String) : NextRegistrationStepRequestModel(phone)

@@ -30,6 +30,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
@@ -41,7 +42,6 @@ import kotlinx.android.synthetic.main.fragment_editor_page.*
 
 const val GALLERY_REQUEST = 101
 
-const val TITLE_MAX_LENGTH = 256
 
 class EditorPageFragment : LoadingFragment() {
 
@@ -86,7 +86,8 @@ class EditorPageFragment : LoadingFragment() {
         })
 
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        title.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
+        title.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_POST_TITLE_LENGTH))
+        content.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_POST_CONTENT_LENGTH))
 
         nsfw.setOnClickListener {
             viewModel.switchNSFW()

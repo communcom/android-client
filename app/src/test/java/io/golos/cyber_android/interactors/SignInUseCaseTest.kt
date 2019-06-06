@@ -75,7 +75,7 @@ class SignInUseCaseTest {
             signInState = it
         }
 
-        delay(100)
+        delay(3_000)
 
         assertEquals(SignInState.LOG_IN_NEEDED, signInState)
 
@@ -93,21 +93,23 @@ class SignInUseCaseTest {
 
         authUseCase.authWithCredentials(
             AuthRequestModel(
-                CyberUser("anpacifgrlqe"),
-                "5JB6WdGo7tvArMP6u3FtwfYGzBei8wMEyaVyrACkczGrbA6BviF"
+                CyberUser("tst1fddizlpd"),
+                "5KPsQEAtq9xVgeUSqH5eQnMN8ih3yuiHL63md6GNFH4iqj2bDLP"
             )
         )
 
+        delay(100)
+
         assertTrue(authResult!!.values.size == 2)
-        assertTrue(authResult!![CyberUser("anpacifgrlqe")] is QueryResult.Loading)
+        assertTrue(authResult!![CyberUser("tst1fddizlpd")] is QueryResult.Loading)
         assertEquals(SignInState.LOADING, signInState)
 
 
-        while (authResult!![CyberUser("anpacifgrlqe")] is QueryResult.Loading) delay(200)
+        while (authResult!![CyberUser("tst1fddizlpd")] is QueryResult.Loading) delay(200)
 
         assertTrue(authSate!!.isUserLoggedIn)
-        assertEquals(CyberName("anpacifgrlqe"), authSate!!.userName)
-        assertTrue(authResult!![CyberUser("anpacifgrlqe")] is QueryResult.Success)
+        assertEquals(CyberName("tst1fddizlpd"), authSate!!.userName)
+        assertTrue(authResult!![CyberUser("tst1fddizlpd")] is QueryResult.Success)
         assertEquals(SignInState.USER_LOGGED_IN, signInState)
 
     }

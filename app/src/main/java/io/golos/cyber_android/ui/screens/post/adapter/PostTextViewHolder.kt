@@ -12,12 +12,12 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     init {
         view.text.movementMethod = CustomLinkMovementMethod(object: CustomLinkMovementMethod.Listener {
-            override fun onImageLinkClicked(url: String) = true
-
-            override fun onWebLinkClicked(url: String): Boolean {
-                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                if (webIntent.resolveActivity(itemView.context.packageManager) != null) {
-                    itemView.context.startActivity(webIntent)
+            override fun onLinkClick(url: String, type: CustomLinkMovementMethod.LinkType): Boolean {
+                if (type == CustomLinkMovementMethod.LinkType.WEB) {
+                    val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    if (webIntent.resolveActivity(itemView.context.packageManager) != null) {
+                        itemView.context.startActivity(webIntent)
+                    }
                 }
                 return true
             }

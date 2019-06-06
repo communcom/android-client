@@ -80,13 +80,16 @@ class PostPageFragment :
     private fun observeViewModel() {
         viewModel.postLiveData.observe(this, Observer {
             bindPostModel(it)
-//            if (getArgs().scrollToComments && it.content.body.full.isNotEmpty()) {
-//                feedList.scrollToPosition((feedList.adapter as PostPageAdapter).getCommentsTitlePosition() + 1)
-//            }
         })
+
 
         viewModel.loadingStatusLiveData.observe(this, Observer {
             showFeedLoading()
+        })
+
+
+        viewModel.getFullyLoadedLiveData.observe(this, Observer { isLoaded ->
+            if (isLoaded) scrollToCommentsIfNeeded()
         })
 
         viewModel.discussionCreationLiveData.observe(this, Observer {
@@ -121,6 +124,23 @@ class PostPageFragment :
         })
     }
 
+    private var scrolled = false
+
+    private fun scrollToCommentsIfNeeded() {
+        if (getArgs().scrollToComments
+            && !scrolled
+        ) {
+            //need to slightly delay the scrolling due to adapter updating
+            feedList.postDelayed({
+                (feedList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                    (feedList.adapter as PostPageAdapter).getCommentsTitlePosition(),
+                    0
+                )
+            }, 700)
+            scrolled = true
+        }
+    }
+
     private fun setupCommentWidget() {
         postCommentBottom.listener = object : CommentWidget.Listener {
             override fun onCommentChanged(text: CharSequence) {
@@ -142,12 +162,6 @@ class PostPageFragment :
                 )
                 intent.type = "image/*"
                 startActivityForResult(intent, GALLERY_REQUEST)
-            }
-
-            override fun onUsernameClick() {
-                viewModel.getDiscussionToReplyLiveData.value?.userId?.let { userId ->
-                    startActivity(ProfileActivity.getIntent(requireContext(), userId))
-                }
             }
         }
     }
@@ -241,7 +255,7 @@ class PostPageFragment :
         feedList.adapter =
             PostPageAdapter(viewLifecycleOwner,
                 object : CommentsAdapter.Listener {
-                    override fun onAuthorClick(userId: String) {
+                    override fun onUsernameClick(userId: String) {
                         startActivity(ProfileActivity.getIntent(requireContext(), userId))
                     }
 

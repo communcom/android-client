@@ -8,8 +8,8 @@ import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.CommunityFeedViewModel
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
@@ -151,7 +151,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
             by lazy {
                 DiscussionCreationRepository(
-                    apiService, dispatchersProvider,
+                    apiService,
+                    apiService,
+                    dispatchersProvider,
                     logger,
                     discussionEntityRequestToApiRequestMapper,
                     discussionCreationToEntityMapper
@@ -168,7 +170,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
-                VoteRepository(apiService, dispatchersProvider, logger)
+                VoteRepository(apiService, apiService, dispatchersProvider, logger)
             }
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             by lazy {
@@ -220,7 +222,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
     override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
             by lazy {
-                UserMetadataRepository(apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
+                UserMetadataRepository(apiService, apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
             }
 
     override fun getCommunityFeedViewModelFactory(communityId: CommunityId, forUser: CyberName): ViewModelProvider.Factory {

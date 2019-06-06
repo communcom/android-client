@@ -4,7 +4,6 @@ import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
@@ -30,7 +29,13 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         const val PAGE_SIZE = 20
     }
 
-    protected val handledVotes = mutableSetOf<DiscussionIdModel>()
+    /**
+     * Set of votes this ViewModel should handle.
+     * When [vote] method is invoked we add id of a discussion to vote into this set.
+     * After that in [voteErrorLiveData] we remove ids of requests that are completed (eg not [QueryResult.Loading]).
+     * This way we can handle all vote errors associated with this ViewModel.
+     */
+    protected val pendingVotes = mutableSetOf<DiscussionIdModel>()
 
     /**
      * [LiveData] that indicates if user is able to vote
@@ -40,18 +45,21 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
     /**
      * [LiveData] that indicates if there was error in vote process
      */
-    val voteErrorLiveData = MediatorLiveData<Event<DiscussionIdModel>>().apply {
+    private val voteErrorLiveData = MediatorLiveData<DiscussionIdModel>().apply {
         addSource(voteUseCase.getAsLiveData) { map ->
             map.forEach { (id, result) ->
-                if (result is QueryResult.Error && !handledVotes.contains(id)) {
-                    this.postValue(Event(id))
+                if (result is QueryResult.Error && pendingVotes.contains(id)) {
+                    this.postValue(id)
                 }
                 if (result !is QueryResult.Loading) {
-                    handledVotes.add(id)
+                    pendingVotes.remove(id)
                 }
             }
         }
     }
+
+
+    val getVoteErrorLiveData = voteErrorLiveData.asEvent()
 
     /**
      * [LiveData] that indicates if data is loading
@@ -64,7 +72,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
      * [LiveData] that indicates if last page was reached
      */
     val lastPageLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<M>, Boolean> {
-        it.size != PAGE_SIZE
+        it.size != PAGE_SIZE || it.isEmpty()
     })
 
     /**
@@ -120,6 +128,6 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         discussionIdModel: DiscussionIdModel
     ) {
         voteUseCase.vote(request)
-        handledVotes.remove(discussionIdModel)
+        pendingVotes.add(discussionIdModel)
     }
 }

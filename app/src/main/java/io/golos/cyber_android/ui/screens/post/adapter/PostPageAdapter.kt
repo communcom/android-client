@@ -43,7 +43,10 @@ class PostPageAdapter(
         set(value) {
             field = value
             if (itemCount > 0)
-                notifyItemRangeChanged(0, getItemsOffset())
+                //we cant just use notifyItemRangeChanged(0, getItemsOffset()) since updating of the post
+                //will lead to changes in headers count, hence all of the items should be updated,
+                //including comments
+                notifyDataSetChanged()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

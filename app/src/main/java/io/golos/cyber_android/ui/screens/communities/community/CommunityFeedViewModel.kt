@@ -1,4 +1,4 @@
-package io.golos.cyber_android
+package io.golos.cyber_android.ui.screens.communities.community
 
 import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
 import io.golos.domain.interactors.action.VoteUseCase

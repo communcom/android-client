@@ -47,7 +47,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
             }
         })
 
-        viewModel.voteErrorLiveData.observe(this, Observer { event ->
+        viewModel.getVoteErrorLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let {
                 Toast.makeText(requireContext(), "Vote Error", Toast.LENGTH_SHORT).show()
             }

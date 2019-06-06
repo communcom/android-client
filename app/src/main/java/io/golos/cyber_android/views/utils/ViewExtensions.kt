@@ -21,6 +21,10 @@ fun TextView.colorizeHashTags() {
     colorizeByPattern(this, Patterns.HASHTAG)
 }
 
+fun TextView.colorizeUsernames() {
+    colorizeByPattern(this, Patterns.USERNAME)
+}
+
 private fun colorizeByPattern(s: Spannable, pattern: Pattern) {
     CustomLinkify.addLinks(s, pattern, null)
 }

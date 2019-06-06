@@ -21,6 +21,7 @@ class ProfileViewModel(
     data class Profile(val metadata: UserMetadataModel, val isMyUser: Boolean) {
         companion object {
             val EMPTY = Profile(UserMetadataModel.empty, false)
+            val NOT_FOUND = Profile(UserMetadataModel.empty, true)
         }
     }
 
@@ -37,12 +38,12 @@ class ProfileViewModel(
         var isMyUser: Boolean? = null
         addSource(getMetadataLiveData) { metadataResult ->
             metadata = metadataResult
-            isMyUser?.let {isMyUserResult ->
+            isMyUser?.let { isMyUserResult ->
                 postProfileData(metadataResult, isMyUserResult)
             }
         }
 
-        addSource(getMyUserLiveData) {isMyUserResult ->
+        addSource(getMyUserLiveData) { isMyUserResult ->
             isMyUser = isMyUserResult
             metadata?.let { metadataResult ->
                 postProfileData(metadataResult, isMyUserResult)
@@ -87,7 +88,12 @@ private fun MediatorLiveData<QueryResult<ProfileViewModel.Profile>>.postProfileD
                 )
             )
         )
-        is QueryResult.Error -> postValue(QueryResult.Error(metadataResult.error, ProfileViewModel.Profile.EMPTY))
+        is QueryResult.Error -> when {
+            metadataResult.error.message?.contains("code=404") == true ->
+                postValue(QueryResult.Error(metadataResult.error, ProfileViewModel.Profile.NOT_FOUND))
+            else ->
+                postValue(QueryResult.Error(metadataResult.error, ProfileViewModel.Profile.EMPTY))
+        }
         is QueryResult.Loading -> postValue(QueryResult.Loading(ProfileViewModel.Profile.EMPTY))
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
@@ -151,7 +152,7 @@ class EditorPageViewModel(
     }
 
     private fun validate(title: CharSequence, content: CharSequence): Boolean {
-        val isValid = content.trim().isNotEmpty()
+        val isValid = content.isNotBlank() && content.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
                 && (title.trim().isNotEmpty() || postType == Type.COMMENT)
         validationResultLiveData.postValue(isValid)
         return isValid

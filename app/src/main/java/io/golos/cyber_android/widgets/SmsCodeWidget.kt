@@ -58,8 +58,9 @@ class SmsCodeWidget @JvmOverloads constructor(
                         it.setText("")
 
                         //request focus on previous digit (if it's not the first one)
-                        if (digits.indexOf(it) > 0)
+                        if (digits.indexOf(it) > 0) {
                             digits[digits.indexOf(it) - 1].requestFocus()
+                        }
                     }
                     //if user presses digit button
                     if (keyCode in DIGIT_KEYCODES) {
