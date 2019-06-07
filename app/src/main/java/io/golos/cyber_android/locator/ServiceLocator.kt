@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import io.golos.cyber4j.model.CyberName
-import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.EventTypeEntity
@@ -47,9 +46,8 @@ interface ServiceLocator {
     fun getPostWithCommentsViewModelFactory(postId: DiscussionIdModel): ViewModelProvider.Factory
 
     fun getEditorPageViewModelFactory(
-        type: EditorPageViewModel.Type,
-        parentId: DiscussionIdModel?,
-        community: CommunityModel?
+        community: CommunityModel?,
+        postToEdit: DiscussionIdModel?
     ): ViewModelProvider.Factory
 
 

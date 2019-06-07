@@ -14,7 +14,7 @@ class EditorPageActivity : BaseActivity() {
     companion object {
         fun getIntent(
             context: Context,
-            args: EditorPageFragment.Args
+            args: EditorPageFragment.Args = EditorPageFragment.Args()
         ) =
             Intent(context, EditorPageActivity::class.java).apply {
                 putExtra(

@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommentCreationResultEntity
+import io.golos.domain.entities.DeleteDiscussionResultEntity
+import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.entities.VoteRequestEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -54,22 +56,34 @@ class AppCore(private val locator: RepositoriesHolder, dispatchersProvider: Disp
 
             locator.discussionCreationRepository.getAsLiveData(locator.discussionCreationRepository.allDataRequest)
                 .observeForever {
-                    val commentCreationResult = (it as? CommentCreationResultEntity) ?: return@observeForever
+                    when (it) {
+                        is CommentCreationResultEntity -> {
+                            val commentCreationResult = (it as? CommentCreationResultEntity) ?: return@observeForever
 
-                    if (lastCreatedComment != commentCreationResult) {
-                        lastCreatedComment = commentCreationResult
-                        commentsMediator.addSource(
-                            locator.commentsRepository.getDiscussionAsLiveData(
-                                commentCreationResult.commentId
-                            )
-                        ) { commentEntity ->
-                            commentEntity ?: return@addSource
-                            commentsMediator.removeSource(
-                                locator.commentsRepository.getDiscussionAsLiveData(
-                                    commentCreationResult.commentId
-                                )
-                            )
-                            onRelatedToCommentDataChanged()
+                            if (lastCreatedComment != commentCreationResult) {
+                                lastCreatedComment = commentCreationResult
+                                commentsMediator.addSource(
+                                    locator.commentsRepository.getDiscussionAsLiveData(
+                                        commentCreationResult.commentId
+                                    )
+                                ) { commentEntity ->
+                                    commentEntity ?: return@addSource
+                                    commentsMediator.removeSource(
+                                        locator.commentsRepository.getDiscussionAsLiveData(
+                                            commentCreationResult.commentId
+                                        )
+                                    )
+                                    onRelatedToCommentDataChanged()
+                                }
+                            }
+                        }
+
+                        is DeleteDiscussionResultEntity -> {
+                            locator.postFeedRepository.requestDiscussionUpdate(it.id)
+                        }
+
+                        is UpdatePostResultEntity -> {
+                            locator.postFeedRepository.requestDiscussionUpdate(it.id)
                         }
                     }
                 }

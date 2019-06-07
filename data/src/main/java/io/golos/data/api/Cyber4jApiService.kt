@@ -143,6 +143,21 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
             .getOrThrow().run { this to this.extractResult() }
     }
 
+    override fun updatePost(
+        postPermlink: String,
+        newTitle: String,
+        newBody: String,
+        newTags: List<Tag>,
+        newJsonMetadata: DiscussionCreateMetadata
+    ): kotlin.Pair<TransactionSuccessful<UpdateDiscussionResult>, UpdateDiscussionResult> {
+        return cyber4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata)
+            .getOrThrow().run { this to this.extractResult() }
+    }
+
+    override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionSuccessful<DeleteResult>, DeleteResult> {
+        return cyber4j.deletePostOrComment(postOrCommentPermlink)
+            .getOrThrow().run { this to this.extractResult() } }
+
     override fun getRegistrationState(phone: String): UserRegistrationStateResult {
         return cyber4j.getRegistrationState(null, phone).getOrThrow()
     }

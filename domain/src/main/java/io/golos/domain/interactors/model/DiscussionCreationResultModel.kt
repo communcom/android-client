@@ -24,3 +24,7 @@ data class CommentCreationResultModel(val commentId: DiscussionIdModel, val pare
         )
     }
 }
+
+data class UpdatePostResultModel(val postId: DiscussionIdModel) : DiscussionCreationResultModel()
+
+data class DeleteDiscussionResultModel(val postId: DiscussionIdModel) : DiscussionCreationResultModel()

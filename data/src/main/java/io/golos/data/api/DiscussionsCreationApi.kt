@@ -27,4 +27,14 @@ interface DiscussionsCreationApi {
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
     ): Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult>
+
+    fun updatePost(postPermlink: String,
+                   newTitle: String,
+                   newBody: String,
+                   newTags: List<Tag>,
+                   newJsonMetadata: DiscussionCreateMetadata
+    ): Pair<TransactionSuccessful<UpdateDiscussionResult>, UpdateDiscussionResult>
+
+    fun deletePostOrComment(postOrCommentPermlink: String):
+            Pair<TransactionSuccessful<DeleteResult>, DeleteResult>
 }

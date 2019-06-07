@@ -19,8 +19,6 @@ import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
-import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
-import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
@@ -175,8 +173,7 @@ class TrendingFeedFragment :
             override fun onWidgetClick() {
                 startActivityForResult(
                     EditorPageActivity.getIntent(
-                        requireContext(),
-                        EditorPageFragment.Args(EditorPageViewModel.Type.POST)
+                        requireContext()
                     ), REQUEST_POST_CREATION
                 )
             }

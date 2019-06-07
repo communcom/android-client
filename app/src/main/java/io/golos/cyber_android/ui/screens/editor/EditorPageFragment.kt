@@ -34,9 +34,7 @@ import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
-import io.golos.domain.interactors.model.CommunityModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.LinkEmbedModel
+import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_editor_page.*
 
@@ -46,8 +44,7 @@ const val GALLERY_REQUEST = 101
 class EditorPageFragment : LoadingFragment() {
 
     data class Args(
-        val type: EditorPageViewModel.Type,
-        val parentDiscussionId: DiscussionIdModel? = null,
+        val postToEdit: DiscussionIdModel? = null,
         val community: CommunityModel? = null
     )
 
@@ -149,8 +146,6 @@ class EditorPageFragment : LoadingFragment() {
 
             })
         }
-
-        setupFragmentType(getArgs().type)
     }
 
     private fun setupCommunity(community: CommunityModel) {
@@ -162,12 +157,12 @@ class EditorPageFragment : LoadingFragment() {
 //            .into(communityAvatar)
     }
 
-    /**
-     * Sets the views states according to [EditorPageViewModel.Type]
-     */
-    private fun setupFragmentType(type: EditorPageViewModel.Type) {
-        title.visibility = if (type == EditorPageViewModel.Type.COMMENT) View.GONE else View.VISIBLE
-        toolbarTitle.setText(if (type == EditorPageViewModel.Type.COMMENT) R.string.create_comment else R.string.create_post)
+
+    private fun setupPostToEdit(post: PostModel) {
+        toolbarTitle.setText(R.string.edit_post)
+        title.setText(post.content.title)
+        content.setText(post.content.body.toContent())
+        nsfw.isActivated = post.content.tags.contains(TagModel("nsfw"))
     }
 
     private fun observeViewModel() {
@@ -206,6 +201,10 @@ class EditorPageFragment : LoadingFragment() {
         viewModel.getCommunityLiveData.observe(this, Observer {
             if (it != null)
                 setupCommunity(it)
+        })
+
+        viewModel.getPostToEditLiveData.observe(this, Observer {
+            setupPostToEdit(it)
         })
     }
 
@@ -307,7 +306,7 @@ class EditorPageFragment : LoadingFragment() {
             this,
             requireActivity()
                 .serviceLocator
-                .getEditorPageViewModelFactory(args.type, args.parentDiscussionId, args.community)
+                .getEditorPageViewModelFactory(args.community, args.postToEdit)
         ).get(EditorPageViewModel::class.java)
     }
 

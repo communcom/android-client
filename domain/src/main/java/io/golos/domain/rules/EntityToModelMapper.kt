@@ -45,7 +45,8 @@ class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: Ht
                         post.content.body.mobilePreview.map { rowEntity ->
                             rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
                         }
-                    )
+                    ),
+                    post.content.tags.map { it.toModel() }
                 ),
                 DiscussionVotesModel(
                     post.votes.hasUpVote,
@@ -131,6 +132,8 @@ private fun ContentRowEntity.toContentRowModel(
 }
 
 private fun EmbedEntity.toEmbedModel() = EmbedModel(type, title, url, author, provider_name, html)
+
+private fun TagEntity.toModel() = TagModel(this.tag)
 
 
 class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>) :
@@ -345,6 +348,7 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
 
     private fun EventValueEntity.toModelValue() = EventValueModel(this.amount, this.currency)
     private fun CommunityEntity.toModel() = CommunityModel(CommunityId(this.id), this.name, this.avatarUrl)
+
 }
 
 

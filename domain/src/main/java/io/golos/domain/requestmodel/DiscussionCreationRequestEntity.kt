@@ -78,7 +78,72 @@ data class CommentCreationRequestEntity(
             result = 31 * result + _tags.hashCode()
             return result
         }
+    }
+}
 
+
+data class DeleteDiscussionRequestEntity(val discussionPermlink: String): DiscussionCreationRequestEntity() {
+    override val id = Id()
+
+    inner class Id : Identifiable.Id() {
+        val _body = discussionPermlink
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Id
+
+            if (_body != other._body) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = _body.hashCode()
+            return result
+        }
+    }
+}
+
+data class PostUpdateRequestEntity(
+    val postPermlink: String,
+    val title: String,
+    val body: String,
+    val tags: List<String>
+) : DiscussionCreationRequestEntity() {
+    private val _id = Id()
+
+    override val id: Identifiable.Id
+        get() = _id
+
+    inner class Id : Identifiable.Id() {
+        val _title = title
+        val _body = body
+        val _tags = tags
+        val _postPermlink = postPermlink
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Id
+
+            if (_title != other._title) return false
+            if (_body != other._body) return false
+            if (_tags != other._tags) return false
+            if (_postPermlink != other._postPermlink) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = _title.hashCode()
+            result = 31 * result + _body.hashCode()
+            result = 31 * result + _tags.hashCode()
+            result = 31 * result + _postPermlink.hashCode()
+            return result
+        }
 
     }
 }

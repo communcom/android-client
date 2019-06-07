@@ -21,15 +21,17 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post.adapter.PostPageAdapter
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_post.*
@@ -39,6 +41,7 @@ import kotlinx.android.synthetic.main.header_post_card.*
 const val INPUT_ANIM_DURATION = 400L
 
 const val GALLERY_REQUEST = 101
+const val POST_MENU_REQUEST = 102
 
 /**
  * Fragment for single [PostModel] presentation
@@ -97,9 +100,19 @@ class PostPageFragment :
                 when (result) {
                     is QueryResult.Loading -> showLoading()
                     is QueryResult.Success -> {
-                        hideLoading()
-                        postCommentBottom.clearText()
-                        viewModel.clearDiscussionToReply()
+                        when (result.originalQuery) {
+                            is CommentCreationResultModel -> {
+                                hideLoading()
+                                postCommentBottom.clearText()
+                                viewModel.clearDiscussionToReply()
+                            }
+
+                            is DeleteDiscussionResultModel -> {
+                                Toast.makeText(requireContext(), "Deleted successfully", Toast.LENGTH_SHORT).show()
+                                requireActivity().finish()
+                            }
+                        }
+
                     }
                     is QueryResult.Error -> {
                         hideLoading()
@@ -121,6 +134,16 @@ class PostPageFragment :
 
         viewModel.getCommentInputVisibilityLiveData.observe(this, Observer {
             setCommentInputVisibility(it)
+        })
+
+        viewModel.getIsMyPostLiveData.observe(this, Observer { isMyPost ->
+            postMenu.visibility = if (isMyPost) View.VISIBLE else View.GONE
+
+            postMenu.setOnClickListener {
+                PostPageMenuDialog.newInstance(isMyPost).apply {
+                    setTargetFragment(this@PostPageFragment, POST_MENU_REQUEST)
+                }.show(requireFragmentManager(), "menu")
+            }
         })
     }
 
@@ -206,6 +229,29 @@ class PostPageFragment :
     override fun onPause() {
         super.onPause()
         postCommentBottom.clearAnimation()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == POST_MENU_REQUEST) {
+            when (resultCode) {
+                PostPageMenuDialog.RESULT_EDIT -> editPost()
+                PostPageMenuDialog.RESULT_DELETE -> deletePost()
+            }
+        }
+    }
+
+    private fun editPost() {
+        viewModel.postLiveData.value?.let { post ->
+            EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(post.contentId))
+        }
+    }
+
+    private fun deletePost() {
+        ConfirmationDialog.newInstance(getString(R.string.delete_post_confirmation)).run {
+            listener = viewModel::deletePost
+            show(requireFragmentManager(), "confirm")
+        }
     }
 
     private fun showFeedLoading() {

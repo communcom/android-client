@@ -29,3 +29,15 @@ data class CreatePostRequest(
     val vestPayment: Boolean,
     val tokenProp: Long
 ):DiscussionCreateRequest()
+
+data class UpdatePostRequest(
+    val postPermlink: String,
+    val title: String,
+    val body: String,
+    val tags: List<io.golos.cyber4j.model.Tag>,
+    val metadata: DiscussionCreateMetadata
+):DiscussionCreateRequest()
+
+data class DeleteDiscussionRequest(
+    val permlink: String
+):DiscussionCreateRequest()

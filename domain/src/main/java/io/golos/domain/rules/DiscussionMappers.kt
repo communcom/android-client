@@ -61,7 +61,8 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
                             is ImageRow -> ImageRowEntity(it.src)
                             is TextRow -> TextRowEntity(it.content)
                         }
-                    })
+                    }),
+                cyberObject.content.tags?.map { TagEntity(it) } ?: emptyList()
             ),
             DiscussionVotes(
                 cyberObject.votes.hasUpVote,

@@ -101,6 +101,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val fromOEmbedMapper = OembedMapper()
 
     private val discussionCreationToEntityMapper = DiscussionCreateResultToEntityMapper()
+    private val discussionUpdateToEntityMapper = DiscussionUpdateResultToEntityMapper()
+    private val discussionDeleteToEntityMapper = DiscussionDeleteResultToEntityMapper()
     private val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
 
     private val logger = object : Logger {
@@ -156,7 +158,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     dispatchersProvider,
                     logger,
                     discussionEntityRequestToApiRequestMapper,
-                    discussionCreationToEntityMapper
+                    discussionCreationToEntityMapper,
+                    discussionUpdateToEntityMapper,
+                    discussionDeleteToEntityMapper
                 )
             }
 
@@ -285,7 +289,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     PostPageViewModel::class.java -> PostPageViewModel(
                         getPostWithCommentsUseCase(postId),
                         getVoteUseCase(),
-                        getDiscussionPosterUseCase()
+                        getDiscussionPosterUseCase(),
+                        getSignInUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -334,9 +339,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override fun getEditorPageViewModelFactory(
-        type: EditorPageViewModel.Type,
-        parentId: DiscussionIdModel?,
-        community: CommunityModel?
+        community: CommunityModel?,
+        postToEdit: DiscussionIdModel?
     ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -346,9 +350,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getEmbedsUseCase(),
                         getDiscussionPosterUseCase(),
                         dispatchersProvider,
-                        type,
-                        parentId,
-                        community
+                        community,
+                        postToEdit,
+                        if (postToEdit != null) getPostWithCommentsUseCase(postToEdit) else null
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

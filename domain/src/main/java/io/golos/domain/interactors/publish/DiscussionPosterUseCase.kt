@@ -7,16 +7,11 @@ import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FromSpannedToHtmlTransformer
 import io.golos.domain.Repository
-import io.golos.domain.entities.CommentCreationResultEntity
-import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.entities.PostCreationResultEntity
+import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.map
-import io.golos.domain.requestmodel.CommentCreationRequestEntity
-import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.requestmodel.PostCreationRequestEntity
-import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 
 /**
@@ -100,10 +95,26 @@ class DiscussionPosterUseCase(
                                 )
                             )
                         )
+                        is UpdatePostResultEntity -> QueryResult.Success<DiscussionCreationResultModel>(
+                            UpdatePostResultModel(
+                                DiscussionIdModel(createdPostLiveData.id.userId, createdPostLiveData.id.permlink)
+                            )
+                        )
+                        is DeleteDiscussionResultEntity -> QueryResult.Success<DiscussionCreationResultModel>(
+                            DeleteDiscussionResultModel(
+                                DiscussionIdModel(createdPostLiveData.id.userId, createdPostLiveData.id.permlink)
+                            )
+                        )
                     }
                 }
             }
         }
+    }
+
+    fun deletePostOrComment(discussionId: DiscussionIdModel) {
+        val request = DeleteDiscussionRequestEntity(discussionId.permlink)
+        lastPostCreationRequest = request
+        discussionCreationRepository.makeAction(request)
     }
 
     fun createPostOrComment(request: DiscussionCreationRequest) {

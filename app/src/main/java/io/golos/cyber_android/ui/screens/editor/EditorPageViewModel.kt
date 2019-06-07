@@ -8,6 +8,7 @@ import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
@@ -22,14 +23,10 @@ class EditorPageViewModel(
     private val embedsUseCase: EmbedsUseCase,
     private val posterUseCase: DiscussionPosterUseCase,
     dispatchersProvider: DispatchersProvider,
-    private val postType: Type,
-    private val parentId: DiscussionIdModel?,
-    community: CommunityModel?
+    community: CommunityModel?,
+    private val postToEdit: DiscussionIdModel?,
+    private val postUseCase: PostWithCommentUseCase?
 ) : ViewModel() {
-
-    enum class Type {
-        POST, COMMENT
-    }
 
     private val urlParserJobScope = CoroutineScope(dispatchersProvider.uiDispatcher)
     private var urlParserJob: Job? = null
@@ -95,9 +92,13 @@ class EditorPageViewModel(
      */
     val getNsfwLiveData = nsfwLiveData as LiveData<Boolean>
 
+
+    val getPostToEditLiveData: LiveData<PostModel> = postUseCase?.getPostAsLiveData ?: MutableLiveData()
+
     init {
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
+        postUseCase?.subscribe()
 
         communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
@@ -142,18 +143,26 @@ class EditorPageViewModel(
      */
     fun post() {
         if (validate(title, content)) {
-            val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
-            val postRequest = when (postType) {
-                Type.POST -> PostCreationRequestModel(title, content, tags)
-                Type.COMMENT -> CommentCreationRequestModel(content, parentId!!, tags)
-            }
-            posterUseCase.createPostOrComment(postRequest)
+            if (postToEdit == null) createPost() else editPost()
         }
+    }
+
+    private fun editPost() {
+        TODO()
+    }
+
+    private fun createPost() {
+        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
+        val postRequest = PostCreationRequestModel(title, content, tags)
+        posterUseCase.createPostOrComment(postRequest)
     }
 
     private fun validate(title: CharSequence, content: CharSequence): Boolean {
         val isValid = content.isNotBlank() && content.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
-                && (title.trim().isNotEmpty() || postType == Type.COMMENT)
+                && title.trim().isNotEmpty() && title.length <= ValidationConstants.MAX_POST_TITLE_LENGTH
+                && (postToEdit == null
+                || (title != getPostToEditLiveData.value?.content?.title
+                || content != getPostToEditLiveData.value?.content?.body?.toContent()))
         validationResultLiveData.postValue(isValid)
         return isValid
     }
@@ -162,5 +171,14 @@ class EditorPageViewModel(
         super.onCleared()
         embedsUseCase.unsubscribe()
         posterUseCase.unsubscribe()
+        postUseCase?.unsubscribe()
     }
+}
+
+internal fun ContentBodyModel.toContent(): CharSequence = this.full.fold(StringBuilder()) { acc, row ->
+    if (acc.isNotEmpty()) acc.append("\n")
+    when (row) {
+        is TextRowModel -> acc.append(row.text)
+    }
+    acc
 }

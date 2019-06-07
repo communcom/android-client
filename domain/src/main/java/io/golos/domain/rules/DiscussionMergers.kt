@@ -17,7 +17,8 @@ class PostMerger : EntityMerger<PostEntity> {
                     if (new.content.body.full.isNotEmpty()) new.content.body.full else old.content.body.full,
                     if (new.content.body.embeds.isNotEmpty()) new.content.body.embeds else old.content.body.embeds,
                     if (new.content.body.mobilePreview.isNotEmpty()) new.content.body.mobilePreview else old.content.body.mobilePreview
-                )
+                ),
+                new.content.tags
             ),
             new.votes, new.comments, new.payout, new.meta
         )

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
     <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fromGallery"
+            android:id="@+id/edit"
             android:background="?attr/selectableItemBackground"
             style="@style/SortsTextStyle"
             android:gravity="center_vertical"
-            android:text="@string/choose_from_gallery"
-            app:drawableStartCompat="@drawable/ic_gallery"
+            android:text="@string/edit_post"
+            app:drawableStartCompat="@drawable/ic_post_edit"
             android:drawablePadding="30dp"
             android:paddingTop="18dp"
             android:paddingBottom="18dp"
@@ -19,25 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/fromCamera"
+            android:id="@+id/delete"
             android:background="?attr/selectableItemBackground"
             style="@style/SortsTextStyle"
             android:gravity="center_vertical"
-            android:text="@string/make_a_photo"
-            app:drawableStartCompat="@drawable/ic_camera"
-            android:drawablePadding="30dp"
-            android:paddingTop="18dp"
-            android:paddingBottom="18dp"
-            android:paddingStart="@dimen/margin_horizontal_default_16dp"
-            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/remove"
-            android:background="?attr/selectableItemBackground"
-            style="@style/SortsTextStyle"
-            android:gravity="center_vertical"
-            tools:text="@string/delete_current_cover"
+            android:text="@string/delete_post"
             app:drawableStartCompat="@drawable/ic_delete"
             android:drawablePadding="30dp"
             android:paddingTop="18dp"
