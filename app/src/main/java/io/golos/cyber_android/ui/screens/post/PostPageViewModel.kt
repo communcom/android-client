@@ -33,7 +33,7 @@ class PostPageViewModel(
         VISIBLE, GONE
     }
 
-    private val isMyPostLiveData =
+    private val isActiveUserPostLiveData =
         postWithCommentUseCase.getPostAsLiveData.combinedWith(signInUseCase.getAsLiveData) { post, authState ->
             post != null && authState != null &&
                     post.author.username.toCyberName() == authState.userName
@@ -43,7 +43,7 @@ class PostPageViewModel(
      * [LiveData] that indicates if [PostModel] associated with this ViewModel was created
      * by current app user
      */
-    val getIsMyPostLiveData = isMyPostLiveData as LiveData<Boolean>
+    val getIsMyPostLiveData = isActiveUserPostLiveData as LiveData<Boolean>
 
     /**
      * [LiveData] for post content

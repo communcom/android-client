@@ -18,7 +18,7 @@ class ProfileViewModel(
     internal val forUser: CyberName
 ) : BaseEditProfileViewModel(userMetadataUseCase) {
 
-    data class Profile(val metadata: UserMetadataModel, val isMyUser: Boolean) {
+    data class Profile(val metadata: UserMetadataModel, val isActiveUserProfile: Boolean) {
         companion object {
             val EMPTY = Profile(UserMetadataModel.empty, false)
             val NOT_FOUND = Profile(UserMetadataModel.empty, true)

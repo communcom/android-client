@@ -18,3 +18,10 @@ data class CommentCreationRequestModel(
     val parentId: DiscussionIdModel,
     val tags: List<String>
 ) : DiscussionCreationRequest()
+
+data class UpdatePostRequestModel(
+    val permlink: String,
+    val title: String,
+    val body: CharSequence,//in real app use only spanned
+    val tags: List<String>
+) : DiscussionCreationRequest()

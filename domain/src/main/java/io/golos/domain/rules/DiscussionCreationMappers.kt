@@ -18,8 +18,8 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
         return when (entity) {
             is PostCreationRequestEntity -> {
                 tags.addAll(entity.tags)
-                extractHashTags(tags, entity.body)
-                extractLinks(links, entity.body)
+                extractHashTags(tags, entity.originalBody.toString())
+                extractLinks(links, entity.originalBody.toString())
 
                 CreatePostRequest(
                     entity.title,
@@ -52,8 +52,8 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
             }
             is PostUpdateRequestEntity -> {
                 tags.addAll(entity.tags)
-                extractHashTags(tags, entity.body)
-                extractLinks(links, entity.body)
+                extractHashTags(tags, entity.originalBody.toString())
+                extractLinks(links, entity.originalBody.toString())
 
                 UpdatePostRequest(
                     entity.postPermlink,

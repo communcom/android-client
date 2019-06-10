@@ -11,6 +11,7 @@ sealed class DiscussionCreationRequestEntity : Identifiable, Entity
 data class PostCreationRequestEntity(
     val title: String,
     val body: String,
+    val originalBody: CharSequence,
     val tags: List<String>
 ) : DiscussionCreationRequestEntity() {
     private val _id = Id()
@@ -110,6 +111,7 @@ data class PostUpdateRequestEntity(
     val postPermlink: String,
     val title: String,
     val body: String,
+    val originalBody: CharSequence,
     val tags: List<String>
 ) : DiscussionCreationRequestEntity() {
     private val _id = Id()

@@ -243,7 +243,7 @@ class PostPageFragment :
 
     private fun editPost() {
         viewModel.postLiveData.value?.let { post ->
-            EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(post.contentId))
+            startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(post.contentId)))
         }
     }
 

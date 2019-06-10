@@ -123,6 +123,7 @@ class DiscussionPosterUseCase(
             is PostCreationRequestModel -> PostCreationRequestEntity(
                 request.title,
                 fromSpannableTransformer.transform(request.body),
+                request.body,
                 request.tags
             )
             is CommentCreationRequestModel -> CommentCreationRequestEntity(
@@ -130,7 +131,21 @@ class DiscussionPosterUseCase(
                 request.parentId,
                 request.tags
             )
+            else -> throw UnsupportedOperationException()
         }
+        lastPostCreationRequest = requestEntity
+        discussionCreationRepository.makeAction(requestEntity)
+    }
+
+    fun updatePost(request: UpdatePostRequestModel) {
+        val requestEntity = PostUpdateRequestEntity(
+            request.permlink,
+            request.title,
+            fromSpannableTransformer.transform(request.body),
+            request.body,
+            request.tags
+        )
+
         lastPostCreationRequest = requestEntity
         discussionCreationRepository.makeAction(requestEntity)
     }

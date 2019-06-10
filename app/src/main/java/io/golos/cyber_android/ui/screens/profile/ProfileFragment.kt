@@ -45,7 +45,7 @@ const val REQUEST_UPDATE_PHOTO = 104
 
 /**
  * Fragment that represents user profile. [ProfileViewModel] produces [ProfileViewModel.Profile] objects, that
- * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isMyUser boolean value. This value
+ * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isActiveUserProfile boolean value. This value
  * is used in this fragment to determine if this Profile Page belongs to the actual user that uses the app.
  */
 class ProfileFragment : LoadingFragment() {
@@ -103,7 +103,7 @@ class ProfileFragment : LoadingFragment() {
             when (result) {
                 is QueryResult.Success -> {
                     bindProfile(result.originalQuery.metadata)
-                    updateControlsAccessibility(result.originalQuery.isMyUser)
+                    updateControlsAccessibility(result.originalQuery.isActiveUserProfile)
                 }
                 is QueryResult.Error -> onError(result)
                 is QueryResult.Loading -> onLoading()

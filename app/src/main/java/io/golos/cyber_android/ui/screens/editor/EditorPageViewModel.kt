@@ -148,7 +148,15 @@ class EditorPageViewModel(
     }
 
     private fun editPost() {
-        TODO()
+        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
+
+        posterUseCase.updatePost(
+            UpdatePostRequestModel(
+                postToEdit!!.permlink, title, content,
+                tags
+            )
+
+        )
     }
 
     private fun createPost() {
@@ -175,10 +183,5 @@ class EditorPageViewModel(
     }
 }
 
-internal fun ContentBodyModel.toContent(): CharSequence = this.full.fold(StringBuilder()) { acc, row ->
-    if (acc.isNotEmpty()) acc.append("\n")
-    when (row) {
-        is TextRowModel -> acc.append(row.text)
-    }
-    acc
-}
+internal fun ContentBodyModel.toContent(): CharSequence = this.full
+    .filter { it is TextRowModel }.joinToString("\n") { (it as TextRowModel).text }
