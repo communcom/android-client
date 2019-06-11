@@ -12,7 +12,8 @@ data class PostCreationRequestEntity(
     val title: String,
     val body: String,
     val originalBody: CharSequence,
-    val tags: List<String>
+    val tags: List<String>,
+    val images: List<String>
 ) : DiscussionCreationRequestEntity() {
     private val _id = Id()
 
@@ -112,7 +113,8 @@ data class PostUpdateRequestEntity(
     val title: String,
     val body: String,
     val originalBody: CharSequence,
-    val tags: List<String>
+    val tags: List<String>,
+    val images: List<String>
 ) : DiscussionCreationRequestEntity() {
     private val _id = Id()
 

@@ -25,7 +25,7 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
                     entity.title,
                     entity.body,
                     tags.map { Tag(it) },
-                    DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
+                    DiscussionCreateMetadata((links + entity.images).map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
                     emptyList(),
                     true,
                     0
@@ -59,7 +59,7 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
                     entity.postPermlink,
                     entity.title, entity.body,
                     tags.map { Tag(it) },
-                    DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList())
+                    DiscussionCreateMetadata((links + entity.images).map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList())
                 )
             }
         }

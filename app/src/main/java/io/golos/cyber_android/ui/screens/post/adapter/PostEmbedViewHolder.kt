@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.post.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -12,6 +13,11 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import io.golos.domain.interactors.model.EmbedModel
 import kotlinx.android.synthetic.main.item_content_embed.view.*
 
@@ -27,11 +33,45 @@ class PostEmbedViewHolder(val view: View) : RecyclerView.ViewHolder(view), Lifec
     }
 
     fun bind(embedModel: EmbedModel, lifecycleOwner: LifecycleOwner) {
-        if (currentHtml.compareTo(embedModel.html) != 0) {
+
+        Glide.with(view)
+            .load(0)
+            .into(view.embedImage)
+
+        if (currentHtml.compareTo(embedModel.html) != 0 && embedModel.html.isNotBlank()) {
             view.webView.loadDataWithBaseURL(embedModel.url, embedModel.html, "text/html", "UTF-8", null)
             currentHtml = embedModel.html
             view.webView.visibility = View.GONE
             view.progressBar.visibility = View.VISIBLE
+        }
+        if (embedModel.html.isBlank() && embedModel.url.isNotBlank()) {
+            view.webView.visibility = View.GONE
+            view.progressBar.visibility = View.VISIBLE
+            Glide.with(view)
+                .load(embedModel.url)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        view.progressBar.visibility = View.GONE
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        view.progressBar.visibility = View.GONE
+                        return false
+                    }
+                })
+                .into(view.embedImage)
         }
         this.lifecycleOwner?.lifecycle?.removeObserver(this)
         this.lifecycleOwner = lifecycleOwner

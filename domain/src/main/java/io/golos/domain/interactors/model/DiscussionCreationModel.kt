@@ -12,7 +12,7 @@ data class PostCreationRequestModel(
     val title: String,
     val body: CharSequence,//in real app use only spanned
     val tags: List<String>,
-    val imageFiles: List<File> = emptyList()
+    val images: List<String> = emptyList()
 ) : DiscussionCreationRequest()
 
 data class CommentCreationRequestModel(
@@ -25,5 +25,6 @@ data class UpdatePostRequestModel(
     val permlink: String,
     val title: String,
     val body: CharSequence,//in real app use only spanned
-    val tags: List<String>
+    val tags: List<String>,
+    val images: List<String> = emptyList()
 ) : DiscussionCreationRequest()

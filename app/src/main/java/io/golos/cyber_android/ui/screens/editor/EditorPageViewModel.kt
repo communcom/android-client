@@ -3,10 +3,7 @@ package io.golos.cyber_android.ui.screens.editor
 import android.net.Uri
 import androidx.arch.core.util.Function
 import androidx.lifecycle.*
-import io.golos.cyber_android.utils.Compressor
-import io.golos.cyber_android.utils.ValidationConstants
-import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.utils.combinedWith
+import io.golos.cyber_android.utils.*
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
@@ -45,10 +42,10 @@ class EditorPageViewModel(
     /**
      * State of uploading image to remote server
      */
-    private val getFileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
+    val getFileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
         .map(Function<UploadedImagesModel, QueryResult<UploadedImageModel>> {
             return@Function it.map[lastFile?.absolutePath ?: ""]
-        })
+        }).asEvent()
 
 
     private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
@@ -106,7 +103,9 @@ class EditorPageViewModel(
     /**
      * [LiveData] that indicates if there is no embedded content on page
      */
-    val getEmptyEmbedLiveData = emptyEmbedLiveData as LiveData<Boolean>
+    val getEmptyEmbedLiveData = emptyEmbedLiveData.combinedWith(getPickedImageLiveData) { embedsEmpty, pickedImage ->
+        embedsEmpty == true && pickedImage == null
+    } as LiveData<Boolean>
 
     /**
      * [LiveData] for post creation process
@@ -124,11 +123,23 @@ class EditorPageViewModel(
 
     val getPostToEditLiveData: LiveData<PostModel> = postUseCase?.getPostAsLiveData ?: MutableLiveData()
 
+
+    private val imageUploadObserver = Observer<Event<QueryResult<UploadedImageModel>>> {
+        it.getIfNotHandled()?.let { result ->
+            if (result is QueryResult.Success) {
+                if (validate(title, content)) {
+                    if (postToEdit == null) createPost(listOf(result.originalQuery.url)) else editPost(listOf(result.originalQuery.url))
+                }
+            }
+        }
+    }
+
     init {
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
         postUseCase?.subscribe()
         imageUploadUseCase.subscribe()
+        getFileUploadingStateLiveData.observeForever(imageUploadObserver)
 
         communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
@@ -173,25 +184,40 @@ class EditorPageViewModel(
      */
     fun post() {
         if (validate(title, content)) {
-            if (postToEdit == null) createPost() else editPost()
+
+            viewModelScope.launch {
+                getPickedImageLiveData.value?.let { uri ->
+                    val compressedFile = Compressor.compressImageFile(File(uri.path))
+                    imageUploadUseCase.submitImageForUpload(compressedFile.absolutePath)
+                    lastFile = compressedFile
+                }
+
+                //if there is no image to upload we create post immediately
+                if (getPickedImageLiveData.value == null) {
+                    if (postToEdit == null) createPost() else editPost()
+                }
+
+            }
         }
     }
 
-    private fun editPost() {
+
+    private fun editPost(images: List<String> = emptyList()) {
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
 
         posterUseCase.updatePost(
             UpdatePostRequestModel(
                 postToEdit!!.permlink, title, content,
-                tags
+                tags,
+                images
             )
 
         )
     }
 
-    private fun createPost() {
+    private fun createPost(images: List<String> = emptyList()) {
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
-        val postRequest = PostCreationRequestModel(title, content, tags)
+        val postRequest = PostCreationRequestModel(title, content, tags, images)
         posterUseCase.createPostOrComment(postRequest)
     }
 
@@ -211,15 +237,11 @@ class EditorPageViewModel(
         posterUseCase.unsubscribe()
         postUseCase?.unsubscribe()
         imageUploadUseCase.unsubscribe()
+        getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
     }
 
     fun onImagePicked(uri: Uri) {
         pickedImageLiveData.postValue(uri)
-//        viewModelScope.launch {
-//            val compressedFile = Compressor.compressImageFile(File(uri.path))
-//            imageUploadUseCase.submitImageForUpload(compressedFile.absolutePath)
-//            lastFile = compressedFile
-//        }
     }
 
     fun clearPickedImage() {

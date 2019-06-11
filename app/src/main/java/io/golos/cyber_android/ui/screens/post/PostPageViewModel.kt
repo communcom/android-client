@@ -36,7 +36,7 @@ class PostPageViewModel(
     private val isActiveUserPostLiveData =
         postWithCommentUseCase.getPostAsLiveData.combinedWith(signInUseCase.getAsLiveData) { post, authState ->
             post != null && authState != null &&
-                    post.author.username.toCyberName() == authState.userName
+                    (post.contentId.userId.toCyberName() == authState.userName)
         }
 
     /**

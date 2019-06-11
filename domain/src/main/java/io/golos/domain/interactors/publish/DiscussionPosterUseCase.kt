@@ -124,7 +124,8 @@ class DiscussionPosterUseCase(
                 request.title,
                 fromSpannableTransformer.transform(request.body),
                 request.body,
-                request.tags
+                request.tags,
+                request.images
             )
             is CommentCreationRequestModel -> CommentCreationRequestEntity(
                 fromSpannableTransformer.transform(request.body),
@@ -143,7 +144,8 @@ class DiscussionPosterUseCase(
             request.title,
             fromSpannableTransformer.transform(request.body),
             request.body,
-            request.tags
+            request.tags,
+            request.images
         )
 
         lastPostCreationRequest = requestEntity

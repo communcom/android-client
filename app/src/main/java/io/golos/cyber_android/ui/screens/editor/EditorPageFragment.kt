@@ -37,6 +37,7 @@ import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
@@ -220,6 +221,16 @@ class EditorPageFragment : BaseImagePickerFragment() {
             if (it != null)
                 loadUserPickedImage(it)
             else clearUserPickedImage()
+        })
+
+        viewModel.getFileUploadingStateLiveData.observe(this, Observer { event ->
+            event.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading -> onPostLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> onPostError()
+                }
+            }
         })
     }
 
