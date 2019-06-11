@@ -18,6 +18,46 @@ object Compressor {
     /**
      * Compresses image file and returns new compressed file (which will rewrite original file)
      * @param file original image file
+     * @return compressed image file, rewrites original file
+     * */
+    @Throws(IOException::class)
+    fun compressImageFile(
+        file: File
+    ): File {
+        file.inputStream().use { originalFileStream ->
+
+            val opts = getDecodeOptions(originalFileStream, MAX_SIZE.toInt(), MAX_SIZE.toInt())
+
+            val bitmap = file.inputStream().use {
+                BitmapFactory.decodeStream(it, null, opts)
+            }
+
+            bitmap!!
+
+            val matrix = Matrix()
+
+            val x = 0
+            val y = 0
+            val width = (bitmap.width)
+            val height = (bitmap.height)
+
+            val scaledBitmap = Bitmap.createBitmap(
+                bitmap,
+                x,
+                y,
+                width, height, matrix, true
+            )
+
+            file.outputStream().use { scaledOutputStream ->
+                scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, scaledOutputStream)
+            }
+        }
+        return file
+    }
+
+    /**
+     * Compresses image file and returns new compressed file (which will rewrite original file)
+     * @param file original image file
      * @param transX padding on x axis
      * @param transY padding on y axis
      * @param rotation degrees on which image should be rotated

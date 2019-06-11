@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -17,6 +18,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,12 +26,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import im.delight.android.webview.AdvancedWebView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
+import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
@@ -37,15 +43,17 @@ import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_editor_page.*
+import java.io.File
 
 const val GALLERY_REQUEST = 101
 
 
-class EditorPageFragment : LoadingFragment() {
+class EditorPageFragment : BaseImagePickerFragment() {
 
     data class Args(
         val postToEdit: DiscussionIdModel? = null,
-        val community: CommunityModel? = null
+        val community: CommunityModel? = null,
+        val initialImageSource: ImageSource = ImageSource.NONE
     )
 
     private lateinit var viewModel: EditorPageViewModel
@@ -91,12 +99,13 @@ class EditorPageFragment : LoadingFragment() {
         }
 
         photo.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            )
-            intent.type = "image/*"
-            startActivityForResult(intent, GALLERY_REQUEST)
+            ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
+                setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
+            }.show(requireFragmentManager(), "cover")
+        }
+
+        linkPreviewImageClear.setOnClickListener {
+            viewModel.clearPickedImage()
         }
 
         with(linkPreviewWebView) {
@@ -187,9 +196,9 @@ class EditorPageFragment : LoadingFragment() {
         viewModel.discussionCreationLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let { result ->
                 when (result) {
-                    is QueryResult.Loading<*> -> onPostLoading()
-                    is QueryResult.Success<*> -> onPostResult()
-                    is QueryResult.Error<*> -> onPostError()
+                    is QueryResult.Loading -> onPostLoading()
+                    is QueryResult.Success -> onPostResult()
+                    is QueryResult.Error -> onPostError()
                 }
             }
         })
@@ -205,6 +214,12 @@ class EditorPageFragment : LoadingFragment() {
 
         viewModel.getPostToEditLiveData.observe(this, Observer {
             setupPostToEdit(it)
+        })
+
+        viewModel.getPickedImageLiveData.observe(this, Observer {
+            if (it != null)
+                loadUserPickedImage(it)
+            else clearUserPickedImage()
         })
     }
 
@@ -229,6 +244,9 @@ class EditorPageFragment : LoadingFragment() {
         previewProvider.text = model.provider
         previewSummary.visibility = if (model.summary.isBlank()) View.GONE else View.VISIBLE
         previewProvider.visibility = if (model.provider.isBlank()) View.GONE else View.VISIBLE
+        previewDescriptionLayout.visibility =
+            if (model.summary.isBlank() && model.provider.isBlank()) View.GONE else View.VISIBLE
+        linkPreviewImageClear.visibility = View.GONE
 
         if (model.embedHtml.isNotBlank()) {
             loadEmbeddedHtml(model)
@@ -239,43 +257,61 @@ class EditorPageFragment : LoadingFragment() {
         }
     }
 
+    override fun getInitialImageSource() = getArgs().initialImageSource
+
+    override fun onImagePicked(uri: Uri) {
+        viewModel.onImagePicked(uri)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GALLERY_REQUEST) {
+            when (resultCode) {
+                ImagePickerDialog.RESULT_GALLERY ->
+                    pickGalleryPhoto()
+                ImagePickerDialog.RESULT_CAMERA ->
+                    takeCameraPhoto()
+            }
+        }
+    }
+
+    private fun loadUserPickedImage(uri: Uri) {
+        linkPreviewWebView.visibility = View.GONE
+        linkPreviewImageViewLayout.visibility = View.VISIBLE
+        linkPreviewImageClear.visibility = View.VISIBLE
+        previewDescriptionLayout.visibility = View.GONE
+        showPreviewLayout()
+
+
+        Glide.with(requireContext())
+            .load(uri)
+            .into(linkPreviewImageView)
+    }
+
+    private fun clearUserPickedImage() {
+        hidePreviewLayout()
+
+        Glide.with(requireContext())
+            .load(0)
+            .fitCenter()
+            .into(linkPreviewImageView)
+    }
+
     private fun loadThumbnail(model: LinkEmbedModel) {
         linkPreviewWebView.visibility = View.GONE
-        linkPreviewImageView.visibility = View.VISIBLE
+        linkPreviewImageViewLayout.visibility = View.VISIBLE
+        showPreviewLayout()
 
         Glide.with(requireContext())
             .load(model.thumbnailImageUrl)
             .fitCenter()
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    linkPreviewLayout.post {
-                        linkPreviewImageView.setImageDrawable(resource)
-                    }
-                    return false
-                }
-            })
-            .submit()
+            .into(linkPreviewImageView)
     }
 
     private fun loadEmbeddedHtml(model: LinkEmbedModel) {
         showPreviewLayout()
         linkPreviewWebView.visibility = View.VISIBLE
-        linkPreviewImageView.visibility = View.GONE
+        linkPreviewImageViewLayout.visibility = View.GONE
         linkPreviewWebView.loadDataWithBaseURL(model.url, model.embedHtml, "text/html", "UTF-8", null)
     }
 
@@ -288,7 +324,7 @@ class EditorPageFragment : LoadingFragment() {
     private fun onEmbedLoading() {
         linkPreviewProgress.visibility = View.VISIBLE
         linkPreviewWebView.visibility = View.GONE
-        linkPreviewImageView.visibility = View.GONE
+        linkPreviewImageViewLayout.visibility = View.GONE
     }
 
     private fun hidePreviewLayout() {
@@ -329,5 +365,9 @@ class EditorPageFragment : LoadingFragment() {
     override fun onDestroy() {
         linkPreviewWebView?.onDestroy()
         super.onDestroy()
+    }
+
+    override fun onImagePickingCancel() {
+        //noop
     }
 }

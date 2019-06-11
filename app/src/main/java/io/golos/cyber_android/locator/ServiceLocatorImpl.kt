@@ -349,6 +349,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     EditorPageViewModel::class.java -> EditorPageViewModel(
                         getEmbedsUseCase(),
                         getDiscussionPosterUseCase(),
+                        getImageUploadUseCase(),
                         dispatchersProvider,
                         community,
                         postToEdit,

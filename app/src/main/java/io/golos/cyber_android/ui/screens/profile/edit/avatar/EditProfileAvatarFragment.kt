@@ -15,7 +15,7 @@ import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.screens.profile.edit.BaseProfileImageFragment
+import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
@@ -23,11 +23,11 @@ import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*
 import java.io.File
 
 
-class EditProfileAvatarFragment : BaseProfileImageFragment() {
+class EditProfileAvatarFragment : BaseImagePickerFragment() {
 
     data class Args(
         val user: CyberName,
-        val source: EditProfileCoverFragment.ImageSource
+        val source: ImageSource
     )
 
     private lateinit var viewModel: EditProfileAvatarViewModel
@@ -115,7 +115,7 @@ class EditProfileAvatarFragment : BaseProfileImageFragment() {
         ).get(EditProfileAvatarViewModel::class.java)
     }
 
-    override fun getImageSource() = getArgs().source
+    override fun getInitialImageSource() = getArgs().source
 
     private fun getArgs() = requireContext()
         .serviceLocator

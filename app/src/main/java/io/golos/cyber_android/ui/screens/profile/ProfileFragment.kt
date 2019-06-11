@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioActivity
@@ -284,9 +285,9 @@ class ProfileFragment : LoadingFragment() {
         if (requestCode == REQUEST_UPDATE_COVER_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    EditProfileCoverFragment.ImageSource.GALLERY
+                    BaseImagePickerFragment.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    EditProfileCoverFragment.ImageSource.CAMERA
+                    BaseImagePickerFragment.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE -> {
                     viewModel.clearProfileCover()
                     null
@@ -305,9 +306,9 @@ class ProfileFragment : LoadingFragment() {
         if (requestCode == REQUEST_UPDATE_PHOTO_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    EditProfileCoverFragment.ImageSource.GALLERY
+                    BaseImagePickerFragment.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    EditProfileCoverFragment.ImageSource.CAMERA
+                    BaseImagePickerFragment.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE -> {
                     viewModel.clearProfileAvatar()
                     null

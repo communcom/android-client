@@ -16,12 +16,15 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
+import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingType
@@ -39,7 +42,6 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
  * Fragment that represents TRENDING tab of the Feed Page.
  */
 
-const val REQUEST_POST_CREATION = 205
 
 class TrendingFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
@@ -168,6 +170,9 @@ class TrendingFeedFragment :
     private fun setupEditorWidget() {
         (feedList.adapter as HeadersPostsAdapter).editorWidgetListener = object : EditorWidget.Listener {
             override fun onGalleryClick() {
+                ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
+                    setTargetFragment(this@TrendingFeedFragment, EDITOR_WIDGET_PHOTO_REQUEST_CODE)
+                }.show(requireFragmentManager(), "cover")
             }
 
             override fun onWidgetClick() {
@@ -217,6 +222,24 @@ class TrendingFeedFragment :
         }
         if (requestCode == REQUEST_POST_CREATION && resultCode == Activity.RESULT_OK) {
             viewModel.requestRefresh()
+        }
+
+        if (requestCode == EDITOR_WIDGET_PHOTO_REQUEST_CODE) {
+            val target = when (resultCode) {
+                ImagePickerDialog.RESULT_GALLERY ->
+                    BaseImagePickerFragment.ImageSource.GALLERY
+                ImagePickerDialog.RESULT_CAMERA ->
+                    BaseImagePickerFragment.ImageSource.CAMERA
+                ImagePickerDialog.RESULT_DELETE ->
+                    BaseImagePickerFragment.ImageSource.NONE
+                else -> null
+            }
+            if (target != null) startActivityForResult(
+                EditorPageActivity.getIntent(
+                    requireContext(),
+                    EditorPageFragment.Args(initialImageSource = target)
+                ), REQUEST_POST_CREATION
+            )
         }
     }
 

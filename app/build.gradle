@@ -46,6 +46,10 @@ android {
         exclude 'lib/x86_64/linux/libscrypt.so'
         exclude 'org/bitcoinj/crypto/cacerts'
         exclude 'META-INF/rxjava.properties'
+        exclude 'about_files/LICENSE-2.0.txt'
+        exclude 'META-INF/eclipse.inf'
+        exclude 'plugin.xml'
+        exclude 'plugin.properties'
     }
 }
 

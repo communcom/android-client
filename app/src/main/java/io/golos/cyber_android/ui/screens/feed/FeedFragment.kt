@@ -21,6 +21,9 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 
 const val SORT_REQUEST_CODE = 100
 const val FEED_REQUEST_CODE = 101
+const val EDITOR_WIDGET_PHOTO_REQUEST_CODE = 102
+const val REQUEST_POST_CREATION = 205
+
 
 class FeedFragment : Fragment(), FeedPageLiveDataProvider {
 

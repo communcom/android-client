@@ -1,27 +1,29 @@
 package io.golos.cyber_android.ui.screens.editor
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.net.Uri
+import androidx.arch.core.util.Function
+import androidx.lifecycle.*
+import io.golos.cyber_android.utils.Compressor
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
+import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
+import io.golos.domain.map
 import io.golos.domain.requestmodel.QueryResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.io.File
 
 
 class EditorPageViewModel(
     private val embedsUseCase: EmbedsUseCase,
     private val posterUseCase: DiscussionPosterUseCase,
+    private val imageUploadUseCase: ImageUploadUseCase,
     dispatchersProvider: DispatchersProvider,
     community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
@@ -38,6 +40,15 @@ class EditorPageViewModel(
 
     private var title: String = ""
     private var content: CharSequence = ""
+
+    private var lastFile: File? = null
+    /**
+     * State of uploading image to remote server
+     */
+    private val getFileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
+        .map(Function<UploadedImagesModel, QueryResult<UploadedImageModel>> {
+            return@Function it.map[lastFile?.absolutePath ?: ""]
+        })
 
 
     private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
@@ -58,10 +69,28 @@ class EditorPageViewModel(
     val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
 
 
+    /**
+     * [LiveData] for image picked by user for this post. If null then there is not image.
+     */
+    private val pickedImageLiveData = MutableLiveData<Uri?>(null)
+
+    val getPickedImageLiveData = pickedImageLiveData as LiveData<Uri?>
+
+    /**
+     * We need to "block" embed when there is image picked by user in [pickedImageLiveData]
+     */
     private val embedLiveDate = MediatorLiveData<QueryResult<LinkEmbedModel>>().apply {
         addSource(embedsUseCase.getAsLiveData) {
-            if (it.containsKey(currentEmbeddedLink)) {
+            if (it.containsKey(currentEmbeddedLink) && getPickedImageLiveData.value == null) {
                 postValue(it.getValue(currentEmbeddedLink))
+            }
+        }
+
+        addSource(getPickedImageLiveData) {
+            if (embedsUseCase.getAsLiveData.value?.containsKey(currentEmbeddedLink) == true
+                && getPickedImageLiveData.value == null
+            ) {
+                postValue(embedsUseCase.getAsLiveData.value?.getValue(currentEmbeddedLink))
             }
         }
     }
@@ -99,6 +128,7 @@ class EditorPageViewModel(
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
         postUseCase?.subscribe()
+        imageUploadUseCase.subscribe()
 
         communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
@@ -180,6 +210,20 @@ class EditorPageViewModel(
         embedsUseCase.unsubscribe()
         posterUseCase.unsubscribe()
         postUseCase?.unsubscribe()
+        imageUploadUseCase.unsubscribe()
+    }
+
+    fun onImagePicked(uri: Uri) {
+        pickedImageLiveData.postValue(uri)
+//        viewModelScope.launch {
+//            val compressedFile = Compressor.compressImageFile(File(uri.path))
+//            imageUploadUseCase.submitImageForUpload(compressedFile.absolutePath)
+//            lastFile = compressedFile
+//        }
+    }
+
+    fun clearPickedImage() {
+        pickedImageLiveData.postValue(null)
     }
 }
 

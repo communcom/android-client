@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cyber-android" />
+            <option value="$PROJECT_DIR$/cyber-android/annotations" />
+            <option value="$PROJECT_DIR$/cyber-android/processor" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
           </set>
