@@ -11,10 +11,7 @@ import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.Logger
-import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.entities.DiscussionIdEntity
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.FeedRelatedData
+import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -165,6 +162,22 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             }
     }
 
+    override fun onAuthorMetadataUpdated(metadataEntity: UserMetadataEntity) {
+        getAllPostsAsLiveDataList()
+            .forEach { feedLiveData ->
+                val feed = feedLiveData.value ?: return@forEach
+                val posts = feed.discussions
+
+                val updatedPosts = posts.map {
+                    if (it.contentId.userId == metadataEntity.userId.name) {
+                        it.author.avatarUrl = metadataEntity.personal.avatarUrl ?: ""
+                    }
+                    it
+                }
+
+                feedLiveData.value = feedLiveData.value?.copy(updatedPosts)
+            }
+    }
 
     //update feed
     override fun makeAction(params: Q) {

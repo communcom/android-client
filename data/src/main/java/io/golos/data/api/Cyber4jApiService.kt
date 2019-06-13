@@ -156,7 +156,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionSuccessful<DeleteResult>, DeleteResult> {
         return cyber4j.deletePostOrComment(postOrCommentPermlink)
-            .getOrThrow().run { this to this.extractResult() } }
+            .getOrThrow().run { this to this.extractResult() }
+    }
 
     override fun getRegistrationState(phone: String): UserRegistrationStateResult {
         return cyber4j.getRegistrationState(null, phone).getOrThrow()
@@ -228,68 +229,14 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     }
 
     override fun setUserMetadata(
-        type: String?,
-        app: String?,
-        email: String?,
-        phone: String?,
-        facebook: String?,
-        instagram: String?,
-        telegram: String?,
-        vk: String?,
-        website: String?,
-        first_name: String?,
-        last_name: String?,
-        name: String?,
-        birthDate: String?,
-        gender: String?,
-        location: String?,
-        city: String?,
         about: String?,
-        occupation: String?,
-        iCan: String?,
-        lookingFor: String?,
-        businessCategory: String?,
-        backgroundImage: String?,
         coverImage: String?,
-        profileImage: String?,
-        userImage: String?,
-        icoAddress: String?,
-        targetDate: String?,
-        targetPlan: String?,
-        targetPointA: String?,
-        targetPointB: String?
+        profileImage: String?
     ): TransactionSuccessful<ProfileMetadataUpdateResult> {
         return cyber4j.setUserMetadata(
-            type,
-            app,
-            email,
-            phone,
-            facebook,
-            instagram,
-            telegram,
-            vk,
-            website,
-            first_name,
-            last_name,
-            name,
-            birthDate,
-            gender,
-            location,
-            city,
-            about,
-            occupation,
-            iCan,
-            lookingFor,
-            businessCategory,
-            backgroundImage,
-            coverImage,
-            profileImage,
-            userImage,
-            icoAddress,
-            targetDate,
-            targetPlan,
-            targetPointA,
-            targetPointB
+            about = about,
+            coverImage = coverImage,
+            profileImage = profileImage
         ).getOrThrow()
     }
 

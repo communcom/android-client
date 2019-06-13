@@ -267,7 +267,7 @@ class ProfileFragment : LoadingFragment() {
 
     private fun setupViewPager() {
         profilePager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
-            override fun getItem(position: Int): Fragment {
+            override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     Tab.POSTS.index -> UserPostsFeedFragment.newInstance(getUserName())
                     Tab.COMMENTS.index -> UserPostsFeedFragment.newInstance(getUserName())
