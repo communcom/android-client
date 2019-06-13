@@ -39,7 +39,8 @@ sealed class DiscussionModel(
     open val author: DiscussionAuthorModel,
     open val votes: DiscussionVotesModel,
     open val payout: DiscussionPayoutModel,
-    open val meta: DiscussionMetadataModel
+    open val meta: DiscussionMetadataModel,
+    var isActiveUserDiscussion: Boolean = false
 ) : Model
 
 

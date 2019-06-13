@@ -21,12 +21,13 @@ import io.golos.domain.requestmodel.VoteRequestModel
 class PostPageViewModel(
     postWithCommentUseCase: PostWithCommentUseCase,
     voteUseCase: VoteUseCase,
-    private val posterUseCase: DiscussionPosterUseCase,
-    private val signInUseCase: SignInUseCase
+    posterUseCase: DiscussionPosterUseCase,
+    signInUseCase: SignInUseCase
 ) : AbstractFeedWithCommentsViewModel<CommentFeedUpdateRequest, CommentEntity, CommentModel>(
     postWithCommentUseCase,
     voteUseCase,
-    posterUseCase
+    posterUseCase,
+    signInUseCase
 ) {
 
     enum class Visibility {
@@ -185,16 +186,6 @@ class PostPageViewModel(
         postReady: Boolean
     ) {
         postValue(feedReady && postReady && loadingStatusLiveData.value == false)
-    }
-
-
-    init {
-        signInUseCase.subscribe()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        signInUseCase.unsubscribe()
     }
 
     fun deletePost() {

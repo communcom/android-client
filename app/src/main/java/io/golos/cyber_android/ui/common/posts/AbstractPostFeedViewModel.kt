@@ -7,6 +7,7 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.VoteRequestModel
 
@@ -17,11 +18,13 @@ import io.golos.domain.requestmodel.VoteRequestModel
 abstract class AbstractPostFeedViewModel<out T : PostFeedUpdateRequest>(
     feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
     voteUseCase: VoteUseCase,
-    posterUseCase: DiscussionPosterUseCase
+    posterUseCase: DiscussionPosterUseCase,
+    signInUseCase: SignInUseCase
 ) : AbstractFeedWithCommentsViewModel<T, PostEntity, PostModel>(
     feedUseCase,
     voteUseCase,
-    posterUseCase
+    posterUseCase,
+    signInUseCase
 ) {
     companion object {
         const val PAGE_SIZE = 20

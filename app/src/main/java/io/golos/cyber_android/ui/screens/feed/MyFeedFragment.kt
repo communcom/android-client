@@ -104,6 +104,10 @@ open class MyFeedFragment :
                 override fun onAuthorClick(post: PostModel) {
                     startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
+
+                override fun onPostMenuClick(postModel: PostModel) {
+                    showDiscussionMenu(postModel)
+                }
             },
             isEditorWidgetSupported = true,
             isSortingWidgetSupported = true
@@ -127,9 +131,9 @@ open class MyFeedFragment :
         viewModel.discussionCreationLiveData.observe(this, Observer {
             it.getIfNotHandled()?.let { result ->
                 when (result) {
-                    is QueryResult.Loading<*> -> showLoading()
-                    is QueryResult.Success<*> -> hideLoading()
-                    is QueryResult.Error<*> -> {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> {
                         hideLoading()
                         Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
                     }

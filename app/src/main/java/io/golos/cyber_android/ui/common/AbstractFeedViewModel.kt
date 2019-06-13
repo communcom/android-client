@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.utils.combinedWith
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
@@ -12,6 +13,8 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.interactors.publish.DiscussionPosterUseCase
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
@@ -23,11 +26,18 @@ import io.golos.domain.requestmodel.VoteRequestModel
  */
 abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEntity, M : DiscussionModel>(
     private val feedUseCase: AbstractFeedUseCase<out R, E, M>,
-    protected val voteUseCase: VoteUseCase
+    protected val voteUseCase: VoteUseCase,
+    private val signInUseCase: SignInUseCase,
+    private val posterUseCase: DiscussionPosterUseCase
 ) : ViewModel() {
     companion object {
         const val PAGE_SIZE = 20
     }
+
+    /**
+     * [LiveData] for post creation process
+     */
+    val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
     /**
      * Set of votes this ViewModel should handle.
@@ -80,11 +90,15 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
      */
     val feedLiveData = feedUseCase.getAsLiveData.map(Function<DiscussionsFeed<M>, List<M>> {
         it.items
-    })
+    }).combinedWith(signInUseCase.getAsLiveData) { feed, authState ->
+        feed?.forEach { it.isActiveUserDiscussion = it.contentId.userId == authState?.userName?.name }
+        feed ?: emptyList()
+    }
 
     init {
         feedUseCase.subscribe()
         voteUseCase.subscribe()
+        signInUseCase.subscribe()
         requestRefresh()
     }
 
@@ -92,6 +106,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         super.onCleared()
         feedUseCase.unsubscribe()
         voteUseCase.unsubscribe()
+        signInUseCase.unsubscribe()
     }
 
     fun requestRefresh() {
@@ -129,5 +144,9 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
     ) {
         voteUseCase.vote(request)
         pendingVotes.add(discussionIdModel)
+    }
+
+    fun deleteDiscussion(contentId: DiscussionIdModel) {
+        posterUseCase.deletePostOrComment(contentId)
     }
 }

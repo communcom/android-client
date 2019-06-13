@@ -16,6 +16,7 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
@@ -33,6 +34,7 @@ import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
@@ -41,7 +43,6 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
 /**
  * Fragment that represents TRENDING tab of the Feed Page.
  */
-
 
 class TrendingFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
@@ -107,6 +108,10 @@ class TrendingFeedFragment :
                 override fun onAuthorClick(post: PostModel) {
                     startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
+
+                override fun onPostMenuClick(postModel: PostModel) {
+                    showDiscussionMenu(postModel)
+                }
             },
             isEditorWidgetSupported = true,
             isSortingWidgetSupported = true
@@ -130,9 +135,9 @@ class TrendingFeedFragment :
         viewModel.discussionCreationLiveData.observe(this, Observer {
             it.getIfNotHandled()?.let { result ->
                 when (result) {
-                    is QueryResult.Loading<*> -> showLoading()
-                    is QueryResult.Success<*> -> hideLoading()
-                    is QueryResult.Error<*> -> {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> {
                         hideLoading()
                         Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
                     }

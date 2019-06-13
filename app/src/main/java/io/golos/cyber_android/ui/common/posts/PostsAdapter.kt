@@ -113,7 +113,6 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 )
                 postContentPreview.text =
                     postModel.content.title
-                //(postModel.content.body.mobilePreview.find { it is TextRowModel } as? TextRowModel)?.text
 
                 val postImage = postModel.content.body.mobilePreview.find { it is ImageRowModel } as? ImageRowModel
                 if (postImage != null) {
@@ -166,6 +165,11 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 postHeader.setOnClickListener {
                     listener.onAuthorClick(postModel)
                 }
+
+                postMenu.visibility = if (postModel.isActiveUserDiscussion)
+                    View.VISIBLE
+                else View.GONE
+                postMenu.setOnClickListener { listener.onPostMenuClick(postModel)  }
             }
         }
 
@@ -208,6 +212,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
         fun onDownvoteClick(post: PostModel)
 
         fun onAuthorClick(post: PostModel)
+
+        fun onPostMenuClick(postModel: PostModel)
     }
 
 }

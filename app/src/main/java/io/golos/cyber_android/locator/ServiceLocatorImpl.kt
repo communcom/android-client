@@ -238,7 +238,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getCommunityFeedUseCase(communityId),
                         getVoteUseCase(),
                         getDiscussionPosterUseCase(),
-                        getUserMetadataUseCase(forUser)
+                        getUserMetadataUseCase(forUser),
+                        getSignInUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -254,7 +255,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     UserPostsFeedViewModel::class.java -> UserPostsFeedViewModel(
                         getUserPostFeedUseCase(forUser),
                         getVoteUseCase(),
-                        getDiscussionPosterUseCase()
+                        getDiscussionPosterUseCase(),
+                        getSignInUseCase()
                     ) as T
 
 
@@ -273,7 +275,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getUserSubscriptionsFeedUseCase(forUser),
                         getVoteUseCase(),
                         getDiscussionPosterUseCase(),
-                        getUserMetadataUseCase(appUser)
+                        getUserMetadataUseCase(appUser),
+                        getSignInUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

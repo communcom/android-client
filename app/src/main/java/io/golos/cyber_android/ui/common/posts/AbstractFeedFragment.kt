@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.posts
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.widget.Toast
@@ -7,13 +8,24 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
+import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.domain.entities.DiscussionEntity
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
+
+const val POST_MENU_REQUEST = 301
 
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         E : DiscussionEntity,
@@ -35,7 +47,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         (feedList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         @Suppress("UNCHECKED_CAST")
-        viewModel.feedLiveData.observe(this, Observer {data ->
+        viewModel.feedLiveData.observe(this, Observer { data ->
             (feedList.adapter as AbstractDiscussionModelAdapter<M>).submit(data)
             onNewData(data)
         })
@@ -53,11 +65,12 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
             }
         })
 
-        val paginationScrollListener = object : PaginationScrollListener(feedListLayoutManager, AbstractPostFeedViewModel.PAGE_SIZE) {
-            override fun loadMoreItems() {
-                viewModel.loadMore()
+        val paginationScrollListener =
+            object : PaginationScrollListener(feedListLayoutManager, AbstractPostFeedViewModel.PAGE_SIZE) {
+                override fun loadMoreItems() {
+                    viewModel.loadMore()
+                }
             }
-        }
         feedList.addOnScrollListener(paginationScrollListener)
 
         viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
@@ -69,8 +82,53 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
             paginationScrollListener.isLastPage = isLastPage
             (feedList.adapter as AbstractDiscussionModelAdapter<M>).isLoading = !isLastPage
         })
+    }
 
+    fun showDiscussionMenu(postModel: PostModel) {
+        PostPageMenuDialog.newInstance(
+            postModel.isActiveUserDiscussion,
+            requireContext().serviceLocator.moshi
+                .adapter(DiscussionIdModel::class.java)
+                .toJson(postModel.contentId)
+        ).apply {
+            setTargetFragment(this@AbstractFeedFragment, POST_MENU_REQUEST)
+        }.show(requireFragmentManager(), "menu")
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == POST_MENU_REQUEST && data != null) {
+            when (resultCode) {
+                PostPageMenuDialog.RESULT_EDIT -> {
+                    val id = requireContext()
+                        .serviceLocator
+                        .moshi
+                        .adapter(DiscussionIdModel::class.java)
+                        .fromJson(data.getStringExtra(Tags.DISCUSSION_ID)!!)
+                    editDiscussion(id!!)
+                }
+                PostPageMenuDialog.RESULT_DELETE -> {
+                    val id = requireContext()
+                        .serviceLocator
+                        .moshi
+                        .adapter(DiscussionIdModel::class.java)
+                        .fromJson(data.getStringExtra(Tags.DISCUSSION_ID)!!)
+                    deleteDiscussion(id!!)
+                }
+            }
+        }
+    }
+
+    private fun deleteDiscussion(id: DiscussionIdModel) {
+        ConfirmationDialog.newInstance(getString(io.golos.cyber_android.R.string.delete_post_confirmation))
+            .run {
+                listener = { viewModel.deleteDiscussion(id) }
+                show(this@AbstractFeedFragment.requireFragmentManager(), "confirmDelete")
+            }
+    }
+
+    private fun editDiscussion(id: DiscussionIdModel) {
+        startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(id)))
     }
 
     /**

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +29,7 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_user_posts_feed_list.*
 
 /**
@@ -103,6 +105,10 @@ open class UserPostsFeedFragment :
                 override fun onAuthorClick(post: PostModel) {
                     startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
+
+                override fun onPostMenuClick(postModel: PostModel) {
+                    showDiscussionMenu(postModel)
+                }
             },
             isEditorWidgetSupported = false,
             isSortingWidgetSupported = true
@@ -114,6 +120,19 @@ open class UserPostsFeedFragment :
         viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
             if (!isLoading)
                 swipeRefresh.isRefreshing = false
+        })
+
+        viewModel.discussionCreationLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> {
+                        hideLoading()
+                        Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         })
     }
 

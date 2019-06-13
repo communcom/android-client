@@ -250,7 +250,7 @@ class PostPageFragment :
     private fun deletePost() {
         ConfirmationDialog.newInstance(getString(R.string.delete_post_confirmation)).run {
             listener = viewModel::deletePost
-            show(requireFragmentManager(), "confirm")
+            show(this@PostPageFragment.requireFragmentManager(), "confirm")
         }
     }
 
