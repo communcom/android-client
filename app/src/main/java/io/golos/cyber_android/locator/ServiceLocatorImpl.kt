@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsVi
 import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
+import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.repositories.*
@@ -216,7 +217,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
     override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
-            by lazy { ImageUploadRepository(apiService, dispatchersProvider, logger) }
+            by lazy { ImageUploadRepository(apiService, dispatchersProvider, ImageCompressorImpl, logger) }
     override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
             by lazy {
                 EventsRepository(

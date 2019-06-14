@@ -5,7 +5,8 @@ import java.io.File
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-29.
  */
-data class ImageUploadRequest(val imageFile: File) : Identifiable {
+data class ImageUploadRequest(val imageFile: File,
+                              val compressionParams: CompressionParams) : Identifiable {
     private val _id = Id()
 
     override val id: Identifiable.Id
@@ -30,3 +31,14 @@ data class ImageUploadRequest(val imageFile: File) : Identifiable {
 
     }
 }
+
+sealed class CompressionParams {
+    object DirectCompressionParams : CompressionParams()
+
+    data class AbsoluteCompressionParams(val transX: Float, val transY: Float,
+                                         val rotation: Float, val toSquare: Boolean): CompressionParams()
+
+    data class RelativeCompressionParams(val paddingXPercent: Float, val paddingYPercent: Float,
+                                         val requiredWidthPercent: Float, val requiredHeightPercent: Float): CompressionParams()
+}
+

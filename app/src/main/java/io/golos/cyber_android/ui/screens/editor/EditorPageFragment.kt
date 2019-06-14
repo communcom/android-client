@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -18,22 +16,14 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import im.delight.android.webview.AdvancedWebView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.utils.ValidationConstants
@@ -44,7 +34,6 @@ import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_editor_page.*
-import java.io.File
 
 const val GALLERY_REQUEST = 101
 
@@ -68,6 +57,7 @@ class EditorPageFragment : BaseImagePickerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         setupViewModel()
         observeViewModel()
 
@@ -167,12 +157,15 @@ class EditorPageFragment : BaseImagePickerFragment() {
 //            .into(communityAvatar)
     }
 
-
     private fun setupPostToEdit(post: PostModel) {
         toolbarTitle.setText(R.string.edit_post)
         title.setText(post.content.title)
         content.setText(post.content.body.toContent())
         nsfw.isActivated = post.content.tags.contains(TagModel("nsfw"))
+        post.content.body.embeds.find { it.type == "photo" || it.html.isEmpty() }?.run {
+            viewModel.onRemoteImagePicked(this.url)
+        }
+        viewModel.consumePostToEdit()
     }
 
     private fun observeViewModel() {
@@ -214,13 +207,16 @@ class EditorPageFragment : BaseImagePickerFragment() {
         })
 
         viewModel.getPostToEditLiveData.observe(this, Observer {
-            setupPostToEdit(it)
+            if (it != null)
+                setupPostToEdit(it)
         })
 
-        viewModel.getPickedImageLiveData.observe(this, Observer {
-            if (it != null)
-                loadUserPickedImage(it)
-            else clearUserPickedImage()
+        viewModel.getAttachedImageLiveData.observe(this, Observer {
+            when {
+                it.localUri != null -> loadLocalAttachmentImage(it.localUri)
+                it.remoteUrl != null -> loadRemoteAttachmentImage(it.remoteUrl)
+                else -> clearUserPickedImage()
+            }
         })
 
         viewModel.getFileUploadingStateLiveData.observe(this, Observer { event ->
@@ -271,7 +267,7 @@ class EditorPageFragment : BaseImagePickerFragment() {
     override fun getInitialImageSource() = getArgs().initialImageSource
 
     override fun onImagePicked(uri: Uri) {
-        viewModel.onImagePicked(uri)
+        viewModel.onLocalImagePicked(uri)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -286,7 +282,7 @@ class EditorPageFragment : BaseImagePickerFragment() {
         }
     }
 
-    private fun loadUserPickedImage(uri: Uri) {
+    private fun loadLocalAttachmentImage(uri: Uri) {
         linkPreviewWebView.visibility = View.GONE
         linkPreviewImageViewLayout.visibility = View.VISIBLE
         linkPreviewImageClear.visibility = View.VISIBLE
@@ -296,6 +292,19 @@ class EditorPageFragment : BaseImagePickerFragment() {
 
         Glide.with(requireContext())
             .load(uri)
+            .into(linkPreviewImageView)
+    }
+
+    private fun loadRemoteAttachmentImage(url: String) {
+        linkPreviewWebView.visibility = View.GONE
+        linkPreviewImageViewLayout.visibility = View.VISIBLE
+        linkPreviewImageClear.visibility = View.VISIBLE
+        previewDescriptionLayout.visibility = View.GONE
+        showPreviewLayout()
+
+
+        Glide.with(requireContext())
+            .load(url)
             .into(linkPreviewImageView)
     }
 

@@ -3,6 +3,7 @@ package io.golos.cyber_android.interactors
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.imageUploadRepo
 import io.golos.domain.interactors.images.ImageUploadUseCase
+import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
 import junit.framework.Assert.assertNotSame
 import junit.framework.Assert.assertTrue
@@ -42,12 +43,12 @@ class ImageUploaderUseCaseTest {
             uploadedImages = it
         }
 
-        imagesUseCase.submitImageForUpload(firstImage.absolutePath)
+        imagesUseCase.submitImageForUpload(firstImage.absolutePath, CompressionParams.DirectCompressionParams)
         delay(50)
         assertTrue(uploadedImages!![firstImage.absolutePath] is QueryResult.Success)
         val firstImageUrl = (uploadedImages!![firstImage.absolutePath] as QueryResult.Success).originalQuery.url
 
-        imagesUseCase.submitImageForUpload(secondImage.absolutePath)
+        imagesUseCase.submitImageForUpload(secondImage.absolutePath, CompressionParams.DirectCompressionParams)
         delay(50)
         assertTrue(uploadedImages!![secondImage.absolutePath] is QueryResult.Success)
         val secondImageUrl = (uploadedImages!![secondImage.absolutePath] as QueryResult.Success).originalQuery.url

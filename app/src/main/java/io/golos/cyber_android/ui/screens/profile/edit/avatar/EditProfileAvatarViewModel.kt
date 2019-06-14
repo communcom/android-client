@@ -2,18 +2,17 @@ package io.golos.cyber_android.ui.screens.profile.edit.avatar
 
 import androidx.arch.core.util.Function
 import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
-import io.golos.cyber_android.utils.Compressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.UploadedImageModel
 import io.golos.domain.interactors.model.UploadedImagesModel
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
+import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class EditProfileAvatarViewModel(
@@ -48,11 +47,11 @@ class EditProfileAvatarViewModel(
      */
     fun uploadFile(file: File, transX: Float, transY: Float, rotation: Float) {
         uiScope.launch {
-            val compressedFile = withContext(workerScope.coroutineContext) {
-                Compressor.compressImageFile(file, transX, transY, rotation, true)
-            }
-            imageUploadUseCase.submitImageForUpload(compressedFile.absolutePath)
-            lastFile = compressedFile
+            imageUploadUseCase.submitImageForUpload(
+                file.absolutePath,
+                CompressionParams.AbsoluteCompressionParams(transX, transY, rotation, true)
+            )
+            lastFile = file
         }
 
     }
