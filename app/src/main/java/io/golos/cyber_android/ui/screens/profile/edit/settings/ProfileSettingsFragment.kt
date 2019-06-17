@@ -80,12 +80,12 @@ class ProfileSettingsFragment : LoadingFragment() {
 
     private fun observeViewModel() {
         viewModel.getNotificationSettingsLiveData.observe(this, Observer {
-            (notificationSettingsList.adapter as NotificationSettingsAdapter).submit(it)
+            (notificationSettingsList.adapter as NotificationSettingsAdapter).submit(it ?: emptyList())
         })
 
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {
-            language.text = it.languageCode
-            nsfw.text = when(it.nsfws) {
+            language.text = it?.languageCode
+            nsfw.text = when(it?.nsfws) {
                 NSFWSettingsEntity.ALERT_WARN -> getString(R.string.always_alert)
                 NSFWSettingsEntity.ALWAYS_HIDE -> getString(R.string.always_hide)
                 NSFWSettingsEntity.ALWAYS_SHOW -> getString(R.string.always_show)

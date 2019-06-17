@@ -49,6 +49,7 @@ class PostEmbedViewHolder(val view: View) : RecyclerView.ViewHolder(view), Lifec
             view.progressBar.visibility = View.VISIBLE
             Glide.with(view)
                 .load(embedModel.url)
+                .fitCenter()
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,

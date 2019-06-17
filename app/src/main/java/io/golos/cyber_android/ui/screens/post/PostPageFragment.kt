@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
@@ -30,6 +31,7 @@ import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.cyber_android.widgets.CommentWidget
+import io.golos.data.errors.CannotDeleteDiscussionWithChildCommentsException
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
@@ -116,7 +118,14 @@ class PostPageFragment :
                     }
                     is QueryResult.Error -> {
                         hideLoading()
-                        Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "${result.error::class} e1 = ${result.error.message}", Toast.LENGTH_SHORT).show()
+                        when (result.error) {
+                            is CannotDeleteDiscussionWithChildCommentsException ->
+                                NotificationDialog.newInstance(getString(R.string.cant_delete_discussion_with_child_comments))
+                                    .show(requireFragmentManager(), "delete error")
+
+                            else -> Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.login.signin
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,7 @@ import io.golos.domain.requestmodel.QueryResult
  * [ViewModel] for Sign In process. Provides live data for input validation result,
  * loading and error states
  */
-class SignInViewModel(private val signInUseCase: SignInUseCase): ViewModel() {
+class SignInViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
 
     private val validationResultLiveData = MutableLiveData<Boolean>(false)
 
@@ -27,16 +26,16 @@ class SignInViewModel(private val signInUseCase: SignInUseCase): ViewModel() {
     /**
      * [LiveData] that indicates if loading is in progress
      */
-    val loadingLiveData = signInUseCase.getLogInStates.map(Function<Map<CyberUser, QueryResult<AuthRequestModel>>, Boolean> {
-        it[currentUser] is QueryResult.Loading
-    }).asEvent()
+    val loadingLiveData = signInUseCase.getLogInStates.map {
+        it?.get(currentUser) is QueryResult.Loading
+    }.asEvent()
 
     /**
      * [LiveData] that indicates if there was error in sign in process
      */
-    val errorLiveData = signInUseCase.getLogInStates.map(Function<Map<CyberUser, QueryResult<AuthRequestModel>>, Boolean> {
-        it[currentUser] is QueryResult.Error
-    }).asEvent()
+    val errorLiveData = signInUseCase.getLogInStates.map {
+        it?.get(currentUser) is QueryResult.Error
+    }.asEvent()
 
     /**
      * [LiveData] that indicates current state of auth process

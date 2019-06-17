@@ -32,7 +32,7 @@ class App : MultiDexApplication() {
         appCore.initialize()
     }
 
-    override fun getSystemService(name: String): Any {
+    override fun getSystemService(name: String): Any? {
         if (name == SERVICE_LOCATOR) return mServiceLocator
         return super.getSystemService(name)
     }

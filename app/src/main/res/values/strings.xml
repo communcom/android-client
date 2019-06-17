@@ -156,5 +156,6 @@
     <string name="edit_post">Edit post</string>
     <string name="delete_post">Delete post</string>
     <string name="delete_post_confirmation">Are you sure you want to delete this post?</string>
+    <string name="cant_delete_discussion_with_child_comments">You can\'t delete discussion with child comments</string>
 
 </resources>

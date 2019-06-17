@@ -156,7 +156,9 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionSuccessful<DeleteResult>, DeleteResult> {
         return cyber4j.deletePostOrComment(postOrCommentPermlink)
-            .getOrThrow().run { this to this.extractResult() }
+            .getOrThrow().run {
+                this to this.extractResult()
+            }
     }
 
     override fun getRegistrationState(phone: String): UserRegistrationStateResult {

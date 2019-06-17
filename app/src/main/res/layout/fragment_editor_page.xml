@@ -159,15 +159,17 @@
 
                     <FrameLayout
                             android:id="@+id/linkPreviewImageViewLayout"
+                            android:layout_marginTop="@dimen/margin_top_editor_page_title"
                             android:visibility="gone"
+                            tools:visibility="visible"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                         <ImageView
                                 android:id="@+id/linkPreviewImageView"
                                 android:adjustViewBounds="true"
                                 android:maxHeight="@dimen/height_editor_image_preview"
+                                tools:src="@drawable/img_example_media"
                                 android:scaleType="centerCrop"
-                                android:layout_marginTop="@dimen/margin_top_editor_page_title"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 

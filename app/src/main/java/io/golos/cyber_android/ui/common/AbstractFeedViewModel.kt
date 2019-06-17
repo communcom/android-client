@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.common
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
-import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -74,23 +72,23 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
     /**
      * [LiveData] that indicates if data is loading
      */
-    val loadingStatusLiveData = feedUseCase.feedUpdateState.map(Function<QueryResult<UpdateOption>, Boolean> {
+    val loadingStatusLiveData = feedUseCase.feedUpdateState.map {
         it is QueryResult.Loading
-    })
+    }
 
     /**
      * [LiveData] that indicates if last page was reached
      */
-    val lastPageLiveData = feedUseCase.getLastFetchedChunk.map(Function<List<M>, Boolean> {
-        it.size != PAGE_SIZE || it.isEmpty()
-    })
+    val lastPageLiveData = feedUseCase.getLastFetchedChunk.map {
+        it?.size != PAGE_SIZE || it.isEmpty()
+    }
 
     /**
      * [LiveData] of all the [DiscussionModel] items
      */
-    val feedLiveData = feedUseCase.getAsLiveData.map(Function<DiscussionsFeed<M>, List<M>> {
-        it.items
-    }).combinedWith(signInUseCase.getAsLiveData) { feed, authState ->
+    val feedLiveData = feedUseCase.getAsLiveData.map {
+        it?.items
+    }.combinedWith(signInUseCase.getAsLiveData) { feed, authState ->
         feed?.forEach { it.isActiveUserDiscussion = it.contentId.userId == authState?.userName?.name }
         feed ?: emptyList()
     }
@@ -99,6 +97,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         feedUseCase.subscribe()
         voteUseCase.subscribe()
         signInUseCase.subscribe()
+        posterUseCase.subscribe()
         requestRefresh()
     }
 
@@ -107,6 +106,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         feedUseCase.unsubscribe()
         voteUseCase.unsubscribe()
         signInUseCase.unsubscribe()
+        posterUseCase.unsubscribe()
     }
 
     fun requestRefresh() {

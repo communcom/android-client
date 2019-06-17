@@ -9,8 +9,7 @@ import io.golos.domain.interactors.sign.SignInUseCase
 
 class MainViewModel(
     private val signInUseCase: SignInUseCase,
-    private val eventsUseCase: EventsUseCase
-) : ViewModel() {
+    private val eventsUseCase: EventsUseCase) : ViewModel() {
 
     private val currentTabLiveData = MutableLiveData<MainActivity.Tab>(MainActivity.Tab.FEED)
 

@@ -47,13 +47,4 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
 
     protected open fun validateComment(comment: CharSequence) =
         comment.isNotBlank() && comment.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
-
-    init {
-        posterUseCase.subscribe()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        posterUseCase.unsubscribe()
-    }
 }

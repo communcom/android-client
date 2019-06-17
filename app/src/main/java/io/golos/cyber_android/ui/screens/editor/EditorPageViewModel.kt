@@ -1,9 +1,11 @@
 package io.golos.cyber_android.ui.screens.editor
 
 import android.net.Uri
-import androidx.arch.core.util.Function
 import androidx.lifecycle.*
-import io.golos.cyber_android.utils.*
+import io.golos.cyber_android.utils.Event
+import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
@@ -14,7 +16,10 @@ import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
 data class UserPickedImageModel(val localUri: Uri? = null, val remoteUrl: String? = null) {
@@ -51,11 +56,11 @@ class EditorPageViewModel(
 
 
     private val fileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
-        .map(Function<UploadedImagesModel, QueryResult<UploadedImageModel>> {
-            return@Function it.map[lastFile?.absolutePath ?: ""]
-        }).asEvent()
+        .map {
+            it?.map?.get(lastFile?.absolutePath ?: "")
+        }.asEvent()
 
-    val getFileUploadingStateLiveData = fileUploadingStateLiveData as LiveData<Event<QueryResult<UploadedImageModel>>>
+    val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
 
     private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
@@ -135,7 +140,7 @@ class EditorPageViewModel(
     val getPostToEditLiveData: LiveData<PostModel?> = postToEditLiveData
 
 
-    private val imageUploadObserver = Observer<Event<QueryResult<UploadedImageModel>>> {
+    private val imageUploadObserver = Observer<Event<QueryResult<UploadedImageModel>?>> {
         it.getIfNotHandled()?.let { result ->
             if (result is QueryResult.Success) {
                 if (validate(title, content)) {
@@ -146,7 +151,8 @@ class EditorPageViewModel(
     }
 
     private val postToEditObserver = Observer<PostModel> {
-        postToEditLiveData.postValue(it)
+        if (it.content.body.full.isNotEmpty())
+            postToEditLiveData.postValue(it)
     }
 
     init {
@@ -207,7 +213,8 @@ class EditorPageViewModel(
                     val imageFile = File(uri.path)
                     imageUploadUseCase.submitImageForUpload(
                         imageFile.absolutePath,
-                        CompressionParams.DirectCompressionParams)
+                        CompressionParams.DirectCompressionParams
+                    )
                     lastFile = imageFile
                 }
 

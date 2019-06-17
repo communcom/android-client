@@ -19,11 +19,10 @@ import kotlinx.coroutines.*
  */
 class DiscussionPosterUseCase(
     private val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>,
-    private val dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: DispatchersProvider,
     private val fromSpannableTransformer: FromSpannedToHtmlTransformer
 ) :
     UseCase<QueryResult<DiscussionCreationResultModel>> {
-
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private var lastJob: Job? = null
 
@@ -66,9 +65,11 @@ class DiscussionPosterUseCase(
             lastPostCreationModel.value = when (lastPostUpdateState) {
                 is QueryResult.Loading -> lastPostUpdateState.map(lastPostCreationEntity.toEmptyModel())
 
-                is QueryResult.Error -> lastPostUpdateState.map(
-                    lastPostCreationEntity.toEmptyModel()
-                )
+                is QueryResult.Error -> {
+                    lastPostUpdateState.map(
+                        lastPostCreationEntity.toEmptyModel()
+                    )
+                }
                 is QueryResult.Success -> {
                     when (createdPostLiveData) {
                         null -> QueryResult.Error(
@@ -108,6 +109,9 @@ class DiscussionPosterUseCase(
                     }
                 }
             }
+
+            if (lastPostUpdateState !is QueryResult.Loading)
+                lastPostCreationRequest = null
         }
     }
 

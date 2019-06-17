@@ -1,6 +1,5 @@
 package io.golos.domain
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import io.golos.domain.interactors.model.ElapsedTime
@@ -10,7 +9,7 @@ import java.util.*
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
-fun <X, Y> LiveData<X>.map(mapFunction: Function<X, Y>): LiveData<Y> = Transformations.map(this, mapFunction)
+fun <X, Y> LiveData<X>.map(mapFunction: (X?) -> Y): LiveData<Y> = Transformations.map(this, mapFunction)
 
 fun <X> LiveData<X>.distinctUntilChanged() = Transformations.distinctUntilChanged(this)
 

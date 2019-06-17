@@ -50,7 +50,7 @@ class LanguageSettingsFragment : LoadingFragment() {
 
     private fun observeViewModel() {
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {
-            (settingsList.adapter as LanguageSettingsAdapter).selectedCode = it.languageCode
+            (settingsList.adapter as LanguageSettingsAdapter).selectedCode = it?.languageCode
             hideLoading()
         })
 

@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import androidx.annotation.FloatRange
-import io.golos.data.ImageCompressor
+import io.golos.data.utils.ImageCompressor
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -13,15 +13,11 @@ import java.io.IOException
 /**
  * Utils class for compressing images before sending it to backend
  */
-object ImageCompressorImpl: ImageCompressor {
+object ImageCompressorImpl : ImageCompressor {
 
     private const val MAX_SIZE = 500f
 
-    /**
-     * Compresses image file and returns new compressed file (which will rewrite original file)
-     * @param file original image file
-     * @return compressed image file, rewrites original file
-     * */
+
     @Throws(IOException::class)
     override fun compressImageFile(
         file: File
@@ -58,15 +54,7 @@ object ImageCompressorImpl: ImageCompressor {
         return file
     }
 
-    /**
-     * Compresses image file and returns new compressed file (which will rewrite original file)
-     * @param file original image file
-     * @param transX padding on x axis
-     * @param transY padding on y axis
-     * @param rotation degrees on which image should be rotated
-     * @param toSquare should image be cropped to squre by least dimension
-     * @return compressed image file, rewrites original file
-     * */
+
     @Throws(IOException::class)
     override fun compressImageFile(
         file: File,
@@ -114,15 +102,6 @@ object ImageCompressorImpl: ImageCompressor {
         return file
     }
 
-    /**
-     * Compresses image file and returns new compressed file (which will rewrite original file)
-     * @param file original image file
-     * @param paddingXPercent padding on x axis in % of original image width
-     * @param paddingYPercent padding on y axis in % of original image height
-     * @param requiredWidthPercent required image width in % of original image width
-     * @param requiredHeightPercent required image height in % of original image height
-     * @return compressed image file, rewrites original file
-     * */
     @Throws(IOException::class)
     override fun compressImageFile(
         file: File,
@@ -146,7 +125,8 @@ object ImageCompressorImpl: ImageCompressor {
             val x = (paddingXPercent * bitmap.width).toInt()
             val y = (paddingYPercent * bitmap.height).toInt()
             val width = requiredWidthPercent?.times(bitmap.width)?.toInt() ?: (bitmap.width - paddingXPercent).toInt()
-            val height = requiredHeightPercent?.times(bitmap.height)?.toInt() ?: (bitmap.height - paddingYPercent).toInt()
+            val height =
+                requiredHeightPercent?.times(bitmap.height)?.toInt() ?: (bitmap.height - paddingYPercent).toInt()
 
             val matrix = Matrix()
             matrix.setRotate(getOrientationFix(file))
@@ -197,7 +177,7 @@ object ImageCompressorImpl: ImageCompressor {
             }
         }
 
-        return inSampleSize
+        return inSampleSize * 2
     }
 
     private fun getOrientationFix(file: File): Float {

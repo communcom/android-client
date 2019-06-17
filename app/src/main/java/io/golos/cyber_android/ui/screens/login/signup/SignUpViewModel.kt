@@ -1,15 +1,12 @@
 package io.golos.cyber_android.ui.screens.login.signup
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.map
-import io.golos.domain.requestmodel.QueryResult
 
 /**
  * Shared [ViewModel] for sign up process
@@ -32,9 +29,9 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
      * Provide update states for one subtype of [NextRegistrationStepRequestModel]
      */
     inline fun <reified T : NextRegistrationStepRequestModel> getUpdatingStateForStep() =
-        updatingStateLiveData.map(Function<Event<QueryResult<NextRegistrationStepRequestModel>>, QueryResult<NextRegistrationStepRequestModel>?> {
-            return@Function it?.getIf { this?.originalQuery is T }
-        })
+        updatingStateLiveData.map {
+            it?.getIf { this?.originalQuery is T }
+        }
 
     private val selectedCountryLiveData = MutableLiveData<CountryModel?>(null)
 

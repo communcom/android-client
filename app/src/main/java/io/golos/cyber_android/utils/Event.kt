@@ -1,6 +1,5 @@
 package io.golos.cyber_android.utils
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import io.golos.domain.map
 
@@ -37,4 +36,4 @@ class Event<out T>(private val content: T?) {
     }
 }
 
-fun <T> LiveData<T>.asEvent() = this.map(Function<T, Event<T>> { Event(this.value) } )
+fun <T> LiveData<T>.asEvent() = this.map { Event(this.value) }
