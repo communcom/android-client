@@ -139,7 +139,7 @@ class TrendingFeedFragment :
                     is QueryResult.Success -> hideLoading()
                     is QueryResult.Error -> {
                         hideLoading()
-                        Toast.makeText(requireContext(), "${result.error::class} e3 = ${result.error.message}", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "${result.error::class} e3 = ${result.error.message}", Toast.LENGTH_SHORT).show()
                         when (result.error) {
                             is CannotDeleteDiscussionWithChildCommentsException ->
                                 NotificationDialog.newInstance(getString(R.string.cant_delete_discussion_with_child_comments))
