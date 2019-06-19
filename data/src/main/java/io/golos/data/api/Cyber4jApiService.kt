@@ -37,7 +37,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     }
 
     override fun resolveCanonicalCyberName(name: String): ResolvedProfile {
-        return cyber4j.resolveCanonicalCyberName(name, "cyber").getOrThrow()
+        return cyber4j.resolveCanonicalCyberName(name, AppName.GLS).getOrThrow()
     }
 
     override fun getCommunityPosts(
