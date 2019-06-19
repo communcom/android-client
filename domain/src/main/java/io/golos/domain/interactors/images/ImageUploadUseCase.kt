@@ -10,6 +10,7 @@ import io.golos.domain.entities.UploadedImagesEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UploadedImageModel
 import io.golos.domain.interactors.model.UploadedImagesModel
+import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.QueryResult
 import java.io.File
@@ -66,7 +67,7 @@ class ImageUploadUseCase(
         mediator.removeSource(imagesRepository.getAsLiveData(imagesRepository.allDataRequest))
     }
 
-    fun submitImageForUpload(absolutePathToLocalFile: String) {
-        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile)))
+    fun submitImageForUpload(absolutePathToLocalFile: String, compressionParams: CompressionParams) {
+        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile), compressionParams))
     }
 }

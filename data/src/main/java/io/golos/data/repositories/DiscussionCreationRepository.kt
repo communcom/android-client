@@ -3,12 +3,18 @@ package io.golos.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CreateDiscussionResult
+import io.golos.cyber4j.model.DeleteResult
+import io.golos.cyber4j.model.UpdateDiscussionResult
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
+import io.golos.data.errors.CannotDeleteDiscussionWithChildCommentsException
+import io.golos.data.errors.CyberServicesError
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.entities.DeleteDiscussionResultEntity
 import io.golos.domain.entities.DiscussionCreationResultEntity
+import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
@@ -26,7 +32,10 @@ class DiscussionCreationRepository(
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    private val toEntityResultMapper: CyberToEntityMapper<CreateDiscussionResult, DiscussionCreationResultEntity>
+    private val toEntityResultMapper: CyberToEntityMapper<CreateDiscussionResult, DiscussionCreationResultEntity>,
+    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdateDiscussionResult, UpdatePostResultEntity>,
+    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeleteResult, DeleteDiscussionResultEntity>
+
 ) : Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -74,9 +83,19 @@ class DiscussionCreationRepository(
                             request.title, request.body, request.tags,
                             request.metadata, request.beneficiaries, request.vestPayment, request.tokenProp
                         )
+                        is UpdatePostRequest -> discussionsCreationApi.updatePost(
+                            request.postPermlink, request.title, request.body,
+                            request.tags, request.metadata
+                        )
+                        is DeleteDiscussionRequest -> discussionsCreationApi.deletePostOrComment(request.permlink)
                     }
                     transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
-                    toEntityResultMapper(apiAnswer.second)
+
+                    when (request) {
+                        is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdateDiscussionResult)
+                        is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeleteResult)
+                        else -> toEntityResultMapper(apiAnswer.second as CreateDiscussionResult)
+                    }
                 }
 
                 (getAsLiveData(params) as MutableLiveData).value = discussionCreationResult
@@ -86,8 +105,14 @@ class DiscussionCreationRepository(
 
             } catch (e: Exception) {
                 logger(e)
-                updateStateLiveData.value =
-                    updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))
+                if (e is CyberServicesError && e.message?.contains("You can't delete comment with child comments") == true) {
+                    updateStateLiveData.value =
+                        updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Error(
+                            CannotDeleteDiscussionWithChildCommentsException(e), params
+                        ))
+                } else
+                    updateStateLiveData.value =
+                        updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))
             }
         }.let { job ->
             jobsMap[params]?.cancel()

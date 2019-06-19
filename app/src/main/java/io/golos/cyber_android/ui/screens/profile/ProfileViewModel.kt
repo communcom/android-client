@@ -1,11 +1,9 @@
 package io.golos.cyber_android.ui.screens.profile
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
-import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
@@ -18,7 +16,7 @@ class ProfileViewModel(
     internal val forUser: CyberName
 ) : BaseEditProfileViewModel(userMetadataUseCase) {
 
-    data class Profile(val metadata: UserMetadataModel, val isMyUser: Boolean) {
+    data class Profile(val metadata: UserMetadataModel, val isActiveUserProfile: Boolean) {
         companion object {
             val EMPTY = Profile(UserMetadataModel.empty, false)
             val NOT_FOUND = Profile(UserMetadataModel.empty, true)
@@ -28,9 +26,9 @@ class ProfileViewModel(
     /**
      * [LiveData] that indicates if profile of this view model is the actual profile of an app user
      */
-    private val getMyUserLiveData = signInUseCase.getAsLiveData.map(Function<UserAuthState, Boolean> {
-        it.userName == forUser
-    })
+    private val getMyUserLiveData = signInUseCase.getAsLiveData.map {
+        it?.userName == forUser
+    }
 
 
     private val profileLiveData = MediatorLiveData<QueryResult<Profile>>().apply {

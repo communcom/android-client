@@ -59,7 +59,6 @@
 
     <!--Editor Page-->
     <string name="create_post">Create Post</string>
-    <string name="create_comment">Create Comment</string>
     <string name="you_will_post_in">You will post in</string>
     <string name="title">Title</string>
     <string name="enter_text">Enter text...</string>
@@ -152,5 +151,11 @@
     <string name="event_repost_format">%1$s made a repost of your post “%2$s”</string>
     <string name="event_subscribe_format">%1$s is following you</string>
     <string name="event_unsubscribe_format">%1$s is not following you</string>
+
+    <!--Post page-->
+    <string name="edit_post">Edit post</string>
+    <string name="delete_post">Delete post</string>
+    <string name="delete_post_confirmation">Are you sure you want to delete this post?</string>
+    <string name="cant_delete_discussion_with_child_comments">You can\'t delete discussion with child comments</string>
 
 </resources>

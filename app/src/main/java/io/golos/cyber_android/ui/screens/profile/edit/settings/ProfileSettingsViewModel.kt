@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.profile.edit.settings
 
-import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.settings.language.LanguageOption
@@ -14,8 +13,6 @@ import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.ChangeBasicSettingsRequestModel
 import io.golos.domain.requestmodel.ChangeNotificationSettingRequestModel
-import io.golos.domain.requestmodel.GeneralSettingsModel
-import io.golos.domain.requestmodel.UserSettingModel
 
 class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
                                private val signInUseCase: SignInUseCase
@@ -25,13 +22,13 @@ class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
      * [LiveData] for users notification settings
      */
     val getNotificationSettingsLiveData = settingsUseCase.getAsLiveData
-        .map(Function<UserSettingModel, List<NotificationSetting>> { it.notifsSettings.toSettingsList() })
+        .map { it?.notifsSettings?.toSettingsList() }
 
     /**
      * [LiveData] for users general settings
      */
     val getGeneralSettingsLiveData = settingsUseCase.getAsLiveData
-        .map(Function<UserSettingModel, GeneralSettingsModel> { it.general })
+        .map { it?.general }
 
     val getReadinessLiveData = settingsUseCase.getSettingsReadiness.asEvent()
 

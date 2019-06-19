@@ -11,8 +11,10 @@ import io.golos.cyber_android.widgets.sorting.TrendingSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
@@ -21,9 +23,10 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
     feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
     voteUseCase: VoteUseCase,
     posterUseCase: DiscussionPosterUseCase,
+    signInUseCase: SignInUseCase,
     private val userMetadataUseCase: UserMetadataUseCase? = null
 ) :
-    AbstractPostFeedViewModel<T>(feedUseCase, voteUseCase, posterUseCase) {
+    AbstractPostFeedViewModel<T>(feedUseCase, voteUseCase, posterUseCase, signInUseCase) {
 
     private val sortingWidgetState = MutableLiveData<SortingWidget.SortingWidgetState>(
         SortingWidget.SortingWidgetState(TrendingSort.TOP, TimeFilter.PAST_24_HR)

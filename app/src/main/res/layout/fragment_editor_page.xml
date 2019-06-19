@@ -157,50 +157,72 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
-                    <ImageView
-                            android:id="@+id/linkPreviewImageView"
-                            android:visibility="gone"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:maxHeight="@dimen/height_editor_image_preview"
+                    <FrameLayout
+                            android:id="@+id/linkPreviewImageViewLayout"
                             android:layout_marginTop="@dimen/margin_top_editor_page_title"
+                            android:visibility="gone"
+                            tools:visibility="visible"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content">
+                        <ImageView
+                                android:id="@+id/linkPreviewImageView"
+                                android:adjustViewBounds="true"
+                                android:maxHeight="@dimen/height_editor_image_preview"
+                                tools:src="@drawable/img_example_media"
+                                android:scaleType="centerCrop"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
 
-                    <TextView
-                            android:id="@+id/previewSummary"
-                            tools:text="Wallpaper Pictures | Download Free Images on Unsplash"
-                            android:background="@color/middle_gray_3"
-                            android:maxLines="3"
-                            android:ellipsize="end"
-                            android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                            android:paddingTop="@dimen/margin_top_editor_page_summary"
-                            android:theme="@style/EditorPreviewSummaryTextStyle"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        <ImageView
+                                android:id="@+id/linkPreviewImageClear"
+                                android:layout_gravity="top|end"
+                                android:padding="@dimen/margin_horizontal_default_16dp"
+                                android:background="?attr/selectableItemBackground"
+                                app:srcCompat="@drawable/ic_image_clear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                    </FrameLayout>
 
-                    <View
-                            android:background="@color/middle_gray_3"
+                    <LinearLayout
+                            android:id="@+id/previewDescriptionLayout"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/margin_top_editor_page_provider"/>
+                            android:layout_height="wrap_content">
+                        <TextView
+                                android:id="@+id/previewSummary"
+                                tools:text="Wallpaper Pictures | Download Free Images on Unsplash"
+                                android:background="@color/middle_gray_3"
+                                android:maxLines="3"
+                                android:ellipsize="end"
+                                android:paddingStart="@dimen/margin_horizontal_default_16dp"
+                                android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                                android:paddingTop="@dimen/margin_top_editor_page_summary"
+                                android:theme="@style/EditorPreviewSummaryTextStyle"
+                                android:layout_gravity="center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
 
-                    <TextView
-                            android:id="@+id/previewProvider"
-                            tools:text="unsplash.com"
-                            android:background="@color/middle_gray_3"
-                            android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                            android:theme="@style/EditorPreviewProviderTextStyle"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                        <View
+                                android:background="@color/middle_gray_3"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/margin_top_editor_page_provider"/>
 
-                    <View
-                            android:background="@color/middle_gray_3"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/margin_top_editor_page_summary"/>
+                        <TextView
+                                android:id="@+id/previewProvider"
+                                tools:text="unsplash.com"
+                                android:background="@color/middle_gray_3"
+                                android:paddingStart="@dimen/margin_horizontal_default_16dp"
+                                android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                                android:theme="@style/EditorPreviewProviderTextStyle"
+                                android:layout_gravity="center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        <View
+                                android:background="@color/middle_gray_3"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/margin_top_editor_page_summary"/>
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>

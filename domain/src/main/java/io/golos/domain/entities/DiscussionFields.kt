@@ -8,7 +8,8 @@ data class DiscussionCommentsCount(val count: Long) : Entity
 
 data class PostContent(
     val title: String,
-    val body: ContentBody
+    val body: ContentBody,
+    val tags: List<TagEntity>
 ) : Entity
 
 data class CommentContent(val body: ContentBody) : Entity
@@ -44,3 +45,5 @@ data class DiscussionVotes(
     val upCount: Int,
     val downCount: Int
 ) : Entity
+
+data class TagEntity(val tag: String)

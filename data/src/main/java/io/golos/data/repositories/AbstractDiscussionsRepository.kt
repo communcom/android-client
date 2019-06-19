@@ -4,16 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.data.errors.CyberServicesError
 import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.Logger
-import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.entities.DiscussionIdEntity
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.FeedRelatedData
+import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -102,7 +100,20 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             activeUpdatingPost = null
         }) {
 
-            val updatedPost = getOnBackground { getDiscussionItem(updatingDiscussionId) }
+            val updatedPost = try {
+                //try to get updated post
+                getOnBackground { getDiscussionItem(updatingDiscussionId) }
+            } catch (e: CyberServicesError) {
+                //if post with this id is not found then we should
+                //delete it from all the LiveData's
+                if (e.message?.contains("404") == true) {
+                    removePost(updatingDiscussionId)
+                    activeUpdatingPost = null
+                    return@launch
+                }
+                //else just rethrow this error
+                else throw e
+            }
 
             val updatedPostEntity = discussionMapper.convertOnBackground(updatedPost)
 
@@ -136,6 +147,37 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         }.let { job -> postJobMap[updatingDiscussionId] = job }
     }
 
+    private fun removePost(updatingDiscussionId: DiscussionIdEntity) {
+        getAllPostsAsLiveDataList()
+            .forEach { feedLiveData ->
+                val feed = feedLiveData.value ?: return@forEach
+                val posts = feed.discussions
+
+                if (posts.any { it.contentId == updatingDiscussionId }) {
+                    val filteredPosts = posts
+                        .filter { it.contentId != updatingDiscussionId }
+
+                    feedLiveData.value = feedLiveData.value?.copy(filteredPosts)
+                }
+            }
+    }
+
+    override fun onAuthorMetadataUpdated(metadataEntity: UserMetadataEntity) {
+        getAllPostsAsLiveDataList()
+            .forEach { feedLiveData ->
+                val feed = feedLiveData.value ?: return@forEach
+                val posts = feed.discussions
+
+                val updatedPosts = posts.map {
+                    if (it.contentId.userId == metadataEntity.userId.name) {
+                        it.author.avatarUrl = metadataEntity.personal.avatarUrl ?: ""
+                    }
+                    it
+                }
+
+                feedLiveData.value = feedLiveData.value?.copy(updatedPosts)
+            }
+    }
 
     //update feed
     override fun makeAction(params: Q) {
@@ -192,6 +234,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         try {
             block()
         } catch (e: java.lang.Exception) {
+            exceptionCallback(e)
             logger(e)
         }
     }

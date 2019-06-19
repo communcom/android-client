@@ -1,14 +1,9 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.model.CreateDiscussionResult
-import io.golos.cyber4j.model.DiscussionCreateMetadata
-import io.golos.cyber4j.model.Tag
+import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.domain.Regexps
-import io.golos.domain.entities.CommentCreationResultEntity
-import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.entities.DiscussionIdEntity
-import io.golos.domain.entities.PostCreationResultEntity
+import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.*
 
 /**
@@ -23,13 +18,17 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
         return when (entity) {
             is PostCreationRequestEntity -> {
                 tags.addAll(entity.tags)
-                extractHashTags(tags, entity.body)
-                extractLinks(links, entity.body)
+                extractHashTags(tags, entity.originalBody.toString())
+                extractLinks(links, entity.originalBody.toString())
 
                 CreatePostRequest(
-                    entity.title, entity.body,
-                    tags.map { Tag(it) }, DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
-                    emptyList(), true, 0
+                    entity.title,
+                    entity.body,
+                    tags.map { Tag(it) },
+                    DiscussionCreateMetadata((links + entity.images).map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
+                    emptyList(),
+                    true,
+                    0
                 )
             }
             is CommentCreationRequestEntity -> {
@@ -38,10 +37,29 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
                 extractLinks(links, entity.body)
 
                 CreateCommentRequest(
-                    entity.body, entity.parentId.userId.toCyberName(),
+                    entity.body,
+                    entity.parentId.userId.toCyberName(),
                     entity.parentId.permlink,
-                    tags.map { Tag(it) }, DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
-                    emptyList(), true, 0
+                    tags.map { Tag(it) },
+                    DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
+                    emptyList(),
+                    true,
+                    0
+                )
+            }
+            is DeleteDiscussionRequestEntity -> {
+                DeleteDiscussionRequest(entity.discussionPermlink)
+            }
+            is PostUpdateRequestEntity -> {
+                tags.addAll(entity.tags)
+                extractHashTags(tags, entity.originalBody.toString())
+                extractLinks(links, entity.originalBody.toString())
+
+                UpdatePostRequest(
+                    entity.postPermlink,
+                    entity.title, entity.body,
+                    tags.map { Tag(it) },
+                    DiscussionCreateMetadata((links + entity.images).map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList())
                 )
             }
         }
@@ -97,5 +115,31 @@ class DiscussionCreateResultToEntityMapper :
                 )
             )
         }
+    }
+}
+
+
+class DiscussionUpdateResultToEntityMapper :
+    CyberToEntityMapper<UpdateDiscussionResult, UpdatePostResultEntity> {
+    override suspend fun invoke(cyberObject: UpdateDiscussionResult): UpdatePostResultEntity {
+        return UpdatePostResultEntity(
+            DiscussionIdEntity(
+                cyberObject.message_id.author.name,
+                cyberObject.message_id.permlink
+            )
+        )
+    }
+}
+
+
+class DiscussionDeleteResultToEntityMapper :
+    CyberToEntityMapper<DeleteResult, DeleteDiscussionResultEntity> {
+    override suspend fun invoke(cyberObject: DeleteResult): DeleteDiscussionResultEntity {
+        return DeleteDiscussionResultEntity(
+            DiscussionIdEntity(
+                cyberObject.message_id.author.name,
+                cyberObject.message_id.permlink
+            )
+        )
     }
 }

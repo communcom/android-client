@@ -1,35 +1,42 @@
 package io.golos.cyber_android.ui.screens.editor
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.net.Uri
+import androidx.lifecycle.*
+import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.feed.PostWithCommentUseCase
+import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
+import io.golos.domain.map
+import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
+data class UserPickedImageModel(val localUri: Uri? = null, val remoteUrl: String? = null) {
+    companion object {
+        val EMPTY = UserPickedImageModel()
+    }
+}
 
 class EditorPageViewModel(
     private val embedsUseCase: EmbedsUseCase,
     private val posterUseCase: DiscussionPosterUseCase,
+    private val imageUploadUseCase: ImageUploadUseCase,
     dispatchersProvider: DispatchersProvider,
-    private val postType: Type,
-    private val parentId: DiscussionIdModel?,
-    community: CommunityModel?
+    community: CommunityModel?,
+    private val postToEdit: DiscussionIdModel?,
+    private val postUseCase: PostWithCommentUseCase?
 ) : ViewModel() {
-
-    enum class Type {
-        POST, COMMENT
-    }
 
     private val urlParserJobScope = CoroutineScope(dispatchersProvider.uiDispatcher)
     private var urlParserJob: Job? = null
@@ -41,6 +48,19 @@ class EditorPageViewModel(
 
     private var title: String = ""
     private var content: CharSequence = ""
+
+    private var lastFile: File? = null
+    /**
+     * State of uploading image to remote server
+     */
+
+
+    private val fileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
+        .map {
+            it?.map?.get(lastFile?.absolutePath ?: "")
+        }.asEvent()
+
+    val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
 
     private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
@@ -61,10 +81,28 @@ class EditorPageViewModel(
     val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
 
 
+    /**
+     * [LiveData] for image picked by user for this post. If null then there is not image.
+     */
+    private val attachementImageLiveData = MutableLiveData<UserPickedImageModel>(UserPickedImageModel.EMPTY)
+
+    val getAttachedImageLiveData = attachementImageLiveData as LiveData<UserPickedImageModel>
+
+    /**
+     * We need to "block" embed when there is image picked by user in [attachementImageLiveData]
+     */
     private val embedLiveDate = MediatorLiveData<QueryResult<LinkEmbedModel>>().apply {
         addSource(embedsUseCase.getAsLiveData) {
-            if (it.containsKey(currentEmbeddedLink)) {
+            if (it.containsKey(currentEmbeddedLink) && getAttachedImageLiveData.value == UserPickedImageModel.EMPTY) {
                 postValue(it.getValue(currentEmbeddedLink))
+            }
+        }
+
+        addSource(getAttachedImageLiveData) {
+            if (embedsUseCase.getAsLiveData.value?.containsKey(currentEmbeddedLink) == true
+                && getAttachedImageLiveData.value == UserPickedImageModel.EMPTY
+            ) {
+                postValue(embedsUseCase.getAsLiveData.value?.getValue(currentEmbeddedLink))
             }
         }
     }
@@ -80,7 +118,9 @@ class EditorPageViewModel(
     /**
      * [LiveData] that indicates if there is no embedded content on page
      */
-    val getEmptyEmbedLiveData = emptyEmbedLiveData as LiveData<Boolean>
+    val getEmptyEmbedLiveData = emptyEmbedLiveData.combinedWith(getAttachedImageLiveData) { embedsEmpty, pickedImage ->
+        embedsEmpty == true && pickedImage == null
+    } as LiveData<Boolean>
 
     /**
      * [LiveData] for post creation process
@@ -95,9 +135,34 @@ class EditorPageViewModel(
      */
     val getNsfwLiveData = nsfwLiveData as LiveData<Boolean>
 
+    private val postToEditLiveData = MutableLiveData<PostModel?>()
+
+    val getPostToEditLiveData: LiveData<PostModel?> = postToEditLiveData
+
+
+    private val imageUploadObserver = Observer<Event<QueryResult<UploadedImageModel>?>> {
+        it.getIfNotHandled()?.let { result ->
+            if (result is QueryResult.Success) {
+                if (validate(title, content)) {
+                    if (postToEdit == null) createPost(listOf(result.originalQuery.url)) else editPost(listOf(result.originalQuery.url))
+                }
+            }
+        }
+    }
+
+    private val postToEditObserver = Observer<PostModel> {
+        if (it.content.body.full.isNotEmpty())
+            postToEditLiveData.postValue(it)
+    }
+
     init {
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
+        postUseCase?.subscribe()
+        imageUploadUseCase.subscribe()
+
+        getFileUploadingStateLiveData.observeForever(imageUploadObserver)
+        postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
 
         communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
@@ -142,18 +207,59 @@ class EditorPageViewModel(
      */
     fun post() {
         if (validate(title, content)) {
-            val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
-            val postRequest = when (postType) {
-                Type.POST -> PostCreationRequestModel(title, content, tags)
-                Type.COMMENT -> CommentCreationRequestModel(content, parentId!!, tags)
+
+            viewModelScope.launch {
+                getAttachedImageLiveData.value?.localUri?.let { uri ->
+                    val imageFile = File(uri.path)
+                    imageUploadUseCase.submitImageForUpload(
+                        imageFile.absolutePath,
+                        CompressionParams.DirectCompressionParams
+                    )
+                    lastFile = imageFile
+                }
+
+                //if there is no image to upload we create post immediately
+                if (getAttachedImageLiveData.value == UserPickedImageModel.EMPTY) {
+                    if (postToEdit == null) createPost() else editPost()
+                }
+
+                //if there is image to upload, but it was already attached to a post (this can only
+                //happens when postToEdit != null and thus user actually editing post, not creating), then
+                //just attach this photo again
+                if (getAttachedImageLiveData.value != UserPickedImageModel.EMPTY &&
+                    getAttachedImageLiveData.value?.remoteUrl != null
+                ) {
+                    val remoteImg = getAttachedImageLiveData.value?.remoteUrl ?: ""
+                    if (postToEdit == null) createPost(listOf(remoteImg)) else editPost(listOf(remoteImg))
+                }
+
             }
-            posterUseCase.createPostOrComment(postRequest)
         }
+    }
+
+
+    private fun editPost(images: List<String> = emptyList()) {
+        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
+
+        posterUseCase.updatePost(
+            UpdatePostRequestModel(
+                postToEdit!!.permlink, title, content,
+                tags,
+                images
+            )
+
+        )
+    }
+
+    private fun createPost(images: List<String> = emptyList()) {
+        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
+        val postRequest = PostCreationRequestModel(title, content, tags, images)
+        posterUseCase.createPostOrComment(postRequest)
     }
 
     private fun validate(title: CharSequence, content: CharSequence): Boolean {
         val isValid = content.isNotBlank() && content.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
-                && (title.trim().isNotEmpty() || postType == Type.COMMENT)
+                && title.isNotBlank() && title.length <= ValidationConstants.MAX_POST_TITLE_LENGTH
         validationResultLiveData.postValue(isValid)
         return isValid
     }
@@ -162,5 +268,33 @@ class EditorPageViewModel(
         super.onCleared()
         embedsUseCase.unsubscribe()
         posterUseCase.unsubscribe()
+        postUseCase?.unsubscribe()
+        imageUploadUseCase.unsubscribe()
+        getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
+        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+    }
+
+    fun onLocalImagePicked(uri: Uri) {
+        attachementImageLiveData.postValue(UserPickedImageModel(localUri = uri))
+    }
+
+    fun clearPickedImage() {
+        attachementImageLiveData.postValue(UserPickedImageModel.EMPTY)
+    }
+
+    fun onRemoteImagePicked(url: String) {
+        attachementImageLiveData.postValue(UserPickedImageModel(remoteUrl = url))
+    }
+
+    /** Stops to listen to updates of a [postToEdit]. Thus needs to be called when
+     * post that is currently editing is displayed in fragment to prevent reseting screen to original state
+     * on activity recreations.
+     */
+    fun consumePostToEdit() {
+        postToEditLiveData.postValue(null)
+        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
     }
 }
+
+internal fun ContentBodyModel.toContent(): CharSequence = this.full
+    .filter { it is TextRowModel }.joinToString("\n") { (it as TextRowModel).text }

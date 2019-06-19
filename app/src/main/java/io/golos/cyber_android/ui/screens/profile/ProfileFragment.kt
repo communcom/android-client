@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioActivity
@@ -45,7 +46,7 @@ const val REQUEST_UPDATE_PHOTO = 104
 
 /**
  * Fragment that represents user profile. [ProfileViewModel] produces [ProfileViewModel.Profile] objects, that
- * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isMyUser boolean value. This value
+ * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isActiveUserProfile boolean value. This value
  * is used in this fragment to determine if this Profile Page belongs to the actual user that uses the app.
  */
 class ProfileFragment : LoadingFragment() {
@@ -103,7 +104,7 @@ class ProfileFragment : LoadingFragment() {
             when (result) {
                 is QueryResult.Success -> {
                     bindProfile(result.originalQuery.metadata)
-                    updateControlsAccessibility(result.originalQuery.isMyUser)
+                    updateControlsAccessibility(result.originalQuery.isActiveUserProfile)
                 }
                 is QueryResult.Error -> onError(result)
                 is QueryResult.Loading -> onLoading()
@@ -266,7 +267,7 @@ class ProfileFragment : LoadingFragment() {
 
     private fun setupViewPager() {
         profilePager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
-            override fun getItem(position: Int): Fragment {
+            override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     Tab.POSTS.index -> UserPostsFeedFragment.newInstance(getUserName())
                     Tab.COMMENTS.index -> UserPostsFeedFragment.newInstance(getUserName())
@@ -284,9 +285,9 @@ class ProfileFragment : LoadingFragment() {
         if (requestCode == REQUEST_UPDATE_COVER_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    EditProfileCoverFragment.ImageSource.GALLERY
+                    BaseImagePickerFragment.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    EditProfileCoverFragment.ImageSource.CAMERA
+                    BaseImagePickerFragment.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE -> {
                     viewModel.clearProfileCover()
                     null
@@ -305,9 +306,9 @@ class ProfileFragment : LoadingFragment() {
         if (requestCode == REQUEST_UPDATE_PHOTO_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    EditProfileCoverFragment.ImageSource.GALLERY
+                    BaseImagePickerFragment.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    EditProfileCoverFragment.ImageSource.CAMERA
+                    BaseImagePickerFragment.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE -> {
                     viewModel.clearProfileAvatar()
                     null

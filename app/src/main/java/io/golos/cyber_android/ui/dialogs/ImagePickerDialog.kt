@@ -28,7 +28,10 @@ const val REQUEST_CAMERA_PERMISSIONS = 200
 class ImagePickerDialog : BottomSheetDialogFragment() {
 
     enum class Target(@StringRes val removeMsg: Int) {
-        COVER(R.string.delete_current_cover), AVATAR(R.string.delete_current_photo)
+        COVER(R.string.delete_current_cover),
+        AVATAR(R.string.delete_current_photo),
+        EDITOR_PAGE(0)
+
     }
 
     override fun onCreateView(
@@ -46,7 +49,10 @@ class ImagePickerDialog : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val target = arguments?.getSerializable("target") as Target
-        remove.setText(target.removeMsg)
+
+        if (target != Target.EDITOR_PAGE)
+            remove.setText(target.removeMsg)
+        else remove.visibility = View.GONE
 
         fromGallery.setOnClickListener {
             targetFragment?.onActivityResult(targetRequestCode, RESULT_GALLERY, null)

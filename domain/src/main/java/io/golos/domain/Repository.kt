@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity
+import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -51,6 +52,8 @@ interface DiscussionsFeedRepository<T : DiscussionEntity, Q : FeedUpdateRequest>
 
     @MainThread
     fun fixOnPositionDiscussion(discussion: T, parent: DiscussionIdEntity)
+
+    fun onAuthorMetadataUpdated(metadataEntity: UserMetadataEntity)
 
 }
 

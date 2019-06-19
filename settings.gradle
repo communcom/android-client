@@ -1,2 +1,4 @@
-include ':app', ':domain', ':data', ':cyber4j'
+include ':app', ':domain', ':data', ':cyber4j', ':processor', ':annotations'
 project(':cyber4j').projectDir = new File('./cyber-android')
+project(':processor').projectDir = new File('./cyber-android/processor')
+project(':annotations').projectDir = new File('./cyber-android/annotations')

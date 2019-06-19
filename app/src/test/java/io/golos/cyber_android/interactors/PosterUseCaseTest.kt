@@ -38,6 +38,57 @@ class PosterUseCaseTest {
     }
 
     @Test
+    fun testPostUpdate() = runBlocking {
+        useCase.subscribe()
+
+        var disscussionResult: QueryResult<DiscussionCreationResultModel>? = null
+
+        useCase.getAsLiveData.observeForever {
+            disscussionResult = it
+        }
+
+        useCase.createPostOrComment(PostCreationRequestModel("test title", "супер тело", listOf("nsfw")))
+
+        assertTrue(disscussionResult is QueryResult.Loading)
+
+        while (disscussionResult is QueryResult.Loading) delay(200)
+
+        assertTrue(disscussionResult is QueryResult.Success)
+
+        assertNotNull(useCase.getAsLiveData.value)
+
+        val createdPost = (disscussionResult as QueryResult.Success<PostCreationResultModel>).originalQuery.postId
+
+        useCase.updatePost(
+            UpdatePostRequestModel(
+                createdPost.permlink,
+                "new title",
+                "new body",
+                listOf()
+            )
+        )
+
+        assertTrue(disscussionResult is QueryResult.Loading)
+
+        while (disscussionResult is QueryResult.Loading) delay(200)
+
+        assertTrue(disscussionResult is QueryResult.Success)
+
+        assertNotNull(useCase.getAsLiveData.value)
+
+        useCase.deletePostOrComment(
+            createdPost
+        )
+
+        assertTrue(disscussionResult is QueryResult.Loading)
+
+        while (disscussionResult is QueryResult.Loading) delay(200)
+
+        assertTrue(disscussionResult is QueryResult.Success)
+
+    }
+
+    @Test
     fun postTest() = runBlocking {
         useCase.subscribe()
         useCase.unsubscribe()

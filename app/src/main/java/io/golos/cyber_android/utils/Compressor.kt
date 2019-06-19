@@ -3,7 +3,9 @@ package io.golos.cyber_android.utils
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.media.ExifInterface
 import androidx.annotation.FloatRange
+import io.golos.data.utils.ImageCompressor
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -11,26 +13,14 @@ import java.io.IOException
 /**
  * Utils class for compressing images before sending it to backend
  */
-object Compressor {
+object ImageCompressorImpl : ImageCompressor {
 
     private const val MAX_SIZE = 500f
 
-    /**
-     * Compresses image file and returns new compressed file (which will rewrite original file)
-     * @param file original image file
-     * @param transX padding on x axis
-     * @param transY padding on y axis
-     * @param rotation degrees on which image should be rotated
-     * @param toSquare should image be cropped to squre by least dimension
-     * @return compressed image file, rewrites original file
-     * */
+
     @Throws(IOException::class)
-    fun compressImageFile(
-        file: File,
-        transX: Float,
-        transY: Float,
-        rotation: Float,
-        toSquare: Boolean = false
+    override fun compressImageFile(
+        file: File
     ): File {
         file.inputStream().use { originalFileStream ->
 
@@ -43,7 +33,48 @@ object Compressor {
             bitmap!!
 
             val matrix = Matrix()
-            matrix.setRotate(rotation)
+            matrix.setRotate(getOrientationFix(file))
+
+            val x = 0
+            val y = 0
+            val width = (bitmap.width)
+            val height = (bitmap.height)
+
+            val scaledBitmap = Bitmap.createBitmap(
+                bitmap,
+                x,
+                y,
+                width, height, matrix, true
+            )
+
+            file.outputStream().use { scaledOutputStream ->
+                scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, scaledOutputStream)
+            }
+        }
+        return file
+    }
+
+
+    @Throws(IOException::class)
+    override fun compressImageFile(
+        file: File,
+        transX: Float,
+        transY: Float,
+        rotation: Float,
+        toSquare: Boolean
+    ): File {
+        file.inputStream().use { originalFileStream ->
+
+            val opts = getDecodeOptions(originalFileStream, MAX_SIZE.toInt(), MAX_SIZE.toInt())
+
+            val bitmap = file.inputStream().use {
+                BitmapFactory.decodeStream(it, null, opts)
+            }
+
+            bitmap!!
+
+            val matrix = Matrix()
+            matrix.setRotate(rotation + getOrientationFix(file))
 
             val x = transX.toInt()
             val y = transY.toInt()
@@ -71,26 +102,17 @@ object Compressor {
         return file
     }
 
-    /**
-     * Compresses image file and returns new compressed file (which will rewrite original file)
-     * @param file original image file
-     * @param paddingXPercent padding on x axis in % of original image width
-     * @param paddingYPercent padding on y axis in % of original image height
-     * @param requiredWidthPercent required image width in % of original image width
-     * @param requiredHeightPercent required image height in % of original image height
-     * @return compressed image file, rewrites original file
-     * */
     @Throws(IOException::class)
-    fun compressImageFile(
+    override fun compressImageFile(
         file: File,
         @FloatRange(from = 0.0, to = 1.0)
         paddingXPercent: Float,
         @FloatRange(from = 0.0, to = 1.0)
         paddingYPercent: Float,
         @FloatRange(from = 0.0, to = 1.0)
-        requiredWidthPercent: Float? = null,
+        requiredWidthPercent: Float?,
         @FloatRange(from = 0.0, to = 1.0)
-        requiredHeightPercent: Float? = null
+        requiredHeightPercent: Float?
     ): File {
         file.inputStream().use { originalFileStream ->
             val opts = getDecodeOptions(originalFileStream, MAX_SIZE.toInt(), MAX_SIZE.toInt())
@@ -103,10 +125,11 @@ object Compressor {
             val x = (paddingXPercent * bitmap.width).toInt()
             val y = (paddingYPercent * bitmap.height).toInt()
             val width = requiredWidthPercent?.times(bitmap.width)?.toInt() ?: (bitmap.width - paddingXPercent).toInt()
-            val height = requiredHeightPercent?.times(bitmap.height)?.toInt() ?: (bitmap.height - paddingYPercent).toInt()
+            val height =
+                requiredHeightPercent?.times(bitmap.height)?.toInt() ?: (bitmap.height - paddingYPercent).toInt()
 
             val matrix = Matrix()
-            matrix.setRotate(0f)
+            matrix.setRotate(getOrientationFix(file))
 
             val scaledBitmap = Bitmap.createBitmap(
                 bitmap,
@@ -154,6 +177,15 @@ object Compressor {
             }
         }
 
-        return inSampleSize
+        return inSampleSize * 2
+    }
+
+    private fun getOrientationFix(file: File): Float {
+        return when (ExifInterface(file.path).getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)) {
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            else -> 0
+        }.toFloat()
     }
 }

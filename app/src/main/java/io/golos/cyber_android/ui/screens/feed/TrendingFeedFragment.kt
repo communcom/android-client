@@ -16,20 +16,23 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
-import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
+import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingType
 import io.golos.cyber_android.widgets.sorting.SortingWidget
 import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.data.errors.CannotDeleteDiscussionWithChildCommentsException
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.PostModel
@@ -40,8 +43,6 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
 /**
  * Fragment that represents TRENDING tab of the Feed Page.
  */
-
-const val REQUEST_POST_CREATION = 205
 
 class TrendingFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
@@ -107,6 +108,10 @@ class TrendingFeedFragment :
                 override fun onAuthorClick(post: PostModel) {
                     startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
+
+                override fun onPostMenuClick(postModel: PostModel) {
+                    showDiscussionMenu(postModel)
+                }
             },
             isEditorWidgetSupported = true,
             isSortingWidgetSupported = true
@@ -130,11 +135,18 @@ class TrendingFeedFragment :
         viewModel.discussionCreationLiveData.observe(this, Observer {
             it.getIfNotHandled()?.let { result ->
                 when (result) {
-                    is QueryResult.Loading<*> -> showLoading()
-                    is QueryResult.Success<*> -> hideLoading()
-                    is QueryResult.Error<*> -> {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> {
                         hideLoading()
-                        Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "${result.error::class} e3 = ${result.error.message}", Toast.LENGTH_SHORT).show()
+                        when (result.error) {
+                            is CannotDeleteDiscussionWithChildCommentsException ->
+                                NotificationDialog.newInstance(getString(R.string.cant_delete_discussion_with_child_comments))
+                                    .show(requireFragmentManager(), "delete error")
+
+                            else -> Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
@@ -170,13 +182,15 @@ class TrendingFeedFragment :
     private fun setupEditorWidget() {
         (feedList.adapter as HeadersPostsAdapter).editorWidgetListener = object : EditorWidget.Listener {
             override fun onGalleryClick() {
+                ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
+                    setTargetFragment(this@TrendingFeedFragment, EDITOR_WIDGET_PHOTO_REQUEST_CODE)
+                }.show(requireFragmentManager(), "cover")
             }
 
             override fun onWidgetClick() {
                 startActivityForResult(
                     EditorPageActivity.getIntent(
-                        requireContext(),
-                        EditorPageFragment.Args(EditorPageViewModel.Type.POST)
+                        requireContext()
                     ), REQUEST_POST_CREATION
                 )
             }
@@ -220,6 +234,24 @@ class TrendingFeedFragment :
         }
         if (requestCode == REQUEST_POST_CREATION && resultCode == Activity.RESULT_OK) {
             viewModel.requestRefresh()
+        }
+
+        if (requestCode == EDITOR_WIDGET_PHOTO_REQUEST_CODE) {
+            val target = when (resultCode) {
+                ImagePickerDialog.RESULT_GALLERY ->
+                    BaseImagePickerFragment.ImageSource.GALLERY
+                ImagePickerDialog.RESULT_CAMERA ->
+                    BaseImagePickerFragment.ImageSource.CAMERA
+                ImagePickerDialog.RESULT_DELETE ->
+                    BaseImagePickerFragment.ImageSource.NONE
+                else -> null
+            }
+            if (target != null) startActivityForResult(
+                EditorPageActivity.getIntent(
+                    requireContext(),
+                    EditorPageFragment.Args(initialImageSource = target)
+                ), REQUEST_POST_CREATION
+            )
         }
     }
 

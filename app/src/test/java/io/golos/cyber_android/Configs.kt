@@ -70,6 +70,8 @@ val emptyCommentFeedProducer = EmptyCommentFeedProducer()
 
 val discussionCreationToEntityMapper = DiscussionCreateResultToEntityMapper()
 val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
+val discussionUpdateToEntityMapper = DiscussionUpdateResultToEntityMapper()
+val discussionDeleteToEntityMapper = DiscussionDeleteResultToEntityMapper()
 
 
 val logger = object : Logger {
@@ -124,7 +126,7 @@ private val persister = object : Persister {
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberName("tst1fddizlpd"), true)
+        return AuthState(CyberName("tst1exwqrkzh"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -132,7 +134,7 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5KPsQEAtq9xVgeUSqH5eQnMN8ih3yuiHL63md6GNFH4iqj2bDLP"
+        return "5JN9z1mrQtMK8KYi2t5asao3N8TMWdeeCmX952a5PcxnnB8mAP3"
     }
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
@@ -145,7 +147,9 @@ val discussionCreationRepo = DiscussionCreationRepository(
     dispatchersProvider,
     logger,
     discussionEntityRequestToApiRequestMapper,
-    discussionCreationToEntityMapper
+    discussionCreationToEntityMapper,
+    discussionUpdateToEntityMapper,
+    discussionDeleteToEntityMapper
 )
 
 val countriesRepo: Repository<CountriesList, CountriesRequest>
@@ -200,8 +204,10 @@ val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
                 dispatchersProvider, logger
             )
         }
-val userMetadataRepos = UserMetadataRepository(apiService, apiService, dispatchersProvider, logger,
-    UserMetadataToEntityMapper())
+val userMetadataRepos = UserMetadataRepository(
+    apiService, apiService, dispatchersProvider, logger,
+    UserMetadataToEntityMapper()
+)
 
 
 val appCore = AppCore(object : RepositoriesHolder {

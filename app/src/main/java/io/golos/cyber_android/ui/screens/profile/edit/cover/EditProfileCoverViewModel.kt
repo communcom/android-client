@@ -1,19 +1,11 @@
 package io.golos.cyber_android.ui.screens.profile.edit.cover
 
-import androidx.arch.core.util.Function
 import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
-import io.golos.cyber_android.utils.Compressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.images.ImageUploadUseCase
-import io.golos.domain.interactors.model.UploadedImageModel
-import io.golos.domain.interactors.model.UploadedImagesModel
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
-import io.golos.domain.requestmodel.QueryResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import io.golos.domain.requestmodel.CompressionParams
 import java.io.File
 
 class EditProfileCoverViewModel(
@@ -22,16 +14,13 @@ class EditProfileCoverViewModel(
     val dispatchersProvider: DispatchersProvider
 ) : BaseEditProfileViewModel(userMetadataUseCase) {
 
-    private val uiScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
-    private val workerScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
-
     /**
      * State of uploading image to remote server
      */
     val getFileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
-        .map(Function<UploadedImagesModel, QueryResult<UploadedImageModel>> {
-            return@Function it.map[lastFile?.absolutePath ?: ""]
-        })
+        .map {
+            it?.map?.get(lastFile?.absolutePath ?: "")
+        }
 
     private var lastFile: File? = null
 
@@ -48,13 +37,11 @@ class EditProfileCoverViewModel(
      * @param height required image height in % of original image height
      */
     fun uploadFile(file: File, x: Float, y: Float, width: Float, height: Float) {
-        uiScope.launch {
-            val compressedFile = withContext(workerScope.coroutineContext) {
-                Compressor.compressImageFile(file, x, y, width, height)
-            }
-            imageUploadUseCase.submitImageForUpload(compressedFile.absolutePath)
-            lastFile = compressedFile
-        }
+        imageUploadUseCase.submitImageForUpload(
+            file.absolutePath,
+            CompressionParams.RelativeCompressionParams(x, y, width, height)
+        )
+        lastFile = file
     }
 
     /**

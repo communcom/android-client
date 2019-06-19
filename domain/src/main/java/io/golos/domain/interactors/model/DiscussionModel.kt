@@ -39,7 +39,8 @@ sealed class DiscussionModel(
     open val author: DiscussionAuthorModel,
     open val votes: DiscussionVotesModel,
     open val payout: DiscussionPayoutModel,
-    open val meta: DiscussionMetadataModel
+    open val meta: DiscussionMetadataModel,
+    var isActiveUserDiscussion: Boolean = false
 ) : Model
 
 
@@ -52,7 +53,8 @@ data class DiscussionCommentsCountModel(val count: Long) : Model
 
 data class PostContentModel(
     val title: String,
-    val body: ContentBodyModel
+    val body: ContentBodyModel,
+    val tags: List<TagModel>
 ) : Model
 
 data class CommentContentModel(
@@ -96,3 +98,5 @@ data class DiscussionVotesModel(
 ) : Model
 
 data class ElapsedTime(val elapsedMinutes: Int, val elapsedHours: Int, val elapsedDays: Int)
+
+data class TagModel(val tag: String)

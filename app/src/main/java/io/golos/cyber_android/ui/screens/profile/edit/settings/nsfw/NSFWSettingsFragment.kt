@@ -48,7 +48,7 @@ class NSFWSettingsFragment : LoadingFragment() {
 
     private fun observeViewModel() {
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {
-            (settingsList.adapter as NSFWSettingsAdapter).selectedItem = it.nsfws
+            (settingsList.adapter as NSFWSettingsAdapter).selectedItem = it?.nsfws
             hideLoading()
         })
 

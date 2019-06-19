@@ -18,14 +18,14 @@ import io.golos.domain.requestmodel.UserMetadataUpdateRequest
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
  */
 class UserMetadataUseCase(
-    protected val user: CyberName,
-    protected val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+    private val user: CyberName,
+    private val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
 ) : UseCase<QueryResult<UserMetadataModel>> {
-    protected val observer = Observer<Any> {}
-    protected val mediator = MediatorLiveData<Any>()
+    private val observer = Observer<Any> {}
+    private val mediator = MediatorLiveData<Any>()
 
-    protected val userMetadataLiveData = MutableLiveData<QueryResult<UserMetadataModel>>()
-    protected val fetchMyUserRequest = UserMetadataFetchRequest(user)
+    private val userMetadataLiveData = MutableLiveData<QueryResult<UserMetadataModel>>()
+    private val fetchMyUserRequest = UserMetadataFetchRequest(user)
 
     private val metadataUpdateResultLiveData = MutableLiveData<QueryResult<UserMetadataRequest>>()
     val getUpdateResultLiveData: LiveData<QueryResult<UserMetadataRequest>> = metadataUpdateResultLiveData
@@ -36,6 +36,10 @@ class UserMetadataUseCase(
         get() = userMetadataLiveData
 
     init {
+        requestRefresh()
+    }
+
+    fun requestRefresh() {
         userMetadataRepository.makeAction(fetchMyUserRequest)
     }
 

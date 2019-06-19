@@ -7,16 +7,11 @@ import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FromSpannedToHtmlTransformer
 import io.golos.domain.Repository
-import io.golos.domain.entities.CommentCreationResultEntity
-import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.entities.PostCreationResultEntity
+import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.map
-import io.golos.domain.requestmodel.CommentCreationRequestEntity
-import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.requestmodel.PostCreationRequestEntity
-import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 
 /**
@@ -24,11 +19,10 @@ import kotlinx.coroutines.*
  */
 class DiscussionPosterUseCase(
     private val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>,
-    private val dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: DispatchersProvider,
     private val fromSpannableTransformer: FromSpannedToHtmlTransformer
 ) :
     UseCase<QueryResult<DiscussionCreationResultModel>> {
-
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private var lastJob: Job? = null
 
@@ -71,9 +65,11 @@ class DiscussionPosterUseCase(
             lastPostCreationModel.value = when (lastPostUpdateState) {
                 is QueryResult.Loading -> lastPostUpdateState.map(lastPostCreationEntity.toEmptyModel())
 
-                is QueryResult.Error -> lastPostUpdateState.map(
-                    lastPostCreationEntity.toEmptyModel()
-                )
+                is QueryResult.Error -> {
+                    lastPostUpdateState.map(
+                        lastPostCreationEntity.toEmptyModel()
+                    )
+                }
                 is QueryResult.Success -> {
                     when (createdPostLiveData) {
                         null -> QueryResult.Error(
@@ -100,10 +96,29 @@ class DiscussionPosterUseCase(
                                 )
                             )
                         )
+                        is UpdatePostResultEntity -> QueryResult.Success<DiscussionCreationResultModel>(
+                            UpdatePostResultModel(
+                                DiscussionIdModel(createdPostLiveData.id.userId, createdPostLiveData.id.permlink)
+                            )
+                        )
+                        is DeleteDiscussionResultEntity -> QueryResult.Success<DiscussionCreationResultModel>(
+                            DeleteDiscussionResultModel(
+                                DiscussionIdModel(createdPostLiveData.id.userId, createdPostLiveData.id.permlink)
+                            )
+                        )
                     }
                 }
             }
+
+            if (lastPostUpdateState !is QueryResult.Loading)
+                lastPostCreationRequest = null
         }
+    }
+
+    fun deletePostOrComment(discussionId: DiscussionIdModel) {
+        val request = DeleteDiscussionRequestEntity(discussionId.permlink)
+        lastPostCreationRequest = request
+        discussionCreationRepository.makeAction(request)
     }
 
     fun createPostOrComment(request: DiscussionCreationRequest) {
@@ -112,14 +127,31 @@ class DiscussionPosterUseCase(
             is PostCreationRequestModel -> PostCreationRequestEntity(
                 request.title,
                 fromSpannableTransformer.transform(request.body),
-                request.tags
+                request.body,
+                request.tags,
+                request.images
             )
             is CommentCreationRequestModel -> CommentCreationRequestEntity(
                 fromSpannableTransformer.transform(request.body),
                 request.parentId,
                 request.tags
             )
+            else -> throw UnsupportedOperationException()
         }
+        lastPostCreationRequest = requestEntity
+        discussionCreationRepository.makeAction(requestEntity)
+    }
+
+    fun updatePost(request: UpdatePostRequestModel) {
+        val requestEntity = PostUpdateRequestEntity(
+            request.permlink,
+            request.title,
+            fromSpannableTransformer.transform(request.body),
+            request.body,
+            request.tags,
+            request.images
+        )
+
         lastPostCreationRequest = requestEntity
         discussionCreationRepository.makeAction(requestEntity)
     }

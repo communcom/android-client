@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
 import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter
@@ -24,10 +26,12 @@ import io.golos.cyber_android.widgets.sorting.SortingType
 import io.golos.cyber_android.widgets.sorting.SortingWidget
 import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.data.errors.CannotDeleteDiscussionWithChildCommentsException
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_user_posts_feed_list.*
 
 /**
@@ -103,6 +107,10 @@ open class UserPostsFeedFragment :
                 override fun onAuthorClick(post: PostModel) {
                     startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
+
+                override fun onPostMenuClick(postModel: PostModel) {
+                    showDiscussionMenu(postModel)
+                }
             },
             isEditorWidgetSupported = false,
             isSortingWidgetSupported = true
@@ -114,6 +122,26 @@ open class UserPostsFeedFragment :
         viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
             if (!isLoading)
                 swipeRefresh.isRefreshing = false
+        })
+
+        viewModel.discussionCreationLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> {
+                        hideLoading()
+                        //Toast.makeText(requireContext(), "${result.error::class} e2 = ${result.error.message}", Toast.LENGTH_SHORT).show()
+                        when (result.error) {
+                            is CannotDeleteDiscussionWithChildCommentsException ->
+                                NotificationDialog.newInstance(getString(R.string.cant_delete_discussion_with_child_comments))
+                                    .show(requireFragmentManager(), "delete error")
+
+                            else -> Toast.makeText(requireContext(), "Post creation failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         })
     }
 

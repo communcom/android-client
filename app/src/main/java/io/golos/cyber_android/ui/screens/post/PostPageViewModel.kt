@@ -3,7 +3,9 @@ package io.golos.cyber_android.ui.screens.post
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
+import io.golos.cyber_android.utils.combinedWith
 import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.action.VoteUseCase
@@ -12,22 +14,37 @@ import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.VoteRequestModel
 
 class PostPageViewModel(
     postWithCommentUseCase: PostWithCommentUseCase,
     voteUseCase: VoteUseCase,
-    posterUseCase: DiscussionPosterUseCase
+    posterUseCase: DiscussionPosterUseCase,
+    signInUseCase: SignInUseCase
 ) : AbstractFeedWithCommentsViewModel<CommentFeedUpdateRequest, CommentEntity, CommentModel>(
     postWithCommentUseCase,
     voteUseCase,
-    posterUseCase
+    posterUseCase,
+    signInUseCase
 ) {
 
     enum class Visibility {
         VISIBLE, GONE
     }
+
+    private val isActiveUserPostLiveData =
+        postWithCommentUseCase.getPostAsLiveData.combinedWith(signInUseCase.getAsLiveData) { post, authState ->
+            post != null && authState != null &&
+                    (post.contentId.userId.toCyberName() == authState.userName)
+        }
+
+    /**
+     * [LiveData] that indicates if [PostModel] associated with this ViewModel was created
+     * by current app user
+     */
+    val getIsMyPostLiveData = isActiveUserPostLiveData as LiveData<Boolean>
 
     /**
      * [LiveData] for post content
@@ -169,5 +186,11 @@ class PostPageViewModel(
         postReady: Boolean
     ) {
         postValue(feedReady && postReady && loadingStatusLiveData.value == false)
+    }
+
+    fun deletePost() {
+        postLiveData.value?.let {
+            posterUseCase.deletePostOrComment(it.contentId)
+        }
     }
 }

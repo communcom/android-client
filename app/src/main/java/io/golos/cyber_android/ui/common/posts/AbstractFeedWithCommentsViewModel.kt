@@ -1,9 +1,7 @@
 package io.golos.cyber_android.ui.common.posts
 
-import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.utils.ValidationConstants
-import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
@@ -11,6 +9,7 @@ import io.golos.domain.interactors.model.CommentCreationRequestModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
+import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.FeedUpdateRequest
 
 /**
@@ -20,14 +19,10 @@ import io.golos.domain.requestmodel.FeedUpdateRequest
 abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: DiscussionEntity, M: DiscussionModel>(
     feedUseCase: AbstractFeedUseCase<out R, E, M>,
     voteUseCase: VoteUseCase,
-    private val posterUseCase: DiscussionPosterUseCase
+    protected val posterUseCase: DiscussionPosterUseCase,
+    signInUseCase: SignInUseCase
 ) :
-    AbstractFeedViewModel<R, E, M>(feedUseCase, voteUseCase) {
-
-    /**
-     * [LiveData] for post creation process
-     */
-    val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
+    AbstractFeedViewModel<R, E, M>(feedUseCase, voteUseCase, signInUseCase, posterUseCase) {
 
     /**
      * Sends comment to discussion
@@ -52,13 +47,4 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
 
     protected open fun validateComment(comment: CharSequence) =
         comment.isNotBlank() && comment.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
-
-    init {
-        posterUseCase.subscribe()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        posterUseCase.unsubscribe()
-    }
 }

@@ -10,36 +10,9 @@ import io.golos.cyber4j.services.model.UserMetadataResult
  */
 interface UserMetadataApi {
     fun setUserMetadata(
-        type: String? = null,
-        app: String? = null,
-        email: String? = null,
-        phone: String? = null,
-        facebook: String? = null,
-        instagram: String? = null,
-        telegram: String? = null,
-        vk: String? = null,
-        website: String? = null,
-        first_name: String? = null,
-        last_name: String? = null,
-        name: String? = null,
-        birthDate: String? = null,
-        gender: String? = null,
-        location: String? = null,
-        city: String? = null,
         about: String? = null,
-        occupation: String? = null,
-        iCan: String? = null,
-        lookingFor: String? = null,
-        businessCategory: String? = null,
-        backgroundImage: String? = null,
         coverImage: String? = null,
-        profileImage: String? = null,
-        userImage: String? = null,
-        icoAddress: String? = null,
-        targetDate: String? = null,
-        targetPlan: String? = null,
-        targetPointA: String? = null,
-        targetPointB: String? = null
+        profileImage: String? = null
     ): TransactionSuccessful<ProfileMetadataUpdateResult>
 
     fun getUserMetadata(user: CyberName): UserMetadataResult

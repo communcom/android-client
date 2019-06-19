@@ -7,7 +7,7 @@ import java.util.*
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
-data class UserMetadataCollectionEntity(val map: Map<CyberName, UserMetadataEntity>) : Entity
+data class UserMetadataCollectionEntity(val map: Map<CyberName, UserMetadataEntity>) : Entity, Map<CyberName, UserMetadataEntity> by map
 
 data class UserMetadataEntity(
     val personal: UserPersonalDataEntity,

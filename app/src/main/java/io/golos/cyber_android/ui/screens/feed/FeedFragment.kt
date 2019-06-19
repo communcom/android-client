@@ -21,6 +21,9 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 
 const val SORT_REQUEST_CODE = 100
 const val FEED_REQUEST_CODE = 101
+const val EDITOR_WIDGET_PHOTO_REQUEST_CODE = 102
+const val REQUEST_POST_CREATION = 205
+
 
 class FeedFragment : Fragment(), FeedPageLiveDataProvider {
 
@@ -58,7 +61,7 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
 
     private fun setupViewPager() {
         feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
-            override fun getItem(position: Int): Fragment {
+            override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     Tab.TRENDING.index -> TrendingFeedFragment.newInstance(arguments?.getString(Tags.COMMUNITY_NAME)!!, arguments?.getString(Tags.USER_ID)!!).apply {
                         setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
