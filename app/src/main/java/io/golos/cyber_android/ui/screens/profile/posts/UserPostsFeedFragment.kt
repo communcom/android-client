@@ -15,12 +15,11 @@ import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
-import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter
-import io.golos.cyber_android.ui.screens.feed.SORT_REQUEST_CODE
+import io.golos.cyber_android.ui.screens.feed.*
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
+import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.sorting.SortingType
 import io.golos.cyber_android.widgets.sorting.SortingWidget
@@ -119,6 +118,15 @@ open class UserPostsFeedFragment :
     }
 
     override fun setupEventsProvider() {
+        (targetFragment as? FeedPageLiveDataProvider)
+            ?.provideEventsLiveData()?.asEvent()?.observe(this, Observer { event ->
+                event.getIfNotHandled()?.let {
+                    when (it) {
+                        is FeedPageViewModel.Event.RefreshRequestEvent -> viewModel.requestRefresh()
+                    }
+                }
+            })
+
         viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
             if (!isLoading)
                 swipeRefresh.isRefreshing = false

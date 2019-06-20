@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatDrawableManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
@@ -21,6 +23,8 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.feed.FeedPageLiveDataProvider
+import io.golos.cyber_android.ui.screens.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
@@ -43,13 +47,14 @@ const val REQUEST_UPDATE_COVER_DIALOG = 101
 const val REQUEST_UPDATE_PHOTO_DIALOG = 102
 const val REQUEST_UPDATE_COVER = 103
 const val REQUEST_UPDATE_PHOTO = 104
+const val REQUEST_FEED = 105
 
 /**
  * Fragment that represents user profile. [ProfileViewModel] produces [ProfileViewModel.Profile] objects, that
  * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isActiveUserProfile boolean value. This value
  * is used in this fragment to determine if this Profile Page belongs to the actual user that uses the app.
  */
-class ProfileFragment : LoadingFragment() {
+class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
 
     enum class Tab(@StringRes val title: Int, val index: Int) {
         POSTS(R.string.posts, 0), COMMENTS(R.string.comments, 1)
@@ -87,6 +92,12 @@ class ProfileFragment : LoadingFragment() {
 
         back.setOnClickListener { requireActivity().finish() }
         back.visibility = if (isSeparateActivity()) View.VISIBLE else View.GONE
+
+        profileSwipeRefresh.setOnRefreshListener { viewModel.requestRefresh() }
+
+        actionBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            profileSwipeRefresh.isEnabled = verticalOffset == 0
+        })
 
         followersPhotosView.setPhotosUrls(listOf("", "", ""))
         followingPhotosView.setPhotosUrls(listOf("", ""))
@@ -156,6 +167,7 @@ class ProfileFragment : LoadingFragment() {
         updatePersonalData(profile)
         updateStats(profile)
         updateFollowing(profile)
+        profileSwipeRefresh.isRefreshing = false
     }
 
     /**
@@ -269,8 +281,12 @@ class ProfileFragment : LoadingFragment() {
         profilePager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    Tab.POSTS.index -> UserPostsFeedFragment.newInstance(getUserName())
-                    Tab.COMMENTS.index -> UserPostsFeedFragment.newInstance(getUserName())
+                    Tab.POSTS.index -> UserPostsFeedFragment.newInstance(getUserName()).apply {
+                        setTargetFragment(this@ProfileFragment, REQUEST_FEED)
+                    }
+                    Tab.COMMENTS.index -> UserPostsFeedFragment.newInstance(getUserName()).apply {
+                        setTargetFragment(this@ProfileFragment, REQUEST_FEED)
+                    }
                     else -> throw RuntimeException("Unsupported tab")
                 }
             }
@@ -279,6 +295,8 @@ class ProfileFragment : LoadingFragment() {
 
         }
     }
+
+    override fun provideEventsLiveData(): LiveData<FeedPageViewModel.Event> = viewModel.getEventsLiveData
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
