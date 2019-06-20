@@ -23,6 +23,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "cyber4j-config-type"
+
+    productFlavors {
+        stable {
+            dimension "cyber4j-config-type"
+            resValue "string", "app_name", "Commun"
+        }
+        dev {
+            dimension "cyber4j-config-type"
+            resValue "string", "app_name", "Commun-dev"
+            applicationIdSuffix ".dev"
+        }
+        unstable {
+            dimension "cyber4j-config-type"
+            resValue "string", "app_name", "Commun-unstable"
+            applicationIdSuffix ".unstable"
+        }
+    }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.Cyber4JConfig
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
@@ -58,7 +59,22 @@ import kotlinx.coroutines.Dispatchers
  */
 class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, RepositoriesHolder {
 
-    private val cyber4j by lazy { Cyber4J() }
+    private val cyber4jConfigs = mapOf(
+        "stable" to Cyber4JConfig(
+            blockChainHttpApiUrl = "http://116.202.4.39:8888/",
+            servicesUrl = "wss://116.203.98.241:8080"
+        ),
+        "dev" to Cyber4JConfig(
+            blockChainHttpApiUrl = "http://46.4.96.246:8888/",
+            servicesUrl = "ws://159.69.33.136:8080"
+        ),
+        "unstable" to Cyber4JConfig(
+            blockChainHttpApiUrl = "http://116.202.4.46:8888/",
+            servicesUrl = "wss://159.69.33.136:8080"
+        )
+    )
+
+    private val cyber4j by lazy { Cyber4J(cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig()) }
 
     private val apiService: Cyber4jApiService by lazy { Cyber4jApiService(cyber4j) }
 
@@ -227,10 +243,19 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
     override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
             by lazy {
-                UserMetadataRepository(apiService, apiService, dispatchersProvider, logger, UserMetadataToEntityMapper())
+                UserMetadataRepository(
+                    apiService,
+                    apiService,
+                    dispatchersProvider,
+                    logger,
+                    UserMetadataToEntityMapper()
+                )
             }
 
-    override fun getCommunityFeedViewModelFactory(communityId: CommunityId, forUser: CyberName): ViewModelProvider.Factory {
+    override fun getCommunityFeedViewModelFactory(
+        communityId: CommunityId,
+        forUser: CyberName
+    ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -267,7 +292,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
-    override fun getUserSubscriptionsFeedViewModelFactory(forUser: CyberUser, appUser: CyberName): ViewModelProvider.Factory {
+    override fun getUserSubscriptionsFeedViewModelFactory(
+        forUser: CyberUser,
+        appUser: CyberName
+    ): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -330,7 +358,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getEventsUseCase(EventTypeEntity.values().toSet())
                     ) as T
 
-                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(getSettingUserCase(), getSignInUseCase()) as T
+                    ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(
+                        getSettingUserCase(),
+                        getSignInUseCase()
+                    ) as T
 
                     MainViewModel::class.java -> MainViewModel(
                         getSignInUseCase(),
@@ -385,9 +416,11 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getUserMetadataUseCase(forUser)
                     ) as T
 
-                    ProfileViewModel::class.java -> ProfileViewModel(getUserMetadataUseCase(forUser),
+                    ProfileViewModel::class.java -> ProfileViewModel(
+                        getUserMetadataUseCase(forUser),
                         getSignInUseCase(),
-                        forUser) as T
+                        forUser
+                    ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
