@@ -50,9 +50,6 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
      */
     val voteReadinessLiveData = voteUseCase.getVotingReadiness.asEvent()
 
-    /**
-     * [LiveData] that indicates if there was error in vote process
-     */
     private val voteErrorLiveData = MediatorLiveData<DiscussionIdModel>().apply {
         addSource(voteUseCase.getAsLiveData) { map ->
             map.forEach { (id, result) ->
@@ -66,7 +63,9 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         }
     }
 
-
+    /**
+     * [LiveData] that indicates if there was error in vote process
+     */
     val getVoteErrorLiveData = voteErrorLiveData.asEvent()
 
     /**

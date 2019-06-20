@@ -354,7 +354,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getEmbedsUseCase(),
                         getDiscussionPosterUseCase(),
                         getImageUploadUseCase(),
-                        dispatchersProvider,
                         community,
                         postToEdit,
                         if (postToEdit != null) getPostWithCommentsUseCase(postToEdit) else null

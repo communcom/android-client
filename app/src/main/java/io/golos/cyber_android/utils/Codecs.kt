@@ -44,7 +44,7 @@ class EnCryptor(private val context: Context) {
     }
 
     private fun getSecretKey(alias: KeystoreKeyAlias): KeyPair {
-        val generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore")
+        val generator = KeyPairGenerator.getInstance("RSA", DeCryptor.ANDROID_KEY_STORE)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             val spec = KeyGenParameterSpec.Builder(
                 alias.name,
@@ -108,7 +108,7 @@ class DeCryptor {
     companion object {
 
         private val TRANSFORMATION = "AES/GCM/NoPadding"
-        private val ANDROID_KEY_STORE = "AndroidKeyStore"
+        internal val ANDROID_KEY_STORE = "AndroidKeyStore"
     }
 }
 

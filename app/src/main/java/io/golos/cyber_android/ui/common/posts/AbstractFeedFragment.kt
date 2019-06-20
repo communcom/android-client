@@ -26,6 +26,19 @@ import io.golos.domain.requestmodel.FeedUpdateRequest
 
 const val POST_MENU_REQUEST = 301
 
+/**
+ * Class represents Fragment that contains some [DiscussionModel] feed (which for now can only be comments or posts).
+ * Inheritor should override several fields and methods:
+ * 1) [viewModel] and [setupViewModel]. ViewModel should be derived from [AbstractFeedViewModel]. This ViewModel already
+ * implements many necessary functions - like voting, discussion creation (for deleting), loading, last page and errors
+ * indication etc. @see [AbstractFeedViewModel].
+ * 2) [feedList] - this field should return [RecyclerView] on which feed should be displayed.
+ * 3) [onNewData] - called when there is some new data in ViewModel appears. This callback method usually is a good place
+ * to hide progress bars
+ * 4) [setupFeedAdapter] - setup adapter for [feedList]. Adapter should be a [AbstractDiscussionModelAdapter]
+ * 5) [setupEventsProvider] - here inheritor should start to parent events
+ * 6) [setupWidgetsLiveData] -  allows fragment to setup live data for its widgets (like EditorWidget or SortingWidget)
+ */
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         E : DiscussionEntity,
         M : DiscussionModel,
@@ -151,7 +164,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     abstract fun onNewData(data: List<M>)
 
     /**
-     * Called when adapter of [feedList] receives some new data
+     * Allows fragment to setup live data for its widgets (like EditorWidget or SortingWidgt)
      */
     abstract fun setupWidgetsLiveData()
 

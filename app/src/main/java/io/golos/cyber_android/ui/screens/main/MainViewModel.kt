@@ -11,8 +11,11 @@ class MainViewModel(
     private val signInUseCase: SignInUseCase,
     private val eventsUseCase: EventsUseCase) : ViewModel() {
 
-    private val currentTabLiveData = MutableLiveData<MainActivity.Tab>(MainActivity.Tab.FEED)
+    private val currentTabLiveData = MutableLiveData(MainActivity.Tab.FEED)
 
+    /**
+     * Currently selected tab of a main screen
+     */
     val getCurrentTabLiveData = currentTabLiveData as LiveData<MainActivity.Tab>
 
     val unreadNotificationsLiveData = eventsUseCase.getUnreadLiveData

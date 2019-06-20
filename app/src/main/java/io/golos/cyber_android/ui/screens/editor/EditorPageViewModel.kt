@@ -6,7 +6,6 @@ import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
-import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
@@ -15,13 +14,18 @@ import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
-data class UserPickedImageModel(val localUri: Uri? = null, val remoteUrl: String? = null) {
+/**
+ * There can be two types of the user picked image - local and remote. Local image is the image from device camera
+ * or gallery. Remote image can only appear if user choose to edit his post - this way image will be already on the remote
+ * server and we don't need to upload it again.
+ */
+data class UserPickedImageModel(val localUri: Uri? = null,
+                                val remoteUrl: String? = null) {
     companion object {
         val EMPTY = UserPickedImageModel()
     }
@@ -31,13 +35,12 @@ class EditorPageViewModel(
     private val embedsUseCase: EmbedsUseCase,
     private val posterUseCase: DiscussionPosterUseCase,
     private val imageUploadUseCase: ImageUploadUseCase,
-    dispatchersProvider: DispatchersProvider,
     community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCase?
 ) : ViewModel() {
 
-    private val urlParserJobScope = CoroutineScope(dispatchersProvider.uiDispatcher)
+    private val urlParserJobScope = viewModelScope
     private var urlParserJob: Job? = null
 
     /**
@@ -49,11 +52,10 @@ class EditorPageViewModel(
     private var content: CharSequence = ""
 
     private var lastFile: File? = null
+
     /**
      * State of uploading image to remote server
      */
-
-
     private val fileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
         .map {
             it?.map?.get(lastFile?.absolutePath ?: "")
@@ -72,7 +74,7 @@ class EditorPageViewModel(
     val getCommunityLiveData = communityLiveData as LiveData<CommunityModel?>
 
 
-    private val validationResultLiveData = MutableLiveData<Boolean>(false)
+    private val validationResultLiveData = MutableLiveData(false)
 
     /**
      * [LiveData] that indicates validness of the post content
@@ -83,7 +85,7 @@ class EditorPageViewModel(
     /**
      * [LiveData] for image picked by user for this post. If null then there is not image.
      */
-    private val attachementImageLiveData = MutableLiveData<UserPickedImageModel>(UserPickedImageModel.EMPTY)
+    private val attachementImageLiveData = MutableLiveData(UserPickedImageModel.EMPTY)
 
     val getAttachedImageLiveData = attachementImageLiveData as LiveData<UserPickedImageModel>
 
@@ -112,7 +114,7 @@ class EditorPageViewModel(
     val getEmbedLiveDate = embedLiveDate as LiveData<QueryResult<LinkEmbedModel>>
 
 
-    private val emptyEmbedLiveData = MutableLiveData<Boolean>(true)
+    private val emptyEmbedLiveData = MutableLiveData(true)
 
     /**
      * [LiveData] that indicates if there is no embedded content on page
@@ -127,7 +129,7 @@ class EditorPageViewModel(
     val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
 
 
-    private val nsfwLiveData = MutableLiveData<Boolean>(false)
+    private val nsfwLiveData = MutableLiveData(false)
 
     /**
      * [LiveData] for "Not Safe For Work" switch
@@ -269,6 +271,7 @@ class EditorPageViewModel(
         imageUploadUseCase.unsubscribe()
         getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
         postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+        urlParserJob?.cancel()
     }
 
     fun onLocalImagePicked(uri: Uri) {
