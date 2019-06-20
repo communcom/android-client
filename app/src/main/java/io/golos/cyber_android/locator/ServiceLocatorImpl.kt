@@ -10,6 +10,8 @@ import io.golos.cyber4j.Cyber4JConfig
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.helpers.UICalculator
+import io.golos.cyber_android.ui.common.helpers.UICalculatorImpl
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
@@ -536,4 +538,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase {
         return UserMetadataUseCase(forUser, userMetadataRepository)
     }
+
+    override fun getUICalculator(): UICalculator = UICalculatorImpl(appContext)
 }
