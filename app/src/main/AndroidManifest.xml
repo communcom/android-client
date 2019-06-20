@@ -17,18 +17,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-    >
-        <activity android:name=".ui.screens.profile.ProfileActivity">
-        </activity>
-        <activity android:name=".ui.screens.profile.edit.avatar.EditProfileAvatarActivity">
-        </activity>
-        <activity android:name=".ui.screens.profile.edit.cover.EditProfileCoverActivity">
-        </activity>
-        <activity android:name=".ui.screens.profile.edit.settings.ProfileSettingsActivity">
-        </activity>
-        <activity
-                android:name=".ui.screens.profile.edit.bio.EditProfileBioActivity"
-                android:windowSoftInputMode="adjustResize"/>
+            >
 
         <provider
                 android:name="androidx.core.content.FileProvider"
@@ -44,25 +33,43 @@
                 android:name="io.fabric.ApiKey"
                 android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
 
-        <activity
-                android:name=".ui.screens.editor.EditorPageActivity"
-                android:windowSoftInputMode="adjustResize"/>
+
         <activity
                 android:name=".ui.screens.login.LoginActivity"
-                android:windowSoftInputMode="adjustResize">
+                android:windowSoftInputMode="adjustResize"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.screens.post.PostActivity"/>
+
+        <activity android:name=".ui.screens.profile.ProfileActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.screens.profile.edit.avatar.EditProfileAvatarActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.screens.profile.edit.cover.EditProfileCoverActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.screens.profile.edit.settings.ProfileSettingsActivity"
+                  android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.screens.profile.edit.bio.EditProfileBioActivity"
+                android:windowSoftInputMode="adjustResize"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.screens.editor.EditorPageActivity"
+                android:windowSoftInputMode="adjustResize"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".ui.screens.post.PostActivity"
+                  android:screenOrientation="portrait"/>
         <activity
                 android:name=".ui.screens.main.MainActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".ui.common.ImageViewerActivity"/>
+                android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ui.common.ImageViewerActivity"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
