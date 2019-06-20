@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.editor
 
 import android.net.Uri
 import androidx.lifecycle.*
-import io.golos.cyber_android.utils.Event
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
@@ -58,7 +57,7 @@ class EditorPageViewModel(
     private val fileUploadingStateLiveData = imageUploadUseCase.getAsLiveData
         .map {
             it?.map?.get(lastFile?.absolutePath ?: "")
-        }.asEvent()
+        }
 
     val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
@@ -140,12 +139,10 @@ class EditorPageViewModel(
     val getPostToEditLiveData: LiveData<PostModel?> = postToEditLiveData
 
 
-    private val imageUploadObserver = Observer<Event<QueryResult<UploadedImageModel>?>> {
-        it.getIfNotHandled()?.let { result ->
-            if (result is QueryResult.Success) {
-                if (validate(title, content)) {
-                    if (postToEdit == null) createPost(listOf(result.originalQuery.url)) else editPost(listOf(result.originalQuery.url))
-                }
+    private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { result ->
+        if (result is QueryResult.Success) {
+            if (validate(title, content)) {
+                if (postToEdit == null) createPost(listOf(result.originalQuery.url)) else editPost(listOf(result.originalQuery.url))
             }
         }
     }
