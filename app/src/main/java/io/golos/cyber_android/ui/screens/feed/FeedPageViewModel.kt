@@ -8,6 +8,7 @@ class FeedPageViewModel: ViewModel() {
 
     sealed class Event {
         data class SearchEvent(val query: String): Event()
+        object RefreshRequestEvent: Event()
     }
 
     private val eventsLiveData = MutableLiveData<Event>()

@@ -2,7 +2,9 @@ package io.golos.cyber_android.ui.screens.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CyberName
+import io.golos.cyber_android.ui.screens.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -62,6 +64,10 @@ class ProfileViewModel(
         userMetadataUseCase.updateMetadata(newProfileImageUrl = "")
     }
 
+    private val eventsLiveData = MutableLiveData<FeedPageViewModel.Event>()
+
+    val getEventsLiveData = eventsLiveData as LiveData<FeedPageViewModel.Event>
+
     init {
         signInUseCase.subscribe()
     }
@@ -69,6 +75,11 @@ class ProfileViewModel(
     override fun onCleared() {
         super.onCleared()
         signInUseCase.unsubscribe()
+    }
+
+    fun requestRefresh() {
+        userMetadataUseCase.requestRefresh()
+        eventsLiveData.postValue(FeedPageViewModel.Event.RefreshRequestEvent)
     }
 }
 
