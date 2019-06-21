@@ -156,5 +156,9 @@
     <string name="delete_post">Delete post</string>
     <string name="delete_post_confirmation">Are you sure you want to delete this post?</string>
     <string name="cant_delete_discussion_with_child_comments">You can\'t delete discussion with child comments</string>
+    <string name="not_enough_power">Not enough power</string>
+    <string name="unknown_discussion_creation_error">Unknown error</string>
+    <string name="request_timeout_error">Timeout</string>
+
 
 </resources>

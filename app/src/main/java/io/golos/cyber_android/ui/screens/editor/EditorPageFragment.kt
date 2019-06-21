@@ -25,12 +25,14 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
+import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_editor_page.*
@@ -192,7 +194,7 @@ class EditorPageFragment : BaseImagePickerFragment() {
                 when (result) {
                     is QueryResult.Loading -> onPostLoading()
                     is QueryResult.Success -> onPostResult()
-                    is QueryResult.Error -> onPostError()
+                    is QueryResult.Error -> onPostError(result.error)
                 }
             }
         })
@@ -223,14 +225,26 @@ class EditorPageFragment : BaseImagePickerFragment() {
             event.getIfNotHandled()?.let { result ->
                 when (result) {
                     is QueryResult.Loading -> onPostLoading()
-                    is QueryResult.Error -> onPostError()
+                    is QueryResult.Error -> onPostError(result.error)
                 }
             }
         })
     }
 
-    private fun onPostError() {
-        Toast.makeText(requireContext(), "Post creation error", Toast.LENGTH_SHORT).show()
+    private fun onPostError(error: Throwable) {
+        when (error) {
+            is AppError.NotEnoughPowerError ->
+                NotificationDialog.newInstance(getString(R.string.not_enough_power))
+                    .show(requireFragmentManager(), "create error")
+
+            is AppError.RequestTimeOutException ->
+                NotificationDialog.newInstance(getString(R.string.request_timeout_error))
+                    .show(requireFragmentManager(), "create error")
+
+            else ->
+                NotificationDialog.newInstance(getString(R.string.unknown_discussion_creation_error))
+                    .show(requireFragmentManager(), "create error")
+        }
         hideLoading()
     }
 

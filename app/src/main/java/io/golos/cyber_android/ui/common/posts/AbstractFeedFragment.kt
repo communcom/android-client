@@ -14,10 +14,12 @@ import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor.EditorPageActivity
 import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.utils.PaginationScrollListener
+import io.golos.data.errors.AppError
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
@@ -180,5 +182,28 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         super.onSaveInstanceState(outState)
         if (feedList.layoutManager != null)
             outState.putParcelable(javaClass.name, feedList.layoutManager?.onSaveInstanceState())
+    }
+
+    /**
+     * Shows appropriate error of a discussion creation process
+     */
+    protected fun showDiscussionCreationError(error: Throwable) {
+        when (error) {
+            is AppError.CannotDeleteDiscussionWithChildCommentsError ->
+                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.cant_delete_discussion_with_child_comments))
+                    .show(requireFragmentManager(), "delete error")
+
+            is AppError.NotEnoughPowerError ->
+                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.not_enough_power))
+                    .show(requireFragmentManager(), "create error")
+
+            is AppError.RequestTimeOutException ->
+                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.request_timeout_error))
+                    .show(requireFragmentManager(), "create error")
+
+            else ->
+                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.unknown_discussion_creation_error))
+                    .show(requireFragmentManager(), "create error")
+        }
     }
 }

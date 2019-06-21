@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.ui.screens.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
+import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
@@ -98,7 +99,7 @@ private fun MediatorLiveData<QueryResult<ProfileViewModel.Profile>>.postProfileD
             )
         )
         is QueryResult.Error -> when {
-            metadataResult.error.message?.contains("code=404") == true ->
+            metadataResult.error is AppError.NotFoundError ->
                 postValue(QueryResult.Error(metadataResult.error, ProfileViewModel.Profile.NOT_FOUND))
             else ->
                 postValue(QueryResult.Error(metadataResult.error, ProfileViewModel.Profile.EMPTY))
