@@ -21,6 +21,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.feed.FeedPageLiveDataProvider
@@ -102,6 +103,8 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
         followersPhotosView.setPhotosUrls(listOf("", "", ""))
         followingPhotosView.setPhotosUrls(listOf("", ""))
         subscribersPhotosView.visibility = View.GONE
+
+        profilePager.reduceDragSensitivity()
     }
 
     /**
