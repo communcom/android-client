@@ -13,6 +13,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_feed.*
@@ -74,8 +75,9 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
             }
 
             override fun getItemCount() = Tab.values().size
-
         }
+
+        feedPager.reduceDragSensitivity()
     }
 
     private fun setupViewModel() {
