@@ -5,59 +5,53 @@ import java.net.SocketTimeoutException
 /**
  * Base class for all mappers
  */
-abstract class ErrorMapper(protected val source: Throwable) {
-    abstract fun canMap(): Boolean
+abstract class ErrorMapper {
+    abstract fun canMap(source: Throwable): Boolean
 
-    abstract fun map(): Throwable
+    abstract fun map(source: Throwable): Throwable
 }
 
 /**
  * Mapping by message text
  */
 abstract class MessageTextMapper(
-    source: Throwable,
     private val messageText: String,
     private val result: Throwable
-) : ErrorMapper(source) {
-    override fun canMap() = source is CyberServicesError && source.message?.contains(messageText, true) ?: false
+) : ErrorMapper() {
+    override fun canMap(source: Throwable) = source is CyberServicesError && source.message?.contains(messageText, true) ?: false
 
-    override fun map() = result
+    override fun map(source: Throwable) = result
 }
 
-class TransparentMapper(source: Throwable): ErrorMapper(source) {
-    override fun canMap() = true
+class TransparentMapper : ErrorMapper() {
+    override fun canMap(source: Throwable) = true
 
-    override fun map() = source
+    override fun map(source: Throwable) = source
 }
 
-class SocketTimeoutExceptionMapper(source: Throwable): ErrorMapper(source) {
-    override fun canMap() = source is SocketTimeoutException
+class SocketTimeoutExceptionMapper : ErrorMapper() {
+    override fun canMap(source: Throwable) = source is SocketTimeoutException
 
-    override fun map() = AppError.RequestTimeOutException
+    override fun map(source: Throwable) = AppError.RequestTimeOutException
 }
 
-class CannotDeleteDiscussionWithChildCommentsMapper(source: Throwable):
+class CannotDeleteDiscussionWithChildCommentsMapper :
     MessageTextMapper(
-        source,
         "You can't delete comment with child comments",
         AppError.CannotDeleteDiscussionWithChildCommentsError)
 
-class NotEnoughPowerMapper(source: Throwable): MessageTextMapper(source, "Not enough power", AppError.NotEnoughPowerError)
+class NotEnoughPowerMapper : MessageTextMapper("Not enough power", AppError.NotEnoughPowerError)
 
-class RequestTimeOutMapper(source: Throwable): MessageTextMapper(source, "Request timeout", AppError.RequestTimeOutException)
+class RequestTimeOutMapper: MessageTextMapper("Request timeout", AppError.RequestTimeOutException)
 
-class NotFoundMapper(source: Throwable): MessageTextMapper(source, "code=404", AppError.NotFoundError)
+class NotFoundMapper: MessageTextMapper("code=404", AppError.NotFoundError)
 
-class ForbiddenMapper(source: Throwable): MessageTextMapper(source, "code=403", AppError.ForbiddenError)
+class ForbiddenMapper: MessageTextMapper("code=403", AppError.ForbiddenError)
 
-class NameIsAlreadyInUseMapper(source: Throwable):
-    MessageTextMapper(
-        source,
-        "Name is already in use",
-        AppError.NameIsAlreadyInUseError)
+class NameIsAlreadyInUseMapper : MessageTextMapper("Name is already in use", AppError.NameIsAlreadyInUseError)
 
-class UnknownErrorMapper(source: Throwable): ErrorMapper(source) {
-    override fun canMap() = source is CyberServicesError
+class UnknownErrorMapper: ErrorMapper() {
+    override fun canMap(source: Throwable) = source is CyberServicesError
 
-    override fun map() = AppError.UnknownError(source as CyberServicesError)
+    override fun map(source: Throwable) = AppError.UnknownError(source as CyberServicesError)
 }

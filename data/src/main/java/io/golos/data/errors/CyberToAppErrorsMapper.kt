@@ -11,17 +11,18 @@ interface CyberToAppErrorMapper {
 }
 
 class CyberToAppErrorMapperImpl : CyberToAppErrorMapper {
-    override fun mapIfNeeded(e: Throwable): Throwable =
-        sequenceOf(
-            CannotDeleteDiscussionWithChildCommentsMapper(e),
-            NotEnoughPowerMapper(e),
-            RequestTimeOutMapper(e),
-            NotFoundMapper(e),
-            ForbiddenMapper(e),
-            NameIsAlreadyInUseMapper(e),
-            UnknownErrorMapper(e),
-            SocketTimeoutExceptionMapper(e),
-            TransparentMapper(e))
-        .first { it.canMap() }
-        .map()
+    private val handlersList: List<ErrorMapper> by lazy {
+        listOf(
+            CannotDeleteDiscussionWithChildCommentsMapper(),
+            NotEnoughPowerMapper(),
+            RequestTimeOutMapper(),
+            NotFoundMapper(),
+            ForbiddenMapper(),
+            NameIsAlreadyInUseMapper(),
+            UnknownErrorMapper(),
+            SocketTimeoutExceptionMapper(),
+            TransparentMapper())
+    }
+
+    override fun mapIfNeeded(e: Throwable): Throwable = handlersList.first { it.canMap(e) }.map(e)
 }
