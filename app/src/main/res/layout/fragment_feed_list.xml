@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<io.golos.cyber_android.widgets.ViewPagerSwipeRefreshLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        app:view_pager="@id/feedPager">
+        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/feedRecyclerView"
@@ -14,4 +11,4 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-</io.golos.cyber_android.widgets.ViewPagerSwipeRefreshLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
