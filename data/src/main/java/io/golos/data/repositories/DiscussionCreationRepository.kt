@@ -7,8 +7,7 @@ import io.golos.cyber4j.model.DeleteResult
 import io.golos.cyber4j.model.UpdateDiscussionResult
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
-import io.golos.data.errors.CannotDeleteDiscussionWithChildCommentsException
-import io.golos.data.errors.CyberServicesError
+import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
@@ -34,7 +33,8 @@ class DiscussionCreationRepository(
     private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
     private val toEntityResultMapper: CyberToEntityMapper<CreateDiscussionResult, DiscussionCreationResultEntity>,
     private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdateDiscussionResult, UpdatePostResultEntity>,
-    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeleteResult, DeleteDiscussionResultEntity>
+    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeleteResult, DeleteDiscussionResultEntity>,
+    private val toAppErrorMapper: CyberToAppErrorMapper
 
 ) : Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
 
@@ -105,14 +105,12 @@ class DiscussionCreationRepository(
 
             } catch (e: Exception) {
                 logger(e)
-                if (e is CyberServicesError && e.message?.contains("You can't delete comment with child comments") == true) {
-                    updateStateLiveData.value =
-                        updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                            CannotDeleteDiscussionWithChildCommentsException(e), params
-                        ))
-                } else
-                    updateStateLiveData.value =
-                        updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))
+                updateStateLiveData.value =
+                    updateStateLiveData.value.orEmpty() +
+                            (params.id to QueryResult.Error(
+                                toAppErrorMapper.mapIfNeeded(e),
+                                params
+                            ))
             }
         }.let { job ->
             jobsMap[params]?.cancel()

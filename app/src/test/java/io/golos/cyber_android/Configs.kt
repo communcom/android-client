@@ -6,7 +6,9 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
 import io.golos.cyber_android.locator.RepositoriesHolder
+import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.Cyber4jApiService
+import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
 import io.golos.domain.*
 import io.golos.domain.entities.*
@@ -73,12 +75,16 @@ val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
 val discussionUpdateToEntityMapper = DiscussionUpdateResultToEntityMapper()
 val discussionDeleteToEntityMapper = DiscussionDeleteResultToEntityMapper()
 
+val toAppErrorMapper = CyberToAppErrorMapperImpl()
+
 
 val logger = object : Logger {
     override fun invoke(e: Exception) {
         e.printStackTrace()
     }
 }
+
+val imageCompressor = ImageCompressorImpl
 
 val dispatchersProvider = object : DispatchersProvider {
     override val uiDispatcher: CoroutineDispatcher
@@ -149,7 +155,8 @@ val discussionCreationRepo = DiscussionCreationRepository(
     discussionEntityRequestToApiRequestMapper,
     discussionCreationToEntityMapper,
     discussionUpdateToEntityMapper,
-    discussionDeleteToEntityMapper
+    discussionDeleteToEntityMapper,
+    toAppErrorMapper
 )
 
 val countriesRepo: Repository<CountriesList, CountriesRequest>
@@ -178,10 +185,11 @@ val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
         by lazy {
             RegistrationRepository(
                 apiService, dispatchersProvider, logger,
-                toRegistrationMapper
+                toRegistrationMapper,
+                toAppErrorMapper
             )
         }
-val imageUploadRepo = ImageUploadRepository(apiService, dispatchersProvider, logger)
+val imageUploadRepo = ImageUploadRepository(apiService, dispatchersProvider, imageCompressor, logger)
 
 val settingsRepo = SettingsRepository(
     apiService,
@@ -206,7 +214,8 @@ val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
         }
 val userMetadataRepos = UserMetadataRepository(
     apiService, apiService, dispatchersProvider, logger,
-    UserMetadataToEntityMapper()
+    UserMetadataToEntityMapper(),
+    toAppErrorMapper
 )
 
 

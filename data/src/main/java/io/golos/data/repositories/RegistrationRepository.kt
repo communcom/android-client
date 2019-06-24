@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.UserRegistrationState
 import io.golos.cyber4j.services.model.UserRegistrationStateResult
 import io.golos.data.api.RegistrationApi
+import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
@@ -22,7 +23,8 @@ class RegistrationRepository(
     private val registrationApi: RegistrationApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toRegistrationStateEntityMapper: CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>
+    private val toRegistrationStateEntityMapper: CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>,
+    private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserRegistrationStateEntity, RegistrationStepRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -97,7 +99,10 @@ class RegistrationRepository(
             } catch (e: Exception) {
                 logger(e)
                 registrationRequestsLiveData.value =
-                    registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))
+                    registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
+                        toAppErrorMapper.mapIfNeeded(e),
+                        params
+                    ))
             }
 
         }.let { job ->

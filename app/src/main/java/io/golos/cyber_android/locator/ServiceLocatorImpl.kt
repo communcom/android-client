@@ -33,6 +33,7 @@ import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
+import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
@@ -124,6 +125,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val discussionDeleteToEntityMapper = DiscussionDeleteResultToEntityMapper()
     private val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
 
+    private val toAppErrorMapper = CyberToAppErrorMapperImpl()
+
     private val logger = object : Logger {
         override fun invoke(e: Exception) {
             e.printStackTrace()
@@ -179,7 +182,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     discussionEntityRequestToApiRequestMapper,
                     discussionCreationToEntityMapper,
                     discussionUpdateToEntityMapper,
-                    discussionDeleteToEntityMapper
+                    discussionDeleteToEntityMapper,
+                    toAppErrorMapper
                 )
             }
 
@@ -198,7 +202,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             by lazy {
                 RegistrationRepository(
-                    apiService, dispatchersProvider, logger, toRegistrationMapper
+                    apiService, dispatchersProvider, logger, toRegistrationMapper, toAppErrorMapper
                 )
             }
 
@@ -250,7 +254,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     apiService,
                     dispatchersProvider,
                     logger,
-                    UserMetadataToEntityMapper()
+                    UserMetadataToEntityMapper(),
+                    toAppErrorMapper
                 )
             }
 

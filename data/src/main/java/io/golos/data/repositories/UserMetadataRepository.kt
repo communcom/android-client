@@ -6,6 +6,7 @@ import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.data.api.TransactionsApi
 import io.golos.data.api.UserMetadataApi
+import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
@@ -25,7 +26,8 @@ class UserMetadataRepository(
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toEntityMapper: CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>
+    private val toEntityMapper: CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>,
+    private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserMetadataCollectionEntity, UserMetadataRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -80,7 +82,7 @@ class UserMetadataRepository(
             } catch (e: Exception) {
                 logger(e)
                 metadataUpdateStates.value =
-                    metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(e, params))
+                    metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params))
             }
         }.let { job ->
             jobsMap[params]?.cancel()

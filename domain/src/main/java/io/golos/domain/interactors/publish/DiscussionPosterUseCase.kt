@@ -23,7 +23,10 @@ class DiscussionPosterUseCase(
     private val fromSpannableTransformer: FromSpannedToHtmlTransformer
 ) :
     UseCase<QueryResult<DiscussionCreationResultModel>> {
-    private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
+
+    private val parentJob = SupervisorJob()
+
+    private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + parentJob)
     private var lastJob: Job? = null
 
     private val observer = Observer<Any> {}
@@ -48,6 +51,7 @@ class DiscussionPosterUseCase(
         super.unsubscribe()
         mediator.removeObserver(observer)
         mediator.removeSource(discussionCreationRepository.updateStates)
+        parentJob.cancel()
     }
 
     private fun onRelatedDataChanged() {
