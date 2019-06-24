@@ -24,6 +24,12 @@ class CyberToAppErrorMapperImpl : CyberToAppErrorMapper {
                 AppError.RequestTimeOutException
             e.message?.contains("code=404", true) == true ->
                 AppError.NotFoundError
+            e.message?.contains("code=403", true) == true ->
+                AppError.ForbiddenError
+            e.message?.contains("Name is already in use", true) == true ->
+                AppError.NameIsAlreadyInUseError
+
+
             else -> AppError.UnknownError(e)
         }
     }

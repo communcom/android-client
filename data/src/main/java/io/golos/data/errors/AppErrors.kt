@@ -14,6 +14,10 @@ package io.golos.data.errors
  */
 sealed class AppError: Exception() {
 
+    object ForbiddenError: AppError()
+
+    object NameIsAlreadyInUseError: AppError()
+
     object RequestTimeOutException: AppError()
 
     object NotFoundError: AppError()

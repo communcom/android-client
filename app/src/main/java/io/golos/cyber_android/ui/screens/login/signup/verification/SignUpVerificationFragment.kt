@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
 import io.golos.cyber_android.widgets.SmsCodeWidget
+import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
 import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
@@ -75,7 +76,7 @@ class SignUpVerificationFragment :
         signUpViewModel.getUpdatingStateForStep<ResendSmsVerificationCodeModel>().observe(this, Observer {
             when (it) {
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Error -> onResendError(it)
+                is QueryResult.Error -> onResendError()
                 is QueryResult.Success -> onResendSuccess()
             }
         })
@@ -105,7 +106,11 @@ class SignUpVerificationFragment :
 
     private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
+        val errorMsg = when(errorResult.error) {
+            is AppError.ForbiddenError -> R.string.wrong_verification_code
+            else -> R.string.unknown_error
+        }
+        Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
         smsCode.clearCode()
         showKeyboardOnCodeInput()
     }
@@ -123,8 +128,8 @@ class SignUpVerificationFragment :
         showKeyboardOnCodeInput()
     }
 
-    private fun onResendError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
+    private fun onResendError() {
         hideLoading()
-        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), R.string.unknown_error, Toast.LENGTH_SHORT).show()
     }
 }

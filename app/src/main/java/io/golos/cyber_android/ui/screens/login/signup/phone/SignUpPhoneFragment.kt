@@ -90,7 +90,9 @@ class SignUpPhoneFragment : BaseSignUpScreenFragment<SignUpPhoneViewModel>(SignU
                     is UnverifiedUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpVerificationFragment)
                     is VerifiedUserWithoutUserNameModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpNameFragment)
                     is UnWrittenToBlockChainUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpNameFragment)
-                    is RegisteredUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpKeyFragment)
+                    is RegisteredUserModel -> {
+                        Toast.makeText(requireContext(), R.string.phone_already_taken_error, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })

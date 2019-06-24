@@ -188,22 +188,14 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
      * Shows appropriate error of a discussion creation process
      */
     protected fun showDiscussionCreationError(error: Throwable) {
-        when (error) {
-            is AppError.CannotDeleteDiscussionWithChildCommentsError ->
-                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.cant_delete_discussion_with_child_comments))
-                    .show(requireFragmentManager(), "delete error")
-
-            is AppError.NotEnoughPowerError ->
-                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.not_enough_power))
-                    .show(requireFragmentManager(), "create error")
-
-            is AppError.RequestTimeOutException ->
-                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.request_timeout_error))
-                    .show(requireFragmentManager(), "create error")
-
-            else ->
-                NotificationDialog.newInstance(getString(io.golos.cyber_android.R.string.unknown_discussion_creation_error))
-                    .show(requireFragmentManager(), "create error")
+        val errorMsg = when (error) {
+            is AppError.CannotDeleteDiscussionWithChildCommentsError -> io.golos.cyber_android.R.string.cant_delete_discussion_with_child_comments
+            is AppError.NotEnoughPowerError -> io.golos.cyber_android.R.string.not_enough_power
+            is AppError.RequestTimeOutException -> io.golos.cyber_android.R.string.request_timeout_error
+            else -> io.golos.cyber_android.R.string.unknown_error
         }
+
+        NotificationDialog.newInstance(getString(errorMsg))
+            .show(requireFragmentManager(), "error")
     }
 }

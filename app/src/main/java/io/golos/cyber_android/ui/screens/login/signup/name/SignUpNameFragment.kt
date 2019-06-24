@@ -14,6 +14,7 @@ import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.ViewUtils
+import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_name.*
@@ -94,6 +95,10 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
 
     private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
+        val errorMsg = when (errorResult.error) {
+            is AppError.NameIsAlreadyInUseError -> R.string.name_already_taken_error
+            else -> R.string.unknown_error
+        }
+        Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
     }
 }

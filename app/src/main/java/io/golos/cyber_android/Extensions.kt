@@ -17,5 +17,3 @@ fun NavController.safeNavigate(@IdRes from: Int, @IdRes action: Int) {
     if (this.currentDestination?.id == from)
         this.navigate(action)
 }
-
-

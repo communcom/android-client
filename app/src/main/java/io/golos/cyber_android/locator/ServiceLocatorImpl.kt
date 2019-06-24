@@ -202,7 +202,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             by lazy {
                 RegistrationRepository(
-                    apiService, dispatchersProvider, logger, toRegistrationMapper
+                    apiService, dispatchersProvider, logger, toRegistrationMapper, toAppErrorMapper
                 )
             }
 
