@@ -145,7 +145,7 @@ private val persister = object : Persister {
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
 
-val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, logger)
+val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)
 
 val discussionCreationRepo = DiscussionCreationRepository(
     apiService,

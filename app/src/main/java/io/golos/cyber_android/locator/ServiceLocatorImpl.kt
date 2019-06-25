@@ -197,7 +197,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
-                VoteRepository(apiService, apiService, dispatchersProvider, logger)
+                VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)
             }
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             by lazy {

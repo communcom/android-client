@@ -50,11 +50,11 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
      */
     val voteReadinessLiveData = voteUseCase.getVotingReadiness.asEvent()
 
-    private val voteErrorLiveData = MediatorLiveData<DiscussionIdModel>().apply {
+    private val voteErrorLiveData = MediatorLiveData<Pair<DiscussionIdModel, QueryResult.Error<VoteRequestModel>>>().apply {
         addSource(voteUseCase.getAsLiveData) { map ->
             map.forEach { (id, result) ->
                 if (result is QueryResult.Error && pendingVotes.contains(id)) {
-                    this.postValue(id)
+                    this.postValue(id to result)
                 }
                 if (result !is QueryResult.Loading) {
                     pendingVotes.remove(id)

@@ -167,6 +167,7 @@
     <string name="name_already_taken_error">Name is already in use</string>
     <string name="you_already_have_pinned_this_account">You already have pinned this account</string>
     <string name="you_have_not_pinned_this_account">You have not pinned this account</string>
+    <string name="cashout_window_error">Message doesn\'t exist in cashout window</string>
 
 
 </resources>

@@ -54,6 +54,8 @@ class NotPinnedMapper: MessageTextMapper("You have not pinned this account", App
 
 class AlreadyPinnedMapper: MessageTextMapper("You already have pinned this account", AppError.AlreadyPinnedError)
 
+class CashoutWindowMapper: MessageTextMapper("Message doesn't exist in cashout window", AppError.CashoutWindowError)
+
 class UnknownErrorMapper: ErrorMapper() {
     override fun canMap(source: Throwable) = source is CyberServicesError
 
