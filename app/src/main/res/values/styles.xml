@@ -200,6 +200,12 @@
         <item name="android:textSize">@dimen/text_size_26_sp</item>
         <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:background">@drawable/bg_sms_code_digit</item>
     </style>
 
     <style name="NotificationBadgeTextStyle" parent="Widget.AppCompat.TextView">

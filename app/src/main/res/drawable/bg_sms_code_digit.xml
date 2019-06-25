@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/middle_gray_2"/>
+            <corners android:radius="@dimen/corners_sign_up_sms_code_digit"/>
+        </shape>
+    </item>
+
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/light_gray"/>
