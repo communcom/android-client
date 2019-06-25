@@ -128,8 +128,9 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     postMedia.visibility = View.GONE
                 }
 
-                postUpvotesCount.text = "${postModel.payout.rShares}"
-                postVoteStatus.isActivated = postModel.payout.rShares >= zero
+                val postRating = postModel.votes.upCount - postModel.votes.downCount
+                postUpvotesCount.text = "$postRating"
+                postVoteStatus.isActivated = postRating >= 0
 
                 postCommentsCount.text = String.format(
                     context.resources.getString(R.string.post_comments_count_format),
@@ -141,8 +142,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
 
 
                 //todo replace with real data
-                postSharesCount.text = String.format(
-                    context.resources.getString(R.string.post_shares_count_format),
+                postViewsCount.text = String.format(
+                    context.resources.getString(R.string.post_views_count_format),
                     10
                 )
 

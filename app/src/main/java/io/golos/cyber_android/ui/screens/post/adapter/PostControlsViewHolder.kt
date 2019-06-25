@@ -6,7 +6,6 @@ import io.golos.cyber_android.R
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.item_post_header.view.*
-import java.math.BigInteger
 
 /**
  * [RecyclerView.ViewHolder] for displaying post controls (like upvote, downvote etc)
@@ -20,15 +19,16 @@ class PostControlsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             postMedia.visibility = View.GONE
             postContentPreview.visibility = View.GONE
 
-            postUpvotesCount.text = "${postModel.payout.rShares}"
-            postVoteStatus.isActivated = postModel.payout.rShares > BigInteger("0")
+            val postRating = postModel.votes.upCount - postModel.votes.downCount
+            postUpvotesCount.text = "$postRating"
+            postVoteStatus.isActivated = postRating > 0
             postCommentsCount.text = String.format(
                 resources.getString(R.string.post_comments_count_format),
                 postModel.comments.count
             )
             //todo replace with real data
-            postSharesCount.text = String.format(
-                resources.getString(R.string.post_shares_count_format),
+            postViewsCount.text = String.format(
+                resources.getString(R.string.post_views_count_format),
                 10
             )
 

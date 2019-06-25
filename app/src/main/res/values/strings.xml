@@ -29,7 +29,7 @@
     <!--Post Card-->
     <string name="hint_add_comment">Add a comment...</string>
     <string name="post_comments_count_format">%1$s Comments</string>
-    <string name="post_shares_count_format">%1$s Shares</string>
+    <string name="post_views_count_format">%1$s Views</string>
     <string name="post_time_and_author_format">%1$s by %2$s</string>
 
     <!--Time Stamps-->

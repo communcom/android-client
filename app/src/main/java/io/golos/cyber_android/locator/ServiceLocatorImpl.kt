@@ -65,7 +65,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val cyber4jConfigs = mapOf(
         "stable" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.202.4.39:8888/",
-            servicesUrl = "wss://116.203.98.241:8080"
+            servicesUrl = "ws://116.203.98.241:8080"
         ),
         "dev" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://46.4.96.246:8888/",
@@ -73,7 +73,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         ),
         "unstable" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
-            servicesUrl = "wss://159.69.33.136:8080"
+            servicesUrl = "ws://159.69.33.136:8080"
         )
     )
 
