@@ -37,6 +37,7 @@ import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsAc
 import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TabLayoutMediator
+import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -100,6 +101,8 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
             profileSwipeRefresh.isEnabled = verticalOffset == 0
         })
 
+        follow.setOnClickListener { viewModel.switchFollowingStatus() }
+
         followersPhotosView.setPhotosUrls(listOf("", "", ""))
         followingPhotosView.setPhotosUrls(listOf("", ""))
         subscribersPhotosView.visibility = View.GONE
@@ -129,7 +132,17 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
             event.getIfNotHandled()?.let {
                 when (it) {
                     is QueryResult.Success -> hideLoading()
-                    is QueryResult.Error -> onError()
+                    is QueryResult.Error -> {
+                        hideLoading()
+                        val errorMsg = when (it.error) {
+                            is AppError.AlreadyPinnedError -> R.string.you_already_have_pinned_this_account
+                            is AppError.NotPinnedError -> R.string.you_have_not_pinned_this_account
+                            is AppError.RequestTimeOutException -> R.string.request_timeout_error
+                            else -> R.string.unknown_error
+                        }
+                        NotificationDialog.newInstance(getString(errorMsg))
+                            .show(requireFragmentManager(), "error")
+                    }
                     is QueryResult.Loading -> showLoading()
                 }
             }
@@ -177,12 +190,13 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
      * Updates the state of the "Follow" control, depending on whether or not this profile is followed by the app user
      */
     private fun updateFollowing(profile: UserMetadataModel) {
-        follow.isActivated = profile.isSubscribed
+        follow.isActivated = !profile.isSubscribed
+        follow.setText(if (profile.isSubscribed) R.string.unfollow else R.string.follow)
         follow.setCompoundDrawablesWithIntrinsicBounds(
             null,
             AppCompatDrawableManager.get().getDrawable(
                 requireContext(),
-                if (profile.isSubscribed) R.drawable.ic_following_active else R.drawable.ic_following_inactive
+                if (!profile.isSubscribed) R.drawable.ic_following_active else R.drawable.ic_following_inactive
             ),
             null, null
         )

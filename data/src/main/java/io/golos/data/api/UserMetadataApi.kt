@@ -1,6 +1,7 @@
 package io.golos.data.api
 
 import io.golos.cyber4j.model.CyberName
+import io.golos.cyber4j.model.PinResult
 import io.golos.cyber4j.model.ProfileMetadataUpdateResult
 import io.golos.cyber4j.model.TransactionSuccessful
 import io.golos.cyber4j.services.model.UserMetadataResult
@@ -16,4 +17,8 @@ interface UserMetadataApi {
     ): TransactionSuccessful<ProfileMetadataUpdateResult>
 
     fun getUserMetadata(user: CyberName): UserMetadataResult
+
+    fun pin(user: CyberName): Pair<TransactionSuccessful<PinResult>, PinResult>
+
+    fun unPin(user: CyberName): Pair<TransactionSuccessful<PinResult>, PinResult>
 }

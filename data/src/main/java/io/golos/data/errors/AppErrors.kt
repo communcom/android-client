@@ -26,6 +26,10 @@ sealed class AppError: Exception() {
 
     object CannotDeleteDiscussionWithChildCommentsError: AppError()
 
+    object NotPinnedError: AppError()
+
+    object AlreadyPinnedError: AppError()
+
     class UnknownError(override val cause: CyberServicesError): AppError()  {
         override val message = cause.message
     }

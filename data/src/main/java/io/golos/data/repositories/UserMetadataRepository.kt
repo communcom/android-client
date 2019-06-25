@@ -51,6 +51,48 @@ class UserMetadataRepository(
                     metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
                 when (params) {
+
+                    is FollowUserRequest -> {
+                        val pinResult = withContext(dispatchersProvider.workDispatcher) {
+                            val result = if (params.toPin)
+                                metadadataApi.pin(params.user)
+                            else metadadataApi.unPin(params.user)
+                            transactionsApi.waitForTransaction(result.first.transaction_id)
+                            result.second
+                        }
+
+                        //after successful pin request we should update stats of both pinner and pinned users
+                        //we can send 2 network requests, but for the sake of optimisation we just increase/decrease both users stats
+                        //depending on [params.toPin] value
+                        savedMetadata.value = UserMetadataCollectionEntity(
+                            savedMetadata.value?.map.orEmpty().run {
+                                val mutable = this.toMutableMap()
+                                mutable[pinResult.pinner]?.let {
+                                    mutable[pinResult.pinner] = it.copy(
+                                        subscriptions = it.subscriptions.copy(
+                                            usersCount = it.subscriptions.usersCount +
+                                                    if (params.toPin) 1 else -1
+                                        )
+                                    )
+                                }
+
+                                mutable[pinResult.pinning]?.let {
+                                    mutable[pinResult.pinning] = it.copy(
+                                        subscribers = it.subscribers.copy(
+                                            usersCount = it.subscribers.usersCount +
+                                                    if (params.toPin) 1 else -1
+                                        ),
+                                        isSubscribed = params.toPin
+                                    )
+                                }
+
+                                mutable
+                            }
+                        )
+
+
+                    }
+
                     is UserMetadataFetchRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.workDispatcher) {
                             metadadataApi.getUserMetadata(params.user)
@@ -82,7 +124,10 @@ class UserMetadataRepository(
             } catch (e: Exception) {
                 logger(e)
                 metadataUpdateStates.value =
-                    metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params))
+                    metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(
+                        toAppErrorMapper.mapIfNeeded(e),
+                        params
+                    ))
             }
         }.let { job ->
             jobsMap[params]?.cancel()
