@@ -87,16 +87,19 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
         ) {
             with(itemView) {
 
-                if (postModel.author.avatarUrl.isNotBlank())
+                if (postModel.author.avatarUrl.isNotBlank()) {
                     Glide.with(itemView.context)
                         .load(postModel.author.avatarUrl)
                         .apply(RequestOptions.circleCropTransform())
                         .into(postAvatar)
-                else
+                    postAvatarName.text = ""
+                }
+                else {
                     Glide.with(itemView.context)
-                        .load(R.drawable.img_example_avatar)
-                        .apply(RequestOptions.circleCropTransform())
+                        .load(0)
                         .into(postAvatar)
+                    postAvatarName.text = postModel.author.username
+                }
 
 
                 postAuthorName.text = postModel.community.name

@@ -17,13 +17,22 @@
             android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/avatar"
-                tools:srcCompat="@drawable/img_example_avatar"
                 tools:background="@drawable/bg_notifications_awards"
                 android:scaleType="centerInside"
                 android:layout_marginStart="@dimen/margin_notification_avatar"
                 android:layout_marginBottom="@dimen/margin_notification_avatar"
                 android:layout_width="@dimen/size_notification_avatar"
                 android:layout_height="@dimen/size_notification_avatar"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/avatarName"
+                style="@style/ProfileSmallAvatarTextStyle"
+                tools:text="S"
+                android:maxLength="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_notification_avatar"
+        />
 
         <androidx.appcompat.widget.AppCompatImageView
                 tools:background="@drawable/bg_notification_icon_transfer"

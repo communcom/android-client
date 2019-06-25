@@ -41,17 +41,19 @@ class EditorWidget : LinearLayout {
     /**
      * Loads user avatar into avatar ImageView
      */
-    fun loadUserAvatar(url: String) {
-        if (url.isNotBlank())
+    fun loadUserAvatar(url: String, username: String) {
+        if (url.isNotBlank()) {
             Glide.with(this)
                 .load(url)
                 .apply(RequestOptions.circleCropTransform())
                 .into(avatar)
-        else
+            name.text = ""
+        } else {
             Glide.with(this)
-                .load(R.drawable.img_example_avatar)
-                .apply(RequestOptions.circleCropTransform())
+                .load(0)
                 .into(avatar)
+            name.text = username
+        }
     }
 
     interface Listener {
@@ -70,5 +72,5 @@ class EditorWidget : LinearLayout {
     /**
      * State of the editor widget
      */
-    class EditorWidgetState(var avatarUrl: String?)
+    class EditorWidgetState(var avatarUrl: String?, var username: String)
 }
