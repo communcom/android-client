@@ -44,9 +44,7 @@ class SmsCodeWidget @JvmOverloads constructor(
 
             digitWidget.setOnFocusChangeListener { _, hasFocus ->
                 if(hasFocus) {
-                    Handler(Looper.getMainLooper()).post {
-                        digitWidget.setSelection(digitWidget.text.length)
-                    }
+                    post { digitWidget.setSelection(digitWidget.text.length) }
                 }
             }
         }
