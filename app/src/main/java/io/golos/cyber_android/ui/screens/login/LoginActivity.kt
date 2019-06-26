@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,8 @@ import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
+
+    private var authStarted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +41,14 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initAuthFlow() {
+        authStarted = true
         postNavHost.findNavController().setGraph(R.navigation.graph_login)
     }
 
     private fun onLoading() {
-
+        if(!authStarted) {
+            splashIcon.visibility = View.VISIBLE
+        }
     }
 
     private fun navigateToMainScreen() {

@@ -19,5 +19,8 @@
         android:layout_height="150dp"
         app:srcCompat="@drawable/ic_hourglass"
         android:layout_gravity="center"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
     />
 </FrameLayout>
