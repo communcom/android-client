@@ -22,7 +22,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     ImageUploadApi,
     EventsApi,
     UserMetadataApi,
-    TransactionsApi {
+    TransactionsApi,
+    PushNotificationsApi {
 
     override fun getUserAccount(user: CyberName): UserProfile {
         return cyber4j.getUserAccount(user).getOrThrow()
@@ -256,6 +257,14 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
 
     override fun waitForTransaction(transactionId: String): ResultOk {
         return cyber4j.waitForTransaction(transactionId).getOrThrow()
+    }
+
+    override fun subscribeOnMobilePushNotifications(deviceId: String, fcmToken: String): ResultOk {
+        return cyber4j.subscribeOnMobilePushNotifications(deviceId, fcmToken).getOrThrow()
+    }
+
+    override fun unSubscribeOnNotifications(deviceId: String, fcmToken: String): ResultOk {
+        return cyber4j.unSubscribeOnNotifications(deviceId, fcmToken).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
