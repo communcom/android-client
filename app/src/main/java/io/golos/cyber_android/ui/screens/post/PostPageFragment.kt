@@ -264,17 +264,19 @@ class PostPageFragment :
     }
 
     private fun bindToolbar(postModel: PostModel) {
-        //postMenu
-        if (postModel.author.avatarUrl.isNotBlank())
+        if (postModel.author.avatarUrl.isNotBlank()) {
             Glide.with(requireContext())
                 .load(postModel.author.avatarUrl)
                 .apply(RequestOptions.circleCropTransform())
                 .into(postAvatar)
-        else
+            postAvatarName.text = ""
+        }
+        else {
             Glide.with(requireContext())
-                .load(R.drawable.img_example_avatar)
-                .apply(RequestOptions.circleCropTransform())
+                .load(0)
                 .into(postAvatar)
+            postAvatarName.text = postModel.author.username
+        }
 
         postAuthorName.text = postModel.community.name
         postAuthor.text = String.format(

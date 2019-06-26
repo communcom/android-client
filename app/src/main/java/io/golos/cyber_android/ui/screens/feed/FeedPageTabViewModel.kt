@@ -37,7 +37,7 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
         userMetadataUseCase?.let {
             addSource(userMetadataUseCase.getAsLiveData) {
                 if (it is QueryResult.Success)
-                    postValue(EditorWidget.EditorWidgetState(it.originalQuery.personal.avatarUrl))
+                    postValue(EditorWidget.EditorWidgetState(it.originalQuery.personal.avatarUrl, it.originalQuery.username))
             }
         }
     }

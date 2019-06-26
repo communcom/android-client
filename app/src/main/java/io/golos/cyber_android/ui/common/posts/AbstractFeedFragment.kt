@@ -75,7 +75,13 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
 
         viewModel.getVoteErrorLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let {
-                Toast.makeText(requireContext(), "Vote Error", Toast.LENGTH_SHORT).show()
+                val errorMsg = when (it.second.error) {
+                    is AppError.CashoutWindowError -> io.golos.cyber_android.R.string.cashout_window_error
+                    is AppError.RequestTimeOutException -> io.golos.cyber_android.R.string.request_timeout_error
+                    else -> io.golos.cyber_android.R.string.unknown_error
+                }
+                NotificationDialog.newInstance(getString(errorMsg))
+                    .show(requireFragmentManager(), "error")
             }
         })
 

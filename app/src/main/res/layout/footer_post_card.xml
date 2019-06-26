@@ -63,10 +63,10 @@
             app:layout_constraintTop_toTopOf="@+id/postUpvotesCount"
             app:layout_constraintBottom_toBottomOf="@+id/postUpvotesCount"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintEnd_toStartOf="@+id/postSharesCount"/>
+            app:layout_constraintEnd_toStartOf="@+id/postViewsCount"/>
 
     <TextView
-            android:id="@+id/postSharesCount"
+            android:id="@+id/postViewsCount"
             android:theme="@style/PostCardCountersTextStyle"
             tools:text="3 Shares"
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
             android:layout_height="@dimen/size_post_card_comment_buttons"
             android:background="@drawable/bg_post_card_comment_button"
             app:srcCompat="@drawable/ic_send"
-            app:layout_constraintEnd_toEndOf="@+id/postSharesCount"
+            app:layout_constraintEnd_toEndOf="@+id/postViewsCount"
             app:layout_constraintTop_toTopOf="@+id/postUpvote"
             app:layout_constraintBottom_toBottomOf="@+id/postUpvote"/>
 

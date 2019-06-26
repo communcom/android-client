@@ -82,6 +82,10 @@ class ProfileViewModel(
         userMetadataUseCase.requestRefresh()
         eventsLiveData.postValue(FeedPageViewModel.Event.RefreshRequestEvent)
     }
+
+    fun switchFollowingStatus() {
+        userMetadataUseCase.switchFollowingStatus()
+    }
 }
 
 

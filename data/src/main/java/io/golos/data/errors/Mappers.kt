@@ -50,6 +50,12 @@ class ForbiddenMapper: MessageTextMapper("code=403", AppError.ForbiddenError)
 
 class NameIsAlreadyInUseMapper : MessageTextMapper("Name is already in use", AppError.NameIsAlreadyInUseError)
 
+class NotPinnedMapper: MessageTextMapper("You have not pinned this account", AppError.NotPinnedError)
+
+class AlreadyPinnedMapper: MessageTextMapper("You already have pinned this account", AppError.AlreadyPinnedError)
+
+class CashoutWindowMapper: MessageTextMapper("Message doesn't exist in cashout window", AppError.CashoutWindowError)
+
 class UnknownErrorMapper: ErrorMapper() {
     override fun canMap(source: Throwable) = source is CyberServicesError
 

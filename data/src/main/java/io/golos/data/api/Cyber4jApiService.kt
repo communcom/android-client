@@ -246,6 +246,14 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         return cyber4j.getUserMetadata(user).getOrThrow()
     }
 
+    override fun pin(user: CyberName): kotlin.Pair<TransactionSuccessful<PinResult>, PinResult> {
+        return cyber4j.pin(user).getOrThrow().run { this to this.extractResult() }
+    }
+
+    override fun unPin(user: CyberName): kotlin.Pair<TransactionSuccessful<PinResult>, PinResult> {
+        return cyber4j.unPin(user).getOrThrow().run { this to this.extractResult() }
+    }
+
     override fun waitForTransaction(transactionId: String): ResultOk {
         return cyber4j.waitForTransaction(transactionId).getOrThrow()
     }

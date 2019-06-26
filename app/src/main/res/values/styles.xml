@@ -214,6 +214,12 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="ProfileSmallAvatarTextStyle">
+        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="ProfileUserNameTextStyle">
         <item name="android:textSize">@dimen/text_size_24_sp</item>
         <item name="fontFamily">@font/roboto_medium</item>

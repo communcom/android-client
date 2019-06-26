@@ -9,10 +9,7 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
-import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.UserMetadataFetchRequest
-import io.golos.domain.requestmodel.UserMetadataRequest
-import io.golos.domain.requestmodel.UserMetadataUpdateRequest
+import io.golos.domain.requestmodel.*
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
@@ -30,7 +27,7 @@ class UserMetadataUseCase(
     private val metadataUpdateResultLiveData = MutableLiveData<QueryResult<UserMetadataRequest>>()
     val getUpdateResultLiveData: LiveData<QueryResult<UserMetadataRequest>> = metadataUpdateResultLiveData
 
-    private var lastUpdateRequest: UserMetadataUpdateRequest? = null
+    private var lastUpdateRequestID: Identifiable.Id? = null
 
     override val getAsLiveData: LiveData<QueryResult<UserMetadataModel>>
         get() = userMetadataLiveData
@@ -87,7 +84,7 @@ class UserMetadataUseCase(
                 userMetadataLiveData.value = resultingState
             }
 
-            userMetadataRepository.updateStates.value.orEmpty()[lastUpdateRequest?.id]?.let { myUserUpdating ->
+            userMetadataRepository.updateStates.value.orEmpty()[lastUpdateRequestID]?.let { myUserUpdating ->
                 metadataUpdateResultLiveData.value = myUserUpdating
             }
         }
@@ -98,9 +95,16 @@ class UserMetadataUseCase(
         newCoverUrl: String? = null,
         newProfileImageUrl: String? = null
     ) {
-        lastUpdateRequest = UserMetadataUpdateRequest(user, newBio, newCoverUrl, newProfileImageUrl)
-        lastUpdateRequest?.let {
-            userMetadataRepository.makeAction(it)
+        val request = UserMetadataUpdateRequest(user, newBio, newCoverUrl, newProfileImageUrl)
+        lastUpdateRequestID = request.id
+        userMetadataRepository.makeAction(request)
+    }
+
+    fun switchFollowingStatus() {
+        (userMetadataLiveData.value as? QueryResult.Success)?.originalQuery?.let { metadata ->
+            val request = FollowUserRequest(user, !metadata.isSubscribed)
+            lastUpdateRequestID = request.id
+            userMetadataRepository.makeAction(request)
         }
     }
 

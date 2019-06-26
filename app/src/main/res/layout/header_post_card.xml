@@ -9,15 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/postAvatar"
+
+    <FrameLayout
             android:layout_gravity="center_vertical"
-            android:layout_width="@dimen/size_post_card_avatar"
-            android:layout_height="@dimen/size_post_card_avatar"
-            app:srcCompat="@drawable/img_example_avatar"
             android:layout_marginTop="@dimen/margin_horizontal_default_16dp"
             android:layout_marginBottom="@dimen/margin_horizontal_default_16dp"
-            />
+            android:layout_width="@dimen/size_post_card_avatar"
+            android:layout_height="@dimen/size_post_card_avatar">
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/postAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_profile_avatar_no_borders"
+        />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/postAvatarName"
+                style="@style/ProfileSmallAvatarTextStyle"
+                tools:text="S"
+                android:maxLength="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
+
+    </FrameLayout>
 
     <LinearLayout
             android:layout_gravity="center_vertical"

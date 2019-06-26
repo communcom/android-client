@@ -12,11 +12,23 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/avatar"
-            tools:srcCompat="@drawable/img_example_avatar"
-            android:layout_width="@dimen/size_editor_widget_avatar"
-            android:layout_height="@dimen/size_editor_widget_avatar"/>
+    <FrameLayout android:layout_width="@dimen/size_editor_widget_avatar"
+                 android:layout_height="@dimen/size_editor_widget_avatar">
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/avatar"
+                android:background="@drawable/bg_profile_avatar_no_borders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                style="@style/ProfileSmallAvatarTextStyle"
+                tools:text="S"
+                android:maxLength="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
+    </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/caption"

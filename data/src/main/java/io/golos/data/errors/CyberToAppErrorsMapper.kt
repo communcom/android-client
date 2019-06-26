@@ -19,6 +19,10 @@ class CyberToAppErrorMapperImpl : CyberToAppErrorMapper {
             NotFoundMapper(),
             ForbiddenMapper(),
             NameIsAlreadyInUseMapper(),
+            NotPinnedMapper(),
+            AlreadyPinnedMapper(),
+            CashoutWindowMapper(),
+
             UnknownErrorMapper(),
             SocketTimeoutExceptionMapper(),
             TransparentMapper())

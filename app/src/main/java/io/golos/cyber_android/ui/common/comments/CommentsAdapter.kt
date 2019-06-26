@@ -56,7 +56,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
     inner class CommentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
-            view.commentContent.movementMethod = CustomLinkMovementMethod(object: CustomLinkMovementMethod.Listener {
+            view.commentContent.movementMethod = CustomLinkMovementMethod(object : CustomLinkMovementMethod.Listener {
 
                 override fun onLinkClick(url: String, type: CustomLinkMovementMethod.LinkType): Boolean {
                     when (type) {
@@ -78,16 +78,18 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         ) {
             this.model = commentModel
             with(itemView) {
-                if (commentModel.author.avatarUrl.isNotBlank())
+                if (commentModel.author.avatarUrl.isNotBlank()) {
                     Glide.with(itemView.context)
                         .load(commentModel.author.avatarUrl)
                         .apply(RequestOptions.circleCropTransform())
                         .into(commentAvatar)
-                else
+                    commentAvatarName.text = ""
+                } else {
                     Glide.with(itemView.context)
-                        .load(R.drawable.img_example_avatar)
-                        .apply(RequestOptions.circleCropTransform())
+                        .load(0)
                         .into(commentAvatar)
+                    commentAvatarName.text = commentModel.author.username
+                }
 
                 commentRating.text = (commentModel.votes.upCount - commentModel.votes.downCount).toString()
                 commentAuthorName.text = commentModel.author.username

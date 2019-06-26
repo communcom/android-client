@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.TransactionsApi
 import io.golos.data.api.VoteApi
+import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -23,6 +24,7 @@ class VoteRepository(
     private val voteApi: VoteApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
+    private val toAppErrorMapper: CyberToAppErrorMapper,
     private val logger: Logger
 ) : Repository<VoteRequestEntity, VoteRequestEntity> {
 
@@ -60,7 +62,7 @@ class VoteRepository(
 
 
             } catch (e: Exception) {
-                votingStates.value = getCurrentValue() + (params.id to QueryResult.Error(e, params))
+                votingStates.value = getCurrentValue() + (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params))
                 logger(e)
             }
 

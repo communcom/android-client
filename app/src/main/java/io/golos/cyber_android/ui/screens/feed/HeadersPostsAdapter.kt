@@ -52,7 +52,7 @@ class HeadersPostsAdapter(
                 notifyItemChanged(SORTING_POSITION)
         }
 
-    var editorWidgetState = EditorWidget.EditorWidgetState(null)
+    var editorWidgetState = EditorWidget.EditorWidgetState(null, "")
         set(value) {
             checkEditorWidgetSupport()
             field = value
@@ -194,7 +194,7 @@ class HeadersPostsAdapter(
             editorWidgetListener: EditorWidget.Listener?
         ) {
             view.listener = editorWidgetListener
-            view.loadUserAvatar(editorWidgetState.avatarUrl ?: "")
+            view.loadUserAvatar(editorWidgetState.avatarUrl ?: "", editorWidgetState.username)
         }
     }
 
