@@ -13,4 +13,14 @@
             android:layout_height="match_parent"
             app:defaultNavHost="true"
     />
+    <ImageView
+        android:id="@+id/splashIcon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/ic_hourglass"
+        android:layout_gravity="center"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+    />
 </FrameLayout>
