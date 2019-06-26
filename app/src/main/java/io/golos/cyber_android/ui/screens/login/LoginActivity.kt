@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
 
+    private val splashManager = SplashManager { splashIcon.visibility = it}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -28,6 +30,8 @@ class LoginActivity : BaseActivity() {
         ).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {
+            splashManager.processEvent(it)
+
             if (it == SignInState.LOG_IN_NEEDED && postNavHost.findNavController().currentDestination == null)
                 initAuthFlow()
             if (it == SignInState.LOADING)
@@ -42,7 +46,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun onLoading() {
-
     }
 
     private fun navigateToMainScreen() {
