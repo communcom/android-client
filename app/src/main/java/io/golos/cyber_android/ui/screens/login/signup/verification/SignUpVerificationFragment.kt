@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
-import io.golos.cyber_android.widgets.SmsCodeWidget
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
@@ -37,15 +36,8 @@ class SignUpVerificationFragment :
 
         close.setOnClickListener { findNavController().navigateUp() }
 
-        smsCode.listener = object : SmsCodeWidget.Listener {
-            override fun sendCode(code: String) {
-                next.performClick()
-            }
-
-            override fun onCodeChanged(code: String) {
-                viewModel.onFieldChanged(code)
-            }
-        }
+        smsCode.setOnCodeChangedListener { viewModel.onFieldChanged(it) }
+        smsCode.setOnDonePressedListener { next.performClick() }
 
         resend.setOnClickListener {
             signUpViewModel.resendCode()
