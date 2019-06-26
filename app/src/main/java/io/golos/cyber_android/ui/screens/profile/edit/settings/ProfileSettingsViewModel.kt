@@ -8,14 +8,17 @@ import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.toS
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.toSettingsList
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.entities.NSFWSettingsEntity
+import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.ChangeBasicSettingsRequestModel
 import io.golos.domain.requestmodel.ChangeNotificationSettingRequestModel
 
-class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
-                               private val signInUseCase: SignInUseCase
+class ProfileSettingsViewModel(
+    private val settingsUseCase: SettingsUseCase,
+    private val pushesUseCaes: PushNotificationsSettingsUseCase,
+    private val signInUseCase: SignInUseCase
 ) : ViewModel() {
 
     /**
@@ -23,6 +26,11 @@ class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
      */
     val getNotificationSettingsLiveData = settingsUseCase.getAsLiveData
         .map { it?.notifsSettings?.toSettingsList() }
+
+    /**
+     * [LiveData] for users push notification settings
+     */
+    val getPushNotificationsSettingsLiveData = pushesUseCaes.getAsLiveData
 
     /**
      * [LiveData] for users general settings
@@ -66,6 +74,12 @@ class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
         }
     }
 
+
+    fun onPushSettingsSelected(toEnable: Boolean) {
+        if (toEnable) pushesUseCaes.subscribeToPushNotifications()
+        else pushesUseCaes.unsubscribeFromPushNotifications()
+    }
+
     fun logOut() {
         signInUseCase.logOut()
     }
@@ -73,11 +87,13 @@ class ProfileSettingsViewModel(private val settingsUseCase: SettingsUseCase,
     init {
         settingsUseCase.subscribe()
         signInUseCase.subscribe()
+        pushesUseCaes.subscribe()
     }
 
     override fun onCleared() {
         super.onCleared()
         settingsUseCase.unsubscribe()
         signInUseCase.unsubscribe()
+        pushesUseCaes.unsubscribe()
     }
 }

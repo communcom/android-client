@@ -14,10 +14,13 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.LoginActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSettingsAdapter
+import io.golos.data.errors.AppError
 import io.golos.domain.entities.NSFWSettingsEntity
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.profile_settings_fragment.*
 
 class ProfileSettingsFragment : LoadingFragment() {
@@ -34,6 +37,8 @@ class ProfileSettingsFragment : LoadingFragment() {
     ): View {
         return inflater.inflate(R.layout.profile_settings_fragment, container, false)
     }
+
+    private var isExternalPushSettingsChange = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -67,6 +72,12 @@ class ProfileSettingsFragment : LoadingFragment() {
             }.show(requireFragmentManager(), "logOut")
         }
 
+        pushNotifsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (!isExternalPushSettingsChange) {
+                viewModel.onPushSettingsSelected(isChecked)
+            }
+        }
+
         setupViewModel()
         observeViewModel()
     }
@@ -81,6 +92,29 @@ class ProfileSettingsFragment : LoadingFragment() {
     private fun observeViewModel() {
         viewModel.getNotificationSettingsLiveData.observe(this, Observer {
             (notificationSettingsList.adapter as NotificationSettingsAdapter).submit(it ?: emptyList())
+        })
+
+        viewModel.getPushNotificationsSettingsLiveData.observe(this, Observer {
+            when (it) {
+                is QueryResult.Success -> {
+                    hideLoading()
+                    isExternalPushSettingsChange = true
+                    pushNotifsSwitch.isChecked = it.originalQuery.isEnabled
+                    isExternalPushSettingsChange = false
+                }
+                is QueryResult.Loading -> {
+                    showLoading()
+                }
+                is QueryResult.Error -> {
+                    hideLoading()
+                    val errorMsg = when (it.error) {
+                        is AppError.RequestTimeOutException -> R.string.request_timeout_error
+                        else -> R.string.unknown_error
+                    }
+                    NotificationDialog.newInstance(getString(errorMsg))
+                        .show(requireFragmentManager(), "error")
+                }
+            }
         })
 
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {

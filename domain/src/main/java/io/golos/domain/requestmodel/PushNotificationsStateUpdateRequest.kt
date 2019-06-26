@@ -1,6 +1,6 @@
 package io.golos.domain.requestmodel
 
-class PushNotificationsRequest(val toEnable: Boolean): Identifiable {
+class PushNotificationsStateUpdateRequest(val toEnable: Boolean): Identifiable {
 
     private val _id = Id()
 

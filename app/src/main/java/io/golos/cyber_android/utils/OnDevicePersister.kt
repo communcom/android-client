@@ -3,9 +3,11 @@ package io.golos.cyber_android.utils
 import android.content.Context
 import android.util.Base64
 import com.squareup.moshi.Moshi
+import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Logger
 import io.golos.domain.Persister
 import io.golos.domain.entities.AuthState
+import io.golos.domain.requestmodel.PushNotificationsStateModel
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
@@ -14,7 +16,7 @@ import io.golos.domain.entities.AuthState
 const val PREFS_NAME = "sp_2"
 
 class OnDevicePersister(
-    private val context: Context,
+    context: Context,
     private val logger: Logger
 ) : Persister {
     private val encryptor = EnCryptor(context)
@@ -23,6 +25,15 @@ class OnDevicePersister(
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     private val moshi = Moshi.Builder().build()
 
+    override fun savePushNotifsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
+        editor.putString("pushes_of_${forUser.name}", moshi.adapter(PushNotificationsStateModel::class.java).toJson(settings)).apply()
+    }
+
+    override fun getPushNotifsSettings(forUser: CyberName): PushNotificationsStateModel {
+        val authStateString = prefs.getString("pushes_of_${forUser.name}", null) ?: return PushNotificationsStateModel.DEFAULT
+        return moshi.adapter(PushNotificationsStateModel::class.java).fromJson(authStateString)
+            ?: PushNotificationsStateModel.DEFAULT
+    }
 
     override fun saveAuthState(state: AuthState) {
         editor.putString("auth_state", moshi.adapter(AuthState::class.java).toJson(state)).apply()

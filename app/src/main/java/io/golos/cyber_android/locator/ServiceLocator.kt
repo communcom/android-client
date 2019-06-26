@@ -16,6 +16,7 @@ import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.TestPassProvider
 import io.golos.domain.interactors.notifs.events.EventsUseCase
+import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
@@ -86,4 +87,6 @@ interface ServiceLocator {
     fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase
 
     fun getUICalculator(): UICalculator
+
+    fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase
 }

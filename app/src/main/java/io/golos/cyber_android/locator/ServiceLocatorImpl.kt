@@ -35,16 +35,15 @@ import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
-import io.golos.domain.DiscussionsFeedRepository
-import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.*
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.notifs.events.EventsUseCase
+import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
+import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
@@ -259,6 +258,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    override val pushesRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
+            by lazy {
+                PushNotificationsRepository(apiService, deviceIdProvider,
+                    object : FcmTokenProvider {
+                        override fun provide() = "test"
+                    }, toAppErrorMapper, logger, dispatchersProvider
+                )
+            }
+
     override fun getCommunityFeedViewModelFactory(
         communityId: CommunityId,
         forUser: CyberName
@@ -367,6 +375,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
                     ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(
                         getSettingUserCase(),
+                        getPushNotificationsSettingsUseCase(),
                         getSignInUseCase()
                     ) as T
 
@@ -545,4 +554,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override fun getUICalculator(): UICalculator = UICalculatorImpl(appContext)
+
+    override fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase {
+        return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, persister)
+    }
 }

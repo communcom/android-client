@@ -7,7 +7,7 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.*
 import io.golos.domain.entities.PushNotificationsStateEntity
 import io.golos.domain.requestmodel.Identifiable
-import io.golos.domain.requestmodel.PushNotificationsRequest
+import io.golos.domain.requestmodel.PushNotificationsStateUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -21,20 +21,23 @@ class PushNotificationsRepository(
     private val toAppErrorMapper: CyberToAppErrorMapper,
     private val logger: Logger,
     dispatchersProvider: DispatchersProvider
-) : Repository<PushNotificationsStateEntity, PushNotificationsRequest> {
+) : Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.workDispatcher + SupervisorJob())
     private var lastUpdateJob: Job? = null
-    private val updatingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<PushNotificationsRequest>>>()
+    private val updatingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<PushNotificationsStateUpdateRequest>>>()
 
-    override val allDataRequest = throw UnsupportedOperationException()
+    override val allDataRequest
+            get() = throw UnsupportedOperationException()
 
-    override fun getAsLiveData(params: PushNotificationsRequest): LiveData<PushNotificationsStateEntity> =
+    override fun getAsLiveData(params: PushNotificationsStateUpdateRequest): LiveData<PushNotificationsStateEntity> =
         throw UnsupportedOperationException()
 
-    override fun makeAction(params: PushNotificationsRequest) {
+    override fun makeAction(params: PushNotificationsStateUpdateRequest) {
         repositoryScope.launch {
             try {
+                updatingStates.postValue(updatingStates.value.orEmpty() +
+                        (params.id to QueryResult.Loading(params)))
                 if (params.toEnable)
                     api.subscribeOnMobilePushNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
                 else api.unSubscribeOnNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
@@ -53,6 +56,6 @@ class PushNotificationsRepository(
         }
     }
 
-    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<PushNotificationsRequest>>> = updatingStates
+    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<PushNotificationsStateUpdateRequest>>> = updatingStates
 
 }
