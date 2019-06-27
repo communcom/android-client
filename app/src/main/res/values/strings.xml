@@ -173,6 +173,7 @@
     <string name="you_already_have_pinned_this_account">You already have pinned this account</string>
     <string name="you_have_not_pinned_this_account">You have not pinned this account</string>
     <string name="cashout_window_error">Message doesn\'t exist in cashout window</string>
+    <string name="unknown_logout_error">Unknown logout error</string>
 
 
 </resources>

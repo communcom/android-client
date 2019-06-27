@@ -383,7 +383,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
                     MainViewModel::class.java -> MainViewModel(
                         getSignInUseCase(),
-                        getEventsUseCase(EventTypeEntity.values().toSet())
+                        getEventsUseCase(EventTypeEntity.values().toSet()),
+                        getPushNotificationsSettingsUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }

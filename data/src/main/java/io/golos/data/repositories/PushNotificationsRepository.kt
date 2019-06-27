@@ -1,5 +1,6 @@
 package io.golos.data.repositories
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.PushNotificationsApi
@@ -33,15 +34,16 @@ class PushNotificationsRepository(
     override fun getAsLiveData(params: PushNotificationsStateUpdateRequest): LiveData<PushNotificationsStateEntity> =
         throw UnsupportedOperationException()
 
+    @MainThread
     override fun makeAction(params: PushNotificationsStateUpdateRequest) {
+        updatingStates.value = updatingStates.value.orEmpty() +
+                (params.id to QueryResult.Loading(params))
         repositoryScope.launch {
             try {
-                updatingStates.postValue(updatingStates.value.orEmpty() +
-                        (params.id to QueryResult.Loading(params)))
                 if (params.toEnable)
                     api.subscribeOnMobilePushNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
                 else api.unSubscribeOnNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
-
+                
                 updatingStates.postValue(updatingStates.value.orEmpty() +
                         (params.id to QueryResult.Success(params)))
 

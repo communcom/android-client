@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.observeUntil
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
@@ -83,10 +84,47 @@ class ProfileSettingsFragment : LoadingFragment() {
     }
 
     private fun logOut() {
+        //on log out we should disable push notifications
+        viewModel.onPushSettingsSelected(false)
+
+        //so we wait until we successfully disable it or until some error happens
+        viewModel.getPushNotificationsSettingsLiveData.observeUntil(
+            this,
+            { it is QueryResult.Error ||
+                    ((it as? QueryResult.Success)?.originalQuery?.isEnabled == false)
+            }) {
+            when (it) {
+                is QueryResult.Success -> {
+                    if (!it.originalQuery.isEnabled)
+                        onLogoutSuccess()
+                }
+                is QueryResult.Loading -> {
+                    showLoading()
+                }
+                is QueryResult.Error -> {
+                    onLogoutError(it.error)
+                }
+            }
+        }
+
+    }
+
+    private fun onLogoutSuccess() {
+        hideLoading()
         viewModel.logOut()
         startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
+    }
+
+    private fun onLogoutError(error: Throwable) {
+        hideLoading()
+        val errorMsg = when (error) {
+            is AppError.RequestTimeOutException -> R.string.request_timeout_error
+            else -> R.string.unknown_logout_error
+        }
+        NotificationDialog.newInstance(getString(errorMsg))
+            .show(requireFragmentManager(), "error")
     }
 
     private fun observeViewModel() {
@@ -119,7 +157,7 @@ class ProfileSettingsFragment : LoadingFragment() {
 
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {
             language.text = it?.languageCode
-            nsfw.text = when(it?.nsfws) {
+            nsfw.text = when (it?.nsfws) {
                 NSFWSettingsEntity.ALERT_WARN -> getString(R.string.always_alert)
                 NSFWSettingsEntity.ALWAYS_HIDE -> getString(R.string.always_hide)
                 NSFWSettingsEntity.ALWAYS_SHOW -> getString(R.string.always_show)
