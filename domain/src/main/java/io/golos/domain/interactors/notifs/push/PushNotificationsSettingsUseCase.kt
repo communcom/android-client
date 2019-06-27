@@ -1,5 +1,6 @@
 package io.golos.domain.interactors.notifs.push
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,8 +15,11 @@ import io.golos.domain.requestmodel.PushNotificationsStateUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 
 interface PushNotificationsSettingsUseCase : UseCase<QueryResult<PushNotificationsStateModel>> {
+    val getReadinessLiveData: LiveData<Boolean>
+
     fun subscribeToPushNotifications()
     fun unsubscribeFromPushNotifications()
+
 }
 
 class PushNotificationsSettingsUseCaseImpl(
@@ -29,6 +33,8 @@ class PushNotificationsSettingsUseCaseImpl(
     private val mediator = MediatorLiveData<Any>()
     private val updateState = MutableLiveData<QueryResult<PushNotificationsStateModel>>()
     private var lastRequest: PushNotificationsStateUpdateRequest? = null
+
+    override val getReadinessLiveData: LiveData<Boolean> = readinessLiveData
 
     override val getAsLiveData = updateState
 
@@ -82,6 +88,8 @@ class PushNotificationsSettingsUseCaseImpl(
 
     override fun unsubscribe() {
         mediator.removeObserver(observer)
+        mediator.removeSource(authRepository.getAsLiveData(authRepository.allDataRequest))
+        mediator.removeSource(pushRepository.updateStates)
     }
 
 }

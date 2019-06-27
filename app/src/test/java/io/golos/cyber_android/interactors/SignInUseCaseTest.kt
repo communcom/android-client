@@ -12,6 +12,7 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.AuthRequestModel
+import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.SignInState
 import junit.framework.Assert.assertEquals
@@ -37,6 +38,14 @@ class SignInUseCaseTest {
     fun before() {
 
         authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, object : Persister {
+            override fun savePushNotifsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
+                TODO("not implemented")
+            }
+
+            override fun getPushNotifsSettings(forUser: CyberName): PushNotificationsStateModel {
+                TODO("not implemented")
+            }
+
             override fun saveAuthState(state: AuthState) {
 
             }
