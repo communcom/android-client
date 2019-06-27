@@ -1,5 +1,5 @@
 package io.golos.domain
 
 interface FcmTokenProvider {
-    fun provide(): String
+    suspend fun provide(): String
 }

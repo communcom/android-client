@@ -230,15 +230,15 @@ val userMetadataRepos = UserMetadataRepository(
     toAppErrorMapper
 )
 
-val pushesRepository = PushNotificationsRepository(apiService,
+val pushNotifsRepository = PushNotificationsRepository(apiService,
     deviceIdProvider,
     object: FcmTokenProvider {
-        override fun provide() = "test"
+        override suspend fun provide() = "test"
     }, toAppErrorMapper, logger, dispatchersProvider)
 
 val appCore = AppCore(object : RepositoriesHolder {
     override val pushesRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
-        get() = pushesRepository
+        get() = pushNotifsRepository
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
         get() = feedRepository
     override val authRepository: Repository<AuthState, AuthRequest>

@@ -10,6 +10,7 @@ import io.golos.cyber4j.Cyber4JConfig
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.helpers.UICalculator
 import io.golos.cyber_android.ui.common.helpers.UICalculatorImpl
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
@@ -35,7 +36,10 @@ import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
-import io.golos.domain.*
+import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.DispatchersProvider
+import io.golos.domain.Logger
+import io.golos.domain.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
@@ -261,9 +265,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val pushesRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
             by lazy {
                 PushNotificationsRepository(apiService, deviceIdProvider,
-                    object : FcmTokenProvider {
-                        override fun provide() = "test"
-                    }, toAppErrorMapper, logger, dispatchersProvider
+                    FcmTokenProviderImpl, toAppErrorMapper, logger, dispatchersProvider
                 )
             }
 

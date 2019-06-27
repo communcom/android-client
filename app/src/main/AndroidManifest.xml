@@ -33,6 +33,11 @@
                 android:name="io.fabric.ApiKey"
                 android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
 
+        <service android:name=".fcm.CommunFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
                 android:name=".ui.screens.login.LoginActivity"
