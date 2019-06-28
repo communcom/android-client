@@ -43,7 +43,7 @@ class PushNotificationsRepository(
                 if (params.toEnable)
                     api.subscribeOnMobilePushNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
                 else api.unSubscribeOnNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
-                
+
                 updatingStates.postValue(updatingStates.value.orEmpty() +
                         (params.id to QueryResult.Success(params)))
 
