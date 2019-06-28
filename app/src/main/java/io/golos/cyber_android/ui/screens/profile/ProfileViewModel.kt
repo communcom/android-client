@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.ui.screens.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
 import io.golos.data.errors.AppError
@@ -12,6 +11,7 @@ import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.sharedmodel.CyberName
 
 class ProfileViewModel(
     private val userMetadataUseCase: UserMetadataUseCase,

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
@@ -14,6 +13,7 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UserAuthState
 import io.golos.domain.map
 import io.golos.domain.requestmodel.*
+import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 
 /**
@@ -21,7 +21,7 @@ import kotlinx.coroutines.*
  */
 class SignInUseCase(
     private val authRepo: Repository<AuthState, AuthRequest>,
-    private val dispatcher: DispatchersProvider
+    dispatcher: DispatchersProvider
 ) : UseCase<UserAuthState> {
     private val authState = MutableLiveData<UserAuthState>()
     private val authLoadingState = MutableLiveData<Map<CyberUser, QueryResult<AuthRequestModel>>>()

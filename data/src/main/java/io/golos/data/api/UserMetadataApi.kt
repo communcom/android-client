@@ -1,10 +1,10 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.PinResult
-import io.golos.cyber4j.model.ProfileMetadataUpdateResult
-import io.golos.cyber4j.model.TransactionSuccessful
+import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
+import io.golos.abi.implementation.social.PinSocialStruct
+import io.golos.abi.implementation.social.UpdatemetaSocialStruct
 import io.golos.cyber4j.services.model.UserMetadataResult
+import io.golos.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
@@ -14,11 +14,11 @@ interface UserMetadataApi {
         about: String? = null,
         coverImage: String? = null,
         profileImage: String? = null
-    ): TransactionSuccessful<ProfileMetadataUpdateResult>
+    ): TransactionCommitted<UpdatemetaSocialStruct>
 
     fun getUserMetadata(user: CyberName): UserMetadataResult
 
-    fun pin(user: CyberName): Pair<TransactionSuccessful<PinResult>, PinResult>
+    fun pin(user: CyberName): Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct>
 
-    fun unPin(user: CyberName): Pair<TransactionSuccessful<PinResult>, PinResult>
+    fun unPin(user: CyberName): Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct>
 }

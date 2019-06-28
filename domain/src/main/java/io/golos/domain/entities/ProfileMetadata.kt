@@ -1,7 +1,7 @@
 package io.golos.domain.entities
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Entity
+import io.golos.sharedmodel.CyberName
 import java.util.*
 
 /**

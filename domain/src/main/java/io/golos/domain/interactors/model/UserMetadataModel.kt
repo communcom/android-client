@@ -1,7 +1,7 @@
 package io.golos.domain.interactors.model
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Model
+import io.golos.sharedmodel.CyberName
 import java.util.*
 
 /**

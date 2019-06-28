@@ -1,7 +1,6 @@
 package io.golos.data.repositories
 
 import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.cyber4j.services.model.DiscussionTimeSort
 import io.golos.data.api.CommentsApiService
@@ -11,6 +10,7 @@ import io.golos.domain.Logger
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
+import io.golos.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.

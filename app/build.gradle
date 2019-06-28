@@ -17,6 +17,12 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         buildConfigField "String", "AUTH_TEST_PASS", properties.getProperty('authtestpass')
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
     buildTypes {
         release {
@@ -76,6 +82,7 @@ android {
 
 buildscript {
     repositories {
+        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
     }
 
@@ -85,8 +92,9 @@ buildscript {
 }
 
 dependencies {
+    implementation("io.golos.cyber4j:cyber4j:$cyber4jVersion")
+
     implementation project(':domain')
-    implementation project(':cyber4j')
     implementation project(':data')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -126,6 +134,6 @@ dependencies {
     testImplementation("com.squareup.moshi:moshi:$moshiVersin")
 
     testImplementation project(':domain')
-    testImplementation project(':cyber4j')
+    testImplementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
     testImplementation project(':data')
 }

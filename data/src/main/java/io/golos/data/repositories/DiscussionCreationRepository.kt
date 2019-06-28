@@ -2,9 +2,9 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.CreateDiscussionResult
-import io.golos.cyber4j.model.DeleteResult
-import io.golos.cyber4j.model.UpdateDiscussionResult
+import io.golos.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
@@ -32,9 +32,9 @@ class DiscussionCreationRepository(
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    private val toEntityResultMapper: CyberToEntityMapper<CreateDiscussionResult, DiscussionCreationResultEntity>,
-    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdateDiscussionResult, UpdatePostResultEntity>,
-    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeleteResult, DeleteDiscussionResultEntity>,
+    private val toEntityResultMapper: CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity>,
+    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity>,
+    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 
 ) : Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
@@ -99,9 +99,9 @@ class DiscussionCreationRepository(
                     }
 
                     when (request) {
-                        is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdateDiscussionResult)
-                        is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeleteResult)
-                        else -> toEntityResultMapper(apiAnswer.second as CreateDiscussionResult)
+                        is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdatemssgPublishStruct)
+                        is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeletemssgPublishStruct)
+                        else -> toEntityResultMapper(apiAnswer.second as CreatemssgPublishStruct)
                     }
                 }
 

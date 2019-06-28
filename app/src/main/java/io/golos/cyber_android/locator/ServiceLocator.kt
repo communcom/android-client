@@ -3,7 +3,6 @@ package io.golos.cyber_android.locator
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.ui.common.helpers.UICalculator
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
@@ -24,6 +23,7 @@ import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.

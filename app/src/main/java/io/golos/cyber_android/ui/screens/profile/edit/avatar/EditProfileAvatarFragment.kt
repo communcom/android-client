@@ -11,14 +11,13 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
-import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*
 import java.io.File
 

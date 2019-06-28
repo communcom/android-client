@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.BaseActivity
@@ -20,6 +19,7 @@ import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.utils.asEvent
+import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 

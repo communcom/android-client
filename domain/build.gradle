@@ -12,6 +12,11 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     buildTypes {
@@ -20,7 +25,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -29,7 +33,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation("com.squareup.moshi:moshi:$moshiVersin")
-    implementation project(':cyber4j')
+
+    implementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
 
     testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
@@ -39,7 +44,4 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation("com.squareup.moshi:moshi:$moshiVersin")
 
-}
-repositories {
-    mavenCentral()
 }

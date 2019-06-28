@@ -1,11 +1,19 @@
 package io.golos.data.api
 
+import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
+import io.golos.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.abi.implementation.publish.VotePublishStruct
+import io.golos.abi.implementation.social.PinSocialStruct
+import io.golos.abi.implementation.social.UpdatemetaSocialStruct
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.services.model.*
-import io.golos.cyber4j.utils.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
+import io.golos.sharedmodel.CyberName
+import io.golos.sharedmodel.Either
 import java.io.File
 
 /**
@@ -102,7 +110,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: String,
         voteStrength: Short
-    ): TransactionSuccessful<VoteResult> {
+    ): TransactionCommitted<VotePublishStruct> {
         return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength)
             .getOrThrow()
     }
@@ -124,11 +132,21 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): kotlin.Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult> {
+    ): kotlin.Pair<TransactionCommitted<CreatemssgPublishStruct>, CreatemssgPublishStruct> {
         return cyber4j.createComment(
-            body, parentAccount, parentPermlink,
-            category, metadata, null, beneficiaries, vestPayment, tokenProp
-        ).getOrThrow().run { this to this.extractResult() }
+            body,
+            parentAccount,
+            parentPermlink,
+            category,
+            metadata,
+            null,
+            beneficiaries,
+            vestPayment,
+            tokenProp.toShort(),
+            null
+        )
+        .getOrThrow()
+        .run { this to this.extractResult() }
     }
 
     override fun createPost(
@@ -139,9 +157,20 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): kotlin.Pair<TransactionSuccessful<CreateDiscussionResult>, CreateDiscussionResult> {
-        return cyber4j.createPost(title, body, tags, metadata, null, beneficiaries, vestPayment, tokenProp)
-            .getOrThrow().run { this to this.extractResult() }
+    ): kotlin.Pair<TransactionCommitted<CreatemssgPublishStruct>, CreatemssgPublishStruct> {
+        return cyber4j.createPost(
+            title,
+            body,
+            tags,
+            metadata,
+            null,
+            beneficiaries,
+            vestPayment,
+            tokenProp.toShort(),
+            null
+        )
+        .getOrThrow()
+        .run { this to this.extractResult() }
     }
 
     override fun updatePost(
@@ -150,12 +179,12 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         newBody: String,
         newTags: List<Tag>,
         newJsonMetadata: DiscussionCreateMetadata
-    ): kotlin.Pair<TransactionSuccessful<UpdateDiscussionResult>, UpdateDiscussionResult> {
+    ): kotlin.Pair<TransactionCommitted<UpdatemssgPublishStruct>, UpdatemssgPublishStruct> {
         return cyber4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata)
             .getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionSuccessful<DeleteResult>, DeleteResult> {
+    override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionCommitted<DeletemssgPublishStruct>, DeletemssgPublishStruct> {
         return cyber4j.deletePostOrComment(postOrCommentPermlink)
             .getOrThrow().run {
                 this to this.extractResult()
@@ -235,7 +264,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         about: String?,
         coverImage: String?,
         profileImage: String?
-    ): TransactionSuccessful<ProfileMetadataUpdateResult> {
+    ): TransactionCommitted<UpdatemetaSocialStruct> {
         return cyber4j.setUserMetadata(
             about = about,
             coverImage = coverImage,
@@ -247,11 +276,11 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         return cyber4j.getUserMetadata(user).getOrThrow()
     }
 
-    override fun pin(user: CyberName): kotlin.Pair<TransactionSuccessful<PinResult>, PinResult> {
+    override fun pin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
         return cyber4j.pin(user).getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun unPin(user: CyberName): kotlin.Pair<TransactionSuccessful<PinResult>, PinResult> {
+    override fun unPin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
         return cyber4j.unPin(user).getOrThrow().run { this to this.extractResult() }
     }
 
@@ -270,5 +299,6 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
         (this as? Either.Success)?.value ?: throw CyberServicesError(this as Either.Failure)
 
-    private fun <T> TransactionSuccessful<T>.extractResult() = this.processed.action_traces.first().act.data
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> TransactionCommitted<T>.extractResult() = this.processed.action_traces.first().act.data as T
 }

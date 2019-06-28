@@ -1,10 +1,10 @@
 package io.golos.domain.requestmodel
 
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.sharedmodel.CyberName
 import java.util.*
 
 /**

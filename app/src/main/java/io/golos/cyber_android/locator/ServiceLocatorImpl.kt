@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.Cyber4JConfig
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
@@ -57,6 +55,8 @@ import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
+import io.golos.sharedmodel.Cyber4JConfig
+import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

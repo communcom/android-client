@@ -1,5 +1,8 @@
 package io.golos.domain.rules
 
+import io.golos.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.domain.Regexps
@@ -25,7 +28,7 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
                     entity.title,
                     entity.body,
                     tags.map { Tag(it) },
-                    DiscussionCreateMetadata((links + entity.images).map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
+                    DiscussionCreateMetadata((links + entity.images).map { EmbedmentsUrl(it) }),
                     emptyList(),
                     true,
                     0
@@ -41,7 +44,7 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
                     entity.parentId.userId.toCyberName(),
                     entity.parentId.permlink,
                     tags.map { Tag(it) },
-                    DiscussionCreateMetadata(links.map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList()),
+                    DiscussionCreateMetadata(links.map { EmbedmentsUrl(it) }),
                     emptyList(),
                     true,
                     0
@@ -59,7 +62,7 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
                     entity.postPermlink,
                     entity.title, entity.body,
                     tags.map { Tag(it) },
-                    DiscussionCreateMetadata((links + entity.images).map { DiscussionCreateMetadata.EmbedmentsUrl(it) }, emptyList())
+                    DiscussionCreateMetadata((links + entity.images).map { EmbedmentsUrl(it) })
                 )
             }
         }
@@ -94,9 +97,9 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
 
 
 class DiscussionCreateResultToEntityMapper :
-    CyberToEntityMapper<CreateDiscussionResult, DiscussionCreationResultEntity> {
-    override suspend fun invoke(cyberObject: CreateDiscussionResult): DiscussionCreationResultEntity {
-        return when (cyberObject.parent_id?.author?.name.orEmpty().isEmpty()) {
+    CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity> {
+    override suspend fun invoke(cyberObject: CreatemssgPublishStruct): DiscussionCreationResultEntity {
+        return when (cyberObject.parent_id.author.name.orEmpty().isEmpty()) {
 
             true -> PostCreationResultEntity(
                 DiscussionIdEntity(
@@ -120,8 +123,8 @@ class DiscussionCreateResultToEntityMapper :
 
 
 class DiscussionUpdateResultToEntityMapper :
-    CyberToEntityMapper<UpdateDiscussionResult, UpdatePostResultEntity> {
-    override suspend fun invoke(cyberObject: UpdateDiscussionResult): UpdatePostResultEntity {
+    CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity> {
+    override suspend fun invoke(cyberObject: UpdatemssgPublishStruct): UpdatePostResultEntity {
         return UpdatePostResultEntity(
             DiscussionIdEntity(
                 cyberObject.message_id.author.name,
@@ -133,8 +136,8 @@ class DiscussionUpdateResultToEntityMapper :
 
 
 class DiscussionDeleteResultToEntityMapper :
-    CyberToEntityMapper<DeleteResult, DeleteDiscussionResultEntity> {
-    override suspend fun invoke(cyberObject: DeleteResult): DeleteDiscussionResultEntity {
+    CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity> {
+    override suspend fun invoke(cyberObject: DeletemssgPublishStruct): DeleteDiscussionResultEntity {
         return DeleteDiscussionResultEntity(
             DiscussionIdEntity(
                 cyberObject.message_id.author.name,

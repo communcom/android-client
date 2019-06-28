@@ -1,6 +1,6 @@
 package io.golos.domain.requestmodel
 
-import io.golos.cyber4j.model.CyberName
+import io.golos.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
@@ -8,9 +8,9 @@ import io.golos.cyber4j.model.CyberName
 sealed class UserMetadataRequest : Identifiable
 
 data class UserMetadataUpdateRequest(val user: CyberName,
-                                      val bio: String? = null,
-                                      val coverImageUrl: String? = null,
-                                      val profileImageUrl: String? = null) : UserMetadataRequest() {
+                                     val bio: String? = null,
+                                     val coverImageUrl: String? = null,
+                                     val profileImageUrl: String? = null) : UserMetadataRequest() {
     private val _id = Id()
 
     override val id: Identifiable.Id

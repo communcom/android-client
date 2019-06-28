@@ -1,6 +1,6 @@
 package io.golos.domain.interactors.model
 
-import io.golos.cyber4j.model.CyberName
+import io.golos.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-29.

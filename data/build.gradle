@@ -10,6 +10,12 @@ android {
         versionCode appVesrionCode
         versionName appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     buildTypes {
@@ -22,12 +28,13 @@ android {
         targetCompatibility 1.7
         sourceCompatibility 1.7
     }
-
 }
 
 dependencies {
     implementation project(':domain')
-    implementation project(':cyber4j')
+
+    implementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
+
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
@@ -40,7 +47,4 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
 }
