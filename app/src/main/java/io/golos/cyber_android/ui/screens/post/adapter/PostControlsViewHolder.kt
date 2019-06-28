@@ -21,7 +21,7 @@ class PostControlsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
             val postRating = postModel.votes.upCount - postModel.votes.downCount
             postUpvotesCount.text = "$postRating"
-            postVoteStatus.isActivated = postRating > 0
+            postVoteStatus.isActivated = postRating >= 0
             postCommentsCount.text = String.format(
                 resources.getString(R.string.post_comments_count_format),
                 postModel.comments.count

@@ -73,7 +73,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
     override fun getDiscussionAsLiveData(discussionIdEntity: DiscussionIdEntity): LiveData<D> {
 
-        if (activeUpdatingPost == discussionIdEntity) discussionLiveData
+        if (activeUpdatingPost == discussionIdEntity) return discussionLiveData
 
         if (discussionLiveData.value?.contentId == discussionIdEntity) return discussionLiveData
 
