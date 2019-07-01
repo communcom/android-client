@@ -3,6 +3,7 @@ package io.golos.domain
 import io.golos.cyber4j.model.CyberName
 import io.golos.domain.entities.AuthState
 import io.golos.domain.requestmodel.PushNotificationsStateModel
+import io.golos.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
