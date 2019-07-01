@@ -13,6 +13,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.views.utils.AllLowersInputFilter
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
@@ -36,7 +37,10 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        username.filters = arrayOf(InputFilter.LengthFilter(SignUpNameViewModel.MAX_USERNAME_LENGTH))
+        username.filters = arrayOf(
+            InputFilter.LengthFilter(SignUpNameViewModel.MAX_USERNAME_LENGTH),
+            AllLowersInputFilter()
+        )
 
         back.setOnClickListener { findNavController().navigateUp() }
         next.setOnClickListener {
