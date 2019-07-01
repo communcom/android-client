@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion targetsdk
@@ -108,6 +109,8 @@ dependencies {
     implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
     implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
     implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
+    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-messaging:$fcmVersion"
 
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
     implementation 'androidx.appcompat:appcompat:1.1.0-beta01'

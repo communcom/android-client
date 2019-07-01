@@ -10,6 +10,7 @@ import io.golos.cyber4j.Cyber4JConfig
 import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.helpers.UICalculator
 import io.golos.cyber_android.ui.common.helpers.UICalculatorImpl
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
@@ -45,6 +46,8 @@ import io.golos.domain.interactors.feed.*
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.notifs.events.EventsUseCase
+import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
+import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.CountriesChooserUseCase
@@ -259,6 +262,13 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    override val pushesRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
+            by lazy {
+                PushNotificationsRepository(apiService, deviceIdProvider,
+                    FcmTokenProviderImpl, toAppErrorMapper, logger, dispatchersProvider
+                )
+            }
+
     override fun getCommunityFeedViewModelFactory(
         communityId: CommunityId,
         forUser: CyberName
@@ -367,12 +377,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
                     ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(
                         getSettingUserCase(),
+                        getPushNotificationsSettingsUseCase(),
                         getSignInUseCase()
                     ) as T
 
                     MainViewModel::class.java -> MainViewModel(
                         getSignInUseCase(),
-                        getEventsUseCase(EventTypeEntity.values().toSet())
+                        getEventsUseCase(EventTypeEntity.values().toSet()),
+                        getPushNotificationsSettingsUseCase()
                     ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
@@ -545,4 +557,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override fun getUICalculator(): UICalculator = UICalculatorImpl(appContext)
+
+    override fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase {
+        return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, persister)
+    }
 }

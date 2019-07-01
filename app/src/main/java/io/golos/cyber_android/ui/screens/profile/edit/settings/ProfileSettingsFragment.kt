@@ -11,13 +11,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.observeUntil
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.LoginActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSettingsAdapter
+import io.golos.data.errors.AppError
 import io.golos.domain.entities.NSFWSettingsEntity
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.profile_settings_fragment.*
 
 class ProfileSettingsFragment : LoadingFragment() {
@@ -34,6 +38,8 @@ class ProfileSettingsFragment : LoadingFragment() {
     ): View {
         return inflater.inflate(R.layout.profile_settings_fragment, container, false)
     }
+
+    private var isExternalPushSettingsChange = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -67,15 +73,58 @@ class ProfileSettingsFragment : LoadingFragment() {
             }.show(requireFragmentManager(), "logOut")
         }
 
+        pushNotifsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (!isExternalPushSettingsChange) {
+                viewModel.onPushSettingsSelected(isChecked)
+            }
+        }
+
         setupViewModel()
         observeViewModel()
     }
 
     private fun logOut() {
+        //on log out we should disable push notifications
+        viewModel.onPushSettingsSelected(false)
+
+        //so we wait until we successfully disable it or until some error happens
+        viewModel.getPushNotificationsSettingsLiveData.observeUntil(
+            this,
+            { it is QueryResult.Error ||
+                    ((it as? QueryResult.Success)?.originalQuery?.isEnabled == false)
+            }) {
+            when (it) {
+                is QueryResult.Success -> {
+                    if (!it.originalQuery.isEnabled)
+                        onLogoutSuccess()
+                }
+                is QueryResult.Loading -> {
+                    showLoading()
+                }
+                is QueryResult.Error -> {
+                    onLogoutError(it.error)
+                }
+            }
+        }
+
+    }
+
+    private fun onLogoutSuccess() {
+        hideLoading()
         viewModel.logOut()
         startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
+    }
+
+    private fun onLogoutError(error: Throwable) {
+        hideLoading()
+        val errorMsg = when (error) {
+            is AppError.RequestTimeOutException -> R.string.request_timeout_error
+            else -> R.string.unknown_logout_error
+        }
+        NotificationDialog.newInstance(getString(errorMsg))
+            .show(requireFragmentManager(), "error")
     }
 
     private fun observeViewModel() {
@@ -83,9 +132,32 @@ class ProfileSettingsFragment : LoadingFragment() {
             (notificationSettingsList.adapter as NotificationSettingsAdapter).submit(it ?: emptyList())
         })
 
+        viewModel.getPushNotificationsSettingsLiveData.observe(this, Observer {
+            when (it) {
+                is QueryResult.Success -> {
+                    hideLoading()
+                    isExternalPushSettingsChange = true
+                    pushNotifsSwitch.isChecked = it.originalQuery.isEnabled
+                    isExternalPushSettingsChange = false
+                }
+                is QueryResult.Loading -> {
+                    showLoading()
+                }
+                is QueryResult.Error -> {
+                    hideLoading()
+                    val errorMsg = when (it.error) {
+                        is AppError.RequestTimeOutException -> R.string.request_timeout_error
+                        else -> R.string.unknown_error
+                    }
+                    NotificationDialog.newInstance(getString(errorMsg))
+                        .show(requireFragmentManager(), "error")
+                }
+            }
+        })
+
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {
             language.text = it?.languageCode
-            nsfw.text = when(it?.nsfws) {
+            nsfw.text = when (it?.nsfws) {
                 NSFWSettingsEntity.ALERT_WARN -> getString(R.string.always_alert)
                 NSFWSettingsEntity.ALWAYS_HIDE -> getString(R.string.always_hide)
                 NSFWSettingsEntity.ALWAYS_SHOW -> getString(R.string.always_show)

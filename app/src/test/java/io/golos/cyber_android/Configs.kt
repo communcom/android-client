@@ -84,6 +84,14 @@ val logger = object : Logger {
     }
 }
 
+val deviceIdProvider = object : DeviceIdProvider {
+    private val id = UUID.randomUUID().toString()
+    override fun provide(): String {
+        return id
+    }
+}
+
+
 val imageCompressor = ImageCompressorImpl
 
 val dispatchersProvider = object : DispatchersProvider {
@@ -125,14 +133,22 @@ val embededsRepository = EmbedsRepository(
 )
 
 
-private val persister = object : Persister {
+ val persister = object : Persister {
+    override fun savePushNotifsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
+
+    }
+
+    override fun getPushNotifsSettings(forUser: CyberName): PushNotificationsStateModel {
+        return PushNotificationsStateModel(false)
+    }
+
     override fun saveAuthState(state: AuthState) {
 
     }
 
     override fun getAuthState(): AuthState? {
 
-        return AuthState(CyberName("tst1exwqrkzh"), true)
+        return AuthState(CyberName("tst4fvygwbqn"), true)
     }
 
     override fun saveActiveKey(activeKey: String) {
@@ -140,7 +156,7 @@ private val persister = object : Persister {
     }
 
     override fun getActiveKey(): String? {
-        return "5JN9z1mrQtMK8KYi2t5asao3N8TMWdeeCmX952a5PcxnnB8mAP3"
+        return "5Jko7QTtageNkt8hxbLjzgCBoYgEUwqDUj4E3JHf2ADCLt23dGf"
     }
 }
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
@@ -191,17 +207,13 @@ val regRepo: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
         }
 val imageUploadRepo = ImageUploadRepository(apiService, dispatchersProvider, imageCompressor, logger)
 
+
 val settingsRepo = SettingsRepository(
     apiService,
     SettingsToEntityMapper(Moshi.Builder().build()),
     SettingToCyberMapper(),
     dispatchersProvider,
-    object : DeviceIdProvider {
-        private val id = UUID.randomUUID().toString()
-        override fun provide(): String {
-            return id
-        }
-    },
+    deviceIdProvider,
     MyDefaultSettingProvider(),
     logger
 )
@@ -218,8 +230,15 @@ val userMetadataRepos = UserMetadataRepository(
     toAppErrorMapper
 )
 
+val pushNotifsRepository = PushNotificationsRepository(apiService,
+    deviceIdProvider,
+    object: FcmTokenProvider {
+        override suspend fun provide() = "test"
+    }, toAppErrorMapper, logger, dispatchersProvider)
 
 val appCore = AppCore(object : RepositoriesHolder {
+    override val pushesRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
+        get() = pushNotifsRepository
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
         get() = feedRepository
     override val authRepository: Repository<AuthState, AuthRequest>
@@ -243,7 +262,7 @@ val appCore = AppCore(object : RepositoriesHolder {
     override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
         get() = eventsRepos
     override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = userMetadataRepos
 }, dispatchersProvider)
 
 

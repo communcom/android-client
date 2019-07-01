@@ -41,3 +41,9 @@ data class UserSettingModel(
     val general: GeneralSettingsModel,
     val notifsSettings: NotificationSettingsModel
 ) : Model
+
+data class PushNotificationsStateModel(val isEnabled: Boolean): Model {
+    companion object {
+        val DEFAULT = PushNotificationsStateModel(true)
+    }
+}

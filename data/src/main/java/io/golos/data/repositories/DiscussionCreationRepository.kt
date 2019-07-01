@@ -19,6 +19,7 @@ import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.EntityToCyberMapper
 import kotlinx.coroutines.*
+import java.net.SocketTimeoutException
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -89,7 +90,13 @@ class DiscussionCreationRepository(
                         )
                         is DeleteDiscussionRequest -> discussionsCreationApi.deletePostOrComment(request.permlink)
                     }
-                    transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
+                    try {
+                        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
+                    } catch (e: SocketTimeoutException) {
+                        //for now SocketTimeoutException during waitForTransaction phase counts as a
+                        //success, so we just log it and ignore
+                        logger(e)
+                    }
 
                     when (request) {
                         is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdateDiscussionResult)

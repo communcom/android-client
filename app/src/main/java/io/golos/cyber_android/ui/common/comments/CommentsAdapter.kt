@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.common.comments
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import io.golos.domain.interactors.model.ContentBodyModel
 import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.TextRowModel
 import kotlinx.android.synthetic.main.item_comment.view.*
+import kotlin.math.pow
 
 
 /**
@@ -126,6 +128,8 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                     getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
                 commentAvatar.layoutParams.height =
                     getAvatarSizeForCommentLevel(commentModel.content.commentLevel, context)
+                commentAvatarName.setTextSize(TypedValue.COMPLEX_UNIT_PX, getAvatarTextSizeForCommentLevel(commentModel.content.commentLevel, context))
+
 
                 listOf(commentAuthorParent, commentAvatar, commentDate).forEach {
                     it.setOnClickListener { listener.onUsernameClick(commentModel.author.userId.userId) }
@@ -153,7 +157,14 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
 
         private fun getAvatarSizeForCommentLevel(level: Int, context: Context): Int {
             val baseSize = context.resources.getDimensionPixelSize(R.dimen.size_post_card_avatar)
-            return (baseSize * Math.pow(0.6, level.toDouble())).toInt()
+            return (baseSize * 0.6.pow(level.toDouble())).toInt()
+        }
+
+        private fun getAvatarTextSizeForCommentLevel(level: Int, context: Context): Float {
+            return when (level) {
+                0 -> context.resources.getDimension(R.dimen.text_size_20_sp)
+                else -> context.resources.getDimension(R.dimen.text_size_14_sp)
+            }
         }
 
         private fun getPaddingStartForCommentLevel(level: Int, context: Context): Int {

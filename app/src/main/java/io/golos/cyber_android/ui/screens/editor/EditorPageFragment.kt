@@ -26,6 +26,8 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.post.PostActivity
+import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
@@ -193,7 +195,7 @@ class EditorPageFragment : BaseImagePickerFragment() {
             event.getIfNotHandled()?.let { result ->
                 when (result) {
                     is QueryResult.Loading -> onPostLoading()
-                    is QueryResult.Success -> onPostResult()
+                    is QueryResult.Success -> onPostResult(result.originalQuery)
                     is QueryResult.Error -> onPostError(result.error)
                 }
             }
@@ -242,11 +244,19 @@ class EditorPageFragment : BaseImagePickerFragment() {
         hideLoading()
     }
 
-    private fun onPostResult() {
-        Toast.makeText(requireContext(), "Post creation success", Toast.LENGTH_SHORT).show()
+    private fun onPostResult(result: DiscussionCreationResultModel) {
         hideLoading()
         activity?.setResult(Activity.RESULT_OK)
         activity?.finish()
+        if (result is PostCreationResultModel) {
+            startActivity(
+                PostActivity.getIntent(
+                    requireContext(), PostPageFragment.Args(
+                        result.postId
+                    )
+                )
+            )
+        }
     }
 
     private fun onPostLoading() {

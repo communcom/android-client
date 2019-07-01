@@ -24,11 +24,11 @@ class SettingsRepository(
     private val toCyberMapper: EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings>,
     private val dispatchersProvider: DispatchersProvider,
     private val deviceIdProvider: DeviceIdProvider,
-    private val defaultUserSettingsProvider: DefaultSettingProvider,
+    defaultUserSettingsProvider: DefaultSettingProvider,
     private val logger: Logger
 ) : Repository<UserSettingEntity, SettingChangeRequest> {
 
-    private val userSettings = MutableLiveData<UserSettingEntity>(defaultUserSettingsProvider.provide())
+    private val userSettings = MutableLiveData(defaultUserSettingsProvider.provide())
     private val updatingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<SettingChangeRequest>>>()
     private val jobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())

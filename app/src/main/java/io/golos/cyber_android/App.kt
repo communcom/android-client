@@ -1,8 +1,10 @@
 package io.golos.cyber_android
 
+import android.os.Build
 import androidx.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
+import io.golos.cyber_android.fcm.CommunFirebaseMessagingService
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.cyber_android.locator.ServiceLocator
 import io.golos.cyber_android.locator.ServiceLocatorImpl
@@ -30,6 +32,11 @@ class App : MultiDexApplication() {
             mServiceLocator.dispatchersProvider
         )
         appCore.initialize()
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CommunFirebaseMessagingService.createChannels(this)
+        }
     }
 
     override fun getSystemService(name: String): Any? {
