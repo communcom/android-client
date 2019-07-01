@@ -299,6 +299,6 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
         (this as? Either.Success)?.value ?: throw CyberServicesError(this as Either.Failure)
 
-    @Suppress("UNCHECKED_CAST")
-    private fun <T> TransactionCommitted<T>.extractResult() = this.processed.action_traces.first().act.data as T
+    private fun <T> TransactionCommitted<T>.extractResult() = this.resolvedResponse ?:
+    throw IllegalStateException("cannot extract result form transaction")
 }
