@@ -70,8 +70,8 @@ class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity>
                 cyberObject.votes.upCount,
                 cyberObject.votes.downCount
             ),
-            DiscussionCommentsCount(cyberObject.stats!!.commentsCount),
-            DiscussionPayout(cyberObject.payout.rShares.orZero()),
+            DiscussionCommentsCount(cyberObject.stats!!.commentsCount!!),
+            DiscussionPayout(0.toBigInteger()/*cyberObject.payout.rShares.orZero()*/),      // todo[AS] Fix it! But how to do it?
             DiscussionMetadata(cyberObject.meta.time)
         )
     }
@@ -142,7 +142,7 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
                 cyberObject.votes.upCount,
                 cyberObject.votes.downCount
             ),
-            DiscussionPayout(cyberObject.payout.rShares.orZero()),
+            DiscussionPayout(0.toBigInteger()/*cyberObject.payout.rShares.orZero()*/),         // todo[AS] Fix it! But how to do it?
             cyberObject.parent!!.post!!.contentId.let {
                 DiscussionIdEntity(it.userId, it.permlink)
             },

@@ -24,7 +24,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url 'http://116.203.39.126:32768/repository/internal' }   /* aka "archiva" */
+        maven { url 'http://116.203.39.126:34333/repository/cyber4j' }   /* aka "archiva" */
         mavenLocal()
         mavenCentral()
     }
