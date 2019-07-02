@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.screens.post.PostActivity
+import io.golos.cyber_android.ui.screens.post.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.PaginationScrollListener
+import io.golos.domain.requestmodel.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 /**
@@ -39,9 +43,27 @@ class NotificationsFragment : Fragment() {
         }
 
         notificationsList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        notificationsList.adapter = NotificationsAdapter()
+        notificationsList.adapter = NotificationsAdapter { event ->
+            when (event) {
+                is VoteEventModel -> showPost(event.post)
+                is FlagEventModel -> showPost(event.post)
+                is TransferEventModel -> showActor(event.actor)
+                is SubscribeEventModel -> showActor(event.actor)
+                is UnSubscribeEventModel -> showActor(event.actor)
+                is ReplyEventModel -> showPost(event.parentPost)
+                is MentionEventModel -> showPost(event.parentPost)
+                is RepostEventModel -> showPost(event.post)
+                is AwardEventModel -> {
+                }
+                is CuratorAwardEventModel -> showPost(event.post)
+                is MessageEventModel -> showActor(event.actor)
+                is WitnessVoteEventModel -> showActor(event.actor)
+                is WitnessCancelVoteEventModel -> showActor(event.actor)
+            }
+        }
 
-        val paginationScrollListener = object : PaginationScrollListener(notificationsList.layoutManager as LinearLayoutManager, NotificationsViewModel.PAGE_SIZE) {
+        val paginationScrollListener = object :
+            PaginationScrollListener(notificationsList.layoutManager as LinearLayoutManager, NotificationsViewModel.PAGE_SIZE) {
             override fun loadMoreItems() {
                 viewModel.loadMore()
             }
@@ -52,11 +74,21 @@ class NotificationsFragment : Fragment() {
 
     }
 
+    private fun showActor(actor: EventActorModel) {
+        startActivity(ProfileActivity.getIntent(requireContext(), actor.id.name))
+    }
+
+    private fun showPost(eventPostModel: EventPostModel?) {
+        if (eventPostModel?.contentId != null) {
+            startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(eventPostModel.contentId)))
+        }
+    }
+
     private fun observeViewModel(paginationScrollListener: PaginationScrollListener) {
         @Suppress("UNCHECKED_CAST")
         viewModel.feedLiveData.observe(this, Observer {
             if (it.isNotEmpty()) {
-            (notificationsList.adapter as NotificationsAdapter).submit(it)
+                (notificationsList.adapter as NotificationsAdapter).submit(it)
                 notificationsList.visibility = View.VISIBLE
                 empty.visibility = View.GONE
             } else {

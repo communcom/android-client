@@ -24,7 +24,7 @@ private const val LOADING_TYPE = 1
  * icon and avatar.
  * For additional information see [NotificationViewHolder.bindEvent] methods.
  */
-class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NotificationsAdapter(private val listener: (EventModel) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var values: List<EventModel> = emptyList()
 
     var isLoading = true
@@ -63,7 +63,7 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            ITEM_TYPE -> (holder as NotificationViewHolder).bind(values[position])
+            ITEM_TYPE -> (holder as NotificationViewHolder).bind(values[position], listener)
             LOADING_TYPE -> (holder as LoadingViewHolder).bind(isLoading)
         }
     }
@@ -81,7 +81,8 @@ class NotificationsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
          * Binds [EventModel] to this [NotificationViewHolder]. This method only passes item to corresponding
          * [bindEvent] method
          */
-        fun bind(item: EventModel) {
+        fun bind(item: EventModel, listener: (EventModel) -> Unit) {
+            itemView.root.setOnClickListener { listener(item) }
             when (item) {
                 is VoteEventModel -> bindEvent(item)
                 is FlagEventModel -> bindEvent(item)
