@@ -3,8 +3,10 @@ ext {
     appVersionName = "0.$appVesrionCode"
     minsdk = 19
     targetsdk = 28
+
     androidXVersion = "1.1.0-alpha05"
     androidXAppcompatVersion = "1.1.0-beta01"
+
     recyclerViewVersion = "1.1.0-alpha06"
     lifecycleVersion = "2.2.0-alpha01"
     archCoreTesting = "2.0.0"
@@ -26,6 +28,6 @@ ext {
     firebaseCoreVersion = "17.0.0"
     fcmVersion = "19.0.1"
     cyber4jVersion = "0.6.44"
-    firebaseCoreVersion = "17.0.0"
-    fcmVersion = "19.0.1"
+
+    visionVersion = "18.0.0"
 }

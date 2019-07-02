@@ -49,17 +49,22 @@
     <string name="welcome_slides_text_2">Read! Upvote!\nComment!</string>
 
     <!--Sign In-->
-    <string name="sign_in_title_0">Welcome,</string>
-    <string name="sign_in_title_1">sign in to continue</string>
+    <string name="sign_in_title_0">Welcome</string>
     <string name="login">Login</string>
     <string name="key">Key</string>
     <string name="ok">Ok</string>
+    <string name="sign_in_scan_qr">Scan QR</string>
+    <string name="sign_in_scan_qr_hint">Go to commun.com and scan QR</string>
+    <string name="sign_in_scan_qr_no_permissions">You have not permissions to use the camera.</string>
+    <string name="sign_in_scan_qr_invalid_format">Invalid code format</string>
+    <string name="sign_in_scan_qr_detector_error">Code detector is not operational</string>
+    <string name="sign_in_login_and_key">Login &amp; key</string>
 
     <!--Editor Page-->
     <string name="create_post">Create Post</string>
     <string name="you_will_post_in">You will post in</string>
     <string name="title">Title</string>
-    <string name="enter_text">Enter text...</string>
+    <string name="enter_text">Enter text…</string>
 
     <!--Sign Up-->
     <string name="select_country">Select Country</string>
@@ -178,6 +183,9 @@
     <string name="pick_a_profile_picture">Pick a profile\npicture</string>
     <string name="describe_yourself">Describe yourself</string>
     <string name="write_text">Write text</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

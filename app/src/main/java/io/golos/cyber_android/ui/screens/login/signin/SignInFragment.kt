@@ -1,124 +1,93 @@
 package io.golos.cyber_android.ui.screens.login.signin
 
-import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
-import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.cyber_android.ui.screens.main.MainActivity
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
+import io.golos.cyber_android.ui.screens.login.signin.qrCode.QrCodeSignInFragment
+import io.golos.cyber_android.ui.screens.login.signin.qrCode.detector.QrCodeDecrypted
+import io.golos.cyber_android.ui.screens.login.signin.userName.UserNameSignInFragment
+import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import java.lang.UnsupportedOperationException
 
 
-class SignInFragment : LoadingFragment() {
-
-    private lateinit var viewModel: SignInViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+class SignInFragment : LoadingFragment(), SignInParentFragment {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupViewModel()
-
-        login.addTextChangedListener(object : BaseTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onLoginInput(s.toString())
-            }
-        })
-
-        key.addTextChangedListener(object : BaseTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onKeyInput(s.toString())
-            }
-        })
-
-        key.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                signIn.performClick()
-                return@setOnEditorActionListener true
-            }
-            false
-        }
-
-        signIn.setOnClickListener {
-            viewModel.signIn()
-        }
+        setupViewPager()
+        setupTabLayout()
 
         back.setOnClickListener {
             findNavController().navigateUp()
         }
-
-        observeViewModel()
     }
 
-    private fun observeViewModel() {
-        viewModel.getValidationResultLiveData.observe(this, Observer { isValid ->
-            signIn.isEnabled = isValid
-        })
+    override fun onQrCodeReceived(code: QrCodeDecrypted) {
+        getChildTabFragment(SignInTab.LOGIN_KEY.index)!!.onQrCodeReceived(code)
+        selectTab(SignInTab.LOGIN_KEY)
+    }
 
-        viewModel.loadingLiveData.observe(this, Observer {
-            it.getIfNotHandled()?.let { isLoading ->
-                if (isLoading) {
-                    showLoading()
-                } else {
-                    hideLoading()
+    private fun setupViewPager() {
+        signInPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
+            override fun createFragment(position: Int): Fragment {
+                return when (position) {
+                    SignInTab.SCAN_QR.index -> QrCodeSignInFragment.newInstance(SignInTab.SCAN_QR)
+                    SignInTab.LOGIN_KEY.index -> UserNameSignInFragment.newInstance(SignInTab.LOGIN_KEY)
+                    else -> throw UnsupportedOperationException("The tab is not supported")
                 }
             }
-        })
 
-        viewModel.errorLiveData.observe(this, Observer {
-            it.getIfNotHandled()?.let { isError ->
-                if (isError)
-                    onError()
+            override fun getItemCount() = SignInTab.values().size
+        }
+
+        signInPager.reduceDragSensitivity()
+
+        signInPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                getOtherChildTabFragment(position)?.onUnselected()
+                getChildTabFragment(position)?.onSelected()
+
             }
         })
 
-        viewModel.authStateLiveData.observe(this, Observer {
-            it.getIfNotHandled()?.let { state ->
-                if (state.isUserLoggedIn) {
-                    navigateToMainScreen()
-                }
-            }
-        })
+        signInPager.currentItem
     }
 
+    private fun setupTabLayout() {
+        TabLayoutMediator(signInTabs, signInPager) { tab, position ->
+            tab.setText(SignInTab.values()[position].title)
+        }.attach()
 
-    private fun navigateToMainScreen() {
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-        requireActivity().finish()
+        selectTab(SignInTab.LOGIN_KEY)
     }
 
-    /**
-     * Called when there was an error in login process, displays [NotificationDialog] with error message
-     */
-    private fun onError() {
-        if (requireFragmentManager().findFragmentByTag("notification") == null)
-            NotificationDialog
-                .newInstance(getString(R.string.login_error))
-                .show(requireFragmentManager(), "notification")
-        hideLoading()
+    private fun selectTab(tab: SignInTab) {
+        tab.index.let {
+            signInTabs.getTabAt(it)?.select()
+            signInPager.setCurrentItem(it, false)
+        }
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(SignInViewModel::class.java)
-    }
+    private fun getChildTabFragment(position: Int): SignInChildFragment? =
+        getChildTabFragment { it == SignInTab.fromIndex(position) }
+
+    private fun getOtherChildTabFragment(position: Int): SignInChildFragment? =
+        getChildTabFragment { it != SignInTab.fromIndex(position) }
+
+    private fun getChildTabFragment(filterCondition: (SignInTab) ->  Boolean): SignInChildFragment? =
+        childFragmentManager.fragments.firstOrNull {
+            it is SignInChildFragment && filterCondition(it.tabCode)
+        } as? SignInChildFragment
 }

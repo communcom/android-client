@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signin
+package io.golos.cyber_android.ui.screens.login.signin.userName
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +14,7 @@ import io.golos.domain.requestmodel.QueryResult
  * [ViewModel] for Sign In process. Provides live data for input validation result,
  * loading and error states
  */
-class SignInViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
+class UserNameSignInViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
 
     private val validationResultLiveData = MutableLiveData<Boolean>(false)
 

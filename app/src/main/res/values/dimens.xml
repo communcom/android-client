@@ -82,14 +82,15 @@
     <dimen name="corners_welcome_pager_indicator">2dp</dimen>
     <dimen name="padding_welcome_pager_indicator">4dp</dimen>
     <dimen name="margin_top_sign_in_caption">10dp</dimen>
-    <dimen name="margin_horizontal_sign_in_caption">35dp</dimen>
+    <dimen name="margin_horizontal_sign_in_caption">16dp</dimen>
 
     <!--Sign In-->
     <dimen name="height_login_input">56dp</dimen>
     <dimen name="margin_top_sign_in_inputs">39dp</dimen>
     <dimen name="padding_top_sign_in_edit_text">10dp</dimen>
-    <dimen name="margin_top_sign_in_key">24dp</dimen>
-    <dimen name="margin_top_sign_in_button">40dp</dimen>
+    <dimen name="margin_top_sign_in_login">40dp</dimen>
+    <dimen name="margin_top_sign_in_button">48dp</dimen>
+    <dimen name="margin_sign_in_qr_code">22dp</dimen>
 
     <!--Loading Dialog-->
     <dimen name="corners_dialog_loading">8dp</dimen>

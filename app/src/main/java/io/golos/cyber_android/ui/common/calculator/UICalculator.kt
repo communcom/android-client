@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.helpers
+package io.golos.cyber_android.ui.common.calculator
 
 interface UICalculator {
     /**

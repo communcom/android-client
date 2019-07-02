@@ -3,7 +3,8 @@ package io.golos.cyber_android.locator
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
-import io.golos.cyber_android.ui.common.helpers.UICalculator
+import io.golos.cyber_android.ui.common.calculator.UICalculator
+import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.EventTypeEntity
@@ -34,6 +35,10 @@ interface ServiceLocator {
     val dispatchersProvider: DispatchersProvider
 
     val moshi: Moshi
+
+    val uiCalculator: UICalculator
+
+    val uiHelper: UIHelper
 
     fun getDefaultViewModelFactory(): ViewModelProvider.Factory
 
@@ -85,8 +90,6 @@ interface ServiceLocator {
     fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase
 
     fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase
-
-    fun getUICalculator(): UICalculator
 
     fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase
 }

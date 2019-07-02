@@ -9,13 +9,13 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
-import io.golos.cyber_android.ui.common.helpers.UICalculator
-import io.golos.cyber_android.ui.common.helpers.UICalculatorImpl
+import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
+import io.golos.cyber_android.ui.common.helper.UIHelperImpl
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
-import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
+import io.golos.cyber_android.ui.screens.login.signin.userName.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel
@@ -148,6 +148,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override val moshi: Moshi by lazy { Moshi.Builder().build() }
+
+    override val uiCalculator
+        get() = UICalculatorImpl(appContext)
+
+    override val uiHelper
+        get() = UIHelperImpl(appContext)
 
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>by lazy {
         PostsFeedRepository(
@@ -353,7 +359,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
-                    SignInViewModel::class.java -> SignInViewModel(
+                    UserNameSignInViewModel::class.java -> UserNameSignInViewModel(
                         getSignInUseCase()
                     ) as T
 
@@ -557,8 +563,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase {
         return UserMetadataUseCase(forUser, userMetadataRepository)
     }
-
-    override fun getUICalculator(): UICalculator = UICalculatorImpl(appContext)
 
     override fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase {
         return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, persister)
