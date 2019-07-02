@@ -38,6 +38,11 @@ class ProfileSettingsViewModel(
     val getGeneralSettingsLiveData = settingsUseCase.getAsLiveData
         .map { it?.general }
 
+    /**
+     * [LiveData] for update state
+     */
+    val getUpdateState = settingsUseCase.getUpdateState
+
     val getReadinessLiveData = settingsUseCase.getSettingsReadiness.asEvent()
 
     fun onNotificationSettingChanged(item: NotificationSetting, isEnabled: Boolean) {

@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
+import io.golos.cyber_android.utils.asEvent
+import io.golos.data.errors.AppError
+import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_settings_picker.*
 
 
@@ -51,7 +55,6 @@ class LanguageSettingsFragment : LoadingFragment() {
     private fun observeViewModel() {
         viewModel.getGeneralSettingsLiveData.observe(this, Observer {
             (settingsList.adapter as LanguageSettingsAdapter).selectedCode = it?.languageCode
-            hideLoading()
         })
 
         viewModel.getReadinessLiveData.observe(this, Observer {
@@ -60,6 +63,25 @@ class LanguageSettingsFragment : LoadingFragment() {
                     hideLoading()
                 } else {
                     showLoading()
+                }
+            }
+        })
+
+        viewModel.getUpdateState.asEvent().observe(this, Observer {
+            it.getIfNotHandled()?.let { result ->
+                when (result) {
+                    is QueryResult.Loading -> showLoading()
+                    is QueryResult.Success -> hideLoading()
+                    is QueryResult.Error -> {
+                        hideLoading()
+                        val errorMsg = when (result.error) {
+                            is AppError.RequestTimeOutException -> R.string.request_timeout_error
+                            else -> R.string.unknown_error
+                        }
+
+                        NotificationDialog.newInstance(getString(errorMsg))
+                            .show(requireFragmentManager(), "error")
+                    }
                 }
             }
         })

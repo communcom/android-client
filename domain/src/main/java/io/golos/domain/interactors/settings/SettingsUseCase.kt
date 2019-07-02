@@ -31,10 +31,20 @@ class SettingsUseCase(
     override val getAsLiveData: LiveData<UserSettingModel>
         get() = userSettings
 
+    private val updateState = MutableLiveData<QueryResult<*>>()
+
+    val getUpdateState: LiveData<QueryResult<*>> = updateState
+
     override fun subscribe() {
         super.subscribe()
         mediator.addSource(authRepository.getAsLiveData(authRepository.allDataRequest)) {
             readinessLiveData.value = it?.isUserLoggedIn == true
+        }
+        mediator.addSource(settingsRepository.updateStates) {
+            val lastRequest = this.lastRequest ?: return@addSource
+            it[lastRequest.id]?.let { result ->
+                updateState.value = result
+            }
         }
         mediator.addSource(settingsRepository.getAsLiveData(SettingsFetchRequest())) {
             it ?: return@addSource
@@ -69,38 +79,42 @@ class SettingsUseCase(
         mediator.removeSource(settingsRepository.getAsLiveData(SettingsFetchRequest()))
     }
 
+    private var lastRequest: SettingChangeRequest? = null
+
     fun makeAction(param: SettingChangeRequestModel) {
         if (readinessLiveData.value != true) {
             println("cannot make settings actions, if user not authenticated")
             return
         }
+        val repositoryParams = when (param) {
+            is ChangeBasicSettingsRequestModel -> ChangeBasicSettingsRequest(
+                GeneralSettingEntity(
+                    param.newGeneralSettings.nsfws,
+                    param.newGeneralSettings.languageCode
+                )
+            )
+            is ChangeNotificationSettingRequestModel -> ChangeNotificationSettingRequest(
+                NotificationSettingsEntity(
+                    param.newNotificationSettings.showUpvote,
+                    param.newNotificationSettings.showDownvote,
+                    param.newNotificationSettings.showReply,
+                    param.newNotificationSettings.showTransfer,
+                    param.newNotificationSettings.showSubscribe,
+                    param.newNotificationSettings.showUnsubscribe,
+                    param.newNotificationSettings.showMention,
+                    param.newNotificationSettings.showRepost,
+                    param.newNotificationSettings.showMessage,
+                    param.newNotificationSettings.showWitnessVote,
+                    param.newNotificationSettings.showWitnessCancelVote,
+                    param.newNotificationSettings.showReward,
+                    param.newNotificationSettings.showCuratorReward
+                )
+            )
+            is SettingsFetchRequestModel -> SettingsFetchRequest()
+        }
+        lastRequest = repositoryParams
         settingsRepository.makeAction(
-            when (param) {
-                is ChangeBasicSettingsRequestModel -> ChangeBasicSettingsRequest(
-                    GeneralSettingEntity(
-                        param.newGeneralSettings.nsfws,
-                        param.newGeneralSettings.languageCode
-                    )
-                )
-                is ChangeNotificationSettingRequestModel -> ChangeNotificationSettingRequest(
-                    NotificationSettingsEntity(
-                        param.newNotificationSettings.showUpvote,
-                        param.newNotificationSettings.showDownvote,
-                        param.newNotificationSettings.showReply,
-                        param.newNotificationSettings.showTransfer,
-                        param.newNotificationSettings.showSubscribe,
-                        param.newNotificationSettings.showUnsubscribe,
-                        param.newNotificationSettings.showMention,
-                        param.newNotificationSettings.showRepost,
-                        param.newNotificationSettings.showMessage,
-                        param.newNotificationSettings.showWitnessVote,
-                        param.newNotificationSettings.showWitnessCancelVote,
-                        param.newNotificationSettings.showReward,
-                        param.newNotificationSettings.showCuratorReward
-                    )
-                )
-                is SettingsFetchRequestModel -> SettingsFetchRequest()
-            }
+            repositoryParams
         )
     }
 }
