@@ -50,5 +50,17 @@
     </fragment>
     <fragment android:id="@+id/signUpKeyFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.key.SignUpKeyFragment"
-              android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key"/>
+              android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key">
+        <action android:id="@+id/action_signUpKeyFragment_to_onboardingUserImageFragment"
+                app:destination="@id/onboardingUserImageFragment"/>
+    </fragment>
+    <fragment android:id="@+id/onboardingUserImageFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment"
+              android:label="onboarding_user_image_fragment" tools:layout="@layout/fragment_onboarding_user_image">
+        <action android:id="@+id/action_onboardingUserImageFragment_to_onboardingBioFragment"
+                app:destination="@id/onboardingBioFragment"/>
+    </fragment>
+    <fragment android:id="@+id/onboardingBioFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.onboarding.bio.OnboardingBioFragment"
+              android:label="fragment_onboarding_bio" tools:layout="@layout/fragment_onboarding_bio"/>
 </navigation>

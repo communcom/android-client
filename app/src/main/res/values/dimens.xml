@@ -169,5 +169,11 @@
     <dimen name="size_notification_icon">20dp</dimen>
     <dimen name="size_notification_badge">18dp</dimen>
 
+    <!--Onboarding-->
+    <dimen name="margin_top_sign_up_image_title">60dp</dimen>
+    <dimen name="padding_sign_up_image">80dp</dimen>
+    <dimen name="margin_top_sign_up_image">50dp</dimen>
+    <dimen name="margin_bottom_sign_up_image_button">40dp</dimen>
+
 
 </resources>

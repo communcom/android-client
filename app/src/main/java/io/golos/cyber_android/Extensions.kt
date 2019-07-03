@@ -1,6 +1,8 @@
 package io.golos.cyber_android
 
 import android.content.Context
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -16,9 +18,9 @@ val Context.serviceLocator: ServiceLocator
     get() = applicationContext.getSystemService(App.SERVICE_LOCATOR) as ServiceLocator
 
 
-fun NavController.safeNavigate(@IdRes from: Int, @IdRes action: Int) {
+fun NavController.safeNavigate(@IdRes from: Int, @IdRes action: Int, args: Bundle? = null) {
     if (this.currentDestination?.id == from)
-        this.navigate(action)
+        this.navigate(action, args)
 }
 
 fun <T> LiveData<T>.observeUntil(owner: LifecycleOwner, stopCondition: (T) -> Boolean, observer: (T) -> Unit) {
@@ -30,3 +32,5 @@ fun <T> LiveData<T>.observeUntil(owner: LifecycleOwner, stopCondition: (T) -> Bo
         }
     })
 }
+
+fun View.setPadding(padding: Int) = this.setPadding(padding, padding, padding, padding)

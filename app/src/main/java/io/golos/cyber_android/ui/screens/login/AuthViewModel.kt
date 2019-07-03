@@ -11,6 +11,8 @@ open class AuthViewModel(private val signInUseCase: SignInUseCase) : ViewModel()
      */
     val authLiveData = signInUseCase.getSignInState
 
+    val authStateLiveData = signInUseCase.getAsLiveData
+
     init {
         signInUseCase.subscribe()
     }

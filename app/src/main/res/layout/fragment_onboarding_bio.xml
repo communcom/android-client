@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="io.golos.cyber_android.ui.screens.login.signup.onboarding.bio.OnboardingBioFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            style="@style/SignInCaptionTextStyle"
+            android:layout_marginTop="@dimen/margin_top_sign_up_image_title"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:text="@string/describe_yourself"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/bio"
+            android:focusable="true"
+            android:gravity="top|start"
+            android:focusableInTouchMode="true"
+            android:background="@color/white"
+            android:hint="@string/write_text"
+            android:inputType="textMultiLine|textCapSentences"
+            android:linksClickable="false"
+            android:layout_marginTop="@dimen/margin_top_editor_page_title"
+            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:theme="@style/EditorPostContentTextStyle"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+    <TextView
+            android:id="@+id/next"
+            style="@style/SignUpButtonStyle"
+            android:layout_marginTop="@dimen/margin_top_welcome_buttons"
+            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
+            android:text="@string/next"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <TextView
+            android:id="@+id/skip"
+            style="@style/SignInButtonStyle"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginBottom="@dimen/margin_bottom_sign_up_image_button"
+            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
+            android:text="@string/skip"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

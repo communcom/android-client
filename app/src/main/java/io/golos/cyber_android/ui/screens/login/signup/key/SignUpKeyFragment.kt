@@ -15,18 +15,20 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.obsez.android.lib.filechooser.ChooserDialog
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
-import io.golos.cyber_android.ui.screens.main.MainActivity
+import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment
 import io.golos.cyber_android.utils.PdfKeysUtils
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.GeneratedUserKeys
-import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.fragment_sign_up_key.*
 import java.io.File
 
@@ -72,10 +74,10 @@ class SignUpKeyFragment : Fragment() {
             }
         })
 
-        authViewModel.authLiveData.asEvent().observe(this, Observer { event ->
+        authViewModel.authStateLiveData.asEvent().observe(this, Observer { event ->
             event.getIfNotHandled()?.let {
-                authSuccessful = it == SignInState.USER_LOGGED_IN
-                tryToNavigateToMainScreen()
+                authSuccessful = it.isUserLoggedIn == true
+                tryToNavigateToOnboarding()
             }
         })
     }
@@ -136,7 +138,7 @@ class SignUpKeyFragment : Fragment() {
                 startActivityForResult(intent, VIEW_PDF_REQUEST)
             } catch (e: ActivityNotFoundException) {
                 fileSavedSuccessful = true
-                tryToNavigateToMainScreen()
+                tryToNavigateToOnboarding()
             }
         }
 
@@ -148,18 +150,31 @@ class SignUpKeyFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == VIEW_PDF_REQUEST) {
             fileSavedSuccessful = true
-            tryToNavigateToMainScreen()
+            tryToNavigateToOnboarding()
         }
     }
 
-    private fun tryToNavigateToMainScreen() {
+    private fun tryToNavigateToOnboarding() {
         if (authSuccessful && fileSavedSuccessful)
-            navigateToMainScreen()
+            navigateToOnboarding()
     }
 
-    private fun navigateToMainScreen() {
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-        requireActivity().finish()
+    private fun navigateToOnboarding() {
+        authViewModel.authStateLiveData.value?.let { auth ->
+            findNavController().safeNavigate(
+                R.id.signUpKeyFragment,
+                R.id.action_signUpKeyFragment_to_onboardingUserImageFragment,
+                Bundle().apply {
+                    putString(
+                        Tags.ARGS,
+                        requireContext()
+                            .serviceLocator.moshi
+                            .adapter(OnboardingUserImageFragment.Args::class.java)
+                            .toJson(OnboardingUserImageFragment.Args(auth.userName))
+                    )
+                }
+            )
+        }
     }
 
     private fun setupViewModel() {

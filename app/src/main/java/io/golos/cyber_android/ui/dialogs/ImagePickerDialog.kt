@@ -30,6 +30,7 @@ class ImagePickerDialog : BottomSheetDialogFragment() {
     enum class Target(@StringRes val removeMsg: Int) {
         COVER(R.string.delete_current_cover),
         AVATAR(R.string.delete_current_photo),
+        ONBOARDING(0),
         EDITOR_PAGE(0)
 
     }
@@ -50,7 +51,7 @@ class ImagePickerDialog : BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
         val target = arguments?.getSerializable("target") as Target
 
-        if (target != Target.EDITOR_PAGE)
+        if (target != Target.EDITOR_PAGE && target != Target.ONBOARDING)
             remove.setText(target.removeMsg)
         else remove.visibility = View.GONE
 

@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.SignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
+import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel
 import io.golos.cyber_android.ui.screens.main.MainViewModel
 import io.golos.cyber_android.ui.screens.notifications.NotificationsViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
@@ -440,6 +441,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getSignInUseCase(),
                         forUser
                     ) as T
+                    OnboardingUserImageViewModel::class.java -> OnboardingUserImageViewModel(getUserMetadataUseCase(forUser)) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }

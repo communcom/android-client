@@ -26,7 +26,8 @@ class EditProfileAvatarFragment : BaseImagePickerFragment() {
 
     data class Args(
         val user: CyberName,
-        val source: ImageSource
+        val source: ImageSource,
+        val forOnboarding: Boolean = false
     )
 
     private lateinit var viewModel: EditProfileAvatarViewModel
@@ -57,6 +58,10 @@ class EditProfileAvatarFragment : BaseImagePickerFragment() {
         }
         close.setOnClickListener { requireActivity().finish() }
         post.setOnClickListener { confirm() }
+
+        if (getArgs().forOnboarding) {
+            toolbarTitle.text = ""
+        }
     }
 
     private fun observeViewModel() {
