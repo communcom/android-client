@@ -1,7 +1,6 @@
 package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.apiService
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.logger
@@ -15,6 +14,7 @@ import io.golos.domain.requestmodel.AuthRequestModel
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.SignInState
+import io.golos.sharedmodel.CyberName
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.delay

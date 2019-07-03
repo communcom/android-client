@@ -1,10 +1,10 @@
 package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.userMetadataRepos
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.sharedmodel.CyberName
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule

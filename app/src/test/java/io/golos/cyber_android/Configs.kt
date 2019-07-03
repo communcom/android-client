@@ -3,7 +3,6 @@ package io.golos.cyber_android
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.model.CyberName
 import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
 import io.golos.cyber_android.locator.RepositoriesHolder
 import io.golos.cyber_android.utils.ImageCompressorImpl
@@ -15,6 +14,7 @@ import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.CountryEntityToModelMapper
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
+import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.*

@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.appCore
 import io.golos.cyber_android.authStateRepository
 import io.golos.cyber_android.persister
-import io.golos.cyber_android.pushesRepository
+import io.golos.cyber_android.pushNotifsRepository
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.requestmodel.PushNotificationsStateModel
@@ -26,7 +26,7 @@ class PushesUseCaseTest {
     @Before
     fun before() {
         appCore.initialize()
-        useCase = PushNotificationsSettingsUseCaseImpl(pushesRepository, authStateRepository, persister)
+        useCase = PushNotificationsSettingsUseCaseImpl(pushNotifsRepository, authStateRepository, persister)
     }
 
     @Test
