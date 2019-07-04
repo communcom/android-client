@@ -15,7 +15,7 @@ import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedView
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
-import io.golos.cyber_android.ui.screens.login.signin.userName.UserNameSignInViewModel
+import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel

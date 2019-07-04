@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signin.qrCode
+package io.golos.cyber_android.ui.screens.login.signin.qr_code
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,8 +15,8 @@ import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInParentFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInTab
-import io.golos.cyber_android.ui.screens.login.signin.qrCode.detector.QrCodeDetector
-import io.golos.cyber_android.ui.screens.login.signin.qrCode.detector.QrCodeDetectorErrorCode
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDetector
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDetectorErrorCode
 import kotlinx.android.synthetic.main.fragment_qr_code_sign_in.*
 
 class QrCodeSignInFragment: Fragment(), SignInChildFragment {

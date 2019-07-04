@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signin.userName
+package io.golos.cyber_android.ui.screens.login.signin.user_name
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

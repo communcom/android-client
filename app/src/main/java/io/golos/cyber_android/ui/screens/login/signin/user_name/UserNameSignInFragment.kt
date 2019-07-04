@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signin.userName
+package io.golos.cyber_android.ui.screens.login.signin.user_name
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +16,7 @@ import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInTab
-import io.golos.cyber_android.ui.screens.login.signin.qrCode.detector.QrCodeDecrypted
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.cyber_android.views.utils.BaseTextWatcher
 import kotlinx.android.synthetic.main.fragment_user_name_sign_in.*

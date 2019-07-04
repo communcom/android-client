@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.common.helper
 
 import android.content.Context
-import android.os.Handler
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
@@ -27,10 +26,6 @@ class SoftKeyboardVisibilityRunnable(
         }
     }
 
-    private fun post() {
-        Handler().postDelayed(this, waitInterval)
-    }
-
     private fun showKeyboard() {
         // Check view is focusable
         if (!(targetView.isFocusable && targetView.isFocusableInTouchMode)) {       // Non focusable view
@@ -38,21 +33,21 @@ class SoftKeyboardVisibilityRunnable(
         }
 
         if (!targetView.requestFocus()) {         // Cannot focus on view
-            post()
+            targetView.postDelayed(this, waitInterval)
             return
         }
 
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         if (!imm.isActive(targetView)) {         // IMM is not active
-            post()
+            targetView.postDelayed(this, waitInterval)
             return
         }
 
         val isVisibilityUpdated = imm.showSoftInput(targetView, InputMethodManager.SHOW_FORCED)
 
         if (!isVisibilityUpdated) { // Unable to update visibility
-            post()
+            targetView.postDelayed(this, waitInterval)
         }
     }
 
@@ -62,7 +57,7 @@ class SoftKeyboardVisibilityRunnable(
         val isVisibilityUpdated = imm.hideSoftInputFromWindow(targetView.windowToken, 0)
 
         if (!isVisibilityUpdated) { // Unable to update visibility
-            post()
+            targetView.postDelayed(this, waitInterval)
         }
     }
 }

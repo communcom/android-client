@@ -11,9 +11,9 @@ import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
-import io.golos.cyber_android.ui.screens.login.signin.qrCode.QrCodeSignInFragment
-import io.golos.cyber_android.ui.screens.login.signin.qrCode.detector.QrCodeDecrypted
-import io.golos.cyber_android.ui.screens.login.signin.userName.UserNameSignInFragment
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.QrCodeSignInFragment
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDecrypted
+import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInFragment
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import java.lang.UnsupportedOperationException
