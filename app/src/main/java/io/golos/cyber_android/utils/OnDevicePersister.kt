@@ -3,7 +3,6 @@ package io.golos.cyber_android.utils
 import android.content.Context
 import android.util.Base64
 import com.squareup.moshi.Moshi
-import io.golos.cyber4j.model.CyberName
 import io.golos.domain.Logger
 import io.golos.domain.Persister
 import io.golos.domain.entities.AuthState
