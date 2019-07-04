@@ -14,7 +14,12 @@
     <ImageView
             android:src="@drawable/img_sign_up_key"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+
+            android:scaleType="center"
+            android:scaleX="@dimen/scale_factor_welcome_image"
+            android:scaleY="@dimen/scale_factor_welcome_image"
+    />
 
     <androidx.appcompat.widget.AppCompatTextView
             style="@style/EditorPreviewSummaryTextStyle"

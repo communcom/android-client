@@ -8,9 +8,13 @@
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/slideImg"
             android:layout_gravity="end"
+            android:scaleType="center"
+            android:scaleX="@dimen/scale_factor_welcome_image"
+            android:scaleY="@dimen/scale_factor_welcome_image"
             tools:srcCompat="@drawable/img_welcome_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/slideText"
             style="@style/WelcomeSlidesTextStyle"

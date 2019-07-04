@@ -1,0 +1,11 @@
+<resources>
+    <!--Welcome-->
+    <dimen name="height_welcome_sign_button_min">56dp</dimen>
+    <dimen name="margin_top_welcome_caption">30dp</dimen>
+    <dimen name="text_size_welcome_slide">@dimen/text_size_30_sp</dimen>
+    <dimen name="scale_factor_welcome_image">1.0</dimen>
+    <dimen name="buttons_text_size_welcome_slide">@dimen/text_size_17_sp</dimen>
+
+    <!--Sign Up-->
+    <dimen name="margin_top_sign_up_master_key_title">38dp</dimen>
+</resources>
