@@ -120,6 +120,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
     implementation "com.google.firebase:firebase-messaging:$fcmVersion"
 
+    implementation "com.google.android.gms:play-services-vision:$visionVersion"
+
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
     implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
