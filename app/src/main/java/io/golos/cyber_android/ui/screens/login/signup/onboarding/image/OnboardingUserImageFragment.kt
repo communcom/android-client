@@ -18,7 +18,6 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.LoadingFragment
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.bio.OnboardingBioFragment
-import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
@@ -54,24 +53,27 @@ class OnboardingUserImageFragment : LoadingFragment() {
             }.show(requireFragmentManager(), "cover")
         }
         skip.setOnClickListener {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            requireActivity().finish()
+            goToOnboadingBioScreen()
         }
         next.setOnClickListener {
-            findNavController().safeNavigate(
-                R.id.onboardingUserImageFragment,
-                R.id.action_onboardingUserImageFragment_to_onboardingBioFragment,
-                Bundle().apply {
-                    putString(
-                        Tags.ARGS,
-                        requireContext()
-                            .serviceLocator.moshi
-                            .adapter(OnboardingBioFragment.Args::class.java)
-                            .toJson(OnboardingBioFragment.Args(getArgs().user))
-                    )
-                }
-            )
+            goToOnboadingBioScreen()
         }
+    }
+
+    private fun goToOnboadingBioScreen() {
+        findNavController().safeNavigate(
+            R.id.onboardingUserImageFragment,
+            R.id.action_onboardingUserImageFragment_to_onboardingBioFragment,
+            Bundle().apply {
+                putString(
+                    Tags.ARGS,
+                    requireContext()
+                        .serviceLocator.moshi
+                        .adapter(OnboardingBioFragment.Args::class.java)
+                        .toJson(OnboardingBioFragment.Args(getArgs().user))
+                )
+            }
+        )
     }
 
     private fun observeViewModel() {
