@@ -104,12 +104,12 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
                             event.fresh,
                             event.timestamp
                         )
-                        is MessageEvent -> MessageEventEntity(
-                            event.actor.toEventActor(),
-                            event._id,
-                            event.fresh,
-                            event.timestamp
-                        )
+//                        is MessageEvent -> MessageEventEntity(
+//                            event.actor.toEventActor(),
+//                            event._id,
+//                            event.fresh,
+//                            event.timestamp
+//                        )
                         is WitnessVoteEvent -> WitnessVoteEventEntity(
                             event.actor.toEventActor(),
                             event._id,

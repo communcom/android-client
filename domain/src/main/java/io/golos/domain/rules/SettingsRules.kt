@@ -28,7 +28,7 @@ class MyDefaultSettingProvider() : DefaultSettingProvider {
             NotificationSettingsEntity(
                 true, true, true, true, true,
                 true, true, true, true, true, true,
-                true, true
+                true
             )
         )
     }
@@ -92,7 +92,6 @@ class SettingsToEntityMapper(private val moshi: Moshi) : CyberToEntityMapper<Use
                 push?.unsubscribe.orTrue(),
                 push?.mention.orTrue(),
                 push?.repost.orTrue(),
-                push?.message.orTrue(),
                 push?.witnessVote.orTrue(),
                 push?.witnessCancelVote.orTrue(),
                 push?.reward.orTrue(),
@@ -110,7 +109,7 @@ class SettingToCyberMapper : EntityToCyberMapper<NotificationSettingsEntity, Mob
             NotificationSettings(
                 entity.showUpvote, entity.showDownvote,
                 entity.showReply, entity.showTransfer, entity.showSubscribe, entity.showUnsubscribe,
-                entity.showMention, entity.showRepost, entity.showMessage, entity.showWitnessVote,
+                entity.showMention, entity.showRepost, entity.showWitnessVote,
                 entity.showWitnessCancelVote, entity.showReward, entity.showCuratorReward
             ), getLanguge()
         )

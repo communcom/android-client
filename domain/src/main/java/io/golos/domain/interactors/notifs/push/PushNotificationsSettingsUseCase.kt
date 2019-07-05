@@ -9,10 +9,7 @@ import io.golos.domain.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.PushNotificationsStateEntity
 import io.golos.domain.interactors.UseCase
-import io.golos.domain.requestmodel.AuthRequest
-import io.golos.domain.requestmodel.PushNotificationsStateModel
-import io.golos.domain.requestmodel.PushNotificationsStateUpdateRequest
-import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.*
 
 interface PushNotificationsSettingsUseCase : UseCase<QueryResult<PushNotificationsStateModel>> {
     val getReadinessLiveData: LiveData<Boolean>
@@ -72,7 +69,7 @@ class PushNotificationsSettingsUseCaseImpl(
 
     override fun subscribeToPushNotifications() {
         if (readinessLiveData.value == true) {
-            val params = PushNotificationsStateUpdateRequest(true)
+            val params = PushNotificationsSubscribeRequest()
             pushRepository.makeAction(params)
             lastRequest = params
         }
@@ -80,9 +77,11 @@ class PushNotificationsSettingsUseCaseImpl(
 
     override fun unsubscribeFromPushNotifications() {
         if (readinessLiveData.value == true) {
-            val params = PushNotificationsStateUpdateRequest(false)
-            pushRepository.makeAction(params)
-            lastRequest = params
+            authRepository.getAsLiveData(authRepository.allDataRequest).value?.let {
+                val params = PushNotificationsUnsubscribeRequest(it.user)
+                pushRepository.makeAction(params)
+                lastRequest = params
+            }
         }
     }
 

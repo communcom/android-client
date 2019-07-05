@@ -56,7 +56,6 @@ class NotificationsFragment : Fragment() {
                 is AwardEventModel -> {
                 }
                 is CuratorAwardEventModel -> showPost(event.post)
-                is MessageEventModel -> showActor(event.actor)
                 is WitnessVoteEventModel -> showActor(event.actor)
                 is WitnessCancelVoteEventModel -> showActor(event.actor)
             }

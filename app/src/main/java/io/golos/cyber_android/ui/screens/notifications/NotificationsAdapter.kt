@@ -94,7 +94,6 @@ class NotificationsAdapter(private val listener: (EventModel) -> Unit) : Recycle
                 is RepostEventModel -> bindItem(item)
                 is AwardEventModel -> skip(item)
                 is CuratorAwardEventModel -> bindEvent(item)
-                is MessageEventModel -> skip(item)
                 is WitnessVoteEventModel -> skip(item)
                 is WitnessCancelVoteEventModel -> skip(item)
             }

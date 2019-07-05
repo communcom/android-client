@@ -7,9 +7,7 @@ import io.golos.data.api.PushNotificationsApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.*
 import io.golos.domain.entities.PushNotificationsStateEntity
-import io.golos.domain.requestmodel.Identifiable
-import io.golos.domain.requestmodel.PushNotificationsStateUpdateRequest
-import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
@@ -40,9 +38,10 @@ class PushNotificationsRepository(
                 (params.id to QueryResult.Loading(params))
         repositoryScope.launch {
             try {
-                if (params.toEnable)
-                    api.subscribeOnMobilePushNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
-                else api.unSubscribeOnNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
+                when (params) {
+                    is PushNotificationsSubscribeRequest -> api.subscribeOnMobilePushNotifications(deviceIdProvider.provide(), fcmTokenProvider.provide())
+                    is PushNotificationsUnsubscribeRequest -> api.unSubscribeOnNotifications(params.userId, deviceIdProvider.provide())
+                }
 
                 updatingStates.postValue(updatingStates.value.orEmpty() +
                         (params.id to QueryResult.Success(params)))

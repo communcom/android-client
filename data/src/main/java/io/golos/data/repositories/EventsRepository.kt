@@ -100,7 +100,6 @@ class EventsRepository(
         EventTypeEntity.UN_SUBSCRIBE -> EventType.UN_SUBSCRIBE
         EventTypeEntity.MENTION -> EventType.MENTION
         EventTypeEntity.REPOST -> EventType.REPOST
-        EventTypeEntity.MESSAGE -> EventType.MESSAGE
         EventTypeEntity.REWARD -> EventType.REWARD
         EventTypeEntity.CURATOR_REWARD -> EventType.CURATOR_REWARD
         EventTypeEntity.WITNESS_VOTE -> EventType.WITNESS_VOTE

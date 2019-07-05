@@ -1,5 +1,5 @@
 ext {
-    appVesrionCode = 8
+    appVesrionCode = 10
     appVersionName = "0.$appVesrionCode"
     minsdk = 19
     targetsdk = 28
@@ -27,7 +27,7 @@ ext {
     dirchooserVersion = "v1.1.17"
     firebaseCoreVersion = "17.0.0"
     fcmVersion = "19.0.1"
-    cyber4jVersion = "0.6.44"
+    cyber4jVersion = "0.6.5"
 
     visionVersion = "18.0.0"
 }

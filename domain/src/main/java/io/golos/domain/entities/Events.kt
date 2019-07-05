@@ -117,13 +117,6 @@ data class CuratorAwardEventEntity(
     val timestamp: Date
 ) : EventEntity()
 
-data class MessageEventEntity(
-    val actor: EventActorEntity,
-    val eventId: String,
-    val isFresh: Boolean,
-    val timestamp: Date
-) : EventEntity()
-
 data class WitnessVoteEventEntity(
     val actor: EventActorEntity,
     val eventId: String,
@@ -141,7 +134,7 @@ data class WitnessCancelVoteEventEntity(
 
 data class EventValueEntity(val amount: Double, val currency: String) : Entity
 
-data class EventActorEntity(val id: CyberName, val avatarUrl: String?) : io.golos.domain.Entity
+data class EventActorEntity(val id: CyberName, val avatarUrl: String?) : Entity
 
 data class EventPostEntity(val contentId: DiscussionIdEntity, val title: String) : Entity
 
@@ -149,7 +142,7 @@ data class EventCommentEntity(val contentId: DiscussionIdEntity, val body: Strin
 
 enum class EventTypeEntity : Entity {
     VOTE, FLAG, TRANSFER, REPLY, SUBSCRIBE, UN_SUBSCRIBE,
-    MENTION, REPOST, REWARD, CURATOR_REWARD, MESSAGE, WITNESS_VOTE,
+    MENTION, REPOST, REWARD, CURATOR_REWARD, WITNESS_VOTE,
     WITNESS_CANCEL_VOTE;
 }
 

@@ -30,7 +30,6 @@ data class NotificationSettingsModel(
     val showUnsubscribe: Boolean,
     val showMention: Boolean,
     val showRepost: Boolean,
-    val showMessage: Boolean,
     val showWitnessVote: Boolean,
     val showWitnessCancelVote: Boolean,
     val showReward: Boolean,

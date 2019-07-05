@@ -134,15 +134,6 @@ data class CuratorAwardEventModel(
     val elapsedTime = timestamp.asElapsedTime()
 }
 
-data class MessageEventModel(
-    val actor: EventActorModel,
-    override val eventId: String,
-    val isFresh: Boolean,
-    val timestamp: Date
-) : EventModel(){
-    val elapsedTime = timestamp.asElapsedTime()
-}
-
 data class WitnessVoteEventModel(
     val actor: EventActorModel,
     override val eventId: String,
@@ -164,7 +155,7 @@ data class WitnessCancelVoteEventModel(
 
 data class EventValueModel(val amount: Double, val currency: String) : Model
 
-data class EventActorModel(val id: CyberName, val avatarUrl: String?) : io.golos.domain.Model
+data class EventActorModel(val id: CyberName, val avatarUrl: String?) : Model
 
 data class EventPostModel(val contentId: DiscussionIdModel, val title: String) : Model
 

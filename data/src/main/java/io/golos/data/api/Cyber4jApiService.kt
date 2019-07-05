@@ -52,44 +52,47 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     override fun getCommunityPosts(
         communityId: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
+        timeFrame: FeedTimeFrame,
+        tags: List<String>,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, limit, sort, tags, sequenceKey).getOrThrow()
     }
 
     override fun getPost(user: CyberName, permlink: String): CyberDiscussion {
-        return cyber4j.getPost(user, permlink, ContentParsingType.MOBILE).getOrThrow()
+        return cyber4j.getPost(user, null, permlink, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun getUserSubscriptions(
         userId: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserSubscriptions(CyberName(userId), ContentParsingType.MOBILE, limit, sort, sequenceKey)
+        return cyber4j.getUserSubscriptions(CyberName(userId), null, ContentParsingType.MOBILE, limit, sort, sequenceKey)
             .getOrThrow()
     }
 
     override fun getUserPost(
         userId: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
         sequenceKey: String?
     ): DiscussionsResult {
-        return cyber4j.getUserPosts(CyberName(userId), ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
+        return cyber4j.getUserPosts(CyberName(userId), null, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getCommentsOfPost(
         user: CyberName,
         permlink: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
         sequenceKey: String?
     ): DiscussionsResult {
         return cyber4j.getCommentsOfPost(
             user,
+            null,
             permlink,
             ContentParsingType.MOBILE,
             limit,
@@ -99,7 +102,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     }
 
     override fun getComment(user: CyberName, permlink: String): CyberDiscussion {
-        return cyber4j.getComment(user, permlink, ContentParsingType.MOBILE).getOrThrow()
+        return cyber4j.getComment(user, null, permlink, ContentParsingType.MOBILE).getOrThrow()
     }
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) {
@@ -273,7 +276,7 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     }
 
     override fun getUserMetadata(user: CyberName): UserMetadataResult {
-        return cyber4j.getUserMetadata(user).getOrThrow()
+        return cyber4j.getUserMetadata(user, null).getOrThrow()
     }
 
     override fun pin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
@@ -289,11 +292,11 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
     }
 
     override fun subscribeOnMobilePushNotifications(deviceId: String, fcmToken: String): ResultOk {
-        return cyber4j.subscribeOnMobilePushNotifications(deviceId, fcmToken).getOrThrow()
+        return cyber4j.subscribeOnMobilePushNotifications(deviceId, fcmToken, AppName.GLS).getOrThrow()
     }
 
-    override fun unSubscribeOnNotifications(deviceId: String, fcmToken: String): ResultOk {
-        return cyber4j.unSubscribeOnNotifications(deviceId, fcmToken).getOrThrow()
+    override fun unSubscribeOnNotifications(userId: CyberName, deviceId: String): ResultOk {
+        return cyber4j.unSubscribeOnNotifications(userId, deviceId, AppName.GLS).getOrThrow()
     }
 
     private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =

@@ -1,6 +1,8 @@
 package io.golos.domain.requestmodel
 
-class PushNotificationsStateUpdateRequest(val toEnable: Boolean): Identifiable {
+import io.golos.sharedmodel.CyberName
+
+sealed class PushNotificationsStateUpdateRequest(val toEnable: Boolean): Identifiable {
 
     private val _id = Id()
 
@@ -8,7 +10,6 @@ class PushNotificationsStateUpdateRequest(val toEnable: Boolean): Identifiable {
 
     inner class Id: Identifiable.Id() {
         val _toEnable = toEnable
-
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -21,10 +22,16 @@ class PushNotificationsStateUpdateRequest(val toEnable: Boolean): Identifiable {
         }
 
         override fun hashCode(): Int {
-            return _toEnable.hashCode()
+            val result = _toEnable.hashCode()
+            return result
         }
 
 
     }
 
 }
+
+
+class PushNotificationsUnsubscribeRequest(val userId: CyberName): PushNotificationsStateUpdateRequest(false)
+
+class PushNotificationsSubscribeRequest(): PushNotificationsStateUpdateRequest(true)

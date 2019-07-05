@@ -3,7 +3,8 @@ package io.golos.data.api
 import androidx.annotation.WorkerThread
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.cyber4j.services.model.DiscussionTimeSort
+import io.golos.cyber4j.services.model.FeedSort
+import io.golos.cyber4j.services.model.FeedTimeFrame
 import io.golos.sharedmodel.CyberName
 
 /**
@@ -14,7 +15,9 @@ interface PostsApiService {
     fun getCommunityPosts(
         communityId: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
+        timeFrame: FeedTimeFrame,
+        tags: List<String>,
         sequenceKey: String? = null
     ): DiscussionsResult
 
@@ -28,7 +31,7 @@ interface PostsApiService {
     fun getUserSubscriptions(
         userId: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
         sequenceKey: String? = null
     ): DiscussionsResult
 
@@ -36,7 +39,7 @@ interface PostsApiService {
     fun getUserPost(
         userId: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
         sequenceKey: String? = null
     ): DiscussionsResult
 }
@@ -47,7 +50,7 @@ interface CommentsApiService {
         user: CyberName,
         permlink: String,
         limit: Int,
-        sort: DiscussionTimeSort,
+        sort: FeedSort,
         sequenceKey: String? = null
     ): DiscussionsResult
 

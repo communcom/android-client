@@ -2,7 +2,8 @@ package io.golos.data.repositories
 
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.cyber4j.services.model.DiscussionTimeSort
+import io.golos.cyber4j.services.model.FeedSort
+import io.golos.cyber4j.services.model.FeedTimeFrame
 import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
@@ -51,6 +52,8 @@ class PostsFeedRepository(
                 updateRequest.communityId,
                 updateRequest.limit,
                 updateRequest.sort.toDiscussionSort(),
+                FeedTimeFrame.ALL,
+                emptyList(),
                 updateRequest.sequenceKey
             )
             is UserSubscriptionsFeedUpdateRequest -> apiService.getUserSubscriptions(
@@ -171,6 +174,6 @@ class CommentsFeedRepository(
 }
 
 internal fun DiscussionsSort.toDiscussionSort() = when (this) {
-    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.SEQUENTIALLY
-    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.INVERTED
+    DiscussionsSort.FROM_OLD_TO_NEW -> FeedSort.SEQUENTIALLY
+    DiscussionsSort.FROM_NEW_TO_OLD -> FeedSort.INVERTED
 }

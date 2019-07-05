@@ -308,12 +308,6 @@ class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsLis
                         event.isFresh,
                         event.timestamp
                     )
-                    is MessageEventEntity -> MessageEventModel(
-                        event.actor.toModelActor(),
-                        event.eventId,
-                        event.isFresh,
-                        event.timestamp
-                    )
                     is WitnessVoteEventEntity -> WitnessVoteEventModel(
                         event.actor.toModelActor(),
                         event.eventId,

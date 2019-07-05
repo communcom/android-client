@@ -57,11 +57,6 @@ internal fun NotificationSettingsModel.toSettingsList(): List<NotificationSettin
         NotificationSetting(
             R.drawable.ic_close,
             R.string.missing_setting_descr,
-            this.showMessage
-        ),
-        NotificationSetting(
-            R.drawable.ic_close,
-            R.string.missing_setting_descr,
             this.showWitnessVote
         ),
         NotificationSetting(
@@ -97,8 +92,7 @@ internal fun List<NotificationSetting>.toSettingsEntity(): NotificationSettingsE
         this[8].isEnabled,
         this[9].isEnabled,
         this[10].isEnabled,
-        this[11].isEnabled,
-        this[12].isEnabled
+        this[11].isEnabled
     )
 }
 
