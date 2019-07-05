@@ -113,7 +113,8 @@
     <!--Editor Page-->
     <dimen name="padding_vertical_editor_page_buttons">20dp</dimen>
     <dimen name="margin_vertical_editor_page_community_avatar">8dp</dimen>
-    <dimen name="margin_top_editor_page_title">16dp</dimen>
+    <dimen name="margin_top_editor_page_title">6dp</dimen>
+    <dimen name="padding_top_bottom_editor_page">10dp</dimen>
     <dimen name="height_editor_image_preview">200dp</dimen>
     <dimen name="margin_top_editor_page_summary">16dp</dimen>
     <dimen name="margin_top_editor_page_provider">4dp</dimen>
