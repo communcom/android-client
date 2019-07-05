@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.feed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.common.posts.AbstractPostFeedViewModel
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingWidget
@@ -15,7 +14,6 @@ import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
@@ -53,35 +51,18 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
     }
 
     fun onSort(sort: TrendingSort) {
-        sortingWidgetState.postValue(sortingWidgetState.value?.copy(sort = sort))
+        sortingWidgetState.value = sortingWidgetState.value?.copy(sort = sort)
         requestRefresh()
     }
 
     fun onFilter(filter: TimeFilter) {
-        sortingWidgetState.postValue(sortingWidgetState.value?.copy(filter = filter))
+        sortingWidgetState.value = sortingWidgetState.value?.copy(filter = filter)
         requestRefresh()
-    }
-
-    override fun requestRefresh() {
-        feedUseCase.requestFeedUpdate(
-            AbstractFeedViewModel.PAGE_SIZE,
-            UpdateOption.REFRESH_FROM_BEGINNING,
-            sortingWidgetState.getSortModel(),
-            sortingWidgetState.getTimeFrameModel()
-        )
-    }
-
-    override fun loadMore() {
-        feedUseCase.requestFeedUpdate(
-            AbstractFeedViewModel.PAGE_SIZE,
-            UpdateOption.FETCH_NEXT_PAGE,
-            sortingWidgetState.getSortModel(),
-            sortingWidgetState.getTimeFrameModel()
-        )
     }
 
     init {
         userMetadataUseCase?.subscribe()
+        requestRefresh()
     }
 
     override fun onCleared() {
@@ -89,6 +70,13 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
         userMetadataUseCase?.unsubscribe()
     }
 
+    override fun getFeedSort(): DiscussionsSort? {
+        return sortingWidgetState.getSortModel()
+    }
+
+    override fun getFeedTimeFrame(): FeedTimeFrameOption? {
+        return sortingWidgetState.getTimeFrameModel()
+    }
 
     private fun LiveData<SortingWidget.SortingWidgetState>.getSortModel() =
         if (this.value?.sort == TrendingSort.TOP)

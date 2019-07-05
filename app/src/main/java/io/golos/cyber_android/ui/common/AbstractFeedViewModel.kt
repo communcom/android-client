@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.domain.entities.DiscussionEntity
+import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -97,7 +99,6 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         voteUseCase.subscribe()
         signInUseCase.subscribe()
         posterUseCase.subscribe()
-        requestRefresh()
     }
 
     override fun onCleared() {
@@ -108,13 +109,17 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         posterUseCase.unsubscribe()
     }
 
-    open fun requestRefresh() {
-        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
+    fun requestRefresh() {
+        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING, getFeedSort(), getFeedTimeFrame())
     }
 
-    open fun loadMore() {
-        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
+    fun loadMore() {
+        feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE, getFeedSort(), getFeedTimeFrame())
     }
+
+    open fun getFeedSort(): DiscussionsSort? = null
+
+    open fun getFeedTimeFrame(): FeedTimeFrameOption? = null
 
     fun onUpvote(post: M) {
         val power = if (!post.votes.hasUpVote) 10_000.toShort() else 0.toShort()

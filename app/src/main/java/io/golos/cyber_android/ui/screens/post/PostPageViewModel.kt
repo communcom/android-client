@@ -93,6 +93,10 @@ class PostPageViewModel(
         }
     }
 
+    init {
+        requestRefresh()
+    }
+
     /**
      * [LiveData] that post is fully loaded (including post itself and first page of comments)
      */
