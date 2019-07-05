@@ -5,6 +5,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
@@ -29,14 +30,18 @@ class UserPostFeedUseCase(
 
 
     override val baseFeedUpdateRequest: UserPostsUpdateRequest
-            by lazy { UserPostsUpdateRequest(userId.userId, 0, DiscussionsSort.FROM_NEW_TO_OLD, null) }
+            by lazy { UserPostsUpdateRequest(userId.userId, 0, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL, null) }
 
-    override fun requestFeedUpdate(limit: Int, option: UpdateOption) {
+    override fun requestFeedUpdate(limit: Int,
+                                   option: UpdateOption,
+                                   sort: DiscussionsSort?,
+                                   timeFrame: FeedTimeFrameOption?) {
         discussionsFeedRepository.makeAction(
             UserPostsUpdateRequest(
                 userId.userId,
                 limit,
-                DiscussionsSort.FROM_NEW_TO_OLD,
+                sort ?: DiscussionsSort.FROM_NEW_TO_OLD,
+                timeFrame ?: FeedTimeFrameOption.ALL,
                 when (option.resolveUpdateOption()) {
                     UpdateOption.REFRESH_FROM_BEGINNING -> null
                     UpdateOption.FETCH_NEXT_PAGE -> discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value?.nextPageId

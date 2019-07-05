@@ -7,10 +7,7 @@ import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedRelatedEntities
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.VoteRequestEntity
-import io.golos.domain.interactors.model.CommunityId
-import io.golos.domain.interactors.model.DiscussionsFeed
-import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
@@ -33,16 +30,20 @@ class CommunityFeedUseCase(
 
 
     override val baseFeedUpdateRequest: CommunityFeedUpdateRequest
-            by lazy { CommunityFeedUpdateRequest(communityId.id, 0, DiscussionsSort.FROM_NEW_TO_OLD, null) }
+            by lazy { CommunityFeedUpdateRequest(communityId.id, 0, DiscussionsSort.FROM_NEW_TO_OLD,
+                FeedTimeFrameOption.ALL, null) }
 
-    override fun requestFeedUpdate(limit: Int, option: UpdateOption) {
+    override fun requestFeedUpdate(limit: Int, option: UpdateOption,
+                                   sort: DiscussionsSort?,
+                                   timeFrame: FeedTimeFrameOption?) {
         val myFeed = discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
         val nextPageId = myFeed?.nextPageId
         val resolvedOption = option.resolveUpdateOption()
         val request = CommunityFeedUpdateRequest(
             communityId.id,
             limit,
-            DiscussionsSort.FROM_NEW_TO_OLD,
+            sort ?: DiscussionsSort.FROM_NEW_TO_OLD,
+            timeFrame ?: FeedTimeFrameOption.ALL,
             when (resolvedOption) {
                 UpdateOption.REFRESH_FROM_BEGINNING -> null
                 UpdateOption.FETCH_NEXT_PAGE -> nextPageId

@@ -3,15 +3,19 @@ package io.golos.cyber_android.ui.screens.feed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.common.posts.AbstractPostFeedViewModel
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingWidget
 import io.golos.cyber_android.widgets.sorting.TimeFilter
 import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
@@ -19,7 +23,7 @@ import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 
 abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
-    feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
+    private val feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
     voteUseCase: VoteUseCase,
     posterUseCase: DiscussionPosterUseCase,
     signInUseCase: SignInUseCase,
@@ -42,7 +46,7 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
         }
     }
 
-    val getEditorWidgetStateLiveData  = editorWidgetStateLiveData as LiveData<EditorWidget.EditorWidgetState>
+    val getEditorWidgetStateLiveData = editorWidgetStateLiveData as LiveData<EditorWidget.EditorWidgetState>
 
     fun onSearch(query: String) {
 
@@ -50,10 +54,30 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
 
     fun onSort(sort: TrendingSort) {
         sortingWidgetState.postValue(sortingWidgetState.value?.copy(sort = sort))
+        requestRefresh()
     }
 
     fun onFilter(filter: TimeFilter) {
         sortingWidgetState.postValue(sortingWidgetState.value?.copy(filter = filter))
+        requestRefresh()
+    }
+
+    override fun requestRefresh() {
+        feedUseCase.requestFeedUpdate(
+            AbstractFeedViewModel.PAGE_SIZE,
+            UpdateOption.REFRESH_FROM_BEGINNING,
+            sortingWidgetState.getSortModel(),
+            sortingWidgetState.getTimeFrameModel()
+        )
+    }
+
+    override fun loadMore() {
+        feedUseCase.requestFeedUpdate(
+            AbstractFeedViewModel.PAGE_SIZE,
+            UpdateOption.FETCH_NEXT_PAGE,
+            sortingWidgetState.getSortModel(),
+            sortingWidgetState.getTimeFrameModel()
+        )
     }
 
     init {
@@ -64,4 +88,20 @@ abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
         super.onCleared()
         userMetadataUseCase?.unsubscribe()
     }
+
+
+    private fun LiveData<SortingWidget.SortingWidgetState>.getSortModel() =
+        if (this.value?.sort == TrendingSort.TOP)
+            DiscussionsSort.POPULAR
+        else DiscussionsSort.FROM_NEW_TO_OLD
+
+    private fun LiveData<SortingWidget.SortingWidgetState>.getTimeFrameModel() =
+        when(this.value?.filter) {
+            TimeFilter.PAST_24_HR -> FeedTimeFrameOption.DAY
+            TimeFilter.PAST_WEEK -> FeedTimeFrameOption.WEEK
+            TimeFilter.PAST_MONTH -> FeedTimeFrameOption.MONTH
+            TimeFilter.PAST_YEAR -> FeedTimeFrameOption.YEAR
+            TimeFilter.OF_ALL_TIME -> FeedTimeFrameOption.ALL
+            null -> FeedTimeFrameOption.ALL
+        }
 }

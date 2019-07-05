@@ -9,3 +9,11 @@ enum class UpdateOption : Model {
     REFRESH_FROM_BEGINNING,
     FETCH_NEXT_PAGE
 }
+
+enum class FeedTimeFrameOption {
+    DAY,
+    WEEK,
+    MONTH,
+    YEAR,
+    ALL;
+}

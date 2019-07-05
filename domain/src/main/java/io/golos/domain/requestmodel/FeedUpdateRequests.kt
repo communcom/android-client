@@ -4,6 +4,7 @@ package io.golos.domain.requestmodel
 
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.EventTypeEntity
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.sharedmodel.CyberName
 
 /**
@@ -73,6 +74,7 @@ data class CommunityFeedUpdateRequest(
     val communityId: String,
     val limit: Int,
     val sort: DiscussionsSort,
+    val timeFrameOption: FeedTimeFrameOption,
     val sequenceKey: String? = null
 ) : PostFeedUpdateRequest() {
     init {
@@ -112,6 +114,7 @@ data class UserSubscriptionsFeedUpdateRequest(
     val userId: String,
     val limit: Int,
     val sort: DiscussionsSort,
+    val timeFrameOption: FeedTimeFrameOption,
     val sequenceKey: String? = null
 ) : PostFeedUpdateRequest() {
 
@@ -148,6 +151,7 @@ data class UserPostsUpdateRequest(
     val userId: String,
     val limit: Int,
     val sort: DiscussionsSort,
+    val timeFrameOption: FeedTimeFrameOption,
     val sequenceKey: String? = null
 ) : PostFeedUpdateRequest() {
 

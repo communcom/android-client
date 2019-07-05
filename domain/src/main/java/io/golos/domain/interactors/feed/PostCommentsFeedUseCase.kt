@@ -7,10 +7,7 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedRelatedEntities
 import io.golos.domain.entities.VoteRequestEntity
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.DiscussionsFeed
-import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
@@ -43,7 +40,8 @@ open class PostCommentsFeedUseCase(
                 )
             }
 
-    override fun requestFeedUpdate(limit: Int, option: UpdateOption) {
+    override fun requestFeedUpdate(limit: Int, option: UpdateOption,
+                                   sort: DiscussionsSort?, timeFrame: FeedTimeFrameOption?) {
         val myFeed = discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
         val nextPageId = myFeed?.nextPageId
         val resolvedOption = option.resolveUpdateOption()

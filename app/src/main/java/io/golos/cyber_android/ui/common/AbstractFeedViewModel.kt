@@ -108,11 +108,11 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         posterUseCase.unsubscribe()
     }
 
-    fun requestRefresh() {
+    open fun requestRefresh() {
         feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.REFRESH_FROM_BEGINNING)
     }
 
-    fun loadMore() {
+    open fun loadMore() {
         feedUseCase.requestFeedUpdate(PAGE_SIZE, UpdateOption.FETCH_NEXT_PAGE)
     }
 

@@ -8,13 +8,11 @@ import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
-import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.FeedRelatedEntities
-import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
@@ -54,7 +52,9 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
 
     abstract fun requestFeedUpdate(
         limit: Int = 20,
-        option: UpdateOption
+        option: UpdateOption,
+        sort: DiscussionsSort? = null,
+        timeFrame: FeedTimeFrameOption? = null
     )
 
     protected fun onFeedRelatedDataChanges() {

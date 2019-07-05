@@ -9,6 +9,7 @@ import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import io.golos.sharedmodel.CyberName
@@ -52,7 +53,7 @@ class PostsFeedRepository(
                 updateRequest.communityId,
                 updateRequest.limit,
                 updateRequest.sort.toDiscussionSort(),
-                FeedTimeFrame.ALL,
+                updateRequest.timeFrameOption.toFeedTimeFrame(),
                 emptyList(),
                 updateRequest.sequenceKey
             )
@@ -72,7 +73,7 @@ class PostsFeedRepository(
     }
 
     override val allDataRequest: PostFeedUpdateRequest =
-        CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
+        CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL, "stub")
 }
 
 class CommentsFeedRepository(
@@ -170,10 +171,19 @@ class CommentsFeedRepository(
     }
 
     override val allDataRequest: CommentFeedUpdateRequest =
-        CommentsOfApPostUpdateRequest("stub", "stub",0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
+        CommentsOfApPostUpdateRequest("stub", "stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
 }
 
 internal fun DiscussionsSort.toDiscussionSort() = when (this) {
     DiscussionsSort.FROM_OLD_TO_NEW -> FeedSort.SEQUENTIALLY
     DiscussionsSort.FROM_NEW_TO_OLD -> FeedSort.INVERTED
+    DiscussionsSort.POPULAR -> FeedSort.POPULAR
+}
+
+internal fun FeedTimeFrameOption.toFeedTimeFrame() = when (this) {
+    FeedTimeFrameOption.DAY -> FeedTimeFrame.DAY
+    FeedTimeFrameOption.WEEK -> FeedTimeFrame.WEEK
+    FeedTimeFrameOption.MONTH -> FeedTimeFrame.MONTH
+    FeedTimeFrameOption.YEAR -> FeedTimeFrame.YEAR
+    FeedTimeFrameOption.ALL -> FeedTimeFrame.ALL
 }
