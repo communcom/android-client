@@ -9,6 +9,7 @@ import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
@@ -31,7 +32,7 @@ class VoteUseCaseTest {
     private lateinit var voteUseCase:
             VoteUseCase
 
-    private val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD)
+    private val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL)
 
     @Before
     fun before() {

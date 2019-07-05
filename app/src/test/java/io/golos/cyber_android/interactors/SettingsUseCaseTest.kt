@@ -56,12 +56,11 @@ class SettingsUseCaseTest {
                     false, false, false
                     , false, false, false, false, false,
                     false, false,
-                    false, false, false
+                    false, false
                 )
             )
         )
         assertTrue(!settings!!.notifsSettings.showCuratorReward)
-        assertTrue(!settings!!.notifsSettings.showMessage)
         assertTrue(!settings!!.notifsSettings.showUpvote)
         assertTrue(!settings!!.notifsSettings.showDownvote)
         assertTrue(!settings!!.notifsSettings.showMention)

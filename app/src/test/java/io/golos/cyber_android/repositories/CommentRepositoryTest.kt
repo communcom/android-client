@@ -7,6 +7,7 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
+import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
 import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import junit.framework.Assert.assertEquals
@@ -29,7 +30,7 @@ class CommentRepositoryTest {
 
         val commentRepo = commentsFeedRepository
 
-        val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD, null)
+        val postRequest = CommunityFeedUpdateRequest("gls", 1, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL,null)
 
         postRepo.makeAction(postRequest)
 
