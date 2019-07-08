@@ -103,8 +103,8 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
 
         follow.setOnClickListener { viewModel.switchFollowingStatus() }
 
-        followersPhotosView.setPhotosUrls(listOf("", "", ""))
-        followingPhotosView.setPhotosUrls(listOf("", ""))
+        followersPhotosView.visibility = View.GONE
+        followingPhotosView.visibility = View.GONE
         subscribersPhotosView.visibility = View.GONE
 
         profilePager.reduceDragSensitivity()

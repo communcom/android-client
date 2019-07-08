@@ -31,8 +31,9 @@
     <dimen name="padding_list_loading">10dp</dimen>
 
     <!--Sorting Widget-->
-    <dimen name="padding_top_sorting_widget">23dp</dimen>
-    <dimen name="padding_bottom_sorting_widget">15dp</dimen>
+    <dimen name="padding_top_sorting_widget">13dp</dimen>
+    <dimen name="padding_bottom_sorting_widget">5dp</dimen>
+    <dimen name="padding_top_bottom_text_sorting_widget">10dp</dimen>
     <dimen name="padding_sorting_widget_arrow">6dp</dimen>
     <dimen name="margin_start_sorting_widget_sort">36dp</dimen>
     <dimen name="margin_start_sorting_widget_sort_by_time">32dp</dimen>

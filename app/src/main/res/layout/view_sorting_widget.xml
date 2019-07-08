@@ -23,7 +23,10 @@
             android:layout_marginStart="@dimen/margin_start_sorting_widget_sort"
             android:text="@string/sort_top"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_top_bottom_text_sorting_widget"
+            android:paddingBottom="@dimen/padding_top_bottom_text_sorting_widget"
+    />
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/timeFiltering"
@@ -33,5 +36,8 @@
             android:layout_marginStart="@dimen/margin_start_sorting_widget_sort_by_time"
             android:text="@string/filter_time_24hr"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_top_bottom_text_sorting_widget"
+            android:paddingBottom="@dimen/padding_top_bottom_text_sorting_widget"
+    />
 </LinearLayout>
