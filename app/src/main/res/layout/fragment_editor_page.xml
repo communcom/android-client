@@ -126,6 +126,10 @@
                         android:layout_marginTop="@dimen/margin_top_editor_page_title"
                         android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
                         android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+
+                        android:paddingTop="@dimen/padding_top_bottom_editor_page"
+                        android:paddingBottom="@dimen/padding_top_bottom_editor_page"
+
                         android:theme="@style/EditorPostContentTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
