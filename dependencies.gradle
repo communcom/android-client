@@ -27,7 +27,7 @@ ext {
     dirchooserVersion = "v1.1.17"
     firebaseCoreVersion = "17.0.0"
     fcmVersion = "19.0.1"
-    cyber4jVersion = "0.6.52"
+    cyber4jVersion = "0.6.54"
 
     visionVersion = "18.0.0"
 }
