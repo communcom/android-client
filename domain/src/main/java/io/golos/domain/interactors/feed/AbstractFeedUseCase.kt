@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
-import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionModel
@@ -41,12 +40,12 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
 
     protected abstract val baseFeedUpdateRequest: Q
 
-    override val getAsLiveData: LiveData<DiscussionsFeed<M>> = postFeedLiveData.distinctUntilChanged()
+    override val getAsLiveData: LiveData<DiscussionsFeed<M>> = postFeedLiveData
 
-    val getLastFetchedChunk: LiveData<List<M>> = lastFetchedChunkLiveData.distinctUntilChanged()
+    val getLastFetchedChunk: LiveData<List<M>> = lastFetchedChunkLiveData
 
     val feedUpdateState: LiveData<QueryResult<UpdateOption>> =
-        feedUpdateLiveData.distinctUntilChanged()
+        feedUpdateLiveData
 
     private var lastFeedJob: Job? = null
 

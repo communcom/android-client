@@ -54,7 +54,6 @@ class PostsFeedRepository(
                 updateRequest.limit,
                 updateRequest.sort.toDiscussionSort(),
                 updateRequest.timeFrameOption.toFeedTimeFrame(),
-                emptyList(),
                 updateRequest.sequenceKey
             )
             is UserSubscriptionsFeedUpdateRequest -> apiService.getUserSubscriptions(

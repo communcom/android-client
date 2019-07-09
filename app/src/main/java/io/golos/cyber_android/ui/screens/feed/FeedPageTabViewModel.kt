@@ -21,7 +21,7 @@ import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 
 abstract class FeedPageTabViewModel<out T : PostFeedUpdateRequest>(
-    private val feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
+    feedUseCase: AbstractFeedUseCase<out T, PostEntity, PostModel>,
     voteUseCase: VoteUseCase,
     posterUseCase: DiscussionPosterUseCase,
     signInUseCase: SignInUseCase,

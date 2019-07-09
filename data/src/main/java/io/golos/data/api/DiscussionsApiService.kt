@@ -17,8 +17,8 @@ interface PostsApiService {
         limit: Int,
         sort: FeedSort,
         timeFrame: FeedTimeFrame,
-        tags: List<String>,
-        sequenceKey: String? = null
+        sequenceKey: String? = null,
+        tags: List<String>? = null
     ): DiscussionsResult
 
     @WorkerThread

@@ -54,8 +54,8 @@ class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
         limit: Int,
         sort: FeedSort,
         timeFrame: FeedTimeFrame,
-        tags: List<String>,
-        sequenceKey: String?
+        sequenceKey: String?,
+        tags: List<String>?
     ): DiscussionsResult {
         return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, limit, sort, tags, sequenceKey).getOrThrow()
     }

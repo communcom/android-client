@@ -84,7 +84,7 @@ data class CommunityFeedUpdateRequest(
 
     inner class Id : Identifiable.Id() {
         val _id = communityId
-        val _sort = sort
+
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -92,14 +92,12 @@ data class CommunityFeedUpdateRequest(
             other as Id
 
             if (_id != other._id) return false
-            if (_sort != other._sort) return false
 
             return true
         }
 
         override fun hashCode(): Int {
             var result = _id.hashCode()
-            result = 31 * result + _sort.hashCode()
             return result
         }
     }
