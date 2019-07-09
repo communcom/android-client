@@ -144,7 +144,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         override val workDispatcher: CoroutineDispatcher
             get() = Dispatchers.Default
         override val networkDispatcher: CoroutineDispatcher
-            get() = Dispatchers.Default
+            get() = Dispatchers.IO
     }
 
     override val moshi: Moshi by lazy { Moshi.Builder().build() }

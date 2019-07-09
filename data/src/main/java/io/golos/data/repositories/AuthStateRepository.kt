@@ -1,5 +1,6 @@
 package io.golos.data.repositories
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.AuthResult
@@ -37,36 +38,212 @@ class AuthStateRepository(
     private val authJobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     init {
-        authState.value = AuthState("".toCyberName(), false)
+        //authState.value = AuthState("".toCyberName(), false)
 
-        val authSavedAuthState = persister.getAuthState()
-        val key = persister.getActiveKey()
+        makeAction(AuthRequest(CyberUser(""), ""))
+    }
 
-        if (authSavedAuthState?.isUserLoggedIn == true && key != null) {
-            makeAction(AuthRequest(authSavedAuthState.user.toCyberUser(), key))
+    override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> = authState
+
+    override fun makeAction(params: AuthRequest) {
+        lateinit var newParams: AuthRequest
+
+        repositoryScope.launch {
+            var authSavedAuthState: AuthState? = null
+            var key: String? = null
+
+            withContext(dispatchersProvider.networkDispatcher) {
+                authSavedAuthState = persister.getAuthState()
+                key = persister.getActiveKey()
+            }
+
+            if (!(authSavedAuthState?.isUserLoggedIn == true && key != null)) {
+                return@launch
+            }
+
+            newParams = AuthRequest(authSavedAuthState!!.user.toCyberUser(), key!!)
+
+            if (newParams is LogOutRequest) {
+                val logOutState = AuthState("".toCyberName(), false)
+                withContext(dispatchersProvider.networkDispatcher) {
+                    persister.saveAuthState(logOutState)
+                }
+                authState.value = logOutState
+                return@launch
+            }
+
+            if (authState.value == null) {
+                authState.value = AuthState("".toCyberName(), false)
+            }
+            else if (authState.value?.isUserLoggedIn == true) {
+                authRequestsLiveData.value =
+                    authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                        java.lang.IllegalStateException(
+                            "user $newParams is logged in, reauth is not supported"
+                        ), newParams
+                    ))
+                return@launch
+            }
+
+            authRequestsLiveData.value =
+                authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Loading(newParams))
+
+            try {
+                withContext(dispatchersProvider.workDispatcher) {
+                    AuthUtils.checkPrivateWiF(newParams.activeKey)
+                }
+            } catch (e: IllegalArgumentException) {
+                logger(e)
+                authRequestsLiveData.value =
+                    authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                        java.lang.IllegalArgumentException(
+                            "wrong or malformed key"
+                        ), newParams
+                    ))
+                return@launch
+            }
+
+            try {
+                val account =
+                    withContext(dispatchersProvider.networkDispatcher) {
+                        try {
+                            authApi.getUserAccount(newParams.user.userId.toCyberName())
+                        } catch (e: Throwable) {
+                            val userName = authApi.resolveCanonicalCyberName(newParams.user.userId)
+                            authApi.getUserAccount(userName.userId)
+                        }
+
+                    }
+
+                if (account.account_name.isEmpty()) {
+                    authRequestsLiveData.value =
+                        authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                            java.lang.IllegalStateException(
+                                "account ${newParams.user} not found"
+                            ), newParams
+                        ))
+                    return@launch
+                }
+
+                val activeKey = withContext(dispatchersProvider.workDispatcher) {
+                    account.permissions.find { it.perm_name.compareTo("active") == 0 }
+                }
+
+                if (activeKey == null) {
+                    authRequestsLiveData.value =
+                        authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                            java.lang.IllegalStateException(
+                                "account  ${newParams.user} has no active permissions"
+                            ), newParams
+                        ))
+                    return@launch
+                }
+
+                val publicActiveKeyFromServer = activeKey.required_auth.keys.firstOrNull()?.key
+
+                if (publicActiveKeyFromServer == null) {
+                    authRequestsLiveData.value =
+                        authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                            java.lang.IllegalStateException(
+                                "account  ${newParams.user} has no active permission key"
+                            ), newParams
+                        ))
+                    return@launch
+                }
+
+                val isWiFsValid = withContext(dispatchersProvider.workDispatcher) {
+                    AuthUtils.isWiFsValid(newParams.activeKey, publicActiveKeyFromServer)
+                }
+
+                if (!isWiFsValid) {
+                    authRequestsLiveData.value =
+                        authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                            IllegalArgumentException("account keys not matches"), newParams
+                        ))
+                    return@launch
+                }
+
+
+            } catch (e: Exception) {
+                logger(e)
+                authRequestsLiveData.value =
+                    authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
+                        e, newParams
+                    ))
+                return@launch
+            }
+
+
+            try {
+                val authResult = auth(newParams.user.userId, newParams.activeKey)!!
+                withContext(dispatchersProvider.networkDispatcher) {
+                    authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
+                }
+
+                onAuthSuccess(authResult.user, newParams.user)
+            } catch (e: Exception) {
+                logger(e)
+                authRequestsLiveData.value =
+                    authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(e, newParams))
+            }
+
+            val rawAuthData = authRequestsLiveData.value.orEmpty()
+
+            val copy = withContext(dispatchersProvider.workDispatcher) {
+                rawAuthData.toMutableMap()
+                    .also {
+                        it.values.map { queryResult ->
+                            if (queryResult is QueryResult.Loading) QueryResult.Error(
+                                IllegalStateException("only one auth request at a time may proceed"),
+                                queryResult.originalQuery
+                            )
+                            else queryResult
+                        }
+                    }
+            }
+
+            authRequestsLiveData.value = copy
+
+            Log.d("ROTATION", "AuthStateRepository completed")
+
+        }.let { job ->
+            authJobsMap.entries.forEach {
+                it.value?.cancel()
+                authJobsMap[newParams.id] = job
+            }
         }
     }
 
-    private fun auth(name: String, key: String): AuthResult? {
-        try {
-            val secret = authApi.getAuthSecret()
-            return authApi.authWithSecret(
-                name,
-                secret.secret,
-                StringSigner.signString(secret.secret, key)
-            )
-        } catch (e: Exception) {
-            onAuthFail(e)
-        }
-        return null
-    }
+    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>> =
+        authRequestsLiveData.distinctUntilChanged()
 
-    private fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser) {
-        val loadingQuery =
+    override val allDataRequest: AuthRequest
+            by lazy {
+                AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ")
+            }
+
+    private suspend fun auth(name: String, key: String): AuthResult? =
+        withContext(dispatchersProvider.networkDispatcher) {
+            try {
+                val secret = authApi.getAuthSecret()
+                authApi.authWithSecret(
+                    name,
+                    secret.secret,
+                    StringSigner.signString(secret.secret, key)
+                )
+            } catch (e: Exception) {
+                onAuthFail(e)
+                null
+            }
+        }
+
+    private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser) {
+        val loadingQuery = withContext(dispatchersProvider.workDispatcher) {
             authRequestsLiveData.value?.entries?.find {
                 val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
                 loadingUser != null && (loadingUser == originalName.userId)
             }
+        }
 
         if (loadingQuery != null) {
             val finalAuthState = AuthState(resolvedName, true)
@@ -78,11 +255,12 @@ class AuthStateRepository(
                     originalLoadingQuery.originalQuery
                 ))
 
-            persister.saveAuthState(finalAuthState)
-            persister.saveActiveKey(originalLoadingQuery.originalQuery.activeKey)
+            withContext(dispatchersProvider.networkDispatcher) {
+                persister.saveAuthState(finalAuthState)
+                persister.saveActiveKey(originalLoadingQuery.originalQuery.activeKey)
+            }
         }
     }
-
 
     private fun onAuthFail(e: Exception) {
         logger(e)
@@ -101,146 +279,4 @@ class AuthStateRepository(
             }
         }
     }
-
-    override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> {
-        return authState
-    }
-
-    override fun makeAction(params: AuthRequest) {
-        repositoryScope.launch {
-
-            if (params is LogOutRequest) {
-                val logOutState = AuthState("".toCyberName(), false)
-                persister.saveAuthState(logOutState)
-                authState.value = logOutState
-                return@launch
-            }
-
-            if (authState.value == null) authState.value = AuthState("".toCyberName(), false)
-            else if (authState.value?.isUserLoggedIn == true) {
-                authRequestsLiveData.value =
-                    authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                        java.lang.IllegalStateException(
-                            "user $params is logged in, reauth is not supported"
-                        ), params
-                    ))
-                return@launch
-            }
-
-            authRequestsLiveData.value =
-                authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
-
-            try {
-                AuthUtils.checkPrivateWiF(params.activeKey)
-            } catch (e: IllegalArgumentException) {
-                logger(e)
-                authRequestsLiveData.value =
-                    authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                        java.lang.IllegalArgumentException(
-                            "wrong or malformed key"
-                        ), params
-                    ))
-                return@launch
-            }
-
-            try {
-                val account =
-                    withContext(dispatchersProvider.workDispatcher) {
-                        try {
-                            authApi.getUserAccount(params.user.userId.toCyberName())
-                        } catch (e: Throwable) {
-                            val userName = authApi.resolveCanonicalCyberName(params.user.userId)
-                            authApi.getUserAccount(userName.userId)
-                        }
-
-                    }
-
-                if (account.account_name.isEmpty()) {
-                    authRequestsLiveData.value =
-                        authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                            java.lang.IllegalStateException(
-                                "account ${params.user} not found"
-                            ), params
-                        ))
-                    return@launch
-                }
-
-                val activeKey = account.permissions.find { it.perm_name.compareTo("active") == 0 }
-
-                if (activeKey == null) {
-                    authRequestsLiveData.value =
-                        authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                            java.lang.IllegalStateException(
-                                "account  ${params.user} has no active permissions"
-                            ), params
-                        ))
-                    return@launch
-                }
-
-                val publicActiveKeyFromServer = activeKey.required_auth.keys.firstOrNull()?.key
-
-                if (publicActiveKeyFromServer == null) {
-                    authRequestsLiveData.value =
-                        authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                            java.lang.IllegalStateException(
-                                "account  ${params.user} has no active permission key"
-                            ), params
-                        ))
-                    return@launch
-                }
-
-                if (!AuthUtils.isWiFsValid(params.activeKey, publicActiveKeyFromServer)) {
-                    authRequestsLiveData.value =
-                        authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                            IllegalArgumentException("account keys not matches"), params
-                        ))
-                    return@launch
-                }
-
-
-            } catch (e: Exception) {
-                logger(e)
-                authRequestsLiveData.value =
-                    authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
-                        e, params
-                    ))
-                return@launch
-            }
-
-
-            try {
-                val authResult = auth(params.user.userId, params.activeKey)!!
-                authApi.setActiveUserCreds(authResult.user, params.activeKey)
-                onAuthSuccess(authResult.user, params.user)
-            } catch (e: Exception) {
-                logger(e)
-                authRequestsLiveData.value =
-                    authRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(e, params))
-            }
-
-        }.let { job ->
-            authJobsMap.entries.forEach {
-                it.value?.cancel()
-                authJobsMap[params.id] = job
-
-                val copy = authRequestsLiveData.value.orEmpty().toMutableMap()
-                copy.values.map { queryResult ->
-                    if (queryResult is QueryResult.Loading) QueryResult.Error(
-                        IllegalStateException("only one auth request at a time may proceed"),
-                        queryResult.originalQuery
-                    )
-                    else queryResult
-                }
-                authRequestsLiveData.value = copy
-            }
-        }
-    }
-
-    override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>> =
-        authRequestsLiveData.distinctUntilChanged()
-
-    override val allDataRequest: AuthRequest
-            by lazy {
-                AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ")
-            }
 }

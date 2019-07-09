@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.login
 
-import android.view.View
+import android.util.Log
 import io.golos.domain.requestmodel.SignInState
 
-class SplashManager(private val visibilityAction: (Int) -> Unit) {
+class SplashManager(private var animationTarget: SplashAnimationTarget?) {
     private enum class States {
         Start,
         Loading,
@@ -14,15 +14,17 @@ class SplashManager(private val visibilityAction: (Int) -> Unit) {
     private var currentState = States.Start
 
     fun processEvent(event: SignInState) {
+        Log.d("ROTATION", "From: $currentState on $event")
+
         currentState = when(currentState) {
             States.Start -> {
                 when(event) {
                     SignInState.LOADING -> {
-                        visibilityAction(View.VISIBLE)
+                        animationTarget?.startSplashAnimation()
                         States.Loading
                     }
                     SignInState.LOG_IN_NEEDED -> {
-                        visibilityAction(View.INVISIBLE)
+                        animationTarget?.completeSplashAnimation()
                         States.AuthInProgress
                     }
                     else -> currentState
@@ -31,8 +33,12 @@ class SplashManager(private val visibilityAction: (Int) -> Unit) {
             States.Loading -> {
                 when(event) {
                     SignInState.LOG_IN_NEEDED -> {
-                        visibilityAction(View.INVISIBLE)
+                        animationTarget?.completeSplashAnimation()
                         States.AuthInProgress
+                    }
+                    SignInState.USER_LOGGED_IN -> {
+                        animationTarget?.completeSplashAnimation()
+                        currentState
                     }
                     else -> currentState
                 }
@@ -40,5 +46,9 @@ class SplashManager(private val visibilityAction: (Int) -> Unit) {
             States.AuthInProgress,
             States.NavigatingToMain -> currentState
         }
+    }
+
+    fun clearAnimationTarget() {
+        animationTarget = null
     }
 }
