@@ -33,7 +33,7 @@ class EditProfileBioViewModel(private val userMetadataUseCase: UserMetadataUseCa
 
     private fun validate(bio: String) = bio.length in 0..MAX_BIO_LENGTH
 
-    fun updateBio() {
-        userMetadataUseCase.updateMetadata(newBio = bio)
+    fun updateBio(waitForTransaction: Boolean = true) {
+        userMetadataUseCase.updateMetadata(newBio = bio, shouldWaitForTransaction =  waitForTransaction)
     }
 }

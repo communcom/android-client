@@ -12,7 +12,7 @@ class UserMetadataToEntityMapper : CyberToEntityMapper<UserMetadataResult, UserM
             UserPersonalDataEntity(
                 cyberObject.personal?.avatarUrl,
                 cyberObject.personal?.coverUrl,
-                cyberObject.personal?.biography,
+                cyberObject.personal?.about,
                 ContactsEntity(
                     cyberObject.personal?.contacts?.facebook, cyberObject.personal?.contacts?.telegram,
                     cyberObject.personal?.contacts?.whatsApp, cyberObject.personal?.contacts?.weChat

@@ -51,7 +51,7 @@ class OnboardingBioFragment : LoadingFragment() {
         })
         bio.filters = arrayOf(InputFilter.LengthFilter(EditProfileBioViewModel.MAX_BIO_LENGTH))
 
-        next.setOnClickListener { viewModel.updateBio() }
+        next.setOnClickListener { viewModel.updateBio(false) }
         skip.setOnClickListener {
             goToMainScreen()
         }

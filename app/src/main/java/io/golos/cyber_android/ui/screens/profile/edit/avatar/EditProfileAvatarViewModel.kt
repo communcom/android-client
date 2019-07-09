@@ -51,7 +51,7 @@ class EditProfileAvatarViewModel(
     /**
      * Updates user avatar in user metadata
      */
-    fun updateAvatar(url: String) {
-        userMetadataUseCase.updateMetadata(newProfileImageUrl = url)
+    fun updateAvatar(url: String, waitForTransaction: Boolean = true) {
+        userMetadataUseCase.updateMetadata(newProfileImageUrl = url, shouldWaitForTransaction = waitForTransaction)
     }
 }

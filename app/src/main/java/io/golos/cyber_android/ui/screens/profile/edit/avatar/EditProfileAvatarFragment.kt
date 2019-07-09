@@ -69,7 +69,7 @@ class EditProfileAvatarFragment : BaseImagePickerFragment() {
             when (it) {
                 is QueryResult.Error -> onError()
                 is QueryResult.Loading -> showLoading()
-                is QueryResult.Success -> viewModel.updateAvatar(it.originalQuery.url)
+                is QueryResult.Success -> viewModel.updateAvatar(it.originalQuery.url, !getArgs().forOnboarding)
             }
         })
 

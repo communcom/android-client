@@ -109,9 +109,25 @@ class UserMetadataRepository(
                                 coverImage = params.coverImageUrl,
                                 profileImage = params.profileImageUrl
                             )
-                            transactionsApi.waitForTransaction(transactionResult.transaction_id)
-                            metadadataApi.getUserMetadata(params.user)
-                                .run { toEntityMapper(this) }
+                            if (params.shouldWaitForTransaction) {
+                                transactionsApi.waitForTransaction(transactionResult.transaction_id)
+                                metadadataApi.getUserMetadata(params.user)
+                                    .run { toEntityMapper(this) }
+                            } else {
+                                //if we should not wait for transaction to complete, then we need to provide
+                                //to user some response for his request. So we try to obtain previously saved
+                                //metadata for this user (and if there is none, then using empty meta instead)
+                                //this will be used ONLY in the registration process, where speed on the requests
+                                //is important
+                                val savedMeta = savedMetadata.value?.get(params.user) ?: UserMetadataEntity.empty
+                                savedMeta.copy(
+                                    personal = savedMeta.personal.copy(
+                                        biography = params.bio ?: savedMeta.personal.biography,
+                                        coverUrl = params.coverImageUrl ?: savedMeta.personal.coverUrl,
+                                        avatarUrl = params.profileImageUrl ?: savedMeta.personal.avatarUrl
+                                    )
+                                )
+                            }
                         }
 
                         savedMetadata.value =

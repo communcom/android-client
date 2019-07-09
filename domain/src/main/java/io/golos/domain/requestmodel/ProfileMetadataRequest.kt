@@ -8,6 +8,7 @@ import io.golos.sharedmodel.CyberName
 sealed class UserMetadataRequest : Identifiable
 
 data class UserMetadataUpdateRequest(val user: CyberName,
+                                     val shouldWaitForTransaction: Boolean = true,
                                      val bio: String? = null,
                                      val coverImageUrl: String? = null,
                                      val profileImageUrl: String? = null) : UserMetadataRequest() {

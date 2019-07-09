@@ -93,9 +93,10 @@ class UserMetadataUseCase(
     fun updateMetadata(
         newBio: String? = null,
         newCoverUrl: String? = null,
-        newProfileImageUrl: String? = null
+        newProfileImageUrl: String? = null,
+        shouldWaitForTransaction: Boolean = true
     ) {
-        val request = UserMetadataUpdateRequest(user, newBio, newCoverUrl, newProfileImageUrl)
+        val request = UserMetadataUpdateRequest(user, shouldWaitForTransaction, newBio, newCoverUrl, newProfileImageUrl)
         lastUpdateRequestID = request.id
         userMetadataRepository.makeAction(request)
     }

@@ -7,7 +7,8 @@ import java.util.*
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
-data class UserMetadataCollectionEntity(val map: Map<CyberName, UserMetadataEntity>) : Entity, Map<CyberName, UserMetadataEntity> by map
+data class UserMetadataCollectionEntity(val map: Map<CyberName, UserMetadataEntity>) : Entity,
+    Map<CyberName, UserMetadataEntity> by map
 
 data class UserMetadataEntity(
     val personal: UserPersonalDataEntity,
@@ -18,7 +19,22 @@ data class UserMetadataEntity(
     val subscribers: SubscribersEntity,
     val createdAt: Date,
     val isSubscribed: Boolean
-) : Entity
+) : Entity {
+    companion object {
+        val empty: UserMetadataEntity
+            get() = UserMetadataEntity(
+                UserPersonalDataEntity("", "", "", ContactsEntity("", "", "", "")),
+                UserSubscriptionsEntity(0, 0),
+                UserStatsEntity(0L, 0L),
+                CyberName(""),
+                "",
+                SubscribersEntity(0, 0),
+                Date(), false
+
+
+            )
+    }
+}
 
 data class SubscribersEntity(
     val usersCount: Int,
