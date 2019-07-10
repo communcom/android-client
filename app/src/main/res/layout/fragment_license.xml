@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.screens.login.signup.name.SignUpNameFragment">
+
+    <WebView
+            android:id="@+id/licenseView"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/margin_vertical_login_widget"
+            app:layout_constraintBottom_toTopOf="@+id/acceptDeclineButtons"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+    <ProgressBar
+            android:id="@+id/licenseLoading"
+
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="@+id/licenseView"
+            app:layout_constraintEnd_toEndOf="@+id/licenseView"
+            app:layout_constraintTop_toTopOf="@+id/licenseView"
+            app:layout_constraintBottom_toBottomOf="@+id/licenseView"/>
+
+    <RadioGroup
+            android:id="@+id/acceptDeclineButtons"
+
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_login_radio_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            android:layout_marginBottom="@dimen/margin_vertical_login_widget"
+            android:orientation="horizontal">
+
+        <RadioButton
+                android:id="@+id/acceptButton"
+
+                android:enabled="false"
+                android:checked="false"
+
+                android:text="@string/accept"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_login_radio_button"
+                android:layout_weight="1"
+                android:layout_marginEnd="16dp"
+        />
+        <RadioButton
+                android:id="@+id/declineButton"
+
+                android:enabled="false"
+                android:checked="true"
+
+                android:text="@string/decline"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_login_radio_button"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+        />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/nextButton"
+        style="@style/SignUpButtonStyle"
+        android:enabled="false"
+        android:text="@string/next"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginStart="@dimen/margin_horizontal_login_next_button"
+        android:layout_marginEnd="@dimen/margin_horizontal_login_next_button"
+        android:layout_marginBottom="@dimen/margin_bottom_login_next_button"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

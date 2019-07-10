@@ -7,13 +7,11 @@
     <fragment android:id="@+id/welcomeFragment"
               android:name="io.golos.cyber_android.ui.screens.login.welcome.WelcomeFragment"
               android:label="fragment_welcome" tools:layout="@layout/fragment_welcome">
-        <action android:id="@+id/action_welcomeFragment_to_signInFragment" app:destination="@id/signInFragment"
+        <action android:id="@+id/action_welcomeFragment_to_licenseFragment" app:destination="@id/licenseFragment"
                 app:enterAnim="@anim/nav_slide_in_right" app:exitAnim="@anim/nav_slide_out_left"
-                app:popEnterAnim="@anim/nav_slide_in_left" app:popExitAnim="@anim/nav_slide_out_right"/>
-        <action android:id="@+id/action_welcomeFragment_to_signUpPhoneFragment"
-                app:destination="@id/signUpPhoneFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+                app:popEnterAnim="@anim/nav_slide_in_left" app:popExitAnim="@anim/nav_slide_out_right"
+                app:popUpToInclusive="false">
+        </action>
     </fragment>
     <fragment android:id="@+id/signInFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signin.SignInFragment"
@@ -82,4 +80,16 @@
     <fragment android:id="@+id/onboardingBioFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.onboarding.bio.OnboardingBioFragment"
               android:label="fragment_onboarding_bio" tools:layout="@layout/fragment_onboarding_bio"/>
+    <fragment android:id="@+id/licenseFragment" android:name="io.golos.cyber_android.ui.screens.login.license.LicenseFragment"
+              android:label="fragment_license" tools:layout="@layout/fragment_license">
+        <action android:id="@+id/action_licenseFragment_to_signInFragment" app:destination="@id/signInFragment"
+                app:popUpTo="@+id/welcomeFragment" app:popUpToInclusive="false" app:enterAnim="@anim/nav_slide_in_right"
+                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
+                app:popExitAnim="@anim/nav_slide_out_right"/>
+        <action android:id="@+id/action_licenseFragment_to_signUpPhoneFragment" app:destination="@id/signUpPhoneFragment"
+                app:popUpTo="@+id/welcomeFragment" app:enterAnim="@anim/nav_slide_in_right"
+                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
+                app:popExitAnim="@anim/nav_slide_out_right"/>
+        <argument android:name="DESTINATION" app:argType="string"/>
+    </fragment>
 </navigation>

@@ -74,6 +74,12 @@
     <dimen name="margin_vertical_comment_timestamp">8dp</dimen>
     <dimen name="margin_end_comment_author">100dp</dimen>
 
+    <!--Login-->
+    <dimen name="margin_horizontal_login_next_button">16dp</dimen>
+    <dimen name="margin_bottom_login_next_button">24dp</dimen>
+    <dimen name="margin_vertical_login_widget">24dp</dimen>
+    <dimen name="height_login_radio_button">40dp</dimen>
+
     <!--Welcome-->
     <dimen name="margin_horizontal_welcome_sign_up">35dp</dimen>
     <dimen name="height_welcome_sign_button_min">40dp</dimen>

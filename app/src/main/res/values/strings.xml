@@ -27,7 +27,7 @@
     <string name="filter_time_of_all_time">Of all time</string>
 
     <!--Post Card-->
-    <string name="hint_add_comment">Add a comment...</string>
+    <string name="hint_add_comment">Add a comment…</string>
     <string name="post_comments_count_format">%1$s Comments</string>
     <string name="post_views_count_format">%1$s Views</string>
     <string name="post_time_and_author_format">%1$s by %2$s</string>
@@ -39,6 +39,10 @@
     <!--Comment-->
     <string name="reply">Reply</string>
     <string name="comments_title_format">%1$s Comments</string>
+
+    <!--Welcome-->
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
 
     <!--Welcome-->
     <string name="sign_up">Sign up</string>
