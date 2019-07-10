@@ -1,6 +1,5 @@
 package io.golos.domain.interactors.sign
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -42,7 +41,6 @@ class SignInUseCase(
 
     override fun subscribe() {
         super.subscribe()
-        Log.d("ROTATION", "SignInUseCase::subscribe")
 
         mediator.observeForever(observer)
         mediator.addSource(authRepo.getAsLiveData(authRepo.allDataRequest)) {

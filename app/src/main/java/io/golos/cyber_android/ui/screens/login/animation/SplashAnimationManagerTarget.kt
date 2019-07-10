@@ -1,6 +1,6 @@
-package io.golos.cyber_android.ui.screens.login
+package io.golos.cyber_android.ui.screens.login.animation
 
-interface SplashAnimationTarget {
+interface SplashAnimationManagerTarget {
     fun startSplashAnimation()
 
     fun completeSplashAnimation()

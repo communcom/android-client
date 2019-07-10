@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -14,39 +13,52 @@ import io.golos.cyber_android.ui.base.BaseActivity
 import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
-import android.view.animation.LinearInterpolator
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
+import io.golos.cyber_android.ui.screens.login.animation.SplashAnimationManagerTarget
+import io.golos.cyber_android.ui.screens.login.animation.SplashAnimationManager
+import io.golos.cyber_android.ui.screens.login.animation.SplashAnimator
+import io.golos.cyber_android.ui.screens.login.animation.SplashAnimatorTarget
 
 
+class LoginActivity : BaseActivity(), SplashAnimationManagerTarget, SplashAnimatorTarget {
 
-class LoginActivity : BaseActivity(), SplashAnimationTarget {
-    private val splashManager = SplashManager(this)
-
-    private lateinit var animation: RotateAnimation
+    private val splashAnimationManager = SplashAnimationManager(this)
+    private val splashAnimator = SplashAnimator(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_login)
         setupViewModel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        splashAnimationManager.clear()
+        splashAnimator.clear()
+    }
+
     private fun setupViewModel() {
-        val viewModel = ViewModelProviders.of(
-            this,
-            serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(AuthViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this, serviceLocator.getDefaultViewModelFactory()).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {
-            splashManager.processEvent(it)
+            splashAnimationManager.processEvent(it)
 
-            if (it == SignInState.LOG_IN_NEEDED && postNavHost.findNavController().currentDestination == null)
-                initAuthFlow()
-            if (it == SignInState.LOADING)
-                onLoading()
-            if (it == SignInState.USER_LOGGED_IN && postNavHost.findNavController().currentDestination == null)
-                navigateToMainScreen()
+            when(it) {
+                SignInState.LOG_IN_NEEDED ->
+                    if(postNavHost.findNavController().currentDestination == null) {
+                        splashAnimator.executeWhenCompleted { initAuthFlow() }
+                    }
+
+                SignInState.LOADING -> splashAnimator.executeWhenCompleted { onLoading() }
+
+                SignInState.USER_LOGGED_IN ->
+                    if(postNavHost.findNavController().currentDestination == null) {
+                        splashAnimator.executeWhenCompleted { navigateToMainScreen() }
+                    }
+
+                else -> {  }
+            }
         })
     }
 
@@ -58,31 +70,16 @@ class LoginActivity : BaseActivity(), SplashAnimationTarget {
     }
 
     private fun navigateToMainScreen() {
-        splashIcon.post {
-            startActivity(Intent(this, MainActivity::class.java))
-            splashManager.clearAnimationTarget()
-            finish()
-        }
+        startActivity(Intent(this, MainActivity::class.java))
+        splashAnimationManager.clear()
+        finish()
     }
 
-    override fun startSplashAnimation() {
-        Log.d("ROTATION", "Start animation")
-        root.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
-        splashIcon.visibility = View.VISIBLE
+    override fun startSplashAnimation() = splashAnimator.startAnimation(this)
 
-        animation = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-            .apply {
-                duration = 1000
-                repeatCount = Animation.INFINITE
-                interpolator = LinearInterpolator()
-            }
+    override fun completeSplashAnimation() = splashAnimator.completeAnimation()
 
-        splashIcon.startAnimation(animation)
-    }
+    override fun getAnimatedView(): View = splashIcon
 
-    override fun completeSplashAnimation() {
-        Log.d("ROTATION", "Stop animation")
-        splashIcon.clearAnimation()
-        splashIcon.visibility = View.INVISIBLE
-    }
+    override fun getRootView(): View = root
 }

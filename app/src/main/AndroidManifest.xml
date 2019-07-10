@@ -40,7 +40,8 @@
         <activity
                 android:name=".ui.screens.login.LoginActivity"
                 android:windowSoftInputMode="adjustResize"
-                android:screenOrientation="portrait">
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -1,6 +1,5 @@
 package io.golos.data.repositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.AuthResult
@@ -38,9 +37,7 @@ class AuthStateRepository(
     private val authJobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     init {
-        //authState.value = AuthState("".toCyberName(), false)
-
-        makeAction(AuthRequest(CyberUser(""), ""))
+        makeAction(getEmptyRequest())
     }
 
     override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> = authState
@@ -49,19 +46,16 @@ class AuthStateRepository(
         lateinit var newParams: AuthRequest
 
         repositoryScope.launch {
-            var authSavedAuthState: AuthState? = null
-            var key: String? = null
-
-            withContext(dispatchersProvider.networkDispatcher) {
-                authSavedAuthState = persister.getAuthState()
-                key = persister.getActiveKey()
+            newParams = if(params.isEmpty()) {
+                loadAuthRequest()
+            } else {
+                params
             }
 
-            if (!(authSavedAuthState?.isUserLoggedIn == true && key != null)) {
+            if(newParams.isEmpty()) {
+                authState.value = AuthState("".toCyberName(), false)
                 return@launch
             }
-
-            newParams = AuthRequest(authSavedAuthState!!.user.toCyberUser(), key!!)
 
             if (newParams is LogOutRequest) {
                 val logOutState = AuthState("".toCyberName(), false)
@@ -204,8 +198,6 @@ class AuthStateRepository(
 
             authRequestsLiveData.value = copy
 
-            Log.d("ROTATION", "AuthStateRepository completed")
-
         }.let { job ->
             authJobsMap.entries.forEach {
                 it.value?.cancel()
@@ -279,4 +271,24 @@ class AuthStateRepository(
             }
         }
     }
+
+    private suspend fun loadAuthRequest(): AuthRequest {
+        var authSavedAuthState: AuthState? = null
+        var key: String? = null
+
+        withContext(dispatchersProvider.networkDispatcher) {
+            authSavedAuthState = persister.getAuthState()
+            key = persister.getActiveKey()
+        }
+
+        return if (!(authSavedAuthState?.isUserLoggedIn == true && key != null)) {
+            AuthRequest(CyberUser(""), "")
+        } else {
+            AuthRequest(authSavedAuthState!!.user.toCyberUser(), key!!)
+        }
+    }
+
+    private fun getEmptyRequest() = AuthRequest(CyberUser(""), "")
+
+    private fun AuthRequest.isEmpty() = this.user.userId == "" && this.activeKey == ""
 }

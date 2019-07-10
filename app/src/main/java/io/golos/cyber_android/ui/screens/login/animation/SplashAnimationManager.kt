@@ -1,9 +1,11 @@
-package io.golos.cyber_android.ui.screens.login
+package io.golos.cyber_android.ui.screens.login.animation
 
-import android.util.Log
 import io.golos.domain.requestmodel.SignInState
 
-class SplashManager(private var animationTarget: SplashAnimationTarget?) {
+/**
+ * Makes a decision when to start and when to stop splash animation
+ */
+class SplashAnimationManager(private var target: SplashAnimationManagerTarget?) {
     private enum class States {
         Start,
         Loading,
@@ -14,17 +16,15 @@ class SplashManager(private var animationTarget: SplashAnimationTarget?) {
     private var currentState = States.Start
 
     fun processEvent(event: SignInState) {
-        Log.d("ROTATION", "From: $currentState on $event")
-
         currentState = when(currentState) {
             States.Start -> {
                 when(event) {
                     SignInState.LOADING -> {
-                        animationTarget?.startSplashAnimation()
+                        target?.startSplashAnimation()
                         States.Loading
                     }
                     SignInState.LOG_IN_NEEDED -> {
-                        animationTarget?.completeSplashAnimation()
+                        target?.completeSplashAnimation()
                         States.AuthInProgress
                     }
                     else -> currentState
@@ -33,11 +33,11 @@ class SplashManager(private var animationTarget: SplashAnimationTarget?) {
             States.Loading -> {
                 when(event) {
                     SignInState.LOG_IN_NEEDED -> {
-                        animationTarget?.completeSplashAnimation()
+                        target?.completeSplashAnimation()
                         States.AuthInProgress
                     }
                     SignInState.USER_LOGGED_IN -> {
-                        animationTarget?.completeSplashAnimation()
+                        target?.completeSplashAnimation()
                         currentState
                     }
                     else -> currentState
@@ -48,7 +48,7 @@ class SplashManager(private var animationTarget: SplashAnimationTarget?) {
         }
     }
 
-    fun clearAnimationTarget() {
-        animationTarget = null
+    fun clear() {
+        target = null
     }
 }
