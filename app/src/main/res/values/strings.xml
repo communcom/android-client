@@ -188,8 +188,14 @@
     <string name="describe_yourself">Describe yourself</string>
     <string name="write_text">Write text</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--SignUp Protection-->
+    <string name="passcode">Passcode</string>
+    <string name="later">Later</string>
+    <string name="backup">Backup</string>
+    <string name="master_password">Master password</string>
+    <string name="posting_key">Posting key</string>
+    <string name="active_key">Active key</string>
+    <string name="memo_key">Memo key</string>
 
 
 </resources>
