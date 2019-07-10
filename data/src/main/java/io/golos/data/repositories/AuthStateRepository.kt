@@ -46,6 +46,15 @@ class AuthStateRepository(
         lateinit var newParams: AuthRequest
 
         repositoryScope.launch {
+            if (params is LogOutRequest) {
+                val logOutState = AuthState("".toCyberName(), false)
+                withContext(dispatchersProvider.networkDispatcher) {
+                    persister.saveAuthState(logOutState)
+                }
+                authState.value = logOutState
+                return@launch
+            }
+
             newParams = if(params.isEmpty()) {
                 loadAuthRequest()
             } else {
@@ -54,15 +63,6 @@ class AuthStateRepository(
 
             if(newParams.isEmpty()) {
                 authState.value = AuthState("".toCyberName(), false)
-                return@launch
-            }
-
-            if (newParams is LogOutRequest) {
-                val logOutState = AuthState("".toCyberName(), false)
-                withContext(dispatchersProvider.networkDispatcher) {
-                    persister.saveAuthState(logOutState)
-                }
-                authState.value = logOutState
                 return@launch
             }
 

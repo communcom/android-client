@@ -17,8 +17,8 @@
     />
     <ImageView
         android:id="@+id/splashIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/size_splash_icon"
+        android:layout_height="@dimen/size_splash_icon"
         app:srcCompat="@drawable/ic_splash_icon"
         android:layout_gravity="center"
 
