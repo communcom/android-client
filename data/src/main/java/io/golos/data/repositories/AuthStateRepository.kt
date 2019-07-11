@@ -1,5 +1,6 @@
 package io.golos.data.repositories
 
+import android.app.backup.BackupManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.AuthResult
@@ -27,7 +28,8 @@ class AuthStateRepository(
     private val authApi: AuthApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val persister: Persister
+    private val persister: Persister,
+    private val backupManager: BackupManager
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -52,6 +54,7 @@ class AuthStateRepository(
                     persister.saveAuthState(logOutState)
                 }
                 authState.value = logOutState
+                backupManager.dataChanged()
                 return@launch
             }
 

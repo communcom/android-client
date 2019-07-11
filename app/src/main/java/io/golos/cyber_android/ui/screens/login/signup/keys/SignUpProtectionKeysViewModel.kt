@@ -36,5 +36,9 @@ class SignUpProtectionKeysViewModel : ViewModel() {
         )
     }
 
+    fun setInitialKeys(keys: GeneratedUserKeys) {
+        keysLiveData.postValue(keys)
+    }
+
 
 }

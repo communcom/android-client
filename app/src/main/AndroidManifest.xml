@@ -9,7 +9,8 @@
 
     <application
             android:name=".App"
-            android:allowBackup="true"
+            android:backupAgent=".backup.CommunBackupAgent"
+            android:restoreAnyVersion="true"
             android:hardwareAccelerated="true"
             android:usesCleartextTraffic="true"
             android:icon="@mipmap/ic_launcher"
@@ -30,6 +31,9 @@
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
+
+        <meta-data android:name="com.google.android.backup.api_key"
+                   android:value="AEdPqrEAAAAI6F7XYqx_4KxHxqbJTsqE4dT7-ESMDAbF9gH9ag" />
 
         <service android:name=".fcm.CommunFirebaseMessagingService">
             <intent-filter>

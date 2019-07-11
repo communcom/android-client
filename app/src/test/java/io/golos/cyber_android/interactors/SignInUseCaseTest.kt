@@ -61,7 +61,7 @@ class SignInUseCaseTest {
             override fun getActiveKey(): String? {
                 return null
             }
-        })
+        }, backupManager)
         authUseCase = SignInUseCase(authStateRepository, dispatchersProvider)
     }
 

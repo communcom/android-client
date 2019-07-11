@@ -159,7 +159,7 @@ val embededsRepository = EmbedsRepository(
         return "5Jko7QTtageNkt8hxbLjzgCBoYgEUwqDUj4E3JHf2ADCLt23dGf"
     }
 }
-val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister)
+val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister, backupManager)
 
 val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)
 

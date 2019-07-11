@@ -62,10 +62,8 @@
     <fragment android:id="@+id/signUpKeyFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.key.SignUpKeyFragment"
               android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key">
-        <action android:id="@+id/action_signUpKeyFragment_to_onboardingUserImageFragment"
-                app:destination="@id/onboardingUserImageFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+        <action android:id="@+id/action_signUpKeyFragment_to_signUpProtectionKeysFragment"
+                app:destination="@id/signUpProtectionKeysFragment"/>
     </fragment>
     <fragment android:id="@+id/onboardingUserImageFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment"
@@ -89,5 +87,11 @@
                 app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
                 app:popExitAnim="@anim/nav_slide_out_right"/>
         <argument android:name="DESTINATION" app:argType="string"/>
+    </fragment>
+    <fragment android:id="@+id/signUpProtectionKeysFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.keys.SignUpProtectionKeysFragment"
+              android:label="fragment_sign_up_protection_keys" tools:layout="@layout/fragment_sign_up_protection_keys">
+        <action android:id="@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
+                app:destination="@id/onboardingUserImageFragment"/>
     </fragment>
 </navigation>

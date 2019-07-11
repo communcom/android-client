@@ -1,5 +1,6 @@
 package io.golos.cyber_android.locator
 
+import android.app.backup.BackupManager
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -138,6 +139,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
     private val persister = OnDevicePersister(appContext, logger)
 
+    override val backupManager: BackupManager by lazy { BackupManager(appContext) }
+
     override val dispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
             get() = Dispatchers.Main
@@ -203,7 +206,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
 
     override val authRepository: Repository<AuthState, AuthRequest>
-            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, persister) }
+            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, persister, backupManager) }
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {

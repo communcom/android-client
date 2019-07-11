@@ -1,5 +1,6 @@
 package io.golos.cyber_android.locator
 
+import android.app.backup.BackupManager
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
@@ -39,6 +40,8 @@ interface ServiceLocator {
     val uiCalculator: UICalculator
 
     val uiHelper: UIHelper
+
+    val backupManager: BackupManager
 
     fun getDefaultViewModelFactory(): ViewModelProvider.Factory
 
