@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ButtonWithHintWidget">
+        <attr name="button_with_hint_icon" format="reference" />
+
+        <attr name="button_with_hint_icon_scale" format="float" />
+
+        <attr name="button_with_hint_icon_tint" format="reference" />
+        <attr name="button_with_hint_background" format="reference" />
+
+        <attr name="button_with_hint_primary_text" format="string" />
+        <attr name="button_with_hint_secondary_text" format="string" />
+    </declare-styleable>
+</resources>

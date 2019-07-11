@@ -10,7 +10,7 @@
         <action android:id="@+id/action_welcomeFragment_to_licenseFragment" app:destination="@id/licenseFragment"
                 app:enterAnim="@anim/nav_slide_in_right" app:exitAnim="@anim/nav_slide_out_left"
                 app:popEnterAnim="@anim/nav_slide_in_left" app:popExitAnim="@anim/nav_slide_out_right"
-                app:popUpToInclusive="false">
+                app:popUpToInclusive="false" app:popUpTo="@+id/graph_login">
         </action>
     </fragment>
     <fragment android:id="@+id/signInFragment"
@@ -35,10 +35,9 @@
                 app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
                 app:popExitAnim="@anim/nav_slide_out_right"/>
         <action android:id="@+id/action_signUpPhoneFragment_to_signUpKeyFragment"
-                app:popUpTo="@id/signUpPhoneFragment"
                 app:destination="@id/signUpKeyFragment" app:enterAnim="@anim/nav_slide_in_right"
                 app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+                app:popExitAnim="@anim/nav_slide_out_right" app:popUpToInclusive="false" app:popUpTo="@+id/graph_login"/>
     </fragment>
     <fragment android:id="@+id/signUpCountryFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryFragment"
@@ -56,10 +55,9 @@
               android:name="io.golos.cyber_android.ui.screens.login.signup.name.SignUpNameFragment"
               android:label="fragment_sign_up_name" tools:layout="@layout/fragment_sign_up_name">
         <action android:id="@+id/action_signUpNameFragment_to_signUpKeyFragment"
-                app:popUpTo="@id/signUpPhoneFragment"
                 app:destination="@id/signUpKeyFragment" app:enterAnim="@anim/nav_slide_in_right"
                 app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+                app:popExitAnim="@anim/nav_slide_out_right" app:popUpToInclusive="false" app:popUpTo="@+id/graph_login"/>
     </fragment>
     <fragment android:id="@+id/signUpKeyFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.key.SignUpKeyFragment"

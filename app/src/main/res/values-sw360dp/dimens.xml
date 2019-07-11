@@ -8,4 +8,13 @@
 
     <!--Sign Up-->
     <dimen name="margin_top_sign_up_master_key_title">38dp</dimen>
+
+    <!--Login - general -->
+    <dimen name="margin_bottom_login_next_button">24dp</dimen>
+    <dimen name="margin_top_primary_image_text">32dp</dimen>
+    <dimen name="margin_top_primary_secondary_text">16dp</dimen>
+
+    <!-- Shield-->
+    <dimen name="margin_top_shield_image">66dp</dimen>
+    <dimen name="height_shield_next_button">72dp</dimen>
 </resources>

@@ -40,7 +40,7 @@
     <string name="reply">Reply</string>
     <string name="comments_title_format">%1$s Comments</string>
 
-    <!--Welcome-->
+    <!--License-->
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
 
@@ -83,13 +83,15 @@
     <string name="next">Next</string>
     <string name="create_your_username">Create your username</string>
     <string name="username">Username</string>
-    <string name="master_key_has_been_generated">Master Key has been generated</string>
-    <string name="download_master_key">You need Master Key for Sign in. Please,\ndownload it.</string>
+    <string name="congratulations">Congratulations!\nRegistration has just been completed</string>
+    <string name="we_need_more_steps">We just need few more steps to protect your account</string>
     <string name="download">Download</string>
     <string name="keys_format">Master Password - %1$s \nUsername - %2$s \nOwner key - %3$s \nActive key - %4$s \nPosting
         key - %5$s
     </string>
     <string name="keys_saved_successfully">Keys saved successfully</string>
+    <string name="setup_passcode">Set up Passcode</string>
+    <string name="add_short_pin">Add short PIN code</string>
 
     <!--Settings-->
     <string name="general">General</string>

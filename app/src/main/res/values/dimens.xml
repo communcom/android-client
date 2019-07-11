@@ -24,6 +24,10 @@
     <dimen name="text_size_13_sp">13sp</dimen>
     <dimen name="text_size_12_sp">12sp</dimen>
 
+    <!--ButtonWithHintWidget-->
+    <dimen name="start_margin_view_button_with_hint">21dp</dimen>
+    <dimen name="text_gap_view_button_with_hint">1dp</dimen>
+
     <!--Feed page-->
     <dimen name="elevation_feed_search_bar">4dp</dimen>
     <dimen name="margin_feed_search_bar">8dp</dimen>
@@ -74,11 +78,13 @@
     <dimen name="margin_vertical_comment_timestamp">8dp</dimen>
     <dimen name="margin_end_comment_author">100dp</dimen>
 
-    <!--Login-->
+    <!--Login - general -->
     <dimen name="margin_horizontal_login_next_button">16dp</dimen>
-    <dimen name="margin_bottom_login_next_button">24dp</dimen>
+    <dimen name="margin_bottom_login_next_button">16dp</dimen>
     <dimen name="margin_vertical_login_widget">24dp</dimen>
     <dimen name="height_login_radio_button">40dp</dimen>
+    <dimen name="margin_top_primary_image_text">8dp</dimen>
+    <dimen name="margin_top_primary_secondary_text">8dp</dimen>
 
     <!--Welcome-->
     <dimen name="margin_horizontal_welcome_sign_up">35dp</dimen>
@@ -103,6 +109,12 @@
     <dimen name="margin_top_sign_in_login">40dp</dimen>
     <dimen name="margin_top_sign_in_button">48dp</dimen>
     <dimen name="margin_sign_in_qr_code">22dp</dimen>
+
+   <!-- Shield-->
+    <dimen name="margin_top_shield_image">8dp</dimen>
+    <dimen name="height_shield_next_button">60dp</dimen>
+    <dimen name="corner_radius_next_button">5dp</dimen>
+    <dimen name="elevation_next_button">4dp</dimen>
 
     <!--Loading Dialog-->
     <dimen name="corners_dialog_loading">8dp</dimen>
