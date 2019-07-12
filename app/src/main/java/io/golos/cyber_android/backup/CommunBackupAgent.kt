@@ -23,7 +23,6 @@ class CommunBackupAgent: BackupAgent() {
     }
 
     override fun onRestore(data: BackupDataInput, appVersionCode: Int, newState: ParcelFileDescriptor) {
-        println("onRestore 1")
         val persister: Persister = OnDevicePersister(this, logger)
         with(data) {
             while (readNextHeader()) {
@@ -34,10 +33,7 @@ class CommunBackupAgent: BackupAgent() {
                         }
                         ByteArrayInputStream(dataBuf).also {
                             DataInputStream(it).apply {
-                                val activeUser = readUTF()
-                                val activeKey = readUTF()
-                                persister.saveActiveKey(activeKey)
-                                persister.saveAuthState(AuthState(activeUser.toCyberName(), true))
+                                readKeysTo(persister)
                             }
                         }
                     }
@@ -47,7 +43,6 @@ class CommunBackupAgent: BackupAgent() {
     }
 
     override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput, newState: ParcelFileDescriptor) {
-        println("onBackup 1")
         val persister: Persister = OnDevicePersister(this, logger)
         val activeKey = persister.getActiveKey()
         val authState = persister.getAuthState()
@@ -56,28 +51,35 @@ class CommunBackupAgent: BackupAgent() {
 
             //saving state to local storage
             FileOutputStream(newState.fileDescriptor).run {
-                writeKeysTo(this, activeUser, activeKey)
+                writeKeys(activeUser, activeKey)
             }
 
+            //saving state to [data] which will be backed up
             val buffer = ByteArrayOutputStream().run {
-                writeKeysTo(this, activeUser, activeKey)
+                writeKeys(activeUser, activeKey)
                 toByteArray()
             }
             val len: Int = buffer.size
             data.apply {
                 writeEntityHeader(BACKUP_KEYS, len)
                 writeEntityData(buffer, len)
-                println("onBackup 2")
             }
 
         }
     }
 
-    private fun writeKeysTo(it: OutputStream, activeUser: CyberName, activeKey: String?) {
-        DataOutputStream(it).apply {
+    private fun OutputStream.writeKeys(activeUser: CyberName, activeKey: String?) {
+        DataOutputStream(this).apply {
             writeUTF(activeUser.name)
             writeUTF(activeKey)
         }
+    }
+
+    private fun DataInputStream.readKeysTo(persister: Persister) {
+        val activeUser = readUTF()
+        val activeKey = readUTF()
+        persister.saveActiveKey(activeKey)
+        persister.saveAuthState(AuthState(activeUser.toCyberName(), true))
     }
 
 }

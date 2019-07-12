@@ -29,14 +29,14 @@ class SignUpKeyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        moveToPasscodeButton.setOnClickListener { /*navigateToOnboarding()*/ }     // to passcode!!!
+        moveToPasscodeButton.setOnClickListener { navigateToProtectionStep() }     // to passcode!!!
     }
 
-    private fun navigateToOnboarding() {
+    private fun navigateToProtectionStep() {
         authViewModel.authStateLiveData.value?.let { auth ->
             findNavController().safeNavigate(
                 R.id.signUpKeyFragment,
-                R.id.action_signUpKeyFragment_to_onboardingUserImageFragment,
+                R.id.action_signUpKeyFragment_to_signUpProtectionKeysFragment,
                 Bundle().apply {
                     putString(
                         Tags.ARGS,
