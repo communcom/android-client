@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
+import io.golos.cyber_android.ui.screens.login.signup.keys.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel
 import io.golos.cyber_android.ui.screens.main.MainViewModel
 import io.golos.cyber_android.ui.screens.notifications.NotificationsViewModel
@@ -396,6 +397,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getEventsUseCase(EventTypeEntity.values().toSet()),
                         getPushNotificationsSettingsUseCase()
                     ) as T
+
+                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel() as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }

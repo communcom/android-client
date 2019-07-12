@@ -25,17 +25,6 @@ class SignUpProtectionKeysViewModel : ViewModel() {
         )
     }
 
-    init {
-        keysLiveData.postValue(
-            GeneratedUserKeys(
-                "name", "master", "owner",
-                "ownerP", "active", "activeP",
-                "posting", "postingP",
-                "memo", "memoP"
-            )
-        )
-    }
-
     fun setInitialKeys(keys: GeneratedUserKeys) {
         keysLiveData.postValue(keys)
     }

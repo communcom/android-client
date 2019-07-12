@@ -43,6 +43,7 @@ class MainActivity : BaseActivity() {
         addNotificationsBadge()
         setupViewModel()
         observeViewModel()
+        serviceLocator.backupManager.dataChanged()
     }
 
     private fun observeViewModel() {
