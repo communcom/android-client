@@ -8,7 +8,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import io.golos.cyber_android.locator.ServiceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.locator.ServiceLocator
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.

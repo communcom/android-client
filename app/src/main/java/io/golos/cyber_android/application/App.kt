@@ -1,13 +1,14 @@
-package io.golos.cyber_android
+package io.golos.cyber_android.application
 
 import android.os.Build
 import androidx.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.fcm.CommunFirebaseMessagingService
-import io.golos.cyber_android.locator.RepositoriesHolder
-import io.golos.cyber_android.locator.ServiceLocator
-import io.golos.cyber_android.locator.ServiceLocatorImpl
+import io.golos.cyber_android.application.locator.RepositoriesHolder
+import io.golos.cyber_android.application.locator.ServiceLocator
+import io.golos.cyber_android.application.locator.ServiceLocatorImpl
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.

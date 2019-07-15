@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-            android:name=".App"
+            android:name=".application.App"
             android:backupAgent=".backup.CommunBackupAgent"
             android:restoreAnyVersion="true"
             android:hardwareAccelerated="true"

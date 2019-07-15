@@ -11,7 +11,7 @@ ext {
     lifecycleVersion = "2.2.0-alpha01"
     archCoreTesting = "2.0.0"
     coroutinesVersion = "1.1.1"
-    junitVersion = "4.12"
+
     glideVersion = "4.9.0"
     viewPager2Version = "1.0.0-alpha05"
     navVersion = "2.0.0"
@@ -30,4 +30,9 @@ ext {
     cyber4jVersion = "0.6.56"
 
     visionVersion = "18.0.0"
+
+    // Tests
+    junitVersion = "4.12"
+    test_runner_version = '1.1.0'
+    espresso_runner_version = '3.1.1'
 }

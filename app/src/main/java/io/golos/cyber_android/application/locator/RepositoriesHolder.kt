@@ -1,4 +1,4 @@
-package io.golos.cyber_android.locator
+package io.golos.cyber_android.application.locator
 
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.Repository

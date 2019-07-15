@@ -1,9 +1,8 @@
-package io.golos.cyber_android
+package io.golos.cyber_android.application
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.locator.RepositoriesHolder
-import io.golos.data.repositories.AbstractDiscussionsRepository
+import io.golos.cyber_android.application.locator.RepositoriesHolder
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.*
 import kotlinx.coroutines.CoroutineScope

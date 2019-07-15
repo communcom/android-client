@@ -3,8 +3,9 @@ package io.golos.cyber_android
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
-import io.golos.cyber_android.locator.RepositoriesHolder
+import io.golos.cyber_android.application.locator.RepositoriesHolder
 import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl

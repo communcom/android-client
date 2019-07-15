@@ -129,6 +129,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+
+    /*Tests*/
     testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
@@ -136,6 +138,8 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation("com.squareup.moshi:moshi:$moshiVersin")
+    androidTestImplementation "androidx.test.ext:junit:$test_runner_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_runner_version"
 
     testImplementation project(':domain')
     testImplementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
