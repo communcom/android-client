@@ -9,6 +9,7 @@ import io.golos.data.utils.ImageCompressor
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import kotlin.math.min
 
 /**
  * Utils class for compressing images before sending it to backend
@@ -76,10 +77,10 @@ object ImageCompressorImpl : ImageCompressor {
             val matrix = Matrix()
             matrix.setRotate(rotation + getOrientationFix(file))
 
-            val x = transX.toInt()
-            val y = transY.toInt()
-            val width = (bitmap.width - transX).toInt()
-            val height = (bitmap.height - transY).toInt()
+            val x = transX.toInt() / opts.inSampleSize
+            val y = transY.toInt() / opts.inSampleSize
+            val width = (bitmap.width - x)
+            val height = (bitmap.height - y)
 
             val scaledBitmap = if (!toSquare)
                 Bitmap.createBitmap(
@@ -91,7 +92,7 @@ object ImageCompressorImpl : ImageCompressor {
                 bitmap,
                 x,
                 y,
-                Math.min(width, height), Math.min(width, height), matrix, true
+                min(width, height), min(width, height), matrix, true
             )
 
 
