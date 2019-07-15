@@ -13,6 +13,8 @@
     <string name="digit8">8</string>
     <string name="digit9">9</string>
 
+    <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
+
     <!--Main Screen Navigation-->
     <string name="feed">Feed</string>
     <string name="communities">Communities</string>

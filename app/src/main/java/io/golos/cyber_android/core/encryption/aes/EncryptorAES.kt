@@ -9,7 +9,7 @@ import java.security.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 
-/** Encryption/Decryption via AES */
+
 @RequiresApi(Build.VERSION_CODES.M)
 class EncryptorAES: EncryptorAESBase(), Encryptor, EncryptorFingerprint {
     companion object {

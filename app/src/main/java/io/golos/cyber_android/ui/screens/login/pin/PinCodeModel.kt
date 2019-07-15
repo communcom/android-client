@@ -14,5 +14,8 @@ interface PinCodeModel {
      */
     fun validate(): Boolean
 
-    suspend fun saveCode()
+    /**
+     * @return true in case of success
+     */
+    suspend fun saveCode(): Boolean
 }

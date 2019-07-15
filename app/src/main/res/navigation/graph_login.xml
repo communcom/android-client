@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/graph_login"
-            app:startDestination="@id/pinCodeFragment">
+            app:startDestination="@id/signUpKeyFragment">
 
     <fragment android:id="@+id/welcomeFragment"
               android:name="io.golos.cyber_android.ui.screens.login.welcome.WelcomeFragment"
@@ -62,8 +62,12 @@
     <fragment android:id="@+id/signUpKeyFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.key.SignUpKeyFragment"
               android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key">
-        <action android:id="@+id/action_signUpKeyFragment_to_signUpProtectionKeysFragment"
-                app:destination="@id/signUpProtectionKeysFragment"/>
+        <action android:id = "@+id/action_signUpKeyFragment_to_pinCodeFragment"
+                app:destination = "@id/pinCodeFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_slide_out_right"/>
     </fragment>
     <fragment android:id="@+id/onboardingUserImageFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment"

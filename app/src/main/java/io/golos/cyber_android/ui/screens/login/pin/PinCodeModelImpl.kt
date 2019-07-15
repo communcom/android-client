@@ -1,8 +1,20 @@
 package io.golos.cyber_android.ui.screens.login.pin
 
-import io.golos.domain.Persister
+import io.golos.cyber_android.core.encryption.Encryptor
+import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacade
+import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.domain.DispatchersProvider
+import io.golos.domain.Logger
+import kotlinx.coroutines.withContext
 
-class PinCodeModelImpl(private val persister: Persister): PinCodeModel {
+class PinCodeModelImpl(
+    private val dispatchersProvider: DispatchersProvider,
+    private val stringsConverter: StringsConverter,
+    private val encryptor: Encryptor,
+    private val keyValueStorage: KeyValueStorageFacade,
+    private val logger: Logger
+) : PinCodeModel {
+
     private var primaryCode: String? = null
     private var repeatedCode: String? = null
 
@@ -23,7 +35,16 @@ class PinCodeModelImpl(private val persister: Persister): PinCodeModel {
      */
     override fun validate() = primaryCode == repeatedCode
 
-    override suspend fun saveCode() {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override suspend fun saveCode(): Boolean =
+        withContext(dispatchersProvider.networkDispatcher) {
+            try {
+                val codeAsBytes = stringsConverter.toBytes(primaryCode!!)
+                val encryptedCode = encryptor.encrypt(codeAsBytes)
+                keyValueStorage.savePinCode(encryptedCode!!)
+                true
+            } catch (ex: Exception) {
+                logger(ex)
+                false
+            }
+        }
 }

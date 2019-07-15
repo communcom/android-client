@@ -2,6 +2,7 @@ package io.golos.cyber_android.application.locator
 
 import android.app.backup.BackupManager
 import android.content.Context
+import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
@@ -9,6 +10,17 @@ import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.core.encryption.Encryptor
+import io.golos.cyber_android.core.encryption.aes.EncryptorAES
+import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
+import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
+import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacade
+import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
+import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
+import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
+import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelperImpl
@@ -142,6 +154,21 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
     private val persister = OnDevicePersister(appContext, logger)
+
+    private val stringsConverter: StringsConverter
+        get() = StringsConverterImpl()
+
+    private val keyValueStorage: KeyValueStorageFacade by lazy {
+        KeyValueStorageFacadeImpl(CombinedStorage(InMemoryStorage(), SharedPreferencesStorage(appContext)), moshi)
+    }
+
+    private val encryptor: Encryptor by lazy {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            EncryptorAES()
+        } else  {
+            EncryptorAESOldApi(keyValueStorage, EncryptorRSA(appContext))
+        }
+    }
 
     override val backupManager: BackupManager by lazy { BackupManager(appContext) }
 
@@ -402,9 +429,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     ) as T
 
                     SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel() as T
-                    PinCodeViewModel::class.java -> PinCodeViewModel(
-                        getPinCodeModel()
-                    ) as T
+                    PinCodeViewModel::class.java -> PinCodeViewModel(dispatchersProvider, getPinCodeModel()) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
@@ -580,5 +605,11 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, persister)
     }
 
-    override fun getPinCodeModel(): PinCodeModel = PinCodeModelImpl(persister)
+    override fun getPinCodeModel(): PinCodeModel =
+        PinCodeModelImpl(
+            dispatchersProvider,
+            stringsConverter,
+            encryptor,
+            keyValueStorage,
+            logger)
 }

@@ -16,7 +16,9 @@ import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 import javax.security.auth.x500.X500Principal
 
-/** Encryption/Decryption via AES */
+/**
+ * Encryption/Decryption via RSA
+ */
 class EncryptorRSA
 constructor(
     private val appContext: Context
@@ -102,7 +104,7 @@ constructor(
             KEYSTORE_PROVIDER
         )
 
-        val spec = if(Build.VERSION.SDK_INT >= 23) {
+        val spec = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             KeyGenParameterSpec
                 .Builder(KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setCertificateSubject(X500Principal("CN=Sample Name, O=Android Authority"))

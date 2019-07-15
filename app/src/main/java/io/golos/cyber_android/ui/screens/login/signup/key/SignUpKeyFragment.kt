@@ -34,29 +34,46 @@ class SignUpKeyFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupViewModel()
 
+        moveToPasscodeButton.setOnClickListener {
+            navigateToProtectionStep()
+        }
+
+
+        // todo Commented for debug purpose!!!
+/*
         authViewModel.authStateLiveData.observe(this, Observer { authState ->
             if (authState.isUserLoggedIn)
                 moveToPasscodeButton.setOnClickListener {
                     navigateToProtectionStep(authState)
                 }     // to passcode!!!
-            else Toast.makeText(requireContext(), R.string.unknown_error, Toast.LENGTH_SHORT).show()
+            else {
+                Toast.makeText(requireContext(), R.string.unknown_error, Toast.LENGTH_SHORT).show()
+            }
         })
+*/
     }
 
+    // todo Commented for debug purpose!!!
+/*
     private fun navigateToProtectionStep(authState: UserAuthState) {
         findNavController().safeNavigate(
             R.id.signUpKeyFragment,
-            R.id.action_signUpKeyFragment_to_signUpProtectionKeysFragment,
+            R.id.action_signUpKeyFragment_to_pinCodeFragment,
             Bundle().apply {
                 putString(
                     Tags.ARGS,
                     requireContext()
                         .serviceLocator.moshi
                         .adapter(SignUpProtectionKeysFragment.Args::class.java)
-                        .toJson(SignUpProtectionKeysFragment.Args(authState.userName))
+                        .toJson(SignUpProtectionKeysFragment.Args(authState.userName)) // Use parcelable in this case!!!
                 )
             }
         )
+    }
+*/
+
+    private fun navigateToProtectionStep() {
+        findNavController().safeNavigate(R.id.signUpKeyFragment, R.id.action_signUpKeyFragment_to_pinCodeFragment)
     }
 
     private fun setupViewModel() {
