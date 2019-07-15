@@ -7,7 +7,7 @@ import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_button_with_hint_widget.view.*
 
 /**
- * Image button with explicitly set icon size
+ * "Button" with some primary text, a secondary text and an icon
  */
 class ButtonWithHintWidget
 @JvmOverloads

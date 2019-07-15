@@ -25,4 +25,7 @@
     <color name="transparent">#00000000</color>
     <color name="bg_post_comment">#ffffff</color>
     <color name="bg_dialog_color">#ffffff</color>
+
+    <color name="light_button">@color/white</color>
+    <color name="light_button_pressed">@color/middle_gray_3</color>
 </resources>

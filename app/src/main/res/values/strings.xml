@@ -1,6 +1,18 @@
 <resources>
     <string name="action_settings">Settings</string>
 
+    <!--Digits-->
+    <string name="digit0">0</string>
+    <string name="digit1">1</string>
+    <string name="digit2">2</string>
+    <string name="digit3">3</string>
+    <string name="digit4">4</string>
+    <string name="digit5">5</string>
+    <string name="digit6">6</string>
+    <string name="digit7">7</string>
+    <string name="digit8">8</string>
+    <string name="digit9">9</string>
+
     <!--Main Screen Navigation-->
     <string name="feed">Feed</string>
     <string name="communities">Communities</string>
@@ -199,5 +211,8 @@
     <string name="active_key">Active key</string>
     <string name="memo_key">Memo key</string>
 
+    <string name="create_passcode">Create your passcode</string>
+    <string name="enter_passcode_again">Enter the passcode again</string>
+    <string name="codes_not_match">The codes don\'t match. Please try again.</string>
 
 </resources>

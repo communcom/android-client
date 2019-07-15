@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "wrap_content"
+    android:layout_height = "wrap_content">
+
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+        android:id = "@+id/digit1"
+
+        android:layout_height = "@dimen/height_sign_up_sms_code_digit"
+        android:layout_width = "@dimen/width_sign_up_sms_code_digit"
+
+        tools:text = "@string/digit1"
+
+        style = "@style/PinKeypadDigitTextStyle"
+
+        android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+
+        app:layout_constraintTop_toTopOf = "parent"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintHorizontal_bias = "0.5"
+        app:layout_constraintEnd_toStartOf = "@+id/digit2"
+        app:layout_constraintHorizontal_chainStyle = "spread_inside"
+
+        android:tag="0"
+    />
+
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+        android:id = "@+id/digit2"
+
+        android:layout_height = "@dimen/height_sign_up_sms_code_digit"
+        android:layout_width = "@dimen/width_sign_up_sms_code_digit"
+
+        tools:text = "@string/digit2"
+
+        style = "@style/PinKeypadDigitTextStyle"
+
+        android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+        android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+
+        app:layout_constraintTop_toTopOf = "parent"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintStart_toEndOf = "@+id/digit1"
+        app:layout_constraintHorizontal_bias = "0.5"
+        app:layout_constraintEnd_toStartOf = "@+id/digit3"
+
+        android:tag="1"
+    />
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+        android:id = "@+id/digit3"
+
+        android:layout_height = "@dimen/height_sign_up_sms_code_digit"
+        android:layout_width = "@dimen/width_sign_up_sms_code_digit"
+
+        tools:text = "@string/digit3"
+
+        style = "@style/PinKeypadDigitTextStyle"
+
+        android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+        android:layout_marginEnd="@dimen/margin_vertical_sign_up_sms_code_digit"
+
+        app:layout_constraintTop_toTopOf = "parent"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintStart_toEndOf = "@+id/digit2"
+        app:layout_constraintHorizontal_bias = "0.5"
+        app:layout_constraintEnd_toStartOf = "@+id/digit4"
+
+        android:tag="2"
+    />
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+        android:id = "@+id/digit4"
+
+        android:layout_height = "@dimen/height_sign_up_sms_code_digit"
+        android:layout_width = "@dimen/width_sign_up_sms_code_digit"
+
+        tools:text = "@string/digit4"
+
+        style = "@style/PinKeypadDigitTextStyle"
+
+        android:layout_marginStart="@dimen/margin_vertical_sign_up_sms_code_digit"
+
+        app:layout_constraintTop_toTopOf = "parent"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintStart_toEndOf = "@+id/digit3"
+        app:layout_constraintHorizontal_bias = "0.5"
+        app:layout_constraintEnd_toEndOf = "parent"
+
+        android:tag="3"
+    />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="@dimen/width_pin_keypad"
+        android:layout_height="@dimen/height_pin_keypad">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/guidelineHorizontal25"
+        app:layout_constraintGuide_percent = "0.25"
+        android:orientation = "horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/guidelineHorizontal50"
+        android:orientation = "horizontal"
+        app:layout_constraintGuide_percent = "0.5"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/guidelineHorizontal75"
+        android:orientation = "horizontal"
+        app:layout_constraintGuide_percent = "0.75"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/guidelineVertical33"
+        android:orientation = "vertical"
+        app:layout_constraintGuide_percent = "0.33"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:id = "@+id/guidelineVertical67"
+        android:orientation = "vertical"
+        app:layout_constraintGuide_percent = "0.67"/>
+
+    <Button
+        android:text = "@string/digit1"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+
+        style = "@style/NumericKeypadButtonStyle"
+
+        android:id = "@+id/button1"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "parent"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal25"
+        app:layout_constraintStart_toStartOf = "parent"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"/>
+
+    <Button
+        android:text = "@string/digit2"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button2"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "parent"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal25"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit3"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button3"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "parent"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal25"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toEndOf = "parent"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit4"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button4"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal25"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal50"
+        app:layout_constraintStart_toStartOf = "parent"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit5"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button5"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal25"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal50"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit6"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button6"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal25"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal50"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toEndOf = "parent"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit7"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button7"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal50"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal75"
+        app:layout_constraintStart_toStartOf = "parent"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit8"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button8"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal50"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal75"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit9"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button9"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toTopOf = "@+id/guidelineHorizontal75"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal50"
+        app:layout_constraintEnd_toEndOf = "parent"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+
+    <Button
+        android:text = "@string/digit0"
+        android:layout_width = "0dp"
+        android:layout_height = "0dp"
+        android:id = "@+id/button0"
+        android:layout_marginTop = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintTop_toTopOf = "@+id/guidelineHorizontal75"
+        android:layout_marginBottom = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintStart_toStartOf = "@+id/guidelineVertical33"
+        android:layout_marginStart = "@dimen/gap_buttons_pin_keypad"
+        app:layout_constraintEnd_toStartOf = "@+id/guidelineVertical67"
+        android:layout_marginEnd = "@dimen/gap_buttons_pin_keypad"
+        style = "@style/NumericKeypadButtonStyle"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

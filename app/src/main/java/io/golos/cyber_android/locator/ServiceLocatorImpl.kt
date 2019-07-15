@@ -16,6 +16,9 @@ import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedView
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
+import io.golos.cyber_android.ui.screens.login.pin.PinCodeModel
+import io.golos.cyber_android.ui.screens.login.pin.PinCodeModelImpl
+import io.golos.cyber_android.ui.screens.login.pin.PinCodeViewModel
 import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
@@ -399,6 +402,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     ) as T
 
                     SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel() as T
+                    PinCodeViewModel::class.java -> PinCodeViewModel(
+                        getPinCodeModel()
+                    ) as T
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
@@ -573,4 +579,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase {
         return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, persister)
     }
+
+    override fun getPinCodeModel(): PinCodeModel = PinCodeModelImpl(persister)
 }

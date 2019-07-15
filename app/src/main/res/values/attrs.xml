@@ -11,4 +11,11 @@
         <attr name="button_with_hint_primary_text" format="string" />
         <attr name="button_with_hint_secondary_text" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="PinDigit">
+        <attr name="state_normal" format="boolean" />
+        <attr name="state_active" format="boolean" />
+        <attr name="state_normal_error" format="boolean" />
+        <attr name="state_active_error" format="boolean" />
+    </declare-styleable>
 </resources>

@@ -11,18 +11,30 @@
     <dimen name="size_splash_icon">100dp</dimen>
 
     <dimen name="text_size_42_sp">42sp</dimen>
+    <dimen name="text_size_36_sp">36sp</dimen>
     <dimen name="text_size_34_sp">34sp</dimen>
     <dimen name="text_size_30_sp">30sp</dimen>
     <dimen name="text_size_26_sp">26sp</dimen>
     <dimen name="text_size_24_sp">24sp</dimen>
     <dimen name="text_size_22_sp">22sp</dimen>
     <dimen name="text_size_20_sp">20sp</dimen>
+    <dimen name="text_size_18_sp">18sp</dimen>
     <dimen name="text_size_17_sp">17sp</dimen>
     <dimen name="text_size_16_sp">16sp</dimen>
     <dimen name="text_size_15_sp">15sp</dimen>
     <dimen name="text_size_14_sp">14sp</dimen>
     <dimen name="text_size_13_sp">13sp</dimen>
     <dimen name="text_size_12_sp">12sp</dimen>
+
+    <!--Pin keypad-->
+    <dimen name="width_pin_keypad">189dp</dimen>
+    <dimen name="height_pin_keypad">252dp</dimen>
+    <dimen name="gap_buttons_pin_keypad">8dp</dimen>
+    <dimen name="margin_bottom_pin_keypad">8dp</dimen>
+    <dimen name="stroke_width_digit_pin_keypad">1dp</dimen>
+    <dimen name="margin_bottom_code_label">16dp</dimen>
+    <dimen name="margin_bottom_pin_code">8dp</dimen>
+    <dimen name="text_size_pin_keypad">@dimen/text_size_22_sp</dimen>
 
     <!--ButtonWithHintWidget-->
     <dimen name="start_margin_view_button_with_hint">21dp</dimen>
@@ -85,6 +97,7 @@
     <dimen name="height_login_radio_button">40dp</dimen>
     <dimen name="margin_top_primary_image_text">8dp</dimen>
     <dimen name="margin_top_primary_secondary_text">8dp</dimen>
+    <dimen name="text_size_editor_preview">@dimen/text_size_12_sp</dimen>
 
     <!--Welcome-->
     <dimen name="margin_horizontal_welcome_sign_up">35dp</dimen>
@@ -152,14 +165,15 @@
     <dimen name="padding_sign_up_end_country">19dp</dimen>
     <dimen name="size_country_flag">40dp</dimen>
     <dimen name="margin_top_sign_up_sms_description">24dp</dimen>
-    <dimen name="corners_sign_up_sms_code_digit">12dp</dimen>
-    <dimen name="width_sign_up_sms_code_digit">48dp</dimen>
-    <dimen name="height_sign_up_sms_code_digit">56dp</dimen>
+    <dimen name="corners_sign_up_sms_code_digit">8dp</dimen>
+    <dimen name="width_sign_up_sms_code_digit">34dp</dimen>
+    <dimen name="height_sign_up_sms_code_digit">39dp</dimen>
     <dimen name="margin_vertical_sign_up_sms_code_digit">6dp</dimen>
     <dimen name="margin_top_sign_up_sms_code">32dp</dimen>
     <dimen name="margin_top_sign_up_master_key_title">20dp</dimen>
     <dimen name="margin_top_sign_up_download">40dp</dimen>
     <dimen name="margin_bottom_sign_up_download">33dp</dimen>
+    <dimen name="text_size_sms_code">@dimen/text_size_18_sp</dimen>
 
     <!--Profile-->
     <dimen name="padding_profile_avatar">5dp</dimen>

@@ -1,0 +1,95 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+
+    android:id="@+id/root"
+
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent"
+    android:background = "@color/white"
+    tools:context = "io.golos.cyber_android.ui.screens.login.pin.PinCodeFragment">
+
+    <!--region Primary code-->
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinCode
+        android:id = "@+id/primaryCode"
+
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+
+        tools:layout_width = "228dp"
+        tools:layout_height = "56dp"
+
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintBottom_toTopOf = "@+id/primaryCodeLabel"
+        android:layout_marginBottom = "@dimen/margin_bottom_pin_code"/>
+
+    <TextView
+        android:id = "@+id/primaryCodeLabel"
+
+        android:text = "@string/create_passcode"
+
+        style="@style/EditorPreviewSummaryTextStyle"
+
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintBottom_toTopOf = "@+id/repeatedCode"
+
+        android:layout_marginBottom = "@dimen/margin_bottom_code_label"/>
+    <!--endregion-->
+
+    <!--region Repeated code-->
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinCode
+        android:id = "@+id/repeatedCode"
+
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+
+        tools:layout_width = "228dp"
+        tools:layout_height = "56dp"
+
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintBottom_toTopOf = "@+id/repeatedCodeLabel"
+        android:layout_marginBottom = "@dimen/margin_bottom_pin_code"
+
+        android:visibility="visible"
+    />
+
+    <TextView
+        android:id = "@+id/repeatedCodeLabel"
+
+        android:text = "@string/enter_passcode_again"
+
+        style="@style/EditorPreviewSummaryTextStyle"
+
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+
+        app:layout_constraintStart_toStartOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintBottom_toTopOf = "@+id/keypad"
+
+        android:layout_marginBottom = "@dimen/margin_bottom_code_label"
+
+        android:visibility="visible"
+    />
+    <!--endregion-->
+
+    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinKeypad
+        android:layout_height = "@dimen/height_pin_keypad"
+        android:layout_width = "@dimen/width_pin_keypad"
+
+        android:id = "@+id/keypad"
+
+        android:layout_marginBottom = "@dimen/margin_bottom_pin_keypad"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintEnd_toEndOf = "parent"
+        app:layout_constraintStart_toStartOf = "parent"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

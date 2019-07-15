@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/graph_login"
-            app:startDestination="@id/welcomeFragment">
+            app:startDestination="@id/pinCodeFragment">
 
     <fragment android:id="@+id/welcomeFragment"
               android:name="io.golos.cyber_android.ui.screens.login.welcome.WelcomeFragment"
@@ -94,4 +94,8 @@
         <action android:id="@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
                 app:destination="@id/onboardingUserImageFragment"/>
     </fragment>
+    <fragment android:id = "@+id/pinCodeFragment"
+              android:name = "io.golos.cyber_android.ui.screens.login.pin.PinCodeFragment"
+              android:label = "fragment_pin_code"
+              tools:layout = "@layout/fragment_pin_code"/>
 </navigation>

@@ -8,13 +8,25 @@
 
     <!--Sign Up-->
     <dimen name="margin_top_sign_up_master_key_title">38dp</dimen>
+    <dimen name="width_sign_up_sms_code_digit">48dp</dimen>
+    <dimen name="height_sign_up_sms_code_digit">56dp</dimen>
+    <dimen name="corners_sign_up_sms_code_digit">12dp</dimen>
+    <dimen name="text_size_sms_code">@dimen/text_size_26_sp</dimen>
 
     <!--Login - general -->
     <dimen name="margin_bottom_login_next_button">24dp</dimen>
     <dimen name="margin_top_primary_image_text">32dp</dimen>
     <dimen name="margin_top_primary_secondary_text">16dp</dimen>
+    <dimen name="text_size_editor_preview">@dimen/text_size_16_sp</dimen>
 
     <!-- Shield-->
     <dimen name="margin_top_shield_image">66dp</dimen>
     <dimen name="height_shield_next_button">72dp</dimen>
+
+    <!--Pin keypad-->
+    <dimen name="width_pin_keypad">270dp</dimen>
+    <dimen name="height_pin_keypad">360dp</dimen>
+    <dimen name="margin_bottom_pin_keypad">16dp</dimen>
+    <dimen name="text_size_pin_keypad">@dimen/text_size_36_sp</dimen>
+    <dimen name="margin_bottom_code_label">30dp</dimen>
 </resources>
