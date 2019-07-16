@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.login.pin
 
 interface PinCodeModel {
+    val isFingerprintAuthenticationPossible: Boolean
+
     fun updatePrimaryCode(code: String?)
 
     fun updateRepeatedCode(code: String?)

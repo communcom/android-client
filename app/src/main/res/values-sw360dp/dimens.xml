@@ -29,4 +29,10 @@
     <dimen name="margin_bottom_pin_keypad">16dp</dimen>
     <dimen name="text_size_pin_keypad">@dimen/text_size_36_sp</dimen>
     <dimen name="margin_bottom_code_label">30dp</dimen>
+
+    <!--Registration - Fingerprint screen-->
+    <dimen name="image_width_fingerprint_fragment">182dp</dimen>
+    <dimen name="image_height_fingerprint_fragment">200dp</dimen>
+    <dimen name="margin_top_image_fingerprint_fragment">66dp</dimen>
+    <dimen name="margin_top_image_text_fingerprint_fragment">32dp</dimen>
 </resources>

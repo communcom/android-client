@@ -3,6 +3,7 @@ package io.golos.cyber_android.core.key_value_storage
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.core.key_value_storage.storages.Storage
 import io.golos.domain.KeyValueStorageFacade
+import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthState
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.sharedmodel.CyberName
@@ -15,6 +16,7 @@ constructor(
     private val keyValueStorage: Storage,
     private val moshi: Moshi
 ) : KeyValueStorageFacade {
+
     /**
      * Save encrypted key for AES encoding (key is encrypted via RSA alg, it works for old devices only - prior to 23 API)
      */
@@ -77,5 +79,15 @@ constructor(
     override fun getPinCode(): ByteArray? =
         keyValueStorage.read {
             it.readBytes("PIN_CODE")
+        }
+
+    override fun saveAppUnlockWay(unlockWay: AppUnlockWay) =
+        keyValueStorage.update {
+            it.putInt("APP_UNLOCK_WAY", unlockWay.value)
+        }
+
+    override fun getAppUnlockWay(): AppUnlockWay? =
+        keyValueStorage.read {
+            it.readInt("APP_UNLOCK_WAY")?.let { value -> AppUnlockWay.createFromValue(value) }
         }
 }

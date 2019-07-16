@@ -10,16 +10,16 @@ import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.domain.Encryptor
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
+import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
+import io.golos.cyber_android.core.fingerprints.FingerprintAuthManagerImpl
 import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
-import io.golos.domain.StringsConverter
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
@@ -28,6 +28,9 @@ import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedView
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
+import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintModel
+import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintModelImpl
+import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintViewModel
 import io.golos.cyber_android.ui.screens.login.pin.PinCodeModel
 import io.golos.cyber_android.ui.screens.login.pin.PinCodeModelImpl
 import io.golos.cyber_android.ui.screens.login.pin.PinCodeViewModel
@@ -51,10 +54,7 @@ import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
-import io.golos.domain.DiscussionsFeedRepository
-import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.*
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.*
@@ -166,6 +166,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         } else  {
             EncryptorAESOldApi(keyValueStorage, EncryptorRSA(appContext))
         }
+    }
+
+    private val fingerprintAuthManager: FingerprintAuthManager by lazy {
+        FingerprintAuthManagerImpl(appContext, encryptor as EncryptorFingerprint)
     }
 
     override val backupManager: BackupManager by lazy { BackupManager(appContext) }
@@ -427,7 +431,11 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     ) as T
 
                     SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel() as T
+
                     PinCodeViewModel::class.java -> PinCodeViewModel(dispatchersProvider, getPinCodeModel()) as T
+
+                    FingerprintViewModel::class.java -> FingerprintViewModel(dispatchersProvider, getFingerprintModel()) as T
+
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
@@ -609,5 +617,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             stringsConverter,
             encryptor,
             keyValueStorage,
-            logger)
+            logger,
+            fingerprintAuthManager)
+
+    override fun getFingerprintModel(): FingerprintModel =
+        FingerprintModelImpl(
+            keyValueStorage,
+            logger,
+            dispatchersProvider)
 }

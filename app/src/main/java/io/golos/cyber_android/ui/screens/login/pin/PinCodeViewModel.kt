@@ -4,6 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.SingleLiveData
+import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.ViewCommand
+import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToFingerprintCommand
+import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.login.pin.view_state_dto.CodeState
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.CoroutineScope
@@ -22,11 +26,11 @@ class PinCodeViewModel(
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
 
-    val isInExtendedMode = MutableLiveData<Boolean>(false)
+    val isInExtendedMode = MutableLiveData(false)
 
-    val codeState = MutableLiveData<CodeState>(CodeState(true, false, false, false))
+    val codeState = MutableLiveData(CodeState(true, false, false, false))
 
-    val error: SingleLiveData<Int> = SingleLiveData()
+    val command: SingleLiveData<ViewCommand> = SingleLiveData()
 
     fun onPrimaryCodeUpdated(code: String?) {
         model.updatePrimaryCode(code)
@@ -46,19 +50,26 @@ class PinCodeViewModel(
 
                 launch {
                     if(model.saveCode()) {
-                        return@launch
-                        // navigate() fake
+                        command.value = if(model.isFingerprintAuthenticationPossible) {
+                            NavigateToFingerprintCommand()
+                        } else {
+                            NavigateToKeysCommand()
+                        }
                     } else {
-                        error.value = R.string.common_general_error
+                        command.value = ShowMessageCommand(R.string.common_general_error)
                     }
                 }
             } else {
                 model.updatePrimaryCode(null)
                 model.updateRepeatedCode(null)
 
-                error.value = R.string.codes_not_match
+                command.value = ShowMessageCommand(R.string.codes_not_match)
                 codeState.value = CodeState(true, false, true, true)
             }
         }
+    }
+
+    override fun onCleared() {
+        scopeJob.takeIf { it.isActive }?.cancel()
     }
 }

@@ -8,10 +8,14 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.helper.UIHelper
+import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
+import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToFingerprintCommand
+import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToKeysCommand
 import kotlinx.android.synthetic.main.fragment_pin_code.*
 
 class PinCodeFragment : Fragment() {
@@ -65,8 +69,12 @@ class PinCodeFragment : Fragment() {
             }
         })
 
-        viewModel.error.observe(this, Observer { errorResId ->
-            uiHelper.showMessage(errorResId)
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                is NavigateToFingerprintCommand -> findNavController().navigate(R.id.action_pinCodeFragment_to_fingerprintFragment)
+                is NavigateToKeysCommand -> findNavController().navigate(R.id.action_pinCodeFragment_to_signUpProtectionKeysFragment)
+            }
         })
     }
 

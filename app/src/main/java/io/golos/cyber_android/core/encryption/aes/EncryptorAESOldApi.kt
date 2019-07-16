@@ -2,7 +2,9 @@ package io.golos.cyber_android.core.encryption.aes
 
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
+import java.lang.UnsupportedOperationException
 import java.security.Key
+import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
 /** Encryption/Decryption via AES for an old API*/
@@ -10,7 +12,7 @@ class EncryptorAESOldApi
 constructor(
     private val keyValueStorage: KeyValueStorageFacade,
     private val encryptor: Encryptor
-) : EncryptorAESBase(), Encryptor {
+) : EncryptorAESBase() {
 
     companion object {
         private const val KEY_SIZE_BYTES = KEY_SIZE / 8         // in bytes
@@ -32,6 +34,10 @@ constructor(
         }
 
         return key!!
+    }
+
+    override fun getCipher(): Cipher {
+        throw UnsupportedOperationException("This operation is not supported for an old API")
     }
 
     private fun isKeyExists() = keyValueStorage.getAESCryptoKey() != null

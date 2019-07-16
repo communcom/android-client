@@ -11,7 +11,7 @@ import javax.crypto.CipherOutputStream
 import javax.crypto.spec.GCMParameterSpec
 
 /** Base class for AES encryption */
-abstract class EncryptorAESBase : Encryptor {
+abstract class EncryptorAESBase : Encryptor, EncryptorFingerprint {
     protected companion object {
         @JvmStatic
         protected val CRYPTO_ALG = "AES/GCM/NoPadding"

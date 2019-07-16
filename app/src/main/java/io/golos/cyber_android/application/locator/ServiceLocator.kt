@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.helper.UIHelper
+import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login.pin.PinCodeModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
@@ -98,4 +99,6 @@ interface ServiceLocator {
     fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase
 
     fun getPinCodeModel(): PinCodeModel
+
+    fun getFingerprintModel(): FingerprintModel
 }

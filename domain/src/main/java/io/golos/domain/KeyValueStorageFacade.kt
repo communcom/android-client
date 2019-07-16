@@ -1,5 +1,6 @@
 package io.golos.domain
 
+import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthState
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.sharedmodel.CyberName
@@ -30,4 +31,8 @@ interface KeyValueStorageFacade {
     fun savePinCode(pinCode: ByteArray)
 
     fun getPinCode(): ByteArray?
+
+    fun saveAppUnlockWay(unlockWay: AppUnlockWay)
+
+    fun getAppUnlockWay(): AppUnlockWay?
 }

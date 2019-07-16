@@ -11,7 +11,7 @@ import javax.crypto.KeyGenerator
 
 
 @RequiresApi(Build.VERSION_CODES.M)
-class EncryptorAES: EncryptorAESBase(), Encryptor, EncryptorFingerprint {
+class EncryptorAES: EncryptorAESBase() {
     companion object {
         private const val KEYSTORE_PROVIDER = "AndroidKeyStore"
         private const val KEY_ALIAS = "golos_encryption_key_aes"

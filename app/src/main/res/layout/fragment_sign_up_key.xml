@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_top_primary_image_text"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            android:id="@+id/appCompatTextView"/>
+            android:id="@+id/primaryText"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             style="@style/PostCardAuthorTextStyle"
@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/margin_top_primary_secondary_text"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"/>
+            app:layout_constraintTop_toBottomOf="@+id/primaryText"/>
 
     <io.golos.cyber_android.widgets.ButtonWithHintWidget
             android:id="@+id/moveToPasscodeButton"

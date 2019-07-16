@@ -219,4 +219,10 @@
     <dimen name="elevation_sign_up_keys_item">3dp</dimen>
     <dimen name="margin_top_sign_up_keys_item">8dp</dimen>
     <dimen name="margin_bottom_sign_up_keys_item">12dp</dimen>
+
+    <!--Registration - Fingerprint screen-->
+    <dimen name="image_width_fingerprint_fragment">136dp</dimen>
+    <dimen name="image_height_fingerprint_fragment">150dp</dimen>
+    <dimen name="margin_top_image_fingerprint_fragment">56dp</dimen>
+    <dimen name="margin_top_image_text_fingerprint_fragment">16dp</dimen>
 </resources>
