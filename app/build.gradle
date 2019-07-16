@@ -12,7 +12,6 @@ android {
         versionCode appVesrionCode
         versionName appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())

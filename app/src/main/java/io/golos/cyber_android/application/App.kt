@@ -1,7 +1,7 @@
 package io.golos.cyber_android.application
 
+import android.app.Application
 import android.os.Build
-import androidx.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import io.golos.cyber_android.BuildConfig
@@ -13,7 +13,7 @@ import io.golos.cyber_android.application.locator.ServiceLocatorImpl
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-class App : MultiDexApplication() {
+class App : Application() {
     private lateinit var mServiceLocator: ServiceLocator
     private lateinit var mRepositoriesHolder: RepositoriesHolder
     private lateinit var appCore: AppCore
