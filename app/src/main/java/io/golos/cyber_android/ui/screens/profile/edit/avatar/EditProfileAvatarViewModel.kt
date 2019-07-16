@@ -38,7 +38,7 @@ class EditProfileAvatarViewModel(
     fun uploadFile(file: File, transX: Float, transY: Float, rotation: Float) {
         imageUploadUseCase.submitImageForUpload(
             file.absolutePath,
-            CompressionParams.AbsoluteCompressionParams(transX, transY, rotation, true)
+            CompressionParams.AbsoluteCompressionParams(transX, transY, rotation)
         )
         lastFile = file
     }

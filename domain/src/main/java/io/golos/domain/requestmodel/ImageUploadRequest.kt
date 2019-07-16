@@ -45,11 +45,10 @@ sealed class CompressionParams {
 
     /**
      * [CompressionParams] that should take [[[transX], imageWidth], [[transY], imageHeight]]
-     * pixels from bitmap, then rotate it on [rotation] degrees and then crop it to square if
-     * needed ([toSquare]) before compression
+     * pixels from bitmap, then rotate it on [rotation] degrees
      */
     data class AbsoluteCompressionParams(val transX: Float, val transY: Float,
-                                         val rotation: Float, val toSquare: Boolean): CompressionParams()
+                                         val rotation: Float): CompressionParams()
 
     /**
      * [CompressionParams] that should take [[[paddingXPercent] * imageWidth, imageWidth * [requiredWidthPercent]],
