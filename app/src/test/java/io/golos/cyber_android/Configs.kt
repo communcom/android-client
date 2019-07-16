@@ -103,7 +103,7 @@ val dispatchersProvider = object : DispatchersProvider {
         get() = Executor { command -> command?.run() }.asCoroutineDispatcher()
     override val workDispatcher: CoroutineDispatcher
         get() = Executor { command -> command?.run() }.asCoroutineDispatcher()
-    override val networkDispatcher: CoroutineDispatcher
+    override val ioDispatcher: CoroutineDispatcher
         get() = Executor { command -> command?.run() }.asCoroutineDispatcher()
 }
 

@@ -52,7 +52,7 @@ class AuthStateRepository(
         repositoryScope.launch {
             if (params is LogOutRequest) {
                 val logOutState = AuthState("".toCyberName(), false)
-                withContext(dispatchersProvider.networkDispatcher) {
+                withContext(dispatchersProvider.ioDispatcher) {
                     keyValueStorage.saveAuthState(logOutState)
                 }
                 authState.value = logOutState
@@ -104,7 +104,7 @@ class AuthStateRepository(
 
             try {
                 val account =
-                    withContext(dispatchersProvider.networkDispatcher) {
+                    withContext(dispatchersProvider.ioDispatcher) {
                         try {
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (e: Throwable) {
@@ -175,7 +175,7 @@ class AuthStateRepository(
 
             try {
                 val authResult = auth(newParams.user.userId, newParams.activeKey)!!
-                withContext(dispatchersProvider.networkDispatcher) {
+                withContext(dispatchersProvider.ioDispatcher) {
                     authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
                 }
 
@@ -220,7 +220,7 @@ class AuthStateRepository(
             }
 
     private suspend fun auth(name: String, key: String): AuthResult? =
-        withContext(dispatchersProvider.networkDispatcher) {
+        withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val secret = authApi.getAuthSecret()
                 authApi.authWithSecret(
@@ -252,7 +252,7 @@ class AuthStateRepository(
                     originalLoadingQuery.originalQuery
                 ))
 
-            withContext(dispatchersProvider.networkDispatcher) {
+            withContext(dispatchersProvider.ioDispatcher) {
                 keyValueStorage.saveAuthState(finalAuthState)
 
                 val keyAsBytes = stringsConverter.toBytes(originalLoadingQuery.originalQuery.activeKey)
@@ -284,7 +284,7 @@ class AuthStateRepository(
         var authSavedAuthState: AuthState? = null
         var key: String? = null
 
-        withContext(dispatchersProvider.networkDispatcher) {
+        withContext(dispatchersProvider.ioDispatcher) {
             authSavedAuthState = keyValueStorage.getAuthState()
 
             key = keyValueStorage.getActiveKey()

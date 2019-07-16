@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common
+package io.golos.cyber_android.ui.common.mvvm
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

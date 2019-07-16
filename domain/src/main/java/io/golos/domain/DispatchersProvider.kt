@@ -8,5 +8,5 @@ import kotlinx.coroutines.CoroutineDispatcher
 interface DispatchersProvider {
     val uiDispatcher: CoroutineDispatcher
     val workDispatcher: CoroutineDispatcher
-    val networkDispatcher: CoroutineDispatcher
+    val ioDispatcher: CoroutineDispatcher
 }

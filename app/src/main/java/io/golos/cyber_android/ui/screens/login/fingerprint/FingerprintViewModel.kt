@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login.fingerprint
 
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.SingleLiveData
+import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.ViewCommand
 import io.golos.domain.DispatchersProvider
@@ -23,7 +23,8 @@ class FingerprintViewModel(
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
 
-    val command: SingleLiveData<ViewCommand> = SingleLiveData()
+    val command: SingleLiveData<ViewCommand> =
+        SingleLiveData()
 
     fun onUnlockViaPinCodeClick() = saveUnlockWay(AppUnlockWay.PIN_CODE)
 

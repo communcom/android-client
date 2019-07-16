@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.login.pin
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.SingleLiveData
+import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.ViewCommand
 import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToFingerprintCommand
@@ -30,7 +30,8 @@ class PinCodeViewModel(
 
     val codeState = MutableLiveData(CodeState(true, false, false, false))
 
-    val command: SingleLiveData<ViewCommand> = SingleLiveData()
+    val command: SingleLiveData<ViewCommand> =
+        SingleLiveData()
 
     fun onPrimaryCodeUpdated(code: String?) {
         model.updatePrimaryCode(code)

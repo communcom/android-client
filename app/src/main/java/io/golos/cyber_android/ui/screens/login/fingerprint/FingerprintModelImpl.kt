@@ -14,7 +14,7 @@ class FingerprintModelImpl(
      * @return true in case of success
      */
     override suspend fun saveAppUnlockWay(unlockWay: AppUnlockWay): Boolean =
-        withContext(dispatchersProvider.networkDispatcher) {
+        withContext(dispatchersProvider.ioDispatcher) {
             try {
                 keyValueStorage.saveAppUnlockWay(unlockWay)
                 true

@@ -33,7 +33,7 @@ internal val dispatchersProvider = object : DispatchersProvider {
         get() = Dispatchers.Main
     override val workDispatcher: CoroutineDispatcher
         get() = Dispatchers.Main
-    override val networkDispatcher: CoroutineDispatcher
+    override val ioDispatcher: CoroutineDispatcher
         get() = Dispatchers.Main
 }
 

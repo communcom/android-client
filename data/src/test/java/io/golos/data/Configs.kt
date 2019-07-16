@@ -19,5 +19,5 @@ val logger = object : Logger {
 val dispatchersProvider = object : DispatchersProvider {
     override val uiDispatcher: CoroutineDispatcher = Executor { command -> command?.run() }.asCoroutineDispatcher()
     override val workDispatcher: CoroutineDispatcher = Executor { command -> command?.run() }.asCoroutineDispatcher()
-    override val networkDispatcher: CoroutineDispatcher = Executor { command -> command?.run() }.asCoroutineDispatcher()
+    override val ioDispatcher: CoroutineDispatcher = Executor { command -> command?.run() }.asCoroutineDispatcher()
 }

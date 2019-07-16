@@ -41,7 +41,7 @@ class PinCodeModelImpl(
     override fun validate() = primaryCode == repeatedCode
 
     override suspend fun saveCode(): Boolean =
-        withContext(dispatchersProvider.networkDispatcher) {
+        withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val codeAsBytes = stringsConverter.toBytes(primaryCode!!)
                 val encryptedCode = encryptor.encrypt(codeAsBytes)

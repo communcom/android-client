@@ -179,7 +179,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             get() = Dispatchers.Main
         override val workDispatcher: CoroutineDispatcher
             get() = Dispatchers.Default
-        override val networkDispatcher: CoroutineDispatcher
+        override val ioDispatcher: CoroutineDispatcher
             get() = Dispatchers.IO
     }
 
