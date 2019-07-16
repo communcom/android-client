@@ -1,7 +1,7 @@
 package io.golos.cyber_android
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.domain.StringsConverter
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import org.junit.Assert.assertEquals
 import org.junit.BeforeClass

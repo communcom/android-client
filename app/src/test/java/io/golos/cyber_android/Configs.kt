@@ -1,11 +1,14 @@
 package io.golos.cyber_android
 
+import android.app.backup.BackupManager
+import androidx.test.platform.app.InstrumentationRegistry
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
 import io.golos.cyber_android.application.locator.RepositoriesHolder
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl
@@ -134,12 +137,23 @@ val embededsRepository = EmbedsRepository(
 )
 
 
- val persister = object : Persister {
-    override fun savePushNotifsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
+ val persister = object : KeyValueStorageFacade {
+     override fun saveAESCryptoKey(key: ByteArray) {
+     }
+
+     override fun getAESCryptoKey(): ByteArray? = null
+
+     override fun savePinCode(pinCode: ByteArray) {
+
+     }
+
+     override fun getPinCode(): ByteArray? = null
+
+     override fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
 
     }
 
-    override fun getPushNotifsSettings(forUser: CyberName): PushNotificationsStateModel {
+    override fun getPushNotificationsSettings(forUser: CyberName): PushNotificationsStateModel {
         return PushNotificationsStateModel(false)
     }
 
@@ -152,14 +166,15 @@ val embededsRepository = EmbedsRepository(
         return AuthState(CyberName("tst4fvygwbqn"), true)
     }
 
-    override fun saveActiveKey(activeKey: String) {
+    override fun saveActiveKey(activeKey: ByteArray) {
 
     }
 
-    override fun getActiveKey(): String? {
-        return "5Jko7QTtageNkt8hxbLjzgCBoYgEUwqDUj4E3JHf2ADCLt23dGf"
-    }
+    override fun getActiveKey(): ByteArray? = null
 }
+
+val backupManager = BackupManager(InstrumentationRegistry.getInstrumentation().targetContext.applicationContext)
+
 val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister, backupManager)
 
 val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)

@@ -2,9 +2,9 @@ package io.golos.cyber_android.encryption
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import io.golos.cyber_android.core.encryption.Encryptor
+import io.golos.domain.Encryptor
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
-import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.domain.StringsConverter
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import org.junit.BeforeClass
 import org.junit.runner.RunWith

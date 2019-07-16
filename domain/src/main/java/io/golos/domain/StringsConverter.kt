@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.strings_converter
+package io.golos.domain
 
 interface StringsConverter {
     fun toBytes(data: String): ByteArray

@@ -28,8 +28,10 @@ class AuthStateRepository(
     private val authApi: AuthApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val persister: Persister,
-    private val backupManager: BackupManager
+    private val keyValueStorage: KeyValueStorageFacade,
+    private val backupManager: BackupManager,
+    private val stringsConverter: StringsConverter,
+    private val encryptor: Encryptor
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -51,7 +53,7 @@ class AuthStateRepository(
             if (params is LogOutRequest) {
                 val logOutState = AuthState("".toCyberName(), false)
                 withContext(dispatchersProvider.networkDispatcher) {
-                    persister.saveAuthState(logOutState)
+                    keyValueStorage.saveAuthState(logOutState)
                 }
                 authState.value = logOutState
                 backupManager.dataChanged()
@@ -251,8 +253,11 @@ class AuthStateRepository(
                 ))
 
             withContext(dispatchersProvider.networkDispatcher) {
-                persister.saveAuthState(finalAuthState)
-                persister.saveActiveKey(originalLoadingQuery.originalQuery.activeKey)
+                keyValueStorage.saveAuthState(finalAuthState)
+
+                val keyAsBytes = stringsConverter.toBytes(originalLoadingQuery.originalQuery.activeKey)
+                val encryptedKey = encryptor.encrypt(keyAsBytes)
+                keyValueStorage.saveActiveKey(encryptedKey!!)
             }
         }
     }
@@ -280,8 +285,11 @@ class AuthStateRepository(
         var key: String? = null
 
         withContext(dispatchersProvider.networkDispatcher) {
-            authSavedAuthState = persister.getAuthState()
-            key = persister.getActiveKey()
+            authSavedAuthState = keyValueStorage.getAuthState()
+
+            key = keyValueStorage.getActiveKey()
+                ?.let { encryptor.decrypt(it) }
+                ?.let { stringsConverter.fromBytes(it) }
         }
 
         return if (!(authSavedAuthState?.isUserLoggedIn == true && key != null)) {

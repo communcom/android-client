@@ -2,6 +2,7 @@ package io.golos.cyber_android.core.key_value_storage
 
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.core.key_value_storage.storages.Storage
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.entities.AuthState
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.sharedmodel.CyberName

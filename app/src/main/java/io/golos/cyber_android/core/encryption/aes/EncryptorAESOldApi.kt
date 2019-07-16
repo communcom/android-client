@@ -1,7 +1,7 @@
 package io.golos.cyber_android.core.encryption.aes
 
-import io.golos.cyber_android.core.encryption.Encryptor
-import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.Encryptor
+import io.golos.domain.KeyValueStorageFacade
 import java.security.Key
 import javax.crypto.spec.SecretKeySpec
 

@@ -10,16 +10,16 @@ import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.cyber_android.core.encryption.Encryptor
+import io.golos.domain.Encryptor
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
-import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
-import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.domain.StringsConverter
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
@@ -48,7 +48,6 @@ import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedViewModel
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.ImageCompressorImpl
-import io.golos.cyber_android.utils.OnDevicePersister
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
@@ -153,7 +152,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             e.printStackTrace()
         }
     }
-    private val persister = OnDevicePersister(appContext, logger)
 
     private val stringsConverter: StringsConverter
         get() = StringsConverterImpl()
@@ -237,7 +235,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
 
     override val authRepository: Repository<AuthState, AuthRequest>
-            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, persister, backupManager) }
+            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, keyValueStorage, backupManager, stringsConverter, encryptor) }
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
@@ -602,7 +600,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     override fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase {
-        return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, persister)
+        return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, keyValueStorage)
     }
 
     override fun getPinCodeModel(): PinCodeModel =

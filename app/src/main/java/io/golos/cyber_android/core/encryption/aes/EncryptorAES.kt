@@ -4,7 +4,7 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.annotation.RequiresApi
-import io.golos.cyber_android.core.encryption.Encryptor
+import io.golos.domain.Encryptor
 import java.security.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator

@@ -1,7 +1,7 @@
 package io.golos.cyber_android.encryption
 
-import io.golos.cyber_android.core.encryption.Encryptor
-import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.domain.Encryptor
+import io.golos.domain.StringsConverter
 import org.junit.Assert
 import org.junit.Test
 

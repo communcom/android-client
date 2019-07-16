@@ -1,6 +1,6 @@
 package io.golos.cyber_android.core.encryption.aes
 
-import io.golos.cyber_android.core.encryption.Encryptor
+import io.golos.domain.Encryptor
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.security.Key

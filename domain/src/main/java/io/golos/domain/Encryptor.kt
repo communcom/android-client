@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.encryption
+package io.golos.domain
 
 interface Encryptor {
     fun encrypt(data: ByteArray?): ByteArray?

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.key_value_storage
+package io.golos.domain
 
 import io.golos.domain.entities.AuthState
 import io.golos.domain.requestmodel.PushNotificationsStateModel

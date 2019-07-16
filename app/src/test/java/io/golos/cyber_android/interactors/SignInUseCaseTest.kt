@@ -2,10 +2,11 @@ package io.golos.cyber_android.interactors
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.golos.cyber_android.apiService
+import io.golos.cyber_android.backupManager
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.cyber_android.dispatchersProvider
 import io.golos.cyber_android.logger
 import io.golos.data.repositories.AuthStateRepository
-import io.golos.domain.Persister
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.model.UserAuthState
@@ -37,14 +38,22 @@ class SignInUseCaseTest {
     @Before
     fun before() {
 
-        authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, object : Persister {
-            override fun savePushNotifsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
-                TODO("not implemented")
+        authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, object :
+            KeyValueStorageFacade {
+            override fun saveAESCryptoKey(key: ByteArray) {
             }
 
-            override fun getPushNotifsSettings(forUser: CyberName): PushNotificationsStateModel {
-                TODO("not implemented")
+            override fun getAESCryptoKey(): ByteArray? = null
+
+            override fun savePinCode(pinCode: ByteArray) {
             }
+
+            override fun getPinCode(): ByteArray? = null
+
+            override fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel) {
+            }
+
+            override fun getPushNotificationsSettings(forUser: CyberName): PushNotificationsStateModel = PushNotificationsStateModel.DEFAULT
 
             override fun saveAuthState(state: AuthState) {
 
@@ -54,11 +63,11 @@ class SignInUseCaseTest {
                 return null
             }
 
-            override fun saveActiveKey(activeKey: String) {
+            override fun saveActiveKey(activeKey: ByteArray) {
 
             }
 
-            override fun getActiveKey(): String? {
+            override fun getActiveKey(): ByteArray? {
                 return null
             }
         }, backupManager)

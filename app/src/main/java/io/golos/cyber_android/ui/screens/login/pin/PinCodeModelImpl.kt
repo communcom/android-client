@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.login.pin
 
-import io.golos.cyber_android.core.encryption.Encryptor
-import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacade
-import io.golos.cyber_android.core.strings_converter.StringsConverter
+import io.golos.domain.Encryptor
+import io.golos.domain.KeyValueStorageFacade
+import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import kotlinx.coroutines.withContext

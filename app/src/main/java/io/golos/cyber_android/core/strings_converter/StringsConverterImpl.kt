@@ -1,6 +1,7 @@
 package io.golos.cyber_android.core.strings_converter
 
 import android.util.Base64
+import io.golos.domain.StringsConverter
 
 class StringsConverterImpl: StringsConverter {
     override fun toBytes(data: String): ByteArray = data.toByteArray(charset("UTF-8"))
