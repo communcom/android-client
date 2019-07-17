@@ -22,15 +22,13 @@ interface ImageCompressor {
      * @param transX padding on x axis
      * @param transY padding on y axis
      * @param rotation degrees on which image should be rotated
-     * @param toSquare should image be cropped to squre by least dimension
      * @return compressed image file, rewrites original file
      * */
     fun compressImageFile(
         file: File,
         transX: Float,
         transY: Float,
-        rotation: Float,
-        toSquare: Boolean = false
+        rotation: Float
     ): File
 
     /**

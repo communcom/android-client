@@ -54,8 +54,7 @@ class ImageUploadRepository(
                                 params.imageFile,
                                 (params.compressionParams as CompressionParams.AbsoluteCompressionParams).transX,
                                 (params.compressionParams as CompressionParams.AbsoluteCompressionParams).transY,
-                                (params.compressionParams as CompressionParams.AbsoluteCompressionParams).rotation,
-                                (params.compressionParams as CompressionParams.AbsoluteCompressionParams).toSquare
+                                (params.compressionParams as CompressionParams.AbsoluteCompressionParams).rotation
                             )
                         is CompressionParams.RelativeCompressionParams ->
                             compressor.compressImageFile(
