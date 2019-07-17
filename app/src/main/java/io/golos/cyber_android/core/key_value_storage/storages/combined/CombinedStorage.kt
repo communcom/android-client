@@ -1,16 +1,20 @@
 package io.golos.cyber_android.core.key_value_storage.storages.combined
 
+import io.golos.cyber_android.application.dependency_injection.Clarification
 import io.golos.cyber_android.core.key_value_storage.storages.StorageBase
 import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
 import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsInstance
 import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import javax.inject.Inject
+import javax.inject.Named
 
 /** Storage based on shared preferences and in-memory structure for cashing */
 class CombinedStorage
+@Inject
 constructor(
-    private val cacheStorage: StorageOperationsInstance,
-    private val persistentStorage: StorageOperationsInstance
+    @Named(Clarification.CACHE) private val cacheStorage: StorageOperationsInstance,
+    @Named(Clarification.PERSISTENT) private val persistentStorage: StorageOperationsInstance
 ): StorageBase() {
 
     private val lock = ReentrantReadWriteLock()

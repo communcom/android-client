@@ -4,11 +4,14 @@ import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
  */
-class VoteRequestModelToEntityMapper : ModelToEntityMapper<VoteRequestModel, VoteRequestEntity> {
+class VoteRequestModelToEntityMapper
+@Inject
+constructor() : ModelToEntityMapper<VoteRequestModel, VoteRequestEntity> {
     private val cash = Collections.synchronizedMap(HashMap<VoteRequestModel, VoteRequestEntity>())
 
     override suspend fun invoke(model: VoteRequestModel): VoteRequestEntity {

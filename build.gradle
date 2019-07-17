@@ -37,9 +37,12 @@ buildscript {
         dirchooserVersion = "v1.1.17"
         firebaseCoreVersion = "17.0.1"
         fcmVersion = "19.0.1"
-        cyber4jVersion = "0.6.56"
+        cyber4jVersion = "0.6.57"
 
         visionVersion = "18.0.0"
+
+        // Dagger
+        dagger_version = '2.19'
 
         // Tests
         junitVersion = "4.12"

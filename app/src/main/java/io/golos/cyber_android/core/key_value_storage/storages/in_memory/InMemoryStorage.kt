@@ -1,12 +1,17 @@
 package io.golos.cyber_android.core.key_value_storage.storages.in_memory
 
+import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.key_value_storage.storages.StorageBase
 import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
 import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
 import java.util.*
+import javax.inject.Inject
 
 /** Storage based on in-memory dictionary */
-class InMemoryStorage: StorageBase() {
+@ApplicationScope
+class InMemoryStorage
+@Inject
+constructor(): StorageBase() {
     private val storage: MutableMap<String, Any> = TreeMap()
 
     /** Create proxy for read */

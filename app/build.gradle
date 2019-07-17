@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 
@@ -134,6 +135,10 @@ dependencies {
     testImplementation("com.squareup.moshi:moshi:$moshiVersin")
     androidTestImplementation "androidx.test.ext:junit:$test_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_runner_version"
+
+    /* Dagger */
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     testImplementation project(':domain')
     testImplementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"

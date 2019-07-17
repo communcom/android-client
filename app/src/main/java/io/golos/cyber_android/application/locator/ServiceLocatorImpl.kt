@@ -81,7 +81,7 @@ import kotlinx.coroutines.Dispatchers
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
 class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, RepositoriesHolder {
-
+    // [Dagger] - done
     private val cyber4jConfigs = mapOf(
         "stable" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.202.4.39:8888/",
@@ -97,12 +97,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     )
 
+    // [Dagger] - AppScope, singleton, via AppModule
     private val cyber4j by lazy { Cyber4J(cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig()) }
 
+    // [Dagger] - AppScope, singleton, via AppModuleBinds
     private val apiService: Cyber4jApiService by lazy { Cyber4jApiService(cyber4j) }
 
+    // [Dagger] - done
     private val cyberPostToEntityMapper = CyberPostToEntityMapper()
+
+    // [Dagger] - done
     private val voteToEntityMapper = VoteRequestModelToEntityMapper()
+
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
@@ -153,13 +159,16 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     private val stringsConverter: StringsConverter
         get() = StringsConverterImpl()
 
+    // [Dagger] - done
     private val keyValueStorage: KeyValueStorageFacade by lazy {
         KeyValueStorageFacadeImpl(CombinedStorage(InMemoryStorage(), SharedPreferencesStorage(appContext)), moshi)
     }
 
+    // [Dagger] - done
     private val encryptor: Encryptor by lazy {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             EncryptorAES()

@@ -7,6 +7,7 @@ import io.golos.cyber4j.model.TextRow
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import java.math.BigInteger
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
@@ -16,7 +17,9 @@ data class FeedUpdateRequestsWithResult<Q : FeedUpdateRequest>(
     val discussionsResult: DiscussionsResult
 )
 
-class CyberPostToEntityMapper : CyberToEntityMapper<CyberDiscussion, PostEntity> {
+class CyberPostToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
 
     override suspend fun invoke(cyberObject: CyberDiscussion): PostEntity {
         return PostEntity(

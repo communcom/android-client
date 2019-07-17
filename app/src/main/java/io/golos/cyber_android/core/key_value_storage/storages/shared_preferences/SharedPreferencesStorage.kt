@@ -4,9 +4,11 @@ import android.content.Context
 import io.golos.cyber_android.core.key_value_storage.storages.StorageBase
 import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
 import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
+import javax.inject.Inject
 
 /** Storage based on shared preferences */
 class SharedPreferencesStorage
+@Inject
 constructor(
     private val appContext: Context
 ) : StorageBase() {

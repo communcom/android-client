@@ -4,14 +4,18 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.annotation.RequiresApi
+import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
 import java.security.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
+import javax.inject.Inject
 
-
+@ApplicationScope
 @RequiresApi(Build.VERSION_CODES.M)
-class EncryptorAES: EncryptorAESBase() {
+class EncryptorAES
+@Inject
+constructor(): EncryptorAESBase() {
     companion object {
         private const val KEYSTORE_PROVIDER = "AndroidKeyStore"
         private const val KEY_ALIAS = "golos_encryption_key_aes"

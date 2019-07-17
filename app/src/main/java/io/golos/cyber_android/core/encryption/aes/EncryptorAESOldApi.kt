@@ -1,14 +1,18 @@
 package io.golos.cyber_android.core.encryption.aes
 
+import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import java.lang.UnsupportedOperationException
 import java.security.Key
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
+import javax.inject.Inject
 
 /** Encryption/Decryption via AES for an old API*/
+@ApplicationScope
 class EncryptorAESOldApi
+@Inject
 constructor(
     private val keyValueStorage: KeyValueStorageFacade,
     private val encryptor: Encryptor

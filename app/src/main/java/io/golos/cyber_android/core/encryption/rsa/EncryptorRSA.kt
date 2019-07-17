@@ -5,6 +5,7 @@ import android.os.Build
 import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -14,12 +15,15 @@ import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
+import javax.inject.Inject
 import javax.security.auth.x500.X500Principal
 
 /**
  * Encryption/Decryption via RSA
  */
+@ApplicationScope
 class EncryptorRSA
+@Inject
 constructor(
     private val appContext: Context
 ) : Encryptor {
