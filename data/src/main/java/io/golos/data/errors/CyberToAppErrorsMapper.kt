@@ -1,5 +1,7 @@
 package io.golos.data.errors
 
+import javax.inject.Inject
+
 /**
  * Interface map [CyberServicesError] to a specific [AppError], which can be used in app
  */
@@ -10,7 +12,9 @@ interface CyberToAppErrorMapper {
     fun mapIfNeeded(e: Throwable): Throwable
 }
 
-class CyberToAppErrorMapperImpl : CyberToAppErrorMapper {
+class CyberToAppErrorMapperImpl
+@Inject
+constructor() : CyberToAppErrorMapper {
     private val handlersList: List<ErrorMapper> by lazy {
         listOf(
             CannotDeleteDiscussionWithChildCommentsMapper(),

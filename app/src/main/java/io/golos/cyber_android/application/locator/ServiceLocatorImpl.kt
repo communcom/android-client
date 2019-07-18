@@ -136,25 +136,27 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     // [Dagger] - done
     private val toRegistrationMapper = UserRegistrationStateEntityMapper()
 
+    // [Dagger] - done
     private val approver = FeedUpdateApprover()
+    // [Dagger] - done
+    private val commentApprover = CommentUpdateApprover()
 
     private val postMerger = PostMerger()
     private val feedMerger = PostFeedMerger()
 
     private val emptyPostFeedProducer = EmptyPostFeedProducer()
 
-    private val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
-    private val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
-
-    private val commentApprover = CommentUpdateApprover()
-
     private val commentMerger = CommentMerger()
     private val commentFeedMerger = CommentFeedMerger()
 
     private val emptyCommentFeedProducer = EmptyCommentFeedProducer()
 
+    // -----------------  [Dagger] - done ----------------------
     private val fromIframelyMapper = IfremlyEmbedMapper()
     private val fromOEmbedMapper = OembedMapper()
+
+    private val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
+    private val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
 
     private val discussionCreationToEntityMapper = DiscussionCreateResultToEntityMapper()
     private val discussionUpdateToEntityMapper = DiscussionUpdateResultToEntityMapper()
@@ -162,6 +164,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val discussionEntityRequestToApiRequestMapper = RequestEntityToArgumentsMapper()
 
     private val toAppErrorMapper = CyberToAppErrorMapperImpl()
+    // -----------------  [Dagger] - done ----------------------
+
 
     private val logger = object : Logger {
         override fun invoke(e: Exception) {

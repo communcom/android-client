@@ -2,6 +2,10 @@ package io.golos.cyber_android.application.dependency_injection
 
 import dagger.Binds
 import dagger.Module
+import io.golos.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
@@ -16,11 +20,13 @@ import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.data.api.*
+import io.golos.data.errors.CyberToAppErrorMapper
+import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
-import io.golos.domain.requestmodel.VoteRequestModel
+import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Named
 
@@ -90,6 +96,33 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideToRegistrationMapper(mapper: UserRegistrationStateEntityMapper): CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>
+
+    @Binds
+    abstract fun provideIfremlyEmbedMapper(mapper: IfremlyEmbedMapper): CyberToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>
+
+    @Binds
+    abstract fun provideOembedMapper(mapper: OembedMapper): CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
+
+    @Binds
+    abstract fun provideCyberCommentToEntityMapper(mapper: CyberCommentToEntityMapper): CyberToEntityMapper<CyberDiscussion, CommentEntity>
+
+    @Binds
+    abstract fun providecyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
+
+    @Binds
+    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity>
+
+    @Binds
+    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity>
+
+    @Binds
+    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity>
+
+    @Binds
+    abstract fun provideRequestEntityToArgumentsMapper(mapper: RequestEntityToArgumentsMapper): EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>
+
+    @Binds
+    abstract fun provideCyberToAppErrorMapperImpl(mapper: CyberToAppErrorMapperImpl): CyberToAppErrorMapper
     // endregion
 
     // region Cyber4jApiService
@@ -156,4 +189,12 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideDeviceIdProvider(provider: MyDeviceIdProvider): DeviceIdProvider
+
+    //region Approvers
+    @Binds
+    abstract fun provideFeedUpdateApprover(approver: FeedUpdateApprover): RequestApprover<PostFeedUpdateRequest>
+
+    @Binds
+    abstract fun provideCommentApprover(approver: CommentUpdateApprover): RequestApprover<CommentFeedUpdateRequest>
+    // endregion
 }

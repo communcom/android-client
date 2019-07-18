@@ -4,6 +4,7 @@ package io.golos.domain.rules
 import io.golos.cyber4j.services.model.IFramelyEmbedResult
 import io.golos.cyber4j.services.model.OEmbedResult
 import io.golos.domain.entities.LinkEmbedResult
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
@@ -12,7 +13,9 @@ import io.golos.domain.entities.LinkEmbedResult
 data class IFramelyEmbedResultRelatedData(val iframelyResult: IFramelyEmbedResult, val originalRequestUrl: String)
 
 
-class IfremlyEmbedMapper : CyberToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult> {
+class IfremlyEmbedMapper
+@Inject
+constructor() : CyberToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult> {
     private val typeHtmlText = "text/html"
     private val typeImage = "image"
     private val xIcon = "image/x-icon"
@@ -47,7 +50,9 @@ class IfremlyEmbedMapper : CyberToEntityMapper<IFramelyEmbedResultRelatedData, L
 
 data class OembedResultRelatedData(val oembedResult: OEmbedResult, val originalRequestUrl: String)
 
-class OembedMapper : CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResult> {
+class OembedMapper
+@Inject
+constructor() : CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResult> {
     override suspend fun invoke(cyberObject: OembedResultRelatedData): LinkEmbedResult {
         val url = cyberObject.originalRequestUrl
         val embedData = cyberObject.oembedResult

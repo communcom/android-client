@@ -8,11 +8,14 @@ import io.golos.cyber4j.utils.toCyberName
 import io.golos.domain.Regexps
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
  */
-class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest> {
+class RequestEntityToArgumentsMapper
+@Inject
+constructor() : EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest> {
 
     override suspend fun invoke(entity: DiscussionCreationRequestEntity): DiscussionCreateRequest {
         val tags = HashSet<String>()
@@ -96,8 +99,9 @@ class RequestEntityToArgumentsMapper : EntityToCyberMapper<DiscussionCreationReq
 }
 
 
-class DiscussionCreateResultToEntityMapper :
-    CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity> {
+class DiscussionCreateResultToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity> {
     override suspend fun invoke(cyberObject: CreatemssgPublishStruct): DiscussionCreationResultEntity {
         return when (cyberObject.parent_id.author.name.orEmpty().isEmpty()) {
 
@@ -122,8 +126,9 @@ class DiscussionCreateResultToEntityMapper :
 }
 
 
-class DiscussionUpdateResultToEntityMapper :
-    CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity> {
+class DiscussionUpdateResultToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity> {
     override suspend fun invoke(cyberObject: UpdatemssgPublishStruct): UpdatePostResultEntity {
         return UpdatePostResultEntity(
             DiscussionIdEntity(
@@ -135,8 +140,9 @@ class DiscussionUpdateResultToEntityMapper :
 }
 
 
-class DiscussionDeleteResultToEntityMapper :
-    CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity> {
+class DiscussionDeleteResultToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity> {
     override suspend fun invoke(cyberObject: DeletemssgPublishStruct): DeleteDiscussionResultEntity {
         return DeleteDiscussionResultEntity(
             DiscussionIdEntity(

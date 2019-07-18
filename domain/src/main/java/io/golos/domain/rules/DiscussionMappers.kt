@@ -100,7 +100,9 @@ constructor(val postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>) :
     }
 }
 
-class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentEntity> {
+class CyberCommentToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<CyberDiscussion, CommentEntity> {
 
     override suspend fun invoke(cyberObject: CyberDiscussion): CommentEntity {
         return CommentEntity(
@@ -159,7 +161,9 @@ class CyberCommentToEntityMapper : CyberToEntityMapper<CyberDiscussion, CommentE
     }
 }
 
-class CyberCommentsToEntityMapper(val postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>) :
+class CyberCommentsToEntityMapper
+@Inject
+constructor(val postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>) :
     CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>> {
 
     override suspend fun invoke(cyberObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<CommentEntity> {
