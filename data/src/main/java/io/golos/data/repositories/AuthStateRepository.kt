@@ -12,6 +12,7 @@ import io.golos.data.toCyberUser
 import io.golos.domain.*
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.LogOutRequest
@@ -261,7 +262,7 @@ class AuthStateRepository(
 
                 val keyAsBytes = stringsConverter.toBytes(originalLoadingQuery.originalQuery.activeKey)
                 val encryptedKey = encryptor.encrypt(keyAsBytes)
-                keyValueStorage.saveActiveKey(encryptedKey!!)
+                keyValueStorage.saveUserKey(encryptedKey!!, UserKeyType.ACTIVE)
             }
         }
     }
@@ -291,7 +292,7 @@ class AuthStateRepository(
         withContext(dispatchersProvider.ioDispatcher) {
             authSavedAuthState = keyValueStorage.getAuthState()
 
-            key = keyValueStorage.getActiveKey()
+            key = keyValueStorage.getUserKey(UserKeyType.ACTIVE)
                 ?.let { encryptor.decrypt(it) }
                 ?.let { stringsConverter.fromBytes(it) }
         }

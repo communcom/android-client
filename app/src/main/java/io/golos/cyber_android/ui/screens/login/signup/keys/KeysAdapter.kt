@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.domain.entities.UserKey
+import io.golos.domain.entities.UserKeyType
 import kotlinx.android.synthetic.main.item_key.view.*
+import java.lang.UnsupportedOperationException
 
-class KeysAdapter(private val values: List<Key>): RecyclerView.Adapter<KeysAdapter.ViewHolder>() {
+class KeysAdapter(private val values: List<UserKey>): RecyclerView.Adapter<KeysAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_key, parent, false))
@@ -20,7 +23,7 @@ class KeysAdapter(private val values: List<Key>): RecyclerView.Adapter<KeysAdapt
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        fun bind(key: Key) {
+        fun bind(key: UserKey) {
             with(itemView) {
                 keyTitle.text = itemView.context.getString(key.title)
                 keyValue.text = key.key
@@ -29,10 +32,11 @@ class KeysAdapter(private val values: List<Key>): RecyclerView.Adapter<KeysAdapt
     }
 }
 
-private val Key.title: Int
+private val UserKey.title: Int
     get() = when (this.keyType) {
-        KeyType.MASTER -> R.string.master_password
-        KeyType.POSTING -> R.string.posting_key
-        KeyType.ACTIVE -> R.string.active_key
-        KeyType.MEMO -> R.string.memo_key
+        UserKeyType.MASTER -> R.string.master_password
+        UserKeyType.POSTING -> R.string.posting_key
+        UserKeyType.ACTIVE -> R.string.active_key
+        UserKeyType.MEMO -> R.string.memo_key
+        else -> throw UnsupportedOperationException("This type of key is not supported: ${this.keyType}")
     }

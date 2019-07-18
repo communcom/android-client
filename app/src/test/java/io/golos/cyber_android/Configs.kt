@@ -166,11 +166,11 @@ val embededsRepository = EmbedsRepository(
         return AuthState(CyberName("tst4fvygwbqn"), true)
     }
 
-    override fun saveActiveKey(activeKey: ByteArray) {
+    override fun saveUserKey(key: ByteArray) {
 
     }
 
-    override fun getActiveKey(): ByteArray? = null
+    override fun getUserKey(): ByteArray? = null
 }
 
 val backupManager = BackupManager(InstrumentationRegistry.getInstrumentation().targetContext.applicationContext)

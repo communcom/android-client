@@ -17,6 +17,8 @@ import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedS
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
+import io.golos.cyber_android.core.user_keys_store.UserKeyStore
+import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.data.api.*
@@ -197,4 +199,7 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideCommentApprover(approver: CommentUpdateApprover): RequestApprover<CommentFeedUpdateRequest>
     // endregion
+
+    @Binds
+    abstract fun provideUserKeyStore(store: UserKeyStoreImpl): UserKeyStore
 }

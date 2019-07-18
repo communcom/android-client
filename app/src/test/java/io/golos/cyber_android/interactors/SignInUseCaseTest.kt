@@ -63,11 +63,11 @@ class SignInUseCaseTest {
                 return null
             }
 
-            override fun saveActiveKey(activeKey: ByteArray) {
+            override fun saveUserKey(key: ByteArray) {
 
             }
 
-            override fun getActiveKey(): ByteArray? {
+            override fun getUserKey(): ByteArray? {
                 return null
             }
         }, backupManager)

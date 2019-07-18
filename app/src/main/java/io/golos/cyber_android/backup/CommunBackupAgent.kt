@@ -17,6 +17,7 @@ import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.UserKeyType
 import io.golos.sharedmodel.CyberName
 import java.io.*
 
@@ -59,7 +60,7 @@ class CommunBackupAgent: BackupAgent() {
     }
 
     override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput, newState: ParcelFileDescriptor) {
-        val activeKey = keyValueStorage.getActiveKey()!!
+        val activeKey = keyValueStorage.getUserKey(UserKeyType.ACTIVE)!!
             .let { encryptor.decrypt(it)!! }
             .let {stringsConverter.fromBytes(it)}
 
@@ -100,7 +101,7 @@ class CommunBackupAgent: BackupAgent() {
 
         val activeKeyToStore = activeKey.let {stringsConverter.toBytes(it)}.let {encryptor.encrypt(it)!!}
 
-        keyValueStorage.saveActiveKey(activeKeyToStore)
+        keyValueStorage.saveUserKey(activeKeyToStore, UserKeyType.ACTIVE)
         keyValueStorage.saveAuthState(AuthState(activeUser.toCyberName(), true, false))
     }
 

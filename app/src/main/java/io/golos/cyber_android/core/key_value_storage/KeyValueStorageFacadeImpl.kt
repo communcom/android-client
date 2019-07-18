@@ -5,6 +5,7 @@ import io.golos.cyber_android.core.key_value_storage.storages.Storage
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.sharedmodel.CyberName
 
@@ -44,15 +45,14 @@ constructor(
             moshi.adapter(AuthState::class.java).fromJson(authStateString)
         }
 
-    override fun saveActiveKey(activeKey: ByteArray) {
+    override fun saveUserKey(key: ByteArray, keyType: UserKeyType) =
         keyValueStorage.update {
-            it.putBytes("ACTIVE_KEY", activeKey)
+            it.putBytes(getInternalKeyForUserKey(keyType), key)
         }
-    }
 
-    override fun getActiveKey(): ByteArray? =
+    override fun getUserKey(keyType: UserKeyType): ByteArray? =
         keyValueStorage.read {
-            it.readBytes("ACTIVE_KEY")
+            it.readBytes(getInternalKeyForUserKey(keyType))
         }
 
     override fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel) =
@@ -89,5 +89,14 @@ constructor(
     override fun getAppUnlockWay(): AppUnlockWay? =
         keyValueStorage.read {
             it.readInt("APP_UNLOCK_WAY")?.let { value -> AppUnlockWay.createFromValue(value) }
+        }
+
+    private fun getInternalKeyForUserKey(keyType: UserKeyType) =
+        when(keyType) {
+            UserKeyType.POSTING -> "USER_KEY_TYPE_POSTING"
+            UserKeyType.OWNER -> "USER_KEY_TYPE_OWNER"
+            UserKeyType.MEMO -> "USER_KEY_TYPE_MEMO"
+            UserKeyType.ACTIVE -> "USER_KEY_TYPE_ACTIVE"
+            UserKeyType.MASTER -> "USER_KEY_TYPE_MASTER"
         }
 }

@@ -2,6 +2,7 @@ package io.golos.domain
 
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.sharedmodel.CyberName
 
@@ -20,9 +21,9 @@ interface KeyValueStorageFacade {
 
     fun getAuthState(): AuthState?
 
-    fun saveActiveKey(activeKey: ByteArray)
+    fun saveUserKey(key: ByteArray, keyType: UserKeyType)
 
-    fun getActiveKey(): ByteArray?
+    fun getUserKey(keyType: UserKeyType): ByteArray?
 
     fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel)
 
