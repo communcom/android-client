@@ -2,15 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/graph_login"
-            app:startDestination="@id/signUpKeyFragment">
+            app:startDestination="@id/welcomeFragment">
 
     <fragment android:id="@+id/welcomeFragment"
               android:name="io.golos.cyber_android.ui.screens.login.welcome.WelcomeFragment"
               android:label="fragment_welcome" tools:layout="@layout/fragment_welcome">
-        <action android:id="@+id/action_welcomeFragment_to_licenseFragment" app:destination="@id/licenseFragment"
-                app:enterAnim="@anim/nav_slide_in_right" app:exitAnim="@anim/nav_slide_out_left"
-                app:popEnterAnim="@anim/nav_slide_in_left" app:popExitAnim="@anim/nav_slide_out_right"
-                app:popUpToInclusive="false" app:popUpTo="@+id/graph_login">
+        <action android:id = "@+id/action_welcomeFragment_to_licenseFragment"
+                app:destination = "@id/licenseFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:popUpToInclusive = "false"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_default_pop_exit_anim">
         </action>
     </fragment>
     <fragment android:id="@+id/signInFragment"
@@ -23,21 +26,22 @@
                 app:destination="@id/signUpCountryFragment" app:enterAnim="@anim/nav_slide_in_right"
                 app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
                 app:popExitAnim="@anim/nav_slide_out_right"/>
-        <action android:id="@+id/action_signUpPhoneFragment_to_signUpVerificationFragment"
-                app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left"
-                app:popUpTo="@id/signUpPhoneFragment"
-                app:destination="@id/signUpVerificationFragment" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
-        <action android:id="@+id/action_signUpPhoneFragment_to_signUpNameFragment"
-                app:popUpTo="@id/signUpPhoneFragment"
-                app:destination="@id/signUpNameFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
-        <action android:id="@+id/action_signUpPhoneFragment_to_signUpKeyFragment"
-                app:destination="@id/signUpKeyFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right" app:popUpToInclusive="false" app:popUpTo="@+id/graph_login"/>
+        <action android:id = "@+id/action_signUpPhoneFragment_to_signUpVerificationFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:destination = "@id/signUpVerificationFragment"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_slide_out_right"
+                app:popUpToInclusive = "false"
+        />
+        <action android:id = "@+id/action_signUpPhoneFragment_to_signUpNameFragment"
+                app:destination = "@id/signUpNameFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_slide_out_right"
+                app:popUpToInclusive = "false"
+        />
     </fragment>
     <fragment android:id="@+id/signUpCountryFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryFragment"
@@ -82,21 +86,32 @@
               android:label="fragment_onboarding_bio" tools:layout="@layout/fragment_onboarding_bio"/>
     <fragment android:id="@+id/licenseFragment" android:name="io.golos.cyber_android.ui.screens.login.license.LicenseFragment"
               android:label="fragment_license" tools:layout="@layout/fragment_license">
-        <action android:id="@+id/action_licenseFragment_to_signInFragment" app:destination="@id/signInFragment"
-                app:popUpTo="@+id/welcomeFragment" app:popUpToInclusive="false" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
-        <action android:id="@+id/action_licenseFragment_to_signUpPhoneFragment" app:destination="@id/signUpPhoneFragment"
-                app:popUpTo="@+id/welcomeFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+        <action android:id = "@+id/action_licenseFragment_to_signInFragment"
+                app:destination = "@id/signInFragment"
+                app:popUpTo = "@+id/welcomeFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_default_pop_exit_anim"/>
+        <action android:id = "@+id/action_licenseFragment_to_signUpPhoneFragment"
+                app:destination = "@id/signUpPhoneFragment"
+                app:popUpTo = "@+id/welcomeFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_default_pop_exit_anim"/>
         <argument android:name="DESTINATION" app:argType="string"/>
     </fragment>
     <fragment android:id="@+id/signUpProtectionKeysFragment"
               android:name="io.golos.cyber_android.ui.screens.login.signup.keys.SignUpProtectionKeysFragment"
               android:label="fragment_sign_up_protection_keys" tools:layout="@layout/fragment_sign_up_protection_keys">
-        <action android:id="@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
-                app:destination="@id/onboardingUserImageFragment"/>
+        <action android:id = "@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
+                app:destination = "@id/onboardingUserImageFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_slide_out_right"
+                app:popUpTo = "@+id/graph_login"/>
     </fragment>
     <fragment android:id = "@+id/pinCodeFragment"
               android:name = "io.golos.cyber_android.ui.screens.login.pin.PinCodeFragment"
@@ -109,13 +124,23 @@
                 app:popEnterAnim = "@anim/nav_slide_in_left"
                 app:popExitAnim = "@anim/nav_slide_out_right"/>
         <action android:id = "@+id/action_pinCodeFragment_to_signUpProtectionKeysFragment"
-                app:destination = "@id/signUpProtectionKeysFragment"/>
+                app:destination = "@id/signUpProtectionKeysFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_slide_out_right"
+                app:popUpTo = "@+id/graph_login"/>
     </fragment>
     <fragment android:id = "@+id/fingerprintFragment"
               android:name = "io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintFragment"
               android:label = "fragment_fingerprint"
               tools:layout = "@layout/fragment_fingerprint">
         <action android:id = "@+id/action_fingerprintFragment_to_signUpProtectionKeysFragment"
-                app:destination = "@id/signUpProtectionKeysFragment"/>
+                app:destination = "@id/signUpProtectionKeysFragment"
+                app:enterAnim = "@anim/nav_slide_in_right"
+                app:exitAnim = "@anim/nav_slide_out_left"
+                app:popEnterAnim = "@anim/nav_slide_in_left"
+                app:popExitAnim = "@anim/nav_slide_out_right"
+                app:popUpTo = "@+id/graph_login"/>
     </fragment>
 </navigation>

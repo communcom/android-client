@@ -8,5 +8,6 @@ import io.golos.sharedmodel.CyberName
  */
 data class AuthState(
     val user: CyberName,
-    val isUserLoggedIn: Boolean
+    val isUserLoggedIn: Boolean,
+    val isPinCodeSet: Boolean
 ) : Entity

@@ -7,6 +7,7 @@ import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.RegistrationStepRequest
 import io.golos.domain.requestmodel.SetUserKeysRequest
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
@@ -17,8 +18,9 @@ class UserRegistrationStateRelatedData(
     val stateRequestResult: UserRegistrationStateResult
 )
 
-class UserRegistrationStateEntityMapper :
-    CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity> {
+class UserRegistrationStateEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity> {
     override suspend fun invoke(cyberObject: UserRegistrationStateRelatedData): UserRegistrationStateEntity {
         val stateRequestResult = cyberObject.stateRequestResult
         val requestResult = cyberObject.requestResult

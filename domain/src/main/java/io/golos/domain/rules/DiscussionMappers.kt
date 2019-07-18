@@ -81,7 +81,9 @@ constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
 }
 
 
-class CyberFeedToEntityMapper(val postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>) :
+class CyberFeedToEntityMapper
+@Inject
+constructor(val postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>) :
     CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>> {
 
     override suspend fun invoke(cyberObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<PostEntity> {

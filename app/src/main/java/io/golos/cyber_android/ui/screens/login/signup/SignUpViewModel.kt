@@ -35,10 +35,18 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
 
     private val selectedCountryLiveData = MutableLiveData<CountryModel?>(null)
 
+    private val selectedPhoneLiveData = MutableLiveData<String>("")
+
+
     /**
      * [LiveData] for country that was selected for phone number
      */
     val getSelectedCountryLiveData = selectedCountryLiveData as LiveData<CountryModel?>
+
+    /**
+     * [LiveData] for country that was selected for phone number
+     */
+    val getSelectedPhoneLiveData = selectedPhoneLiveData as LiveData<String>
 
     /**
      * Sets [CountryModel] for this ViewModel
@@ -53,6 +61,8 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
      * Sends first sms code
      */
     fun sendCodeOn(phone: String) {
+        selectedPhoneLiveData.postValue(phone)
+
         currentPhone = getNormalizedPhone(phone)
         signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
     }
@@ -101,6 +111,8 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
      * Requests update of the user registration state
      */
     fun updateRegisterState(phone: String = currentPhone) {
+        selectedPhoneLiveData.postValue(phone)
+
         currentPhone = getNormalizedPhone(phone)
         signUpUseCase.makeRegistrationStep(
             GetUserRegistrationStepRequestModel(currentPhone)

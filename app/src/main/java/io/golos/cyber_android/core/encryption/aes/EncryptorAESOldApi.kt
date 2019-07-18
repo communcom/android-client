@@ -1,6 +1,6 @@
 package io.golos.cyber_android.core.encryption.aes
 
-import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import java.lang.UnsupportedOperationException

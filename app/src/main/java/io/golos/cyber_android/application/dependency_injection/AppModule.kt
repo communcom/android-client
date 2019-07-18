@@ -4,11 +4,14 @@ import android.content.Context
 import android.os.Build
 import dagger.Module
 import dagger.Provides
-import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
+import io.golos.cyber4j.Cyber4J
+import io.golos.cyber_android.BuildConfig
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.sharedmodel.Cyber4JConfig
 import javax.inject.Named
 
@@ -48,4 +51,8 @@ class AppModule(private val appContext: Context) {
             EncryptorAESOldApi(keyValueStorageFacade, encryptor)
         }
     }
+
+    @Provides
+    @ApplicationScope
+    internal fun provideCyber4J(): Cyber4J = Cyber4J(cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig())
 }

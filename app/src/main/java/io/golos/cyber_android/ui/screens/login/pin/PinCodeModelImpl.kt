@@ -46,6 +46,9 @@ class PinCodeModelImpl(
                 val codeAsBytes = stringsConverter.toBytes(primaryCode!!)
                 val encryptedCode = encryptor.encrypt(codeAsBytes)
                 keyValueStorage.savePinCode(encryptedCode!!)
+
+                val newAuthState = keyValueStorage.getAuthState()!!.copy(isPinCodeSet = true)
+                keyValueStorage.saveAuthState(newAuthState)
                 true
             } catch (ex: Exception) {
                 logger(ex)

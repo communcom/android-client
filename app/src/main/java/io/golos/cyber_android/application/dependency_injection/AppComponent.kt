@@ -1,6 +1,6 @@
 package io.golos.cyber_android.application.dependency_injection
 
-import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import dagger.Component
 
 @Component(modules = [

@@ -40,12 +40,8 @@ class SignUpPhoneFragment : BaseSignUpScreenFragment<SignUpPhoneViewModel>(SignU
 
     private val phoneMaskWatcher = MaskFormatWatcher(MaskImpl.createTerminated(emptyMask))
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_sign_up_phone, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_sign_up_phone, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -99,6 +95,10 @@ class SignUpPhoneFragment : BaseSignUpScreenFragment<SignUpPhoneViewModel>(SignU
 
         signUpViewModel.getSelectedCountryLiveData.observe(this, Observer { countryModel ->
             onCountrySelected(countryModel)
+        })
+
+        signUpViewModel.getSelectedPhoneLiveData.observe(this, Observer { phoneValue ->
+            phone.setText(phoneValue)
         })
     }
 

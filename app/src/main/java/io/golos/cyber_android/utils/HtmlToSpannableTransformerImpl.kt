@@ -7,11 +7,14 @@ import android.text.Spanned
 import androidx.annotation.VisibleForTesting
 import io.golos.domain.FromSpannedToHtmlTransformer
 import io.golos.domain.HtmlToSpannableTransformer
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-04.
  */
-class HtmlToSpannableTransformerImpl : HtmlToSpannableTransformer {
+class HtmlToSpannableTransformerImpl
+@Inject
+constructor() : HtmlToSpannableTransformer {
     override fun transform(html: String): CharSequence {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             return Html.fromHtml(html, FROM_HTML_MODE_LEGACY)
@@ -19,7 +22,9 @@ class HtmlToSpannableTransformerImpl : HtmlToSpannableTransformer {
     }
 }
 
-class FromSpannedToHtmlTransformerImpl : FromSpannedToHtmlTransformer {
+class FromSpannedToHtmlTransformerImpl
+@Inject
+constructor() : FromSpannedToHtmlTransformer {
     private val firstParagraphRegexp = "^<p[\\w\\s=\\\\\"]*>".toRegex()
     private val emptyParagraphs = "<p>[\\s]*</p>".toRegex()
     private val endingParagrapg = "<[/]?p>\$".toRegex()

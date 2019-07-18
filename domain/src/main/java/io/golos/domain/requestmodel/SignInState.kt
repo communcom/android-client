@@ -7,5 +7,8 @@ import io.golos.domain.Model
  */
 
 enum class SignInState : Model {
-    LOG_IN_NEEDED, USER_LOGGED_IN, LOADING
+    LOG_IN_NEEDED,
+    USER_LOGGED_IN_PIN_SET,
+    USER_LOGGED_IN_PIN_NOT_SET,
+    LOADING
 }

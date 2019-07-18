@@ -12,14 +12,20 @@ import io.golos.cyber4j.model.*
 import io.golos.cyber4j.services.model.*
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.sharedmodel.CyberName
 import io.golos.sharedmodel.Either
 import java.io.File
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
-class Cyber4jApiService(private val cyber4j: Cyber4J) : PostsApiService,
+@ApplicationScope
+class Cyber4jApiService
+@Inject
+constructor(private val cyber4j: Cyber4J) :
+    PostsApiService,
     AuthApi,
     VoteApi,
     CommentsApiService,

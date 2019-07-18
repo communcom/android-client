@@ -5,10 +5,12 @@ import io.golos.domain.Entity
 import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
@@ -19,8 +21,10 @@ interface EntityToModelMapper<E : Entity, M : Model> {
     suspend operator fun invoke(entity: E): M
 }
 
-class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
-
+@ApplicationScope
+class PostEntityEntitiesToModelMapper
+@Inject
+constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
     EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel> {
     private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
     private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
@@ -66,7 +70,10 @@ class PostEntityEntitiesToModelMapper(private val htmlToSpannableTransformer: Ht
     }
 }
 
-class CommentEntityToModelMapper(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
+@ApplicationScope
+class CommentEntityToModelMapper
+@Inject
+constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
     EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel> {
 
 
@@ -136,7 +143,9 @@ private fun EmbedEntity.toEmbedModel() = EmbedModel(type, title, url, author, pr
 private fun TagEntity.toModel() = TagModel(this.tag)
 
 
-class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>) :
+class PostFeedEntityToModelMapper
+@Inject
+constructor(private val postMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>) :
     EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>> {
 
     override suspend fun invoke(entity: FeedRelatedEntities<PostEntity>): DiscussionsFeed<PostModel> {
@@ -151,8 +160,9 @@ class PostFeedEntityToModelMapper(private val postMapper: EntityToModelMapper<Di
     }
 }
 
-
-class CommentsFeedEntityToModelMapper(private val commentsMapper: EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel>) :
+class CommentsFeedEntityToModelMapper
+@Inject
+constructor(private val commentsMapper: EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel>) :
     EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>> {
 
     override suspend fun invoke(entity: FeedRelatedEntities<CommentEntity>): DiscussionsFeed<CommentModel> {
@@ -168,8 +178,10 @@ class CommentsFeedEntityToModelMapper(private val commentsMapper: EntityToModelM
     }
 }
 
-
-class VoteRequestEntityToModelMapper : EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
+@ApplicationScope
+class VoteRequestEntityToModelMapper
+@Inject
+constructor() : EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
     private val cash = Collections.synchronizedMap(HashMap<VoteRequestEntity, VoteRequestModel>())
 
     override suspend fun invoke(entity: VoteRequestEntity): VoteRequestModel {

@@ -101,7 +101,7 @@ class CommunBackupAgent: BackupAgent() {
         val activeKeyToStore = activeKey.let {stringsConverter.toBytes(it)}.let {encryptor.encrypt(it)!!}
 
         keyValueStorage.saveActiveKey(activeKeyToStore)
-        keyValueStorage.saveAuthState(AuthState(activeUser.toCyberName(), true))
+        keyValueStorage.saveAuthState(AuthState(activeUser.toCyberName(), true, false))
     }
 
 }

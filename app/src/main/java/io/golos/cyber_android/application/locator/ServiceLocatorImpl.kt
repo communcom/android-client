@@ -97,10 +97,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     )
 
-    // [Dagger] - AppScope, singleton, via AppModule
+    // [Dagger] - done
     private val cyber4j by lazy { Cyber4J(cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig()) }
 
-    // [Dagger] - AppScope, singleton, via AppModuleBinds
+    // [Dagger] - done
     private val apiService: Cyber4jApiService by lazy { Cyber4jApiService(cyber4j) }
 
     // [Dagger] - done
@@ -109,21 +109,31 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     // [Dagger] - done
     private val voteToEntityMapper = VoteRequestModelToEntityMapper()
 
+    // [Dagger] - done
     private val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
 
+    // [Dagger] - done
     private val fromHtmlTransformet = HtmlToSpannableTransformerImpl()
+
+    // [Dagger] - done
     private val fromSpannableToHtml = FromSpannedToHtmlTransformerImpl()
 
+    // [Dagger] - done
     private val deviceIdProvider = MyDeviceIdProvider(appContext)
 
+    // [Dagger] - done
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
+    // [Dagger] - done
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
+    // [Dagger] - done
     private val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
-
+    // [Dagger] - done
     private val commentEntityToModelMapper = CommentEntityToModelMapper(fromHtmlTransformet)
+    // [Dagger] - done
     private val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
+    // [Dagger] - done
     private val toCountriesModelMapper = CountryEntityToModelMapper()
-
+    // [Dagger] - done
     private val toRegistrationMapper = UserRegistrationStateEntityMapper()
 
     private val approver = FeedUpdateApprover()

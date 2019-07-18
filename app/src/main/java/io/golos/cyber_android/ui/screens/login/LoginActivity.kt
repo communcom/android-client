@@ -24,6 +24,12 @@ class LoginActivity : BaseActivity(), SplashAnimationManagerTarget, SplashAnimat
     private val splashAnimationManager = SplashAnimationManager(this)
     private val splashAnimator = SplashAnimator(this)
 
+    private enum class AuthStage {
+        BEGINNING,
+        PIN_CODE
+    }
+    private var authInProgress = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,14 +53,23 @@ class LoginActivity : BaseActivity(), SplashAnimationManagerTarget, SplashAnimat
             when(it) {
                 SignInState.LOG_IN_NEEDED ->
                     if(postNavHost.findNavController().currentDestination == null) {
-                        splashAnimator.executeWhenCompleted { initAuthFlow() }
+                        splashAnimator.executeWhenCompleted {
+                            initAuthFlow(AuthStage.BEGINNING)
+                        }
                     }
 
                 SignInState.LOADING -> splashAnimator.executeWhenCompleted { onLoading() }
 
-                SignInState.USER_LOGGED_IN ->
+                SignInState.USER_LOGGED_IN_PIN_SET ->
                     if(postNavHost.findNavController().currentDestination == null) {
                         splashAnimator.executeWhenCompleted { navigateToMainScreen() }
+                    }
+
+                SignInState.USER_LOGGED_IN_PIN_NOT_SET ->
+                    if(postNavHost.findNavController().currentDestination == null) {
+                        splashAnimator.executeWhenCompleted {
+                            initAuthFlow(AuthStage.PIN_CODE)
+                        }
                     }
 
                 else -> {  }
@@ -62,8 +77,24 @@ class LoginActivity : BaseActivity(), SplashAnimationManagerTarget, SplashAnimat
         })
     }
 
-    private fun initAuthFlow() {
-        postNavHost.findNavController().setGraph(R.navigation.graph_login)
+    private fun initAuthFlow(stage: AuthStage) {
+        if(authInProgress) {
+            return
+        }
+
+        authInProgress = true
+
+        val controller = postNavHost.findNavController()
+
+        val inflater = controller.navInflater
+
+        val graph = inflater.inflate(R.navigation.graph_login)
+        graph.startDestination = when(stage) {
+            AuthStage.BEGINNING -> R.id.welcomeFragment
+            AuthStage.PIN_CODE -> R.id.signUpKeyFragment
+        }
+
+        controller.graph = graph
     }
 
     private fun onLoading() {

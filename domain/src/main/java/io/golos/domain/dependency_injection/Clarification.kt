@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection
+package io.golos.domain.dependency_injection
 
 object Clarification {
     const val RSA = "RSA"

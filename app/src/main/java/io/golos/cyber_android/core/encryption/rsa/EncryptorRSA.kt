@@ -5,7 +5,7 @@ import android.os.Build
 import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import io.golos.cyber_android.application.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream

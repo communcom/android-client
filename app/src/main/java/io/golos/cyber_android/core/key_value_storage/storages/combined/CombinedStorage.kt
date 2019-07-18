@@ -1,6 +1,6 @@
 package io.golos.cyber_android.core.key_value_storage.storages.combined
 
-import io.golos.cyber_android.application.dependency_injection.Clarification
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.cyber_android.core.key_value_storage.storages.StorageBase
 import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
 import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsInstance

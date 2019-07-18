@@ -51,7 +51,7 @@ class AuthStateRepository(
 
         repositoryScope.launch {
             if (params is LogOutRequest) {
-                val logOutState = AuthState("".toCyberName(), false)
+                val logOutState = AuthState("".toCyberName(), false, false)
                 withContext(dispatchersProvider.ioDispatcher) {
                     keyValueStorage.saveAuthState(logOutState)
                 }
@@ -67,12 +67,12 @@ class AuthStateRepository(
             }
 
             if(newParams.isEmpty()) {
-                authState.value = AuthState("".toCyberName(), false)
+                authState.value = AuthState("".toCyberName(), false, false)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
-                authState.value = AuthState("".toCyberName(), false)
+                authState.value = AuthState("".toCyberName(), false, false)
             }
             else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
@@ -242,8 +242,12 @@ class AuthStateRepository(
             }
         }
 
+        val isPinCodeSet = withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.getAuthState()?.isPinCodeSet ?: false
+        }
+
         if (loadingQuery != null) {
-            val finalAuthState = AuthState(resolvedName, true)
+            val finalAuthState = AuthState(resolvedName, true, isPinCodeSet)
             authState.value = finalAuthState
 
             val originalLoadingQuery = loadingQuery.value as QueryResult.Loading
@@ -266,7 +270,7 @@ class AuthStateRepository(
         logger(e)
 
         repositoryScope.launch {
-            authState.value = AuthState("".toCyberName(), false)
+            authState.value = AuthState("".toCyberName(), false, false)
             val loadingQuery =
                 authRequestsLiveData.value?.entries?.findLast { it.value is QueryResult.Loading }
 
@@ -293,7 +297,7 @@ class AuthStateRepository(
         }
 
         return if (!(authSavedAuthState?.isUserLoggedIn == true && key != null)) {
-            AuthRequest(CyberUser(""), "")
+            getEmptyRequest()
         } else {
             AuthRequest(authSavedAuthState!!.user.toCyberUser(), key!!)
         }

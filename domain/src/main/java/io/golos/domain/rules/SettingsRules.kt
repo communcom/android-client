@@ -17,6 +17,7 @@ import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.
@@ -35,7 +36,9 @@ class MyDefaultSettingProvider() : DefaultSettingProvider {
 }
 
 @SuppressLint("HardwareIds")
-class MyDeviceIdProvider(private val context: Context) : DeviceIdProvider {
+class MyDeviceIdProvider
+@Inject
+constructor(private val context: Context) : DeviceIdProvider {
     private val fileName = "device_id.txt"
 
     private val deviceId by lazy {

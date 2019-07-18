@@ -75,13 +75,20 @@ class SignInUseCase(
         authJob = coroutineScope.launch {
 
             delay(100)
-            val authStateInRepository =
-                authRepo.getAsLiveData(authRepo.allDataRequest).value ?: AuthState(CyberName(""), false)
+            val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value ?: AuthState(CyberName(""), false, false)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             signInStateLiveData.value = when {
-                updateStateInRepository.any { it is QueryResult.Success } && authStateInRepository.isUserLoggedIn -> SignInState.USER_LOGGED_IN
+                updateStateInRepository.any { it is QueryResult.Success } &&
+                        authStateInRepository.isUserLoggedIn &&
+                        authStateInRepository.isPinCodeSet -> SignInState.USER_LOGGED_IN_PIN_SET
+
+                updateStateInRepository.any { it is QueryResult.Success } &&
+                        authStateInRepository.isUserLoggedIn &&
+                        !authStateInRepository.isPinCodeSet -> SignInState.USER_LOGGED_IN_PIN_NOT_SET
+
                 updateStateInRepository.any { it is QueryResult.Loading } -> SignInState.LOADING
+
                 else -> SignInState.LOG_IN_NEEDED
             }
         }

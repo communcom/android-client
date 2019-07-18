@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.scopes
+package io.golos.domain.dependency_injection.scopes
 
 import javax.inject.Scope
 

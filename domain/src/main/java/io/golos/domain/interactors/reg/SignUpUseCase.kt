@@ -48,8 +48,10 @@ class SignUpUseCase(
 
 
     private var lastRequest: NextRegistrationStepRequestModel? = null
+
     private val registrationStepsObserver = Observer<UserRegistrationStateEntity> {
         it ?: return@Observer
+
         currentUserRegistrationLiveData.value = when (it) {
             is UnregisteredUser -> UnregisteredUserModel()
             is UnverifiedUser -> UnverifiedUserModel(it.nextSmsVerification, it.smsCode)
@@ -59,6 +61,7 @@ class SignUpUseCase(
                 if (it.userName == lastRequestLocal?.userName &&
                     it.masterPassword != null
                 ) {
+                    // Keys were generated again and used for authentication
                     val registeredUser = generateUserKeys(
                         lastRequestLocal.userName,
                         it.masterPassword
@@ -164,6 +167,7 @@ class SignUpUseCase(
                 is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.code)
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
+                    // Keys are generated and sent to server (public parts only)
                     val userKeys = generateUserKeys(param.userName)
                     SetUserKeysRequest(
                         param.phone,
