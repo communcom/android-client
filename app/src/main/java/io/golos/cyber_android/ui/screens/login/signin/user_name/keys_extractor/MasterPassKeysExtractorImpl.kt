@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signin.keys_extractors.master_pass
+package io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor
 
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -24,10 +24,10 @@ constructor (
         withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val activeKey = userKeyStore.createKeys(userName, masterKey).activePrivateKey
-                Either.Success(AuthRequestModel(CyberUser(userName), activeKey))
+                Either.Success<AuthRequestModel, Exception>(AuthRequestModel(CyberUser(userName), activeKey))
             } catch(ex: Exception) {
                 logger.invoke(ex)
-                Either.Failure(ex)
+                Either.Failure<AuthRequestModel, Exception>(ex)
             }
         }
 }

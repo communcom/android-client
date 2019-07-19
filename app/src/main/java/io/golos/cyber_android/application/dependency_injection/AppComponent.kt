@@ -6,7 +6,8 @@ import dagger.Component
 @Component(modules = [
     AppModule::class,
     AppModuleBinds::class,
-    AppModuleChilds::class
+    AppModuleChilds::class,
+    UIModuleBinds::class
 ])
 @ApplicationScope
 interface AppComponent {

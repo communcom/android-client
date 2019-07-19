@@ -31,6 +31,8 @@ import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedView
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
+import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractor
+import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModelImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintViewModel
@@ -194,6 +196,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         } else  {
             EncryptorAESOldApi(keyValueStorage, EncryptorRSA(appContext))
         }
+    }
+
+    // [Dagger] - done
+    override val masterPassKeysExtractor: MasterPassKeysExtractor by lazy {
+        MasterPassKeysExtractorImpl(
+            userKeyStore,
+            dispatchersProvider,
+            logger
+        )
     }
 
     // [Dagger] - done
@@ -425,7 +436,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
                     UserNameSignInViewModel::class.java -> UserNameSignInViewModel(
-                        getSignInUseCase()
+                        getSignInUseCase(),
+                        masterPassKeysExtractor,
+                        dispatchersProvider
                     ) as T
 
                     AuthViewModel::class.java -> AuthViewModel(
