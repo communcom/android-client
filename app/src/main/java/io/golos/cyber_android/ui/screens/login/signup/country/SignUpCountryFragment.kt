@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.domain.interactors.model.CountryModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 /**
  * Fragment for selecting country (as [CountryModel]) for SignUpPhoneFragment
  */
-class SignUpCountryFragment : LoadingFragment() {
+class SignUpCountryFragment : FragmentBase() {
 
     private lateinit var viewModel: SignUpCountryViewModel
 
@@ -53,7 +53,7 @@ class SignUpCountryFragment : LoadingFragment() {
                 findNavController().navigateUp()
             }
         })
-        searchBar.addTextChangedListener(object : BaseTextWatcher() {
+        searchBar.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.makeSearch(s.toString())
             }

@@ -12,14 +12,14 @@ import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.edit_bio_fragment.*
 
-class EditProfileBioFragment : LoadingFragment() {
+class EditProfileBioFragment : FragmentBase() {
 
     data class Args(
         val user: CyberName,
@@ -48,7 +48,7 @@ class EditProfileBioFragment : LoadingFragment() {
         setupViewModel()
         observeViewModel()
 
-        bio.addTextChangedListener(object : BaseTextWatcher() {
+        bio.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.onBioChanged(s.toString())
             }

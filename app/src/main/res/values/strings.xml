@@ -100,9 +100,7 @@
     <string name = "congratulations">Congratulations!\nRegistration has just been completed</string>
     <string name = "we_need_more_steps">We just need few more steps to protect your account</string>
     <string name = "download">Download</string>
-    <string name = "keys_format">Master Password - %1$s \nUsername - %2$s \nOwner key - %3$s \nActive key - %4$s \nPosting key -
-        %5$s \nMemo key - %6$s
-    </string>
+    <string name = "keys_format">Master Password\n%1$s\n\nUser\'s name\n%2$s\n\nUser\'s ID\n%7$s\n\nOwner key\n%3$s\n\nActive key\n%4$s\n\nPosting key\n%5$s\n\nMemo key\n%6$s</string>
     <string name = "keys_saved_successfully">Keys saved successfully</string>
     <string name = "setup_passcode">Set up Passcode</string>
     <string name = "add_short_pin">Add short PIN code</string>

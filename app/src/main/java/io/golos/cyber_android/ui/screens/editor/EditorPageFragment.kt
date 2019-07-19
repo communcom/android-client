@@ -28,10 +28,10 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
-import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
+import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.cyber_android.views.utils.colorizeHashTags
 import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.data.errors.AppError
@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.fragment_editor_page.*
 const val GALLERY_REQUEST = 101
 
 
-class EditorPageFragment : BaseImagePickerFragment() {
+class EditorPageFragment : ImagePickerFragmentBase() {
 
     data class Args(
         val postToEdit: DiscussionIdModel? = null,
@@ -68,14 +68,14 @@ class EditorPageFragment : BaseImagePickerFragment() {
         close.setOnClickListener { activity?.finish() }
         post.setOnClickListener { viewModel.post() }
 
-        title.addTextChangedListener(object : BaseTextWatcher() {
+        title.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
                 viewModel.onTitleChanged(s.toString())
             }
         })
 
-        content.addTextChangedListener(object : BaseTextWatcher() {
+        content.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     viewModel.onContentChanged(it)

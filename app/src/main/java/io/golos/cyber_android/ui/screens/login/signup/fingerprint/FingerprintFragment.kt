@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.helper.UIHelper
-import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import kotlinx.android.synthetic.main.fragment_fingerprint.*
 
 class FingerprintFragment : Fragment() {

@@ -2,10 +2,10 @@ package io.golos.cyber_android.ui.screens.profile.edit.bio
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.interactors.user.UserMetadataUseCase
 
-class EditProfileBioViewModel(private val userMetadataUseCase: UserMetadataUseCase) : BaseEditProfileViewModel(userMetadataUseCase) {
+class EditProfileBioViewModel(private val userMetadataUseCase: UserMetadataUseCase) : EditProfileViewModelBase(userMetadataUseCase) {
 
     companion object {
         const val MAX_BIO_LENGTH = 100

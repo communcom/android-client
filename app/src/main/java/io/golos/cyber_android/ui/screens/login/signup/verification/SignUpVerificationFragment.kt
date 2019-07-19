@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
+import io.golos.cyber_android.ui.screens.login.signup.SignUpScreenFragmentBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
 import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
@@ -19,7 +19,7 @@ import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
 class SignUpVerificationFragment :
-    BaseSignUpScreenFragment<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
+    SignUpScreenFragmentBase<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
 
     override val continueButton: View
         get() = next

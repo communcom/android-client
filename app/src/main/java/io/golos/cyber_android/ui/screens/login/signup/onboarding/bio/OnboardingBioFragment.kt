@@ -12,18 +12,18 @@ import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioViewModel
 import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.fragment_onboarding_bio.*
 
-class OnboardingBioFragment : LoadingFragment() {
+class OnboardingBioFragment : FragmentBase() {
 
     data class Args(val user: CyberName)
 
@@ -44,7 +44,7 @@ class OnboardingBioFragment : LoadingFragment() {
         super.onActivityCreated(savedInstanceState)
         setupViewModel()
         observeViewModel()
-        bio.addTextChangedListener(object : BaseTextWatcher() {
+        bio.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.onBioChanged(s.toString())
             }

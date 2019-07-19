@@ -16,7 +16,7 @@ import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
+import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.TouchImageView
 import io.golos.domain.interactors.model.UserMetadataModel
@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class EditProfileCoverFragment : BaseImagePickerFragment() {
+class EditProfileCoverFragment : ImagePickerFragmentBase() {
 
     data class Args(
         val user: CyberName,

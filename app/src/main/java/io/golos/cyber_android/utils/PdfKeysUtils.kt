@@ -3,7 +3,9 @@ package io.golos.cyber_android.utils
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
+import android.util.Log
 import io.golos.cyber_android.R
 import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
@@ -56,29 +58,36 @@ object PdfKeysUtils {
 
         val textPaint = Paint().apply {
             color = Color.BLACK
+
+            // Don't remove this line!
+            // It used for fixing this issue: https://stackoverflow.com/questions/56282273/text-in-pdf-file-has-mysterious-spaces
+            typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
         }
 
         val lines = content.split("\n")
-        for ((index, line) in lines.withIndex())
+        for ((index, line) in lines.withIndex()) {
+
             page.canvas.drawText(
                 line,
                 TEXT_PADDING_X.toFloat(),
                 TEXT_PADDING_Y.toFloat() + index * LINE_HEIGHT,
                 textPaint
             )
+        }
 
         pdf.finishPage(page)
 
         return pdf
     }
 
-    fun getKeysSummary(context: Context, userName: String, keys: List<UserKey>) = String.format(
+    fun getKeysSummary(context: Context, userName: String, userId: String, keys: List<UserKey>) = String.format(
         context.resources.getString(R.string.keys_format),
         keys.single { it.keyType == UserKeyType.MASTER }.key,
         userName,
         keys.single { it.keyType == UserKeyType.OWNER }.key,
         keys.single { it.keyType == UserKeyType.ACTIVE }.key,
         keys.single { it.keyType == UserKeyType.POSTING }.key,
-        keys.single { it.keyType == UserKeyType.MEMO }.key
+        keys.single { it.keyType == UserKeyType.MEMO }.key,
+        userId
     )
 }

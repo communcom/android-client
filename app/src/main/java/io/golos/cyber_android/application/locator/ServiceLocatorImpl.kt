@@ -459,7 +459,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getPushNotificationsSettingsUseCase()
                     ) as T
 
-                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel(userKeyStore, keyValueStorage, dispatchersProvider) as T
+                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel(userKeyStore, keyValueStorage, dispatchersProvider, apiService, logger) as T
 
                     PinCodeViewModel::class.java -> PinCodeViewModel(dispatchersProvider, getPinCodeModel()) as T
 

@@ -8,7 +8,7 @@ import io.golos.domain.interactors.user.UserMetadataUseCase
  * Base view model that allows to listen updates in user metadata (via [getMetadataLiveData]) and
  * update state of it (via [getMetadataUpdateStateLiveData]).
  */
-abstract class BaseEditProfileViewModel(private val userMetadataUseCase: UserMetadataUseCase) : ViewModel() {
+abstract class EditProfileViewModelBase(private val userMetadataUseCase: UserMetadataUseCase) : ViewModel() {
 
     /**
      * [LiveData] for user metadata

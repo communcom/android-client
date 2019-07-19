@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.screens.login.signup.fingerprint
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
-import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
-import io.golos.cyber_android.ui.common.mvvm.ViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.AppUnlockWay
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +38,8 @@ class FingerprintViewModel(
             if(model.saveAppUnlockWay(appUnlockWay)) {
                 command.value = NavigateToKeysCommand()
             } else {
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                command.value =
+                    ShowMessageCommand(R.string.common_general_error)
             }
         }
     }

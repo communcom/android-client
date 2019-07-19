@@ -34,7 +34,7 @@ class CommentWidget @JvmOverloads constructor(
         galleryButton.setOnClickListener { listener?.onGalleryClick() }
         sendButton.setOnClickListener { listener?.onSendClick(comment.text ?: "") }
 
-        comment.addTextChangedListener(object : BaseTextWatcher() {
+        comment.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
                 s?.let {

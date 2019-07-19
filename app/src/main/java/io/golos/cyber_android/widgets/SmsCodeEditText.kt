@@ -11,7 +11,7 @@ import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
 import android.widget.EditText
 import io.golos.cyber_android.R
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 
 interface SmsCodeEditTextInnerState {
     val isTextEmpty: Boolean
@@ -72,7 +72,7 @@ constructor(
 
         filters = arrayOf(InputFilter.LengthFilter(maxLen))
 
-        val watcher = object : BaseTextWatcher() {
+        val watcher = object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 if(s!!.length == maxLen) {
                     s.replace(0, maxLen, s[maxLen-1].toString())

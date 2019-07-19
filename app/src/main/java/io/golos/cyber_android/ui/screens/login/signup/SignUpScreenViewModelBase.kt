@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
  * Base [ViewModel] for sign up screens. Allows to store and validate one String type [field].
  * Corresponding view model needs to implement [validate] method in order to correctly validate data stored in [field].
  */
-abstract class BaseSignUpScreenViewModel: ViewModel() {
+abstract class SignUpScreenViewModelBase: ViewModel() {
 
     private val validnessLiveData = MutableLiveData(false)
 

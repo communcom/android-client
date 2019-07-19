@@ -11,17 +11,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInTab
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.cyber_android.ui.screens.main.MainActivity
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_user_name_sign_in.*
 
-class UserNameSignInFragment : LoadingFragment(), SignInChildFragment {
+class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
     companion object {
         fun newInstance(tab: SignInTab) =
             UserNameSignInFragment()
@@ -44,13 +44,13 @@ class UserNameSignInFragment : LoadingFragment(), SignInChildFragment {
 
         setupViewModel()
 
-        login.addTextChangedListener(object : BaseTextWatcher() {
+        login.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.onLoginInput(s.toString())
             }
         })
 
-        key.addTextChangedListener(object : BaseTextWatcher() {
+        key.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.onKeyInput(s.toString())
             }

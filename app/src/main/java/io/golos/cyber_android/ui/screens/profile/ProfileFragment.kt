@@ -20,13 +20,13 @@ import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.feed.FeedPageLiveDataProvider
 import io.golos.cyber_android.ui.screens.feed.FeedPageViewModel
-import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
+import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.cyber_android.ui.screens.profile.edit.bio.EditProfileBioActivity
@@ -56,7 +56,7 @@ const val REQUEST_FEED = 105
  * provides [UserMetadataModel] (with fields like username, avatar, stats etc) and isActiveUserProfile boolean value. This value
  * is used in this fragment to determine if this Profile Page belongs to the actual user that uses the app.
  */
-class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
+class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
 
     enum class Tab(@StringRes val title: Int, val index: Int) {
         POSTS(R.string.posts, 0), COMMENTS(R.string.comments, 1)
@@ -320,9 +320,9 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
         if (requestCode == REQUEST_UPDATE_COVER_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    BaseImagePickerFragment.ImageSource.GALLERY
+                    ImagePickerFragmentBase.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    BaseImagePickerFragment.ImageSource.CAMERA
+                    ImagePickerFragmentBase.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE -> {
                     viewModel.clearProfileCover()
                     null
@@ -341,9 +341,9 @@ class ProfileFragment : LoadingFragment(), FeedPageLiveDataProvider {
         if (requestCode == REQUEST_UPDATE_PHOTO_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    BaseImagePickerFragment.ImageSource.GALLERY
+                    ImagePickerFragmentBase.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    BaseImagePickerFragment.ImageSource.CAMERA
+                    ImagePickerFragmentBase.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE -> {
                     viewModel.clearProfileAvatar()
                     null

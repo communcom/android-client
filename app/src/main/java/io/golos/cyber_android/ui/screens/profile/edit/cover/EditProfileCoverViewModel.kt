@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.edit.cover
 
-import io.golos.cyber_android.ui.screens.profile.edit.BaseEditProfileViewModel
+import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
@@ -12,7 +12,7 @@ class EditProfileCoverViewModel(
     private val userMetadataUseCase: UserMetadataUseCase,
     private val imageUploadUseCase: ImageUploadUseCase,
     val dispatchersProvider: DispatchersProvider
-) : BaseEditProfileViewModel(userMetadataUseCase) {
+) : EditProfileViewModelBase(userMetadataUseCase) {
 
     /**
      * State of uploading image to remote server

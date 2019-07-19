@@ -8,21 +8,21 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.views.utils.TextWatcherBase
 
 /**
  * Base fragment for all sign up screens that contains only one [EditText] to validate (provided by [fieldToValidate]) and
  * one "continue" button (provided by [continueButton]).
  */
-abstract class BaseSignUpScreenFragment<VM: BaseSignUpScreenViewModel>(private val clazz: Class<VM>): LoadingFragment() {
+abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private val clazz: Class<VM>): FragmentBase() {
 
     protected lateinit var viewModel: VM
     protected lateinit var signUpViewModel: SignUpViewModel
 
     /**
      * [EditText] which text is suppose to be validated. Can be null. If so, fragment class should
-     * capture changes if field by himself and pass them to [viewModel] via [BaseSignUpScreenViewModel.onFieldChanged] method.
+     * capture changes if field by himself and pass them to [viewModel] via [SignUpScreenViewModelBase.onFieldChanged] method.
      */
     protected open val fieldToValidate: EditText? = null
 
@@ -36,7 +36,7 @@ abstract class BaseSignUpScreenFragment<VM: BaseSignUpScreenViewModel>(private v
         setupViewModel()
         observeViewModel()
 
-        fieldToValidate?.addTextChangedListener(object : BaseTextWatcher() {
+        fieldToValidate?.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.onFieldChanged(s.toString())
             }

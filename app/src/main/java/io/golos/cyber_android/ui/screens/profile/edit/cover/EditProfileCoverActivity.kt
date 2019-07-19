@@ -6,9 +6,9 @@ import android.os.Bundle
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.BaseActivity
+import io.golos.cyber_android.ui.base.ActivityBase
 
-class EditProfileCoverActivity : BaseActivity() {
+class EditProfileCoverActivity : ActivityBase() {
 
     companion object {
         fun getIntent(context: Context, args: EditProfileCoverFragment.Args) =

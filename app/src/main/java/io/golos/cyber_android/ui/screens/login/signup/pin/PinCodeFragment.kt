@@ -13,7 +13,7 @@ import androidx.transition.TransitionManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.helper.UIHelper
-import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToKeysCommand
 import kotlinx.android.synthetic.main.fragment_pin_code.*

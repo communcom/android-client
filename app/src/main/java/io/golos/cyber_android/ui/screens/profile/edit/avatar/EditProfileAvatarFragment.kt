@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
+import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*
 import java.io.File
 
 
-class EditProfileAvatarFragment : BaseImagePickerFragment() {
+class EditProfileAvatarFragment : ImagePickerFragmentBase() {
 
     data class Args(
         val user: CyberName,

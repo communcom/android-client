@@ -14,7 +14,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
-import io.golos.cyber_android.views.utils.BaseTextWatcher
+import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -49,7 +49,7 @@ class FeedFragment : Fragment(), FeedPageLiveDataProvider {
         setupViewPager()
         setupTabLayout()
 
-        searchBar.addTextChangedListener(object : BaseTextWatcher() {
+        searchBar.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
                 viewModel.onSearch(s.toString())

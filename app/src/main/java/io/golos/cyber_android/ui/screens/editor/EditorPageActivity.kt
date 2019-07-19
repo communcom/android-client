@@ -7,9 +7,9 @@ import androidx.navigation.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.BaseActivity
+import io.golos.cyber_android.ui.base.ActivityBase
 
-class EditorPageActivity : BaseActivity() {
+class EditorPageActivity : ActivityBase() {
 
     companion object {
         fun getIntent(

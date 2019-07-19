@@ -6,7 +6,7 @@ import android.text.TextWatcher
 /**
  * Simple [TextWatcher] that allows to implement only necessary methods
  */
-open class BaseTextWatcher : TextWatcher {
+open class TextWatcherBase : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
     }
 

@@ -22,7 +22,7 @@ import io.golos.cyber_android.ui.screens.editor.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post.PostActivity
 import io.golos.cyber_android.ui.screens.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
-import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
+import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
 import io.golos.cyber_android.widgets.EditorWidget
 import io.golos.cyber_android.widgets.sorting.SortingType
@@ -200,11 +200,11 @@ open class MyFeedFragment :
         if (requestCode == EDITOR_WIDGET_PHOTO_REQUEST_CODE) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    BaseImagePickerFragment.ImageSource.GALLERY
+                    ImagePickerFragmentBase.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    BaseImagePickerFragment.ImageSource.CAMERA
+                    ImagePickerFragmentBase.ImageSource.CAMERA
                 ImagePickerDialog.RESULT_DELETE ->
-                    BaseImagePickerFragment.ImageSource.NONE
+                    ImagePickerFragmentBase.ImageSource.NONE
                 else -> null
             }
             if (target != null) startActivityForResult(

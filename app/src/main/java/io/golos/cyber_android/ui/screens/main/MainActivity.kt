@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.BaseActivity
+import io.golos.cyber_android.ui.base.ActivityBase
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : ActivityBase() {
 
     enum class Tab(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),

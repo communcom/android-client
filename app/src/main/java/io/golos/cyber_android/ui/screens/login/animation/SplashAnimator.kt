@@ -7,7 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import androidx.core.content.ContextCompat
-import io.golos.cyber_android.views.utils.BaseAnimationListener
+import io.golos.cyber_android.views.utils.AnimationListenerBase
 import android.view.animation.AnimationSet
 import io.golos.cyber_android.R
 
@@ -48,7 +48,7 @@ class SplashAnimator(private var target: SplashAnimatorTarget?) {
                 interpolator = LinearInterpolator()
                 fillAfter = true
 
-                setAnimationListener(object: BaseAnimationListener() {
+                setAnimationListener(object: AnimationListenerBase() {
                     override fun onAnimationStart(p0: Animation?) {
                         animatedView.visibility = View.VISIBLE
                     }
@@ -90,7 +90,7 @@ class SplashAnimator(private var target: SplashAnimatorTarget?) {
                 interpolator = LinearInterpolator()
                 fillAfter = true
 
-                setAnimationListener(object: BaseAnimationListener() {
+                setAnimationListener(object: AnimationListenerBase() {
                     override fun onAnimationStart(p0: Animation?) {
                         animatedView.visibility = View.INVISIBLE
                     }
@@ -107,7 +107,7 @@ class SplashAnimator(private var target: SplashAnimatorTarget?) {
                 interpolator = LinearInterpolator()
                 fillAfter = true
 
-                setAnimationListener(object: BaseAnimationListener() {
+                setAnimationListener(object: AnimationListenerBase() {
                     override fun onAnimationEnd(p0: Animation?) {
                         isAnimationInProgress = false
 

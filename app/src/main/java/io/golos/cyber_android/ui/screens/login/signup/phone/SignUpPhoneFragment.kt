@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenFragment
+import io.golos.cyber_android.ui.screens.login.signup.SignUpScreenFragmentBase
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
@@ -28,7 +28,7 @@ import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 
 
-class SignUpPhoneFragment : BaseSignUpScreenFragment<SignUpPhoneViewModel>(SignUpPhoneViewModel::class.java) {
+class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignUpPhoneViewModel::class.java) {
 
     override val fieldToValidate: EditText
         get() = phone

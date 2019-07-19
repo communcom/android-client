@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -24,6 +23,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.NavigateToOnboardingCommand
@@ -38,7 +40,7 @@ import java.io.File
 const val PERMISSION_REQUEST = 100
 const val VIEW_PDF_REQUEST = 101
 
-class SignUpProtectionKeysFragment : Fragment() {
+class SignUpProtectionKeysFragment : FragmentBase() {
 
     data class Args(val user: CyberName)
 
@@ -92,8 +94,9 @@ class SignUpProtectionKeysFragment : Fragment() {
             .show()
     }
 
-    private fun onSavePathSelected(path: String, userName: String, keys: List<UserKey>) {
-        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(PdfKeysUtils.getKeysSummary(requireContext(), userName, keys), path)
+    private fun onSavePathSelected(path: String, userName: String, userId: String, keys: List<UserKey>) {
+        val keysSummary = PdfKeysUtils.getKeysSummary(requireContext(), userName, userId, keys)
+        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(keysSummary, path)
         if (saveResult)
             onSaveSuccess(PdfKeysUtils.getKeysSavePathInDir(path))
         else onSaveError()
@@ -157,7 +160,9 @@ class SignUpProtectionKeysFragment : Fragment() {
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is NavigateToOnboardingCommand -> navigateToOnboarding(command.user)
-                is StartExportingCommand -> onSavePathSelected(command.pathToSave, command.userName, command.keys)
+                is StartExportingCommand -> onSavePathSelected(command.pathToSave, command.userName, command.userId, command.keys)
+                is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
        })

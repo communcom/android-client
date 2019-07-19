@@ -15,10 +15,10 @@ import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.setPadding
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.bio.OnboardingBioFragment
-import io.golos.cyber_android.ui.screens.profile.edit.BaseImagePickerFragment
+import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.domain.requestmodel.QueryResult
@@ -29,7 +29,7 @@ const val REQUEST_UPDATE_PHOTO_DIALOG = 102
 const val REQUEST_UPDATE_PHOTO = 103
 
 
-class OnboardingUserImageFragment : LoadingFragment() {
+class OnboardingUserImageFragment : FragmentBase() {
 
     data class Args(val user: CyberName)
 
@@ -102,9 +102,9 @@ class OnboardingUserImageFragment : LoadingFragment() {
         if (requestCode == REQUEST_UPDATE_PHOTO_DIALOG) {
             val target = when (resultCode) {
                 ImagePickerDialog.RESULT_GALLERY ->
-                    BaseImagePickerFragment.ImageSource.GALLERY
+                    ImagePickerFragmentBase.ImageSource.GALLERY
                 ImagePickerDialog.RESULT_CAMERA ->
-                    BaseImagePickerFragment.ImageSource.CAMERA
+                    ImagePickerFragmentBase.ImageSource.CAMERA
                 else -> null
             }
             if (target != null) startActivityForResult(

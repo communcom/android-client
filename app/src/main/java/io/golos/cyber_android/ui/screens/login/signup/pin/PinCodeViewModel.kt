@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
-import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
-import io.golos.cyber_android.ui.common.mvvm.ViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_state_dto.CodeState
@@ -56,7 +56,8 @@ class PinCodeViewModel(
                             NavigateToKeysCommand()
                         }
                     } else {
-                        command.value = ShowMessageCommand(R.string.common_general_error)
+                        command.value =
+                            ShowMessageCommand(R.string.common_general_error)
                     }
                 }
             } else {

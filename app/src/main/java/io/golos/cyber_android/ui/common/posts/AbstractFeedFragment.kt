@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
@@ -44,7 +44,7 @@ const val POST_MENU_REQUEST = 301
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         E : DiscussionEntity,
         M : DiscussionModel,
-        VM : AbstractFeedViewModel<R, E, M>> : LoadingFragment() {
+        VM : AbstractFeedViewModel<R, E, M>> : FragmentBase() {
 
     open lateinit var viewModel: VM
 

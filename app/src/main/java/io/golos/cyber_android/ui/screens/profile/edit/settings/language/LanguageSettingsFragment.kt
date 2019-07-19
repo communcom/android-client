@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
 import io.golos.cyber_android.utils.asEvent
@@ -22,7 +22,7 @@ import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_settings_picker.*
 
 
-class LanguageSettingsFragment : LoadingFragment() {
+class LanguageSettingsFragment : FragmentBase() {
 
     private lateinit var viewModel: ProfileSettingsViewModel
 

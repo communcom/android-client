@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.BaseActivity
+import io.golos.cyber_android.ui.base.ActivityBase
 import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.screens.login.animation.SplashAnimator
 import io.golos.cyber_android.ui.screens.login.animation.SplashAnimatorTarget
 
 
-class LoginActivity : BaseActivity(), SplashAnimationManagerTarget, SplashAnimatorTarget {
+class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimatorTarget {
 
     private val splashAnimationManager = SplashAnimationManager(this)
     private val splashAnimator = SplashAnimator(this)

@@ -2,12 +2,17 @@ package io.golos.cyber_android.ui.screens.login.signup.keys_backup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
-import io.golos.cyber_android.ui.common.mvvm.ViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.NavigateToOnboardingCommand
 import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.StartExportingCommand
+import io.golos.data.api.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
+import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
@@ -18,7 +23,9 @@ import kotlin.coroutines.CoroutineContext
 class SignUpProtectionKeysViewModel(
     private val userKeyStore: UserKeyStore,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val metadadataApi: UserMetadataApi,
+    private val logger: Logger
 ) : ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
@@ -45,7 +52,22 @@ class SignUpProtectionKeysViewModel(
 
     fun onExportDialogCompleted(pathToSave: String) {
         launch {
-            command.value = StartExportingCommand(pathToSave, getUser().name, getAllKeys())
+            command.value = SetLoadingVisibilityCommand(true)
+
+            try {
+                val user = getUser()
+                val metadata = withContext(dispatchersProvider.ioDispatcher) {
+                    metadadataApi.getUserMetadata(user)
+                }
+                val keys = getAllKeys()
+
+                command.value = SetLoadingVisibilityCommand(false)
+                command.value = StartExportingCommand(pathToSave, metadata.username, metadata.userId.name, keys)
+            } catch (ex: Exception) {
+                logger(ex)
+                command.value = SetLoadingVisibilityCommand(false)
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            }
         }
     }
 

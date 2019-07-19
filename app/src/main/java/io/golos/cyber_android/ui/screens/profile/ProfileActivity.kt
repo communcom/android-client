@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.BaseActivity
+import io.golos.cyber_android.ui.base.ActivityBase
 
-class ProfileActivity : BaseActivity() {
+class ProfileActivity : ActivityBase() {
 
     companion object {
         fun getIntent(context: Context, userId: String) =

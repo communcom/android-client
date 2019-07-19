@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.observeUntil
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.LoginActivity
@@ -24,7 +24,7 @@ import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.profile_settings_fragment.*
 
-class ProfileSettingsFragment : LoadingFragment() {
+class ProfileSettingsFragment : FragmentBase() {
 
     companion object {
         fun newInstance() = ProfileSettingsFragment()

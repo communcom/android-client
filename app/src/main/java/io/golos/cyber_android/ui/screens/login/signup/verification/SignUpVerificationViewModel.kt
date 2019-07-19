@@ -3,12 +3,12 @@ package io.golos.cyber_android.ui.screens.login.signup.verification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenViewModel
+import io.golos.cyber_android.ui.screens.login.signup.SignUpScreenViewModelBase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SignUpVerificationViewModel: BaseSignUpScreenViewModel() {
+class SignUpVerificationViewModel: SignUpScreenViewModelBase() {
 
     companion object {
         private const val RESEND_TIMEOUT_SECONDS = 59

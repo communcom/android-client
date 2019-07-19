@@ -9,7 +9,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import java.io.File
 
 private const val REQUEST_IMAGE_CAPTURE = 200
@@ -21,7 +21,7 @@ private const val REQUEST_GALLERY_IMAGE = 201
  * Child should only override [onImagePicked] method and use images and [getInitialImageSource] to provide source of
  * the image (like camera or gallery)
  */
-abstract class BaseImagePickerFragment : LoadingFragment() {
+abstract class ImagePickerFragmentBase : FragmentBase() {
 
     enum class ImageSource {
         CAMERA, GALLERY, NONE

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.base.LoadingFragment
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.QrCodeSignInFragment
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDecrypted
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_sign_in.*
 import java.lang.UnsupportedOperationException
 
 
-class SignInFragment : LoadingFragment(), SignInParentFragment {
+class SignInFragment : FragmentBase(), SignInParentFragment {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }

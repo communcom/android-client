@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.login.signup.name
 
-import io.golos.cyber_android.ui.screens.login.signup.BaseSignUpScreenViewModel
+import io.golos.cyber_android.ui.screens.login.signup.SignUpScreenViewModelBase
 
-class SignUpNameViewModel : BaseSignUpScreenViewModel() {
+class SignUpNameViewModel : SignUpScreenViewModelBase() {
 
     companion object {
         /**
