@@ -1,11 +1,14 @@
 package io.golos.domain.rules
 
 import io.golos.domain.entities.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
  */
-class PostMerger : EntityMerger<PostEntity> {
+class PostMerger
+@Inject
+constructor() : EntityMerger<PostEntity> {
 
     override fun invoke(new: PostEntity, old: PostEntity): PostEntity {
         return PostEntity(
@@ -25,7 +28,9 @@ class PostMerger : EntityMerger<PostEntity> {
     }
 }
 
-class PostFeedMerger : EntityMerger<FeedRelatedData<PostEntity>> {
+class PostFeedMerger
+@Inject
+constructor() : EntityMerger<FeedRelatedData<PostEntity>> {
     override fun invoke(
         new: FeedRelatedData<PostEntity>,
         old: FeedRelatedData<PostEntity>
@@ -63,7 +68,9 @@ class PostFeedMerger : EntityMerger<FeedRelatedData<PostEntity>> {
 }
 
 
-class CommentMerger : EntityMerger<CommentEntity> {
+class CommentMerger
+@Inject
+constructor() : EntityMerger<CommentEntity> {
 
     override fun invoke(new: CommentEntity, old: CommentEntity): CommentEntity {
         return CommentEntity(
@@ -82,7 +89,9 @@ class CommentMerger : EntityMerger<CommentEntity> {
     }
 }
 
-class CommentFeedMerger : EntityMerger<FeedRelatedData<CommentEntity>> {
+class CommentFeedMerger
+@Inject
+constructor() : EntityMerger<FeedRelatedData<CommentEntity>> {
     override fun invoke(
         new: FeedRelatedData<CommentEntity>,
         old: FeedRelatedData<CommentEntity>

@@ -14,8 +14,10 @@ import androidx.annotation.RequiresApi
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.fingerprints.eventsHandler.FingerprintAuthEventsHandler
 import io.golos.cyber_android.core.fingerprints.eventsHandler.FingerprintAuthEventsHandlerImpl
+import javax.inject.Inject
 
 class FingerprintAuthManagerImpl
+@Inject
 constructor(
     private val appContext: Context,
     private val encryptor: EncryptorFingerprint

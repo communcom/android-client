@@ -6,10 +6,13 @@ import io.golos.abi.implementation.publish.CreatemssgPublishStruct
 import io.golos.abi.implementation.publish.DeletemssgPublishStruct
 import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.CyberDiscussion
+import io.golos.cyber_android.application.logger.LoggerImpl
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
+import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
+import io.golos.cyber_android.core.fingerprints.FingerprintAuthManagerImpl
 import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
 import io.golos.cyber_android.core.key_value_storage.storages.Storage
 import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsInstance
@@ -192,7 +195,7 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideDeviceIdProvider(provider: MyDeviceIdProvider): DeviceIdProvider
 
-    //region Approvers
+    //region Approversv
     @Binds
     abstract fun provideFeedUpdateApprover(approver: FeedUpdateApprover): RequestApprover<PostFeedUpdateRequest>
 
@@ -202,4 +205,32 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideUserKeyStore(store: UserKeyStoreImpl): UserKeyStore
+
+    //region Approversv
+    @Binds
+    abstract fun providePostMerger(merger: PostMerger): EntityMerger<PostEntity>
+
+    @Binds
+    abstract fun provideFeedMerger(merger: PostFeedMerger): EntityMerger<FeedRelatedData<PostEntity>>
+
+    @Binds
+    abstract fun provideEmptyPostFeedProducer(merger: EmptyPostFeedProducer): EmptyEntityProducer<FeedEntity<PostEntity>>
+
+    @Binds
+    abstract fun provideCommentMerger(merger: CommentMerger): EntityMerger<CommentEntity>
+
+    @Binds
+    abstract fun provideCommentFeedMerger(merger: CommentFeedMerger): EntityMerger<FeedRelatedData<CommentEntity>>
+
+    @Binds
+    abstract fun provideEmptyCommentFeedProducer(merger: EmptyCommentFeedProducer): EmptyEntityProducer<FeedEntity<CommentEntity>>
+    // endregion
+
+    @ApplicationScope
+    @Binds
+    abstract fun provideLogger(logger: LoggerImpl): Logger
+
+    @Binds
+    abstract fun provideFingerprintAuthManager(manager: FingerprintAuthManagerImpl): FingerprintAuthManager
+
 }

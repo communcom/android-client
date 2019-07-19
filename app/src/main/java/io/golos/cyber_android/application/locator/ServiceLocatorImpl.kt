@@ -10,6 +10,7 @@ import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.logger.LoggerImpl
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
@@ -143,6 +144,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     // [Dagger] - done
     private val commentApprover = CommentUpdateApprover()
 
+    // -----------------  [Dagger] - done ----------------------
     private val postMerger = PostMerger()
     private val feedMerger = PostFeedMerger()
 
@@ -152,6 +154,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val commentFeedMerger = CommentFeedMerger()
 
     private val emptyCommentFeedProducer = EmptyCommentFeedProducer()
+    // -----------------  [Dagger] - done ----------------------
 
     // -----------------  [Dagger] - done ----------------------
     private val fromIframelyMapper = IfremlyEmbedMapper()
@@ -172,11 +175,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val userKeyStore: UserKeyStore
         get() = UserKeyStoreImpl(keyValueStorage, stringsConverter, encryptor)
 
-    private val logger = object : Logger {
-        override fun invoke(e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    // [Dagger] - done
+    private val logger = LoggerImpl()
 
     // [Dagger] - done
     override val stringsConverter: StringsConverter
@@ -196,6 +196,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     private val fingerprintAuthManager: FingerprintAuthManager by lazy {
         FingerprintAuthManagerImpl(appContext, encryptor as EncryptorFingerprint)
     }
