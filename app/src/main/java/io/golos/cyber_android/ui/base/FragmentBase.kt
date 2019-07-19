@@ -13,6 +13,13 @@ abstract class LoadingFragment: Fragment() {
 
     private var wasAdded = false
 
+    protected fun setLoadingVisibility(isVisible: Boolean) =
+        if(isVisible) {
+            showLoading()
+        } else {
+            hideLoading()
+        }
+
     protected fun showLoading() {
         if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded && !wasAdded) {
             loadingDialog.show(requireFragmentManager(), "loading")
