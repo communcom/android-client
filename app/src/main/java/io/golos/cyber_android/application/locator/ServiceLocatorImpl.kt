@@ -40,7 +40,7 @@ import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeViewModel
 import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
-import io.golos.cyber_android.ui.screens.login.signup.keys.SignUpProtectionKeysViewModel
+import io.golos.cyber_android.ui.screens.login.signup.keys_backup.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel
 import io.golos.cyber_android.ui.screens.main.MainViewModel
 import io.golos.cyber_android.ui.screens.notifications.NotificationsViewModel

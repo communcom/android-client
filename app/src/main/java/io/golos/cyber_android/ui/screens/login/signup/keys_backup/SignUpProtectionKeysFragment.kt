@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signup.keys
+package io.golos.cyber_android.ui.screens.login.signup.keys_backup
 
 import android.Manifest
 import android.content.ActivityNotFoundException
@@ -26,11 +26,10 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
-import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.NavigateToOnboardingCommand
-import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.StartExportingCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.NavigateToOnboardingCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.StartExportingCommand
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment
 import io.golos.cyber_android.utils.PdfKeysUtils
-import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*

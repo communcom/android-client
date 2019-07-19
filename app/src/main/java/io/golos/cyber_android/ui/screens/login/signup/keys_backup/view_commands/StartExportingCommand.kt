@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.signup.keys.view_commands
+package io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands
 
 import io.golos.cyber_android.ui.common.mvvm.ViewCommand
 import io.golos.domain.entities.UserKey

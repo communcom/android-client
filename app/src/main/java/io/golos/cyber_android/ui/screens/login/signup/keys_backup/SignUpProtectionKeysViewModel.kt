@@ -1,11 +1,11 @@
-package io.golos.cyber_android.ui.screens.login.signup.keys
+package io.golos.cyber_android.ui.screens.login.signup.keys_backup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.ViewCommand
-import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.NavigateToOnboardingCommand
-import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.StartExportingCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.NavigateToOnboardingCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.StartExportingCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore

@@ -103,7 +103,7 @@
         <argument android:name="DESTINATION" app:argType="string"/>
     </fragment>
     <fragment android:id="@+id/signUpProtectionKeysFragment"
-              android:name="io.golos.cyber_android.ui.screens.login.signup.keys.SignUpProtectionKeysFragment"
+              android:name="io.golos.cyber_android.ui.screens.login.signup.keys_backup.SignUpProtectionKeysFragment"
               android:label="fragment_sign_up_protection_keys" tools:layout="@layout/fragment_sign_up_protection_keys">
         <action android:id = "@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
                 app:destination = "@id/onboardingUserImageFragment"
