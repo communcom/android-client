@@ -29,14 +29,6 @@ class AppCore(private val locator: RepositoriesHolder, dispatchersProvider: Disp
         synchronized(this) {
 
             isInited.set(true)
-//            locator
-//                .authRepository
-//                .makeAction(
-//                    locator
-//                        .authRepository
-//                        .allDataRequest
-//                )//todo stub for testing
-
 
             observeActiveUserMetadataUpdates()
             observeVotesUpdates()

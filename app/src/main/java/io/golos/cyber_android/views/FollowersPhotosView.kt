@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_followers_photos.view.*
 
+@Suppress("unused")
 class FollowersPhotosView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
@@ -28,7 +29,7 @@ class FollowersPhotosView @JvmOverloads constructor(
         //load new ones
         for ((index, url) in urls.take(3).withIndex()) {
             Glide.with(this)
-                //todo .load(url)
+                .load(url)
                 .load(R.drawable.img_example_avatar)
                 .apply(RequestOptions.circleCropTransform())
                 .into(photoViews[index])

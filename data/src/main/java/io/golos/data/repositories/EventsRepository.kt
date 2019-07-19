@@ -41,7 +41,7 @@ class EventsRepository(
     private val eventsJobMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     override val allDataRequest: EventsFeedUpdateRequest
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = throw UnsupportedOperationException()
 
     override fun getAsLiveData(params: EventsFeedUpdateRequest): LiveData<EventsListEntity> {
         return eventsFeedMap.getOrPut(params.id) { MutableLiveData() }

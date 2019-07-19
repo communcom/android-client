@@ -26,10 +26,9 @@ class PostControlsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
                 resources.getString(R.string.post_comments_count_format),
                 postModel.comments.count
             )
-            //todo replace with real data
             postViewsCount.text = String.format(
                 resources.getString(R.string.post_views_count_format),
-                10
+                postModel.stats.viewsCount
             )
 
             bindVoteButtons(postModel, this)

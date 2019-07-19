@@ -38,7 +38,11 @@ data class ImageRowEntity(val src: String) : ContentRowEntity()
 
 
 data class DiscussionMetadata(val time: Date) : Entity
-data class DiscussionPayout(val rShares: BigInteger) : Entity
+
+class DiscussionPayout : Entity
+
+data class DiscussionStats(val rShares: BigInteger, val viewsCount: Long) : Entity
+
 data class DiscussionVotes(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,

@@ -141,10 +141,9 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 }
 
 
-                //todo replace with real data
                 postViewsCount.text = String.format(
                     context.resources.getString(R.string.post_views_count_format),
-                    10
+                    postModel.stats.viewsCount
                 )
 
                 bindVoteButtons(postModel, this)

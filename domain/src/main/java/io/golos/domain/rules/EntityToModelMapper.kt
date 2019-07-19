@@ -62,8 +62,9 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                     (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power == 0.toShort())
                 ),
                 DiscussionCommentsCountModel(post.comments.count),
-                DiscussionPayoutModel(post.payout.rShares),
-                DiscussionMetadataModel(post.meta.time, post.meta.time.asElapsedTime())
+                DiscussionPayoutModel(),
+                DiscussionMetadataModel(post.meta.time, post.meta.time.asElapsedTime()),
+                DiscussionStatsModel(post.stats.rShares, post.stats.viewsCount)
             )
         }
         return out
@@ -111,7 +112,7 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                     (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power < 0),
                     (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power == 0.toShort())
                 ),
-                DiscussionPayoutModel(comment.payout.rShares),
+                DiscussionPayoutModel(),
                 DiscussionIdModel(
                     comment.parentPostId.userId,
                     comment.parentPostId.permlink
@@ -121,7 +122,8 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                 },
                 DiscussionMetadataModel(
                     comment.meta.time, comment.meta.time.asElapsedTime()
-                )
+                ),
+                DiscussionStatsModel(comment.stats.rShares, comment.stats.viewsCount)
             )
         }
         return out

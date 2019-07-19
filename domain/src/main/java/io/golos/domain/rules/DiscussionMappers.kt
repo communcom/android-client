@@ -74,8 +74,9 @@ constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
                 cyberObject.votes.downCount
             ),
             DiscussionCommentsCount(cyberObject.stats!!.commentsCount!!),
-            DiscussionPayout(cyberObject.stats?.rShares.orZero()),
-            DiscussionMetadata(cyberObject.meta.time)
+            DiscussionPayout(),
+            DiscussionMetadata(cyberObject.meta.time),
+            DiscussionStats(cyberObject.stats?.rShares.orZero(), cyberObject.stats?.viewCount ?: 0L)
         )
     }
 }
@@ -149,14 +150,15 @@ constructor() : CyberToEntityMapper<CyberDiscussion, CommentEntity> {
                 cyberObject.votes.upCount,
                 cyberObject.votes.downCount
             ),
-            DiscussionPayout(cyberObject.stats?.rShares.orZero()),
+            DiscussionPayout(),
             cyberObject.parent!!.post!!.contentId.let {
                 DiscussionIdEntity(it.userId, it.permlink)
             },
             cyberObject.parent?.comment?.contentId?.let {
                 DiscussionIdEntity(it.userId, it.permlink)
             },
-            DiscussionMetadata(cyberObject.meta.time)
+            DiscussionMetadata(cyberObject.meta.time),
+            DiscussionStats(cyberObject.stats?.rShares.orZero(), cyberObject.stats?.viewCount ?: 0L)
         )
     }
 }

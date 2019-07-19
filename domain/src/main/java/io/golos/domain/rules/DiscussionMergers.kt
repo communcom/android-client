@@ -20,7 +20,7 @@ class PostMerger : EntityMerger<PostEntity> {
                 ),
                 new.content.tags
             ),
-            new.votes, new.comments, new.payout, new.meta
+            new.votes, new.comments, new.payout, new.meta, new.stats
         )
     }
 }
@@ -77,7 +77,7 @@ class CommentMerger : EntityMerger<CommentEntity> {
                 )
             ),
             new.votes, new.payout,
-            new.parentPostId, new.parentCommentId, new.meta
+            new.parentPostId, new.parentCommentId, new.meta, new.stats
         )
     }
 }

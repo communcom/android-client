@@ -44,7 +44,8 @@ class PostsFeedRepository(
     }
 
     override fun fixOnPositionDiscussion(discussion: PostEntity, parent: DiscussionIdEntity) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //for now works only on comments
+        throw UnsupportedOperationException()
     }
 
     override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): DiscussionsResult {
@@ -145,8 +146,7 @@ class CommentsFeedRepository(
             .forEach { commentsLiveData ->
                 val commentsFeed = commentsLiveData.value ?: return@forEach
                 val commentsList = commentsFeed.discussions.toMutableList()
-                val parentCommentPosition = commentsList.indexOfLast { it.contentId == parent }
-                when (parentCommentPosition) {
+                when (val parentCommentPosition = commentsList.indexOfLast { it.contentId == parent }) {
                     -1 -> return@forEach
                     commentsList.lastIndex -> commentsList.add(discussion)
                     else -> commentsList.add(parentCommentPosition + 1, discussion)

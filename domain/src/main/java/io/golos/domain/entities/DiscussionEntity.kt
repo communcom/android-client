@@ -14,10 +14,11 @@ class PostEntity(
     votes: DiscussionVotes,
     val comments: DiscussionCommentsCount,
     payout: DiscussionPayout,
-    meta: DiscussionMetadata
+    meta: DiscussionMetadata,
+    stats: DiscussionStats
 ) : DiscussionEntity(
     contentId, author,
-    votes, payout, meta
+    votes, payout, meta, stats
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -55,10 +56,11 @@ class CommentEntity(
     payout: DiscussionPayout,
     val parentPostId: DiscussionIdEntity,
     val parentCommentId: DiscussionIdEntity?,
-    meta: DiscussionMetadata
+    meta: DiscussionMetadata,
+    stats: DiscussionStats
 ) : DiscussionEntity(
     contentId, author,
-    votes, payout, meta
+    votes, payout, meta, stats
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -93,7 +95,8 @@ sealed class DiscussionEntity(
     val author: DiscussionAuthorEntity,
     val votes: DiscussionVotes,
     val payout: DiscussionPayout,
-    val meta: DiscussionMetadata
+    val meta: DiscussionMetadata,
+    val stats: DiscussionStats
 ) : Entity {
 
     override fun equals(other: Any?): Boolean {

@@ -9,6 +9,7 @@ import io.golos.domain.requestmodel.NotificationSettingsModel
 
 data class NotificationSetting(@DrawableRes val icon: Int, @StringRes val title: Int, var isEnabled: Boolean = true)
 
+//todo add descriptions
 internal fun NotificationSettingsModel.toSettingsList(): List<NotificationSetting> {
     return listOf(
         NotificationSetting(

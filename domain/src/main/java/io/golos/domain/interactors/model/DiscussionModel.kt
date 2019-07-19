@@ -15,10 +15,11 @@ data class PostModel(
     override val votes: DiscussionVotesModel,
     val comments: DiscussionCommentsCountModel,
     override val payout: DiscussionPayoutModel,
-    override val meta: DiscussionMetadataModel
+    override val meta: DiscussionMetadataModel,
+    override val stats: DiscussionStatsModel
 ) : DiscussionModel(
     contentId, author, votes,
-    payout, meta
+    payout, meta, stats
 )
 
 data class CommentModel(
@@ -29,9 +30,10 @@ data class CommentModel(
     override val payout: DiscussionPayoutModel,
     val parentPostId: DiscussionIdModel,
     val parentCommentId: DiscussionIdModel?,
-    override val meta: DiscussionMetadataModel
+    override val meta: DiscussionMetadataModel,
+    override val stats: DiscussionStatsModel
 ) : DiscussionModel(
-    contentId, author, votes, payout, meta
+    contentId, author, votes, payout, meta, stats
 )
 
 sealed class DiscussionModel(
@@ -40,6 +42,7 @@ sealed class DiscussionModel(
     open val votes: DiscussionVotesModel,
     open val payout: DiscussionPayoutModel,
     open val meta: DiscussionMetadataModel,
+    open val stats: DiscussionStatsModel,
     var isActiveUserDiscussion: Boolean = false
 ) : Model
 
@@ -86,7 +89,11 @@ data class ContentBodyModel(
 
 
 data class DiscussionMetadataModel(val time: Date, val elapsedFormCreation: ElapsedTime) : Model
-data class DiscussionPayoutModel(val rShares: BigInteger) : Model
+
+class DiscussionPayoutModel : Model
+
+data class DiscussionStatsModel(val rShares: BigInteger, val viewsCount: Long) : Model
+
 data class DiscussionVotesModel(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
