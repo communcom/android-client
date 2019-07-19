@@ -4,17 +4,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.ViewCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.NavigateToOnboardingCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.StartExportingCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
+import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class SignUpProtectionKeysViewModel(
     private val userKeyStore: UserKeyStore,
-    private val keyValueStorageFacade: KeyValueStorageFacade,
+    private val keyValueStorage: KeyValueStorageFacade,
     private val dispatchersProvider: DispatchersProvider
 ) : ViewModel(), CoroutineScope {
 
@@ -31,12 +34,18 @@ class SignUpProtectionKeysViewModel(
         requestKeys()
     }
 
-    fun backupCompleted() {
+    fun onBackupCompleted() {
         launch {
-            val user = withContext(dispatchersProvider.ioDispatcher) {
-                keyValueStorageFacade.getAuthState()!!.user
-            }
-            command.value = NavigateToOnboardingCommand(user)
+            val newAuthState = keyValueStorage.getAuthState()!!.copy(isKeysExported = true)
+            keyValueStorage.saveAuthState(newAuthState)
+
+            command.value = NavigateToOnboardingCommand(getUser())
+        }
+    }
+
+    fun onExportDialogCompleted(pathToSave: String) {
+        launch {
+            command.value = StartExportingCommand(pathToSave, getUser().name, getAllKeys())
         }
     }
 
@@ -46,19 +55,26 @@ class SignUpProtectionKeysViewModel(
 
     private fun requestKeys() {
         launch {
-            val keys = withContext(dispatchersProvider.ioDispatcher) {
-                listOf(
-                    UserKeyType.MASTER,
-                    UserKeyType.OWNER,
-                    UserKeyType.ACTIVE,
-                    UserKeyType.POSTING,
-                    UserKeyType.MEMO
-                )
-                    .map { keyType ->
-                        UserKey(keyType, userKeyStore.getKey(keyType))
-                    }
-            }
-            keysLiveData.postValue(keys)
+            keysLiveData.postValue(getAllKeys())
         }
     }
+
+    private suspend fun getAllKeys(): List<UserKey> =
+        withContext(dispatchersProvider.ioDispatcher) {
+            listOf(
+                UserKeyType.MASTER,
+                UserKeyType.OWNER,
+                UserKeyType.ACTIVE,
+                UserKeyType.POSTING,
+                UserKeyType.MEMO
+            )
+            .map { keyType ->
+                UserKey(keyType, userKeyStore.getKey(keyType))
+            }
+        }
+
+    private suspend fun getUser(): CyberName =
+        withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.getAuthState()!!.user
+        }
 }

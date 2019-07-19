@@ -51,7 +51,7 @@ class AuthStateRepository(
 
         repositoryScope.launch {
             if (params is LogOutRequest) {
-                val logOutState = AuthState("".toCyberName(), false, false)
+                val logOutState = AuthState("".toCyberName(), false, false, false, false)
                 withContext(dispatchersProvider.ioDispatcher) {
                     keyValueStorage.saveAuthState(logOutState)
                 }
@@ -67,12 +67,12 @@ class AuthStateRepository(
             }
 
             if(newParams.isEmpty()) {
-                authState.value = AuthState("".toCyberName(), false, false)   // User is not logged in
+                authState.value = AuthState("".toCyberName(), false, false, false, false)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
-                authState.value = AuthState("".toCyberName(), false, false)
+                authState.value = AuthState("".toCyberName(), false, false, false, false)
             }
             else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
@@ -242,12 +242,18 @@ class AuthStateRepository(
             }
         }
 
-        val isPinCodeSet = withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.getAuthState()?.isPinCodeSet ?: false
+        val oldAuthState = withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.getAuthState()
         }
 
         if (loadingQuery != null) {
-            val finalAuthState = AuthState(resolvedName, true, isPinCodeSet)
+            val finalAuthState = AuthState(
+                resolvedName,
+                true,
+                oldAuthState?.isPinCodeSettingsPassed ?: false,
+                oldAuthState?.isFingerprintSettingsPassed ?: false,
+                oldAuthState?.isKeysExported ?: false)
+
             authState.value = finalAuthState
 
             val originalLoadingQuery = loadingQuery.value as QueryResult.Loading
@@ -270,7 +276,7 @@ class AuthStateRepository(
         logger(e)
 
         repositoryScope.launch {
-            authState.value = AuthState("".toCyberName(), false, false)
+            authState.value = AuthState("".toCyberName(), false, false, false, false)
             val loadingQuery =
                 authRequestsLiveData.value?.entries?.findLast { it.value is QueryResult.Loading }
 

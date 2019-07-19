@@ -9,5 +9,7 @@ import io.golos.sharedmodel.CyberName
 data class AuthState(
     val user: CyberName,
     val isUserLoggedIn: Boolean,
-    val isPinCodeSet: Boolean
+    val isPinCodeSettingsPassed: Boolean,
+    val isFingerprintSettingsPassed: Boolean,
+    val isKeysExported: Boolean
 ) : Entity

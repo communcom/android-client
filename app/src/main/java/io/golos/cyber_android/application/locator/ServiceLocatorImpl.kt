@@ -440,8 +440,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     SignUpViewModel::class.java -> SignUpViewModel(
                         getSignOnUseCase(true, object : TestPassProvider {
                             override fun provide() = BuildConfig.AUTH_TEST_PASS
-                        }),
-                        userKeyStore
+                        })
                     ) as T
 
                     NotificationsViewModel::class.java -> NotificationsViewModel(

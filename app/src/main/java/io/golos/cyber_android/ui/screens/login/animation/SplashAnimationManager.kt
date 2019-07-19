@@ -36,8 +36,8 @@ class SplashAnimationManager(private var target: SplashAnimationManagerTarget?) 
                         target?.completeSplashAnimation()
                         States.AuthInProgress
                     }
-                    SignInState.USER_LOGGED_IN_PIN_SET,
-                    SignInState.USER_LOGGED_IN_PIN_NOT_SET -> {
+                    SignInState.USER_LOGGED_IN_SETUP_COMPLETED,
+                    SignInState.USER_LOGGED_IN_SETUP_NOT_COMPLETED -> {
                         target?.completeSplashAnimation()
                         currentState
                     }

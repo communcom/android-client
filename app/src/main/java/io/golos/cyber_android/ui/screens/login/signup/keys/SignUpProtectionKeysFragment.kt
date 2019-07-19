@@ -26,9 +26,12 @@ import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
+import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.NavigateToOnboardingCommand
+import io.golos.cyber_android.ui.screens.login.signup.keys.view_commands.StartExportingCommand
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment
 import io.golos.cyber_android.utils.PdfKeysUtils
 import io.golos.domain.UserKeyStore
+import io.golos.domain.entities.UserKey
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
 import java.io.File
@@ -75,25 +78,23 @@ class SignUpProtectionKeysFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == VIEW_PDF_REQUEST) {
-            viewModel.backupCompleted()
+            viewModel.onBackupCompleted()
         }
     }
 
     private fun showSaveDialog() {
-        signUpViewModel.lastRegisteredUser.value?.let {
-            ChooserDialog(requireActivity())
-                .withFilter(true, false)
-                .displayPath(false)
-                .withChosenListener { path, _ ->
-                    onSavePathSelected(path, it, signUpViewModel.userKeyStore)
-                }
-                .build()
-                .show()
-        }
+        ChooserDialog(requireActivity())
+            .withFilter(true, false)
+            .displayPath(false)
+            .withChosenListener { path, _ ->
+                viewModel.onExportDialogCompleted(path)
+            }
+            .build()
+            .show()
     }
 
-    private fun onSavePathSelected(path: String, userName: String, userKeyStore: UserKeyStore) {
-        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(PdfKeysUtils.getKeysSummary(requireContext(), userName, userKeyStore), path)
+    private fun onSavePathSelected(path: String, userName: String, keys: List<UserKey>) {
+        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(PdfKeysUtils.getKeysSummary(requireContext(), userName, keys), path)
         if (saveResult)
             onSaveSuccess(PdfKeysUtils.getKeysSavePathInDir(path))
         else onSaveError()
@@ -120,7 +121,7 @@ class SignUpProtectionKeysFragment : Fragment() {
             try {
                 startActivityForResult(intent, VIEW_PDF_REQUEST)
             } catch (e: ActivityNotFoundException) {
-                viewModel.backupCompleted()
+                viewModel.onBackupCompleted()
             }
         }
 
@@ -157,6 +158,7 @@ class SignUpProtectionKeysFragment : Fragment() {
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is NavigateToOnboardingCommand -> navigateToOnboarding(command.user)
+                is StartExportingCommand -> onSavePathSelected(command.pathToSave, command.userName, command.keys)
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
        })

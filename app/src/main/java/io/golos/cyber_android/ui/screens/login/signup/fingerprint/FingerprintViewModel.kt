@@ -36,7 +36,7 @@ class FingerprintViewModel(
     private fun saveUnlockWay(appUnlockWay: AppUnlockWay) {
         launch {
             if(model.saveAppUnlockWay(appUnlockWay)) {
-                // navigate()
+                command.value = NavigateToKeysCommand()
             } else {
                 command.value = ShowMessageCommand(R.string.common_general_error)
             }

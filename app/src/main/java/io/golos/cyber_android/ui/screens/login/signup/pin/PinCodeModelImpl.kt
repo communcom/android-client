@@ -47,7 +47,12 @@ class PinCodeModelImpl(
                 val encryptedCode = encryptor.encrypt(codeAsBytes)
                 keyValueStorage.savePinCode(encryptedCode!!)
 
-                val newAuthState = keyValueStorage.getAuthState()!!.copy(isPinCodeSet = true)
+                var newAuthState = keyValueStorage.getAuthState()!!.copy(isPinCodeSettingsPassed = true)
+
+                if(!isFingerprintAuthenticationPossible) {  // Skip fingerprints settings
+                    newAuthState = newAuthState.copy(isFingerprintSettingsPassed = true)
+                }
+
                 keyValueStorage.saveAuthState(newAuthState)
                 true
             } catch (ex: Exception) {

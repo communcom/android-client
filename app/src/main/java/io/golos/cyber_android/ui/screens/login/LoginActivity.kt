@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -60,12 +59,12 @@ class LoginActivity : BaseActivity(), SplashAnimationManagerTarget, SplashAnimat
 
                 SignInState.LOADING -> splashAnimator.executeWhenCompleted { onLoading() }
 
-                SignInState.USER_LOGGED_IN_PIN_SET ->
+                SignInState.USER_LOGGED_IN_SETUP_COMPLETED ->
                     if(postNavHost.findNavController().currentDestination == null) {
                         splashAnimator.executeWhenCompleted { navigateToMainScreen() }
                     }
 
-                SignInState.USER_LOGGED_IN_PIN_NOT_SET ->
+                SignInState.USER_LOGGED_IN_SETUP_NOT_COMPLETED ->
                     if(postNavHost.findNavController().currentDestination == null) {
                         splashAnimator.executeWhenCompleted {
                             initAuthFlow(AuthStage.PIN_CODE)

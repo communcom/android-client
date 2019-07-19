@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.helper.UIHelper
@@ -50,6 +51,7 @@ class FingerprintFragment : Fragment() {
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                is NavigateToKeysCommand -> findNavController().navigate(R.id.action_fingerprintFragment_to_signUpProtectionKeysFragment)
             }
         })
     }

@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import io.golos.cyber_android.R
 import io.golos.domain.UserKeyStore
+import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import java.io.File
 import java.io.FileOutputStream
@@ -71,13 +72,13 @@ object PdfKeysUtils {
         return pdf
     }
 
-    fun getKeysSummary(context: Context, userName: String, keyStore: UserKeyStore) = String.format(
+    fun getKeysSummary(context: Context, userName: String, keys: List<UserKey>) = String.format(
         context.resources.getString(R.string.keys_format),
-        keyStore.getKey(UserKeyType.MASTER),
+        keys.single { it.keyType == UserKeyType.MASTER }.key,
         userName,
-        keyStore.getKey(UserKeyType.OWNER),
-        keyStore.getKey(UserKeyType.ACTIVE),
-        keyStore.getKey(UserKeyType.POSTING),
-        keyStore.getKey(UserKeyType.MEMO)
+        keys.single { it.keyType == UserKeyType.OWNER }.key,
+        keys.single { it.keyType == UserKeyType.ACTIVE }.key,
+        keys.single { it.keyType == UserKeyType.POSTING }.key,
+        keys.single { it.keyType == UserKeyType.MEMO }.key
     )
 }
