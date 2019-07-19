@@ -6,7 +6,7 @@
     android:layout_width = "wrap_content"
     android:layout_height = "wrap_content">
 
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinDigit
         android:id = "@+id/digit1"
 
         android:layout_height = "@dimen/height_sign_up_sms_code_digit"
@@ -28,7 +28,7 @@
         android:tag="0"
     />
 
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinDigit
         android:id = "@+id/digit2"
 
         android:layout_height = "@dimen/height_sign_up_sms_code_digit"
@@ -49,7 +49,7 @@
 
         android:tag="1"
     />
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinDigit
         android:id = "@+id/digit3"
 
         android:layout_height = "@dimen/height_sign_up_sms_code_digit"
@@ -70,7 +70,7 @@
 
         android:tag="2"
     />
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinDigit
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinDigit
         android:id = "@+id/digit4"
 
         android:layout_height = "@dimen/height_sign_up_sms_code_digit"

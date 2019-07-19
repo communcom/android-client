@@ -101,7 +101,7 @@
     <string name = "we_need_more_steps">We just need few more steps to protect your account</string>
     <string name = "download">Download</string>
     <string name = "keys_format">Master Password - %1$s \nUsername - %2$s \nOwner key - %3$s \nActive key - %4$s \nPosting key -
-        %5$s
+        %5$s \nMemo key - %6$s
     </string>
     <string name = "keys_saved_successfully">Keys saved successfully</string>
     <string name = "setup_passcode">Set up Passcode</string>
@@ -211,6 +211,7 @@
     <string name = "posting_key">Posting key</string>
     <string name = "active_key">Active key</string>
     <string name = "memo_key">Memo key</string>
+    <string name = "owner_key">Owner key</string>
 
     <!--Pin code-->
     <string name = "create_passcode">Create your passcode</string>

@@ -8,6 +8,7 @@ import io.golos.cyber4j.model.AuthType
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
+import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
@@ -25,14 +26,15 @@ class SignUpUseCase(
     val inTestMode: Boolean,
     private val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>,
-    private val dispatchersProvider: DispatchersProvider,
-    private val testPassProvider: TestPassProvider
+    dispatchersProvider: DispatchersProvider,
+    private val testPassProvider: TestPassProvider,
+    private val userKeyStore: UserKeyStore
 ) : UseCase<UserRegistrationStateModel> {
 
     private val observer = Observer<Any> {}
     private val mediator = MediatorLiveData<Any>()
 
-    private val lastRegisteredUser = MutableLiveData<GeneratedUserKeys>()
+    private val lastRegisteredUser = MutableLiveData<String>()
 
     private val currentUserRegistrationLiveData = MutableLiveData<UserRegistrationStateModel>()
     private val updatingState = MutableLiveData<QueryResult<NextRegistrationStepRequestModel>>()
@@ -44,7 +46,7 @@ class SignUpUseCase(
 
     val getUpdatingState: LiveData<QueryResult<NextRegistrationStepRequestModel>> = updatingState
 
-    val getLastRegisteredUser: LiveData<GeneratedUserKeys> = lastRegisteredUser
+    val getLastRegisteredUser: LiveData<String> = lastRegisteredUser
 
 
     private var lastRequest: NextRegistrationStepRequestModel? = null
@@ -62,17 +64,13 @@ class SignUpUseCase(
                     it.masterPassword != null
                 ) {
                     // Keys were generated again and used for authentication
-                    val registeredUser = generateUserKeys(
-                        lastRequestLocal.userName,
-                        it.masterPassword
-                    )
-                    lastRegisteredUser.value = registeredUser
+                    lastRegisteredUser.value = lastRequestLocal.userName
 
                     if (authRepository.getAsLiveData(authRepository.allDataRequest).value?.isUserLoggedIn != true) {
                         authRepository.makeAction(
                             AuthRequest(
-                                CyberUser(registeredUser.userName),
-                                registeredUser.activePrivateKey
+                                CyberUser(lastRequestLocal.userName),
+                                userKeyStore.getKey(UserKeyType.ACTIVE)
                             )
                         )
                     }
@@ -168,7 +166,7 @@ class SignUpUseCase(
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
                     // Keys are generated and sent to server (public parts only)
-                    val userKeys = generateUserKeys(param.userName)
+                    val userKeys = userKeyStore.createKeys(param.userName)
                     SetUserKeysRequest(
                         param.phone,
                         userKeys.userName,
@@ -185,35 +183,6 @@ class SignUpUseCase(
                 }
                 is ResendSmsVerificationCodeModel -> ResendSmsVerificationCode(param.phone)
             }
-        )
-    }
-
-    private fun generateUserKeys(
-        forUser: String,
-        masterPassword: String = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
-    ): GeneratedUserKeys {
-
-        val publicKey = AuthUtils.generatePublicWiFs(
-            forUser,
-            masterPassword,
-            AuthType.values()
-        )
-        val privateKeys = AuthUtils.generatePrivateWiFs(
-            forUser,
-            masterPassword,
-            AuthType.values()
-        )
-        return GeneratedUserKeys(
-            forUser,
-            masterPassword,
-            publicKey.getValue(AuthType.OWNER),
-            privateKeys.getValue(AuthType.OWNER),
-            publicKey.getValue(AuthType.ACTIVE),
-            privateKeys.getValue(AuthType.ACTIVE),
-            publicKey.getValue(AuthType.POSTING),
-            privateKeys.getValue(AuthType.POSTING),
-            publicKey.getValue(AuthType.MEMO),
-            privateKeys.getValue(AuthType.MEMO)
         )
     }
 }

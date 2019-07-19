@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.pin
+package io.golos.cyber_android.ui.screens.login.signup.pin
 
 interface PinCodeModel {
     val isFingerprintAuthenticationPossible: Boolean

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.helper.UIHelper
-import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintModel
-import io.golos.cyber_android.ui.screens.login.pin.PinCodeModel
-import io.golos.domain.DispatchersProvider
+import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModel
+import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeModel
+import io.golos.domain.*
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.interactors.action.VoteUseCase
@@ -62,6 +62,13 @@ interface ServiceLocator {
         postToEdit: DiscussionIdModel?
     ): ViewModelProvider.Factory
 
+    val userKeyStore: UserKeyStore
+
+    val keyValueStorage: KeyValueStorageFacade
+
+    val stringsConverter: StringsConverter
+
+    val encryptor: Encryptor
 
     fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase
 

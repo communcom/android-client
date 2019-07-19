@@ -28,7 +28,7 @@ import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageFragment
 import io.golos.cyber_android.utils.PdfKeysUtils
-import io.golos.domain.interactors.model.GeneratedUserKeys
+import io.golos.domain.UserKeyStore
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
 import java.io.File
@@ -75,25 +75,25 @@ class SignUpProtectionKeysFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == VIEW_PDF_REQUEST) {
-            navigateToOnboarding()
+            viewModel.backupCompleted()
         }
     }
 
     private fun showSaveDialog() {
-        signUpViewModel.keysLiveData.value?.let {
+        signUpViewModel.lastRegisteredUser.value?.let {
             ChooserDialog(requireActivity())
                 .withFilter(true, false)
                 .displayPath(false)
                 .withChosenListener { path, _ ->
-                    onSavePathSelected(path, it)
+                    onSavePathSelected(path, it, signUpViewModel.userKeyStore)
                 }
                 .build()
                 .show()
         }
     }
 
-    private fun onSavePathSelected(path: String, keys: GeneratedUserKeys) {
-        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(PdfKeysUtils.getKeysSummary(requireContext(), keys), path)
+    private fun onSavePathSelected(path: String, userName: String, userKeyStore: UserKeyStore) {
+        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(PdfKeysUtils.getKeysSummary(requireContext(), userName, userKeyStore), path)
         if (saveResult)
             onSaveSuccess(PdfKeysUtils.getKeysSavePathInDir(path))
         else onSaveError()
@@ -120,7 +120,7 @@ class SignUpProtectionKeysFragment : Fragment() {
             try {
                 startActivityForResult(intent, VIEW_PDF_REQUEST)
             } catch (e: ActivityNotFoundException) {
-                navigateToOnboarding()
+                viewModel.backupCompleted()
             }
         }
 
@@ -133,7 +133,7 @@ class SignUpProtectionKeysFragment : Fragment() {
         Toast.makeText(requireContext(), "Save error", Toast.LENGTH_SHORT).show()
     }
 
-    private fun navigateToOnboarding() {
+    private fun navigateToOnboarding(user: CyberName) {
         findNavController().safeNavigate(
             R.id.signUpProtectionKeysFragment,
             R.id.action_signUpProtectionKeysFragment_to_onboardingUserImageFragment,
@@ -143,19 +143,23 @@ class SignUpProtectionKeysFragment : Fragment() {
                     requireContext()
                         .serviceLocator.moshi
                         .adapter(OnboardingUserImageFragment.Args::class.java)
-                        .toJson(OnboardingUserImageFragment.Args(getArgs().user))
+                        .toJson(OnboardingUserImageFragment.Args(user))
                 )
             }
         )
     }
 
     private fun observeViewModel() {
-        viewModel.getKeysLiveData.observe(this, Observer {
+        viewModel.keysLiveData.observe(this, Observer {
             keysList.adapter = KeysAdapter(it)
         })
-        signUpViewModel.keysLiveData.observe(this, Observer {
-            viewModel.setInitialKeys(it)
-        })
+
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is NavigateToOnboardingCommand -> navigateToOnboarding(command.user)
+                else -> throw UnsupportedOperationException("This command is not supported")
+            }
+       })
     }
 
     private fun setupViewModel() {
@@ -182,10 +186,4 @@ class SignUpProtectionKeysFragment : Fragment() {
             return
         }
     }
-
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
 }

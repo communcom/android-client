@@ -5,6 +5,7 @@ import io.golos.cyber4j.utils.AuthUtils
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
+import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.interactors.model.GeneratedUserKeys

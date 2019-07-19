@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.pin
+package io.golos.cyber_android.ui.screens.login.signup.pin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,9 +6,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.ViewCommand
-import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToFingerprintCommand
-import io.golos.cyber_android.ui.screens.login.pin.view_commands.NavigateToKeysCommand
-import io.golos.cyber_android.ui.screens.login.pin.view_state_dto.CodeState
+import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToFingerprintCommand
+import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToKeysCommand
+import io.golos.cyber_android.ui.screens.login.signup.pin.view_state_dto.CodeState
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -30,8 +30,7 @@ class PinCodeViewModel(
 
     val codeState = MutableLiveData(CodeState(true, false, false, false))
 
-    val command: SingleLiveData<ViewCommand> =
-        SingleLiveData()
+    val command: SingleLiveData<ViewCommand> = SingleLiveData()
 
     fun onPrimaryCodeUpdated(code: String?) {
         model.updatePrimaryCode(code)

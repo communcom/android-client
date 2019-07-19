@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.pin.view_state_dto
+package io.golos.cyber_android.ui.screens.login.signup.pin.view_state_dto
 
 data class CodeState (
     val isPrimaryCodeActive: Boolean,

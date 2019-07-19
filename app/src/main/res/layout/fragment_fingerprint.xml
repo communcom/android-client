@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".ui.screens.login.fingerprint.FingerprintFragment">
+    tools:context=".ui.screens.login.signup.fingerprint.FingerprintFragment">
 
     <ImageView
         app:srcCompat="@drawable/ic_fingerprint"

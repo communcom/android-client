@@ -5,7 +5,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import io.golos.cyber_android.R
-import io.golos.domain.interactors.model.GeneratedUserKeys
+import io.golos.domain.UserKeyStore
+import io.golos.domain.entities.UserKeyType
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -70,12 +71,13 @@ object PdfKeysUtils {
         return pdf
     }
 
-    fun getKeysSummary(context: Context, keys: GeneratedUserKeys) = String.format(
+    fun getKeysSummary(context: Context, userName: String, keyStore: UserKeyStore) = String.format(
         context.resources.getString(R.string.keys_format),
-        keys.masterPassword,
-        keys.userName,
-        keys.ownerPrivateKey,
-        keys.activePrivateKey,
-        keys.postingPrivateKey
+        keyStore.getKey(UserKeyType.MASTER),
+        userName,
+        keyStore.getKey(UserKeyType.OWNER),
+        keyStore.getKey(UserKeyType.ACTIVE),
+        keyStore.getKey(UserKeyType.POSTING),
+        keyStore.getKey(UserKeyType.MEMO)
     )
 }

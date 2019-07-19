@@ -8,10 +8,10 @@
     android:layout_width = "match_parent"
     android:layout_height = "match_parent"
     android:background = "@color/white"
-    tools:context = "io.golos.cyber_android.ui.screens.login.pin.PinCodeFragment">
+    tools:context = ".ui.screens.login.signup.pin.PinCodeFragment">
 
     <!--region Primary code-->
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinCode
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinCode
         android:id = "@+id/primaryCode"
 
         android:layout_width = "wrap_content"
@@ -43,7 +43,7 @@
     <!--endregion-->
 
     <!--region Repeated code-->
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinCode
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinCode
         android:id = "@+id/repeatedCode"
 
         android:layout_width = "wrap_content"
@@ -80,7 +80,7 @@
     />
     <!--endregion-->
 
-    <io.golos.cyber_android.ui.screens.login.pin.widgets.PinKeypad
+    <io.golos.cyber_android.ui.screens.login.signup.pin.widgets.PinKeypad
         android:layout_height = "@dimen/height_pin_keypad"
         android:layout_width = "@dimen/width_pin_keypad"
 

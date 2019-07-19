@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.pin.widgets
+package io.golos.cyber_android.ui.screens.login.signup.pin.widgets
 
 import android.content.Context
 import android.util.AttributeSet

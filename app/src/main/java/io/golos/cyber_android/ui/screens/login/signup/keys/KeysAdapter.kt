@@ -38,5 +38,6 @@ private val UserKey.title: Int
         UserKeyType.POSTING -> R.string.posting_key
         UserKeyType.ACTIVE -> R.string.active_key
         UserKeyType.MEMO -> R.string.memo_key
+        UserKeyType.OWNER -> R.string.owner_key
         else -> throw UnsupportedOperationException("This type of key is not supported: ${this.keyType}")
     }

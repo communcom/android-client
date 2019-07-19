@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.user_keys_store
+package io.golos.domain
 
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType

@@ -13,9 +13,12 @@ import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
 import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
+import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
+import io.golos.cyber_android.serviceLocator
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
+import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.UserKeyType
 import io.golos.sharedmodel.CyberName
@@ -27,18 +30,14 @@ private const val BACKUP_KEYS = "keys_0"
 class CommunBackupAgent: BackupAgent() {
 
     private val keyValueStorage: KeyValueStorageFacade by lazy {
-        KeyValueStorageFacadeImpl(SharedPreferencesStorage(this), Moshi.Builder().build())
+        serviceLocator.keyValueStorage
     }
 
-    private val stringsConverter: StringsConverter by lazy { StringsConverterImpl() }
+    private val stringsConverter: StringsConverter by lazy { serviceLocator.stringsConverter }
 
-    private val encryptor: Encryptor by lazy {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            EncryptorAES()
-        } else  {
-            EncryptorAESOldApi(keyValueStorage, EncryptorRSA(this))
-        }
-    }
+    private val encryptor: Encryptor by lazy { serviceLocator.encryptor }
+
+    private val userKeyStore by lazy { serviceLocator.userKeyStore }
 
     override fun onRestore(data: BackupDataInput, appVersionCode: Int, newState: ParcelFileDescriptor) {
         with(data) {
@@ -60,9 +59,7 @@ class CommunBackupAgent: BackupAgent() {
     }
 
     override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput, newState: ParcelFileDescriptor) {
-        val activeKey = keyValueStorage.getUserKey(UserKeyType.ACTIVE)!!
-            .let { encryptor.decrypt(it)!! }
-            .let {stringsConverter.fromBytes(it)}
+        val activeKey = userKeyStore.getKey(UserKeyType.ACTIVE)
 
         val authState = keyValueStorage.getAuthState()
 
@@ -99,9 +96,9 @@ class CommunBackupAgent: BackupAgent() {
         val activeUser = readUTF()
         val activeKey = readUTF()
 
-        val activeKeyToStore = activeKey.let {stringsConverter.toBytes(it)}.let {encryptor.encrypt(it)!!}
+//        val activeKeyToStore = activeKey.let {stringsConverter.toBytes(it)}.let {encryptor.encrypt(it)!!}
 
-        keyValueStorage.saveUserKey(activeKeyToStore, UserKeyType.ACTIVE)
+        //keyValueStorage.saveUserKey(activeKeyToStore, UserKeyType.ACTIVE)  // todo Temporary - AS
         keyValueStorage.saveAuthState(AuthState(activeUser.toCyberName(), true, false))
     }
 

@@ -84,7 +84,7 @@ class SignUpNameFragment : BaseSignUpScreenFragment<SignUpNameViewModel>(SignUpN
             }
         })
 
-        signUpViewModel.keysLiveData.asEvent().observe(this, Observer {
+        signUpViewModel.lastRegisteredUser.asEvent().observe(this, Observer {
             onSuccess()
         })
     }

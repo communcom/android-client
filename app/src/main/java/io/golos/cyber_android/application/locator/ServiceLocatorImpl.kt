@@ -21,7 +21,7 @@ import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedS
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
-import io.golos.cyber_android.core.user_keys_store.UserKeyStore
+import io.golos.domain.UserKeyStore
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
@@ -30,12 +30,12 @@ import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedView
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
-import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintModel
-import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintModelImpl
-import io.golos.cyber_android.ui.screens.login.fingerprint.FingerprintViewModel
-import io.golos.cyber_android.ui.screens.login.pin.PinCodeModel
-import io.golos.cyber_android.ui.screens.login.pin.PinCodeModelImpl
-import io.golos.cyber_android.ui.screens.login.pin.PinCodeViewModel
+import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModel
+import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModelImpl
+import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintViewModel
+import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeModel
+import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeModelImpl
+import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeViewModel
 import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
@@ -168,8 +168,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val toAppErrorMapper = CyberToAppErrorMapperImpl()
     // -----------------  [Dagger] - done ----------------------
 
-    private val userKeyStore: UserKeyStore
-     get() = UserKeyStoreImpl(keyValueStorage, stringsConverter, encryptor)
+    // [Dagger] - done
+    override val userKeyStore: UserKeyStore
+        get() = UserKeyStoreImpl(keyValueStorage, stringsConverter, encryptor)
 
     private val logger = object : Logger {
         override fun invoke(e: Exception) {
@@ -178,16 +179,16 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     }
 
     // [Dagger] - done
-    private val stringsConverter: StringsConverter
+    override val stringsConverter: StringsConverter
         get() = StringsConverterImpl()
 
     // [Dagger] - done
-    private val keyValueStorage: KeyValueStorageFacade by lazy {
+    override val keyValueStorage: KeyValueStorageFacade by lazy {
         KeyValueStorageFacadeImpl(CombinedStorage(InMemoryStorage(), SharedPreferencesStorage(appContext)), moshi)
     }
 
     // [Dagger] - done
-    private val encryptor: Encryptor by lazy {
+    override val encryptor: Encryptor by lazy {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             EncryptorAES()
         } else  {
@@ -266,7 +267,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
 
     override val authRepository: Repository<AuthState, AuthRequest>
-            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, keyValueStorage, backupManager, stringsConverter, encryptor) }
+            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, keyValueStorage, userKeyStore, backupManager) }
 
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
@@ -438,7 +439,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     SignUpViewModel::class.java -> SignUpViewModel(
                         getSignOnUseCase(true, object : TestPassProvider {
                             override fun provide() = BuildConfig.AUTH_TEST_PASS
-                        })
+                        }),
+                        userKeyStore
                     ) as T
 
                     NotificationsViewModel::class.java -> NotificationsViewModel(
@@ -457,7 +459,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getPushNotificationsSettingsUseCase()
                     ) as T
 
-                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel() as T
+                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel(userKeyStore, keyValueStorage, dispatchersProvider) as T
 
                     PinCodeViewModel::class.java -> PinCodeViewModel(dispatchersProvider, getPinCodeModel()) as T
 
@@ -600,7 +602,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             registrationRepository,
             authRepository,
             dispatchersProvider,
-            testPassProvider
+            testPassProvider,
+            userKeyStore
         )
     }
 

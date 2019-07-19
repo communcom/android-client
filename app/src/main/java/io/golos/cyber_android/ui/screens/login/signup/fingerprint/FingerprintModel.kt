@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.fingerprint
+package io.golos.cyber_android.ui.screens.login.signup.fingerprint
 
 import io.golos.domain.entities.AppUnlockWay
 

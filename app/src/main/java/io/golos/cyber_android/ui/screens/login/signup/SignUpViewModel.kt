@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
+import io.golos.domain.UserKeyStore
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.map
@@ -11,7 +12,10 @@ import io.golos.domain.map
 /**
  * Shared [ViewModel] for sign up process
  */
-class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
+class SignUpViewModel(
+    private val signUpUseCase: SignUpUseCase,
+    val userKeyStore: UserKeyStore
+) : ViewModel() {
 
     /**
      * [LiveData] for current user registration state (see [UserRegistrationStateModel])
@@ -21,7 +25,7 @@ class SignUpViewModel(private val signUpUseCase: SignUpUseCase) : ViewModel() {
     /**
      * [LiveData] for generated user keys
      */
-    val keysLiveData = signUpUseCase.getLastRegisteredUser
+    val lastRegisteredUser = signUpUseCase.getLastRegisteredUser
 
     val updatingStateLiveData = signUpUseCase.getUpdatingState.asEvent()
 

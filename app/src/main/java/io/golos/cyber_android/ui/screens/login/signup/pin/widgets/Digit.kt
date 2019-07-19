@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.pin.widgets
+package io.golos.cyber_android.ui.screens.login.signup.pin.widgets
 
 enum class Digit(val value: Int) {
     DIGIT_0(0),

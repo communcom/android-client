@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login.pin
+package io.golos.cyber_android.ui.screens.login.signup.pin
 
 import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
 import io.golos.domain.Encryptor

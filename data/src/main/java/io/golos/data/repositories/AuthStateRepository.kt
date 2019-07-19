@@ -30,9 +30,8 @@ class AuthStateRepository(
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val backupManager: BackupManager,
-    private val stringsConverter: StringsConverter,
-    private val encryptor: Encryptor
+    private val userKeyStore: UserKeyStore,
+    private val backupManager: BackupManager
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -260,9 +259,9 @@ class AuthStateRepository(
             withContext(dispatchersProvider.ioDispatcher) {
                 keyValueStorage.saveAuthState(finalAuthState)
 
-                val keyAsBytes = stringsConverter.toBytes(originalLoadingQuery.originalQuery.activeKey)
-                val encryptedKey = encryptor.encrypt(keyAsBytes)
-                keyValueStorage.saveUserKey(encryptedKey!!, UserKeyType.ACTIVE)
+//                val keyAsBytes = stringsConverter.toBytes(originalLoadingQuery.originalQuery.activeKey)
+//                val encryptedKey = encryptor.encrypt(keyAsBytes)
+//                keyValueStorage.saveUserKey(encryptedKey!!, UserKeyType.ACTIVE)
             }
         }
     }
@@ -286,21 +285,18 @@ class AuthStateRepository(
     }
 
     private suspend fun loadAuthRequest(): AuthRequest {
-        var authSavedAuthState: AuthState? = null
-        var key: String? = null
-
-        withContext(dispatchersProvider.ioDispatcher) {
-            authSavedAuthState = keyValueStorage.getAuthState()
-
-            key = keyValueStorage.getUserKey(UserKeyType.ACTIVE)
-                ?.let { encryptor.decrypt(it) }
-                ?.let { stringsConverter.fromBytes(it) }
+        val authSavedAuthState = withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.getAuthState()
         }
 
-        return if (!(authSavedAuthState?.isUserLoggedIn == true && key != null)) {
+        return if (authSavedAuthState?.isUserLoggedIn != true) {
             getEmptyRequest()
         } else {
-            AuthRequest(authSavedAuthState!!.user.toCyberUser(), key!!)
+            val key = withContext(dispatchersProvider.ioDispatcher) {
+                userKeyStore.getKey(UserKeyType.ACTIVE)
+            }
+
+            AuthRequest(authSavedAuthState.user.toCyberUser(), key)
         }
     }
 
