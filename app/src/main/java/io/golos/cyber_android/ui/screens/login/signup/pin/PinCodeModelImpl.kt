@@ -7,8 +7,11 @@ import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PinCodeModelImpl(
+class PinCodeModelImpl
+@Inject
+constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val stringsConverter: StringsConverter,
     private val encryptor: Encryptor,

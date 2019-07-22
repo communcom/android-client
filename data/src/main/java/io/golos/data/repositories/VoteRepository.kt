@@ -9,18 +9,23 @@ import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
  */
-class VoteRepository(
+@ApplicationScope
+class VoteRepository
+@Inject
+constructor(
     private val voteApi: VoteApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,

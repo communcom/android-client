@@ -9,17 +9,22 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserRegistrationStateEntity
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.UserRegistrationStateRelatedData
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
  */
-class RegistrationRepository(
+@ApplicationScope
+class RegistrationRepository
+@Inject
+constructor(
     private val registrationApi: RegistrationApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,

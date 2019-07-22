@@ -11,6 +11,7 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DeleteDiscussionResultEntity
 import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.entities.UpdatePostResultEntity
@@ -21,12 +22,16 @@ import io.golos.domain.rules.EntityToCyberMapper
 import kotlinx.coroutines.*
 import java.net.SocketTimeoutException
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
  */
-class DiscussionCreationRepository(
+@ApplicationScope
+class DiscussionCreationRepository
+@Inject
+constructor(
     private val discussionsCreationApi: DiscussionsCreationApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,

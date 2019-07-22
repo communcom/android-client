@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection
+package io.golos.cyber_android.application.dependency_injection.app
 
 import dagger.Binds
 import dagger.Module
@@ -7,7 +7,6 @@ import io.golos.abi.implementation.publish.DeletemssgPublishStruct
 import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber_android.application.logger.LoggerImpl
-import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
@@ -20,15 +19,18 @@ import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedS
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
-import io.golos.domain.UserKeyStore
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
+import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractor
+import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.data.api.*
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
+import io.golos.data.repositories.*
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.*
@@ -233,4 +235,53 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideFingerprintAuthManager(manager: FingerprintAuthManagerImpl): FingerprintAuthManager
 
+    // region Repositories
+    @Binds
+    @ApplicationScope
+    abstract fun providePostFeedRepository(repository: PostsFeedRepository): AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideCommentsRepository(repository: CommentsFeedRepository): DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideDiscussionCreationRepository(repository: DiscussionCreationRepository): Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideEmbedsRepository(repository: EmbedsRepository): Repository<ProcessedLinksEntity, EmbedRequest>
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideAuthRepository(repository: AuthStateRepository): Repository<AuthState, AuthRequest>
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideVoteRepository(repository: VoteRepository): Repository<VoteRequestEntity, VoteRequestEntity>
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideRegistrationRepository(repository: RegistrationRepository): Repository<UserRegistrationStateEntity, RegistrationStepRequest>
+
+    @Binds
+    abstract fun provideSettingsRepository(repository: SettingsRepository): Repository<UserSettingEntity, SettingChangeRequest>
+
+    @Binds
+    abstract fun provideImageUploadRepository(repository: ImageUploadRepository): Repository<UploadedImagesEntity, ImageUploadRequest>
+
+    @Binds
+    abstract fun provideEventsRepository(repository: EventsRepository): Repository<EventsListEntity, EventsFeedUpdateRequest>
+
+    @Binds
+    abstract fun provideUserMetadataRepository(repository: UserMetadataRepository): Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+
+    @Binds
+    abstract fun providePushesRepository(repository: PushNotificationsRepository): Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
+    // endregion
+
+    // ------------- Sign In -----------
+    @Binds
+    abstract fun provideMasterPassKeysExtractor(extractor: MasterPassKeysExtractorImpl): MasterPassKeysExtractor
+    // ------------ Sign In ------------
 }

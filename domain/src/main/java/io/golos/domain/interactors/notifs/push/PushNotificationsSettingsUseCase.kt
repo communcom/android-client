@@ -10,6 +10,7 @@ import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.PushNotificationsStateEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.requestmodel.*
+import javax.inject.Inject
 
 interface PushNotificationsSettingsUseCase : UseCase<QueryResult<PushNotificationsStateModel>> {
     val getReadinessLiveData: LiveData<Boolean>
@@ -19,7 +20,9 @@ interface PushNotificationsSettingsUseCase : UseCase<QueryResult<PushNotificatio
 
 }
 
-class PushNotificationsSettingsUseCaseImpl(
+class PushNotificationsSettingsUseCaseImpl
+@Inject
+constructor(
     private val pushRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>,
     private val keyValueStorage: KeyValueStorageFacade

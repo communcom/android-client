@@ -3,8 +3,13 @@ package io.golos.cyber_android.ui.screens.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.domain.interactors.sign.SignInUseCase
+import javax.inject.Inject
 
-open class AuthViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
+open class AuthViewModel
+@Inject
+constructor(
+    private val signInUseCase: SignInUseCase
+) : ViewModel() {
 
     /**
      * [LiveData] that indicates current state of auth process

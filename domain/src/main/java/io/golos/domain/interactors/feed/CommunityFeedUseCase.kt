@@ -11,11 +11,14 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-class CommunityFeedUseCase(
+class CommunityFeedUseCase
+@Inject
+constructor(
     private val communityId: CommunityId,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,

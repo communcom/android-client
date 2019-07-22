@@ -8,8 +8,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpCountryViewModel(
+class SignUpCountryViewModel
+@Inject
+constructor(
     dispatchersProvider: DispatchersProvider,
     private val countriesChooserUseCase: CountriesChooserUseCase
 ) : ViewModel() {

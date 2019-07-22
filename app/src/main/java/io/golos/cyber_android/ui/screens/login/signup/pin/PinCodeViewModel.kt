@@ -14,9 +14,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class PinCodeViewModel(
+class PinCodeViewModel
+@Inject
+constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val model: PinCodeModel
 ) : ViewModel(), CoroutineScope {

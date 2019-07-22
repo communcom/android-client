@@ -7,8 +7,11 @@ import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.CompressionParams
 import java.io.File
+import javax.inject.Inject
 
-class EditProfileCoverViewModel(
+class EditProfileCoverViewModel
+@Inject
+constructor(
     private val userMetadataUseCase: UserMetadataUseCase,
     private val imageUploadUseCase: ImageUploadUseCase,
     val dispatchersProvider: DispatchersProvider

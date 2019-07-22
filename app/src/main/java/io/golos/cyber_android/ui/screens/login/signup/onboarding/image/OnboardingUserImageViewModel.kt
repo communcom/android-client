@@ -2,10 +2,13 @@ package io.golos.cyber_android.ui.screens.login.signup.onboarding.image
 
 import androidx.lifecycle.ViewModel
 import io.golos.domain.interactors.user.UserMetadataUseCase
+import javax.inject.Inject
 
-class OnboardingUserImageViewModel(
+class OnboardingUserImageViewModel
+@Inject
+constructor(
     private val userMetadataUseCase: UserMetadataUseCase
-): ViewModel() {
+) : ViewModel() {
 
     val getUserMetadataLiveData = userMetadataUseCase.getAsLiveData
 

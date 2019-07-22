@@ -7,11 +7,14 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.map
+import javax.inject.Inject
 
 /**
  * Shared [ViewModel] for sign up process
  */
-class SignUpViewModel(
+class SignUpViewModel
+@Inject
+constructor(
     private val signUpUseCase: SignUpUseCase
 ) : ViewModel() {
 

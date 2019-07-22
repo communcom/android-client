@@ -18,9 +18,12 @@ import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class SignUpProtectionKeysViewModel(
+class SignUpProtectionKeysViewModel
+@Inject
+constructor(
     private val userKeyStore: UserKeyStore,
     private val keyValueStorage: KeyValueStorageFacade,
     private val dispatchersProvider: DispatchersProvider,

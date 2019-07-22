@@ -16,12 +16,15 @@ import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
  */
-class UserMetadataRepository(
+class UserMetadataRepository
+@Inject
+constructor(
     private val metadadataApi: UserMetadataApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,

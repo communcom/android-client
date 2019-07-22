@@ -13,11 +13,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-09.
  */
-class CountriesRepository(
+class CountriesRepository
+@Inject
+constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val resourceSupplier: CountriesProvider,
     private val logger: Logger
@@ -40,9 +43,9 @@ class CountriesRepository(
         repositoryScope.launch {
             updatingStateState.value = mapOf(allDataRequest.id to QueryResult.Loading(allDataRequest))
             try {
-                val countriesList = withContext(dispatchersProvider.workDispatcher) {
+                val countriesList = CountriesList(withContext(dispatchersProvider.workDispatcher) {
                     resourceSupplier.getAllCountries()
-                }.let { CountriesList(it) }
+                })
 
                 countries.value = countriesList
                 updatingStateState.value = mapOf(allDataRequest.id to QueryResult.Success(allDataRequest))

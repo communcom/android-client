@@ -18,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import javax.inject.Inject
 
 /**
  * There can be two types of the user picked image - local and remote. Local image is the image from device camera
@@ -31,7 +32,9 @@ data class UserPickedImageModel(val localUri: Uri? = null,
     }
 }
 
-class EditorPageViewModel(
+class EditorPageViewModel
+@Inject
+constructor(
     private val embedsUseCase: EmbedsUseCase,
     private val posterUseCase: DiscussionPosterUseCase,
     private val imageUploadUseCase: ImageUploadUseCase,

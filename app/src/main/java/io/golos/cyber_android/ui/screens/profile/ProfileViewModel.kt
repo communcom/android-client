@@ -12,8 +12,11 @@ import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
+import javax.inject.Inject
 
-class ProfileViewModel(
+class ProfileViewModel
+@Inject
+constructor(
     private val userMetadataUseCase: UserMetadataUseCase,
     private val signInUseCase: SignInUseCase,
     internal val forUser: CyberName

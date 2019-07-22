@@ -17,8 +17,11 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.VoteRequestModel
+import javax.inject.Inject
 
-class PostPageViewModel(
+class PostPageViewModel
+@Inject
+constructor(
     postWithCommentUseCase: PostWithCommentUseCase,
     voteUseCase: VoteUseCase,
     posterUseCase: DiscussionPosterUseCase,

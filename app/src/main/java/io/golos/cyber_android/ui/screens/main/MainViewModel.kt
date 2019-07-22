@@ -7,8 +7,11 @@ import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.domain.requestmodel.QueryResult
+import javax.inject.Inject
 
-class MainViewModel(
+class MainViewModel
+@Inject
+constructor(
     private val signInUseCase: SignInUseCase,
     private val eventsUseCase: EventsUseCase,
     private val pushesUseCase: PushNotificationsSettingsUseCase

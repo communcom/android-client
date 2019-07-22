@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection
+package io.golos.cyber_android.application.dependency_injection.app
 
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import dagger.Component
@@ -6,8 +6,7 @@ import dagger.Component
 @Component(modules = [
     AppModule::class,
     AppModuleBinds::class,
-    AppModuleChilds::class,
-    UIModuleBinds::class
+    AppModuleChilds::class
 ])
 @ApplicationScope
 interface AppComponent {

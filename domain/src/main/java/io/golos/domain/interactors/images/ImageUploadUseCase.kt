@@ -14,11 +14,14 @@ import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.QueryResult
 import java.io.File
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-29.
  */
-class ImageUploadUseCase(
+class ImageUploadUseCase
+@Inject
+constructor(
     private val imagesRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
 ) : UseCase<UploadedImagesModel> {
     private val uploadedImagesLiveData = MutableLiveData<UploadedImagesModel>()

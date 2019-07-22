@@ -77,8 +77,6 @@ interface ServiceLocator {
 
     fun getVoteUseCase(): VoteUseCase
 
-    fun getCommentsForAPostUseCase(postId: DiscussionIdModel): PostCommentsFeedUseCase
-
     fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase
 
     fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase
@@ -88,7 +86,6 @@ interface ServiceLocator {
     fun getSignInUseCase(): SignInUseCase
 
     fun getSignOnUseCase(
-        isInTestMode: Boolean,
         testPassProvider: TestPassProvider
     ): SignUpUseCase
 

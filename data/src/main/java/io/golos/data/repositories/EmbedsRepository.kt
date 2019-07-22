@@ -6,6 +6,7 @@ import io.golos.data.api.EmbedApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.LinkEmbedResult
 import io.golos.domain.entities.ProcessedLinksEntity
 import io.golos.domain.requestmodel.EmbedRequest
@@ -18,11 +19,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
  */
-class EmbedsRepository(
+@ApplicationScope
+class EmbedsRepository
+@Inject
+constructor(
     private val embedApi: EmbedApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,

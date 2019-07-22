@@ -10,6 +10,7 @@ import io.golos.data.api.AuthApi
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
 import io.golos.domain.*
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.UserKeyType
@@ -20,12 +21,16 @@ import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
-class AuthStateRepository(
+@ApplicationScope
+class AuthStateRepository
+@Inject
+constructor(
     private val authApi: AuthApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,

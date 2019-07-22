@@ -5,8 +5,11 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.Logger
 import io.golos.domain.entities.AppUnlockWay
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class FingerprintModelImpl(
+class FingerprintModelImpl
+@Inject
+constructor(
     private val keyValueStorage: KeyValueStorageFacade,
     private val logger: Logger,
     private val dispatchersProvider: DispatchersProvider): FingerprintModel {

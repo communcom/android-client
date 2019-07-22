@@ -14,8 +14,11 @@ import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.ChangeBasicSettingsRequestModel
 import io.golos.domain.requestmodel.ChangeNotificationSettingRequestModel
+import javax.inject.Inject
 
-class ProfileSettingsViewModel(
+class ProfileSettingsViewModel
+@Inject
+constructor(
     private val settingsUseCase: SettingsUseCase,
     private val pushesUseCaes: PushNotificationsSettingsUseCase,
     private val signInUseCase: SignInUseCase

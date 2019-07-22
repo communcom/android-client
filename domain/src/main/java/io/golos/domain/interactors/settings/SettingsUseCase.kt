@@ -11,15 +11,17 @@ import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.requestmodel.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.
  */
-class SettingsUseCase(
+class SettingsUseCase
+@Inject
+constructor(
     private val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>
-) :
-    UseCase<UserSettingModel> {
+) : UseCase<UserSettingModel> {
 
     private val observer = Observer<Any> {}
     private val mediator = MediatorLiveData<Any>()

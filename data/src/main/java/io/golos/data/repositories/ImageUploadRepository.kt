@@ -15,11 +15,14 @@ import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 import java.io.File
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-29.
  */
-class ImageUploadRepository(
+class ImageUploadRepository
+@Inject
+constructor(
     private val api: ImageUploadApi,
     private val dispatchersProvider: DispatchersProvider,
     private val compressor: ImageCompressor,

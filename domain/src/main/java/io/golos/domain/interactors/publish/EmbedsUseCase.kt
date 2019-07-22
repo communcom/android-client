@@ -13,11 +13,14 @@ import io.golos.domain.interactors.model.ProccesedLinksModel
 import io.golos.domain.requestmodel.EmbedRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
  */
-class EmbedsUseCase(
+class EmbedsUseCase
+@Inject
+constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
 ) : UseCase<ProccesedLinksModel> {

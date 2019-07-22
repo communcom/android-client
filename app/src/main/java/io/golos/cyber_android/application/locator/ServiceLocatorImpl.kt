@@ -212,8 +212,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         FingerprintAuthManagerImpl(appContext, encryptor as EncryptorFingerprint)
     }
 
+    // [Dagger] - done
     override val backupManager: BackupManager by lazy { BackupManager(appContext) }
 
+    // [Dagger] - done
     override val dispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
             get() = Dispatchers.Main
@@ -223,14 +225,18 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             get() = Dispatchers.IO
     }
 
+    // [Dagger] - done
     override val moshi: Moshi by lazy { Moshi.Builder().build() }
 
+    // [Dagger] - done
     override val uiCalculator
         get() = UICalculatorImpl(appContext)
 
+    // [Dagger] - done
     override val uiHelper
         get() = UIHelperImpl(appContext)
 
+    // [Dagger] - done
     override val postFeedRepository: AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>by lazy {
         PostsFeedRepository(
             apiService,
@@ -244,6 +250,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             logger
         )
     }
+
+    // [Dagger] - done
     override val commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest> by lazy {
         CommentsFeedRepository(
             apiService,
@@ -258,6 +266,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+    // [Dagger] - done
     override val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
             by lazy {
                 DiscussionCreationRepository(
@@ -273,18 +282,23 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    // [Dagger] - done
     override val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
             by lazy {
                 EmbedsRepository(apiService, dispatchersProvider, logger, fromIframelyMapper, fromOEmbedMapper)
             }
 
+    // [Dagger] - done
     override val authRepository: Repository<AuthState, AuthRequest>
             by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, keyValueStorage, userKeyStore, backupManager) }
 
+    // [Dagger] - done
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
             by lazy {
                 VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)
             }
+
+    // [Dagger] - done
     override val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
             by lazy {
                 RegistrationRepository(
@@ -292,6 +306,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    // [Dagger] - done
     override val countriesRepository: Repository<CountriesList, CountriesRequest>
             by lazy {
                 CountriesRepository(
@@ -312,6 +327,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    // [Dagger] - done
     override val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
             by lazy {
                 SettingsRepository(
@@ -324,8 +340,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     logger
                 )
             }
+
+    // [Dagger] - done
     override val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>
             by lazy { ImageUploadRepository(apiService, dispatchersProvider, ImageCompressorImpl, logger) }
+
+    // [Dagger] - done
     override val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>
             by lazy {
                 EventsRepository(
@@ -333,6 +353,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     dispatchersProvider, logger
                 )
             }
+
+    // [Dagger] - done
     override val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
             by lazy {
                 UserMetadataRepository(
@@ -345,6 +367,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    // [Dagger] - done
     override val pushesRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
             by lazy {
                 PushNotificationsRepository(apiService, deviceIdProvider,
@@ -352,6 +375,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                 )
             }
 
+    // [Dagger] - done
     override fun getCommunityFeedViewModelFactory(
         communityId: CommunityId,
         forUser: CyberName
@@ -360,6 +384,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return when (modelClass) {
+                    // [Dagger] - done
                     CommunityFeedViewModel::class.java -> CommunityFeedViewModel(
                         getCommunityFeedUseCase(communityId),
                         getVoteUseCase(),
@@ -451,7 +476,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     ) as T
 
                     SignUpViewModel::class.java -> SignUpViewModel(
-                        getSignOnUseCase(true, object : TestPassProvider {
+                        getSignOnUseCase(object : TestPassProvider {
                             override fun provide() = BuildConfig.AUTH_TEST_PASS
                         })
                     ) as T
@@ -533,12 +558,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         forUser
                     ) as T
                     OnboardingUserImageViewModel::class.java -> OnboardingUserImageViewModel(getUserMetadataUseCase(forUser)) as T
+
                     else -> throw IllegalStateException("$modelClass is unsupported")
                 }
             }
         }
     }
 
+    // [Dagger] - done
     override fun getCommunityFeedUseCase(communityId: CommunityId): CommunityFeedUseCase {
         return CommunityFeedUseCase(
             communityId,
@@ -569,19 +596,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+
+    // [Dagger] - done
     override fun getVoteUseCase() =
         VoteUseCase(
             authRepository, voteRepository,
             dispatchersProvider, voteEntityToPostMapper,
             voteToEntityMapper
         )
-
-    override fun getCommentsForAPostUseCase(postId: DiscussionIdModel): PostCommentsFeedUseCase {
-        return PostCommentsFeedUseCase(
-            postId, commentsRepository, voteRepository, commentFeeEntityToModelMapper,
-            dispatchersProvider
-        )
-    }
 
     override fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase {
         return PostWithCommentUseCase(
@@ -595,23 +617,25 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+    // [Dagger] - done
     override fun getDiscussionPosterUseCase(): DiscussionPosterUseCase {
         return DiscussionPosterUseCase(discussionCreationRepository, dispatchersProvider, fromSpannableToHtml)
     }
 
+    // [Dagger] - done
     override val getAppContext: Context
         get() = appContext
 
+    // [Dagger] - done
     override fun getSignInUseCase(): SignInUseCase {
         return SignInUseCase(authRepository, dispatchersProvider)
     }
 
+    // [Dagger] - done
     override fun getSignOnUseCase(
-        isInTestMode: Boolean,
         testPassProvider: TestPassProvider
     ): SignUpUseCase {
         return SignUpUseCase(
-            isInTestMode,
             registrationRepository,
             authRepository,
             dispatchersProvider,
@@ -620,25 +644,29 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+    // [Dagger] - done
     override fun getEmbedsUseCase(): EmbedsUseCase {
         return EmbedsUseCase(dispatchersProvider, embedsRepository)
     }
 
+    // [Dagger] - done
     override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
         return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
     }
 
+    // [Dagger] - done
     override fun getSettingUserCase(): SettingsUseCase {
         return SettingsUseCase(settingsRepository, authRepository)
     }
 
+    // [Dagger] - done
     override fun getImageUploadUseCase(): ImageUploadUseCase {
         return ImageUploadUseCase(imageUploadRepository)
     }
 
     override fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase {
         return EventsUseCase(
-            eventTypes,
+            eventTypes,             // Get rid of this parameter!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             eventsRepository,
             authRepository,
             EventEntityToModelMapper(),
@@ -650,10 +678,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return UserMetadataUseCase(forUser, userMetadataRepository)
     }
 
+    // [Dagger] - done
     override fun getPushNotificationsSettingsUseCase(): PushNotificationsSettingsUseCase {
         return PushNotificationsSettingsUseCaseImpl(pushesRepository, authRepository, keyValueStorage)
     }
 
+    // [Dagger] - done
     override fun getPinCodeModel(): PinCodeModel =
         PinCodeModelImpl(
             dispatchersProvider,
@@ -663,6 +693,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             logger,
             fingerprintAuthManager)
 
+    // [Dagger] - done
     override fun getFingerprintModel(): FingerprintModel =
         FingerprintModelImpl(
             keyValueStorage,

@@ -8,16 +8,21 @@ import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import io.golos.sharedmodel.CyberName
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
  */
-class PostsFeedRepository(
+@ApplicationScope
+class PostsFeedRepository
+@Inject
+constructor(
     private val apiService: PostsApiService,
     feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
@@ -76,7 +81,10 @@ class PostsFeedRepository(
         CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL, "stub")
 }
 
-class CommentsFeedRepository(
+@ApplicationScope
+class CommentsFeedRepository
+@Inject
+constructor(
     private val apiService: CommentsApiService,
     feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>,
     postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,

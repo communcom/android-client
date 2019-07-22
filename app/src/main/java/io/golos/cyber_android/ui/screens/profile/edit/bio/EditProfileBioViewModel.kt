@@ -4,8 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.interactors.user.UserMetadataUseCase
+import javax.inject.Inject
 
-class EditProfileBioViewModel(private val userMetadataUseCase: UserMetadataUseCase) : EditProfileViewModelBase(userMetadataUseCase) {
+class EditProfileBioViewModel
+@Inject
+constructor(
+    private val userMetadataUseCase: UserMetadataUseCase
+) : EditProfileViewModelBase(userMetadataUseCase) {
 
     companion object {
         const val MAX_BIO_LENGTH = 100

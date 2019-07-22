@@ -13,16 +13,18 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.map
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
  */
-class DiscussionPosterUseCase(
+class DiscussionPosterUseCase
+@Inject
+constructor(
     private val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>,
     dispatchersProvider: DispatchersProvider,
     private val fromSpannableTransformer: FromSpannedToHtmlTransformer
-) :
-    UseCase<QueryResult<DiscussionCreationResultModel>> {
+) : UseCase<QueryResult<DiscussionCreationResultModel>> {
 
     private val parentJob = SupervisorJob()
 

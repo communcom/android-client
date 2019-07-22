@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber4j.model.AuthType
-import io.golos.cyber4j.utils.AuthUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.UserKeyStore
@@ -17,13 +15,14 @@ import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
  */
-class SignUpUseCase(
-    val inTestMode: Boolean,
+class SignUpUseCase
+@Inject
+constructor(
     private val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>,
     dispatchersProvider: DispatchersProvider,
@@ -160,7 +159,7 @@ class SignUpUseCase(
                 is GetUserRegistrationStepRequestModel -> GetUserRegistrationStepRequest(param.phone)
                 is SendSmsForVerificationRequestModel -> SendSmsForVerificationRequest(
                     param.phone,
-                    if (inTestMode) testPassProvider.provide() else null
+                    testPassProvider.provide()
                 )
                 is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.code)
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)

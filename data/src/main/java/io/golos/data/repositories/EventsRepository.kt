@@ -18,11 +18,14 @@ import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-24.
  */
-class EventsRepository(
+class EventsRepository
+@Inject
+constructor(
     private val eventsApi: EventsApi,
     private val eventsFeedMapper: CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity>,
     private val eventsFeeMerger: EntityMerger<EventsListEntity>,

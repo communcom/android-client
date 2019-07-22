@@ -11,9 +11,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class FingerprintViewModel(
+class FingerprintViewModel
+@Inject
+constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val model: FingerprintModel
 ) : ViewModel(), CoroutineScope {

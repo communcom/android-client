@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection
+package io.golos.cyber_android.application.dependency_injection.app
 
 import dagger.Module
 

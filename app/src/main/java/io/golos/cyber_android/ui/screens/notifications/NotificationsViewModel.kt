@@ -7,9 +7,14 @@ import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.EventModel
 import io.golos.domain.requestmodel.QueryResult
+import javax.inject.Inject
 
 
-class NotificationsViewModel(private val eventsUseCase: EventsUseCase): ViewModel() {
+class NotificationsViewModel
+@Inject
+constructor(
+    private val eventsUseCase: EventsUseCase
+) : ViewModel() {
     companion object {
         const val PAGE_SIZE = 20
     }

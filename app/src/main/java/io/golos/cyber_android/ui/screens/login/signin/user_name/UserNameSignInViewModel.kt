@@ -16,13 +16,16 @@ import io.golos.domain.map
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.Either
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 /**
  * [ViewModel] for Sign In process. Provides live data for input validation result,
  * loading and error states
  */
-class UserNameSignInViewModel(
+class UserNameSignInViewModel
+@Inject
+constructor(
     private val signInUseCase: SignInUseCase,
     private val userKeysExtractor: MasterPassKeysExtractor,
     private val dispatchersProvider: DispatchersProvider

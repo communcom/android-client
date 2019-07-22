@@ -15,11 +15,14 @@ import io.golos.domain.map
 import io.golos.domain.requestmodel.*
 import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-29.
  */
-class SignInUseCase(
+class SignInUseCase
+@Inject
+constructor(
     private val authRepo: Repository<AuthState, AuthRequest>,
     dispatcher: DispatchersProvider
 ) : UseCase<UserAuthState> {

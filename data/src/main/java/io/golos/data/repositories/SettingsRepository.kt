@@ -13,12 +13,15 @@ import io.golos.domain.rules.CyberToEntityMapper
 import io.golos.domain.rules.EntityToCyberMapper
 import kotlinx.coroutines.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.
  */
-class SettingsRepository(
+class SettingsRepository
+@Inject
+constructor(
     private val api: SettingsApi,
     private val toEntityMapper: CyberToEntityMapper<UserSettings, UserSettingEntity>,
     private val toCyberMapper: EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings>,
