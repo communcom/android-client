@@ -113,19 +113,21 @@ class QrCodeDetector {
 
     private fun tryToParseCode(rawCode: String) {
         @Suppress("RegExpRedundantEscape")
-        val matcher = Pattern
-            .compile("^(?<user>[a-z0-9@\\.-]+)[ ](?<key>[a-zA-Z0-9]+)\$")
-            .matcher(rawCode)
 
-        if(!matcher.matches()) {
+        val keyParts = rawCode.split(" ")
+        if (keyParts.size != 5) {
             mainThreadHandler.post {
                 onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.INVALID_CODE)
             }
         } else {
-            mainThreadHandler.post {
-                // We can use regex groups since 26 api only...
-                rawCode.split(" ").let {onCodeReceivedListener?.invoke(QrCodeDecrypted(it[0], it[1])) }
-            }
+            onCodeReceivedListener?.invoke(
+                QrCodeDecrypted(
+                    keyParts[0],        // User name
+                    keyParts[1],        // Owner key
+                    keyParts[2],        // Active key
+                    keyParts[3],        // Posting key
+                    keyParts[4])        // Memo key
+            )
         }
     }
 }

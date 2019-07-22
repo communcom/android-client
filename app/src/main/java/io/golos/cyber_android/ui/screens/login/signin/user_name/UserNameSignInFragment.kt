@@ -102,11 +102,6 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
         })
     }
 
-    override fun onQrCodeReceived(code: QrCodeDecrypted) {
-        login.setText(code.userName)
-        key.setText(code.key)
-    }
-
     private fun navigateToMainScreen() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
         requireActivity().finish()

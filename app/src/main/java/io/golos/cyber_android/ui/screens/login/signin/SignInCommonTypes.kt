@@ -12,11 +12,6 @@ enum class SignInTab(@StringRes val title: Int, val index: Int) {
     }
 }
 
-object SignInRequestCodes {
-    const val SIGN_IN_SCAN_QR_REQUEST_CODE = 100
-    const val SIGN_IN_LOGIN_KEY_REQUEST_CODE = 101
-}
-
 object SignInArgs {
     const val TAB_CODE = "TAB_CODE"
 }

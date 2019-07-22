@@ -34,6 +34,11 @@ class NotificationDialog: DialogFragment() {
         setStyle(STYLE_NO_TITLE, R.style.NotificationDialogStyle)
     }
 
+    fun setOnOkClickListener(listener: (() -> Unit)?): NotificationDialog {
+        this.listener = listener
+        return this
+    }
+
     companion object {
         fun newInstance(message: String) = NotificationDialog().apply {
             arguments = Bundle().apply {

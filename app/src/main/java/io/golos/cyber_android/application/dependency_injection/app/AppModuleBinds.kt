@@ -20,6 +20,8 @@ import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemory
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractor
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
@@ -283,5 +285,8 @@ abstract class AppModuleBinds {
     // ------------- Sign In -----------
     @Binds
     abstract fun provideMasterPassKeysExtractor(extractor: MasterPassKeysExtractorImpl): MasterPassKeysExtractor
+
+    @Binds
+    abstract fun provideQrCodeKeysExtractor(extractor: QrCodeKeysExtractorImpl): QrCodeKeysExtractor
     // ------------ Sign In ------------
 }

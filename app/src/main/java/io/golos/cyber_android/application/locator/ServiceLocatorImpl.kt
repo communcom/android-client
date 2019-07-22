@@ -31,6 +31,9 @@ import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedView
 import io.golos.cyber_android.ui.screens.editor.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.cyber_android.ui.screens.login.AuthViewModel
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.QrCodeSignInViewModel
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractor
+import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModel
@@ -201,6 +204,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     // [Dagger] - done
     override val masterPassKeysExtractor: MasterPassKeysExtractor by lazy {
         MasterPassKeysExtractorImpl(
+            userKeyStore,
+            dispatchersProvider,
+            logger
+        )
+    }
+
+    // [Dagger] - done
+    override val qrCodeKeysExtractor: QrCodeKeysExtractor by lazy {
+        QrCodeKeysExtractorImpl(
             userKeyStore,
             dispatchersProvider,
             logger
@@ -463,6 +475,12 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     UserNameSignInViewModel::class.java -> UserNameSignInViewModel(
                         getSignInUseCase(),
                         masterPassKeysExtractor,
+                        dispatchersProvider
+                    ) as T
+
+                    QrCodeSignInViewModel::class.java -> QrCodeSignInViewModel(
+                        getSignInUseCase(),
+                        qrCodeKeysExtractor,
                         dispatchersProvider
                     ) as T
 

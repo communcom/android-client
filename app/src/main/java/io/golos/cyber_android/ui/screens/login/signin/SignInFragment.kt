@@ -12,14 +12,12 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.QrCodeSignInFragment
-import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInFragment
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_sign_in.*
-import java.lang.UnsupportedOperationException
 
 
-class SignInFragment : FragmentBase(), SignInParentFragment {
+class SignInFragment : FragmentBase() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
@@ -32,11 +30,6 @@ class SignInFragment : FragmentBase(), SignInParentFragment {
         back.setOnClickListener {
             findNavController().navigateUp()
         }
-    }
-
-    override fun onQrCodeReceived(code: QrCodeDecrypted) {
-        getChildTabFragment(SignInTab.LOGIN_KEY.index)!!.onQrCodeReceived(code)
-        selectTab(SignInTab.LOGIN_KEY)
     }
 
     private fun setupViewPager() {

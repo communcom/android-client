@@ -1,25 +1,29 @@
 package io.golos.cyber_android.ui.screens.login.signin.qr_code
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.common.helper.UIHelper
+import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
-import io.golos.cyber_android.ui.screens.login.signin.SignInParentFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInTab
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDetector
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDetectorErrorCode
+import io.golos.cyber_android.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_qr_code_sign_in.*
 
-class QrCodeSignInFragment: Fragment(), SignInChildFragment {
+class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     companion object {
         private const val REQUEST_CAMERA_PERMISSIONS = 3661
 
@@ -30,6 +34,8 @@ class QrCodeSignInFragment: Fragment(), SignInChildFragment {
                 }
     }
 
+    private lateinit var viewModel: QrCodeSignInViewModel
+
     private enum class VisibilityMode {
         INITIAL,
         NO_PERMISSIONS,
@@ -39,14 +45,19 @@ class QrCodeSignInFragment: Fragment(), SignInChildFragment {
 
     private var detector: QrCodeDetector? = null
 
-    private val uiHelper: UIHelper by lazy { requireContext().serviceLocator.uiHelper }
-
     override val tabCode: SignInTab by lazy {
         arguments!!.getInt(SignInArgs.TAB_CODE).let { SignInTab.fromIndex(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_qr_code_sign_in, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupViewModel()
+        observeViewModel()
+    }
 
     override fun onStart() {
         super.onStart()
@@ -93,8 +104,8 @@ class QrCodeSignInFragment: Fragment(), SignInChildFragment {
         detector = QrCodeDetector()
             .apply {
                 setOnCodeReceivedListener {
-                    detector?.stopDetection()
-                    ((this@QrCodeSignInFragment).requireParentFragment() as SignInParentFragment).onQrCodeReceived(it)
+                    releaseCodeReading()
+                    viewModel.onCodeReceived(it)
                 }
 
                 setOnDetectionErrorListener { errorCode ->
@@ -142,5 +153,60 @@ class QrCodeSignInFragment: Fragment(), SignInChildFragment {
                 stubText.text = requireContext().getText(R.string.sign_in_scan_qr_detector_error)
             }
         }
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            requireActivity()
+                .serviceLocator
+                .getDefaultViewModelFactory()
+        ).get(QrCodeSignInViewModel::class.java)
+    }
+
+    private fun observeViewModel() {
+        viewModel.loadingLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { isLoading ->
+                setLoadingVisibility(isLoading)
+            }
+        })
+
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+            }
+        })
+
+        viewModel.errorLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { isError ->
+                if (isError)
+                    showAuthErrorDialog()
+            }
+        })
+
+        viewModel.authStateLiveData.observe(this, Observer {
+            it.getIfNotHandled()?.let { state ->
+                if (state.isUserLoggedIn) {
+                    navigateToMainScreen()
+                }
+            }
+        })
+    }
+
+    /**
+     * Called when there was an error in login process, displays [NotificationDialog] with error message
+     */
+    private fun showAuthErrorDialog() {
+        if (requireFragmentManager().findFragmentByTag("notification") == null)
+            NotificationDialog
+                .newInstance(getString(R.string.login_error))
+                .setOnOkClickListener { initCodeReading()  }
+                .show(requireFragmentManager(), "notification")
+        hideLoading()
+    }
+
+    private fun navigateToMainScreen() {
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
     }
 }
