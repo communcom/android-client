@@ -313,7 +313,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     // [Dagger] - done
     override val authRepository: Repository<AuthState, AuthRequest>
-            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, keyValueStorage, userKeyStore, backupManager) }
+            by lazy { AuthStateRepository(apiService, dispatchersProvider, logger, keyValueStorage, userKeyStore) }
 
     // [Dagger] - done
     override val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>
@@ -527,7 +527,13 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                         getPushNotificationsSettingsUseCase()
                     ) as T
 
-                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel(userKeyStore, keyValueStorage, dispatchersProvider, apiService, logger) as T
+                    SignUpProtectionKeysViewModel::class.java -> SignUpProtectionKeysViewModel(
+                        userKeyStore,
+                        keyValueStorage,
+                        dispatchersProvider,
+                        apiService,
+                        logger,
+                        backupKeysFacade) as T
 
                     PinCodeViewModel::class.java -> PinCodeViewModel(dispatchersProvider, getPinCodeModel()) as T
 

@@ -63,7 +63,6 @@ class SignUpProtectionKeysFragment : FragmentBase() {
         keysList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         backup.setOnClickListener {
-            requireContext().serviceLocator.backupManager.dataChanged()
             if (ContextCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE

@@ -2,7 +2,9 @@ package io.golos.cyber_android.ui.screens.login.signup.keys_backup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.cyber_android.R
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
@@ -28,7 +30,8 @@ constructor(
     private val keyValueStorage: KeyValueStorageFacade,
     private val dispatchersProvider: DispatchersProvider,
     private val metadadataApi: UserMetadataApi,
-    private val logger: Logger
+    private val logger: Logger,
+    private val backupKeysFacade: BackupKeysFacade
 ) : ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
@@ -58,10 +61,7 @@ constructor(
             command.value = SetLoadingVisibilityCommand(true)
 
             try {
-                val user = getUser()
-                val metadata = withContext(dispatchersProvider.ioDispatcher) {
-                    metadadataApi.getUserMetadata(user)
-                }
+                val metadata = getUserMetadata(getUser())
                 val keys = getAllKeys()
 
                 command.value = SetLoadingVisibilityCommand(false)
@@ -80,7 +80,14 @@ constructor(
 
     private fun requestKeys() {
         launch {
-            keysLiveData.postValue(getAllKeys())
+            val allKeys = getAllKeys()
+
+            keysLiveData.postValue(allKeys)     // Show keys on UI
+
+            // Backup keys to the cloud
+            val masterKey = allKeys.single { it.keyType == UserKeyType.MASTER }.key
+            val userName = getUserMetadata(getUser()).username
+            backupKeysFacade.putKey(userName, masterKey)
         }
     }
 
@@ -101,5 +108,10 @@ constructor(
     private suspend fun getUser(): CyberName =
         withContext(dispatchersProvider.ioDispatcher) {
             keyValueStorage.getAuthState()!!.user
+        }
+
+    private suspend fun getUserMetadata(user: CyberName): UserMetadataResult =
+        withContext(dispatchersProvider.ioDispatcher) {
+            metadadataApi.getUserMetadata(user)
         }
 }

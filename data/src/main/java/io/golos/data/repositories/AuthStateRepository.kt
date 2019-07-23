@@ -35,8 +35,7 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val userKeyStore: UserKeyStore,
-    private val backupManager: BackupManager
+    private val userKeyStore: UserKeyStore
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -61,7 +60,6 @@ constructor(
                     keyValueStorage.saveAuthState(logOutState)
                 }
                 authState.value = logOutState
-                backupManager.dataChanged()
                 return@launch
             }
 
