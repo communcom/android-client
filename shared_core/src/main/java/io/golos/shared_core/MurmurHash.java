@@ -1,4 +1,4 @@
-package com.example.shared_core;
+package io.golos.shared_core;
 
 /** Murmur hash 2.0.
  *

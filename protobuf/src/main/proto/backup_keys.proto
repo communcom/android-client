@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package backup;
 
-option java_package = "io.golos.cyber_android.core.backup";
+option java_package = "io.golos.cyber_android.core.backup.raw_data";
 option java_outer_classname = "BackupKeysRawData";
 
 message KeyInfo {
