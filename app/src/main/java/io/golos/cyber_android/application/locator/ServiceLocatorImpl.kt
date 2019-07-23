@@ -11,6 +11,9 @@ import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.logger.LoggerImpl
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
@@ -226,6 +229,14 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
     // [Dagger] - done
     override val backupManager: BackupManager by lazy { BackupManager(appContext) }
+
+    // [Dagger] - done
+    override val backupKeysFacade: BackupKeysFacade
+        get() = BackupKeysFacadeImpl(appContext, encryptor, backupManager)
+
+    // [Dagger] - done
+    override val backupKeysFacadeSync: BackupKeysFacadeSync
+        get() = BackupKeysFacadeImpl(appContext, encryptor, backupManager)
 
     // [Dagger] - done
     override val dispatchersProvider = object : DispatchersProvider {

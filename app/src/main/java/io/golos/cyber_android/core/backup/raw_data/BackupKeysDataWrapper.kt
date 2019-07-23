@@ -2,6 +2,9 @@ package io.golos.cyber_android.core.backup.raw_data
 
 import io.golos.shared_core.MurmurHash
 
+/**
+ * Wrapper around raw backup data
+ */
 class BackupKeysDataWrapper
 @JvmOverloads
 constructor (sourceData: ByteArray = ByteArray(0)) {

@@ -69,7 +69,19 @@ class BackupKeysDataWrapperTest {
     }
 
     @Test
-    fun keyNotFound() {
+    fun keyNotFoundEmpty() {
+        // Arrange
+        val wrapper = BackupKeysDataWrapper()
+
+        // Act
+        val key = wrapper.getMasterKey("user1")
+
+        // Assert
+        assertNull(key)
+    }
+
+    @Test
+    fun keyNotFoundNotEmpty() {
         // Arrange
         val wrapper = BackupKeysDataWrapper()
 

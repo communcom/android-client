@@ -2,6 +2,8 @@ package io.golos.cyber_android.application.dependency_injection.ui
 
 import dagger.Binds
 import dagger.Module
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelper
@@ -56,4 +58,7 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun getPushNotificationsSettingsUseCase(useCase: PushNotificationsSettingsUseCaseImpl): PushNotificationsSettingsUseCase
+
+    @Binds
+    abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacade
 }

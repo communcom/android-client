@@ -7,6 +7,8 @@ import io.golos.abi.implementation.publish.DeletemssgPublishStruct
 import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber_android.application.logger.LoggerImpl
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
@@ -289,4 +291,7 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideQrCodeKeysExtractor(extractor: QrCodeKeysExtractorImpl): QrCodeKeysExtractor
     // ------------ Sign In ------------
+
+    @Binds
+    abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacadeSync
 }

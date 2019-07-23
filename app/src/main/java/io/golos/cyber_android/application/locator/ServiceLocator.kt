@@ -4,6 +4,8 @@ import android.app.backup.BackupManager
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractor
@@ -46,6 +48,10 @@ interface ServiceLocator {
     val uiHelper: UIHelper
 
     val backupManager: BackupManager
+
+    val backupKeysFacade: BackupKeysFacade
+
+    val backupKeysFacadeSync: BackupKeysFacadeSync
 
     fun getDefaultViewModelFactory(): ViewModelProvider.Factory
 
