@@ -1,24 +1,14 @@
-package io.golos.cyber_android.backup
+package io.golos.cyber_android.core.backup
 
 import android.app.backup.BackupAgent
 import android.app.backup.BackupDataInput
 import android.app.backup.BackupDataOutput
-import android.os.Build
 import android.os.ParcelFileDescriptor
-import com.squareup.moshi.Moshi
 import io.golos.cyber4j.utils.toCyberName
-import io.golos.cyber_android.core.encryption.aes.EncryptorAES
-import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
-import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
-import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
-import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
-import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
-import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.serviceLocator
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
-import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.UserKeyType
 import io.golos.sharedmodel.CyberName

@@ -34,7 +34,7 @@ abstract class UIModuleBinds {
     abstract fun provideVoteUseCase(useCase: VoteUseCase): UseCase<MutableMap<DiscussionIdModel, QueryResult<VoteRequestModel>>>
 
     @Binds
-    abstract fun getDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): UseCase<QueryResult<DiscussionCreationResultModel>>
+    abstract fun getDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): DiscussionPosterUseCase
 
     @Binds
     abstract fun provideSignInUseCase(useCase: SignInUseCase): UseCase<UserAuthState>
@@ -43,7 +43,7 @@ abstract class UIModuleBinds {
     abstract fun provideSignOnUseCase(useCase: SignUpUseCase): UseCase<UserRegistrationStateModel>
 
     @Binds
-    abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): UseCase<ProccesedLinksModel>
+    abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): EmbedsUseCase
 
     @Binds
     abstract fun getCountriesChooserUseCase(useCase: CountriesChooserUseCase): UseCase<CountriesListModel>
@@ -52,7 +52,7 @@ abstract class UIModuleBinds {
     abstract fun getSettingUserCase(useCase: SettingsUseCase): UseCase<UserSettingModel>
 
     @Binds
-    abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): UseCase<UploadedImagesModel>
+    abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): ImageUploadUseCase
 
     @Binds
     abstract fun getPushNotificationsSettingsUseCase(useCase: PushNotificationsSettingsUseCaseImpl): PushNotificationsSettingsUseCase

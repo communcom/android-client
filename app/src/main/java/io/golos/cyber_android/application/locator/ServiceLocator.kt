@@ -102,7 +102,7 @@ interface ServiceLocator {
 
     fun getSettingUserCase(): SettingsUseCase
 
-    fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase
+    fun getEventsUseCase(): EventsUseCase
 
     fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase
 

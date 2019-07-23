@@ -16,11 +16,14 @@ import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-27.
  */
-class PostWithCommentUseCase(
+class PostWithCommentUseCase
+@Inject
+constructor (
     postId: DiscussionIdModel,
     private val postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     private val toModelMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>,

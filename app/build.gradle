@@ -92,10 +92,13 @@ buildscript {
 }
 
 dependencies {
+    /* Libraries & modules */
     implementation("io.golos.cyber4j:cyber4j:$cyber4jVersion")
-
     implementation project(':domain')
     implementation project(':data')
+    implementation project(':protobuf')
+    implementation project(':shared_core')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$androidXAppcompatVersion"
@@ -140,6 +143,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    /* Libraries & modules */
     testImplementation project(':domain')
     testImplementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
     testImplementation project(':data')

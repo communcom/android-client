@@ -24,7 +24,6 @@ import kotlinx.coroutines.*
  * Created by yuri yurivladdurain@gmail.com on 2019-04-24.
  */
 class EventsUseCase(
-    private val eventTypes: Set<EventTypeEntity>,
     private val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>,
     private val eventsMapper: EntityToModelMapper<EventsListEntity, EventsListModel>,
@@ -34,6 +33,8 @@ class EventsUseCase(
     private val eventsLiveData = MutableLiveData<EventsListModel>()
     private val freshLiveData = MutableLiveData<Int>()
     private val readinessLiveData = MutableLiveData<Boolean>(false)
+
+    private val eventTypes: Set<EventTypeEntity> = EventTypeEntity.values().toSet()
 
     private val eventsUpdateStateLiveData = MutableLiveData<QueryResult<UpdateOption>>()
 

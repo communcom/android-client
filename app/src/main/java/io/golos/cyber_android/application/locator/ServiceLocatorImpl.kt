@@ -450,6 +450,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     override fun getPostWithCommentsViewModelFactory(postId: DiscussionIdModel): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -500,7 +501,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     ) as T
 
                     NotificationsViewModel::class.java -> NotificationsViewModel(
-                        getEventsUseCase(EventTypeEntity.values().toSet())
+                        getEventsUseCase()
                     ) as T
 
                     ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(
@@ -511,7 +512,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
                     MainViewModel::class.java -> MainViewModel(
                         getSignInUseCase(),
-                        getEventsUseCase(EventTypeEntity.values().toSet()),
+                        getEventsUseCase(),
                         getPushNotificationsSettingsUseCase()
                     ) as T
 
@@ -527,6 +528,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     override fun getEditorPageViewModelFactory(
         community: CommunityModel?,
         postToEdit: DiscussionIdModel?
@@ -623,6 +625,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             voteToEntityMapper
         )
 
+    // [Dagger] - done
     override fun getPostWithCommentsUseCase(postId: DiscussionIdModel): PostWithCommentUseCase {
         return PostWithCommentUseCase(
             postId,
@@ -682,9 +685,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return ImageUploadUseCase(imageUploadRepository)
     }
 
-    override fun getEventsUseCase(eventTypes: Set<EventTypeEntity>): EventsUseCase {
+    override fun getEventsUseCase(): EventsUseCase {
         return EventsUseCase(
-            eventTypes,             // Get rid of this parameter!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             eventsRepository,
             authRepository,
             EventEntityToModelMapper(),

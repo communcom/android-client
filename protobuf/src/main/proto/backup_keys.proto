@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package backup;
+
+option java_package = "io.golos.cyber_android.core.backup";
+option java_outer_classname = "BackupKeysRawData";
+
+message KeyInfo {
+  required int64 userName = 1;
+  required string masterKey = 2;
+}
+
+message KeysList {
+  repeated KeyInfo key = 1;
+}
