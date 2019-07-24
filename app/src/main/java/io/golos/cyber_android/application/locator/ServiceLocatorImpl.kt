@@ -421,6 +421,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     override fun getUserPostsFeedViewModelFactory(forUser: CyberUser): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -440,6 +441,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     override fun getUserSubscriptionsFeedViewModelFactory(
         forUser: CyberUser,
         appUser: CyberName
@@ -568,6 +570,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // Split to Onboarding & profile !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     override fun getViewModelFactoryByCyberName(forUser: CyberName): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -613,6 +616,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+    // [Dagger] - done
     override fun getUserSubscriptionsFeedUseCase(user: CyberUser): UserSubscriptionsFeedUseCase {
         return UserSubscriptionsFeedUseCase(
             user,
@@ -623,6 +627,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+    // [Dagger] - done
     override fun getUserPostFeedUseCase(user: CyberUser): UserPostFeedUseCase {
         return UserPostFeedUseCase(
             user,
@@ -711,6 +716,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         )
     }
 
+    // [Dagger] - done (for MyFeed only)
     override fun getUserMetadataUseCase(forUser: CyberName): UserMetadataUseCase {
         return UserMetadataUseCase(forUser, userMetadataRepository)
     }

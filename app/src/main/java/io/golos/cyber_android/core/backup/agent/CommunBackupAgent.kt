@@ -4,12 +4,10 @@ import android.app.backup.BackupAgent
 import android.app.backup.BackupDataInput
 import android.app.backup.BackupDataOutput
 import android.os.ParcelFileDescriptor
-import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.serviceLocator
-import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.UserKeyType
-import io.golos.sharedmodel.CyberName
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.DataInputStream
+import java.io.FileOutputStream
 
 @Suppress("unused")
 class CommunBackupAgent: BackupAgent() {

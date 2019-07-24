@@ -11,11 +11,14 @@ import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.UserPostsUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-class UserPostFeedUseCase(
+class UserPostFeedUseCase
+@Inject
+constructor(
     private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,

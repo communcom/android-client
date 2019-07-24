@@ -10,11 +10,14 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.*
 import io.golos.sharedmodel.CyberName
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
  */
-class UserMetadataUseCase(
+class UserMetadataUseCase
+@Inject
+constructor (
     private val user: CyberName,
     private val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>
 ) : UseCase<QueryResult<UserMetadataModel>> {
