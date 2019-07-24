@@ -23,13 +23,21 @@ class BackupKeysDataStorage(private val context: Context, private val encryptor:
 
     fun getKeys(): BackupKeysDataWrapper =
         try {
-            getFile().readBytes()
-                .let { encryptor.decrypt(it) }
-                ?.let { BackupKeysDataWrapper(it) } ?: BackupKeysDataWrapper()
+            val keysFile = getFile()
+
+            if(!keysFile.exists()) {
+                BackupKeysDataWrapper()
+            } else {
+                keysFile.readBytes()
+                    .let { encryptor.decrypt(it) }
+                    ?.let { BackupKeysDataWrapper(it) } ?: BackupKeysDataWrapper()
+            }
         } catch (ex: Exception) {
             ex.printStackTrace()
             BackupKeysDataWrapper()
         }
+
+    fun isStorageExists(): Boolean = getFile().exists()
 
     private fun getFile(): File = File(context.filesDir, "keys.bak")
 }

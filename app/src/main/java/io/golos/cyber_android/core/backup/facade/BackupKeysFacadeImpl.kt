@@ -2,6 +2,7 @@ package io.golos.cyber_android.core.backup.facade
 
 import android.app.backup.BackupManager
 import android.content.Context
+import android.util.Log
 import io.golos.cyber_android.core.backup.raw_data.BackupKeysDataWrapper
 import io.golos.cyber_android.core.backup.storage.BackupKeysDataStorage
 import io.golos.domain.Encryptor
@@ -21,6 +22,8 @@ constructor(
         BackupKeysDataWrapper(data).let { BackupKeysDataStorage(context, encryptor).saveKeys(it) }
 
     override fun putKey(userName: String, masterKey: String) {
+        Log.d("BACKUP_RESTORE", "BackupKeysFacadeImpl::putKey(). UserName: $userName; MasterKey: $masterKey")
+
         val storage = BackupKeysDataStorage(context, encryptor)
 
         val keys = storage.getKeys()
@@ -35,8 +38,11 @@ constructor(
 
         storage.saveKeys(keys)
 
+        Log.d("BACKUP_RESTORE", "BackupKeysFacadeImpl::putKey(). Tell backup service to upload")
         backupManager.dataChanged()       // Tell backup to upload
     }
 
     override fun getKey(userName: String): String? = BackupKeysDataStorage(context, encryptor).getKeys().getMasterKey(userName)
+
+    override fun isStorageExists(): Boolean = BackupKeysDataStorage(context, encryptor).isStorageExists()
 }

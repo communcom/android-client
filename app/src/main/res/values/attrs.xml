@@ -18,4 +18,15 @@
         <attr name="state_normal_error" format="boolean" />
         <attr name="state_active_error" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ImageButtonFixedIconSize">
+        <attr name="imageButton_icon" format="reference" />
+
+        <attr name="imageButton_iconWidth" format="dimension" />
+        <attr name="imageButton_iconHeight" format="dimension" />
+
+        <attr name="imageButton_iconInscribeSize" format="dimension" />
+
+        <attr name="imageButton_tint" format="reference" />
+    </declare-styleable>
 </resources>

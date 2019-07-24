@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
@@ -68,6 +69,10 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
             viewModel.signIn()
         }
 
+        restoreFromCloudButton.setOnClickListener {
+            viewModel.onRestoreFromCloud()
+        }
+
         observeViewModel()
     }
 
@@ -98,6 +103,17 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
                 if (state.isUserLoggedIn) {
                     navigateToMainScreen()
                 }
+            }
+        })
+
+        viewModel.restoreFromCloudButtonEnabled.observe(this, Observer {
+            restoreFromCloudButton.isEnabled = it
+        })
+
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                is SetKeyValueViewCommand -> key.setText(command.newKeyValue)
             }
         })
     }

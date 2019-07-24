@@ -4,7 +4,9 @@ import android.app.backup.BackupAgent
 import android.app.backup.BackupDataInput
 import android.app.backup.BackupDataOutput
 import android.os.ParcelFileDescriptor
+import android.util.Log.d
 import io.golos.cyber_android.serviceLocator
+import io.golos.shared_core.MurmurHash
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import java.io.FileOutputStream
@@ -17,6 +19,8 @@ class CommunBackupAgent: BackupAgent() {
     private val backupKeysFacade by lazy { serviceLocator.backupKeysFacadeSync }
 
     override fun onRestore(data: BackupDataInput, appVersionCode: Int, newState: ParcelFileDescriptor) {
+        d("BACKUP_RESTORE", "CommunBackupAgent::onRestore(): started. Thread: ${Thread.currentThread().name}")
+
         with(data) {
             while (readNextHeader()) {
                 if(key == BACKUP_KEY) {
@@ -24,16 +28,22 @@ class CommunBackupAgent: BackupAgent() {
 
                     ByteArrayInputStream(dataBuf).also {
                         DataInputStream(it).apply {
-                            backupKeysFacade.saveRawData(it.readBytes())
+                            val rawDataToRestore = it.readBytes()
+                            d("BACKUP_RESTORE", "CommunBackupAgent::onRestore(): data size: ${rawDataToRestore.size}; data hash: ${MurmurHash.hash64(rawDataToRestore)}")
+                            backupKeysFacade.saveRawData(rawDataToRestore)
                         }
                     }
                 }
             }
         }
+        d("BACKUP_RESTORE", "CommunBackupAgent::onRestore(): completed")
     }
 
     override fun onBackup(oldState: ParcelFileDescriptor?, data: BackupDataOutput, newState: ParcelFileDescriptor) {
+        d("BACKUP_RESTORE", "CommunBackupAgent::onBackup(): started. Thread: ${Thread.currentThread().name}")
+
         val rawDataToBackup = backupKeysFacade.getRawData()
+        d("BACKUP_RESTORE", "CommunBackupAgent::onBackup(): data size: ${rawDataToBackup.size}; data hash: ${MurmurHash.hash64(rawDataToBackup)}")
 
         //saving state to local storage
         FileOutputStream(newState.fileDescriptor).apply {
@@ -45,6 +55,8 @@ class CommunBackupAgent: BackupAgent() {
             writeEntityHeader(BACKUP_KEY, rawDataToBackup.size)
             writeEntityData(rawDataToBackup, rawDataToBackup.size)
         }
+
+        d("BACKUP_RESTORE", "CommunBackupAgent::onBackup(): completed")
     }
 
     private fun readSourceData(data: BackupDataInput): ByteArray =

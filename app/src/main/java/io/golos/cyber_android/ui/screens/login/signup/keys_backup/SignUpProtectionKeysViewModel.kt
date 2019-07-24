@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login.signup.keys_backup
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber4j.services.model.UserMetadataResult
@@ -87,6 +88,7 @@ constructor(
             // Backup keys to the cloud
             val masterKey = allKeys.single { it.keyType == UserKeyType.MASTER }.key
             val userName = getUserMetadata(getUser()).username
+
             backupKeysFacade.putKey(userName, masterKey)
         }
     }

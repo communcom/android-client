@@ -12,6 +12,7 @@
     <application
         android:name=".application.App"
         android:backupAgent="io.golos.cyber_android.core.backup.agent.CommunBackupAgent"
+        android:allowBackup="true"
         android:restoreAnyVersion="true"
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"

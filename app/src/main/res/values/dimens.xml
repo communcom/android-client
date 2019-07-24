@@ -4,9 +4,13 @@
     <dimen name="padding_horizontal_editor_widget">16dp</dimen>
     <dimen name="size_editor_widget_avatar">40dp</dimen>
     <dimen name="margin_horizontal_default_16dp">16dp</dimen>
+    <dimen name="margin_horizontal_default_8dp">8dp</dimen>
     <dimen name="margin_vertical_default_16dp">16dp</dimen>
     <dimen name="margin_vertical_default_8dp">8dp</dimen>
     <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
+
+    <dimen name="size_image_button">40dp</dimen>
+    <dimen name="size_image_button_icon">20dp</dimen>
 
     <dimen name="size_splash_icon">100dp</dimen>
 
@@ -106,7 +110,6 @@
     <dimen name="margin_top_welcome_buttons">35dp</dimen>
     <dimen name="margin_top_welcome_caption">0dp</dimen>
     <dimen name="height_welcome_pager_indicator">3dp</dimen>
-    <dimen name="margin_horizontal_default_8dp">8dp</dimen>
     <dimen name="corners_welcome_pager_indicator">2dp</dimen>
     <dimen name="padding_welcome_pager_indicator">4dp</dimen>
     <dimen name="margin_top_sign_in_caption">10dp</dimen>

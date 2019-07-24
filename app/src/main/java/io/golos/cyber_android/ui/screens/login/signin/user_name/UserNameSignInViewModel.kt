@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
@@ -28,7 +29,8 @@ class UserNameSignInViewModel
 constructor(
     private val signInUseCase: SignInUseCase,
     private val userKeysExtractor: MasterPassKeysExtractor,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val backupKeysFacade: BackupKeysFacade
 ) : ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
@@ -39,6 +41,8 @@ constructor(
     private val validationResultLiveData = MutableLiveData(false)
 
     val command: SingleLiveData<ViewCommand> = SingleLiveData()
+
+    val restoreFromCloudButtonEnabled = MutableLiveData(false)
 
     /**
      * [LiveData] that indicates validness of the credentials in [login] and [key] fields
@@ -75,6 +79,16 @@ constructor(
     fun onLoginInput(login: String) {
         this.login = login
         validate(login, this.key)
+
+        if(login.isNotEmpty()) {
+            launch {
+                restoreFromCloudButtonEnabled.value = withContext(dispatchersProvider.ioDispatcher) {
+                    backupKeysFacade.isStorageExists()
+                }
+            }
+        } else {
+            restoreFromCloudButtonEnabled.value = false
+        }
     }
 
     fun onKeyInput(key: String) {
@@ -98,8 +112,22 @@ constructor(
         }
     }
 
+    fun onRestoreFromCloud() {
+        launch {
+            val key = withContext(dispatchersProvider.ioDispatcher) {
+                backupKeysFacade.getKey(login)
+            }
+
+            if(key != null) {
+                command.value = SetKeyValueViewCommand(key)
+            } else {
+                command.value = ShowMessageCommand(R.string.no_master_password)
+            }
+        }
+    }
+
     private fun validate(login: String, key: String) {
-        val isValid = login.length > 3 && key.length > 3
+        val isValid = login.length > 1 && key.length > 3
         validationResultLiveData.postValue(isValid)
     }
 

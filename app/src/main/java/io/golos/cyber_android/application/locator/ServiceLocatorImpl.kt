@@ -489,7 +489,8 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     UserNameSignInViewModel::class.java -> UserNameSignInViewModel(
                         getSignInUseCase(),
                         masterPassKeysExtractor,
-                        dispatchersProvider
+                        dispatchersProvider,
+                        backupKeysFacade
                     ) as T
 
                     QrCodeSignInViewModel::class.java -> QrCodeSignInViewModel(
