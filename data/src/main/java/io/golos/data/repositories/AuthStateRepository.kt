@@ -267,10 +267,6 @@ constructor(
 
             withContext(dispatchersProvider.ioDispatcher) {
                 keyValueStorage.saveAuthState(finalAuthState)
-
-//                val keyAsBytes = stringsConverter.toBytes(originalLoadingQuery.originalQuery.activeKey)
-//                val encryptedKey = encryptor.encrypt(keyAsBytes)
-//                keyValueStorage.saveUserKey(encryptedKey!!, UserKeyType.ACTIVE)
             }
         }
     }
