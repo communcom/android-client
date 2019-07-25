@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDec
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
+import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
@@ -35,7 +36,8 @@ constructor (
 
                 userKeyStore.updateKeys(keys)
 
-                Either.Success<AuthRequestModel, Exception>(AuthRequestModel(CyberUser(qrCodeData.userName), qrCodeData.activeKey))
+                val model = AuthRequestModel(CyberUser(qrCodeData.userName), qrCodeData.activeKey, AuthType.SIGN_IN)
+                Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {
                 logger.invoke(ex)
                 Either.Failure<AuthRequestModel, Exception>(ex)

@@ -8,6 +8,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.distinctUntilChanged
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UserAuthState
@@ -59,7 +60,8 @@ constructor(
                 mapEntry.value.map(
                     AuthRequestModel(
                         mapEntry.value.originalQuery.user,
-                        mapEntry.value.originalQuery.activeKey
+                        mapEntry.value.originalQuery.activeKey,
+                        AuthType.SIGN_IN
                     )
                 )
             }
@@ -78,7 +80,8 @@ constructor(
         authJob = coroutineScope.launch {
 
             delay(100)
-            val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value ?: AuthState(CyberName(""), false, false, false, false)
+            val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value
+                ?: AuthState(CyberName(""), false, false, false, false, AuthType.SIGN_IN)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             val isSetupCompleted = with(authStateInRepository) {
@@ -104,15 +107,15 @@ constructor(
     override fun unsubscribe() {
         super.unsubscribe()
         mediator.removeObserver(observer)
-        mediator.removeSource(authRepo.getAsLiveData(AuthRequest(CyberUser(""), "")))
+        mediator.removeSource(authRepo.getAsLiveData(AuthRequest(CyberUser(""), "", AuthType.SIGN_IN)))
         mediator.removeSource(authRepo.updateStates)
     }
 
     fun authWithCredentials(request: AuthRequestModel) {
-        authRepo.makeAction(AuthRequest(CyberUser(request.user.userId.trim()), request.activeKey.trim()))
+        authRepo.makeAction(AuthRequest(CyberUser(request.user.userId.trim()), request.activeKey.trim(), AuthType.SIGN_IN))
     }
 
     fun logOut() {
-        authRepo.makeAction(LogOutRequest())
+        authRepo.makeAction(AuthRequest(CyberUser(""), "", AuthType.LOG_OUT))
     }
 }

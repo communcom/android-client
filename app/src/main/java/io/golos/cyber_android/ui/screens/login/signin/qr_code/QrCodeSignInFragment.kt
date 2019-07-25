@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
+import io.golos.cyber_android.ui.screens.login.signin.SignInParentFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInTab
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDetector
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDetectorErrorCode
@@ -187,7 +188,7 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
         viewModel.authStateLiveData.observe(this, Observer {
             it.getIfNotHandled()?.let { state ->
                 if (state.isUserLoggedIn) {
-                    navigateToMainScreen()
+                    navigateForward()
                 }
             }
         })
@@ -205,8 +206,7 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
         hideLoading()
     }
 
-    private fun navigateToMainScreen() {
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-        requireActivity().finish()
+    private fun navigateForward() {
+        (requireParentFragment() as SignInParentFragment).navigateForward()
     }
 }

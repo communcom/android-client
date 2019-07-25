@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.login.signup.pin
 
+import io.golos.domain.entities.AuthType
+
 interface PinCodeModel {
     val isFingerprintAuthenticationPossible: Boolean
 
@@ -20,4 +22,7 @@ interface PinCodeModel {
      * @return true in case of success
      */
     suspend fun saveCode(): Boolean
+
+
+    suspend fun getAuthType(): AuthType
 }

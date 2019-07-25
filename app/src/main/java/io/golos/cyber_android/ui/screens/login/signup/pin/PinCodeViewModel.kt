@@ -4,16 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.login.signup.pin.view_state_dto.CodeState
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.entities.AuthType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -56,7 +59,11 @@ constructor(
                         command.value = if(model.isFingerprintAuthenticationPossible) {
                             NavigateToFingerprintCommand()
                         } else {
-                            NavigateToKeysCommand()
+                            when(model.getAuthType()) {
+                                AuthType.SIGN_IN -> NavigateToMainScreenCommand()
+                                AuthType.SIGN_UP -> NavigateToKeysCommand()
+                                else -> throw UnsupportedOperationException("This type is not supported")
+                            }
                         }
                     } else {
                         command.value =

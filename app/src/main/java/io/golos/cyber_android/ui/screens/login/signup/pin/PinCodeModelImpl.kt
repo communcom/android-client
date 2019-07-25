@@ -6,6 +6,7 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.entities.AuthType
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -62,5 +63,10 @@ constructor(
                 logger(ex)
                 false
             }
+        }
+
+    override suspend fun getAuthType(): AuthType =
+        withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.getAuthState()!!.type
         }
 }

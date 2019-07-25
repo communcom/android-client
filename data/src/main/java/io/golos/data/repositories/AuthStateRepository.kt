@@ -1,6 +1,5 @@
 package io.golos.data.repositories
 
-import android.app.backup.BackupManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.AuthResult
@@ -12,11 +11,11 @@ import io.golos.data.toCyberUser
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.AuthState
+import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
-import io.golos.domain.requestmodel.LogOutRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
@@ -45,7 +44,7 @@ constructor(
     private val authJobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     init {
-        makeAction(getEmptyRequest())
+        makeAction(getEmptyRequest(AuthType.SIGN_IN))
     }
 
     override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> = authState
@@ -54,8 +53,8 @@ constructor(
         lateinit var newParams: AuthRequest
 
         repositoryScope.launch {
-            if (params is LogOutRequest) {
-                val logOutState = AuthState("".toCyberName(), false, false, false, false)
+            if (params.type == AuthType.LOG_OUT) {
+                val logOutState = AuthState("".toCyberName(), false, false, false, false, AuthType.LOG_OUT)
                 withContext(dispatchersProvider.ioDispatcher) {
                     keyValueStorage.saveAuthState(logOutState)
                 }
@@ -64,18 +63,18 @@ constructor(
             }
 
             newParams = if(params.isEmpty()) {
-                loadAuthRequest()
+                loadAuthRequest(params.type)
             } else {
                 params
             }
 
             if(newParams.isEmpty()) {
-                authState.value = AuthState("".toCyberName(), false, false, false, false)   // User is not logged in
+                authState.value = AuthState("".toCyberName(), false, false, false, false, newParams.type)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
-                authState.value = AuthState("".toCyberName(), false, false, false, false)
+                authState.value = AuthState("".toCyberName(), false, false, false, false, newParams.type)
             }
             else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
@@ -177,12 +176,12 @@ constructor(
 
 
             try {
-                val authResult = auth(newParams.user.userId, newParams.activeKey)!!
+                val authResult = auth(newParams.user.userId, newParams.activeKey, newParams.type)!!
                 withContext(dispatchersProvider.ioDispatcher) {
                     authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
                 }
 
-                onAuthSuccess(authResult.user, newParams.user)
+                onAuthSuccess(authResult.user, newParams.user, newParams.type)
             } catch (e: Exception) {
                 logger(e)
                 authRequestsLiveData.value =
@@ -219,10 +218,10 @@ constructor(
 
     override val allDataRequest: AuthRequest
             by lazy {
-                AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ")
+                AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ", AuthType.SIGN_UP)
             }
 
-    private suspend fun auth(name: String, key: String): AuthResult? =
+    private suspend fun auth(name: String, key: String, authType: AuthType): AuthResult? =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val secret = authApi.getAuthSecret()
@@ -232,12 +231,12 @@ constructor(
                     StringSigner.signString(secret.secret, key)
                 )
             } catch (e: Exception) {
-                onAuthFail(e)
+                onAuthFail(e, authType)
                 null
             }
         }
 
-    private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser) {
+    private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
         val loadingQuery = withContext(dispatchersProvider.workDispatcher) {
             authRequestsLiveData.value?.entries?.find {
                 val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
@@ -255,7 +254,9 @@ constructor(
                 true,
                 oldAuthState?.isPinCodeSettingsPassed ?: false,
                 oldAuthState?.isFingerprintSettingsPassed ?: false,
-                oldAuthState?.isKeysExported ?: false)
+                if(authType == AuthType.SIGN_IN) true else oldAuthState?.isKeysExported ?: false,
+                authType
+            )
 
             authState.value = finalAuthState
 
@@ -271,11 +272,11 @@ constructor(
         }
     }
 
-    private fun onAuthFail(e: Exception) {
+    private fun onAuthFail(e: Exception, authType: AuthType) {
         logger(e)
 
         repositoryScope.launch {
-            authState.value = AuthState("".toCyberName(), false, false, false, false)
+            authState.value = AuthState("".toCyberName(), false, false, false, false, authType)
             val loadingQuery =
                 authRequestsLiveData.value?.entries?.findLast { it.value is QueryResult.Loading }
 
@@ -289,23 +290,23 @@ constructor(
         }
     }
 
-    private suspend fun loadAuthRequest(): AuthRequest {
+    private suspend fun loadAuthRequest(authType: AuthType): AuthRequest {
         val authSavedAuthState = withContext(dispatchersProvider.ioDispatcher) {
             keyValueStorage.getAuthState()
         }
 
         return if (authSavedAuthState?.isUserLoggedIn != true) {
-            getEmptyRequest()
+            getEmptyRequest(authType)
         } else {
             val key = withContext(dispatchersProvider.ioDispatcher) {
                 userKeyStore.getKey(UserKeyType.ACTIVE)
             }
 
-            AuthRequest(authSavedAuthState.user.toCyberUser(), key)
+            AuthRequest(authSavedAuthState.user.toCyberUser(), key, authType)
         }
     }
 
-    private fun getEmptyRequest() = AuthRequest(CyberUser(""), "")
+    private fun getEmptyRequest(type: AuthType) = AuthRequest(CyberUser(""), "", type)
 
     private fun AuthRequest.isEmpty() = this.user.userId == "" && this.activeKey == ""
 }

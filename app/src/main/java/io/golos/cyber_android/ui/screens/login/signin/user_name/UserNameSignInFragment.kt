@@ -16,8 +16,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login.signin.SignInChildFragment
+import io.golos.cyber_android.ui.screens.login.signin.SignInParentFragment
 import io.golos.cyber_android.ui.screens.login.signin.SignInTab
-import io.golos.cyber_android.ui.screens.login.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.cyber_android.ui.screens.main.MainActivity
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_user_name_sign_in.*
@@ -101,7 +101,7 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
         viewModel.authStateLiveData.observe(this, Observer {
             it.getIfNotHandled()?.let { state ->
                 if (state.isUserLoggedIn) {
-                    navigateToMainScreen()
+                    navigateForward()
                 }
             }
         })
@@ -118,9 +118,8 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
         })
     }
 
-    private fun navigateToMainScreen() {
-        startActivity(Intent(requireContext(), MainActivity::class.java))
-        requireActivity().finish()
+    private fun navigateForward() {
+        (requireParentFragment() as SignInParentFragment).navigateForward()
     }
 
     /**

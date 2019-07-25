@@ -69,7 +69,8 @@ constructor(
                         authRepository.makeAction(
                             AuthRequest(
                                 CyberUser(lastRequestLocal.userName),
-                                userKeyStore.getKey(UserKeyType.ACTIVE)
+                                userKeyStore.getKey(UserKeyType.ACTIVE),
+                                AuthType.SIGN_UP
                             )
                         )
                     }

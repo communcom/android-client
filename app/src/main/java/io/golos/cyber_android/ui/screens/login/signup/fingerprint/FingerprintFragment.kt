@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.login.signup.fingerprint
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.screens.login.signup.fingerprint.view_commands.NavigateToKeysCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.screens.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_fingerprint.*
 
 class FingerprintFragment : Fragment() {
@@ -51,7 +55,13 @@ class FingerprintFragment : Fragment() {
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+
                 is NavigateToKeysCommand -> findNavController().navigate(R.id.action_fingerprintFragment_to_signUpProtectionKeysFragment)
+
+                is NavigateToMainScreenCommand -> {
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().finish()
+                }
             }
         })
     }

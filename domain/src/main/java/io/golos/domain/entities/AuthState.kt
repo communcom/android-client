@@ -11,5 +11,6 @@ data class AuthState(
     val isUserLoggedIn: Boolean,
     val isPinCodeSettingsPassed: Boolean,
     val isFingerprintSettingsPassed: Boolean,
-    val isKeysExported: Boolean
+    val isKeysExported: Boolean,
+    val type: AuthType
 ) : Entity

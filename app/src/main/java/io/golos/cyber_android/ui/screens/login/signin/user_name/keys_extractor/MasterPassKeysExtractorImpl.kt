@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
+import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.requestmodel.AuthRequestModel
 import io.golos.sharedmodel.Either
@@ -24,7 +25,8 @@ constructor (
         withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val activeKey = userKeyStore.createKeys(userName, masterKey).activePrivateKey
-                Either.Success<AuthRequestModel, Exception>(AuthRequestModel(CyberUser(userName), activeKey))
+                val model = AuthRequestModel(CyberUser(userName), activeKey, AuthType.SIGN_IN)
+                Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {
                 logger.invoke(ex)
                 Either.Failure<AuthRequestModel, Exception>(ex)

@@ -17,7 +17,7 @@ import io.golos.cyber_android.views.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 
-class SignInFragment : FragmentBase() {
+class SignInFragment : FragmentBase(), SignInParentFragment {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
     }
@@ -30,6 +30,10 @@ class SignInFragment : FragmentBase() {
         back.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    override fun navigateForward() {
+        findNavController().navigate(R.id.action_signInFragment_to_signUpKeyFragment)
     }
 
     private fun setupViewPager() {
