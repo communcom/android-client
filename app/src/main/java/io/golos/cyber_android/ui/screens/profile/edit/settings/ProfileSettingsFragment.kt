@@ -14,6 +14,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.observeUntil
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter
+import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login.LoginActivity
@@ -32,12 +36,10 @@ class ProfileSettingsFragment : FragmentBase() {
 
     private lateinit var viewModel: ProfileSettingsViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.profile_settings_fragment, container, false)
-    }
+    private val keysExporter by lazy { PdfKeysExporter(this) }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(R.layout.profile_settings_fragment, container, false)
 
     private var isExternalPushSettingsChange = false
 
@@ -79,8 +81,22 @@ class ProfileSettingsFragment : FragmentBase() {
             }
         }
 
+        exportKeys.setOnClickListener { keysExporter.startExport() }
+        keysExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected() }
+        keysExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
+
         setupViewModel()
         observeViewModel()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        keysExporter.processViewPdfResult(requestCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        keysExporter.processRequestPermissionsResult(requestCode, grantResults)
     }
 
     private fun logOut() {
@@ -174,6 +190,15 @@ class ProfileSettingsFragment : FragmentBase() {
                     showLoading()
                     settings.visibility = View.GONE
                 }
+            }
+        })
+
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is StartExportingCommand -> keysExporter.processDataToExport(command.userName, command.userId, command.keys)
+                is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
     }

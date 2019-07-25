@@ -45,6 +45,11 @@ constructor(
             moshi.adapter(AuthState::class.java).fromJson(authStateString)
         }
 
+    override fun removeAuthState() =
+        keyValueStorage.update {
+            it.remove("AUTH_STATE")
+        }
+
     override fun saveUserKey(key: ByteArray, keyType: UserKeyType) =
         keyValueStorage.update {
             it.putBytes(getInternalKeyForUserKey(keyType), key)
@@ -55,20 +60,30 @@ constructor(
             it.readBytes(getInternalKeyForUserKey(keyType))
         }
 
+    override fun removeUserKey(keyType: UserKeyType) =
+        keyValueStorage.update {
+            it.remove(getInternalKeyForUserKey(keyType))
+        }
+
     override fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel) =
         keyValueStorage.update {
             it.putString(
-                "pushes_of_${forUser.name}",
+                "PUSHES_OF_${forUser.name}",
                 moshi.adapter(PushNotificationsStateModel::class.java).toJson(settings)
             )
         }
 
     override fun getPushNotificationsSettings(forUser: CyberName): PushNotificationsStateModel =
         keyValueStorage.read {
-            val authStateString = it.readString("pushes_of_${forUser.name}") ?: return@read PushNotificationsStateModel.DEFAULT
+            val authStateString = it.readString("PUSHES_OF_${forUser.name}") ?: return@read PushNotificationsStateModel.DEFAULT
 
             moshi.adapter(PushNotificationsStateModel::class.java).fromJson(authStateString)
                 ?: PushNotificationsStateModel.DEFAULT
+        }
+
+    override fun removePushNotificationsSettings(forUser: CyberName) =
+        keyValueStorage.update {
+            it.remove("PUSHES_OF_${forUser.name}")
         }
 
     override fun savePinCode(pinCode: ByteArray) =
@@ -81,6 +96,11 @@ constructor(
             it.readBytes("PIN_CODE")
         }
 
+    override fun removePinCode() =
+        keyValueStorage.update {
+            it.remove("PIN_CODE")
+        }
+
     override fun saveAppUnlockWay(unlockWay: AppUnlockWay) =
         keyValueStorage.update {
             it.putInt("APP_UNLOCK_WAY", unlockWay.value)
@@ -89,6 +109,11 @@ constructor(
     override fun getAppUnlockWay(): AppUnlockWay? =
         keyValueStorage.read {
             it.readInt("APP_UNLOCK_WAY")?.let { value -> AppUnlockWay.createFromValue(value) }
+        }
+
+    override fun removeAppUnlockWay() =
+        keyValueStorage.update {
+            it.remove("APP_UNLOCK_WAY")
         }
 
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =

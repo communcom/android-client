@@ -14,6 +14,7 @@
     <string name = "digit9">9</string>
 
     <string name = "common_general_error">Unfortunately, an error was encountered during the operation.</string>
+    <string name = "export_general_error">An error occurred during the export process.</string>
 
     <!--Main Screen Navigation-->
     <string name = "feed">Feed</string>
@@ -135,6 +136,7 @@
     <string name = "russian">Russian</string>
     <string name = "english">English</string>
     <string name = "log_out">Log out</string>
+    <string name = "export_keys">Export keys</string>
     <string name = "log_out_question">Are you sure you want to log out?</string>
     <string name = "cancel">Cancel</string>
     <string name = "push_notifications">Push notifications</string>

@@ -521,7 +521,11 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
                     ProfileSettingsViewModel::class.java -> ProfileSettingsViewModel(
                         getSettingUserCase(),
                         getPushNotificationsSettingsUseCase(),
-                        getSignInUseCase()
+                        getSignInUseCase(),
+                        dispatchersProvider,
+                        apiService,
+                        userKeyStore,
+                        keyValueStorage
                     ) as T
 
                     MainViewModel::class.java -> MainViewModel(

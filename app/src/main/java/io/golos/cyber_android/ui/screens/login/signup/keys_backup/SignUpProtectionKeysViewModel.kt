@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.login.signup.keys_backup
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber4j.services.model.UserMetadataResult
@@ -11,7 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.NavigateToOnboardingCommand
-import io.golos.cyber_android.ui.screens.login.signup.keys_backup.view_commands.StartExportingCommand
+import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
 import io.golos.data.api.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
@@ -57,7 +56,7 @@ constructor(
         }
     }
 
-    fun onExportDialogCompleted(pathToSave: String) {
+    fun onExportPathSelected() {
         launch {
             command.value = SetLoadingVisibilityCommand(true)
 
@@ -66,7 +65,11 @@ constructor(
                 val keys = getAllKeys()
 
                 command.value = SetLoadingVisibilityCommand(false)
-                command.value = StartExportingCommand(pathToSave, metadata.username, metadata.userId.name, keys)
+                command.value = StartExportingCommand(
+                    metadata.username,
+                    metadata.userId.name,
+                    keys
+                )
             } catch (ex: Exception) {
                 logger(ex)
                 command.value = SetLoadingVisibilityCommand(false)

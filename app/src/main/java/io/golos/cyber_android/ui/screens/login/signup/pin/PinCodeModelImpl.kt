@@ -6,6 +6,7 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthType
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -55,6 +56,8 @@ constructor(
 
                 if(!isFingerprintAuthenticationPossible) {  // Skip fingerprints settings
                     newAuthState = newAuthState.copy(isFingerprintSettingsPassed = true)
+
+                    keyValueStorage.saveAppUnlockWay(AppUnlockWay.PIN_CODE)
                 }
 
                 keyValueStorage.saveAuthState(newAuthState)

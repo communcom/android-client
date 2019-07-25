@@ -279,6 +279,10 @@
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
+    <style name="SettingsBlackTextStyle" parent="SettingsLogoutTextStyle">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="SettingsSelectedOptionTitleTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>

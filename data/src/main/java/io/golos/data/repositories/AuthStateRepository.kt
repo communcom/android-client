@@ -54,11 +54,8 @@ constructor(
 
         repositoryScope.launch {
             if (params.type == AuthType.LOG_OUT) {
-                val logOutState = AuthState("".toCyberName(), false, false, false, false, AuthType.LOG_OUT)
-                withContext(dispatchersProvider.ioDispatcher) {
-                    keyValueStorage.saveAuthState(logOutState)
-                }
-                authState.value = logOutState
+                logout()
+                authState.value = AuthState("".toCyberName(), false, false, false, false, AuthType.LOG_OUT)
                 return@launch
             }
 
@@ -309,4 +306,20 @@ constructor(
     private fun getEmptyRequest(type: AuthType) = AuthRequest(CyberUser(""), "", type)
 
     private fun AuthRequest.isEmpty() = this.user.userId == "" && this.activeKey == ""
+
+    private suspend fun logout() {
+        withContext(dispatchersProvider.ioDispatcher) {
+            val currentUser = keyValueStorage.getAuthState()!!.user
+
+            keyValueStorage.removeAuthState()
+            keyValueStorage.removePushNotificationsSettings(currentUser)
+            keyValueStorage.removePinCode()
+            keyValueStorage.removeAppUnlockWay()
+
+            keyValueStorage.removeUserKey(UserKeyType.MEMO)
+            keyValueStorage.removeUserKey(UserKeyType.POSTING)
+            keyValueStorage.removeUserKey(UserKeyType.ACTIVE)
+            keyValueStorage.removeUserKey(UserKeyType.OWNER)
+        }
+    }
 }

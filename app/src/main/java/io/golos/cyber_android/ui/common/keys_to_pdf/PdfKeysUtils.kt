@@ -1,13 +1,11 @@
-package io.golos.cyber_android.utils
+package io.golos.cyber_android.ui.common.keys_to_pdf
 
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
-import android.util.Log
 import io.golos.cyber_android.R
-import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import java.io.File
@@ -28,7 +26,11 @@ object PdfKeysUtils {
      * @param dirPath path to directory in which file should be saved
      * @return true if operation was successful, false otherwise
      */
-    fun saveTextAsPdfDocument(content: String, dirPath: String) = saveDocument(dirPath, generatePdf(content))
+    fun saveTextAsPdfDocument(content: String, dirPath: String) =
+        saveDocument(
+            dirPath,
+            generatePdf(content)
+        )
 
     fun getKeysSavePathInDir(dirPath: String) = "$dirPath/keys.pdf"
 
@@ -53,7 +55,9 @@ object PdfKeysUtils {
     private fun generatePdf(content: String): PdfDocument {
         val pdf = PdfDocument()
 
-        val pageInfo = PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 0).create()
+        val pageInfo = PdfDocument.PageInfo.Builder(
+            PAGE_WIDTH,
+            PAGE_HEIGHT, 0).create()
         val page = pdf.startPage(pageInfo)
 
         val textPaint = Paint().apply {
@@ -82,7 +86,7 @@ object PdfKeysUtils {
 
     fun getKeysSummary(context: Context, userName: String, userId: String, keys: List<UserKey>) = String.format(
         context.resources.getString(R.string.keys_format),
-        keys.single { it.keyType == UserKeyType.MASTER }.key,
+        keys.singleOrNull { it.keyType == UserKeyType.MASTER }?.key ?: "",
         userName,
         keys.single { it.keyType == UserKeyType.OWNER }.key,
         keys.single { it.keyType == UserKeyType.ACTIVE }.key,
