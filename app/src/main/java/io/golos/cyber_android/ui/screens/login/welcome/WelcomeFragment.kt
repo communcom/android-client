@@ -15,10 +15,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.NavigationArgs
 import io.golos.cyber_android.views.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import java.text.MessageFormat
 
 const val ANIM_DURATION = 3000L
 const val USER_DRAG_ANIM_DELAY = 10000L
@@ -52,6 +54,9 @@ class WelcomeFragment : Fragment() {
             val args = Bundle().also { it.putString(NavigationArgs.DESTINATION, NavigationArgs.SIGN_UP) }
             findNavController().navigate(R.id.action_welcomeFragment_to_licenseFragment, args)
         }
+
+        versionText.text =
+            MessageFormat.format(resources.getString(R.string.display_version), BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
     }
 
     private fun setupSlidesPager(slides: List<SlideItem>) {

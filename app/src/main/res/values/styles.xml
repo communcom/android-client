@@ -124,6 +124,15 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="SignInTextLabel" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/clickable_text_color</item>
+        <item name="android:background">@color/white</item>
+
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
     <style name="WelcomeSlidesTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center</item>

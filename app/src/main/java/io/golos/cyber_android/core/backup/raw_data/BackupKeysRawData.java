@@ -28,7 +28,7 @@ public final class BackupKeysRawData {
     /**
      * <code>required string masterKey = 2;</code>
      */
-    String getMasterKey();
+    java.lang.String getMasterKey();
     /**
      * <code>required string masterKey = 2;</code>
      */
@@ -52,14 +52,14 @@ public final class BackupKeysRawData {
     /**
      * <code>required int64 userName = 1;</code>
      */
-    @Override
+    @java.lang.Override
     public boolean hasUserName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int64 userName = 1;</code>
      */
-    @Override
+    @java.lang.Override
     public long getUserName() {
       return userName_;
     }
@@ -79,25 +79,25 @@ public final class BackupKeysRawData {
     }
 
     public static final int MASTERKEY_FIELD_NUMBER = 2;
-    private String masterKey_;
+    private java.lang.String masterKey_;
     /**
      * <code>required string masterKey = 2;</code>
      */
-    @Override
+    @java.lang.Override
     public boolean hasMasterKey() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required string masterKey = 2;</code>
      */
-    @Override
-    public String getMasterKey() {
+    @java.lang.Override
+    public java.lang.String getMasterKey() {
       return masterKey_;
     }
     /**
      * <code>required string masterKey = 2;</code>
      */
-    @Override
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMasterKeyBytes() {
       return com.google.protobuf.ByteString.copyFromUtf8(masterKey_);
@@ -106,7 +106,7 @@ public final class BackupKeysRawData {
      * <code>required string masterKey = 2;</code>
      */
     private void setMasterKey(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -132,73 +132,73 @@ public final class BackupKeysRawData {
       masterKey_ = value.toStringUtf8();
     }
 
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
-    public static KeyInfo parseFrom(byte[] data)
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
-    public static KeyInfo parseFrom(java.io.InputStream input)
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
-    public static KeyInfo parseDelimitedFrom(java.io.InputStream input)
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return parseDelimitedFrom(DEFAULT_INSTANCE, input);
     }
-    public static KeyInfo parseDelimitedFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
-    public static KeyInfo parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -209,7 +209,7 @@ public final class BackupKeysRawData {
     public static Builder newBuilder() {
       return (Builder) DEFAULT_INSTANCE.createBuilder();
     }
-    public static Builder newBuilder(KeyInfo prototype) {
+    public static Builder newBuilder(io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo prototype) {
       return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
     }
 
@@ -218,9 +218,9 @@ public final class BackupKeysRawData {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
-          KeyInfo, Builder> implements
+          io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo, Builder> implements
         // @@protoc_insertion_point(builder_implements:backup.KeyInfo)
-        KeyInfoOrBuilder {
+        io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder {
       // Construct using io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.newBuilder()
       private Builder() {
         super(DEFAULT_INSTANCE);
@@ -230,14 +230,14 @@ public final class BackupKeysRawData {
       /**
        * <code>required int64 userName = 1;</code>
        */
-      @Override
+      @java.lang.Override
       public boolean hasUserName() {
         return instance.hasUserName();
       }
       /**
        * <code>required int64 userName = 1;</code>
        */
-      @Override
+      @java.lang.Override
       public long getUserName() {
         return instance.getUserName();
       }
@@ -261,21 +261,21 @@ public final class BackupKeysRawData {
       /**
        * <code>required string masterKey = 2;</code>
        */
-      @Override
+      @java.lang.Override
       public boolean hasMasterKey() {
         return instance.hasMasterKey();
       }
       /**
        * <code>required string masterKey = 2;</code>
        */
-      @Override
-      public String getMasterKey() {
+      @java.lang.Override
+      public java.lang.String getMasterKey() {
         return instance.getMasterKey();
       }
       /**
        * <code>required string masterKey = 2;</code>
        */
-      @Override
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getMasterKeyBytes() {
         return instance.getMasterKeyBytes();
@@ -284,7 +284,7 @@ public final class BackupKeysRawData {
        * <code>required string masterKey = 2;</code>
        */
       public Builder setMasterKey(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setMasterKey(value);
         return this;
@@ -310,25 +310,25 @@ public final class BackupKeysRawData {
       // @@protoc_insertion_point(builder_scope:backup.KeyInfo)
     }
     private byte memoizedIsInitialized = 2;
-    @Override
-    @SuppressWarnings({"unchecked", "fallthrough"})
-    protected final Object dynamicMethod(
-        MethodToInvoke method,
-        Object arg0, Object arg1) {
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
-          return new KeyInfo();
+          return new io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo();
         }
         case NEW_BUILDER: {
           return new Builder();
         }
         case BUILD_MESSAGE_INFO: {
-            Object[] objects = new Object[] {
+            java.lang.Object[] objects = new java.lang.Object[] {
               "bitField0_",
               "userName_",
               "masterKey_",
             };
-            String info =
+            java.lang.String info =
                 "\u0001\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0002\u0001\u0502\u0000\u0002" +
                 "\u0508\u0001";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
@@ -338,9 +338,9 @@ public final class BackupKeysRawData {
           return DEFAULT_INSTANCE;
         }
         case GET_PARSER: {
-          com.google.protobuf.Parser<KeyInfo> parser = PARSER;
+          com.google.protobuf.Parser<io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> parser = PARSER;
           if (parser == null) {
-            synchronized (KeyInfo.class) {
+            synchronized (io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.class) {
               parser = PARSER;
               if (parser == null) {
                 parser = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
@@ -363,7 +363,7 @@ public final class BackupKeysRawData {
 
 
     // @@protoc_insertion_point(class_scope:backup.KeyInfo)
-    private static final KeyInfo DEFAULT_INSTANCE;
+    private static final io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo DEFAULT_INSTANCE;
     static {
       // New instances are implicitly immutable so no need to make
       // immutable.
@@ -374,7 +374,7 @@ public final class BackupKeysRawData {
       com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
         KeyInfo.class, DEFAULT_INSTANCE);
     }
-    public static KeyInfo getDefaultInstance() {
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -392,12 +392,12 @@ public final class BackupKeysRawData {
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    java.util.List<KeyInfo>
+    java.util.List<io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> 
         getKeyList();
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    KeyInfo getKey(int index);
+    io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo getKey(int index);
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
@@ -415,39 +415,39 @@ public final class BackupKeysRawData {
       key_ = emptyProtobufList();
     }
     public static final int KEY_FIELD_NUMBER = 1;
-    private com.google.protobuf.Internal.ProtobufList<KeyInfo> key_;
+    private com.google.protobuf.Internal.ProtobufList<io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> key_;
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    @Override
-    public java.util.List<KeyInfo> getKeyList() {
+    @java.lang.Override
+    public java.util.List<io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> getKeyList() {
       return key_;
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    public java.util.List<? extends KeyInfoOrBuilder>
+    public java.util.List<? extends io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder> 
         getKeyOrBuilderList() {
       return key_;
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    @Override
+    @java.lang.Override
     public int getKeyCount() {
       return key_.size();
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    @Override
-    public KeyInfo getKey(int index) {
+    @java.lang.Override
+    public io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo getKey(int index) {
       return key_.get(index);
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    public KeyInfoOrBuilder getKeyOrBuilder(
+    public io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder getKeyOrBuilder(
         int index) {
       return key_.get(index);
     }
@@ -462,7 +462,7 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     private void setKey(
-        int index, KeyInfo value) {
+        int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo value) {
       if (value == null) {
         throw new NullPointerException();
       }
@@ -473,14 +473,14 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     private void setKey(
-        int index, KeyInfo.Builder builderForValue) {
+        int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
       ensureKeyIsMutable();
       key_.set(index, builderForValue.build());
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    private void addKey(KeyInfo value) {
+    private void addKey(io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo value) {
       if (value == null) {
         throw new NullPointerException();
       }
@@ -491,7 +491,7 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     private void addKey(
-        int index, KeyInfo value) {
+        int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo value) {
       if (value == null) {
         throw new NullPointerException();
       }
@@ -502,7 +502,7 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     private void addKey(
-        KeyInfo.Builder builderForValue) {
+        io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
       ensureKeyIsMutable();
       key_.add(builderForValue.build());
     }
@@ -510,7 +510,7 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     private void addKey(
-        int index, KeyInfo.Builder builderForValue) {
+        int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
       ensureKeyIsMutable();
       key_.add(index, builderForValue.build());
     }
@@ -518,7 +518,7 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     private void addAllKey(
-        Iterable<? extends KeyInfo> values) {
+        java.lang.Iterable<? extends io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> values) {
       ensureKeyIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, key_);
@@ -537,73 +537,73 @@ public final class BackupKeysRawData {
       key_.remove(index);
     }
 
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
-    public static KeysList parseFrom(byte[] data)
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
-    public static KeysList parseFrom(java.io.InputStream input)
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
-    public static KeysList parseDelimitedFrom(java.io.InputStream input)
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return parseDelimitedFrom(DEFAULT_INSTANCE, input);
     }
-    public static KeysList parseDelimitedFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
-    public static KeysList parseFrom(
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -614,7 +614,7 @@ public final class BackupKeysRawData {
     public static Builder newBuilder() {
       return (Builder) DEFAULT_INSTANCE.createBuilder();
     }
-    public static Builder newBuilder(KeysList prototype) {
+    public static Builder newBuilder(io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList prototype) {
       return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
     }
 
@@ -623,9 +623,9 @@ public final class BackupKeysRawData {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
-          KeysList, Builder> implements
+          io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList, Builder> implements
         // @@protoc_insertion_point(builder_implements:backup.KeysList)
-        KeysListOrBuilder {
+        io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysListOrBuilder {
       // Construct using io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList.newBuilder()
       private Builder() {
         super(DEFAULT_INSTANCE);
@@ -635,29 +635,29 @@ public final class BackupKeysRawData {
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      @Override
-      public java.util.List<KeyInfo> getKeyList() {
+      @java.lang.Override
+      public java.util.List<io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> getKeyList() {
         return java.util.Collections.unmodifiableList(
             instance.getKeyList());
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      @Override
+      @java.lang.Override
       public int getKeyCount() {
         return instance.getKeyCount();
       }/**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      @Override
-      public KeyInfo getKey(int index) {
+      @java.lang.Override
+      public io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo getKey(int index) {
         return instance.getKey(index);
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder setKey(
-          int index, KeyInfo value) {
+          int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo value) {
         copyOnWrite();
         instance.setKey(index, value);
         return this;
@@ -666,7 +666,7 @@ public final class BackupKeysRawData {
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder setKey(
-          int index, KeyInfo.Builder builderForValue) {
+          int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
         copyOnWrite();
         instance.setKey(index, builderForValue);
         return this;
@@ -674,7 +674,7 @@ public final class BackupKeysRawData {
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      public Builder addKey(KeyInfo value) {
+      public Builder addKey(io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo value) {
         copyOnWrite();
         instance.addKey(value);
         return this;
@@ -683,7 +683,7 @@ public final class BackupKeysRawData {
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder addKey(
-          int index, KeyInfo value) {
+          int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo value) {
         copyOnWrite();
         instance.addKey(index, value);
         return this;
@@ -692,7 +692,7 @@ public final class BackupKeysRawData {
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder addKey(
-          KeyInfo.Builder builderForValue) {
+          io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
         copyOnWrite();
         instance.addKey(builderForValue);
         return this;
@@ -701,7 +701,7 @@ public final class BackupKeysRawData {
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder addKey(
-          int index, KeyInfo.Builder builderForValue) {
+          int index, io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
         copyOnWrite();
         instance.addKey(index, builderForValue);
         return this;
@@ -710,7 +710,7 @@ public final class BackupKeysRawData {
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder addAllKey(
-          Iterable<? extends KeyInfo> values) {
+          java.lang.Iterable<? extends io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo> values) {
         copyOnWrite();
         instance.addAllKey(values);
         return this;
@@ -735,24 +735,24 @@ public final class BackupKeysRawData {
       // @@protoc_insertion_point(builder_scope:backup.KeysList)
     }
     private byte memoizedIsInitialized = 2;
-    @Override
-    @SuppressWarnings({"unchecked", "fallthrough"})
-    protected final Object dynamicMethod(
-        MethodToInvoke method,
-        Object arg0, Object arg1) {
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
-          return new KeysList();
+          return new io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList();
         }
         case NEW_BUILDER: {
           return new Builder();
         }
         case BUILD_MESSAGE_INFO: {
-            Object[] objects = new Object[] {
+            java.lang.Object[] objects = new java.lang.Object[] {
               "key_",
-              KeyInfo.class,
+              io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.class,
             };
-            String info =
+            java.lang.String info =
                 "\u0001\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0001\u0001\u0001\u041b";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
@@ -761,9 +761,9 @@ public final class BackupKeysRawData {
           return DEFAULT_INSTANCE;
         }
         case GET_PARSER: {
-          com.google.protobuf.Parser<KeysList> parser = PARSER;
+          com.google.protobuf.Parser<io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList> parser = PARSER;
           if (parser == null) {
-            synchronized (KeysList.class) {
+            synchronized (io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList.class) {
               parser = PARSER;
               if (parser == null) {
                 parser = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
@@ -786,7 +786,7 @@ public final class BackupKeysRawData {
 
 
     // @@protoc_insertion_point(class_scope:backup.KeysList)
-    private static final KeysList DEFAULT_INSTANCE;
+    private static final io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList DEFAULT_INSTANCE;
     static {
       // New instances are implicitly immutable so no need to make
       // immutable.
@@ -797,7 +797,7 @@ public final class BackupKeysRawData {
       com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
         KeysList.class, DEFAULT_INSTANCE);
     }
-    public static KeysList getDefaultInstance() {
+    public static io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 

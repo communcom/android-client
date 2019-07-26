@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.observeUntil
 import io.golos.cyber_android.serviceLocator
@@ -27,6 +28,7 @@ import io.golos.data.errors.AppError
 import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.profile_settings_fragment.*
+import java.text.MessageFormat
 
 class ProfileSettingsFragment : FragmentBase() {
 
@@ -84,6 +86,9 @@ class ProfileSettingsFragment : FragmentBase() {
         exportKeys.setOnClickListener { keysExporter.startExport() }
         keysExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected() }
         keysExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
+
+        versionText.text =
+            MessageFormat.format(resources.getString(R.string.display_version), BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
 
         setupViewModel()
         observeViewModel()
