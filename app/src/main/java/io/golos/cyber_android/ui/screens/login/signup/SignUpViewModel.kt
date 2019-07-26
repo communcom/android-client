@@ -4,10 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.utils.asEvent
+import io.golos.data.repositories.countries.CountriesRepository
+import io.golos.domain.DispatchersProvider
+import io.golos.domain.entities.CountryEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.map
+import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Shared [ViewModel] for sign up process
@@ -15,8 +20,15 @@ import javax.inject.Inject
 class SignUpViewModel
 @Inject
 constructor(
-    private val signUpUseCase: SignUpUseCase
-) : ViewModel() {
+    private val signUpUseCase: SignUpUseCase,
+    private val countriesRepository: CountriesRepository,
+    private val dispatchersProvider: DispatchersProvider
+) : ViewModel(), CoroutineScope {
+
+    private val scopeJob: Job = SupervisorJob()
+
+    override val coroutineContext: CoroutineContext
+        get() = scopeJob + dispatchersProvider.uiDispatcher
 
     /**
      * [LiveData] for current user registration state (see [UserRegistrationStateModel])
@@ -38,7 +50,7 @@ constructor(
             it?.getIf { this?.originalQuery is T }
         }
 
-    private val selectedCountryLiveData = MutableLiveData<CountryModel?>(null)
+    private val selectedCountryLiveData = MutableLiveData<CountryEntity?>(null)
 
     private val selectedPhoneLiveData = MutableLiveData<String>("")
 
@@ -46,7 +58,7 @@ constructor(
     /**
      * [LiveData] for country that was selected for phone number
      */
-    val getSelectedCountryLiveData = selectedCountryLiveData as LiveData<CountryModel?>
+    val getSelectedCountryLiveData = selectedCountryLiveData as LiveData<CountryEntity?>
 
     /**
      * [LiveData] for country that was selected for phone number
@@ -56,7 +68,7 @@ constructor(
     /**
      * Sets [CountryModel] for this ViewModel
      */
-    fun onCountrySelected(countryModel: CountryModel) = selectedCountryLiveData.postValue(countryModel)
+    fun onCountrySelected(countryModel: CountryEntity) = selectedCountryLiveData.postValue(countryModel)
 
 
     private var currentPhone = ""
@@ -124,6 +136,23 @@ constructor(
         )
     }
 
+    fun initSelectedCountry() {
+        if(selectedCountryLiveData.value != null) {
+            return
+        }
+
+        launch {
+            selectedCountryLiveData.value = withContext(dispatchersProvider.ioDispatcher) {
+                try {
+                    countriesRepository.getCurrentCountry()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                    null
+                }
+            }
+        }
+    }
+
     private fun getNormalizedPhone(phone: String) = "+${phone.trim().replace("\\D+".toRegex(), "")}"
 
     init {
@@ -133,5 +162,6 @@ constructor(
     override fun onCleared() {
         super.onCleared()
         signUpUseCase.unsubscribe()
+        scopeJob.takeIf { it.isActive }?.cancel()
     }
 }

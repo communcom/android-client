@@ -1,12 +1,12 @@
 package io.golos.cyber_android.ui.screens.login.signup.country
 
 import androidx.recyclerview.widget.DiffUtil
-import io.golos.domain.interactors.model.CountryModel
+import io.golos.domain.entities.CountryEntity
 
 /**
  * [DiffUtil.Callback] impl for [CountryModel] lists
  */
-class CountryDiffCallback(private val oldList: List<CountryModel>, private val newList: List<CountryModel>) :
+class CountryDiffCallback(private val oldList: List<CountryEntity>, private val newList: List<CountryEntity>) :
     DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

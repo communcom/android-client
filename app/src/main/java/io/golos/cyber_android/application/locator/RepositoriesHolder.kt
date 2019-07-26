@@ -1,5 +1,6 @@
 package io.golos.cyber_android.application.locator
 
+import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.Repository
 import io.golos.domain.entities.*
@@ -15,7 +16,7 @@ interface RepositoriesHolder {
     val commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>
     val embedsRepository: Repository<ProcessedLinksEntity, EmbedRequest>
     val discussionCreationRepository: Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
-    val countriesRepository: Repository<CountriesList, CountriesRequest>
+    val countriesRepository: CountriesRepository
     val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>
     val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>
     val imageUploadRepository: Repository<UploadedImagesEntity, ImageUploadRequest>

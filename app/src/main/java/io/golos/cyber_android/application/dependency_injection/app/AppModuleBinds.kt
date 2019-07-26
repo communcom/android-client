@@ -9,6 +9,8 @@ import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber_android.application.logger.LoggerImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
+import io.golos.domain.DeviceInfoService
+import io.golos.cyber_android.core.device_info.DeviceInfoServiceImpl
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
@@ -20,6 +22,7 @@ import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsI
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractor
@@ -100,10 +103,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideCommentFeeEntityToModelMapper(mapper: CommentsFeedEntityToModelMapper): EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideToCountriesModelMapper(mapper: CountryEntityToModelMapper): EntityToModelMapper<CountryEntity, CountryModel>
 
     @Binds
     abstract fun provideToRegistrationMapper(mapper: UserRegistrationStateEntityMapper): CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>
@@ -294,4 +293,10 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacadeSync
+
+    @Binds
+    abstract fun provideDeviceInfoService(service: DeviceInfoServiceImpl): DeviceInfoService
+
+    @Binds
+    abstract fun provideAppResourcesProvider(provider: AppResourcesProviderImpl): AppResourcesProvider
 }

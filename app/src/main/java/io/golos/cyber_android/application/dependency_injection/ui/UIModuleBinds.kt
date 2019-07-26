@@ -11,13 +11,14 @@ import io.golos.cyber_android.ui.common.helper.UIHelperImpl
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
-import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.UserAuthState
+import io.golos.domain.interactors.model.UserRegistrationStateModel
 import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -47,9 +48,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): EmbedsUseCase
-
-    @Binds
-    abstract fun getCountriesChooserUseCase(useCase: CountriesChooserUseCase): UseCase<CountriesListModel>
 
     @Binds
     abstract fun getSettingUserCase(useCase: SettingsUseCase): UseCase<UserSettingModel>

@@ -4,22 +4,17 @@ import android.app.backup.BackupManager
 import android.content.Context
 import android.os.Build
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import dagger.Module
 import dagger.Provides
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.R
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
-import io.golos.data.repositories.CountriesProvider
-import io.golos.data.repositories.CountriesRepository
+import io.golos.data.repositories.countries.CountriesRepository
+import io.golos.data.repositories.countries.CountriesRepositoryImpl
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.domain.entities.CountriesList
-import io.golos.domain.entities.CountryEntity
-import io.golos.domain.requestmodel.CountriesRequest
 import io.golos.sharedmodel.Cyber4JConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -85,25 +80,7 @@ class AppModule(private val appContext: Context) {
     @Provides
     internal fun provideCountriesRepository(
         moshi: Moshi,
-        appContext: Context,
-        dispatchersProvider: DispatchersProvider,
-        logger: Logger
-    ): Repository<CountriesList, CountriesRequest> =
-
-        CountriesRepository(
-            dispatchersProvider,
-            object : CountriesProvider {
-                override suspend fun getAllCountries(): List<CountryEntity> {
-                    val contriesList =
-                        appContext.resources.openRawResource(R.raw.countries).readBytes().let { String(it) }
-                    return moshi.adapter<List<CountryEntity>>(
-                        Types.newParameterizedType(
-                            List::class.java,
-                            CountryEntity::class.java
-                        )
-                    ).fromJson(contriesList)!!
-                }
-            },
-            logger
-        )
+        appResourcesProvider: AppResourcesProvider,
+        deviceInfoService: DeviceInfoService
+    ): CountriesRepository = CountriesRepositoryImpl(appResourcesProvider, moshi, deviceInfoService)
 }

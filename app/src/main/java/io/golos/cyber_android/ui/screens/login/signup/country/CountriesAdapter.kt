@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.domain.interactors.model.CountryModel
+import io.golos.domain.entities.CountryEntity
 import kotlinx.android.synthetic.main.item_country.view.*
 
 /**
@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.item_country.view.*
 class CountriesAdapter(private val listener: Listener) :
     RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
-    private var values: List<CountryModel> = emptyList()
+    private var values: List<CountryEntity> = emptyList()
 
-    var selectedCountry: CountryModel? = null
+    var selectedCountry: CountryEntity? = null
         set(value) {
             val prevValue = field
             field = value
@@ -34,7 +34,7 @@ class CountriesAdapter(private val listener: Listener) :
             }
         }
 
-    fun submit(list: List<CountryModel>) {
+    fun submit(list: List<CountryEntity>) {
         val diff = DiffUtil.calculateDiff(CountryDiffCallback(values, list))
         values = list
         diff.dispatchUpdatesTo(this)
@@ -51,7 +51,7 @@ class CountriesAdapter(private val listener: Listener) :
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(country: CountryModel) {
+        fun bind(country: CountryEntity) {
             with(itemView) {
                 root.setOnClickListener { listener.onCountryClick(country) }
 
@@ -71,6 +71,6 @@ class CountriesAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun onCountryClick(country: CountryModel)
+        fun onCountryClick(country: CountryEntity)
     }
 }

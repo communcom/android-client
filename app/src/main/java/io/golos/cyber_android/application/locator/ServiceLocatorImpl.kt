@@ -6,14 +6,13 @@ import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import io.golos.cyber4j.Cyber4J
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.R
 import io.golos.cyber_android.application.logger.LoggerImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
+import io.golos.cyber_android.core.device_info.DeviceInfoServiceImpl
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
@@ -24,8 +23,8 @@ import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
-import io.golos.domain.UserKeyStore
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
@@ -37,19 +36,20 @@ import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.QrCodeSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractor
 import io.golos.cyber_android.ui.screens.login.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
+import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.screens.login.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
+import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
+import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
+import io.golos.cyber_android.ui.screens.login.signup.country.model.SignUpCountryModelImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModelImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintViewModel
+import io.golos.cyber_android.ui.screens.login.signup.keys_backup.SignUpProtectionKeysViewModel
+import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel
 import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeModel
 import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeModelImpl
 import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeViewModel
-import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
-import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
-import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
-import io.golos.cyber_android.ui.screens.login.signup.keys_backup.SignUpProtectionKeysViewModel
-import io.golos.cyber_android.ui.screens.login.signup.onboarding.image.OnboardingUserImageViewModel
 import io.golos.cyber_android.ui.screens.main.MainViewModel
 import io.golos.cyber_android.ui.screens.notifications.NotificationsViewModel
 import io.golos.cyber_android.ui.screens.post.PostPageViewModel
@@ -65,10 +65,15 @@ import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.Cyber4jApiService
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
+import io.golos.data.repositories.countries.CountriesRepository
+import io.golos.data.repositories.countries.CountriesRepositoryImpl
 import io.golos.domain.*
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.*
+import io.golos.domain.interactors.feed.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.PostWithCommentUseCase
+import io.golos.domain.interactors.feed.UserPostFeedUseCase
+import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.notifs.events.EventsUseCase
@@ -76,7 +81,6 @@ import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -133,6 +137,9 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val deviceIdProvider = MyDeviceIdProvider(appContext)
 
     // [Dagger] - done
+    private val deviceInfoService: DeviceInfoService by lazy { DeviceInfoServiceImpl(appContext) }
+
+    // [Dagger] - done
     private val postEntityToModelMapper = PostEntityEntitiesToModelMapper(fromHtmlTransformet)
     // [Dagger] - done
     private val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
@@ -142,8 +149,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     private val commentEntityToModelMapper = CommentEntityToModelMapper(fromHtmlTransformet)
     // [Dagger] - done
     private val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
-    // [Dagger] - done
-    private val toCountriesModelMapper = CountryEntityToModelMapper()
     // [Dagger] - done
     private val toRegistrationMapper = UserRegistrationStateEntityMapper()
 
@@ -330,24 +335,10 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
             }
 
     // [Dagger] - done
-    override val countriesRepository: Repository<CountriesList, CountriesRequest>
+    override val countriesRepository: CountriesRepository
             by lazy {
-                CountriesRepository(
-                    dispatchersProvider,
-                    object : CountriesProvider {
-                        override suspend fun getAllCountries(): List<CountryEntity> {
-                            val contriesList =
-                                appContext.resources.openRawResource(R.raw.countries).readBytes().let { String(it) }
-                            return moshi.adapter<List<CountryEntity>>(
-                                Types.newParameterizedType(
-                                    List::class.java,
-                                    CountryEntity::class.java
-                                )
-                            ).fromJson(contriesList)!!
-                        }
-                    },
-                    logger
-                )
+                CountriesRepositoryImpl(
+                    AppResourcesProviderImpl(appContext), moshi, deviceInfoService)
             }
 
     // [Dagger] - done
@@ -506,14 +497,15 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
 
                     SignUpCountryViewModel::class.java -> SignUpCountryViewModel(
                         dispatchersProvider,
-                        getCountriesChooserUseCase()
+                        SignUpCountryModelImpl(dispatchersProvider, countriesRepository)
                     ) as T
 
                     SignUpViewModel::class.java -> SignUpViewModel(
                         getSignOnUseCase(object : TestPassProvider {
                             override fun provide() = BuildConfig.AUTH_TEST_PASS
-                        })
-                    ) as T
+                        }),
+                        countriesRepository,
+                        dispatchersProvider) as T
 
                     NotificationsViewModel::class.java -> NotificationsViewModel(
                         getEventsUseCase()
@@ -696,11 +688,6 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     // [Dagger] - done
     override fun getEmbedsUseCase(): EmbedsUseCase {
         return EmbedsUseCase(dispatchersProvider, embedsRepository)
-    }
-
-    // [Dagger] - done
-    override fun getCountriesChooserUseCase(): CountriesChooserUseCase {
-        return CountriesChooserUseCase(countriesRepository, toCountriesModelMapper, dispatchersProvider)
     }
 
     // [Dagger] - done

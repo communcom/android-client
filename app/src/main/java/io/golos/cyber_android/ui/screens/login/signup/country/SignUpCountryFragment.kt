@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.login.signup.country
 
-
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -17,10 +16,11 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.views.utils.TextWatcherBase
-import io.golos.domain.interactors.model.CountryModel
-import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.entities.CountryEntity
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
@@ -48,7 +48,7 @@ class SignUpCountryFragment : FragmentBase() {
 
         countriesList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         countriesList.adapter = CountriesAdapter(object : CountriesAdapter.Listener {
-            override fun onCountryClick(country: CountryModel) {
+            override fun onCountryClick(country: CountryEntity) {
                 signUpViewModel.onCountrySelected(country)
                 findNavController().navigateUp()
             }
@@ -66,21 +66,22 @@ class SignUpCountryFragment : FragmentBase() {
     }
 
     private fun observeViewModel() {
-        viewModel.readinessLiveData.observe(this, Observer {
-            when (it) {
-                is QueryResult.Loading<*> -> showLoading()
-                is QueryResult.Error<*> -> onLoadingError()
-                is QueryResult.Success<*> -> onLoadingSuccess()
+        viewModel.countries.observe(this, Observer {
+            (countriesList.adapter as CountriesAdapter).submit(it)
+        })
+
+//        signUpViewModel.getSelectedCountryLiveData.observe(this, Observer {
+//            (countriesList.adapter as CountriesAdapter).selectedCountry = it
+//        })
+
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
 
-        viewModel.countriesLiveData.observe(this, Observer {
-            (countriesList.adapter as CountriesAdapter).submit(it.list)
-        })
-
-        signUpViewModel.getSelectedCountryLiveData.observe(this, Observer {
-            (countriesList.adapter as CountriesAdapter).selectedCountry = it
-        })
     }
 
     private fun onLoadingSuccess() {

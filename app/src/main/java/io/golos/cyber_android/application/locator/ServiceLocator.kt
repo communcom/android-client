@@ -14,9 +14,11 @@ import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintMod
 import io.golos.cyber_android.ui.screens.login.signup.pin.PinCodeModel
 import io.golos.domain.*
 import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.*
+import io.golos.domain.interactors.feed.CommunityFeedUseCase
+import io.golos.domain.interactors.feed.PostWithCommentUseCase
+import io.golos.domain.interactors.feed.UserPostFeedUseCase
+import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
@@ -26,7 +28,6 @@ import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.interactors.reg.CountriesChooserUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
@@ -101,8 +102,6 @@ interface ServiceLocator {
     fun getEmbedsUseCase(): EmbedsUseCase
 
     fun getDiscussionPosterUseCase(): DiscussionPosterUseCase
-
-    fun getCountriesChooserUseCase(): CountriesChooserUseCase
 
     fun getImageUploadUseCase(): ImageUploadUseCase
 

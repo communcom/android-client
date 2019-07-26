@@ -20,6 +20,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login.signup.SignUpScreenFragmentBase
 import io.golos.cyber_android.views.utils.ViewUtils
+import io.golos.domain.entities.CountryEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
@@ -64,6 +65,8 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         }
 
         phoneMaskWatcher.installOn(phone)
+
+        signUpViewModel.initSelectedCountry()
     }
 
     override fun observeViewModel() {
@@ -102,7 +105,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         })
     }
 
-    private fun onCountrySelected(countryModel: CountryModel?) {
+    private fun onCountrySelected(countryModel: CountryEntity?) {
         country.setText(countryModel?.countryName)
         countryInputLayout.isActivated = countryModel != null
 
@@ -147,7 +150,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setupPhoneMask(countryModel: CountryModel) {
+    private fun setupPhoneMask(countryModel: CountryEntity) {
         val mask = UnderscoreDigitSlotsParser().parseSlots(
             requireContext().getString(R.string.phone_format).format(countryModel.countryPhoneCode)
         )

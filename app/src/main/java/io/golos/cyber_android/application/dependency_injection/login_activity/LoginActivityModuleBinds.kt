@@ -11,6 +11,8 @@ import io.golos.cyber_android.ui.screens.login.AuthViewModel
 import io.golos.cyber_android.ui.screens.login.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login.signup.country.SignUpCountryViewModel
+import io.golos.cyber_android.ui.screens.login.signup.country.model.SignUpCountryModel
+import io.golos.cyber_android.ui.screens.login.signup.country.model.SignUpCountryModelImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintModelImpl
 import io.golos.cyber_android.ui.screens.login.signup.fingerprint.FingerprintViewModel
@@ -27,6 +29,9 @@ abstract class LoginActivityModuleBinds {
 
     @Binds
     abstract fun provideFingerprintModel(model: FingerprintModelImpl): FingerprintModel
+
+    @Binds
+    abstract fun provideSignUpCountryModel(model: SignUpCountryModelImpl): SignUpCountryModel
 
     @Binds
     @ActivityScope
