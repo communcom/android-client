@@ -12,6 +12,7 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
@@ -61,4 +62,7 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacade
+
+    @Binds
+    abstract fun provideEventsUseCase(useCase: EventsUseCase): EventsUseCase
 }

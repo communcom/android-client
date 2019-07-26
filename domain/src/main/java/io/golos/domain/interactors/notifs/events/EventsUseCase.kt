@@ -19,11 +19,14 @@ import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-24.
  */
-class EventsUseCase(
+class EventsUseCase
+@Inject
+constructor(
     private val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>,
     private val eventsMapper: EntityToModelMapper<EventsListEntity, EventsListModel>,

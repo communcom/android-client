@@ -1,5 +1,6 @@
 package io.golos.cyber_android.application.dependency_injection.on_boarding
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
@@ -16,12 +17,12 @@ abstract class OnBoardingModuleBinds {
     @Binds
     @IntoMap
     @ViewModelKey(EditProfileBioViewModel::class)
-    abstract fun provideEditProfileBioViewModel(viewModel: EditProfileBioViewModel): EditProfileBioViewModel
+    abstract fun provideEditProfileBioViewModel(viewModel: EditProfileBioViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(OnboardingUserImageViewModel::class)
-    abstract fun provideOnboardingUserImageViewModel(viewModel: OnboardingUserImageViewModel): OnboardingUserImageViewModel
+    abstract fun provideOnboardingUserImageViewModel(viewModel: OnboardingUserImageViewModel): ViewModel
 
     @Binds
     abstract fun provideUserMetadataUseCase(useCase: UserMetadataUseCase): UserMetadataUseCase

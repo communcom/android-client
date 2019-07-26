@@ -481,6 +481,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         }
     }
 
+    // [Dagger] - done
     override fun getDefaultViewModelFactory(): ViewModelProvider.Factory {
         return object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
@@ -712,6 +713,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
         return ImageUploadUseCase(imageUploadRepository)
     }
 
+    // [Dagger] - done
     override fun getEventsUseCase(): EventsUseCase {
         return EventsUseCase(
             eventsRepository,

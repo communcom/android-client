@@ -1,5 +1,6 @@
 package io.golos.cyber_android.application.dependency_injection.editor_page
 
+import androidx.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -41,7 +42,7 @@ class EditorPageModule(private val community: CommunityModel?, private val postT
         voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
         commentFeeEntityToModelMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
         dispatchersProvider: DispatchersProvider
-    ): EditorPageViewModel =
+    ): ViewModel =
         EditorPageViewModel(
             embedsUseCase,
             posterUseCase,
