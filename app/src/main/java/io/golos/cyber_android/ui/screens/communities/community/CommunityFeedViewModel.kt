@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.communities.community
 
-import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageTabViewModel
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase

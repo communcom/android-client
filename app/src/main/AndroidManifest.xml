@@ -22,31 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore = "AllowBackup,GoogleAppIndexingWarning">
-        <provider
-                android:name="androidx.core.content.FileProvider"
-                android:authorities="${applicationId}.fileprovider"
-                android:exported="false"
-                android:grantUriPermissions="true">
-            <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/filepaths"/>
-        </provider>
-
-        <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
-
-        <meta-data android:name="com.google.android.backup.api_key"
-                   android:value="AEdPqrEAAAAI6F7XYqx_4KxHxqbJTsqE4dT7-ESMDAbF9gH9ag" />
-
-        <service android:name=".fcm.CommunFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <activity
-                android:name=".ui.screens.login.LoginActivity"
+                android:name=".ui.screens.login_activity.LoginActivity"
                 android:windowSoftInputMode="adjustResize"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.Login">
@@ -66,22 +43,45 @@
         <activity android:name=".ui.screens.profile.edit.settings.ProfileSettingsActivity"
                   android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.screens.profile.edit.bio.EditProfileBioActivity"
+                android:name="io.golos.cyber_android.ui.screens.edit_profile_bio_activity.EditProfileBioActivity"
                 android:windowSoftInputMode="adjustResize"
                 android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.screens.editor.EditorPageActivity"
+                android:name=".ui.screens.editor_page_activity.EditorPageActivity"
                 android:windowSoftInputMode="adjustResize"
                 android:screenOrientation="portrait"/>
-        <activity android:name=".ui.screens.post.PostActivity"
+        <activity android:name="io.golos.cyber_android.ui.shared_fragments.post.PostActivity"
                   android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.screens.main.MainActivity"
+                android:name=".ui.screens.main_activity.MainActivity"
                 android:screenOrientation="portrait"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ui.common.ImageViewerActivity"
                   android:screenOrientation="portrait"/>
-    </application>
 
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/filepaths"/>
+        </provider>
+
+
+        <service android:name=".fcm.CommunFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
+
+        <meta-data android:name="com.google.android.backup.api_key"
+                   android:value="AEdPqrEAAAAI6F7XYqx_4KxHxqbJTsqE4dT7-ESMDAbF9gH9ag" />
+    </application>
 </manifest>

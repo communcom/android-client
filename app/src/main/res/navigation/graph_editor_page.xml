@@ -5,6 +5,6 @@
             app:startDestination="@id/editorPageFragment">
 
     <fragment android:id="@+id/editorPageFragment"
-              android:name="io.golos.cyber_android.ui.screens.editor.EditorPageFragment"
+              android:name="io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment"
               android:label="fragment_editor_page" tools:layout="@layout/fragment_editor_page"/>
 </navigation>

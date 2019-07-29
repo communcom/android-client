@@ -13,9 +13,9 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.feed.*
-import io.golos.cyber_android.ui.screens.post.PostActivity
-import io.golos.cyber_android.ui.screens.post.PostPageFragment
+import io.golos.cyber_android.ui.screens.main_activity.feed.*
+import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration

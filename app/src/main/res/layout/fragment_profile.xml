@@ -6,7 +6,7 @@
         android:id="@+id/profileSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.screens.main.MainActivity">
+        tools:context=".ui.screens.main_activity.MainActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

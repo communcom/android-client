@@ -1,0 +1,110 @@
+package io.golos.cyber_android.ui.screens.login_activity.signup.keys_backup
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber_android.R
+import io.golos.cyber_android.safeNavigate
+import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.keys_backup.view_commands.NavigateToOnboardingCommand
+import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
+import io.golos.cyber_android.ui.screens.login_activity.signup.onboardingImage.OnboardingUserImageFragment
+import io.golos.sharedmodel.CyberName
+import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
+
+
+class SignUpProtectionKeysFragment : FragmentBase() {
+
+    data class Args(val user: CyberName)
+
+    private lateinit var viewModel: SignUpProtectionKeysViewModel
+    private lateinit var signUpViewModel: SignUpViewModel
+
+    private val keysExporter by lazy { PdfKeysExporter(this) }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_sign_up_protection_keys, container, false)
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setupViewModel()
+        observeViewModel()
+
+        keysList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+        backup.setOnClickListener { keysExporter.startExport() }
+        keysExporter.setOnExportCompletedListener { viewModel.onBackupCompleted() }
+        keysExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected() }
+        keysExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        keysExporter.processViewPdfResult(requestCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        keysExporter.processRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    private fun navigateToOnboarding(user: CyberName) {
+        findNavController().safeNavigate(
+            R.id.signUpProtectionKeysFragment,
+            R.id.action_signUpProtectionKeysFragment_to_onboardingUserImageFragment,
+            Bundle().apply {
+                putString(
+                    Tags.ARGS,
+                    requireContext()
+                        .serviceLocator.moshi
+                        .adapter(OnboardingUserImageFragment.Args::class.java)
+                        .toJson(OnboardingUserImageFragment.Args(user))
+                )
+            }
+        )
+    }
+
+    private fun observeViewModel() {
+        viewModel.keysLiveData.observe(this, Observer {
+            keysList.adapter = KeysAdapter(it)
+        })
+
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is NavigateToOnboardingCommand -> navigateToOnboarding(command.user)
+                is StartExportingCommand -> keysExporter.processDataToExport(command.userName, command.userId, command.keys)
+                is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                else -> throw UnsupportedOperationException("This command is not supported")
+            }
+       })
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            requireContext().serviceLocator.getDefaultViewModelFactory()
+        ).get(SignUpProtectionKeysViewModel::class.java)
+
+        signUpViewModel = ViewModelProviders.of(
+            requireActivity(),
+            requireContext()
+                .serviceLocator
+                .getDefaultViewModelFactory()
+        ).get(SignUpViewModel::class.java)
+
+    }
+}

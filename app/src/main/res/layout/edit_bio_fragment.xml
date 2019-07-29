@@ -6,7 +6,7 @@
               android:background="@color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context=".ui.screens.profile.edit.bio.EditProfileBioFragment">
+              tools:context=".ui.shared_fragments.bio.EditProfileBioFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

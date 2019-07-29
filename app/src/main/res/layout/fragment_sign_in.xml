@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        tools:context=".ui.screens.login.signin.SignInFragment">
+        tools:context=".ui.screens.login_activity.signin.SignInFragment">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"

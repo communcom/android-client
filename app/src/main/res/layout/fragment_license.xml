@@ -7,7 +7,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.screens.login.signup.name.SignUpNameFragment">
+        tools:context=".ui.screens.login_activity.signup.name.SignUpNameFragment">
 
     <WebView
             android:id="@+id/licenseView"

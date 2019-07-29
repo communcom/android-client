@@ -21,7 +21,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.cyber_android.ui.screens.login.LoginActivity
+import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSettingsAdapter
 import io.golos.data.errors.AppError
