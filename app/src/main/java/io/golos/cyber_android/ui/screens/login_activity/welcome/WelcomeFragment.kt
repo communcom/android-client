@@ -21,11 +21,12 @@ import io.golos.cyber_android.ui.NavigationArgs
 import io.golos.cyber_android.views.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import java.text.MessageFormat
-
-const val ANIM_DURATION = 3000L
-const val USER_DRAG_ANIM_DELAY = 10000L
+import java.util.concurrent.TimeUnit
 
 class WelcomeFragment : Fragment() {
+    private val startAnimDelay = TimeUnit.SECONDS.toMillis(7)
+    private val userDragAnimDelay = TimeUnit.SECONDS.toMillis(7)
+    private val animDuration = TimeUnit.SECONDS.toMillis(3)
 
     private var handler: Handler = Handler()
 
@@ -68,7 +69,7 @@ class WelcomeFragment : Fragment() {
                 super.onPageScrollStateChanged(state)
                     if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
                         handler.removeCallbacks(switchSlideRunnable)
-                        handler.postDelayed(switchSlideRunnable, USER_DRAG_ANIM_DELAY)
+                        handler.postDelayed(switchSlideRunnable, userDragAnimDelay)
                     }
             }
         })
@@ -88,7 +89,7 @@ class WelcomeFragment : Fragment() {
 
     private val switchSlideRunnable = object : Runnable {
         override fun run() {
-            handler.postDelayed(this, ANIM_DURATION)
+            handler.postDelayed(this, animDuration)
             slidesPager.setCurrentItem(slidesPager.currentItem + 1, true)
         }
     }
@@ -100,7 +101,7 @@ class WelcomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        handler.postDelayed(switchSlideRunnable, ANIM_DURATION)
+        handler.postDelayed(switchSlideRunnable, startAnimDelay)
         ViewUtils.hideKeyboard(requireActivity())
     }
 }
