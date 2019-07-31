@@ -171,16 +171,22 @@
                         <ImageView
                                 android:id="@+id/linkPreviewImageView"
                                 android:adjustViewBounds="true"
-                                android:maxHeight="@dimen/height_editor_image_preview"
                                 tools:src="@drawable/img_example_media"
                                 android:scaleType="centerCrop"
                                 android:layout_width="match_parent"
+
+                                android:layout_marginStart="@dimen/margin_horizontal_default_8dp"
+                                android:layout_marginEnd="@dimen/margin_horizontal_default_8dp"
+
                                 android:layout_height="wrap_content"/>
 
                         <ImageView
                                 android:id="@+id/linkPreviewImageClear"
                                 android:layout_gravity="top|end"
+
                                 android:padding="@dimen/margin_horizontal_default_16dp"
+                                android:layout_marginEnd="@dimen/margin_horizontal_default_8dp"
+
                                 android:background="?attr/selectableItemBackground"
                                 app:srcCompat="@drawable/ic_image_clear"
                                 android:layout_width="wrap_content"
