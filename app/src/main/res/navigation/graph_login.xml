@@ -24,7 +24,7 @@
                 app:popEnterAnim="@anim/nav_slide_in_left" app:popExitAnim="@anim/nav_slide_out_right"/>
     </fragment>
     <fragment android:id="@+id/signUpPhoneFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.phone.SignUpPhoneFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.phone.SignUpPhoneFragment"
               android:label="fragment_sign_up_phone" tools:layout="@layout/fragment_sign_up_phone">
         <action android:id="@+id/action_signUpPhoneFragment_to_signUpCountryFragment"
                 app:destination="@id/signUpCountryFragment" app:enterAnim="@anim/nav_slide_in_right"
@@ -48,10 +48,10 @@
         />
     </fragment>
     <fragment android:id="@+id/signUpCountryFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.country.SignUpCountryFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.SignUpCountryFragment"
               android:label="fragment_sign_up_country" tools:layout="@layout/fragment_sign_up_country"/>
     <fragment android:id="@+id/signUpVerificationFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.verification.SignUpVerificationFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.verification.SignUpVerificationFragment"
               android:label="fragment_sign_up_verification" tools:layout="@layout/fragment_sign_up_verification">
         <action android:id="@+id/action_signUpVerificationFragment_to_signUpNameFragment"
                 app:popUpTo="@id/signUpPhoneFragment"
@@ -60,7 +60,7 @@
                 app:popExitAnim="@anim/nav_slide_out_right"/>
     </fragment>
     <fragment android:id="@+id/signUpNameFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.name.SignUpNameFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.name.SignUpNameFragment"
               android:label="fragment_sign_up_name" tools:layout="@layout/fragment_sign_up_name">
         <action android:id="@+id/action_signUpNameFragment_to_signUpKeyFragment"
                 app:destination="@id/signUpKeyFragment" app:enterAnim="@anim/nav_slide_in_right"
@@ -68,7 +68,7 @@
                 app:popExitAnim="@anim/nav_slide_out_right" app:popUpToInclusive="false" app:popUpTo="@+id/graph_login"/>
     </fragment>
     <fragment android:id="@+id/signUpKeyFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.key.SignUpKeyFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.key.SignUpKeyFragment"
               android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key">
         <action android:id = "@+id/action_signUpKeyFragment_to_pinCodeFragment"
                 app:destination = "@id/pinCodeFragment"
@@ -78,7 +78,7 @@
                 app:popExitAnim = "@anim/nav_slide_out_right"/>
     </fragment>
     <fragment android:id="@+id/onboardingUserImageFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.onboardingImage.OnboardingUserImageFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage.OnboardingUserImageFragment"
               android:label="onboarding_user_image_fragment" tools:layout="@layout/fragment_onboarding_user_image">
         <action android:id="@+id/action_onboardingUserImageFragment_to_onboardingBioFragment"
                 app:destination="@id/onboardingBioFragment" app:enterAnim="@anim/nav_slide_in_right"
@@ -107,7 +107,7 @@
         <argument android:name="DESTINATION" app:argType="string"/>
     </fragment>
     <fragment android:id="@+id/signUpProtectionKeysFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.keys_backup.SignUpProtectionKeysFragment"
+              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.SignUpProtectionKeysFragment"
               android:label="fragment_sign_up_protection_keys" tools:layout="@layout/fragment_sign_up_protection_keys">
         <action android:id = "@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
                 app:destination = "@id/onboardingUserImageFragment"
@@ -118,7 +118,7 @@
                 app:popUpTo = "@+id/graph_login"/>
     </fragment>
     <fragment android:id = "@+id/pinCodeFragment"
-              android:name = "io.golos.cyber_android.ui.screens.login_activity.signup.pin.PinCodeFragment"
+              android:name = "io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeFragment"
               android:label = "fragment_pin_code"
               tools:layout = "@layout/fragment_pin_code">
         <action android:id = "@+id/action_pinCodeFragment_to_fingerprintFragment"
@@ -136,7 +136,7 @@
                 app:popUpTo = "@+id/graph_login"/>
     </fragment>
     <fragment android:id = "@+id/fingerprintFragment"
-              android:name = "io.golos.cyber_android.ui.screens.login_activity.signup.fingerprint.FingerprintFragment"
+              android:name = "io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintFragment"
               android:label = "fragment_fingerprint"
               tools:layout = "@layout/fragment_fingerprint">
         <action android:id = "@+id/action_fingerprintFragment_to_signUpProtectionKeysFragment"

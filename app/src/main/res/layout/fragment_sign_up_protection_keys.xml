@@ -6,7 +6,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.screens.login_activity.signup.keys_backup.SignUpProtectionKeysFragment" android:orientation="vertical">
+        tools:context=".ui.screens.login_activity.signup.fragments.keys_backup.SignUpProtectionKeysFragment" android:orientation="vertical">
 
 
     <com.google.android.material.appbar.AppBarLayout

@@ -110,6 +110,7 @@
     <string name="keys_saved_successfully">Keys saved successfully</string>
     <string name="setup_passcode">Set up Passcode</string>
     <string name="add_short_pin">Add short PIN code</string>
+    <string name="user_name_invalid">Invalid username format</string>
 
     <!--Settings-->
     <string name="general">General</string>

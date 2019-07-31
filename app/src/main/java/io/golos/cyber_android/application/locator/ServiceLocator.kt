@@ -10,8 +10,8 @@ import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
-import io.golos.cyber_android.ui.screens.login_activity.signup.fingerprint.FingerprintModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.pin.PinCodeModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeModel
 import io.golos.domain.*
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.action.VoteUseCase

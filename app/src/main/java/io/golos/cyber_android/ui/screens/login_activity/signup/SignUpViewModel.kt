@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.UserNameValidator
 import io.golos.cyber_android.utils.asEvent
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
@@ -135,6 +136,8 @@ constructor(
             GetUserRegistrationStepRequestModel(currentPhone)
         )
     }
+
+    fun checkUserName(userName: String): Boolean = UserNameValidator().isValid(userName)
 
     fun initSelectedCountry() {
         if(selectedCountryLiveData.value != null) {

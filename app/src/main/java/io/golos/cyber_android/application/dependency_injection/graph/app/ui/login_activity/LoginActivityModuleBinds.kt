@@ -10,16 +10,16 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.login_activity.AuthViewModel
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.country.SignUpCountryViewModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.country.model.SignUpCountryModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.country.model.SignUpCountryModelImpl
-import io.golos.cyber_android.ui.screens.login_activity.signup.fingerprint.FingerprintModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.fingerprint.FingerprintModelImpl
-import io.golos.cyber_android.ui.screens.login_activity.signup.fingerprint.FingerprintViewModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.keys_backup.SignUpProtectionKeysViewModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.pin.PinCodeModel
-import io.golos.cyber_android.ui.screens.login_activity.signup.pin.PinCodeModelImpl
-import io.golos.cyber_android.ui.screens.login_activity.signup.pin.PinCodeViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.SignUpCountryViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.model.SignUpCountryModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.model.SignUpCountryModelImpl
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintModelImpl
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.SignUpProtectionKeysViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeModelImpl
+import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeViewModel
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Module
