@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <io.golos.cyber_android.widgets.CommentWidget
+    <io.golos.cyber_android.ui.common.widgets.CommentWidget
             android:id="@+id/postCommentBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
@@ -35,6 +36,7 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
         setContentView(R.layout.activity_login)
         setupViewModel()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

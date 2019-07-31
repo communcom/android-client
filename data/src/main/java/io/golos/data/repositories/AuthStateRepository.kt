@@ -87,7 +87,7 @@ constructor(
                 authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Loading(newParams))
 
             try {
-                withContext(dispatchersProvider.workDispatcher) {
+                withContext(dispatchersProvider.calculationskDispatcher) {
                     AuthUtils.checkPrivateWiF(newParams.activeKey)
                 }
             } catch (e: IllegalArgumentException) {
@@ -123,7 +123,7 @@ constructor(
                     return@launch
                 }
 
-                val activeKey = withContext(dispatchersProvider.workDispatcher) {
+                val activeKey = withContext(dispatchersProvider.calculationskDispatcher) {
                     account.permissions.find { it.perm_name.compareTo("active") == 0 }
                 }
 
@@ -149,7 +149,7 @@ constructor(
                     return@launch
                 }
 
-                val isWiFsValid = withContext(dispatchersProvider.workDispatcher) {
+                val isWiFsValid = withContext(dispatchersProvider.calculationskDispatcher) {
                     AuthUtils.isWiFsValid(newParams.activeKey, publicActiveKeyFromServer)
                 }
 
@@ -187,7 +187,7 @@ constructor(
 
             val rawAuthData = authRequestsLiveData.value.orEmpty()
 
-            val copy = withContext(dispatchersProvider.workDispatcher) {
+            val copy = withContext(dispatchersProvider.calculationskDispatcher) {
                 rawAuthData.toMutableMap()
                     .also {
                         it.values.map { queryResult ->
@@ -234,7 +234,7 @@ constructor(
         }
 
     private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
-        val loadingQuery = withContext(dispatchersProvider.workDispatcher) {
+        val loadingQuery = withContext(dispatchersProvider.calculationskDispatcher) {
             authRequestsLiveData.value?.entries?.find {
                 val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
                 loadingUser != null && (loadingUser == originalName.userId)

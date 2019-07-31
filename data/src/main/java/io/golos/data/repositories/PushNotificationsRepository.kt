@@ -25,7 +25,7 @@ constructor(
     dispatchersProvider: DispatchersProvider
 ) : Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest> {
 
-    private val repositoryScope = CoroutineScope(dispatchersProvider.workDispatcher + SupervisorJob())
+    private val repositoryScope = CoroutineScope(dispatchersProvider.calculationskDispatcher + SupervisorJob())
     private var lastUpdateJob: Job? = null
     private val updatingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<PushNotificationsStateUpdateRequest>>>()
 

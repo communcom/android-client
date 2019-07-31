@@ -5,6 +5,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
@@ -13,7 +14,8 @@ import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
     UIModule::class,
-    UIModuleBinds::class
+    UIModuleBinds::class,
+    UIModuleChilds::class
 ])
 @UIScope
 interface UIComponent {
@@ -30,4 +32,5 @@ interface UIComponent {
     val mainActivity: MainActivityComponent.Builder
     val postPageFragment: PostPageFragmentComponent.Builder
     val profileSettingsActivity: ProfileSettingsActivityComponent.Builder
+    val inAppAuthActivity:InAppAuthActivityComponent.Builder
 }

@@ -220,11 +220,11 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private fun <T> async(
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> T
-    ) = repositoryScope.async(dispatchersProvider.workDispatcher, start, block)
+    ) = repositoryScope.async(dispatchersProvider.calculationskDispatcher, start, block)
 
     private suspend fun <T> getOnBackground(
         block: suspend CoroutineScope.() -> T
-    ) = kotlinx.coroutines.withContext(dispatchersProvider.workDispatcher, block)
+    ) = kotlinx.coroutines.withContext(dispatchersProvider.calculationskDispatcher, block)
 
     private fun launch(
         exceptionCallback: (Exception) -> Unit = {},

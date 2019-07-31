@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-            <io.golos.cyber_android.widgets.SmsCodeWidget
+            <io.golos.cyber_android.ui.common.widgets.SmsCodeWidget
                     android:id="@+id/smsCode"
                     android:layout_marginTop="@dimen/margin_top_sign_up_sms_code"
                     android:layout_gravity="center_horizontal"

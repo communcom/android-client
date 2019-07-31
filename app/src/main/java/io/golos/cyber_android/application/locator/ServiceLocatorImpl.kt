@@ -247,7 +247,7 @@ class ServiceLocatorImpl(private val appContext: Context) : ServiceLocator, Repo
     override val dispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
             get() = Dispatchers.Main
-        override val workDispatcher: CoroutineDispatcher
+        override val calculationskDispatcher: CoroutineDispatcher
             get() = Dispatchers.Default
         override val ioDispatcher: CoroutineDispatcher
             get() = Dispatchers.IO

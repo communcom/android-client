@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.edit.settings
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.observeUntil
 import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.ui.base.ActivityBase
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
@@ -21,6 +23,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSettingsAdapter
@@ -83,7 +86,10 @@ class ProfileSettingsFragment : FragmentBase() {
             }
         }
 
-        exportKeys.setOnClickListener { keysExporter.startExport() }
+        exportKeys.setOnClickListener {
+            InAppAuthActivity.start(this)
+        }
+
         keysExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected() }
         keysExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
 
@@ -96,7 +102,15 @@ class ProfileSettingsFragment : FragmentBase() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        keysExporter.processViewPdfResult(requestCode)
+
+        when(requestCode) {
+            InAppAuthActivity.REQUEST_CODE -> {
+                if(resultCode == Activity.RESULT_OK) {
+                    keysExporter.startExport()
+                }
+            }
+            else -> keysExporter.processViewPdfResult(requestCode)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

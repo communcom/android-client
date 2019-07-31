@@ -39,6 +39,9 @@
     <dimen name="margin_bottom_code_label">16dp</dimen>
     <dimen name="margin_bottom_pin_code">8dp</dimen>
     <dimen name="text_size_pin_keypad">@dimen/text_size_22_sp</dimen>
+    <dimen name="width_pin_code">228dp</dimen>
+    <dimen name="height_pin_code">56dp</dimen>
+
 
     <!--ButtonWithHintWidget-->
     <dimen name="start_margin_view_button_with_hint">21dp</dimen>
@@ -228,4 +231,8 @@
     <dimen name="image_height_fingerprint_fragment">150dp</dimen>
     <dimen name="margin_top_image_fingerprint_fragment">56dp</dimen>
     <dimen name="margin_top_image_text_fingerprint_fragment">16dp</dimen>
+
+    <!--Auth-->
+    <dimen name="margin_top_auth">32dp</dimen>
+    <dimen name="margin_switch_button_auth">8dp</dimen>
 </resources>

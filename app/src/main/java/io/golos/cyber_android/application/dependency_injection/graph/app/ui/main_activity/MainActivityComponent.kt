@@ -9,7 +9,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(modules = [
-    MainActivityModule::class,
+    MainActivityModuleChilds::class,
     MainActivityModuleBinds::class
 ])
 @ActivityScope

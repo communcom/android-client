@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.widgets.sorting.SortingType
+import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 
 class SortsAdapter(private val values: Array<SortingType>, private val listener: ((SortingType) -> Unit)): RecyclerView.Adapter<SortsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

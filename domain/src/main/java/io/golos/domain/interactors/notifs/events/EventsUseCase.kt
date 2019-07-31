@@ -82,7 +82,7 @@ constructor(
                     lastEventsJob = useCaseScope.launch {
                         val eventsList = it ?: return@launch
                         freshLiveData.value = eventsList.freshCount
-                        val newEvents = withContext(dispatchersProvider.workDispatcher) { eventsMapper(eventsList) }
+                        val newEvents = withContext(dispatchersProvider.calculationskDispatcher) { eventsMapper(eventsList) }
                         lastFetchedChunkLiveData.value = if (eventsLiveData.value == null)
                             newEvents
                         else

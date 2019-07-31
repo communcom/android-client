@@ -31,7 +31,7 @@ internal val logger = object : Logger {
 internal val dispatchersProvider = object : DispatchersProvider {
     override val uiDispatcher: CoroutineDispatcher
         get() = Dispatchers.Main
-    override val workDispatcher: CoroutineDispatcher
+    override val calculationskDispatcher: CoroutineDispatcher
         get() = Dispatchers.Main
     override val ioDispatcher: CoroutineDispatcher
         get() = Dispatchers.Main

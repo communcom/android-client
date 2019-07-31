@@ -8,11 +8,13 @@ import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.sharedmodel.CyberName
+import javax.inject.Inject
 
 /**
  * Helper class for access to App-level private shared preferences
  */
 class KeyValueStorageFacadeImpl
+@Inject
 constructor(
     private val keyValueStorage: Storage,
     private val moshi: Moshi

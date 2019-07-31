@@ -54,7 +54,7 @@ constructor (
             val postEntity = getPostEntity() ?: return@launch
             val votes = getVotes()
 
-            postLiveData.value = withContext(dispatchersProvider.workDispatcher) {
+            postLiveData.value = withContext(dispatchersProvider.calculationskDispatcher) {
                 toModelMapper(
                     DiscussionRelatedEntities(
                         postEntity,

@@ -11,10 +11,10 @@ import io.golos.cyber_android.ui.common.LoadingViewHolder
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.screens.main_activity.feed.HeadersPostsAdapter.EditorWidgetViewHolder
 import io.golos.cyber_android.ui.screens.main_activity.feed.HeadersPostsAdapter.SortingWidgetViewHolder
-import io.golos.cyber_android.widgets.EditorWidget
-import io.golos.cyber_android.widgets.sorting.SortingWidget
-import io.golos.cyber_android.widgets.sorting.TimeFilter
-import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.cyber_android.ui.common.widgets.EditorWidget
+import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
+import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
+import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
 
 
 private const val EDITOR_TYPE = 0

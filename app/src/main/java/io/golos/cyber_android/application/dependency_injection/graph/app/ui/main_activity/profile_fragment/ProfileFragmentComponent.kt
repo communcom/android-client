@@ -1,6 +1,7 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment
 
 import dagger.Subcomponent
+import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [
@@ -14,4 +15,6 @@ interface ProfileFragmentComponent {
         fun init(module: ProfileFragmentModule): Builder
         fun build(): ProfileFragmentComponent
     }
+
+    fun inject(fragment: ProfileFragment)
 }

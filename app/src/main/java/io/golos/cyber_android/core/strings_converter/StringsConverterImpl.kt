@@ -2,8 +2,11 @@ package io.golos.cyber_android.core.strings_converter
 
 import android.util.Base64
 import io.golos.domain.StringsConverter
+import javax.inject.Inject
 
-class StringsConverterImpl: StringsConverter {
+class StringsConverterImpl
+@Inject
+constructor(): StringsConverter {
     override fun toBytes(data: String): ByteArray = data.toByteArray(charset("UTF-8"))
 
     override fun toBase64(data: ByteArray): String = Base64.encodeToString(data, Base64.DEFAULT)

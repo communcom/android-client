@@ -19,10 +19,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TopDividerItemDecoration
-import io.golos.cyber_android.widgets.sorting.SortingType
-import io.golos.cyber_android.widgets.sorting.SortingWidget
-import io.golos.cyber_android.widgets.sorting.TimeFilter
-import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
+import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
+import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
+import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel

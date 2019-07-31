@@ -61,7 +61,7 @@ constructor(
 
             try {
                 (getAsLiveData(params) as MutableLiveData).value =
-                    withContext(dispatchersProvider.workDispatcher) {
+                    withContext(dispatchersProvider.calculationskDispatcher) {
                         val actionResult =
                             @Suppress("IMPLICIT_CAST_TO_ANY")
                             when (params) {

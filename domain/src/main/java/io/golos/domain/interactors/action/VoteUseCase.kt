@@ -53,7 +53,7 @@ constructor(
         mediator.addSource(voteRepository.updateStates) { voteStates ->
             if (voteStates == null) return@addSource
             useCaseScope.launch {
-                val newVoteStateMap = withContext(dispatchersProvider.workDispatcher) {
+                val newVoteStateMap = withContext(dispatchersProvider.calculationskDispatcher) {
                     voteStates.values
                         .map { it.map(voteEntityToModelMapper(it.originalQuery)) }
                         .associateBy { it.originalQuery.discussionIdEntity }
@@ -84,7 +84,7 @@ constructor(
             ))).toMutableMap()
             votingStatesLiveData.value = map
         } else {
-            useCaseScope.launch(dispatchersProvider.workDispatcher) {
+            useCaseScope.launch(dispatchersProvider.calculationskDispatcher) {
                 voteRepository.makeAction(
                     voteModelToEntityMapper(request)
                 )

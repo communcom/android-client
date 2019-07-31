@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.posts.AbstractPostFeedViewModel
-import io.golos.cyber_android.widgets.EditorWidget
-import io.golos.cyber_android.widgets.sorting.SortingWidget
-import io.golos.cyber_android.widgets.sorting.TimeFilter
-import io.golos.cyber_android.widgets.sorting.TrendingSort
+import io.golos.cyber_android.ui.common.widgets.EditorWidget
+import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
+import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
+import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase

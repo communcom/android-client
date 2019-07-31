@@ -7,6 +7,6 @@ import kotlinx.coroutines.CoroutineDispatcher
  */
 interface DispatchersProvider {
     val uiDispatcher: CoroutineDispatcher
-    val workDispatcher: CoroutineDispatcher
+    val calculationskDispatcher: CoroutineDispatcher
     val ioDispatcher: CoroutineDispatcher
 }

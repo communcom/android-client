@@ -5,7 +5,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(modules = [
-    LoginActivityModule::class,
+    LoginActivityModuleChilds::class,
     LoginActivityModuleBinds::class
 ])
 @ActivityScope

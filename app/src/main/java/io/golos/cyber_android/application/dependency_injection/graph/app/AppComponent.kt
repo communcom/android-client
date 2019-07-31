@@ -12,14 +12,4 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UICo
 @ApplicationScope
 interface AppComponent {
     val ui: UIComponent.Builder
-
-/*
-    val ui: UIComponent.Builder
-
-    fun inject(app: App)
-
-    fun inject(converter: MoneyTypeConverter)
-
-    fun inject(worker: UpdateCurrencyRatesWorker)
-*/
 }

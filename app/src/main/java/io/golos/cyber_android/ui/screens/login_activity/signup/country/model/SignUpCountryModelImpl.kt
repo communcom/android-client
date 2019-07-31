@@ -25,7 +25,7 @@ constructor(
         }
 
     override suspend fun search(query: String): List<CountryEntity> =
-        withContext(dispatchersProvider.workDispatcher) {
+        withContext(dispatchersProvider.calculationskDispatcher) {
             try {
                 countriesRepository.search(query)
             } catch(ex: Exception) {

@@ -65,7 +65,7 @@ class AppModule(private val appContext: Context) {
     internal fun provideDispatchersProvider(): DispatchersProvider = object : DispatchersProvider {
         override val uiDispatcher: CoroutineDispatcher
             get() = Dispatchers.Main
-        override val workDispatcher: CoroutineDispatcher
+        override val calculationskDispatcher: CoroutineDispatcher
             get() = Dispatchers.Default
         override val ioDispatcher: CoroutineDispatcher
             get() = Dispatchers.IO

@@ -72,7 +72,7 @@ constructor(
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val discussionCreationResult = withContext(dispatchersProvider.workDispatcher) {
+                val discussionCreationResult = withContext(dispatchersProvider.calculationskDispatcher) {
                     val request = toCyberRequestMapper(params)
                     val apiAnswer = when (request) {
                         is CreateCommentRequest -> discussionsCreationApi.createComment(

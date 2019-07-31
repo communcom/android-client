@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.mvvm.ViewModelKey
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageViewModel
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider

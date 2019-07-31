@@ -29,7 +29,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.adapter.PostPageAdapter
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
-import io.golos.cyber_android.widgets.CommentWidget
+import io.golos.cyber_android.ui.common.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest

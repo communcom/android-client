@@ -69,7 +69,7 @@ abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, 
             }
             //TODO empty feed state
 
-            val resultFeed = withContext(dispatchersProvider.workDispatcher) {
+            val resultFeed = withContext(dispatchersProvider.calculationskDispatcher) {
                 feedMapper(
                     FeedRelatedEntities(
                         feedEntity,

@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <io.golos.cyber_android.widgets.ImageButtonFixedIconSize
+    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
             android:id="@+id/restoreFromCloudButton"
 
             android:layout_width="@dimen/size_image_button"
