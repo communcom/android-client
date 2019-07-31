@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
 import io.golos.cyber_android.safeNavigate
+import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.entities.CountryEntity
@@ -65,8 +66,21 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         }
 
         phoneMaskWatcher.installOn(phone)
+        phone.setOnFocusChangeListener { _, hasFocus ->
+            if(hasFocus) {
+                phone.moveCursorToTheEnd()
+            }
+        }
 
         signUpViewModel.initSelectedCountry()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if(phone.isFocused) {
+            phone.moveCursorToTheEnd()
+        }
     }
 
     override fun observeViewModel() {
