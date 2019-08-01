@@ -122,6 +122,13 @@
     <string name="upvote">Upvote</string>
     <string name="downvote">Downvote</string>
     <string name="points_transfer">Points transfer</string>
+
+    <string name="subscription_to_your_blog">Subscription to your blog</string>
+    <string name="unsubscription_from_your_blog">Unsubscription from your blog</string>
+    <string name="vote_for_you_delegate">Vote for you as a delegate</string>
+    <string name="vote_cancellation_delegate">Vote cancellation for you as a delegate</string>
+    <string name="curator_award">Curator\'s award</string>
+
     <string name="comment_and_reply">Comment and reply</string>
     <string name="mention">Mention</string>
     <string name="rewards_for_posts">Rewards for posts</string>

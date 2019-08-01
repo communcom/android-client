@@ -34,13 +34,13 @@ internal fun NotificationSettingsModel.toSettingsList(): List<NotificationSettin
         ),
 
         NotificationSetting(
-            R.drawable.ic_close,
-            R.string.missing_setting_descr,
+            R.drawable.ic_settings_subscribe,
+            R.string.subscription_to_your_blog,
             this.showSubscribe
         ),
         NotificationSetting(
-            R.drawable.ic_close,
-            R.string.missing_setting_descr,
+            R.drawable.ic_settings_unsubscribe,
+            R.string.unsubscription_from_your_blog,
             this.showUnsubscribe
         ),
 
@@ -56,13 +56,13 @@ internal fun NotificationSettingsModel.toSettingsList(): List<NotificationSettin
         ),
 
         NotificationSetting(
-            R.drawable.ic_close,
-            R.string.missing_setting_descr,
+            R.drawable.ic_settings_delegate_vote,
+            R.string.vote_for_you_delegate,
             this.showWitnessVote
         ),
         NotificationSetting(
-            R.drawable.ic_close,
-            R.string.missing_setting_descr,
+            R.drawable.ic_settings_delegate_vote_cancel,
+            R.string.vote_cancellation_delegate,
             this.showWitnessCancelVote
         ),
 
@@ -73,11 +73,11 @@ internal fun NotificationSettingsModel.toSettingsList(): List<NotificationSettin
         ),
 
         NotificationSetting(
-            R.drawable.ic_close,
-            R.string.missing_setting_descr,
+            R.drawable.ic_settings_rewards_for_posts_1,
+            R.string.curator_award,
             this.showCuratorReward
         )
-        )
+    )
 }
 
 internal fun List<NotificationSetting>.toSettingsEntity(): NotificationSettingsEntity {
