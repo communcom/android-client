@@ -13,6 +13,7 @@ import io.golos.cyber4j.services.model.*
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.sharedmodel.AuthSecret
 import io.golos.sharedmodel.CyberName
 import io.golos.sharedmodel.Either
 import java.io.File
@@ -120,7 +121,7 @@ constructor(private val cyber4j: Cyber4J) :
         postOrCommentPermlink: String,
         voteStrength: Short
     ): TransactionCommitted<VotePublishStruct> {
-        return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength)
+        return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
             .getOrThrow()
     }
 
@@ -152,7 +153,8 @@ constructor(private val cyber4j: Cyber4J) :
             beneficiaries,
             vestPayment,
             tokenProp.toShort(),
-            null
+            null,
+            BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)
         )
         .getOrThrow()
         .run { this to this.extractResult() }
@@ -176,7 +178,8 @@ constructor(private val cyber4j: Cyber4J) :
             beneficiaries,
             vestPayment,
             tokenProp.toShort(),
-            null
+            null,
+            BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)
         )
         .getOrThrow()
         .run { this to this.extractResult() }
@@ -189,12 +192,12 @@ constructor(private val cyber4j: Cyber4J) :
         newTags: List<Tag>,
         newJsonMetadata: DiscussionCreateMetadata
     ): kotlin.Pair<TransactionCommitted<UpdatemssgPublishStruct>, UpdatemssgPublishStruct> {
-        return cyber4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata)
+        return cyber4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
             .getOrThrow().run { this to this.extractResult() }
     }
 
     override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionCommitted<DeletemssgPublishStruct>, DeletemssgPublishStruct> {
-        return cyber4j.deletePostOrComment(postOrCommentPermlink)
+        return cyber4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
             .getOrThrow().run {
                 this to this.extractResult()
             }
@@ -277,7 +280,8 @@ constructor(private val cyber4j: Cyber4J) :
         return cyber4j.setUserMetadata(
             about = about,
             coverImage = coverImage,
-            profileImage = profileImage
+            profileImage = profileImage,
+            bandWidthRequest = BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)
         ).getOrThrow()
     }
 
@@ -286,11 +290,11 @@ constructor(private val cyber4j: Cyber4J) :
     }
 
     override fun pin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
-        return cyber4j.pin(user).getOrThrow().run { this to this.extractResult() }
+        return cyber4j.pin(user, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)).getOrThrow().run { this to this.extractResult() }
     }
 
     override fun unPin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
-        return cyber4j.unPin(user).getOrThrow().run { this to this.extractResult() }
+        return cyber4j.unPin(user, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)).getOrThrow().run { this to this.extractResult() }
     }
 
     override fun waitForTransaction(transactionId: String): ResultOk {

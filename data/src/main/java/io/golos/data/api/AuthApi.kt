@@ -2,8 +2,8 @@ package io.golos.data.api
 
 import io.golos.cyber4j.model.UserProfile
 import io.golos.cyber4j.services.model.AuthResult
-import io.golos.cyber4j.services.model.AuthSecret
 import io.golos.cyber4j.services.model.ResolvedProfile
+import io.golos.sharedmodel.AuthSecret
 import io.golos.sharedmodel.CyberName
 
 /**

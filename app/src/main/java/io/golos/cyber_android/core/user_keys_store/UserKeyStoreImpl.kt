@@ -1,5 +1,6 @@
 package io.golos.cyber_android.core.user_keys_store
 
+import android.util.Log
 import io.golos.cyber4j.model.AuthType
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.domain.Encryptor
@@ -65,12 +66,16 @@ constructor(
     /**
      * @see A master key is not cryptographically resistant!
      */
-    private fun generateMasterKey() = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
+    private fun generateMasterKey() = (UUID.randomUUID().toString() + UUID.randomUUID().toString())
+        .replace("-", "")
+        .substring(0..50)
 
     private fun generateKeys(userName: String, masterKey: String): GeneratedUserKeys {
         val publicKeys = AuthUtils.generatePublicWiFs(userName,  masterKey, AuthType.values())
         val privateKeys = AuthUtils.generatePrivateWiFs(userName, masterKey, AuthType.values())
 
+        Log.d("KEYS_GENERATION", "userName: $userName")
+        Log.d("KEYS_GENERATION", "masterKey: $masterKey")
         return GeneratedUserKeys(
             userName,
             masterKey,
@@ -82,6 +87,8 @@ constructor(
             privateKeys.getValue(AuthType.POSTING),
             publicKeys.getValue(AuthType.MEMO),
             privateKeys.getValue(AuthType.MEMO)
-        )
+        ).also {
+            Log.d("KEYS_GENERATION", "generatedKeys: $it")
+        }
     }
 }

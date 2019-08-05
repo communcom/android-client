@@ -74,7 +74,7 @@ constructor(
                                 is SetUserNameRequest ->
                                     registrationApi.setVerifiedUserName(params.userName, params.phone)
 
-                                is SetUserKeysRequest ->
+                                is SetUserKeysRequest -> {
                                     registrationApi.writeUserToBlockChain(
                                         params.userName,
                                         params.ownerPublicKey,
@@ -82,6 +82,7 @@ constructor(
                                         params.postingPublicKey,
                                         params.memoPublicKey
                                     )
+                                }
                                 is ResendSmsVerificationCode ->
                                     registrationApi.resendSmsCode(params.phone)
                             }
