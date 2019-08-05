@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInArgs
@@ -21,6 +24,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDetector
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDetectorErrorCode
 import kotlinx.android.synthetic.main.fragment_qr_code_sign_in.*
+import javax.inject.Inject
 
 class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     companion object {
@@ -44,8 +48,20 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
 
     private var detector: QrCodeDetector? = null
 
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    @Inject
+    internal lateinit var appContext: Context
+
     override val tabCode: SignInTab by lazy {
         arguments!!.getInt(SignInArgs.TAB_CODE).let { SignInTab.fromIndex(it) }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<LoginActivityComponent>().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -100,7 +116,7 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     private fun initCodeReading() {
         setVisibilityMode(VisibilityMode.DETECTION)
 
-        detector = QrCodeDetector()
+        detector = QrCodeDetector(appContext)
             .apply {
                 setOnCodeReceivedListener {
                     releaseCodeReading()
@@ -155,12 +171,7 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(QrCodeSignInViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(QrCodeSignInViewModel::class.java)
     }
 
     private fun observeViewModel() {

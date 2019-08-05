@@ -10,21 +10,32 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
 import io.golos.cyber_android.utils.asEvent
 import io.golos.data.errors.AppError
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_settings_picker.*
+import javax.inject.Inject
 
 
 class LanguageSettingsFragment : FragmentBase() {
 
     private lateinit var viewModel: ProfileSettingsViewModel
+
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<ProfileSettingsActivityComponent>().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,13 +99,6 @@ class LanguageSettingsFragment : FragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(ProfileSettingsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileSettingsViewModel::class.java)
     }
-
-
 }

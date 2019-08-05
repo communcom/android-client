@@ -5,8 +5,11 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class PinDigit
@@ -28,8 +31,14 @@ constructor(
         ACTIVE_ERROR(R.attr.state_active_error)
     }
 
-    private var currentDrawableState: DrawableState? =
-        DrawableState.NORMAL
+    private var currentDrawableState: DrawableState? = DrawableState.NORMAL
+
+    @Inject
+    internal lateinit var dispatchersProvider: DispatchersProvider
+
+    init {
+        App.injections.get<UIComponent>().inject(this)
+    }
 
     var digit: Digit? = null
     set(value) {
@@ -41,7 +50,7 @@ constructor(
     private var childJob: Job? = null
 
     override val coroutineContext: CoroutineContext
-        get() = parentJob + context.serviceLocator.dispatchersProvider.uiDispatcher
+        get() = parentJob + dispatchersProvider.uiDispatcher
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()

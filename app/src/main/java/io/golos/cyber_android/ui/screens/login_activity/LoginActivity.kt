@@ -7,16 +7,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.base.ActivityBase
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManager
+import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManagerTarget
+import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimator
+import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatorTarget
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
-import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManagerTarget
-import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManager
-import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimator
-import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatorTarget
+import javax.inject.Inject
 
 
 class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimatorTarget {
@@ -30,8 +32,13 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
     }
     private var authInProgress = false
 
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        App.injections.get<LoginActivityComponent>().inject(this)
 
         setContentView(R.layout.activity_login)
         setupViewModel()
@@ -43,10 +50,14 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
 
         splashAnimationManager.clear()
         splashAnimator.clear()
+
+        if(isFinishing) {
+            App.injections.release<LoginActivityComponent>()
+        }
     }
 
     private fun setupViewModel() {
-        val viewModel = ViewModelProviders.of(this, serviceLocator.getDefaultViewModelFactory()).get(AuthViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {
             splashAnimationManager.processEvent(it)

@@ -5,18 +5,27 @@ import android.app.backup.BackupDataInput
 import android.app.backup.BackupDataOutput
 import android.os.ParcelFileDescriptor
 import android.util.Log.d
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
+import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
 import io.golos.shared_core.MurmurHash
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 @Suppress("unused")
 class CommunBackupAgent: BackupAgent() {
 
     private val BACKUP_KEY = "KEYS_GEN_0"
 
-    private val backupKeysFacade by lazy { serviceLocator.backupKeysFacadeSync }
+    @Inject
+    internal lateinit var backupKeysFacade: BackupKeysFacadeSync
+
+    override fun onCreate() {
+        super.onCreate()
+        App.injections.get<AppComponent>().inject(this)
+    }
 
     override fun onRestore(data: BackupDataInput, appVersionCode: Int, newState: ParcelFileDescriptor) {
         d("BACKUP_RESTORE", "CommunBackupAgent::onRestore(): started. Thread: ${Thread.currentThread().name}")

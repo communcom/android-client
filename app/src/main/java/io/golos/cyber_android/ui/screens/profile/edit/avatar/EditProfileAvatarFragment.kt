@@ -4,6 +4,7 @@ import android.graphics.Point
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,27 +13,39 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*
 import java.io.File
+import javax.inject.Inject
 
 
 class EditProfileAvatarFragment : ImagePickerFragmentBase() {
-
+    @Parcelize
     data class Args(
-        val user: CyberName,
+        val userCyberName: String,
         val source: ImageSource,
         val forOnboarding: Boolean = false
-    )
+    ): Parcelable
 
     private lateinit var viewModel: EditProfileAvatarViewModel
 
     private var selectedUri: Uri? = null
+
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<EditProfileAvatarActivityComponent>(CyberName(getArgs().userCyberName)).inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,22 +124,12 @@ class EditProfileAvatarFragment : ImagePickerFragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getViewModelFactoryByCyberName(getArgs().user)
-        ).get(EditProfileAvatarViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditProfileAvatarViewModel::class.java)
     }
 
     override fun getInitialImageSource() = getArgs().source
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
-
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 
     companion object {
         fun newInstance(serializedArgs: String) =

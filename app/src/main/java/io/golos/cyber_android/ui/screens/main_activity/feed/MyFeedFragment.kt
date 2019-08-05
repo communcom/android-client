@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
@@ -35,6 +37,7 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*
+import javax.inject.Inject
 
 /**
  * Fragment that represents MY FEED tab of the Feed Page
@@ -44,8 +47,25 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
 
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
     override val feedList: RecyclerView
         get() = feedRecyclerView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<MyFeedFragmentComponent>(
+            CyberUser(arguments?.getString(Tags.USER_ID)!!),
+            arguments?.getString(Tags.USER_ID)!!.toCyberName())
+            .inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<MyFeedFragmentComponent>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -241,15 +261,7 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
     }
 
     override fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getUserSubscriptionsFeedViewModelFactory(
-                    CyberUser(arguments?.getString(Tags.USER_ID)!!),
-                    arguments?.getString(Tags.USER_ID)!!.toCyberName()
-                )
-        ).get(UserSubscriptionsFeedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserSubscriptionsFeedViewModel::class.java)
     }
 
     companion object {

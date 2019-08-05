@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
@@ -23,6 +25,7 @@ import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.domain.entities.CountryEntity
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import javax.inject.Inject
 
 /**
  * Fragment for selecting country (as [CountryModel]) for SignUpPhoneFragment
@@ -32,6 +35,14 @@ class SignUpCountryFragment : FragmentBase() {
     private lateinit var viewModel: SignUpCountryViewModel
 
     private lateinit var signUpViewModel: SignUpViewModel
+
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<LoginActivityComponent>().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,10 +81,6 @@ class SignUpCountryFragment : FragmentBase() {
             (countriesList.adapter as CountriesAdapter).submit(it)
         })
 
-//        signUpViewModel.getSelectedCountryLiveData.observe(this, Observer {
-//            (countriesList.adapter as CountriesAdapter).selectedCountry = it
-//        })
-
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
@@ -95,18 +102,8 @@ class SignUpCountryFragment : FragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireContext()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(SignUpCountryViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpCountryViewModel::class.java)
 
-        signUpViewModel = ViewModelProviders.of(
-            requireActivity(),
-            requireContext()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(SignUpViewModel::class.java)
+        signUpViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(SignUpViewModel::class.java)
     }
 }

@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.profile.edit.cover
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,30 +15,43 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.TouchImageView
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_profile_cover_fragment.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 
 class EditProfileCoverFragment : ImagePickerFragmentBase() {
-
+    @Parcelize
     data class Args(
-        val user: CyberName,
+        val userCyberName: String,
         val source: ImageSource
-    )
+    ): Parcelable
 
     private lateinit var viewModel: EditProfileCoverViewModel
 
     private var selectedUri: Uri? = null
+
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<EditProfileCoverActivityComponent>(CyberName(getArgs().userCyberName)).inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -143,21 +157,12 @@ class EditProfileCoverFragment : ImagePickerFragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getViewModelFactoryByCyberName(getArgs().user)
-        ).get(EditProfileCoverViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditProfileCoverViewModel::class.java)
     }
 
     override fun getInitialImageSource() = getArgs().source
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 
     companion object {
         fun newInstance(serializedArgs: String) =

@@ -1,5 +1,6 @@
 package io.golos.domain.interactors.feed
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -18,10 +19,15 @@ import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-03-27.
- */
-class PostWithCommentUseCase
+interface PostWithCommentUseCase {
+    val getPostAsLiveData: LiveData<PostModel>
+
+    fun subscribe()
+
+    fun unsubscribe()
+}
+
+class PostWithCommentUseCaseImpl
 @Inject
 constructor (
     postId: DiscussionIdModel,
@@ -37,7 +43,7 @@ constructor (
     voteRepository,
     feedMapper,
     dispatchersProvider
-) {
+), PostWithCommentUseCase {
 
     private val useCaseScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private var job: Job? = null
@@ -46,7 +52,7 @@ constructor (
 
     private val postLiveData = MutableLiveData<PostModel>()
 
-    val getPostAsLiveData = postLiveData.distinctUntilChanged()
+    override val getPostAsLiveData: LiveData<PostModel> = postLiveData.distinctUntilChanged()
 
     private fun onRelatedDataChanges() {
         job?.cancel()

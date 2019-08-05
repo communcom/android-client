@@ -6,7 +6,8 @@ import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
-import io.golos.domain.interactors.feed.PostWithCommentUseCase
+import io.golos.domain.interactors.UseCase
+import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
@@ -35,12 +36,12 @@ data class UserPickedImageModel(val localUri: Uri? = null,
 class EditorPageViewModel
 @Inject
 constructor(
-    private val embedsUseCase: EmbedsUseCase,
-    private val posterUseCase: DiscussionPosterUseCase,
-    private val imageUploadUseCase: ImageUploadUseCase,
+    private val embedsUseCase: UseCase<ProccesedLinksModel>,
+    private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
+    private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
-    private val postUseCase: PostWithCommentUseCase?
+    private val postUseCase: PostWithCommentUseCaseImpl?
 ) : ViewModel() {
 
     private val urlParserJobScope = viewModelScope
@@ -194,7 +195,7 @@ constructor(
                     val link = group()
                     if (currentEmbeddedLink.compareTo(link) != 0) {
                         currentEmbeddedLink = link
-                        embedsUseCase.requestLinkEmbedData(currentEmbeddedLink)
+                        (embedsUseCase as EmbedsUseCase).requestLinkEmbedData(currentEmbeddedLink)
                     }
                 } else {
                     emptyEmbedLiveData.postValue(true)
@@ -213,7 +214,7 @@ constructor(
             viewModelScope.launch {
                 getAttachedImageLiveData.value?.localUri?.let { uri ->
                     val imageFile = File(uri.path)
-                    imageUploadUseCase.submitImageForUpload(
+                    (imageUploadUseCase as ImageUploadUseCase).submitImageForUpload(
                         imageFile.absolutePath,
                         CompressionParams.DirectCompressionParams
                     )
@@ -243,7 +244,7 @@ constructor(
     private fun editPost(images: List<String> = emptyList()) {
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
 
-        posterUseCase.updatePost(
+        (posterUseCase as DiscussionPosterUseCase).updatePost(
             UpdatePostRequestModel(
                 postToEdit!!.permlink, title, content,
                 tags,
@@ -256,7 +257,7 @@ constructor(
     private fun createPost(images: List<String> = emptyList()) {
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
         val postRequest = PostCreationRequestModel(title, content, tags, images)
-        posterUseCase.createPostOrComment(postRequest)
+        (posterUseCase as DiscussionPosterUseCase).createPostOrComment(postRequest)
     }
 
     private fun validate(title: CharSequence, content: CharSequence): Boolean {

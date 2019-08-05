@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -16,26 +17,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.common.widgets.CommentWidget
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.adapter.PostPageAdapter
-import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
-import io.golos.cyber_android.ui.common.widgets.CommentWidget
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
+import javax.inject.Inject
 
 
 const val INPUT_ANIM_DURATION = 400L
@@ -49,17 +54,31 @@ const val POST_MENU_REQUEST = 102
 class PostPageFragment :
     AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
 
-    data class Args(val id: DiscussionIdModel, val scrollToComments: Boolean = false)
+    @Parcelize
+    data class Args(
+        val id: DiscussionIdModel,
+        val scrollToComments: Boolean = false
+    ): Parcelable
 
     override val feedList: RecyclerView
         get() = postView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_post, container, false)
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<PostPageFragmentComponent>(getArgs().id).inject(this)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<PostPageFragmentComponent>()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_post, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -354,20 +373,8 @@ class PostPageFragment :
     }
 
     override fun setupViewModel() {
-        val id = getArgs().id
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getPostWithCommentsViewModelFactory(id)
-        ).get(PostPageViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PostPageViewModel::class.java)
     }
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(PostPageFragment.Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
-
-
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)
 }

@@ -32,8 +32,7 @@ constructor(
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
     dispatchersProvider: DispatchersProvider,
     logger: Logger
-) :
-    AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
+) : AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
         feedMapper,
         postMapper,
         postMerger,

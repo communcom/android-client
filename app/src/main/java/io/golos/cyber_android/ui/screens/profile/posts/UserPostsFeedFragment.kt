@@ -8,8 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
@@ -29,6 +31,7 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_user_posts_feed_list.*
+import javax.inject.Inject
 
 /**
  * Fragment that represents POSTS tab of the Profile Page
@@ -38,15 +41,24 @@ open class UserPostsFeedFragment :
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
 
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
     override val feedList: RecyclerView
         get() = feedRecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_user_posts_feed_list, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<UserPostsFeedFragmentComponent>(CyberUser(arguments?.getString(Tags.USER_ID)!!)).inject(this)
     }
+
+    override fun onDestroy() {
+        App.injections.release<UserPostsFeedFragmentComponent>()
+        super.onDestroy()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_user_posts_feed_list, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -181,12 +193,7 @@ open class UserPostsFeedFragment :
     }
 
     override fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getUserPostsFeedViewModelFactory(CyberUser(arguments?.getString(Tags.USER_ID)!!))
-        ).get(UserPostsFeedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserPostsFeedViewModel::class.java)
     }
 
     companion object {

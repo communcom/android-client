@@ -1,8 +1,11 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.name
 
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenViewModelBase
+import javax.inject.Inject
 
-class SignUpNameViewModel : SignUpScreenViewModelBase() {
+class SignUpNameViewModel
+@Inject
+constructor() : SignUpScreenViewModelBase() {
 
     companion object {
         /**

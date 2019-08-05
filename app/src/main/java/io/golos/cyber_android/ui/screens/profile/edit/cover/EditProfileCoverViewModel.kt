@@ -2,7 +2,9 @@ package io.golos.cyber_android.ui.screens.profile.edit.cover
 
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
+import io.golos.domain.interactors.model.UploadedImagesModel
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.CompressionParams
@@ -13,7 +15,7 @@ class EditProfileCoverViewModel
 @Inject
 constructor(
     private val userMetadataUseCase: UserMetadataUseCase,
-    private val imageUploadUseCase: ImageUploadUseCase,
+    private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     val dispatchersProvider: DispatchersProvider
 ) : EditProfileViewModelBase(userMetadataUseCase) {
 
@@ -40,7 +42,7 @@ constructor(
      * @param height required image height in % of original image height
      */
     fun uploadFile(file: File, x: Float, y: Float, width: Float, height: Float) {
-        imageUploadUseCase.submitImageForUpload(
+        (imageUploadUseCase as ImageUploadUseCase).submitImageForUpload(
             file.absolutePath,
             CompressionParams.RelativeCompressionParams(x, y, width, height)
         )

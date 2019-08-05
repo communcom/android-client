@@ -10,6 +10,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
+import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -33,4 +34,6 @@ interface UIComponent {
     val postPageFragment: PostPageFragmentComponent.Builder
     val profileSettingsActivity: ProfileSettingsActivityComponent.Builder
     val inAppAuthActivity:InAppAuthActivityComponent.Builder
+
+    fun inject(pinDigit: PinDigit)
 }

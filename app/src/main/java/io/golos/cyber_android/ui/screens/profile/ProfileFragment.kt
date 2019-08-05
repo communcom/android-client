@@ -18,10 +18,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageLiveDataProvider
@@ -43,6 +45,7 @@ import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 
 const val REQUEST_UPDATE_COVER_DIALOG = 101
@@ -63,6 +66,19 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
     }
 
     private lateinit var viewModel: ProfileViewModel
+
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<ProfileFragmentComponent>(getUserName().toCyberName()).inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<ProfileFragmentComponent>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -279,7 +295,7 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
                     EditProfileBioActivity.getIntent(
                         requireContext(),
                         EditProfileBioFragment.Args(
-                            profile.userId,
+                            profile.userId.name,
                             profile.personal.biography ?: ""
                         )
                     )
@@ -333,7 +349,7 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
                 EditProfileCoverActivity
                     .getIntent(
                         requireContext(),
-                        EditProfileCoverFragment.Args(viewModel.forUser, target)
+                        EditProfileCoverFragment.Args(viewModel.forUser.name, target)
                     ), REQUEST_UPDATE_COVER
             )
         }
@@ -354,19 +370,14 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
                 EditProfileAvatarActivity
                     .getIntent(
                         requireContext(),
-                        EditProfileAvatarFragment.Args(viewModel.forUser, target)
+                        EditProfileAvatarFragment.Args(viewModel.forUser.name, target)
                     ), REQUEST_UPDATE_PHOTO
             )
         }
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getViewModelFactoryByCyberName(getUserName().toCyberName())
-        ).get(ProfileViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileViewModel::class.java)
     }
 
     private fun getUserName() = (arguments?.getString(Tags.USER_ID) ?: "")

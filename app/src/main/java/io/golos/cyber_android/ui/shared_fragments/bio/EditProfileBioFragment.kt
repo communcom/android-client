@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.bio
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -10,21 +11,26 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_bio_fragment.*
+import javax.inject.Inject
 
 class EditProfileBioFragment : FragmentBase() {
 
+    @Parcelize
     data class Args(
-        val user: CyberName,
+        val userCyberName: String,
         val initialBio: String
-    )
+    ): Parcelable
 
     companion object {
         fun newInstance(serializedArgs: String) = EditProfileBioFragment().apply {
@@ -35,6 +41,19 @@ class EditProfileBioFragment : FragmentBase() {
     }
 
     private lateinit var viewModel: EditProfileBioViewModel
+
+    @Inject
+    lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<BioFragmentComponent>(CyberName(getArgs().userCyberName)).inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<BioFragmentComponent>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,18 +117,8 @@ class EditProfileBioFragment : FragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getViewModelFactoryByCyberName(getArgs().user)
-        ).get(EditProfileBioViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditProfileBioViewModel::class.java)
     }
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
-
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 }

@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboar
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,29 +12,48 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
 import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.setPadding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
-import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
+import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_user_image.*
+import javax.inject.Inject
 
 const val REQUEST_UPDATE_PHOTO_DIALOG = 102
 const val REQUEST_UPDATE_PHOTO = 103
 
 
 class OnboardingUserImageFragment : FragmentBase() {
-
-    data class Args(val user: CyberName)
+    @Parcelize
+    data class Args(
+        val userCyberName: String
+    ): Parcelable
 
     private lateinit var viewModel: OnboardingUserImageViewModel
+
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<OnBoardingFragmentComponent>(CyberName(getArgs().userCyberName)).inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<OnBoardingFragmentComponent>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,15 +84,7 @@ class OnboardingUserImageFragment : FragmentBase() {
         findNavController().safeNavigate(
             R.id.onboardingUserImageFragment,
             R.id.action_onboardingUserImageFragment_to_onboardingBioFragment,
-            Bundle().apply {
-                putString(
-                    Tags.ARGS,
-                    requireContext()
-                        .serviceLocator.moshi
-                        .adapter(OnboardingBioFragment.Args::class.java)
-                        .toJson(OnboardingBioFragment.Args(getArgs().user))
-                )
-            }
+            Bundle().apply { putParcelable( Tags.ARGS,OnboardingBioFragment.Args(getArgs().userCyberName)) }
         )
     }
 
@@ -111,26 +123,15 @@ class OnboardingUserImageFragment : FragmentBase() {
                 EditProfileAvatarActivity
                     .getIntent(
                         requireContext(),
-                        EditProfileAvatarFragment.Args(getArgs().user, target, forOnboarding = true)
+                        EditProfileAvatarFragment.Args(getArgs().userCyberName, target, forOnboarding = true)
                     ), REQUEST_UPDATE_PHOTO
             )
         }
     }
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireContext()
-                .serviceLocator
-                .getViewModelFactoryByCyberName(getArgs().user)
-        )
-            .get(OnboardingUserImageViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(OnboardingUserImageViewModel::class.java)
     }
-
 }

@@ -6,6 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
@@ -13,6 +14,8 @@ import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 
 @Module
@@ -22,7 +25,10 @@ abstract class TrendingFeedFragmentModuleBinds {
 
     @Binds
     @FragmentScope
-    abstract fun bindViewModelFactory(factory: FragmentViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
+
+    @Binds
+    abstract fun provideUserMetadataUseCase(useCase: UserMetadataUseCaseImpl): UserMetadataUseCase
 
     @Binds
     @IntoMap

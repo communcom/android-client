@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.base
 
 import androidx.fragment.app.Fragment
-import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
+import javax.inject.Inject
 
 /**
  * [Fragment] that supports showing progress with [LoadingDialog] via
@@ -15,7 +15,8 @@ abstract class FragmentBase: Fragment() {
 
     private var wasAdded = false
 
-    protected val uiHelper: UIHelper by lazy { requireContext().serviceLocator.uiHelper }
+    @Inject
+    protected lateinit var uiHelper: UIHelper
 
     protected fun setLoadingVisibility(isVisible: Boolean) =
         if(isVisible) {

@@ -12,16 +12,18 @@ abstract class ViewModelFactory(private val viewModels: MutableMap<Class<out Vie
     override fun <T : ViewModel> create(modelClass: Class<T>): T = viewModels[modelClass]?.get() as T
 }
 
-@FragmentScope
-class FragmentViewModelFactory
-@Inject
-constructor(
-    viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
-) : ViewModelFactory(viewModels)
+interface FragmentViewModelFactory: ViewModelProvider.Factory
 
-@ActivityScope
-class ActivityViewModelFactory
+class FragmentViewModelFactoryImpl
 @Inject
 constructor(
     viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
-) : ViewModelFactory(viewModels)
+) : ViewModelFactory(viewModels), FragmentViewModelFactory
+
+interface ActivityViewModelFactory: ViewModelProvider.Factory
+
+class ActivityViewModelFactoryImpl
+@Inject
+constructor(
+    viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>
+) : ViewModelFactory(viewModels), ActivityViewModelFactory

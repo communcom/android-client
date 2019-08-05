@@ -13,8 +13,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
@@ -22,6 +24,8 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
+import org.spongycastle.crypto.Mac
+import javax.inject.Inject
 
 
 class MainActivity : ActivityBase() {
@@ -36,9 +40,14 @@ class MainActivity : ActivityBase() {
 
     private lateinit var viewModel: MainViewModel
 
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        App.injections.get<MainActivityComponent>().inject(this)
 
         addNotificationsBadge()
         setupViewModel()
@@ -78,11 +87,7 @@ class MainActivity : ActivityBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
     private fun setupPager(user: CyberName) {

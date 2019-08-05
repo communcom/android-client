@@ -11,9 +11,8 @@ import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.Barcode.QR_CODE
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import io.golos.cyber_android.serviceLocator
 
-class QrCodeDetector {
+class QrCodeDetector(private val appContext: Context) {
     private var onCodeReceivedListener: ((QrCodeDecrypted) -> Unit)? = null
 
     private var onDetectionErrorListener: ((QrCodeDetectorErrorCode) -> Unit)? = null
@@ -37,8 +36,6 @@ class QrCodeDetector {
         if(camera != null) {
             return
         }
-
-        val appContext = context.serviceLocator.getAppContext
 
         // Create & check detector
         val detector = BarcodeDetector.Builder(appContext).setBarcodeFormats(QR_CODE).build()

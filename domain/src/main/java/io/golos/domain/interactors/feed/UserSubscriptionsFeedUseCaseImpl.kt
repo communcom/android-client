@@ -13,10 +13,13 @@ import io.golos.domain.requestmodel.UserSubscriptionsFeedUpdateRequest
 import io.golos.domain.rules.EntityToModelMapper
 import javax.inject.Inject
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
- */
-class UserSubscriptionsFeedUseCase
+interface UserSubscriptionsFeedUseCase {
+    val baseFeedUpdateRequest: UserSubscriptionsFeedUpdateRequest
+
+    fun requestFeedUpdate(limit: Int, option: UpdateOption, sort: DiscussionsSort?, timeFrame: FeedTimeFrameOption?)
+}
+
+class UserSubscriptionsFeedUseCaseImpl
 @Inject
 constructor(
     private val userId: CyberUser,
@@ -29,9 +32,7 @@ constructor(
     voteRepository,
     feedMapper,
     dispatchersProvider
-) {
-
-
+), UserSubscriptionsFeedUseCase {
     override val baseFeedUpdateRequest: UserSubscriptionsFeedUpdateRequest
         get() = UserSubscriptionsFeedUpdateRequest(userId.userId, 0, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL, null)
 

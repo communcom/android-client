@@ -6,6 +6,7 @@ import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.Model
 import io.golos.domain.asElapsedTime
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dependency_injection.scopes.UIScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.*
@@ -231,7 +232,10 @@ class UserMetadataEntityToModelMapper : EntityToModelMapper<UserMetadataEntity, 
     }
 }
 
-class EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsListModel> {
+@UIScope
+class EventEntityToModelMapper
+@Inject
+constructor() : EntityToModelMapper<EventsListEntity, EventsListModel> {
     private val cache = Collections.synchronizedMap(HashMap<EventEntity, EventModel>())
 
     override suspend fun invoke(entity: EventsListEntity): EventsListModel {

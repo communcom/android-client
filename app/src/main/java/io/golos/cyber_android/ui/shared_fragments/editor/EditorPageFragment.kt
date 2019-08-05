@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -22,8 +23,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import im.delight.android.webview.AdvancedWebView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
@@ -37,25 +40,40 @@ import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
+import javax.inject.Inject
 
 const val GALLERY_REQUEST = 101
 
-
 class EditorPageFragment : ImagePickerFragmentBase() {
-
+    @Parcelize
     data class Args(
         val postToEdit: DiscussionIdModel? = null,
         val community: CommunityModel? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
-    )
+    ): Parcelable
 
     private lateinit var viewModel: EditorPageViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    @Inject
+    lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val args = getArgs()
+        App.injections.get<EditorPageFragmentComponent>(args.community, args.postToEdit).inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        linkPreviewWebView?.onDestroy()
+        App.injections.release<EditorPageFragmentComponent>()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_editor_page, container, false)
     }
 
@@ -376,20 +394,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     }
 
     private fun setupViewModel() {
-        val args = getArgs()
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getEditorPageViewModelFactory(args.community, args.postToEdit)
-        ).get(EditorPageViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditorPageViewModel::class.java)
     }
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 
     override fun onPause() {
         linkPreviewWebView.onPause()
@@ -399,11 +407,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun onResume() {
         linkPreviewWebView.onResume()
         super.onResume()
-    }
-
-    override fun onDestroy() {
-        linkPreviewWebView?.onDestroy()
-        super.onDestroy()
     }
 
     override fun onImagePickingCancel() {

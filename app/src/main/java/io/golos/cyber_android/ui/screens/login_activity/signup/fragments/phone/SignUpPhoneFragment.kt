@@ -17,6 +17,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
@@ -118,6 +120,8 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
             phone.setText(phoneValue)
         })
     }
+
+    override fun inject() = App.injections.get<LoginActivityComponent>().inject(this)
 
     private fun onCountrySelected(countryModel: CountryEntity?) {
         country.setText(countryModel?.countryName)

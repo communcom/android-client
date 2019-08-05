@@ -46,12 +46,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
     private val components = mutableMapOf<KClass<*>, Any>()
 
-    inline fun <reified T>get(vararg args: Any): T = getComponent(T::class, args)
+    inline fun <reified T>get(vararg args: Any?): T = getComponent(T::class, args)
 
     inline fun <reified T>release() = releaseComponent(T::class)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T>getComponent(type: KClass<*>, args: Array<out Any>): T {
+    fun <T>getComponent(type: KClass<*>, args: Array<out Any?>): T {
         var result = components[type]
         if(result == null) {
             result = provideComponent<T>(type, args)
@@ -63,7 +63,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
     fun releaseComponent(type: KClass<*>) = components.remove(type)
 
     @Suppress("IMPLICIT_CAST_TO_ANY", "UNCHECKED_CAST")
-    private fun <T>provideComponent(type: KClass<*>, args: Array<out Any>): T {
+    private fun <T>provideComponent(type: KClass<*>, args: Array<out Any?>): T {
         return when(type) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
 

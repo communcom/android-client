@@ -7,8 +7,11 @@ import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenViewM
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpVerificationViewModel: SignUpScreenViewModelBase() {
+class SignUpVerificationViewModel
+@Inject
+constructor(): SignUpScreenViewModelBase() {
 
     companion object {
         private const val RESEND_TIMEOUT_SECONDS = 59

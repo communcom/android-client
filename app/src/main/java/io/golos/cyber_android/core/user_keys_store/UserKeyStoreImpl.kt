@@ -6,18 +6,20 @@ import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.UserKeyStore
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.interactors.model.GeneratedUserKeys
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class UserKeyStoreImpl
 @Inject
 constructor(
     private val keyValueStorage: KeyValueStorageFacade,
     private val stringsConverter: StringsConverter,
-    private val encryptor: Encryptor
+    @Named(Clarification.AES) private val encryptor: Encryptor
 ): UserKeyStore {
     /**
      * Generates new keys, stores and returns them

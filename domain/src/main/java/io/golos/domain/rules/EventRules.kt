@@ -1,15 +1,20 @@
 package io.golos.domain.rules
 
 import io.golos.cyber4j.services.model.*
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.HashMap
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-24.
  */
-class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity> {
+@ApplicationScope
+class EventsToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity> {
     private val cache = Collections.synchronizedMap(HashMap<Event, EventEntity>())
 
     override suspend fun invoke(cyberObject: EventsListDataWithQuery): EventsListEntity {
@@ -135,7 +140,9 @@ class EventsToEntityMapper : CyberToEntityMapper<EventsListDataWithQuery, Events
     private fun CyberCommunity.toEntity() = CommunityEntity.fromCyber(this)
 }
 
-class EventsEntityMerger : EntityMerger<EventsListEntity> {
+class EventsEntityMerger
+@Inject
+constructor() : EntityMerger<EventsListEntity> {
     override fun invoke(new: EventsListEntity, old: EventsListEntity): EventsListEntity {
         if (old.isEmpty()) return new
         if (new.queryLastItemId == null) return new
@@ -143,7 +150,9 @@ class EventsEntityMerger : EntityMerger<EventsListEntity> {
     }
 }
 
-class EventsApprover : RequestApprover<EventsFeedUpdateRequest> {
+class EventsApprover
+@Inject
+constructor() : RequestApprover<EventsFeedUpdateRequest> {
     override fun approve(param: EventsFeedUpdateRequest): Boolean {
         return true
     }

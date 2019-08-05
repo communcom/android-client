@@ -7,9 +7,10 @@ import android.widget.EditText
 import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.views.utils.TextWatcherBase
+import javax.inject.Inject
 
 /**
  * Base fragment for all sign up screens that contains only one [EditText] to validate (provided by [fieldToValidate]) and
@@ -19,6 +20,9 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
 
     protected lateinit var viewModel: VM
     protected lateinit var signUpViewModel: SignUpViewModel
+
+    @Inject
+    protected lateinit var viewModelFactory: ActivityViewModelFactory
 
     /**
      * [EditText] which text is suppose to be validated. Can be null. If so, fragment class should
@@ -30,6 +34,11 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
      * Button which accessibility should be controlled by [fieldToValidate]
      */
     abstract val continueButton: View
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inject()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -50,16 +59,11 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
         })
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this
-        ).get(clazz)
+    protected abstract fun inject()
 
-        signUpViewModel = ViewModelProviders.of(
-            requireActivity(),
-            requireContext()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(SignUpViewModel::class.java)
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(clazz)
+
+        signUpViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(SignUpViewModel::class.java)
     }
 }

@@ -6,17 +6,19 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthType
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
 class PinCodeModelImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val stringsConverter: StringsConverter,
-    private val encryptor: Encryptor,
+    @Named(Clarification.AES) private val encryptor: Encryptor,
     private val keyValueStorage: KeyValueStorageFacade,
     private val logger: Logger,
     private val fingerprintAuthManager: FingerprintAuthManager

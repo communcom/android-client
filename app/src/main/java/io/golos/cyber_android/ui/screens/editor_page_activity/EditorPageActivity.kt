@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.ActivityBase
 import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
@@ -13,17 +12,8 @@ import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
 class EditorPageActivity : ActivityBase() {
 
     companion object {
-        fun getIntent(
-            context: Context,
-            args: EditorPageFragment.Args = EditorPageFragment.Args()
-        ) =
-            Intent(context, EditorPageActivity::class.java).apply {
-                putExtra(
-                    Tags.ARGS,
-                    context.serviceLocator.moshi.adapter(EditorPageFragment.Args::class.java)
-                        .toJson(args)
-                )
-            }
+        fun getIntent(context: Context, args: EditorPageFragment.Args = EditorPageFragment.Args()) =
+            Intent(context, EditorPageActivity::class.java).apply { putExtra(Tags.ARGS, args) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

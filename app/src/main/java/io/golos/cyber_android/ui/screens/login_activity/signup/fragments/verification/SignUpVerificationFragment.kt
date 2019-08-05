@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
 import io.golos.data.errors.AppError
@@ -18,8 +20,7 @@ import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
-class SignUpVerificationFragment :
-    SignUpScreenFragmentBase<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
+class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationViewModel>(SignUpVerificationViewModel::class.java) {
 
     override val continueButton: View
         get() = next
@@ -47,6 +48,8 @@ class SignUpVerificationFragment :
 
         showKeyboardOnCodeInput()
     }
+
+    override fun inject() = App.injections.get<LoginActivityComponent>().inject(this)
 
     private fun sendCode() {
         viewModel.getFieldIfValid()?.let {

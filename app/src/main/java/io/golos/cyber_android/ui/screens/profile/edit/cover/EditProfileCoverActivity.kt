@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.ActivityBase
 
@@ -12,12 +13,7 @@ class EditProfileCoverActivity : ActivityBase() {
 
     companion object {
         fun getIntent(context: Context, args: EditProfileCoverFragment.Args) =
-            Intent(context, EditProfileCoverActivity::class.java)
-                .apply {
-                    putExtra(Tags.ARGS,
-                        context.serviceLocator.moshi.adapter(EditProfileCoverFragment.Args::class.java)
-                            .toJson(args))
-                }
+            Intent(context, EditProfileCoverActivity::class.java).apply { putExtra(Tags.ARGS, args) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,4 +26,11 @@ class EditProfileCoverActivity : ActivityBase() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if(isFinishing) {
+            App.injections.release<EditProfileCoverActivityComponent>()
+        }
+    }
 }

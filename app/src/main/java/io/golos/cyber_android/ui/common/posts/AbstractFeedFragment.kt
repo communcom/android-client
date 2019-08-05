@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import io.golos.cyber_android.serviceLocator
+import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
@@ -25,6 +25,7 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.FeedUpdateRequest
+import javax.inject.Inject
 
 const val POST_MENU_REQUEST = 301
 
@@ -49,6 +50,9 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     open lateinit var viewModel: VM
 
     abstract val feedList: RecyclerView
+
+    @Inject
+    protected lateinit var moshi: Moshi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -107,7 +111,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     fun showDiscussionMenu(postModel: PostModel) {
         PostPageMenuDialog.newInstance(
             postModel.isActiveUserDiscussion,
-            requireContext().serviceLocator.moshi
+            moshi
                 .adapter(DiscussionIdModel::class.java)
                 .toJson(postModel.contentId)
         ).apply {
@@ -120,17 +124,13 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         if (requestCode == POST_MENU_REQUEST && data != null) {
             when (resultCode) {
                 PostPageMenuDialog.RESULT_EDIT -> {
-                    val id = requireContext()
-                        .serviceLocator
-                        .moshi
+                    val id = moshi
                         .adapter(DiscussionIdModel::class.java)
                         .fromJson(data.getStringExtra(Tags.DISCUSSION_ID)!!)
                     editDiscussion(id!!)
                 }
                 PostPageMenuDialog.RESULT_DELETE -> {
-                    val id = requireContext()
-                        .serviceLocator
-                        .moshi
+                    val id = moshi
                         .adapter(DiscussionIdModel::class.java)
                         .fromJson(data.getStringExtra(Tags.DISCUSSION_ID)!!)
                     deleteDiscussion(id!!)

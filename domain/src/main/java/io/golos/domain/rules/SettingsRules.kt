@@ -22,7 +22,9 @@ import javax.inject.Inject
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.
  */
-class MyDefaultSettingProvider() : DefaultSettingProvider {
+class MyDefaultSettingProvider
+@Inject
+constructor() : DefaultSettingProvider {
     override fun provide(): UserSettingEntity {
         return UserSettingEntity(
             GeneralSettingEntity(NSFWSettingsEntity.ALERT_WARN, "en"),
@@ -66,7 +68,10 @@ constructor(private val context: Context) : DeviceIdProvider {
     }
 }
 
-class SettingsToEntityMapper(private val moshi: Moshi) : CyberToEntityMapper<UserSettings, UserSettingEntity> {
+class SettingsToEntityMapper
+@Inject
+constructor (private val moshi: Moshi
+) : CyberToEntityMapper<UserSettings, UserSettingEntity> {
     override suspend fun invoke(cyberObject: UserSettings): UserSettingEntity {
         val push = cyberObject.push?.show
         val mapType = Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)
@@ -106,7 +111,9 @@ class SettingsToEntityMapper(private val moshi: Moshi) : CyberToEntityMapper<Use
     private fun Boolean?.orTrue(): Boolean = this ?: true
 }
 
-class SettingToCyberMapper : EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings> {
+class SettingToCyberMapper
+@Inject
+constructor() : EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings> {
     override suspend fun invoke(entity: NotificationSettingsEntity): MobileShowSettings {
         return MobileShowSettings(
             NotificationSettings(

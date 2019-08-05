@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.UserNam
 import io.golos.cyber_android.utils.asEvent
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.entities.CountryEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
@@ -18,6 +19,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Shared [ViewModel] for sign up process
  */
+@ActivityScope
 class SignUpViewModel
 @Inject
 constructor(

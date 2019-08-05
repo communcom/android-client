@@ -11,6 +11,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
+import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.data.repositories.countries.CountriesRepositoryImpl
 import io.golos.domain.*

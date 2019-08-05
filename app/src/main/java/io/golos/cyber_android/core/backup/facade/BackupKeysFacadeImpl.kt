@@ -6,13 +6,15 @@ import android.util.Log
 import io.golos.cyber_android.core.backup.raw_data.BackupKeysDataWrapper
 import io.golos.cyber_android.core.backup.storage.BackupKeysDataStorage
 import io.golos.domain.Encryptor
+import io.golos.domain.dependency_injection.Clarification
 import javax.inject.Inject
+import javax.inject.Named
 
 class BackupKeysFacadeImpl
 @Inject
 constructor(
     private val context: Context,
-    private val encryptor: Encryptor,
+    @Named(Clarification.AES) private val encryptor: Encryptor,
     private val backupManager: BackupManager
 ) : BackupKeysFacadeSync, BackupKeysFacade {
 

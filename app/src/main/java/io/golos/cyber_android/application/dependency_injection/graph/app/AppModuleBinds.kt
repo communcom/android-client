@@ -6,6 +6,11 @@ import io.golos.abi.implementation.publish.CreatemssgPublishStruct
 import io.golos.abi.implementation.publish.DeletemssgPublishStruct
 import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.CyberDiscussion
+import io.golos.cyber4j.services.model.MobileShowSettings
+import io.golos.cyber4j.services.model.UserMetadataResult
+import io.golos.cyber4j.services.model.UserSettings
+import io.golos.cyber_android.application.AppCore
+import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.logger.LoggerImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
@@ -25,16 +30,19 @@ import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences
 import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
+import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
+import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.*
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
+import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
@@ -47,6 +55,10 @@ import javax.inject.Named
 @Suppress("unused")
 @Module
 abstract class AppModuleBinds {
+    @Binds
+    @ApplicationScope
+    abstract fun provideAppCore(appCore: AppCoreImpl): AppCore
+
     //region Key-value storage
     @Binds
     abstract fun provideKeyValueStorageFacade(facade: KeyValueStorageFacadeImpl): KeyValueStorageFacade
@@ -76,15 +88,21 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideStringsConverter(converter: StringsConverterImpl): StringsConverter
 
+    @Binds
+    abstract fun providesMyDefaultSettingProvider(provider: MyDefaultSettingProvider): DefaultSettingProvider
+
     // region Mappers
     @Binds
-    abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapper): CyberPostToEntityMapper
+    abstract fun provideUserMetadataToEntityMapper(mapper: UserMetadataToEntityMapper): CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>
 
     @Binds
-    abstract fun provideVoteToEntityMapper(mapper: VoteRequestModelToEntityMapper): VoteRequestModelToEntityMapper
+    abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapper): CyberToEntityMapper<CyberDiscussion, PostEntity>
 
     @Binds
-    abstract fun provideCyberFeedToEntityMapper(mapper: CyberFeedToEntityMapper): CyberFeedToEntityMapper
+    abstract fun provideVoteToEntityMapper(mapper: VoteRequestModelToEntityMapper): ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
+
+    @Binds
+    abstract fun provideCyberFeedToEntityMapper(mapper: CyberFeedToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>
 
     @Binds
     @ApplicationScope
@@ -133,6 +151,22 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideCyberToAppErrorMapperImpl(mapper: CyberToAppErrorMapperImpl): CyberToAppErrorMapper
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideEventsToEntityMapper(mapper: EventsToEntityMapper): CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity>
+
+    @Binds
+    abstract fun provideEventsEntityMerger(merger: EventsEntityMerger): EntityMerger<EventsListEntity>
+
+    @Binds
+    abstract fun provideEventsApprover(approver: EventsApprover): RequestApprover<EventsFeedUpdateRequest>
+
+    @Binds
+    abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapper): CyberToEntityMapper<UserSettings, UserSettingEntity>
+
+    @Binds
+    abstract fun provideSettingToCyberMapper(mapper: SettingToCyberMapper): EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings>
     // endregion
 
     // region Cyber4jApiService
@@ -200,7 +234,7 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideDeviceIdProvider(provider: MyDeviceIdProvider): DeviceIdProvider
 
-    //region Approversv
+    //region Approver
     @Binds
     abstract fun provideFeedUpdateApprover(approver: FeedUpdateApprover): RequestApprover<PostFeedUpdateRequest>
 
@@ -211,7 +245,7 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideUserKeyStore(store: UserKeyStoreImpl): UserKeyStore
 
-    //region Approversv
+    //region Producers
     @Binds
     abstract fun providePostMerger(merger: PostMerger): EntityMerger<PostEntity>
 
@@ -238,10 +272,13 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideFingerprintAuthManager(manager: FingerprintAuthManagerImpl): FingerprintAuthManager
 
+    @Binds
+    abstract fun provideImageCompressor(compressor: ImageCompressorImpl): ImageCompressor
+
     // region Repositories
     @Binds
     @ApplicationScope
-    abstract fun providePostFeedRepository(repository: PostsFeedRepository): AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>
+    abstract fun providePostFeedRepository(repository: PostsFeedRepository): DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>
 
     @Binds
     @ApplicationScope
@@ -278,6 +315,9 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideUserMetadataRepository(repository: UserMetadataRepository): Repository<UserMetadataCollectionEntity, UserMetadataRequest>
+
+    @Binds
+    abstract fun provideFcmTokenProvider(provider: FcmTokenProviderImpl): FcmTokenProvider
 
     @Binds
     abstract fun providePushesRepository(repository: PushNotificationsRepository): Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>

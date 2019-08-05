@@ -5,18 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.ui.Tags
 
 class EditProfileAvatarActivity : AppCompatActivity() {
     companion object {
         fun getIntent(context: Context, args: EditProfileAvatarFragment.Args) =
-            Intent(context, EditProfileAvatarActivity::class.java)
-                .apply {
-                    putExtra(Tags.ARGS,
-                        context.serviceLocator.moshi.adapter(EditProfileAvatarFragment.Args::class.java)
-                            .toJson(args))
-                }
+            Intent(context, EditProfileAvatarActivity::class.java).apply { putExtra(Tags.ARGS,args) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,4 +25,11 @@ class EditProfileAvatarActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if(isFinishing) {
+            App.injections.release<EditProfileAvatarActivityComponent>()
+        }
+    }
 }

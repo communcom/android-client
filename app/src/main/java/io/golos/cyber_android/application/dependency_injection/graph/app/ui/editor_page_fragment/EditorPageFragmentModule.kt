@@ -10,8 +10,8 @@ import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.*
-import io.golos.domain.interactors.feed.PostWithCommentUseCase
-import io.golos.domain.interactors.images.ImageUploadUseCase
+import io.golos.domain.interactors.UseCase
+import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
@@ -33,7 +33,7 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
     internal fun provideEditorPageViewModel(
         embedsUseCase: EmbedsUseCase,
         posterUseCase: DiscussionPosterUseCase,
-        imageUploadUseCase: ImageUploadUseCase,
+        imageUploadUseCase: UseCase<UploadedImagesModel>,
         community: CommunityModel?,
         postToEdit: DiscussionIdModel?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
@@ -69,8 +69,8 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
         commentFeeEntityToModelMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
         dispatchersProvider: DispatchersProvider
-    ) : PostWithCommentUseCase =
-        PostWithCommentUseCase(
+    ) : PostWithCommentUseCaseImpl =
+        PostWithCommentUseCaseImpl(
             postId!!,
             postFeedRepository,
             postEntityToModelMapper,

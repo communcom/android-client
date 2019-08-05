@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.bio
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -10,9 +11,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.utils.asEvent
@@ -20,17 +23,34 @@ import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.sharedmodel.CyberName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_bio.*
+import javax.inject.Inject
 
 class OnboardingBioFragment : FragmentBase() {
-
-    data class Args(val user: CyberName)
+    @Parcelize
+    data class Args(
+        val userCyberName: String
+    ): Parcelable
 
     companion object {
         fun newInstance() = OnboardingBioFragment()
     }
 
     private lateinit var viewModel: EditProfileBioViewModel
+
+    @Inject
+    lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<BioFragmentComponent>(CyberName(getArgs().userCyberName)).inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<BioFragmentComponent>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,17 +112,8 @@ class OnboardingBioFragment : FragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getViewModelFactoryByCyberName(getArgs().user)
-        ).get(EditProfileBioViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditProfileBioViewModel::class.java)
     }
 
-    private fun getArgs() = requireContext()
-        .serviceLocator
-        .moshi
-        .adapter(Args::class.java)
-        .fromJson(arguments!!.getString(Tags.ARGS)!!)!!
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 }

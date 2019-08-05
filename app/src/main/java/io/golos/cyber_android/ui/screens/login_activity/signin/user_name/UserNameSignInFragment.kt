@@ -9,8 +9,10 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInArgs
@@ -19,6 +21,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.SignInParentFragm
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_user_name_sign_in.*
+import javax.inject.Inject
 
 class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
     companion object {
@@ -31,8 +34,16 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
 
     private lateinit var viewModel: UserNameSignInViewModel
 
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
     override val tabCode: SignInTab by lazy {
         arguments!!.getInt(SignInArgs.TAB_CODE).let { SignInTab.fromIndex(it) }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<LoginActivityComponent>().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -132,11 +143,6 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(UserNameSignInViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserNameSignInViewModel::class.java)
     }
 }

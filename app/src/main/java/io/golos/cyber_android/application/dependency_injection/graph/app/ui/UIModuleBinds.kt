@@ -8,12 +8,12 @@ import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.helper.UIHelperImpl
+import io.golos.domain.dependency_injection.scopes.UIScope
+import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.UserAuthState
-import io.golos.domain.interactors.model.UserRegistrationStateModel
+import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.notifs.events.EventsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCaseImpl
@@ -22,9 +22,12 @@ import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.UserSettingModel
 import io.golos.domain.requestmodel.VoteRequestModel
+import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.rules.EventEntityToModelMapper
 
 @Module
 abstract class UIModuleBinds {
@@ -38,7 +41,7 @@ abstract class UIModuleBinds {
     abstract fun provideVoteUseCase(useCase: VoteUseCase): UseCase<MutableMap<DiscussionIdModel, QueryResult<VoteRequestModel>>>
 
     @Binds
-    abstract fun getDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): DiscussionPosterUseCase
+    abstract fun provideDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): UseCase<QueryResult<DiscussionCreationResultModel>>
 
     @Binds
     abstract fun provideSignInUseCase(useCase: SignInUseCase): UseCase<UserAuthState>
@@ -47,13 +50,13 @@ abstract class UIModuleBinds {
     abstract fun provideSignOnUseCase(useCase: SignUpUseCase): UseCase<UserRegistrationStateModel>
 
     @Binds
-    abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): EmbedsUseCase
+    abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): UseCase<ProccesedLinksModel>
 
     @Binds
     abstract fun getSettingUserCase(useCase: SettingsUseCase): UseCase<UserSettingModel>
 
     @Binds
-    abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): ImageUploadUseCase
+    abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): UseCase<UploadedImagesModel>
 
     @Binds
     abstract fun getPushNotificationsSettingsUseCase(useCase: PushNotificationsSettingsUseCaseImpl): PushNotificationsSettingsUseCase
@@ -61,6 +64,10 @@ abstract class UIModuleBinds {
     @Binds
     abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacade
 
+    @UIScope
     @Binds
-    abstract fun provideEventsUseCase(useCase: EventsUseCase): EventsUseCase
+    abstract fun provideEventEntityToModelMapper(mapper: EventEntityToModelMapper): EntityToModelMapper<EventsListEntity, EventsListModel>
+
+    @Binds
+    abstract fun provideEventsUseCase(useCase: EventsUseCase): UseCase<EventsListModel>
 }

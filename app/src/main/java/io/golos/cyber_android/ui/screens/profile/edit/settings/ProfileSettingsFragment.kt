@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.observeUntil
-import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.base.ActivityBase
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
@@ -32,6 +33,7 @@ import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.profile_settings_fragment.*
 import java.text.MessageFormat
+import javax.inject.Inject
 
 class ProfileSettingsFragment : FragmentBase() {
 
@@ -41,7 +43,16 @@ class ProfileSettingsFragment : FragmentBase() {
 
     private lateinit var viewModel: ProfileSettingsViewModel
 
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
     private val keysExporter by lazy { PdfKeysExporter(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<ProfileSettingsActivityComponent>().inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(R.layout.profile_settings_fragment, container, false)
@@ -223,12 +234,6 @@ class ProfileSettingsFragment : FragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(ProfileSettingsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfileSettingsViewModel::class.java)
     }
-
 }

@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_b
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,29 +12,43 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.serviceLocator
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter
+import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.view_commands.NavigateToOnboardingCommand
-import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage.OnboardingUserImageFragment
 import io.golos.sharedmodel.CyberName
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
+import javax.inject.Inject
 
 
 class SignUpProtectionKeysFragment : FragmentBase() {
-
-    data class Args(val user: CyberName)
+    @Parcelize
+    data class Args(
+        val userCyberName: String
+    ): Parcelable
 
     private lateinit var viewModel: SignUpProtectionKeysViewModel
     private lateinit var signUpViewModel: SignUpViewModel
 
     private val keysExporter by lazy { PdfKeysExporter(this) }
+
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<LoginActivityComponent>().inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_sign_up_protection_keys, container, false)
@@ -65,15 +80,7 @@ class SignUpProtectionKeysFragment : FragmentBase() {
         findNavController().safeNavigate(
             R.id.signUpProtectionKeysFragment,
             R.id.action_signUpProtectionKeysFragment_to_onboardingUserImageFragment,
-            Bundle().apply {
-                putString(
-                    Tags.ARGS,
-                    requireContext()
-                        .serviceLocator.moshi
-                        .adapter(OnboardingUserImageFragment.Args::class.java)
-                        .toJson(OnboardingUserImageFragment.Args(user))
-                )
-            }
+            Bundle().apply { putParcelable(Tags.ARGS, OnboardingUserImageFragment.Args(user.name) )}
         )
     }
 
@@ -94,17 +101,8 @@ class SignUpProtectionKeysFragment : FragmentBase() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireContext().serviceLocator.getDefaultViewModelFactory()
-        ).get(SignUpProtectionKeysViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpProtectionKeysViewModel::class.java)
 
-        signUpViewModel = ViewModelProviders.of(
-            requireActivity(),
-            requireContext()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(SignUpViewModel::class.java)
-
+        signUpViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(SignUpViewModel::class.java)
     }
 }

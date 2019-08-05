@@ -11,13 +11,16 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.domain.requestmodel.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
+import javax.inject.Inject
 
 /**
  * [Fragment] that represents Notification Page of the main screen. Contains a list of events, supports infinite
@@ -26,6 +29,20 @@ import kotlinx.android.synthetic.main.fragment_notifications.*
 class NotificationsFragment : Fragment() {
 
     private lateinit var viewModel: NotificationsViewModel
+
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections.get<NotificationsFragmentComponent>().inject(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        App.injections.release<NotificationsFragmentComponent>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -119,12 +136,7 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getDefaultViewModelFactory()
-        ).get(NotificationsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(NotificationsViewModel::class.java)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

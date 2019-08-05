@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
@@ -36,6 +38,7 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*
+import javax.inject.Inject
 
 /**
  * Fragment that represents TRENDING tab of the Feed Page.
@@ -46,8 +49,21 @@ class TrendingFeedFragment :
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
 
+    @Inject
+    internal lateinit var viewModelFactory: FragmentViewModelFactory
+
     override val feedList: RecyclerView
         get() = feedRecyclerView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        App.injections
+            .get<TrendingFeedFragmentComponent>(
+                CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!),
+                arguments?.getString(Tags.USER_ID)!!.toCyberName())
+            .inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -158,15 +174,7 @@ class TrendingFeedFragment :
     }
 
     override fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity()
-                .serviceLocator
-                .getCommunityFeedViewModelFactory(
-                    CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!),
-                    arguments?.getString(Tags.USER_ID)!!.toCyberName()
-                )
-        ).get(CommunityFeedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CommunityFeedViewModel::class.java)
     }
 
     private fun setupEditorWidget() {

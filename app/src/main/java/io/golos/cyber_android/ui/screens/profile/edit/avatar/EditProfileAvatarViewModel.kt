@@ -2,7 +2,9 @@ package io.golos.cyber_android.ui.screens.profile.edit.avatar
 
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
+import io.golos.domain.interactors.model.UploadedImagesModel
 import io.golos.domain.interactors.user.UserMetadataUseCase
 import io.golos.domain.map
 import io.golos.domain.requestmodel.CompressionParams
@@ -13,7 +15,7 @@ class EditProfileAvatarViewModel
 @Inject
 constructor(
     private val userMetadataUseCase: UserMetadataUseCase,
-    private val imageUploadUseCase: ImageUploadUseCase,
+    private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     val dispatchersProvider: DispatchersProvider
 ) : EditProfileViewModelBase(userMetadataUseCase) {
 
@@ -39,7 +41,7 @@ constructor(
      * @param rotation degrees on which image should be rotated
      */
     fun uploadFile(file: File, transX: Float, transY: Float, rotation: Float) {
-        imageUploadUseCase.submitImageForUpload(
+        (imageUploadUseCase as ImageUploadUseCase).submitImageForUpload(
             file.absolutePath,
             CompressionParams.AbsoluteCompressionParams(transX, transY, rotation)
         )

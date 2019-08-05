@@ -3,13 +3,14 @@ package io.golos.cyber_android.fcm
 import com.google.firebase.iid.FirebaseInstanceId
 import io.golos.data.errors.AppError
 import io.golos.domain.FcmTokenProvider
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-
-object FcmTokenProviderImpl: FcmTokenProvider {
-
+class FcmTokenProviderImpl
+@Inject
+constructor(): FcmTokenProvider {
     override suspend fun provide(): String = suspendCoroutine { continuation ->
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener { task ->

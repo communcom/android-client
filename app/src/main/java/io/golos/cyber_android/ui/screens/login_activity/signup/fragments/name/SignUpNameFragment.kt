@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
 import io.golos.cyber_android.utils.asEvent
@@ -21,7 +23,6 @@ import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_name.*
 
 class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(SignUpNameViewModel::class.java) {
-
     override val fieldToValidate: EditText?
         get() = username
     override val continueButton: View
@@ -92,6 +93,8 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(SignUpN
             onSuccess()
         })
     }
+
+    override fun inject() = App.injections.get<LoginActivityComponent>().inject(this)
 
     private fun onSuccess() {
         hideLoading()

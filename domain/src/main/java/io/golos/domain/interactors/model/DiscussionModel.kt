@@ -1,6 +1,8 @@
 package io.golos.domain.interactors.model
 
+import android.os.Parcelable
 import io.golos.domain.Model
+import kotlinx.android.parcel.Parcelize
 import java.math.BigInteger
 import java.util.*
 
@@ -46,11 +48,11 @@ sealed class DiscussionModel(
     var isActiveUserDiscussion: Boolean = false
 ) : Model
 
-
+@Parcelize
 data class DiscussionIdModel(
     val userId: String,
     val permlink: String
-) : Model
+) : Model, Parcelable
 
 data class DiscussionCommentsCountModel(val count: Long) : Model
 

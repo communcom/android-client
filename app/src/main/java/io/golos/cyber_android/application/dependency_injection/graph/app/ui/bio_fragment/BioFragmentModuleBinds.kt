@@ -1,15 +1,15 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioViewModel
-import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
 
 @Module
 abstract class BioFragmentModuleBinds {
@@ -19,9 +19,8 @@ abstract class BioFragmentModuleBinds {
     abstract fun provideEditProfileBioViewModel(viewModel: EditProfileBioViewModel): ViewModel
 
     @Binds
-    abstract fun provideUserMetadataUseCase(useCase: UserMetadataUseCase): UserMetadataUseCase
+    abstract fun provideUserMetadataUseCase(useCase: UserMetadataUseCaseImpl): UserMetadataUseCase
 
     @Binds
-    @FragmentScope
-    abstract fun bindViewModelFactory(factory: FragmentViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
 import javax.inject.Inject
 
 class EditProfileBioViewModel

@@ -6,6 +6,7 @@ import io.golos.domain.interactors.feed.CommunityFeedUseCase
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import javax.inject.Inject
 

@@ -2,11 +2,14 @@ package io.golos.domain.rules
 
 import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.domain.entities.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
  */
-class UserMetadataToEntityMapper : CyberToEntityMapper<UserMetadataResult, UserMetadataEntity> {
+class UserMetadataToEntityMapper
+@Inject
+constructor() : CyberToEntityMapper<UserMetadataResult, UserMetadataEntity> {
     override suspend fun invoke(cyberObject: UserMetadataResult): UserMetadataEntity {
         return UserMetadataEntity(
             UserPersonalDataEntity(

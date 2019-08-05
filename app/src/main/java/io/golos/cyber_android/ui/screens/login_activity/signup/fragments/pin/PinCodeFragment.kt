@@ -6,25 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import io.golos.cyber_android.R
-import io.golos.cyber_android.serviceLocator
-import io.golos.cyber_android.ui.common.helper.UIHelper
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
+import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.view_commands.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_pin_code.*
+import javax.inject.Inject
 
-class PinCodeFragment : Fragment() {
+class PinCodeFragment : FragmentBase() {
     private lateinit var viewModel: PinCodeViewModel
 
-    private val uiHelper: UIHelper by lazy { requireContext().serviceLocator.uiHelper }
+    @Inject
+    internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.get<LoginActivityComponent>().inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_pin_code, container, false)
@@ -45,11 +53,7 @@ class PinCodeFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            requireActivity().serviceLocator.getDefaultViewModelFactory()
-        )
-        .get(PinCodeViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PinCodeViewModel::class.java)
     }
 
     private fun observeViewModel() {

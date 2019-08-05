@@ -6,6 +6,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(modules = [
@@ -24,4 +25,6 @@ interface MainActivityComponent {
     val profileFragmentComponent: ProfileFragmentComponent.Builder
     val trendingFeedFragmentComponent: TrendingFeedFragmentComponent.Builder
     val userPostsFeedFragmentComponent: UserPostsFeedFragmentComponent.Builder
+
+    fun inject(activity: MainActivity)
 }

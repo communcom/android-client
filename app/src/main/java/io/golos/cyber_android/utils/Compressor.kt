@@ -9,13 +9,15 @@ import io.golos.data.utils.ImageCompressor
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Utils class for compressing images before sending it to backend
  */
-object ImageCompressorImpl : ImageCompressor {
-
-    private const val MAX_SIZE = 500f
+class ImageCompressorImpl
+@Inject
+constructor() : ImageCompressor {
+    private val MAX_SIZE = 500f
 
 
     @Throws(IOException::class)

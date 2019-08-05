@@ -18,11 +18,13 @@ import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-19.
  */
-abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, M : DiscussionModel>(
+abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, M : DiscussionModel>
+constructor(
     protected val discussionsFeedRepository: DiscussionsFeedRepository<E, Q>,
     protected val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     protected val feedMapper: EntityToModelMapper<FeedRelatedEntities<E>, DiscussionsFeed<M>>,

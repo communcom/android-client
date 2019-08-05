@@ -6,5 +6,4 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 @Module(subcomponents = [
     OnBoardingFragmentComponent::class
 ])
-class LoginActivityModuleChilds {
-}
+class LoginActivityModuleChilds
