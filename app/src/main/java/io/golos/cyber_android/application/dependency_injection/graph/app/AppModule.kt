@@ -11,7 +11,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
-import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
+import io.golos.cyber_android.core.logger.Cyber4JLogger
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.data.repositories.countries.CountriesRepositoryImpl
 import io.golos.domain.*
@@ -60,7 +60,13 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun provideCyber4J(): Cyber4J = Cyber4J(cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig())
+    internal fun provideCyber4J(logger: Logger): Cyber4J =
+        (cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig())
+            .copy(
+                httpLogger = Cyber4JLogger(logger, Cyber4JLogger.HTTP),
+                socketLogger = Cyber4JLogger(logger, Cyber4JLogger.SOCKET)
+            )
+            .let { Cyber4J(it) }
 
     @Provides
     internal fun provideDispatchersProvider(): DispatchersProvider = object : DispatchersProvider {
@@ -82,6 +88,6 @@ class AppModule(private val appContext: Context) {
     internal fun provideCountriesRepository(
         moshi: Moshi,
         appResourcesProvider: AppResourcesProvider,
-        deviceInfoService: DeviceInfoService
-    ): CountriesRepository = CountriesRepositoryImpl(appResourcesProvider, moshi, deviceInfoService)
+        deviceInfoProvider: DeviceInfoProvider
+    ): CountriesRepository = CountriesRepositoryImpl(appResourcesProvider, moshi, deviceInfoProvider)
 }

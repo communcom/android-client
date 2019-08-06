@@ -100,7 +100,7 @@ constructor(
                     } catch (e: SocketTimeoutException) {
                         //for now SocketTimeoutException during waitForTransaction phase counts as a
                         //success, so we just log it and ignore
-                        logger(e)
+                        logger.log(e)
                     }
 
                     when (request) {
@@ -116,7 +116,7 @@ constructor(
                 lastCreatedDiscussion.value = discussionCreationResult
 
             } catch (e: Exception) {
-                logger(e)
+                logger.log(e)
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() +
                             (params.id to QueryResult.Error(

@@ -71,7 +71,7 @@ constructor(
                     keys
                 )
             } catch (ex: Exception) {
-                logger(ex)
+                logger.log(ex)
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = ShowMessageCommand(R.string.common_general_error)
             }

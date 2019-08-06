@@ -141,7 +141,7 @@ constructor(
                     metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
-                logger(e)
+                logger.log(e)
                 metadataUpdateStates.value =
                     metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(
                         toAppErrorMapper.mapIfNeeded(e),

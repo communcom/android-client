@@ -1,4 +1,4 @@
-package io.golos.cyber_android
+package io.golos.cyber_android.ui.common.extensions
 
 import android.os.Bundle
 import android.view.View

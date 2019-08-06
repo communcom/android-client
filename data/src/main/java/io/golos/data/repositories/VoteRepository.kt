@@ -68,7 +68,7 @@ constructor(
 
             } catch (e: Exception) {
                 votingStates.value = getCurrentValue() + (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params))
-                logger(e)
+                logger.log(e)
             }
 
         }.let { job ->

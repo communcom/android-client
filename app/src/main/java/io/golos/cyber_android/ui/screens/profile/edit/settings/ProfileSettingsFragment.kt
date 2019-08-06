@@ -15,7 +15,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
-import io.golos.cyber_android.observeUntil
+import io.golos.cyber_android.ui.common.extensions.observeUntil
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand

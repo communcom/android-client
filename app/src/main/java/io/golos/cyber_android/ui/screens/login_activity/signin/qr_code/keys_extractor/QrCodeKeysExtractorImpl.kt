@@ -39,7 +39,7 @@ constructor (
                 val model = AuthRequestModel(CyberUser(qrCodeData.userName), qrCodeData.activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {
-                logger.invoke(ex)
+                logger.log(ex)
                 Either.Failure<AuthRequestModel, Exception>(ex)
             }
         }

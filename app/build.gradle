@@ -2,12 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+ext {
+    applicationIdSuffix = ""
+}
 
 android {
     compileSdkVersion targetsdk
     defaultConfig {
+        applicationId "io.golos.cyber_android"
         minSdkVersion minsdk
         targetSdkVersion targetsdk
         versionCode appVesrionCode
@@ -17,6 +22,8 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         buildConfigField "String", "AUTH_TEST_PASS", properties.getProperty('authtestpass')
+
+        manifestPlaceholders = [crashlyticsEnabled: "false"]
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -28,11 +35,11 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [crashlyticsEnabled: "true"]
         }
     }
 
     flavorDimensions "cyber4j-config-type"
-
     productFlavors {
         stable {
             dimension "cyber4j-config-type"
@@ -88,11 +95,6 @@ android {
 buildscript {
     repositories {
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
     }
 }
 
@@ -118,15 +120,15 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
     implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
     implementation "androidx.paging:paging-runtime:$pagingVersion"
-    implementation("com.crashlytics.sdk.android:crashlytics:$fabricVersion@aar") {
-        transitive = true
-    }
     implementation("com.squareup.moshi:moshi:$moshiVersin")
     implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
     implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
     implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
-    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+
+    // Firebase
+    implementation "com.google.firebase:firebase-core:$firebaseCoreSdkVersion"
     implementation "com.google.firebase:firebase-messaging:$fcmVersion"
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsSdkVersion"
 
     implementation "com.google.android.gms:play-services-vision:$visionVersion"
 

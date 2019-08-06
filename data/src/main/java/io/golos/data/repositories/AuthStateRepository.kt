@@ -91,7 +91,7 @@ constructor(
                     AuthUtils.checkPrivateWiF(newParams.activeKey)
                 }
             } catch (e: IllegalArgumentException) {
-                logger(e)
+                logger.log(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
                         java.lang.IllegalArgumentException(
@@ -163,7 +163,7 @@ constructor(
 
 
             } catch (e: Exception) {
-                logger(e)
+                logger.log(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
                         e, newParams
@@ -180,7 +180,7 @@ constructor(
 
                 onAuthSuccess(authResult.user, newParams.user, newParams.type)
             } catch (e: Exception) {
-                logger(e)
+                logger.log(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(e, newParams))
             }
@@ -270,7 +270,7 @@ constructor(
     }
 
     private fun onAuthFail(e: Exception, authType: AuthType) {
-        logger(e)
+        logger.log(e)
 
         repositoryScope.launch {
             authState.value = AuthState("".toCyberName(), false, false, false, false, authType)

@@ -103,7 +103,7 @@ constructor(
                     registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
-                logger(e)
+                logger.log(e)
                 registrationRequestsLiveData.value =
                     registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
                         toAppErrorMapper.mapIfNeeded(e),

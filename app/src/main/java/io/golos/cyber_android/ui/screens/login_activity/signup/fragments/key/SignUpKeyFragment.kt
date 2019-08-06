@@ -5,19 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
-import io.golos.cyber_android.safeNavigate
+import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.login_activity.AuthViewModel
-import io.golos.domain.dependency_injection.Clarification
 import kotlinx.android.synthetic.main.fragment_sign_up_key.*
 import javax.inject.Inject
-import javax.inject.Named
 
 
 class SignUpKeyFragment : Fragment() {

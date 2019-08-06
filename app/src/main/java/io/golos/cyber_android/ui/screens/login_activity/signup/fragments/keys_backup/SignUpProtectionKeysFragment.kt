@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
-import io.golos.cyber_android.safeNavigate
+import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.keys_to_pdf.PdfKeysExporter

@@ -28,7 +28,7 @@ constructor(
 
                 true
             } catch(ex: Exception) {
-                logger(ex)
+                logger.log(ex)
                 false
             }
         }

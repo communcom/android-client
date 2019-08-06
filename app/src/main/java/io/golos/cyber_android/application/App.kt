@@ -3,12 +3,10 @@ package io.golos.cyber_android.application
 import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
-import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.dependency_injection.DependencyInjectionStorage
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
 import io.golos.cyber_android.fcm.CommunFirebaseMessagingService
+import io.golos.domain.Logger
 import javax.inject.Inject
 
 /**
@@ -18,9 +16,15 @@ class App : Application() {
     @Inject
     internal lateinit var appCore: AppCore
 
+    @Inject
+    internal lateinit var logger: Logger
+
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var injections : DependencyInjectionStorage
+            private set
+
+        lateinit var log: Logger
             private set
     }
 
@@ -30,8 +34,7 @@ class App : Application() {
         injections = DependencyInjectionStorage(applicationContext)
         injections.get<AppComponent>().inject(this)
 
-        if (!BuildConfig.DEBUG)
-            Fabric.with(this, Crashlytics())
+        log = logger
 
         appCore.initialize()
 
@@ -39,5 +42,4 @@ class App : Application() {
             CommunFirebaseMessagingService.createChannels(this)
         }
     }
-
 }

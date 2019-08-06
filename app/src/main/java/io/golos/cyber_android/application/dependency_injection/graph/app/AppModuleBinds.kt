@@ -11,11 +11,14 @@ import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.cyber4j.services.model.UserSettings
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
-import io.golos.cyber_android.application.logger.LoggerImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
-import io.golos.domain.DeviceInfoService
-import io.golos.cyber_android.core.device_info.DeviceInfoServiceImpl
+import io.golos.domain.CrashlyticsFacade
+import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
+import io.golos.domain.DeviceInfoProvider
+import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
+import io.golos.cyber_android.core.display_info.DisplayInfoProvider
+import io.golos.cyber_android.core.display_info.DisplayInfoProviderImpl
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
@@ -27,6 +30,7 @@ import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsI
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.cyber_android.core.logger.LoggerImpl
 import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
@@ -265,8 +269,8 @@ abstract class AppModuleBinds {
     abstract fun provideEmptyCommentFeedProducer(merger: EmptyCommentFeedProducer): EmptyEntityProducer<FeedEntity<CommentEntity>>
     // endregion
 
-    @ApplicationScope
     @Binds
+    @ApplicationScope
     abstract fun provideLogger(logger: LoggerImpl): Logger
 
     @Binds
@@ -335,8 +339,15 @@ abstract class AppModuleBinds {
     abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacadeSync
 
     @Binds
-    abstract fun provideDeviceInfoService(service: DeviceInfoServiceImpl): DeviceInfoService
+    abstract fun provideDeviceInfoService(service: DeviceInfoProviderImpl): DeviceInfoProvider
 
     @Binds
     abstract fun provideAppResourcesProvider(provider: AppResourcesProviderImpl): AppResourcesProvider
+
+    @Binds
+    abstract fun provideDisplayInfoProvider(provider: DisplayInfoProviderImpl): DisplayInfoProvider
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
 }

@@ -15,4 +15,6 @@ interface AppResourcesProvider {
 
     @ColorInt
     fun getColor(@ColorRes resId: Int): Int
+
+    fun getLocale(): String
 }

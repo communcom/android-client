@@ -52,7 +52,7 @@ constructor(
             } catch (e: Exception) {
                 updatingStates.postValue(updatingStates.value.orEmpty() +
                         (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params)))
-                logger(e)
+                logger.log(e)
             }
         }.let {
             lastUpdateJob?.cancel()

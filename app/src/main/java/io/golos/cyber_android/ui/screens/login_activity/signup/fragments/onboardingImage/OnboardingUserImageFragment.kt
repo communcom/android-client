@@ -14,8 +14,8 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
-import io.golos.cyber_android.safeNavigate
-import io.golos.cyber_android.setPadding
+import io.golos.cyber_android.ui.common.extensions.safeNavigate
+import io.golos.cyber_android.ui.common.extensions.setPadding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory

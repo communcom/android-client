@@ -3,7 +3,7 @@ package io.golos.data.repositories.countries
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.domain.AppResourcesProvider
-import io.golos.domain.DeviceInfoService
+import io.golos.domain.DeviceInfoProvider
 import io.golos.domain.entities.CountryEntity
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class CountriesRepositoryImpl
 constructor(
     private val appResourcesProvider: AppResourcesProvider,
     private val moshi: Moshi,
-    private val deviceInfoService: DeviceInfoService
+    private val deviceInfoProvider: DeviceInfoProvider
 ) : CountriesRepository {
 
     private lateinit var countries: List<CountryEntity>
@@ -59,7 +59,7 @@ constructor(
             getCountries()
         }
 
-        return deviceInfoService.getCountryCode()
+        return deviceInfoProvider.getCountryCode()
             ?.let {
                 val code = it.toUpperCase()
                 countries.firstOrNull { it.countryCode == code }

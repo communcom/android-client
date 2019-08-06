@@ -86,11 +86,11 @@
         </service>
 
         <meta-data
-                android:name="io.fabric.ApiKey"
-                android:value="e3c157b69542160c5ec78e3e4d4c71251a4c3879"/>
-        <meta-data
                 android:name="com.google.android.backup.api_key"
                 android:value="AEdPqrEAAAAI6F7XYqx_4KxHxqbJTsqE4dT7-ESMDAbF9gH9ag"/>
+        <meta-data
+                android:name="firebase_crashlytics_collection_enabled"
+                android:value="${crashlyticsEnabled}"/>
     </application>
 
 </manifest>

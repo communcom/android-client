@@ -14,6 +14,7 @@ class AppResourcesProviderImpl
 constructor(
     private val appContext: Context
 ) : AppResourcesProvider {
+
     override fun getRaw(resId: Int): InputStream = appContext.resources.openRawResource(resId)
 
     override fun getCountries(): InputStream = getRaw(R.raw.countries)
@@ -28,4 +29,6 @@ constructor(
         } else {
             appContext.resources.getColor(resId)
         }
+
+    override fun getLocale(): String = getString(R.string.locale)
 }

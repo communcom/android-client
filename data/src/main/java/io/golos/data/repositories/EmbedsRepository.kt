@@ -64,7 +64,7 @@ constructor(
                     toEmbedMapperIframely(IFramelyEmbedResultRelatedData(iframelyData, params.url))
                 }
             } catch (e: Exception) {
-                logger(e)
+                logger.log(e)
 
                 try {
                     result = withContext(dispatchersProvider.calculationskDispatcher) {
@@ -72,7 +72,7 @@ constructor(
                         toEmbedMapperOembed(OembedResultRelatedData(oembedData, params.url))
                     }
                 } catch (e: java.lang.Exception) {
-                    logger(e)
+                    logger.log(e)
                     embedUpdateStates.value =
                         embedUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(e, params))
                 }

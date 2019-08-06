@@ -64,7 +64,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
                     value = getAllPostsAsLiveDataList().mapNotNull { it.value }
                         .fold(FeedEntity(additionalItem, null, "stub")) { collector, item ->
-                            FeedEntity(collector.discussions.orEmpty() + item.discussions, null, "stub")
+                            FeedEntity(collector.discussions + item.discussions, null, "stub")
                         }
                 }
         }
@@ -235,7 +235,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             block()
         } catch (e: java.lang.Exception) {
             exceptionCallback(e)
-            logger(e)
+            logger.log(e)
         }
     }
 

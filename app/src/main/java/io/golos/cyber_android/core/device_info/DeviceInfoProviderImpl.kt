@@ -2,14 +2,16 @@ package io.golos.cyber_android.core.device_info
 
 import android.content.Context
 import android.telephony.TelephonyManager
-import io.golos.domain.DeviceInfoService
+import io.golos.domain.DeviceInfoProvider
 import java.util.*
 import javax.inject.Inject
 
 
-class DeviceInfoServiceImpl
+class DeviceInfoProviderImpl
 @Inject
-constructor(private val appContext: Context): DeviceInfoService {
+constructor(
+    private val appContext: Context
+) : DeviceInfoProvider {
     override fun getCountryCode(): String? {
         try {
             val tm = appContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager

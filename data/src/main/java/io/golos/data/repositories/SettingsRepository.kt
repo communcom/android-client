@@ -67,7 +67,7 @@ constructor(
                 updatingStates.value = updatingStates.value.orEmpty() + (params.id to QueryResult.Success(params))
             } catch (e: Exception) {
                 updatingStates.value = updatingStates.value.orEmpty() + (params.id to QueryResult.Error(e, params))
-                logger(e)
+                logger.log(e)
             }
         }.let { job ->
             jobsMap[params.id]?.cancel()
