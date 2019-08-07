@@ -11,8 +11,8 @@ import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.cyber4j.services.model.UserSettings
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
-import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
-import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeSync
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
 import io.golos.domain.CrashlyticsFacade
 import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
 import io.golos.domain.DeviceInfoProvider
@@ -33,6 +33,8 @@ import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences
 import io.golos.cyber_android.core.logger.LoggerImpl
 import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
+import io.golos.cyber_android.core.ui_monitor.UIMonitor
+import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
@@ -350,4 +352,8 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideUIMonitor(monitor: UIMonitorImpl): UIMonitor
 }

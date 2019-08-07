@@ -5,6 +5,7 @@ import android.app.Application
 import android.os.Build
 import io.golos.cyber_android.application.dependency_injection.DependencyInjectionStorage
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
+import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.fcm.CommunFirebaseMessagingService
 import io.golos.domain.Logger
 import javax.inject.Inject
@@ -18,6 +19,9 @@ class App : Application() {
 
     @Inject
     internal lateinit var logger: Logger
+
+    @Inject
+    internal lateinit var uiMonitor: UIMonitor
 
     companion object {
         @SuppressLint("StaticFieldLeak")

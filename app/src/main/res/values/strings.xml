@@ -246,4 +246,9 @@
     <string name="authPinCodeAuthFail">Invalid PIN code - try again, please</string>
     <string name="authFingerprintDefaultHeader">Use fingerprint to unlock functionality</string>
     <string name="authPinCodeDefaultHeader">Use PIN code to unlock functionality</string>
+
+    <!--Feedback-->
+    <string name="feedback_request">Tell us, what\'s happened?</string>
+    <string name="feedback_send">Send</string>
+    <string name="feedback_title">Feedback</string>
 </resources>

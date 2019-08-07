@@ -1,7 +1,7 @@
-package io.golos.cyber_android.core.backup.storage
+package io.golos.cyber_android.core.keys_backup.storage
 
 import android.content.Context
-import io.golos.cyber_android.core.backup.raw_data.BackupKeysDataWrapper
+import io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysDataWrapper
 import io.golos.domain.Encryptor
 import java.io.File
 import java.lang.Exception

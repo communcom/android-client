@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.backup.facade
+package io.golos.cyber_android.core.keys_backup.facade
 
 interface BackupKeysFacadeSync {
     fun getRawData(): ByteArray

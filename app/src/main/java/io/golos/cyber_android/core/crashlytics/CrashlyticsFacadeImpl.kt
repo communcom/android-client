@@ -49,9 +49,10 @@ constructor(
         }
     }
 
-    override fun registerUser(userName: String) =
+    override fun registerUser(userName: String, userId: String) =
         doCall {
             Crashlytics.setString("USER_NAME", userName)
+            Crashlytics.setString("USER_ID", userId)
         }
 
     override fun log(tag: String, string: String) =

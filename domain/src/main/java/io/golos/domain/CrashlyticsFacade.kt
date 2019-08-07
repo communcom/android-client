@@ -2,7 +2,7 @@ package io.golos.domain
 
 interface CrashlyticsFacade {
     /** */
-    fun registerUser(userName: String)
+    fun registerUser(userName: String, userId: String)
 
     /** */
     fun log(tag: String, string: String)

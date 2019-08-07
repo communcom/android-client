@@ -1,6 +1,6 @@
 package io.golos.cyber_android.backup
 
-import io.golos.cyber_android.core.backup.raw_data.BackupKeysDataWrapper
+import io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysDataWrapper
 import org.junit.Assert.*
 import org.junit.Test
 

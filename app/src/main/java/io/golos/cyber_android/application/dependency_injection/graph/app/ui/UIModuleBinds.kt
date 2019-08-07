@@ -2,8 +2,8 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui
 
 import dagger.Binds
 import dagger.Module
-import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
-import io.golos.cyber_android.core.backup.facade.BackupKeysFacadeImpl
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelper

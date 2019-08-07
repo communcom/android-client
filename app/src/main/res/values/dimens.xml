@@ -235,4 +235,6 @@
     <!--Auth-->
     <dimen name="margin_top_auth">32dp</dimen>
     <dimen name="margin_switch_button_auth">8dp</dimen>
+
+    <dimen name="feedback_height">250dp</dimen>
 </resources>

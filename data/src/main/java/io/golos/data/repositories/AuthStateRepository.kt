@@ -6,6 +6,7 @@ import io.golos.cyber4j.services.model.AuthResult
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.cyber4j.utils.StringSigner
 import io.golos.data.api.AuthApi
+import io.golos.data.api.UserMetadataApi
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
 import io.golos.domain.*
@@ -31,10 +32,12 @@ class AuthStateRepository
 @Inject
 constructor(
     private val authApi: AuthApi,
+    private val metadataApi: UserMetadataApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val userKeyStore: UserKeyStore
+    private val userKeyStore: UserKeyStore,
+    private val crashlytics: CrashlyticsFacade
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -234,6 +237,15 @@ constructor(
         }
 
     private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
+        val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
+            try {
+                metadataApi.getUserMetadata(resolvedName)
+            } catch(ex: Exception) {
+                null
+            }
+        }
+        crashlytics.registerUser(userMetadata?.username ?: resolvedName.name, userMetadata?.userId?.name ?: originalName.userId)
+
         val loadingQuery = withContext(dispatchersProvider.calculationskDispatcher) {
             authRequestsLiveData.value?.entries?.find {
                 val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId

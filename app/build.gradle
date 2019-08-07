@@ -23,7 +23,7 @@ android {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         buildConfigField "String", "AUTH_TEST_PASS", properties.getProperty('authtestpass')
 
-        manifestPlaceholders = [crashlyticsEnabled: "false"]
+        manifestPlaceholders = [crashlyticsEnabled: "true"]
 
         javaCompileOptions {
             annotationProcessorOptions {

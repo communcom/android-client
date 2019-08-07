@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
-import io.golos.cyber_android.core.backup.facade.BackupKeysFacade
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
