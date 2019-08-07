@@ -10,10 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.NavigationArgs
+import io.golos.cyber_android.ui.base.FragmentBase
 import kotlinx.android.synthetic.main.fragment_license.*
 
 
-class LicenseFragment : Fragment() {
+class LicenseFragment : FragmentBase() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_license, container, false)
     }

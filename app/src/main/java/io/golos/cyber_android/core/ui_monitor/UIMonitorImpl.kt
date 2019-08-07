@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.core.feedback_service.FeedbackService
+import io.golos.domain.LogTags
 import javax.inject.Inject
 
 class UIMonitorImpl
@@ -26,6 +28,8 @@ constructor(private val appContext: Context): UIMonitor, Application.ActivityLif
     }
 
     override fun onActivityResumed(activity: Activity?) {
+        activity?.javaClass?.simpleName?.let { App.logger.log(LogTags.NAVIGATION, "$it activity is active") }
+
         activeActivities++
 
         if(activeActivities > 0) {

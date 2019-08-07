@@ -11,6 +11,7 @@ import io.golos.cyber4j.services.model.ServiceSettingsLanguage
 import io.golos.cyber4j.services.model.UserSettings
 import io.golos.domain.DefaultSettingProvider
 import io.golos.domain.DeviceIdProvider
+import io.golos.domain.Logger
 import io.golos.domain.entities.GeneralSettingEntity
 import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.entities.NotificationSettingsEntity
@@ -70,7 +71,9 @@ constructor(private val context: Context) : DeviceIdProvider {
 
 class SettingsToEntityMapper
 @Inject
-constructor (private val moshi: Moshi
+constructor (
+    private val moshi: Moshi,
+    private val logger: Logger
 ) : CyberToEntityMapper<UserSettings, UserSettingEntity> {
     override suspend fun invoke(cyberObject: UserSettings): UserSettingEntity {
         val push = cyberObject.push?.show
@@ -82,6 +85,7 @@ constructor (private val moshi: Moshi
                         try {
                             NSFWSettingsEntity.valueOf(this)
                         } catch (e: Exception) {
+                            logger.log(e)
                             NSFWSettingsEntity.ALERT_WARN
                         }
                     } ?: NSFWSettingsEntity.ALERT_WARN,

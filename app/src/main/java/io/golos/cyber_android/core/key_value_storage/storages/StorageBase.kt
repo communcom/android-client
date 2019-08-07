@@ -1,5 +1,7 @@
 package io.golos.cyber_android.core.key_value_storage.storages
 
+import io.golos.cyber_android.application.App
+
 /** Base class for storage */
 abstract class StorageBase: Storage, StorageOperationsInstance {
     /** Read data from storage */
@@ -12,7 +14,7 @@ abstract class StorageBase: Storage, StorageOperationsInstance {
             updateAction(operationsInstance)
             operationsInstance.commit()
         } catch(ex: Exception) {
-            ex.printStackTrace()
+            App.logger.log(ex)
             throw ex
         }
     }

@@ -110,6 +110,7 @@ constructor(
                         try {
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (e: Throwable) {
+                            logger.log(e)
                             val userName = authApi.resolveCanonicalCyberName(newParams.user.userId)
                             authApi.getUserAccount(userName.userId)
                         }
@@ -221,8 +222,10 @@ constructor(
                 AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ", AuthType.SIGN_UP)
             }
 
-    private suspend fun auth(name: String, key: String, authType: AuthType): AuthResult? =
-        withContext(dispatchersProvider.ioDispatcher) {
+    private suspend fun auth(name: String, key: String, authType: AuthType): AuthResult? {
+        logger.log(LogTags.LOGIN, "Start auth. User: $name, authType: $authType")
+
+        return withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val secret = authApi.getAuthSecret()
                 authApi.authWithSecret(
@@ -231,16 +234,21 @@ constructor(
                     StringSigner.signString(secret.secret, key)
                 )
             } catch (e: Exception) {
+                logger.log(e)
                 onAuthFail(e, authType)
                 null
             }
         }
+    }
 
     private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
+        logger.log(LogTags.LOGIN, "Auth success")
+
         val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 metadataApi.getUserMetadata(resolvedName)
             } catch(ex: Exception) {
+                logger.log(ex)
                 null
             }
         }
@@ -282,7 +290,7 @@ constructor(
     }
 
     private fun onAuthFail(e: Exception, authType: AuthType) {
-        logger.log(e)
+        logger.log(LogTags.LOGIN, "Auth fail")
 
         repositoryScope.launch {
             authState.value = AuthState("".toCyberName(), false, false, false, false, authType)

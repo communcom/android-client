@@ -104,6 +104,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                 //try to get updated post
                 getOnBackground { getDiscussionItem(updatingDiscussionId) }
             } catch (e: CyberServicesError) {
+                logger.log(e)
                 //if post with this id is not found then we should
                 //delete it from all the LiveData's
                 if (e.message?.contains("404") == true) {

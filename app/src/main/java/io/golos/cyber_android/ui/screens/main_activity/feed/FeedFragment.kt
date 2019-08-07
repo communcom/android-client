@@ -13,6 +13,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.cyber_android.views.utils.TabLayoutMediator
@@ -26,7 +27,7 @@ const val EDITOR_WIDGET_PHOTO_REQUEST_CODE = 102
 const val REQUEST_POST_CREATION = 205
 
 
-class FeedFragment : Fragment(), FeedPageLiveDataProvider {
+class FeedFragment : FragmentBase(), FeedPageLiveDataProvider {
 
     enum class Tab(@StringRes val title: Int, val index: Int) {
         MY_FEED(R.string.tab_my_feed, 0), TRENDING(R.string.tab_all, 1)

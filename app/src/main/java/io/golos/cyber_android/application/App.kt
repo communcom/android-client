@@ -7,6 +7,7 @@ import io.golos.cyber_android.application.dependency_injection.DependencyInjecti
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.fcm.CommunFirebaseMessagingService
+import io.golos.domain.LogTags
 import io.golos.domain.Logger
 import javax.inject.Inject
 
@@ -17,8 +18,9 @@ class App : Application() {
     @Inject
     internal lateinit var appCore: AppCore
 
+    @Suppress("PropertyName")
     @Inject
-    internal lateinit var logger: Logger
+    internal lateinit var _logger: Logger
 
     @Inject
     internal lateinit var uiMonitor: UIMonitor
@@ -28,7 +30,7 @@ class App : Application() {
         lateinit var injections : DependencyInjectionStorage
             private set
 
-        lateinit var log: Logger
+        lateinit var logger: Logger
             private set
     }
 
@@ -38,7 +40,9 @@ class App : Application() {
         injections = DependencyInjectionStorage(applicationContext)
         injections.get<AppComponent>().inject(this)
 
-        log = logger
+        logger = _logger
+
+        logger.log(LogTags.NAVIGATION, "The app is started")
 
         appCore.initialize()
 

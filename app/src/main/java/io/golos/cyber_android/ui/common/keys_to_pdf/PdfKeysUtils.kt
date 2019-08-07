@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import java.io.File
@@ -46,6 +47,7 @@ object PdfKeysUtils {
             pdf.writeTo(FileOutputStream(filePath))
             true
         } catch (e: IOException) {
+            App.logger.log(e)
             false
         } finally {
             pdf.close()

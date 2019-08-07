@@ -10,7 +10,6 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToFingerprintCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToPinCodeCommand
 import javax.inject.Inject
 

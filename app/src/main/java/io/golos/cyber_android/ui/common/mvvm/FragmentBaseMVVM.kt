@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
@@ -19,6 +20,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.AppResourcesProvider
+import io.golos.domain.LogTags
 import javax.inject.Inject
 
 /**
@@ -66,6 +68,11 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
 
         linkViewModel(binding, _viewModel)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        App.logger.log(LogTags.NAVIGATION, "${javaClass.simpleName} fragment is active")
     }
 
     override fun onDestroyView() {

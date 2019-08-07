@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -140,6 +141,7 @@ constructor(
                     keys
                 )
             } catch (ex: Exception) {
+                App.logger.log(ex)
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = ShowMessageCommand(R.string.common_general_error)
             }

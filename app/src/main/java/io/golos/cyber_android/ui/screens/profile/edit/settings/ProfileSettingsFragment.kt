@@ -130,7 +130,7 @@ class ProfileSettingsFragment : FragmentBase() {
     }
 
     private fun logOut() {
-        //on log out we should disable push notifications
+        //on logger out we should disable push notifications
         viewModel.onPushSettingsSelected(false)
 
         //so we wait until we successfully disable it or until some error happens

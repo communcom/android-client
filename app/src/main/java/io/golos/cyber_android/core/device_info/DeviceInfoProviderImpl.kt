@@ -2,6 +2,7 @@ package io.golos.cyber_android.core.device_info
 
 import android.content.Context
 import android.telephony.TelephonyManager
+import io.golos.cyber_android.application.App
 import io.golos.domain.DeviceInfoProvider
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +32,7 @@ constructor(
                 }
             }
         } catch (ex: Exception) {
-            ex.printStackTrace()
+            App.logger.log(ex)
         }
 
         return null

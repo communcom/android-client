@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.UserNameValidator
 import io.golos.cyber_android.utils.asEvent
 import io.golos.data.repositories.countries.CountriesRepository
@@ -151,7 +152,7 @@ constructor(
                 try {
                     countriesRepository.getCurrentCountry()
                 } catch (ex: Exception) {
-                    ex.printStackTrace()
+                    App.logger.log(ex)
                     null
                 }
             }

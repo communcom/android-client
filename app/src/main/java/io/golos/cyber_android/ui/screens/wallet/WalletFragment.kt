@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.base.FragmentBase
 
-class WalletFragment : Fragment() {
+class WalletFragment : FragmentBase() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

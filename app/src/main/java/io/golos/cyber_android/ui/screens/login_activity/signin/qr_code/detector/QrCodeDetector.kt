@@ -11,6 +11,7 @@ import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.Barcode.QR_CODE
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import io.golos.cyber_android.application.App
 
 class QrCodeDetector(private val appContext: Context) {
     private var onCodeReceivedListener: ((QrCodeDecrypted) -> Unit)? = null
@@ -54,7 +55,7 @@ class QrCodeDetector(private val appContext: Context) {
                 .build()
         }
         catch(ex: Exception) {
-            ex.printStackTrace()
+            App.logger.log(ex)
             onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL)
             return
         }

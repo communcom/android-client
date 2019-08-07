@@ -12,18 +12,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.NavigationArgs
+import io.golos.cyber_android.ui.base.FragmentBase
 import io.golos.cyber_android.views.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import java.text.MessageFormat
 import java.util.concurrent.TimeUnit
 
-class WelcomeFragment : Fragment() {
+class WelcomeFragment : FragmentBase() {
     private val startAnimDelay = TimeUnit.SECONDS.toMillis(7)
     private val userDragAnimDelay = TimeUnit.SECONDS.toMillis(7)
     private val animDuration = TimeUnit.SECONDS.toMillis(3)

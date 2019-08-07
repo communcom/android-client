@@ -1,14 +1,13 @@
 package io.golos.cyber_android.ui.screens.communities
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.base.FragmentBase
 
-class CommunitiesFragment : Fragment() {
+class CommunitiesFragment : FragmentBase() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
