@@ -22,7 +22,7 @@ class LicenseFragment : FragmentBase() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        licenseView.loadUrl("http://lib.ru/TOLKIEN/treeleaf.txt")
+        licenseView.loadUrl("https://en.wikipedia.org/wiki/MIT_License#License_terms")
         licenseView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
                 acceptButton.isEnabled = true
