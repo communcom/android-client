@@ -1,4 +1,4 @@
-package io.golos.cyber_android.fcm
+package io.golos.cyber_android.services.fcm
 
 import com.google.firebase.iid.FirebaseInstanceId
 import io.golos.data.errors.AppError

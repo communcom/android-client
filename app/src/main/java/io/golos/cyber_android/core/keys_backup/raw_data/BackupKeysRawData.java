@@ -8,9 +8,15 @@ public final class BackupKeysRawData {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
+
+  public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
+  }
   public interface KeyInfoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:backup.KeyInfo)
-      com.google.protobuf.MessageLiteOrBuilder {
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>required int64 userName = 1;</code>
@@ -39,262 +45,597 @@ public final class BackupKeysRawData {
    * Protobuf type {@code backup.KeyInfo}
    */
   public  static final class KeyInfo extends
-      com.google.protobuf.GeneratedMessageLite<
-          KeyInfo, KeyInfo.Builder> implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:backup.KeyInfo)
       KeyInfoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use KeyInfo.newBuilder() to construct.
+    private KeyInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
     private KeyInfo() {
       masterKey_ = "";
     }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KeyInfo();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private KeyInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              bitField0_ |= 0x00000001;
+              userName_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              masterKey_ = bs;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeyInfo_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeyInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.class, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder.class);
+    }
+
     private int bitField0_;
     public static final int USERNAME_FIELD_NUMBER = 1;
     private long userName_;
     /**
      * <code>required int64 userName = 1;</code>
      */
-    @java.lang.Override
     public boolean hasUserName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required int64 userName = 1;</code>
      */
-    @java.lang.Override
     public long getUserName() {
       return userName_;
     }
-    /**
-     * <code>required int64 userName = 1;</code>
-     */
-    private void setUserName(long value) {
-      bitField0_ |= 0x00000001;
-      userName_ = value;
-    }
-    /**
-     * <code>required int64 userName = 1;</code>
-     */
-    private void clearUserName() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      userName_ = 0L;
-    }
 
     public static final int MASTERKEY_FIELD_NUMBER = 2;
-    private java.lang.String masterKey_;
+    private volatile java.lang.Object masterKey_;
     /**
      * <code>required string masterKey = 2;</code>
      */
-    @java.lang.Override
     public boolean hasMasterKey() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required string masterKey = 2;</code>
      */
-    @java.lang.Override
     public java.lang.String getMasterKey() {
-      return masterKey_;
+      java.lang.Object ref = masterKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          masterKey_ = s;
+        }
+        return s;
+      }
     }
     /**
      * <code>required string masterKey = 2;</code>
      */
-    @java.lang.Override
     public com.google.protobuf.ByteString
         getMasterKeyBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(masterKey_);
+      java.lang.Object ref = masterKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        masterKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
-    /**
-     * <code>required string masterKey = 2;</code>
-     */
-    private void setMasterKey(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-      masterKey_ = value;
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasUserName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMasterKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
     }
-    /**
-     * <code>required string masterKey = 2;</code>
-     */
-    private void clearMasterKey() {
-      bitField0_ = (bitField0_ & ~0x00000002);
-      masterKey_ = getDefaultInstance().getMasterKey();
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeInt64(1, userName_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, masterKey_);
+      }
+      unknownFields.writeTo(output);
     }
-    /**
-     * <code>required string masterKey = 2;</code>
-     */
-    private void setMasterKeyBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-      masterKey_ = value.toStringUtf8();
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, userName_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, masterKey_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo)) {
+        return super.equals(obj);
+      }
+      io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo other = (io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo) obj;
+
+      if (hasUserName() != other.hasUserName()) return false;
+      if (hasUserName()) {
+        if (getUserName()
+            != other.getUserName()) return false;
+      }
+      if (hasMasterKey() != other.hasMasterKey()) return false;
+      if (hasMasterKey()) {
+        if (!getMasterKey()
+            .equals(other.getMasterKey())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasUserName()) {
+        hash = (37 * hash) + USERNAME_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getUserName());
+      }
+      if (hasMasterKey()) {
+        hash = (37 * hash) + MASTERKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getMasterKey().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
     }
 
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
+      return PARSER.parseFrom(data);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
+      return PARSER.parseFrom(data, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
+      return PARSER.parseFrom(data);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
+      return PARSER.parseFrom(data, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
+      return PARSER.parseFrom(data);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
+      return PARSER.parseFrom(data, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
+      return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo prototype) {
-      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code backup.KeyInfo}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo, Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:backup.KeyInfo)
         io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder {
-      // Construct using io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeyInfo.newBuilder()
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeyInfo_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeyInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.class, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder.class);
+      }
+
+      // Construct using io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.newBuilder()
       private Builder() {
-        super(DEFAULT_INSTANCE);
+        maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        userName_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        masterKey_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
 
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeyInfo_descriptor;
+      }
+
+      @java.lang.Override
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo getDefaultInstanceForType() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo build() {
+        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo buildPartial() {
+        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo result = new io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.userName_ = userName_;
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.masterKey_ = masterKey_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo) {
+          return mergeFrom((io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo other) {
+        if (other == io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.getDefaultInstance()) return this;
+        if (other.hasUserName()) {
+          setUserName(other.getUserName());
+        }
+        if (other.hasMasterKey()) {
+          bitField0_ |= 0x00000002;
+          masterKey_ = other.masterKey_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasUserName()) {
+          return false;
+        }
+        if (!hasMasterKey()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private long userName_ ;
       /**
        * <code>required int64 userName = 1;</code>
        */
-      @java.lang.Override
       public boolean hasUserName() {
-        return instance.hasUserName();
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required int64 userName = 1;</code>
        */
-      @java.lang.Override
       public long getUserName() {
-        return instance.getUserName();
+        return userName_;
       }
       /**
        * <code>required int64 userName = 1;</code>
        */
       public Builder setUserName(long value) {
-        copyOnWrite();
-        instance.setUserName(value);
+        bitField0_ |= 0x00000001;
+        userName_ = value;
+        onChanged();
         return this;
       }
       /**
        * <code>required int64 userName = 1;</code>
        */
       public Builder clearUserName() {
-        copyOnWrite();
-        instance.clearUserName();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userName_ = 0L;
+        onChanged();
         return this;
       }
 
+      private java.lang.Object masterKey_ = "";
       /**
        * <code>required string masterKey = 2;</code>
        */
-      @java.lang.Override
       public boolean hasMasterKey() {
-        return instance.hasMasterKey();
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required string masterKey = 2;</code>
        */
-      @java.lang.Override
       public java.lang.String getMasterKey() {
-        return instance.getMasterKey();
+        java.lang.Object ref = masterKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            masterKey_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
        * <code>required string masterKey = 2;</code>
        */
-      @java.lang.Override
       public com.google.protobuf.ByteString
           getMasterKeyBytes() {
-        return instance.getMasterKeyBytes();
+        java.lang.Object ref = masterKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          masterKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
       /**
        * <code>required string masterKey = 2;</code>
        */
       public Builder setMasterKey(
           java.lang.String value) {
-        copyOnWrite();
-        instance.setMasterKey(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        masterKey_ = value;
+        onChanged();
         return this;
       }
       /**
        * <code>required string masterKey = 2;</code>
        */
       public Builder clearMasterKey() {
-        copyOnWrite();
-        instance.clearMasterKey();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        masterKey_ = getDefaultInstance().getMasterKey();
+        onChanged();
         return this;
       }
       /**
@@ -302,97 +643,75 @@ public final class BackupKeysRawData {
        */
       public Builder setMasterKeyBytes(
           com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setMasterKeyBytes(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        masterKey_ = value;
+        onChanged();
         return this;
       }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:backup.KeyInfo)
     }
-    private byte memoizedIsInitialized = 2;
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo();
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = new java.lang.Object[] {
-              "bitField0_",
-              "userName_",
-              "masterKey_",
-            };
-            java.lang.String info =
-                "\u0001\u0002\u0000\u0001\u0001\u0002\u0002\u0000\u0000\u0002\u0001\u0502\u0000\u0002" +
-                "\u0508\u0001";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
-        }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> parser = PARSER;
-          if (parser == null) {
-            synchronized (io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
-            }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return memoizedIsInitialized;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        memoizedIsInitialized = (byte) (arg0 == null ? 0 : 1);
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
-    }
-
 
     // @@protoc_insertion_point(class_scope:backup.KeyInfo)
     private static final io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo DEFAULT_INSTANCE;
     static {
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = new KeyInfo();
+      DEFAULT_INSTANCE = new io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo();
     }
 
-    static {
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        KeyInfo.class, DEFAULT_INSTANCE);
-    }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static volatile com.google.protobuf.Parser<KeyInfo> PARSER;
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<KeyInfo>
+        PARSER = new com.google.protobuf.AbstractParser<KeyInfo>() {
+      @java.lang.Override
+      public KeyInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KeyInfo(input, extensionRegistry);
+      }
+    };
 
     public static com.google.protobuf.Parser<KeyInfo> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
+      return PARSER;
     }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeyInfo> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
 
   public interface KeysListOrBuilder extends
       // @@protoc_insertion_point(interface_extends:backup.KeysList)
-      com.google.protobuf.MessageLiteOrBuilder {
+      com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo>
+    java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> 
         getKeyList();
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
@@ -402,45 +721,132 @@ public final class BackupKeysRawData {
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
     int getKeyCount();
+    /**
+     * <code>repeated .backup.KeyInfo key = 1;</code>
+     */
+    java.util.List<? extends io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder> 
+        getKeyOrBuilderList();
+    /**
+     * <code>repeated .backup.KeyInfo key = 1;</code>
+     */
+    io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder getKeyOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code backup.KeysList}
    */
   public  static final class KeysList extends
-      com.google.protobuf.GeneratedMessageLite<
-          KeysList, KeysList.Builder> implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:backup.KeysList)
       KeysListOrBuilder {
-    private KeysList() {
-      key_ = emptyProtobufList();
+  private static final long serialVersionUID = 0L;
+    // Use KeysList.newBuilder() to construct.
+    private KeysList(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
     }
+    private KeysList() {
+      key_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KeysList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private KeysList(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                key_ = new java.util.ArrayList<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              key_.add(
+                  input.readMessage(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          key_ = java.util.Collections.unmodifiableList(key_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeysList_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeysList_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.class, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.Builder.class);
+    }
+
     public static final int KEY_FIELD_NUMBER = 1;
-    private com.google.protobuf.Internal.ProtobufList<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> key_;
+    private java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> key_;
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    @java.lang.Override
     public java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> getKeyList() {
       return key_;
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    public java.util.List<? extends io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder>
+    public java.util.List<? extends io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder> 
         getKeyOrBuilderList() {
       return key_;
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    @java.lang.Override
     public int getKeyCount() {
       return key_.size();
     }
     /**
      * <code>repeated .backup.KeyInfo key = 1;</code>
      */
-    @java.lang.Override
     public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo getKey(int index) {
       return key_.get(index);
     }
@@ -451,215 +857,417 @@ public final class BackupKeysRawData {
         int index) {
       return key_.get(index);
     }
-    private void ensureKeyIsMutable() {
-      if (!key_.isModifiable()) {
-        key_ =
-            com.google.protobuf.GeneratedMessageLite.mutableCopy(key_);
-       }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      for (int i = 0; i < getKeyCount(); i++) {
+        if (!getKey(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
     }
 
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void setKey(
-        int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo value) {
-      if (value == null) {
-        throw new NullPointerException();
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < key_.size(); i++) {
+        output.writeMessage(1, key_.get(i));
       }
-      ensureKeyIsMutable();
-      key_.set(index, value);
+      unknownFields.writeTo(output);
     }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void setKey(
-        int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
-      ensureKeyIsMutable();
-      key_.set(index, builderForValue.build());
-    }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void addKey(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo value) {
-      if (value == null) {
-        throw new NullPointerException();
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < key_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, key_.get(i));
       }
-      ensureKeyIsMutable();
-      key_.add(value);
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
     }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void addKey(
-        int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo value) {
-      if (value == null) {
-        throw new NullPointerException();
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
       }
-      ensureKeyIsMutable();
-      key_.add(index, value);
+      if (!(obj instanceof io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList)) {
+        return super.equals(obj);
+      }
+      io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList other = (io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList) obj;
+
+      if (!getKeyList()
+          .equals(other.getKeyList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void addKey(
-        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
-      ensureKeyIsMutable();
-      key_.add(builderForValue.build());
-    }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void addKey(
-        int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
-      ensureKeyIsMutable();
-      key_.add(index, builderForValue.build());
-    }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void addAllKey(
-        java.lang.Iterable<? extends io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> values) {
-      ensureKeyIsMutable();
-      com.google.protobuf.AbstractMessageLite.addAll(
-          values, key_);
-    }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void clearKey() {
-      key_ = emptyProtobufList();
-    }
-    /**
-     * <code>repeated .backup.KeyInfo key = 1;</code>
-     */
-    private void removeKey(int index) {
-      ensureKeyIsMutable();
-      key_.remove(index);
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getKeyCount() > 0) {
+        hash = (37 * hash) + KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getKeyList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
     }
 
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
+      return PARSER.parseFrom(data);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
+      return PARSER.parseFrom(data, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
+      return PARSER.parseFrom(data);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
+      return PARSER.parseFrom(data, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
+      return PARSER.parseFrom(data);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
+      return PARSER.parseFrom(data, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
     }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
+      return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList prototype) {
-      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
     }
 
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
      * Protobuf type {@code backup.KeysList}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList, Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:backup.KeysList)
         io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysListOrBuilder {
-      // Construct using io.golos.cyber_android.core.backup.raw_data.BackupKeysRawData.KeysList.newBuilder()
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeysList_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeysList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.class, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.Builder.class);
+      }
+
+      // Construct using io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.newBuilder()
       private Builder() {
-        super(DEFAULT_INSTANCE);
+        maybeForceBuilderInitialization();
       }
 
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getKeyFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (keyBuilder_ == null) {
+          key_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          keyBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.internal_static_backup_KeysList_descriptor;
+      }
+
+      @java.lang.Override
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList getDefaultInstanceForType() {
+        return io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList build() {
+        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList buildPartial() {
+        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList result = new io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList(this);
+        int from_bitField0_ = bitField0_;
+        if (keyBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            key_ = java.util.Collections.unmodifiableList(key_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.key_ = key_;
+        } else {
+          result.key_ = keyBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList) {
+          return mergeFrom((io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList other) {
+        if (other == io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.getDefaultInstance()) return this;
+        if (keyBuilder_ == null) {
+          if (!other.key_.isEmpty()) {
+            if (key_.isEmpty()) {
+              key_ = other.key_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureKeyIsMutable();
+              key_.addAll(other.key_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.key_.isEmpty()) {
+            if (keyBuilder_.isEmpty()) {
+              keyBuilder_.dispose();
+              keyBuilder_ = null;
+              key_ = other.key_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              keyBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getKeyFieldBuilder() : null;
+            } else {
+              keyBuilder_.addAllMessages(other.key_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        for (int i = 0; i < getKeyCount(); i++) {
+          if (!getKey(i).isInitialized()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> key_ =
+        java.util.Collections.emptyList();
+      private void ensureKeyIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          key_ = new java.util.ArrayList<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo>(key_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder> keyBuilder_;
 
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      @java.lang.Override
       public java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> getKeyList() {
-        return java.util.Collections.unmodifiableList(
-            instance.getKeyList());
+        if (keyBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(key_);
+        } else {
+          return keyBuilder_.getMessageList();
+        }
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      @java.lang.Override
       public int getKeyCount() {
-        return instance.getKeyCount();
-      }/**
+        if (keyBuilder_ == null) {
+          return key_.size();
+        } else {
+          return keyBuilder_.getCount();
+        }
+      }
+      /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
-      @java.lang.Override
       public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo getKey(int index) {
-        return instance.getKey(index);
+        if (keyBuilder_ == null) {
+          return key_.get(index);
+        } else {
+          return keyBuilder_.getMessage(index);
+        }
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder setKey(
           int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo value) {
-        copyOnWrite();
-        instance.setKey(index, value);
+        if (keyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureKeyIsMutable();
+          key_.set(index, value);
+          onChanged();
+        } else {
+          keyBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
@@ -667,16 +1275,29 @@ public final class BackupKeysRawData {
        */
       public Builder setKey(
           int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
-        copyOnWrite();
-        instance.setKey(index, builderForValue);
+        if (keyBuilder_ == null) {
+          ensureKeyIsMutable();
+          key_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          keyBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder addKey(io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo value) {
-        copyOnWrite();
-        instance.addKey(value);
+        if (keyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureKeyIsMutable();
+          key_.add(value);
+          onChanged();
+        } else {
+          keyBuilder_.addMessage(value);
+        }
         return this;
       }
       /**
@@ -684,8 +1305,16 @@ public final class BackupKeysRawData {
        */
       public Builder addKey(
           int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo value) {
-        copyOnWrite();
-        instance.addKey(index, value);
+        if (keyBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureKeyIsMutable();
+          key_.add(index, value);
+          onChanged();
+        } else {
+          keyBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
@@ -693,8 +1322,13 @@ public final class BackupKeysRawData {
        */
       public Builder addKey(
           io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
-        copyOnWrite();
-        instance.addKey(builderForValue);
+        if (keyBuilder_ == null) {
+          ensureKeyIsMutable();
+          key_.add(builderForValue.build());
+          onChanged();
+        } else {
+          keyBuilder_.addMessage(builderForValue.build());
+        }
         return this;
       }
       /**
@@ -702,8 +1336,13 @@ public final class BackupKeysRawData {
        */
       public Builder addKey(
           int index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder builderForValue) {
-        copyOnWrite();
-        instance.addKey(index, builderForValue);
+        if (keyBuilder_ == null) {
+          ensureKeyIsMutable();
+          key_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          keyBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
@@ -711,105 +1350,200 @@ public final class BackupKeysRawData {
        */
       public Builder addAllKey(
           java.lang.Iterable<? extends io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo> values) {
-        copyOnWrite();
-        instance.addAllKey(values);
+        if (keyBuilder_ == null) {
+          ensureKeyIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, key_);
+          onChanged();
+        } else {
+          keyBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder clearKey() {
-        copyOnWrite();
-        instance.clearKey();
+        if (keyBuilder_ == null) {
+          key_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          keyBuilder_.clear();
+        }
         return this;
       }
       /**
        * <code>repeated .backup.KeyInfo key = 1;</code>
        */
       public Builder removeKey(int index) {
-        copyOnWrite();
-        instance.removeKey(index);
+        if (keyBuilder_ == null) {
+          ensureKeyIsMutable();
+          key_.remove(index);
+          onChanged();
+        } else {
+          keyBuilder_.remove(index);
+        }
         return this;
       }
+      /**
+       * <code>repeated .backup.KeyInfo key = 1;</code>
+       */
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder getKeyBuilder(
+          int index) {
+        return getKeyFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .backup.KeyInfo key = 1;</code>
+       */
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder getKeyOrBuilder(
+          int index) {
+        if (keyBuilder_ == null) {
+          return key_.get(index);  } else {
+          return keyBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .backup.KeyInfo key = 1;</code>
+       */
+      public java.util.List<? extends io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder> 
+           getKeyOrBuilderList() {
+        if (keyBuilder_ != null) {
+          return keyBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(key_);
+        }
+      }
+      /**
+       * <code>repeated .backup.KeyInfo key = 1;</code>
+       */
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder addKeyBuilder() {
+        return getKeyFieldBuilder().addBuilder(
+            io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .backup.KeyInfo key = 1;</code>
+       */
+      public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder addKeyBuilder(
+          int index) {
+        return getKeyFieldBuilder().addBuilder(
+            index, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .backup.KeyInfo key = 1;</code>
+       */
+      public java.util.List<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder> 
+           getKeyBuilderList() {
+        return getKeyFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder> 
+          getKeyFieldBuilder() {
+        if (keyBuilder_ == null) {
+          keyBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.Builder, io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfoOrBuilder>(
+                  key_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          key_ = null;
+        }
+        return keyBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:backup.KeysList)
     }
-    private byte memoizedIsInitialized = 2;
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList();
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = new java.lang.Object[] {
-              "key_",
-              io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeyInfo.class,
-            };
-            java.lang.String info =
-                "\u0001\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0001\u0001\u0001\u041b";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
-        }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList> parser = PARSER;
-          if (parser == null) {
-            synchronized (io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
-            }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return memoizedIsInitialized;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        memoizedIsInitialized = (byte) (arg0 == null ? 0 : 1);
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
-    }
-
 
     // @@protoc_insertion_point(class_scope:backup.KeysList)
     private static final io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList DEFAULT_INSTANCE;
     static {
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = new KeysList();
+      DEFAULT_INSTANCE = new io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList();
     }
 
-    static {
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        KeysList.class, DEFAULT_INSTANCE);
-    }
     public static io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static volatile com.google.protobuf.Parser<KeysList> PARSER;
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<KeysList>
+        PARSER = new com.google.protobuf.AbstractParser<KeysList>() {
+      @java.lang.Override
+      public KeysList parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KeysList(input, extensionRegistry);
+      }
+    };
 
     public static com.google.protobuf.Parser<KeysList> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
+      return PARSER;
     }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeysList> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysRawData.KeysList getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
 
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_backup_KeyInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_backup_KeyInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_backup_KeysList_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_backup_KeysList_fieldAccessorTable;
 
+  public static com.google.protobuf.Descriptors.FileDescriptor
+      getDescriptor() {
+    return descriptor;
+  }
+  private static  com.google.protobuf.Descriptors.FileDescriptor
+      descriptor;
   static {
+    java.lang.String[] descriptorData = {
+      "\n\021backup_keys.proto\022\006backup\".\n\007KeyInfo\022\020" +
+      "\n\010userName\030\001 \002(\003\022\021\n\tmasterKey\030\002 \002(\t\"(\n\010K" +
+      "eysList\022\034\n\003key\030\001 \003(\0132\017.backup.KeyInfoBE\n" +
+      "0io.golos.cyber_android.core.keys_backup" +
+      ".raw_dataB\021BackupKeysRawData"
+    };
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+      .internalBuildGeneratedFileFrom(descriptorData,
+        new com.google.protobuf.Descriptors.FileDescriptor[] {
+        });
+    internal_static_backup_KeyInfo_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_backup_KeyInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_backup_KeyInfo_descriptor,
+        new java.lang.String[] { "UserName", "MasterKey", });
+    internal_static_backup_KeysList_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_backup_KeysList_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_backup_KeysList_descriptor,
+        new java.lang.String[] { "Key", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

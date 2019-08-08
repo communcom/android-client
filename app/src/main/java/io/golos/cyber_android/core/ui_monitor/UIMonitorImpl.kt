@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.core.feedback_service.FeedbackService
+import io.golos.cyber_android.services.feedback_service.FeedbackService
 import io.golos.domain.LogTags
 import javax.inject.Inject
 

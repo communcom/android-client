@@ -36,7 +36,7 @@ import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
-import io.golos.cyber_android.fcm.FcmTokenProviderImpl
+import io.golos.cyber_android.services.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor

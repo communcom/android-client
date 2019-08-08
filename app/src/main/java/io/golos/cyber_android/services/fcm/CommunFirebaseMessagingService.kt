@@ -1,4 +1,4 @@
-package io.golos.cyber_android.fcm
+package io.golos.cyber_android.services.fcm
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -17,7 +17,6 @@ import kotlin.random.Random
 
 
 class CommunFirebaseMessagingService : FirebaseMessagingService() {
-
     override fun onMessageReceived(message: RemoteMessage?) {
         super.onMessageReceived(message)
         val notificationBuilder = NotificationCompat.Builder(this, MAIN_CHANNEL_ID)
@@ -46,6 +45,7 @@ class CommunFirebaseMessagingService : FirebaseMessagingService() {
             createChannel(
                 notificationManager,
                 MAIN_CHANNEL_ID,
+
                 context.getString(R.string.notification_channel_main_title),
                 context.getString(R.string.notification_channel_main_description)
             )

@@ -6,7 +6,7 @@ import android.os.Build
 import io.golos.cyber_android.application.dependency_injection.DependencyInjectionStorage
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
-import io.golos.cyber_android.fcm.CommunFirebaseMessagingService
+import io.golos.cyber_android.services.fcm.CommunFirebaseMessagingService
 import io.golos.domain.LogTags
 import io.golos.domain.Logger
 import javax.inject.Inject

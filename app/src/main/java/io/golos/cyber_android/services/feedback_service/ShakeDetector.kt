@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.feedback_service
+package io.golos.cyber_android.services.feedback_service
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent

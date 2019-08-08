@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.feedback_service
+package io.golos.cyber_android.services.feedback_service
 
 import android.app.Service
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import android.hardware.Sensor
 import android.os.IBinder
 import android.hardware.SensorManager
-import android.util.Log
 import io.golos.cyber_android.ui.screens.feedback_activity.FeedbackActivity
 
 /**

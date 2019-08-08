@@ -103,7 +103,6 @@ dependencies {
     implementation("io.golos.cyber4j:cyber4j:$cyber4jVersion")
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':protobuf')
     implementation project(':shared_core')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -125,7 +124,7 @@ dependencies {
     implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
     implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
 
-    // Firebase
+    /*Firebase*/
     implementation "com.google.firebase:firebase-core:$firebaseCoreSdkVersion"
     implementation "com.google.firebase:firebase-messaging:$fcmVersion"
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsSdkVersion"
@@ -134,6 +133,9 @@ dependencies {
 
     implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+
+    /*Protobuf*/
+    implementation "com.google.protobuf:protobuf-java:$protobufVersion"
 
     /*Tests*/
     implementation 'androidx.appcompat:appcompat:1.0.2'
