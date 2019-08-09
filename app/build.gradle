@@ -24,6 +24,7 @@ android {
         buildConfigField "String", "AUTH_TEST_PASS", properties.getProperty('authtestpass')
 
         manifestPlaceholders = [crashlyticsEnabled: "false"]
+        signingConfig signingConfigs.debug
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -33,8 +34,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [crashlyticsEnabled: "true"]
         }
     }

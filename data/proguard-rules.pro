@@ -20,6 +20,8 @@
 # hide the original source file userId.
 #-renamesourcefileattribute SourceFile
 # ServiceLoader support
+-keep class io.golos.** { *; }
+
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
 -keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
 -keepnames class kotlinx.coroutines.android.AndroidExceptionPreHandler {}
