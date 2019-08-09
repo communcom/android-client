@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 # ServiceLoader support
 -keep class io.golos.** { *; }
+-keep class com.squareup.** { *; }
 
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
 -keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}

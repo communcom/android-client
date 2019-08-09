@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class io.golos.** { *; }
+-keep class com.squareup.** { *; }

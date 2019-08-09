@@ -16,10 +16,11 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# If you keep the line number information, uncomment this to
+# If you keep the line number information, uncomment this tro
 # hide the original source file userId.
 #-renamesourcefileattribute SourceFile
 -keep class io.golos.** { *; }
+-keep class kotlin.Metadata { *; }
 
 -keepclassmembers class * implements android.os.Parcelable {
     static ** CREATOR;
