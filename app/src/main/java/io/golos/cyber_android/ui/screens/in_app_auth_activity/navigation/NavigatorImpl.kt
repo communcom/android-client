@@ -22,7 +22,7 @@ constructor(): NavigatorBaseImpl(R.id.authNavHost), Navigator {
     override fun setPinCodeAsHome(activity: FragmentActivity, @StringRes headerText: Int) =
         Bundle()
             .apply { putInt(InAppAuthActivity.PIN_CODE_HEADER_ID, headerText) }
-            .let { setHome(R.id.pinCodeAuthFragment, R.navigation.graph_in_app_auth,  activity, null) }
+            .let { setHome(R.id.pinCodeAuthFragment, R.navigation.graph_in_app_auth,  activity, it) }
 
     override fun processAuthSuccess(activity: FragmentActivity) {
         activity.setResult(Activity.RESULT_OK)
