@@ -33,7 +33,7 @@ constructor() : EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionC
                     tags.map { Tag(it) },
                     DiscussionCreateMetadata((links + entity.images).map { EmbedmentsUrl(it) }),
                     emptyList(),
-                    true,
+                    false,
                     0
                 )
             }
