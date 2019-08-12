@@ -96,7 +96,10 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
         }
     }
 
-    override fun onUnselected() = releaseCodeReading()
+    override fun onUnselected() {
+        releaseCodeReading()
+        uiHelper.hideMessage()
+    }
 
     private fun checkCameraPermissions(): Boolean =
         ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED

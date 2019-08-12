@@ -6,5 +6,7 @@ import androidx.annotation.StringRes
 interface UIHelper {
     fun showMessage(@StringRes messageResId: Int)
 
+    fun hideMessage()
+
     fun setSoftKeyboardVisibility(someViewInWindow: View, isVisible: Boolean)
 }

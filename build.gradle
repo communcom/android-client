@@ -9,7 +9,7 @@ buildscript {
     }
 
     ext {
-        appVesrionCode = 17
+        appVesrionCode = 18
         appVersionName = "0.1"
         minsdk = 21
         targetsdk = 28

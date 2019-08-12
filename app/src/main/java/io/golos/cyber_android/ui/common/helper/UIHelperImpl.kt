@@ -8,7 +8,17 @@ import javax.inject.Inject
 class UIHelperImpl
 @Inject
 constructor(private val appContext: Context): UIHelper {
-    override fun showMessage(messageResId: Int) = Toast.makeText(appContext, messageResId, Toast.LENGTH_SHORT).show()
+    private var lastMessage: Toast? = null
+
+    override fun showMessage(messageResId: Int) =
+        Toast
+            .makeText(appContext, messageResId, Toast.LENGTH_SHORT)
+            .also { lastMessage = it }
+            .show()
+
+    override fun hideMessage() {
+        lastMessage?.cancel()
+    }
 
     override fun setSoftKeyboardVisibility(someViewInWindow: View, isVisible: Boolean) {
         someViewInWindow.post(SoftKeyboardVisibilityRunnable(appContext, someViewInWindow, isVisible))
