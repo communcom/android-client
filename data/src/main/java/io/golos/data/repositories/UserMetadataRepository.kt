@@ -56,7 +56,7 @@ constructor(
                 when (params) {
 
                     is FollowUserRequest -> {
-                        val pinResult = withContext(dispatchersProvider.calculationskDispatcher) {
+                        val pinResult = withContext(dispatchersProvider.calculationsDispatcher) {
                             val result = if (params.toPin)
                                 metadadataApi.pin(params.user)
                             else metadadataApi.unPin(params.user)
@@ -97,7 +97,7 @@ constructor(
                     }
 
                     is UserMetadataFetchRequest -> {
-                        val updatedMeta = withContext(dispatchersProvider.calculationskDispatcher) {
+                        val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
                             metadadataApi.getUserMetadata(params.user)
                                 .run { toEntityMapper(this) }
                         }
@@ -106,7 +106,7 @@ constructor(
                     }
 
                     is UserMetadataUpdateRequest -> {
-                        val updatedMeta = withContext(dispatchersProvider.calculationskDispatcher) {
+                        val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
                             val transactionResult = metadadataApi.setUserMetadata(
                                 about = params.bio,
                                 coverImage = params.coverImageUrl,

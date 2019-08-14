@@ -18,16 +18,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="StandardText16spStyle" parent="Widget.AppCompat.TextView">
+    <style name="Common.Base.TextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
-    <style name="SubHeaderTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="StandardText16spStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_16_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="SubHeaderTextStyle" parent="StandardText16spStyle">
     </style>
 
     <style name="HeaderTextStyle" parent="SubHeaderTextStyle">
@@ -39,16 +39,13 @@
         <item name="android:textColor">@color/clickable_text_color</item>
     </style>
 
-    <style name="EditorWidgetCaptionTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="EditorWidgetCaptionTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_20_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
-    <style name="SearchBarTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@color/black</item>
+    <style name="SearchBarTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_20_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:textColorHint">@color/dark_gray</item>
         <item name="android:inputType">textCapSentences</item>
     </style>
@@ -66,26 +63,23 @@
 
     <style name="PostCardCommunityTextStyle" parent="StandardText16spStyle" />
 
-    <style name="PostCardAuthorTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="PostCardAuthorTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="PostCardPreviewTextStyle" parent="StandardText16spStyle" />
 
-    <style name="PostCardCountersTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="PostCardCountersTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_12_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="SortsTextStyle" parent="StandardText16spStyle">
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="PostTitleTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="PostTitleTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_20_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
     </style>
@@ -100,37 +94,32 @@
         <item name="android:textSize">@dimen/text_size_22_sp</item>
     </style>
 
-    <style name="CommentAuthorTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="CommentAuthorTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_14_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
     </style>
 
-    <style name="CommentContentTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="CommentContentTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_14_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
-    <style name="CommentRatingTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="CommentRatingTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_13_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
     </style>
 
-    <style name="CommentReplyTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="CommentReplyTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="SignUpButtonStyle" parent="Widget.AppCompat.TextView">
+    <style name="SignUpButtonStyle" parent="Common.Base.TextStyle">
         <item name="android:background">@drawable/bg_sign_up_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/buttons_text_size_welcome_slide</item>
-        <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:minHeight">@dimen/height_welcome_sign_button_min</item>
     </style>
 
@@ -139,17 +128,15 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="SignInTextLabel" parent="Widget.AppCompat.TextView">
+    <style name="SignInTextLabel" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/clickable_text_color</item>
         <item name="android:background">@color/white</item>
 
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">@dimen/text_size_12_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
-    <style name="WelcomeSlidesTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="WelcomeSlidesTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_size_welcome_slide</item>
         <item name="fontFamily">@font/roboto_bold</item>
@@ -168,19 +155,17 @@
         <item name="android:textColor">@color/pale_black</item>
     </style>
 
-    <style name="NotificationDialogButtonTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="NotificationDialogButtonTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="NotificationDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="ToolbarTitleTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="ToolbarTitleTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_20_sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
@@ -201,16 +186,13 @@
         <item name="android:textSize">@dimen/text_size_editor_preview</item>
     </style>
 
-    <style name="EditorPreviewProviderTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="EditorPreviewProviderTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_14_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/dark_gray</item>
     </style>
 
-    <style name="SmsCodeDigitTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+    <style name="SmsCodeDigitTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_sms_code</item>
-        <item name="fontFamily">@font/roboto_regular</item>
         <item name="android:inputType">number</item>
         <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
@@ -227,10 +209,9 @@
         <item name="android:background">@drawable/bg_pin_digit_text_view</item>
     </style>
 
-    <style name="NotificationBadgeTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="NotificationBadgeTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_12_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="ProfileAvatarTextStyle">
@@ -297,30 +278,27 @@
 
     <style name="SettingsOptionTitleTextStyle" parent="StandardText16spStyle" />
 
-    <style name="SettingsLogoutTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="SettingsLogoutTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">@dimen/text_size_16_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="SettingsBlackTextStyle" parent="SettingsLogoutTextStyle">
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="SettingsSelectedOptionTitleTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="SettingsSelectedOptionTitleTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="ChangeAllPasswordsTextStyle" parent="EditBioTextStyle">
         <item name="android:textSize">@dimen/text_size_17_sp</item>
     </style>
 
-    <style name="DragLabelTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="DragLabelTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_13_sp</item>
-        <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
     <style name="ProfilePostsEmptyDescriptionTextStyle">
@@ -332,5 +310,24 @@
     <style name="NumericKeypadButtonStyle" parent="StandardText16spStyle">
         <item name = "android:textSize">@dimen/text_size_pin_keypad</item>
         <item name = "android:background">@drawable/bg_numeric_keypad_digit</item>
+    </style>
+
+    <style name="CommunityListItemTitleText" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="CommunityListItemFollowersText" parent="CommunityListItemTitleText">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="CommunityJoinButtonText" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/tint_community_join_button_text</item>
+        <item name="android:background">@drawable/bg_community_join_button</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

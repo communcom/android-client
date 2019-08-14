@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.notifs.events.EventsUseCase
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.EventModel
 import io.golos.domain.requestmodel.QueryResult
 import javax.inject.Inject

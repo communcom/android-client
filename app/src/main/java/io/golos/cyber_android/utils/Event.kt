@@ -1,7 +1,7 @@
 package io.golos.cyber_android.utils
 
 import androidx.lifecycle.LiveData
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.

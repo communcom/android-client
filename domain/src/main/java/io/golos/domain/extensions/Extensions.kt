@@ -1,10 +1,9 @@
-package io.golos.domain
+package io.golos.domain.extensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import io.golos.domain.interactors.model.ElapsedTime
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.Either
 import java.util.*
 
 /**
@@ -46,15 +45,3 @@ internal fun Long.minutesElapsedFromTimeStamp(): Int {
     val hoursAgo = dif / hour
     return hoursAgo.toInt()
 }
-
-fun <S, F> Either<S, F>.fold(actionSuccess: (S) -> Unit, actionFail: ((F) -> Unit)? = null) {
-    if(this is Either.Success) {
-        actionSuccess(this.value)
-        return
-    }
-
-    if(this is Either.Failure) {
-        actionFail?.invoke(this.value)
-    }
-}
-

@@ -6,7 +6,7 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.UploadedImagesModel
 import io.golos.domain.interactors.user.UserMetadataUseCase
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.CompressionParams
 import java.io.File
 import javax.inject.Inject

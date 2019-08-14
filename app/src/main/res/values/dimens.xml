@@ -1,12 +1,17 @@
 <resources>
+    <dimen name="padding_global">8dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="padding_vertical_editor_widget">12dp</dimen>
     <dimen name="padding_horizontal_editor_widget">16dp</dimen>
     <dimen name="size_editor_widget_avatar">40dp</dimen>
+
     <dimen name="margin_horizontal_default_16dp">16dp</dimen>
     <dimen name="margin_horizontal_default_8dp">8dp</dimen>
     <dimen name="margin_vertical_default_16dp">16dp</dimen>
     <dimen name="margin_vertical_default_8dp">8dp</dimen>
+    <dimen name="gap_4dp">4dp</dimen>
+
     <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
 
     <dimen name="size_image_button">40dp</dimen>
@@ -30,6 +35,8 @@
     <dimen name="text_size_13_sp">13sp</dimen>
     <dimen name="text_size_12_sp">12sp</dimen>
 
+    <dimen name="elevation_search_bar">4dp</dimen>
+
     <!--Pin keypad-->
     <dimen name="width_pin_keypad">189dp</dimen>
     <dimen name="height_pin_keypad">252dp</dimen>
@@ -48,7 +55,6 @@
     <dimen name="text_gap_view_button_with_hint">1dp</dimen>
 
     <!--Feed page-->
-    <dimen name="elevation_feed_search_bar">4dp</dimen>
     <dimen name="margin_feed_search_bar">8dp</dimen>
     <dimen name="padding_horizontal_feed_search_bar">15dp</dimen>
     <dimen name="padding_vertical_feed_search_bar">12dp</dimen>
@@ -236,5 +242,11 @@
     <dimen name="margin_top_auth">32dp</dimen>
     <dimen name="margin_switch_button_auth">8dp</dimen>
 
+    <!--Feedback form-->
     <dimen name="feedback_height">250dp</dimen>
+
+    <!--Community page-->
+    <dimen name="height_community_list_item">60dp</dimen>
+    <dimen name="size_icon_community">40dp</dimen>
+    <dimen name="height_community_join_button">30dp</dimen>
 </resources>

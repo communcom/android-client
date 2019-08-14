@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.communities.community.CommunityFeedViewModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity

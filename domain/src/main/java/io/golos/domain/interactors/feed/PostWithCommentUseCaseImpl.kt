@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
-import io.golos.domain.distinctUntilChanged
+import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -60,7 +60,7 @@ constructor (
             val postEntity = getPostEntity() ?: return@launch
             val votes = getVotes()
 
-            postLiveData.value = withContext(dispatchersProvider.calculationskDispatcher) {
+            postLiveData.value = withContext(dispatchersProvider.calculationsDispatcher) {
                 toModelMapper(
                     DiscussionRelatedEntities(
                         postEntity,

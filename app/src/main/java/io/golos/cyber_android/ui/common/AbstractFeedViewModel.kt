@@ -15,7 +15,7 @@ import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel

@@ -54,7 +54,7 @@ constructor(
 
                 votingStates.value = oldVotingStates + loadingPair
 
-                withContext(dispatchersProvider.calculationskDispatcher) {
+                withContext(dispatchersProvider.calculationsDispatcher) {
                     val transactionResult = voteApi.vote(
                         params.discussionIdEntity.userId.toCyberName(),
                         params.discussionIdEntity.permlink,

@@ -10,7 +10,7 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

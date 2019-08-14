@@ -12,4 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
-         />
+        android:elevation="@dimen/elevation_search_bar"
+
+        android:drawableLeft="@drawable/ic_search"
+/>

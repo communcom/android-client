@@ -18,7 +18,6 @@ import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
-import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-19.
@@ -71,7 +70,7 @@ constructor(
             }
             //TODO empty feed state
 
-            val resultFeed = withContext(dispatchersProvider.calculationskDispatcher) {
+            val resultFeed = withContext(dispatchersProvider.calculationsDispatcher) {
                 feedMapper(
                     FeedRelatedEntities(
                         feedEntity,

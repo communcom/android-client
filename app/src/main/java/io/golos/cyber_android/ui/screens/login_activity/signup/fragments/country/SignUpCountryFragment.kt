@@ -53,7 +53,7 @@ class SignUpCountryFragment : FragmentBase() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        ViewCompat.setElevation(searchBar, resources.getDimension(R.dimen.elevation_feed_search_bar))
+        ViewCompat.setElevation(searchBar, resources.getDimension(R.dimen.elevation_search_bar))
         val searchIcon = VectorDrawableCompat.create(resources, R.drawable.ic_search, null)
         searchBar.setCompoundDrawablesWithIntrinsicBounds(searchIcon, null, null, null)
 

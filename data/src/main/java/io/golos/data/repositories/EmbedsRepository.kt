@@ -59,7 +59,7 @@ constructor(
 
             var result: LinkEmbedResult? = null
             try {
-                result = withContext(dispatchersProvider.calculationskDispatcher) {
+                result = withContext(dispatchersProvider.calculationsDispatcher) {
                     val iframelyData = embedApi.getIframelyEmbed(params.url)
                     toEmbedMapperIframely(IFramelyEmbedResultRelatedData(iframelyData, params.url))
                 }
@@ -67,7 +67,7 @@ constructor(
                 logger.log(e)
 
                 try {
-                    result = withContext(dispatchersProvider.calculationskDispatcher) {
+                    result = withContext(dispatchersProvider.calculationsDispatcher) {
                         val oembedData = embedApi.getOEmbedEmbed(params.url)
                         toEmbedMapperOembed(OembedResultRelatedData(oembedData, params.url))
                     }

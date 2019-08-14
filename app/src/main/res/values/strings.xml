@@ -17,8 +17,28 @@
     <string name="digit8">8</string>
     <string name="digit9">9</string>
 
+    <!--Size formatting - begin -->
+    <string name="formatter_files_none">B</string>
+    <string name="formatter_files_kilo">Kb</string>
+    <string name="formatter_files_mega">Mb</string>
+    <string name="formatter_files_giga">Gb</string>
+    <string name="formatter_files_formatted">{0} {1}</string>
+
+    <string name="formatter_followers_none"> </string>
+    <string name="formatter_followers_kilo">k</string>
+    <string name="formatter_followers_mega">m</string>
+    <string name="formatter_followers_giga">g</string>
+    <plurals name="formatter_followers_formatted" >
+        <item quantity="zero">{0}{1} followers</item>
+        <item quantity="one">{0}{1} follower</item>
+        <item quantity="other">{0}{1} followers</item>
+    </plurals>
+    <!--Size formatting - end -->
+
     <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
     <string name="export_general_error">An error occurred during the export process.</string>
+
+    <string name="hint_search">Search</string>
 
     <!--Main Screen Navigation-->
     <string name="feed">Feed</string>
@@ -31,7 +51,6 @@
     <string name="editor_widget_caption">What’s new?</string>
 
     <!--Feed Page-->
-    <string name="hint_search">Search</string>
     <string name="tab_all">Trending</string>
     <string name="tab_my_feed">My feed</string>
 
@@ -251,4 +270,12 @@
     <string name="feedback_request">Tell us, what\'s happened?</string>
     <string name="feedback_send">Send</string>
     <string name="feedback_title">Feedback</string>
+
+    <!--Communities Page-->
+    <string name="tab_discover">Discover</string>
+    <string name="tab_my_communities">My communities</string>
+    <string name="recommended">Recommended</string>
+    <string name="loading_indicator">Loading…</string>
+    <string name="join_to_community">Join</string>
+    <string name="joined_to_community">Joined</string>
 </resources>

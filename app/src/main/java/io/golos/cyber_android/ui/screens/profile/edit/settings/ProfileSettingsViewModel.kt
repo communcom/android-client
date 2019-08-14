@@ -25,10 +25,9 @@ import io.golos.domain.entities.UserKeyType
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.ChangeBasicSettingsRequestModel
 import io.golos.domain.requestmodel.ChangeNotificationSettingRequestModel
-import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext

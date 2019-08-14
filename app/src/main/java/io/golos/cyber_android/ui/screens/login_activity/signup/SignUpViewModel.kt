@@ -12,7 +12,7 @@ import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.entities.CountryEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext

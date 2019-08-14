@@ -47,21 +47,21 @@ constructor(
 
             try {
                 when (params) {
-                    is ChangeBasicSettingsRequest -> withContext(dispatchersProvider.calculationskDispatcher) {
+                    is ChangeBasicSettingsRequest -> withContext(dispatchersProvider.calculationsDispatcher) {
                         api.setBasicSettings(
                             deviceIdProvider.provide(), params.newGeneralSettings.run {
                                 mapOf("nsfw" to nsfws.name, "languageCode" to languageCode)
                             }
                         )
                     }
-                    is ChangeNotificationSettingRequest -> withContext(dispatchersProvider.calculationskDispatcher) {
+                    is ChangeNotificationSettingRequest -> withContext(dispatchersProvider.calculationsDispatcher) {
                         api.setNotificationSettings(
                             deviceIdProvider.provide(),
                             toCyberMapper(params.newNotificationSettings)
                         )
                     }
                 }
-                userSettings.value = withContext(dispatchersProvider.calculationskDispatcher) {
+                userSettings.value = withContext(dispatchersProvider.calculationsDispatcher) {
                     toEntityMapper(api.getSettings(deviceIdProvider.provide()))
                 }
                 updatingStates.value = updatingStates.value.orEmpty() + (params.id to QueryResult.Success(params))

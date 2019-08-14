@@ -4,7 +4,7 @@ import androidx.annotation.WorkerThread
 import io.golos.domain.Entity
 import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.Model
-import io.golos.domain.asElapsedTime
+import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dependency_injection.scopes.UIScope
 import io.golos.domain.entities.*

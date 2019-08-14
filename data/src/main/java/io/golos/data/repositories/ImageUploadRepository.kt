@@ -48,7 +48,7 @@ constructor(
                 uploadedUpdateStates.value =
                     uploadedUpdateStates.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val result = withContext(dispatchersProvider.calculationskDispatcher) {
+                val result = withContext(dispatchersProvider.calculationsDispatcher) {
 
                     val compressedFile = when (params.compressionParams) {
                         is CompressionParams.DirectCompressionParams -> compressor.compressImageFile(params.imageFile)

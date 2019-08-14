@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
-import io.golos.domain.distinctUntilChanged
+import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UserAuthState
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.*
 import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*

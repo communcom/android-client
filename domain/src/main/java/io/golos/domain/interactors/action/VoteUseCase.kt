@@ -10,7 +10,7 @@ import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.map
+import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
@@ -53,7 +53,7 @@ constructor(
         mediator.addSource(voteRepository.updateStates) { voteStates ->
             if (voteStates == null) return@addSource
             useCaseScope.launch {
-                val newVoteStateMap = withContext(dispatchersProvider.calculationskDispatcher) {
+                val newVoteStateMap = withContext(dispatchersProvider.calculationsDispatcher) {
                     voteStates.values
                         .map { it.map(voteEntityToModelMapper(it.originalQuery)) }
                         .associateBy { it.originalQuery.discussionIdEntity }
@@ -84,7 +84,7 @@ constructor(
             ))).toMutableMap()
             votingStatesLiveData.value = map
         } else {
-            useCaseScope.launch(dispatchersProvider.calculationskDispatcher) {
+            useCaseScope.launch(dispatchersProvider.calculationsDispatcher) {
                 voteRepository.makeAction(
                     voteModelToEntityMapper(request)
                 )

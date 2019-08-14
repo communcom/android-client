@@ -60,7 +60,7 @@ constructor(
                 eventsUpdatingStatesMap.value =
                     eventsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val newEvents = withContext(dispatchersProvider.calculationskDispatcher) {
+                val newEvents = withContext(dispatchersProvider.calculationsDispatcher) {
                     eventsApi.getEvents(
                         params.user.name,
                         params.lastEventId,
@@ -74,7 +74,7 @@ constructor(
                 }
                 val oldEvents = getAsLiveData(params).value ?: EventsListEntity(0, 0, null, emptyList())
                 val resultEvents =
-                    withContext(dispatchersProvider.calculationskDispatcher) { eventsFeeMerger(newEvents, oldEvents) }
+                    withContext(dispatchersProvider.calculationsDispatcher) { eventsFeeMerger(newEvents, oldEvents) }
 
                 (getAsLiveData(params) as MutableLiveData).value = resultEvents
 

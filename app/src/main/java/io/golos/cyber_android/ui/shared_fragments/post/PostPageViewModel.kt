@@ -6,12 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.cyber_android.utils.combinedWith
-import io.golos.domain.distinctUntilChanged
+import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
-import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel

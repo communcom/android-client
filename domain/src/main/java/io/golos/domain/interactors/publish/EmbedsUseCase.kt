@@ -55,7 +55,7 @@ constructor(
             delay(30)
 
 
-            val resultState = withContext(dispatchersProvider.calculationskDispatcher) {
+            val resultState = withContext(dispatchersProvider.calculationsDispatcher) {
 
                 val uploadResult = (
                         embedsRepository.getAsLiveData(embedsRepository.allDataRequest).value ?: ProcessedLinksEntity(

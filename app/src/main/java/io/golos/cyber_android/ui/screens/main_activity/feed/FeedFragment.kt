@@ -35,16 +35,12 @@ class FeedFragment : FragmentBase(), FeedPageLiveDataProvider {
 
     private lateinit var viewModel: FeedPageViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        ViewCompat.setElevation(searchBar, resources.getDimension(R.dimen.elevation_feed_search_bar))
 
         setupViewModel()
         setupViewPager()
@@ -56,9 +52,6 @@ class FeedFragment : FragmentBase(), FeedPageLiveDataProvider {
                 viewModel.onSearch(s.toString())
             }
         })
-
-        val searchIcon = VectorDrawableCompat.create(resources, R.drawable.ic_search, null)
-        searchBar.setCompoundDrawablesWithIntrinsicBounds(searchIcon, null, null, null)
     }
 
     private fun setupViewPager() {

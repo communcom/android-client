@@ -15,6 +15,7 @@ import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.UserKeyType
+import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -90,7 +91,7 @@ constructor(
                 authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Loading(newParams))
 
             try {
-                withContext(dispatchersProvider.calculationskDispatcher) {
+                withContext(dispatchersProvider.calculationsDispatcher) {
                     AuthUtils.checkPrivateWiF(newParams.activeKey)
                 }
             } catch (e: IllegalArgumentException) {
@@ -127,7 +128,7 @@ constructor(
                     return@launch
                 }
 
-                val activeKey = withContext(dispatchersProvider.calculationskDispatcher) {
+                val activeKey = withContext(dispatchersProvider.calculationsDispatcher) {
                     account.permissions.find { it.perm_name.compareTo("active") == 0 }
                 }
 
@@ -153,7 +154,7 @@ constructor(
                     return@launch
                 }
 
-                val isWiFsValid = withContext(dispatchersProvider.calculationskDispatcher) {
+                val isWiFsValid = withContext(dispatchersProvider.calculationsDispatcher) {
                     AuthUtils.isWiFsValid(newParams.activeKey, publicActiveKeyFromServer)
                 }
 
@@ -191,7 +192,7 @@ constructor(
 
             val rawAuthData = authRequestsLiveData.value.orEmpty()
 
-            val copy = withContext(dispatchersProvider.calculationskDispatcher) {
+            val copy = withContext(dispatchersProvider.calculationsDispatcher) {
                 rawAuthData.toMutableMap()
                     .also {
                         it.values.map { queryResult ->
@@ -254,7 +255,7 @@ constructor(
         }
         crashlytics.registerUser(userMetadata?.username ?: resolvedName.name, userMetadata?.userId?.name ?: originalName.userId)
 
-        val loadingQuery = withContext(dispatchersProvider.calculationskDispatcher) {
+        val loadingQuery = withContext(dispatchersProvider.calculationsDispatcher) {
             authRequestsLiveData.value?.entries?.find {
                 val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
                 loadingUser != null && (loadingUser == originalName.userId)
