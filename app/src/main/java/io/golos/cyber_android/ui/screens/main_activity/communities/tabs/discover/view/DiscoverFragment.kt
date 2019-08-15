@@ -29,7 +29,7 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
 
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
-    private lateinit var communitiesScrollListener: CommunityListScrollListener
+    private var communitiesScrollListener: CommunityListScrollListener? = null
 
     @Inject
     internal lateinit var appResources: AppResourcesProvider
@@ -53,14 +53,21 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
            isSearchResultVisible.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
 
            items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
+
+           isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.onViewCreated()
+    }
+
     override fun onResume() {
         super.onResume()
-        viewModel.onActive()
+        viewModel.onActive(root.height)
     }
 
     private fun updateSearchResultVisibility(isVisible: Boolean) {
@@ -83,10 +90,20 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
             mainList.itemAnimator = null
             mainList.layoutManager = communitiesListLayoutManager
             mainList.adapter = communitiesListAdapter
-
-            mainList.addOnScrollListener(CommunityListScrollListener(communitiesListLayoutManager))
         }
 
         communitiesListAdapter.update(data)
+    }
+
+    private fun setScrollState(isScrollEnabled: Boolean) {
+        if(!::communitiesListAdapter.isInitialized) {
+            return
+        }
+
+        communitiesScrollListener?.let { mainList.removeOnScrollListener(it) }
+
+        if(isScrollEnabled) {
+            mainList.addOnScrollListener(CommunityListScrollListener(communitiesListLayoutManager) { viewModel.onScroll(it) })
+        }
     }
 }

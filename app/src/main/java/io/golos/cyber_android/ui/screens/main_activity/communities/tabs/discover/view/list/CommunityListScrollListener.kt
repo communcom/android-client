@@ -3,9 +3,12 @@ package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discove
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * [onScrollListener] argument is last visible item index
+ */
 class CommunityListScrollListener(
-//    private val presenter: ChatRoomsListPresenterInterface,
-    private val layoutManager: LinearLayoutManager
+    private val layoutManager: LinearLayoutManager,
+    private val onScrollListener: (Int) -> Unit
 ) : RecyclerView.OnScrollListener() {
 
     private var priorPosition = Int.MIN_VALUE
@@ -17,9 +20,7 @@ class CommunityListScrollListener(
         if(priorPosition!=lastVisibleItemPosition)
         {
             priorPosition = lastVisibleItemPosition
-            call view model here
-            clone list in the model by calling toList()
-  //          presenter.onScrollChatRoomsList(lastVisibleItemPosition)
+            onScrollListener(lastVisibleItemPosition)
         }
     }
 }

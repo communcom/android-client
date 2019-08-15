@@ -1,11 +1,17 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model
 
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.CommunitiesRepository
+import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityExt
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.CommunityListItem
-import io.golos.domain.extensions.foldValue
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.PageLoadResult
+import io.golos.domain.AppResourcesProvider
+import io.golos.domain.extensions.mapSuccessOrFail
+import io.golos.shared_core.IdUtil
 import io.golos.shared_core.MurmurHash
 import io.golos.sharedmodel.Either
 import javax.inject.Inject
@@ -13,24 +19,88 @@ import javax.inject.Inject
 class DiscoverModelImpl
 @Inject
 constructor(
-    private val communitiesRepository: CommunitiesRepository
+    private val communitiesRepository: CommunitiesRepository,
+    private val appResources: AppResourcesProvider
 ) : ModelBaseImpl(), DiscoverModel {
 
-    private companion object {
-        const val PAGE_SIZE = 20
+    private var pageSize = 0
+
+    private enum class LoadingStage {
+        SHOWING_PROGRESS,
+        LOAD_DATA
+    }
+    private var currentStage = LoadingStage.SHOWING_PROGRESS
+
+    private var loadedItems: List<ListItem> = listOf()
+
+    private var allDataLoaded = false
+
+    override fun initModel(controlHeight: Int) {
+        if(pageSize > 0) {
+            return
+        }
+
+        val rowHeight = appResources.getDimens(R.dimen.height_community_list_item)
+        pageSize = (3 * (controlHeight / rowHeight).toInt())+1
     }
 
-    override suspend fun getFirstPage(): Either<List<ListItem>, Throwable> =
-        communitiesRepository.getCommunities(PAGE_SIZE, 0, CommunityType.DISCOVERED)
-            .foldValue {
-                it.map { rawItem ->
-                    CommunityListItem(
-                        MurmurHash.hash64(rawItem.id),
-                        rawItem.id,
-                        rawItem.name,
-                        rawItem.followersQuantity,
-                        rawItem.logoUrl,
-                        false)
-                }
-            }
+    override fun canLoad(lastVisibleItemPosition: Int): Boolean =
+        !allDataLoaded && lastVisibleItemPosition >= loadedItems.size - pageSize / 3
+
+    override suspend fun getPage(lastVisibleItemPosition: Int): Either<PageLoadResult, PageLoadResult> {
+        if(allDataLoaded) {
+            return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(false, null))
+        }
+
+        return when(currentStage) {
+            LoadingStage.SHOWING_PROGRESS -> showProgressIndicator()
+            LoadingStage.LOAD_DATA -> showItems()
+        }
+    }
+
+    private fun showProgressIndicator(): Either<PageLoadResult, PageLoadResult> {
+        val copyItems = loadedItems.toMutableList()
+        copyItems.add(LoadingListItem(IdUtil.generateLongId()))     // Loading indicator has been added
+
+        loadedItems = copyItems
+
+        currentStage = LoadingStage.LOAD_DATA
+        return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(true, loadedItems))
+    }
+
+    private suspend fun showItems(): Either<PageLoadResult, PageLoadResult> {
+        val copyItems = loadedItems.toMutableList()
+        copyItems.removeAt(copyItems.indices.last)          // Loading indicator has been removed
+
+        return communitiesRepository.getCommunities(pageSize, copyItems.size, CommunityType.DISCOVERED)
+            .mapSuccessOrFail ({ items ->       // Success
+                items
+                    .map { rawItem -> rawItem.map() }
+                    .let {
+                        allDataLoaded = it.size < pageSize
+
+                        copyItems.addAll(it)
+                        loadedItems = copyItems
+
+                        currentStage = LoadingStage.SHOWING_PROGRESS
+
+                        PageLoadResult(false, loadedItems)
+                    }
+            }, {                                // Fail
+                allDataLoaded = true
+                loadedItems = copyItems
+                currentStage = LoadingStage.SHOWING_PROGRESS
+                PageLoadResult(false, loadedItems)
+            })
+    }
+
+    private fun CommunityExt.map(): CommunityListItem =
+        CommunityListItem(
+            MurmurHash.hash64(this.id),
+            this.id,
+            this.name,
+            this.followersQuantity,
+            this.logoUrl,
+            false
+        )
 }

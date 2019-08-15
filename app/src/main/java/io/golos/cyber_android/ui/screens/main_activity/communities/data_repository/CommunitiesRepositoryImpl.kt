@@ -26,18 +26,22 @@ constructor(
         withContext(dispatchersProvider.calculationsDispatcher) {
             delay(500)
 
-            communities
-                .asSequence()
-                .filter {
-                    when(type) {
-                        CommunityType.USER -> isUserCommunity(it)
-                        CommunityType.DISCOVERED -> !isUserCommunity(it)
+            try {
+                communities
+                    .asSequence()
+                    .filter {
+                        when(type) {
+                            CommunityType.USER -> isUserCommunity(it)
+                            CommunityType.DISCOVERED -> !isUserCommunity(it)
+                        }
                     }
-                }
-                .drop(skip)
-                .take(top)
-                .toList()
-                .let { Either.Success<List<CommunityExt>, Throwable>(it) }
+                    .drop(skip)
+                    .take(top)
+                    .toList()
+                    .let { Either.Success<List<CommunityExt>, Throwable>(it) }
+            } catch(ex: Exception) {
+                Either.Failure<List<CommunityExt>, Throwable>(ex)
+            }
         }
 
     override suspend fun joinToCommunity(externalId: String): Either<Unit, Throwable> =
