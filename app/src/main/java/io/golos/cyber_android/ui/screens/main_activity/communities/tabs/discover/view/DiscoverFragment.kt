@@ -11,18 +11,18 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
 import io.golos.cyber_android.databinding.FragmentDiscoverBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.viewModel.DiscoverViewModel
+import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
+import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeChild
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.DiscoverModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list.CommunityListScrollListener
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.viewModel.DiscoverViewModel
 import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.fragment_discover.*
 import javax.inject.Inject
 
-class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel, DiscoverViewModel>() {
+class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel, DiscoverViewModel>(), ChildSearchFragment {
     companion object {
         fun newInstance() = DiscoverFragment()
     }
@@ -31,8 +31,14 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
     private var communitiesScrollListener: CommunityListScrollListener? = null
 
+    private lateinit var searchListAdapter: CommunityListAdapter
+    private lateinit var searchListLayoutManager: LinearLayoutManager
+
     @Inject
     internal lateinit var appResources: AppResourcesProvider
+
+    @Inject
+    internal lateinit var searchBridge: SearchBridgeChild
 
     override fun provideViewModelType(): Class<DiscoverViewModel> = DiscoverViewModel::class.java
 
@@ -50,9 +56,10 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
        with(viewModel) {
-           isSearchResultVisible.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
+           searchResultVisibility.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
 
            items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
+           searchResultItems.observe({viewLifecycleOwner.lifecycle}) { updateSearchList(it) }
 
            isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
        }
@@ -68,6 +75,11 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
     override fun onResume() {
         super.onResume()
         viewModel.onActive(root.height)
+        searchBridge.getParent().setSearchString(viewModel.searchString)
+    }
+
+    override fun onSearchStringUpdate(searchString: String) {
+        viewModel.onSearchStringUpdated(searchString)
     }
 
     private fun updateSearchResultVisibility(isVisible: Boolean) {
@@ -93,6 +105,22 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, DiscoverModel
         }
 
         communitiesListAdapter.update(data)
+    }
+
+    private fun updateSearchList(data: List<ListItem>) {
+        if(!::searchListAdapter.isInitialized) {
+            searchListLayoutManager = LinearLayoutManager(context)
+
+            searchListAdapter = CommunityListAdapter(viewModel)
+            searchListAdapter.setHasStableIds(true)
+
+            searchResultList.isSaveEnabled = false
+            searchResultList.itemAnimator = null
+            searchResultList.layoutManager = searchListLayoutManager
+            searchResultList.adapter = searchListAdapter
+        }
+
+        searchListAdapter.update(data)
     }
 
     private fun setScrollState(isScrollEnabled: Boolean) {

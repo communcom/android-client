@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog

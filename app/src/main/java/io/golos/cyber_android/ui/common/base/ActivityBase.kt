@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.base
+package io.golos.cyber_android.ui.common.base
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate

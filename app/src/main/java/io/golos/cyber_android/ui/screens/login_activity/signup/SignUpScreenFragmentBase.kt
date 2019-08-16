@@ -7,7 +7,7 @@ import android.widget.EditText
 import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import javax.inject.Inject

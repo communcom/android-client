@@ -12,7 +12,7 @@ import com.obsez.android.lib.filechooser.ChooserDialog
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.domain.entities.UserKey
 import java.io.File

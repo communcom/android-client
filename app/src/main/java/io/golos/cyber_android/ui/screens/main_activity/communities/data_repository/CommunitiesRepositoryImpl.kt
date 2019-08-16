@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.data_reposito
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
+import io.golos.shared_core.MurmurHash
 import io.golos.sharedmodel.Either
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -56,17 +57,21 @@ constructor(
 
             val queryLower = query.toLowerCase()
 
-            communities
-                .asSequence()
-                .filter {
-                    when(type) {
-                        CommunityType.USER -> isUserCommunity(it)
-                        CommunityType.DISCOVERED -> !isUserCommunity(it)
+            try {
+                communities
+                    .asSequence()
+                    .filter {
+                        when(type) {
+                            CommunityType.USER -> isUserCommunity(it)
+                            CommunityType.DISCOVERED -> !isUserCommunity(it)
+                        }
                     }
-                }
-                .filter { it.name.toLowerCase().contains(queryLower) }
-                .toList()
-                .let { Either.Success<List<CommunityExt>, Throwable>(it) }
+                    .filter { it.name.toLowerCase().contains(queryLower) }
+                    .toList()
+                    .let { Either.Success<List<CommunityExt>, Throwable>(it) }
+            } catch(ex: Exception) {
+                Either.Failure<List<CommunityExt>, Throwable>(ex)
+            }
         }
 
     private fun loadCommunities(): List<CommunityExt> {
@@ -94,5 +99,5 @@ constructor(
             }
     }
 
-    private fun isUserCommunity(communityExt: CommunityExt) = communityExt.followersQuantity % 2 == 0
+    private fun isUserCommunity(communityExt: CommunityExt) = MurmurHash.hash64(communityExt.name) % 2 == 0L
 }

@@ -1,13 +1,12 @@
 package io.golos.cyber_android.ui.screens.wallet
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
 
 class WalletFragment : FragmentBase() {
 

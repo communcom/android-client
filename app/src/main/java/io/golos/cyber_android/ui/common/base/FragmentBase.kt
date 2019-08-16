@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.base
+package io.golos.cyber_android.ui.common.base
 
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.application.App

@@ -7,7 +7,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.base.ActivityBase
 
 class EditProfileCoverActivity : ActivityBase() {
 

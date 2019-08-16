@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
 
 class EditorPageActivity : ActivityBase() {

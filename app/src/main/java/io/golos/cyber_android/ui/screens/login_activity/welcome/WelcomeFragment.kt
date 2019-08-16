@@ -17,7 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.NavigationArgs
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.views.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import java.text.MessageFormat

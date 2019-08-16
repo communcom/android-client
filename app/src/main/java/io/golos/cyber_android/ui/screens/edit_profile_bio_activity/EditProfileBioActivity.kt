@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioFragment
 
 class EditProfileBioActivity : ActivityBase() {

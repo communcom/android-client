@@ -9,7 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
-import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade

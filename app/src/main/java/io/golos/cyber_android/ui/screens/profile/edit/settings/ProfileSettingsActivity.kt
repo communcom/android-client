@@ -6,7 +6,7 @@ import android.os.Bundle
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
-import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.base.ActivityBase
 
 class ProfileSettingsActivity : ActivityBase() {
 

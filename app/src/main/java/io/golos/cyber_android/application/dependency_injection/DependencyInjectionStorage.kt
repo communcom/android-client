@@ -25,6 +25,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.my_community_fragment.MyCommunityFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
@@ -154,6 +155,8 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunitiesFragmentComponent::class -> get<MainActivityComponent>().communitiesFragmentComponent.build()
 
             DiscoverFragmentComponent::class -> get<CommunitiesFragmentComponent>().discoverFragmentComponent.build()
+
+            MyCommunityFragmentComponent::class -> get<CommunitiesFragmentComponent>().myCommunityFragmentComponent.build()
 
             ProfileSettingsActivityComponent::class -> get<UIComponent>().profileSettingsActivity.build()
 

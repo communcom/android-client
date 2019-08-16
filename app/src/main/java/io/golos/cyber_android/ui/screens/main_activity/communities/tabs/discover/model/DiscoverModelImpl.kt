@@ -9,7 +9,9 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.data_reposito
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.PageLoadResult
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.search.CommunitiesSearch
 import io.golos.domain.AppResourcesProvider
+import io.golos.domain.extensions.mapSuccess
 import io.golos.domain.extensions.mapSuccessOrFail
 import io.golos.shared_core.IdUtil
 import io.golos.shared_core.MurmurHash
@@ -20,7 +22,8 @@ class DiscoverModelImpl
 @Inject
 constructor(
     private val communitiesRepository: CommunitiesRepository,
-    private val appResources: AppResourcesProvider
+    private val appResources: AppResourcesProvider,
+    private val search: CommunitiesSearch
 ) : ModelBaseImpl(), DiscoverModel {
 
     private var pageSize = 0
@@ -55,6 +58,20 @@ constructor(
         return when(currentStage) {
             LoadingStage.SHOWING_PROGRESS -> showProgressIndicator()
             LoadingStage.LOAD_DATA -> showItems()
+        }
+    }
+
+    override fun close() = search.close()
+
+    override fun search(searchTest: String) = search.search(searchTest)
+
+    @Suppress("NestedLambdaShadowedImplicitParameter")
+    override fun setOnSearchResultListener(listener: (Either<List<ListItem>?, Throwable>) -> Unit) {
+        search.setOnSearchResultListener {
+            it.mapSuccess {
+                it?.map { it.map() as ListItem }
+            }
+            .let { listener(it) }
         }
     }
 

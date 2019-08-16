@@ -5,7 +5,7 @@ import io.golos.sharedmodel.Either
 /**
  * Calls [actionSuccess] or [actionFail]
  */
-suspend fun <S, F> Either<S, F>.fold(actionSuccess: suspend (S) -> Unit, actionFail: ((F) -> Unit)? = null) {
+fun <S, F> Either<S, F>.fold(actionSuccess: (S) -> Unit, actionFail: ((F) -> Unit)? = null) {
     if(this is Either.Success) {
         actionSuccess(this.value)
         return
@@ -33,3 +33,6 @@ fun <S, F, NS> Either<S, F>.mapSuccessOrFail(mapSuccess: (S) -> NS, mapFail: () 
         is Either.Success -> Either.Success<NS, NS>(mapSuccess(this.value))
         is Either.Failure -> Either.Failure<NS, NS>(mapFail())
     }
+
+fun <S, F : Throwable> Either<S, F>.getOrThrow(): S = (this as? Either.Success)?.value ?: throw (this as Either.Failure).value
+

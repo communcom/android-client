@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.cyber_android.views.utils.TabLayoutMediator

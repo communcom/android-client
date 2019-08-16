@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
-import io.golos.cyber_android.ui.base.ActivityBase
+import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.main_activity.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
@@ -25,7 +25,6 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.sharedmodel.CyberName
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
-import org.spongycastle.crypto.Mac
 import javax.inject.Inject
 
 

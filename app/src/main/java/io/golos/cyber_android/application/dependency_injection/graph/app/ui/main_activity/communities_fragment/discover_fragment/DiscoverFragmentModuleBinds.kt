@@ -12,8 +12,14 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.viewModel.DiscoverViewModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.DiscoverModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.DiscoverModelImpl
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.search.CommunitiesSearch
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.search.CommunitiesSearchImpl
 import io.golos.domain.dependency_injection.scopes.SubFragmentScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 @Module
 abstract class DiscoverFragmentModuleBinds {
     @Binds
@@ -27,6 +33,9 @@ abstract class DiscoverFragmentModuleBinds {
 
     @Binds
     abstract fun provideDiscoverModel(model: DiscoverModelImpl): DiscoverModel
+
+    @Binds
+    abstract fun provideSearchEngine(engine: CommunitiesSearchImpl): CommunitiesSearch
 
     @Binds
     @SubFragmentScope

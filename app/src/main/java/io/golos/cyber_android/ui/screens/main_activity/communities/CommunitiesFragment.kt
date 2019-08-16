@@ -11,16 +11,21 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
-import io.golos.cyber_android.ui.base.FragmentBase
+import io.golos.cyber_android.ui.common.base.FragmentBase
+import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
+import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
+import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ParentSearchFragment
+import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeParent
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.DiscoverFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.my_community.MyCommunitiesFragment
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.my_community.MyCommunityFragment
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_communities.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import javax.inject.Inject
 
-class CommunitiesFragment : FragmentBase() {
+class CommunitiesFragment : FragmentBase(), ParentSearchFragment {
     enum class Tab(@StringRes val title: Int, val index: Int, val requestCode: Int) {
         DISCOVER(R.string.tab_discover, 0, 100),
         MY_COMMUNITIES(R.string.tab_my_communities, 1, 101)
@@ -30,9 +35,14 @@ class CommunitiesFragment : FragmentBase() {
         fun newInstance() = CommunitiesFragment()
     }
 
+    @Inject
+    internal lateinit var searchBridge: SearchBridgeParent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.injections.get<CommunitiesFragmentComponent>()
+        App.injections.get<CommunitiesFragmentComponent>().inject(this)
+
+        searchBridge.attachParent(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -47,7 +57,7 @@ class CommunitiesFragment : FragmentBase() {
         searchBar.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
-                //viewModel.onSearch(s.toString())
+                searchBridge.getChild(this@CommunitiesFragment.communitiesPager.currentItem).onSearchStringUpdate(s.toString())
             }
         })
     }
@@ -57,18 +67,28 @@ class CommunitiesFragment : FragmentBase() {
         App.injections.release<CommunitiesFragmentComponent>()
     }
 
+    override fun setSearchString(searchString: String) {
+        searchBar.setText(searchString)
+        searchBar.moveCursorToTheEnd()
+    }
+
     private fun setupViewPager() {
         communitiesPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
-                return when (position) {
-                    Tab.DISCOVER.index -> DiscoverFragment.newInstance()
-                    Tab.MY_COMMUNITIES.index -> MyCommunitiesFragment.newInstance()
+                val fragment = when (position) {
+                    Tab.DISCOVER.index -> DiscoverFragment.newInstance() as Fragment
+                    Tab.MY_COMMUNITIES.index -> MyCommunityFragment.newInstance() as Fragment
                     else -> throw RuntimeException("Unsupported tab")
                 }
+
+                searchBridge.attachChild(position, fragment as ChildSearchFragment)
+
+                return fragment
             }
 
             override fun getItemCount() = Tab.values().size
         }
+
         communitiesPager.reduceDragSensitivity()
     }
 
