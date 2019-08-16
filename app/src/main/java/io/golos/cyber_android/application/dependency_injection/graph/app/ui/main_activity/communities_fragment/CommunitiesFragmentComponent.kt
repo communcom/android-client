@@ -4,6 +4,7 @@ import dagger.Subcomponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.my_community_fragment.MyCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.communities.CommunitiesFragment
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemViewHolder
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [
@@ -21,4 +22,5 @@ interface CommunitiesFragmentComponent {
     val myCommunityFragmentComponent: MyCommunityFragmentComponent.Builder
 
     fun inject(fragment: CommunitiesFragment)
+    fun inject(viewHolder: CommunityListItemViewHolder)
 }

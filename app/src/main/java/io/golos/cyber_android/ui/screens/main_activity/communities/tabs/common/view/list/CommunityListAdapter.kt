@@ -1,12 +1,12 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.common.recycler_view.DiffAlgBase
 import io.golos.cyber_android.ui.common.recycler_view.ListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.LoadingListItem
 
 class CommunityListAdapter(
     listItemEventsProcessor: CommunityListItemEventsProcessor

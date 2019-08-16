@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,11 +6,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
 import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
 import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class CommunityListItemViewHolder(
     internal lateinit var appResources: AppResourcesProvider
 
     init {
-        App.injections.get<DiscoverFragmentComponent>().inject(this)
+        App.injections.get<CommunitiesFragmentComponent>().inject(this)
     }
 
     override fun init(listItem: ListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {

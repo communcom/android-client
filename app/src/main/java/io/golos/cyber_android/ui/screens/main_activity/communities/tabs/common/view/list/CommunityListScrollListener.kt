@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

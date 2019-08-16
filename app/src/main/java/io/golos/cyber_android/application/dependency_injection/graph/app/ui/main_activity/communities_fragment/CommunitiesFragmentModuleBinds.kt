@@ -2,6 +2,8 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.mai
 
 import dagger.Binds
 import dagger.Module
+import io.golos.cyber_android.ui.common.formatters.size.FollowersSizeFormatter
+import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.CommunitiesRepository
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.CommunitiesRepositoryImpl
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridge
@@ -22,4 +24,8 @@ abstract class CommunitiesFragmentModuleBinds {
     @Binds
     @FragmentScope
     abstract fun bindSearchBridgeChild(bridge: SearchBridge): SearchBridgeChild
+
+    @Binds
+    @FragmentScope
+    abstract fun provideFollowersSizeFormatter(formatter: FollowersSizeFormatter): SizeFormatter
 }

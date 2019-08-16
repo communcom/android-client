@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model
 
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
@@ -6,10 +6,10 @@ import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.CommunitiesRepository
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityExt
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.PageLoadResult
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.search.CommunitiesSearch
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.PageLoadResult
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearch
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.mapSuccess
 import io.golos.domain.extensions.mapSuccessOrFail
@@ -18,13 +18,14 @@ import io.golos.shared_core.MurmurHash
 import io.golos.sharedmodel.Either
 import javax.inject.Inject
 
-class DiscoverModelImpl
+class CommunityModelImpl
 @Inject
 constructor(
     private val communitiesRepository: CommunitiesRepository,
     private val appResources: AppResourcesProvider,
-    private val search: CommunitiesSearch
-) : ModelBaseImpl(), DiscoverModel {
+    private val search: CommunitiesSearch,
+    private val communityType: CommunityType
+) : ModelBaseImpl(), CommunityModel {
 
     private var pageSize = 0
 
@@ -89,7 +90,7 @@ constructor(
         val copyItems = loadedItems.toMutableList()
         copyItems.removeAt(copyItems.indices.last)          // Loading indicator has been removed
 
-        return communitiesRepository.getCommunities(pageSize, copyItems.size, CommunityType.DISCOVERED)
+        return communitiesRepository.getCommunities(pageSize, copyItems.size, communityType)
             .mapSuccessOrFail ({ items ->       // Success
                 items
                     .map { rawItem -> rawItem.map() }

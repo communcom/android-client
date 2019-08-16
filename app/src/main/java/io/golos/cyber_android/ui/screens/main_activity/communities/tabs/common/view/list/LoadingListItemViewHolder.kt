@@ -1,11 +1,10 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.LoadingListItem
 
 class LoadingListItemViewHolder(
     parentView: ViewGroup

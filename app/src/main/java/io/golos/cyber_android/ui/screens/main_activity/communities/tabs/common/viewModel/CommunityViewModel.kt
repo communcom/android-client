@@ -1,24 +1,24 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.viewModel
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.DiscoverModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.extensions.fold
 import io.golos.sharedmodel.Either
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DiscoverViewModel
+class CommunityViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: DiscoverModel
-) : ViewModelBase<DiscoverModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
+    model: CommunityModel
+) : ViewModelBase<CommunityModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
     private var isSetup = false
 

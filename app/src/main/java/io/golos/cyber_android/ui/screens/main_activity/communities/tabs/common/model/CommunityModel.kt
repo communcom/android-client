@@ -1,11 +1,11 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model
 
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.dto.PageLoadResult
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.PageLoadResult
 import io.golos.sharedmodel.Either
 
-interface DiscoverModel: ModelBase {
+interface CommunityModel: ModelBase {
     fun initModel(controlHeight: Int)
 
     fun canLoad(lastVisibleItemPosition: Int): Boolean

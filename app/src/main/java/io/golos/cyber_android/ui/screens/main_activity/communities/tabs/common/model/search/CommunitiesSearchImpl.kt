@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.model.search
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search
 
 import io.golos.cyber_android.ui.common.search.SearchEngineBase
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.CommunitiesRepository
@@ -16,14 +16,15 @@ class CommunitiesSearchImpl
 @Inject
 constructor(
     private val communitiesRepository: CommunitiesRepository,
-    dispatchersProvider: DispatchersProvider
+    dispatchersProvider: DispatchersProvider,
+    private val communityType: CommunityType
 ) : SearchEngineBase<CommunityExt>(dispatchersProvider), CommunitiesSearch {
 
     override suspend fun doSearch(searchString: String): List<CommunityExt>? {
         return if(searchString.length < 3) {
             return null
         } else {
-            communitiesRepository.searchInCommunities(searchString, CommunityType.DISCOVERED).getOrThrow()
+            communitiesRepository.searchInCommunities(searchString, communityType).getOrThrow()
         }
     }
 }

@@ -7,7 +7,7 @@
     <data>
         <variable
                 name="viewModel"
-                type="io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.viewModel.DiscoverViewModel"/>
+                type="io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

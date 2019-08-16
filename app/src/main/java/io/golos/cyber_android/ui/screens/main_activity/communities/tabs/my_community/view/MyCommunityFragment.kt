@@ -1,15 +1,14 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view
+package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.my_community.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
-import io.golos.cyber_android.databinding.FragmentDiscoverBinding
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.my_community_fragment.MyCommunityFragmentComponent
+import io.golos.cyber_android.databinding.FragmentMyCommunitiesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
@@ -18,13 +17,12 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.m
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
-import io.golos.domain.AppResourcesProvider
-import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.fragment_my_communities.*
 import javax.inject.Inject
 
-class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, CommunityModel, CommunityViewModel>(), ChildSearchFragment {
+class MyCommunityFragment : FragmentBaseMVVM<FragmentMyCommunitiesBinding, CommunityModel, CommunityViewModel>(), ChildSearchFragment {
     companion object {
-        fun newInstance() = DiscoverFragment()
+        fun newInstance() = MyCommunityFragment()
     }
 
     private lateinit var communitiesListAdapter: CommunityListAdapter
@@ -35,34 +33,31 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, CommunityMode
     private lateinit var searchListLayoutManager: LinearLayoutManager
 
     @Inject
-    internal lateinit var appResources: AppResourcesProvider
-
-    @Inject
     internal lateinit var searchBridge: SearchBridgeChild
 
     override fun provideViewModelType(): Class<CommunityViewModel> = CommunityViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_discover
+    override fun provideLayout(): Int = R.layout.fragment_my_communities
 
-    override fun inject() = App.injections.get<DiscoverFragmentComponent>().inject(this)
+    override fun inject() = App.injections.get<MyCommunityFragmentComponent>().inject(this)
 
     override fun releaseInjection() {
-        App.injections.release<DiscoverFragmentComponent>()
+        App.injections.release<MyCommunityFragmentComponent>()
     }
 
-    override fun linkViewModel(binding: FragmentDiscoverBinding, viewModel: CommunityViewModel) {
+    override fun linkViewModel(binding: FragmentMyCommunitiesBinding, viewModel: CommunityViewModel) {
         binding.viewModel = viewModel
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-       with(viewModel) {
-           searchResultVisibility.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
+        with(viewModel) {
+            searchResultVisibility.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
 
-           items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
-           searchResultItems.observe({viewLifecycleOwner.lifecycle}) { updateSearchList(it) }
+            items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
+            searchResultItems.observe({viewLifecycleOwner.lifecycle}) { updateSearchList(it) }
 
-           isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
-       }
+            isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
+        }
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -84,11 +79,6 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, CommunityMode
 
     private fun updateSearchResultVisibility(isVisible: Boolean) {
         searchResultList.visibility = if(isVisible) View.VISIBLE else View.GONE
-
-        val labelLayoutParams = recomendedText.layoutParams as ConstraintLayout.LayoutParams
-        val labelTopMargin = if(isVisible) appResources.getDimens(R.dimen.margin_vertical_default_16dp).toInt() else 0
-        labelLayoutParams.setMargins(0, labelTopMargin, 0, 0)
-        recomendedText.layoutParams = labelLayoutParams
     }
 
     private fun updateList(data: List<ListItem>) {

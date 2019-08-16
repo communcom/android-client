@@ -2,11 +2,12 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.mai
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.DiscoverFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.list.CommunityListItemViewHolder
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemViewHolder
 import io.golos.domain.dependency_injection.scopes.SubFragmentScope
 
 @Subcomponent(modules = [
-    DiscoverFragmentModuleBinds::class
+    DiscoverFragmentModuleBinds::class,
+    DiscoverFragmentModule::class
 ])
 @SubFragmentScope
 interface DiscoverFragmentComponent {
@@ -16,5 +17,4 @@ interface DiscoverFragmentComponent {
     }
 
     fun inject(fragment: DiscoverFragment)
-    fun inject(viewHolder: CommunityListItemViewHolder)
 }
