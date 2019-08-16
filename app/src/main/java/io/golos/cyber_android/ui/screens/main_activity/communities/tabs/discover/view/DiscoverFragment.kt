@@ -1,46 +1,37 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
 import io.golos.cyber_android.databinding.FragmentDiscoverBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeChild
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
+import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.CommunitiesTabFragmentBase
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
 import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.fragment_discover.root as rootView
+import kotlinx.android.synthetic.main.fragment_discover.searchResultList as searchResultListView
+import kotlinx.android.synthetic.main.fragment_discover.mainList as mainListView
+
 import javax.inject.Inject
 
-class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, CommunityModel, CommunityViewModel>(), ChildSearchFragment {
+class DiscoverFragment : CommunitiesTabFragmentBase<FragmentDiscoverBinding>() {
     companion object {
         fun newInstance() = DiscoverFragment()
     }
 
-    private lateinit var communitiesListAdapter: CommunityListAdapter
-    private lateinit var communitiesListLayoutManager: LinearLayoutManager
-    private var communitiesScrollListener: CommunityListScrollListener? = null
+    override val root: ConstraintLayout
+        get() = rootView
 
-    private lateinit var searchListAdapter: CommunityListAdapter
-    private lateinit var searchListLayoutManager: LinearLayoutManager
+    override val searchResultList: RecyclerView
+        get() = searchResultListView
+
+    override val mainList: RecyclerView
+        get() = mainListView
 
     @Inject
     internal lateinit var appResources: AppResourcesProvider
-
-    @Inject
-    internal lateinit var searchBridge: SearchBridgeChild
-
-    override fun provideViewModelType(): Class<CommunityViewModel> = CommunityViewModel::class.java
 
     override fun provideLayout(): Int = R.layout.fragment_discover
 
@@ -54,84 +45,12 @@ class DiscoverFragment : FragmentBaseMVVM<FragmentDiscoverBinding, CommunityMode
         binding.viewModel = viewModel
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-       with(viewModel) {
-           searchResultVisibility.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
-
-           items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
-           searchResultItems.observe({viewLifecycleOwner.lifecycle}) { updateSearchList(it) }
-
-           isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
-       }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.onViewCreated()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onActive(root.height)
-        searchBridge.getParent().setSearchString(viewModel.searchString)
-    }
-
-    override fun onSearchStringUpdate(searchString: String) {
-        viewModel.onSearchStringUpdated(searchString)
-    }
-
-    private fun updateSearchResultVisibility(isVisible: Boolean) {
-        searchResultList.visibility = if(isVisible) View.VISIBLE else View.GONE
+    override fun updateSearchResultVisibility(isVisible: Boolean) {
+        super.updateSearchResultVisibility(isVisible)
 
         val labelLayoutParams = recomendedText.layoutParams as ConstraintLayout.LayoutParams
         val labelTopMargin = if(isVisible) appResources.getDimens(R.dimen.margin_vertical_default_16dp).toInt() else 0
         labelLayoutParams.setMargins(0, labelTopMargin, 0, 0)
         recomendedText.layoutParams = labelLayoutParams
-    }
-
-    private fun updateList(data: List<ListItem>) {
-        if(!::communitiesListAdapter.isInitialized) {
-            communitiesListLayoutManager = LinearLayoutManager(context)
-
-            communitiesListAdapter = CommunityListAdapter(viewModel)
-            communitiesListAdapter.setHasStableIds(true)
-
-            mainList.isSaveEnabled = false
-            mainList.itemAnimator = null
-            mainList.layoutManager = communitiesListLayoutManager
-            mainList.adapter = communitiesListAdapter
-        }
-
-        communitiesListAdapter.update(data)
-    }
-
-    private fun updateSearchList(data: List<ListItem>) {
-        if(!::searchListAdapter.isInitialized) {
-            searchListLayoutManager = LinearLayoutManager(context)
-
-            searchListAdapter = CommunityListAdapter(viewModel)
-            searchListAdapter.setHasStableIds(true)
-
-            searchResultList.isSaveEnabled = false
-            searchResultList.itemAnimator = null
-            searchResultList.layoutManager = searchListLayoutManager
-            searchResultList.adapter = searchListAdapter
-        }
-
-        searchListAdapter.update(data)
-    }
-
-    private fun setScrollState(isScrollEnabled: Boolean) {
-        if(!::communitiesListAdapter.isInitialized) {
-            return
-        }
-
-        communitiesScrollListener?.let { mainList.removeOnScrollListener(it) }
-
-        if(isScrollEnabled) {
-            mainList.addOnScrollListener(CommunityListScrollListener(communitiesListLayoutManager) { viewModel.onScroll(it) })
-        }
     }
 }

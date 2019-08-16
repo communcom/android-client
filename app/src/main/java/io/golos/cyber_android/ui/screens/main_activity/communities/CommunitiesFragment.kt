@@ -26,9 +26,9 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 import javax.inject.Inject
 
 class CommunitiesFragment : FragmentBase(), ParentSearchFragment {
-    enum class Tab(@StringRes val title: Int, val index: Int, val requestCode: Int) {
-        DISCOVER(R.string.tab_discover, 0, 100),
-        MY_COMMUNITIES(R.string.tab_my_communities, 1, 101)
+    enum class Tab(@StringRes val title: Int, val index: Int) {
+        MY_COMMUNITIES(R.string.tab_my_communities, 0),
+        DISCOVER(R.string.tab_discover, 1)
     }
 
     companion object {
@@ -76,8 +76,8 @@ class CommunitiesFragment : FragmentBase(), ParentSearchFragment {
         communitiesPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
                 val fragment = when (position) {
-                    Tab.DISCOVER.index -> DiscoverFragment.newInstance() as Fragment
                     Tab.MY_COMMUNITIES.index -> MyCommunityFragment.newInstance() as Fragment
+                    Tab.DISCOVER.index -> DiscoverFragment.newInstance() as Fragment
                     else -> throw RuntimeException("Unsupported tab")
                 }
 
