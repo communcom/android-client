@@ -20,6 +20,7 @@ class QrCodeDetector(private val appContext: Context) {
 
     private var camera: CameraSource? = null
     private var cameraView: SurfaceView? = null
+    private var detector: BarcodeDetector? = null
 
     private val mainThreadHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
@@ -39,9 +40,9 @@ class QrCodeDetector(private val appContext: Context) {
         }
 
         // Create & check detector
-        val detector = BarcodeDetector.Builder(appContext).setBarcodeFormats(QR_CODE).build()
+        detector = BarcodeDetector.Builder(appContext).setBarcodeFormats(QR_CODE).build()
 
-        if(!detector.isOperational) {
+        if(!detector!!.isOperational) {
             onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL)
             return
         }
@@ -81,7 +82,7 @@ class QrCodeDetector(private val appContext: Context) {
         cameraView.holder.addCallback(cameraViewCallback)
 
         // Setup detector
-        detector.setProcessor(object : Detector.Processor<Barcode> {
+        detector!!.setProcessor(object : Detector.Processor<Barcode> {
             override fun release() {
                 // do nothing
             }
@@ -90,6 +91,10 @@ class QrCodeDetector(private val appContext: Context) {
                 val items = detections.detectedItems
 
                 for(i in 0 until items.size()) {
+                    if(detector == null) {
+                        break
+                    }
+
                     tryToParseCode(items.valueAt(i).displayValue)
                 }
             }
@@ -103,6 +108,9 @@ class QrCodeDetector(private val appContext: Context) {
 
         camera?.stop()
         camera = null
+
+        detector?.release()
+        detector = null
 
         onDetectionErrorListener = null
         onCodeReceivedListener = null
