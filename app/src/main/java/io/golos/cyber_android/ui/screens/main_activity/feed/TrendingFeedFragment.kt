@@ -140,9 +140,11 @@ class TrendingFeedFragment :
                 }
             })
 
-        viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
-            if (!isLoading)
-                swipeRefresh.isRefreshing = false
+        viewModel.loadingStatusLiveData.observe(this, Observer { status ->
+            when(status) {
+                is QueryResult.Loading -> swipeRefresh.isRefreshing = true
+                else -> swipeRefresh.isRefreshing = false
+            }
         })
 
         viewModel.discussionCreationLiveData.observe(this, Observer {

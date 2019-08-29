@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
+import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
@@ -25,6 +25,7 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import javax.inject.Inject
 
 const val POST_MENU_REQUEST = 301
@@ -97,8 +98,17 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
             }
         feedList.addOnScrollListener(paginationScrollListener)
 
-        viewModel.loadingStatusLiveData.observe(this, Observer { isLoading ->
-            paginationScrollListener.isLoading = isLoading
+        viewModel.loadingStatusLiveData.observe(this, Observer { status ->
+            when(status) {
+                is QueryResult.Loading -> {
+                    paginationScrollListener.isLoading = true
+                }
+                is QueryResult.Error -> {
+                    paginationScrollListener.isLoading = false
+                    uiHelper.showMessage(io.golos.cyber_android.R.string.unknown_error)
+                }
+                else -> paginationScrollListener.isLoading = false
+            }
         })
 
         @Suppress("UNCHECKED_CAST")

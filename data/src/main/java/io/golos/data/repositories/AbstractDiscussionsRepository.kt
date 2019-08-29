@@ -183,10 +183,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     //update feed
     override fun makeAction(params: Q) {
         launch(exceptionCallback = {
-
-            feedsUpdatingStatesMap.value =
-                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Error(it, params))
-
+            feedsUpdatingStatesMap.value = feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Error(it, params))
         }) {
             if (!requestApprover.approve(params)) return@launch
 

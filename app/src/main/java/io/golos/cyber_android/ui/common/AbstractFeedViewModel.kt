@@ -73,9 +73,11 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
     /**
      * [LiveData] that indicates if data is loading
      */
-    val loadingStatusLiveData = feedUseCase.feedUpdateState.map {
-        it is QueryResult.Loading
-    }
+//    val loadingStatusLiveData = feedUseCase.feedUpdateState.map {
+//        it is QueryResult.Loading
+//    }
+
+    val loadingStatusLiveData = feedUseCase.feedUpdateState
 
     /**
      * [LiveData] that indicates if last page was reached

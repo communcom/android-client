@@ -14,6 +14,7 @@ import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import io.golos.sharedmodel.CyberName
+import java.lang.Exception
 import javax.inject.Inject
 
 /**

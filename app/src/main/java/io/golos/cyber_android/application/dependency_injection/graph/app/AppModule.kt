@@ -36,6 +36,10 @@ class AppModule(private val appContext: Context) {
         "unstable" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
             servicesUrl = "ws://159.69.33.136:8080"
+        ),
+        "prod" to Cyber4JConfig(
+            blockChainHttpApiUrl = "http://116.203.212.190:8888/",
+            servicesUrl = "ws://116.203.208.111:8080"
         )
     )
 

@@ -91,7 +91,8 @@ constructor(
     }
 
     private fun getLastFeedData(): FeedEntity<E>? {
-        return discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
+        val result = discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest).value
+        return result
     }
 
     private fun getLastVoteData(): Map<Identifiable.Id, QueryResult<VoteRequestEntity>> {

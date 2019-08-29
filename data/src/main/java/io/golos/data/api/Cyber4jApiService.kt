@@ -64,7 +64,7 @@ constructor(private val cyber4j: Cyber4J) :
         sequenceKey: String?,
         tags: List<String>?
     ): DiscussionsResult {
-        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, limit, sort, tags, sequenceKey).getOrThrow()
+        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, 10/*limit*/, sort, tags, sequenceKey).getOrThrow()
     }
 
     override fun getPost(user: CyberName, permlink: String): CyberDiscussion {

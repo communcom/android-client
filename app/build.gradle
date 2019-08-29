@@ -42,6 +42,10 @@ android {
 
     flavorDimensions "cyber4j-config-type"
     productFlavors {
+        prod {
+            dimension "cyber4j-config-type"
+            resValue "string", "app_name", "Commun-prod"
+        }
         stable {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun"

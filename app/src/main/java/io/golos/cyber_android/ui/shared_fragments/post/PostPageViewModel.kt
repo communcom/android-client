@@ -17,6 +17,7 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
 import javax.inject.Inject
 
@@ -193,7 +194,7 @@ constructor(
         feedReady: Boolean,
         postReady: Boolean
     ) {
-        postValue(feedReady && postReady && loadingStatusLiveData.value == false)
+        postValue(feedReady && postReady && loadingStatusLiveData !is QueryResult.Loading<*>)
     }
 
     fun deletePost() {
