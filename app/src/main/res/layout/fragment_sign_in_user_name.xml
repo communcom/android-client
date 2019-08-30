@@ -67,6 +67,8 @@
             app:layout_constraintEnd_toStartOf="@+id/restoreFromCloudButton">
 
         <EditText
+                android:id="@+id/key"
+
                 android:paddingTop="@dimen/padding_top_sign_in_edit_text"
                 android:maxLines="1"
                 android:imeOptions="actionDone"
@@ -74,7 +76,6 @@
                 android:background="@android:color/transparent"
                 android:gravity="bottom"
                 android:layout_gravity="bottom"
-                android:id="@+id/key"
                 android:inputType="text"
                 android:textSize="@dimen/text_size_16_sp"
                 android:layout_width="match_parent"

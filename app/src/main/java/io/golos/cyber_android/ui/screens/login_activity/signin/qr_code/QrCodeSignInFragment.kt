@@ -23,7 +23,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.SignInParentFragm
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDetector
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDetectorErrorCode
-import kotlinx.android.synthetic.main.fragment_qr_code_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_in_qr_code.*
 import javax.inject.Inject
 
 class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
@@ -65,7 +65,7 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_qr_code_sign_in, container, false)
+        inflater.inflate(R.layout.fragment_sign_in_qr_code, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

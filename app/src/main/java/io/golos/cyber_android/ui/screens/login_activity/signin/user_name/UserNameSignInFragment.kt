@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.SignInChildFragme
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInParentFragment
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
 import io.golos.cyber_android.views.utils.TextWatcherBase
-import kotlinx.android.synthetic.main.fragment_user_name_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_in_user_name.*
 import javax.inject.Inject
 
 class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
@@ -47,7 +47,7 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_user_name_sign_in, container, false)
+        inflater.inflate(R.layout.fragment_sign_in_user_name, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

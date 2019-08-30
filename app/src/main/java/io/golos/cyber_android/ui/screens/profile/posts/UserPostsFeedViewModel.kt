@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile.posts
 
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageTabViewModel
+import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
@@ -18,4 +19,7 @@ constructor(
     voteUseCase: VoteUseCase,
     posterUseCase: DiscussionPosterUseCase,
     signInUseCase: SignInUseCase
-) : FeedPageTabViewModel<PostFeedUpdateRequest>(feedUseCase, voteUseCase, posterUseCase, signInUseCase)
+) : FeedPageTabViewModel<PostFeedUpdateRequest>(feedUseCase, voteUseCase, posterUseCase, signInUseCase) {
+
+    override fun getFeedSort(): DiscussionsSort? = DiscussionsSort.FROM_NEW_TO_OLD
+}
