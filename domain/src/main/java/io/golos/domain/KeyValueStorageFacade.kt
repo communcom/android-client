@@ -1,10 +1,10 @@
 package io.golos.domain
 
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
-import io.golos.sharedmodel.CyberName
 
 interface KeyValueStorageFacade {
     /**

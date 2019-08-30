@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model
 
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
@@ -15,7 +16,6 @@ import io.golos.domain.extensions.mapSuccess
 import io.golos.domain.extensions.mapSuccessOrFail
 import io.golos.shared_core.IdUtil
 import io.golos.shared_core.MurmurHash
-import io.golos.sharedmodel.Either
 import javax.inject.Inject
 
 class CommunityModelImpl

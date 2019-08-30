@@ -2,7 +2,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.log
 
 import dagger.Module
 import dagger.Provides
-import io.golos.sharedmodel.CyberName
+import io.golos.cyber4j.sharedmodel.CyberName
 
 @Module
 class OnBoardingFragmentModule(private val forUser: CyberName) {

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
@@ -25,7 +26,6 @@ import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarAc
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.CyberName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_user_image.*
 import javax.inject.Inject

@@ -2,9 +2,9 @@ package io.golos.cyber_android.application.dependency_injection.graph.app
 
 import dagger.Binds
 import dagger.Module
-import io.golos.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.services.model.MobileShowSettings
 import io.golos.cyber4j.services.model.UserMetadataResult

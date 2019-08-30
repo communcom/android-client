@@ -7,6 +7,7 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.sharedmodel.Cyber4JConfig
 import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
@@ -16,7 +17,6 @@ import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.data.repositories.countries.CountriesRepositoryImpl
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.sharedmodel.Cyber4JConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Named
@@ -65,7 +65,7 @@ class AppModule(private val appContext: Context) {
     @Provides
     @ApplicationScope
     internal fun provideCyber4J(logger: Logger): Cyber4J =
-        (cyber4jConfigs[BuildConfig.FLAVOR] ?: Cyber4JConfig())
+        (cyber4jConfigs[BuildConfig.FLAVOR])!!
             .copy(
                 httpLogger = Cyber4JLogger(logger, Cyber4JLogger.HTTP),
                 socketLogger = Cyber4JLogger(logger, Cyber4JLogger.SOCKET)

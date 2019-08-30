@@ -1,9 +1,9 @@
 package io.golos.domain.entities
 
 import io.golos.cyber4j.services.model.EventsData
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.domain.Entity
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
-import io.golos.sharedmodel.CyberName
 import java.util.*
 
 /**

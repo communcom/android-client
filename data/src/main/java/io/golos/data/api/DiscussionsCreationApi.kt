@@ -1,11 +1,11 @@
 package io.golos.data.api
 
-import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.cyber4j.model.*
-import io.golos.sharedmodel.CyberName
+import io.golos.cyber4j.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.

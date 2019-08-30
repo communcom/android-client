@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
@@ -25,7 +26,6 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.view_commands.NavigateToOnboardingCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage.OnboardingUserImageFragment
-import io.golos.sharedmodel.CyberName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
 import javax.inject.Inject

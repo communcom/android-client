@@ -1,10 +1,10 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.model
 
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.application.App
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CountryEntity
-import io.golos.sharedmodel.Either
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

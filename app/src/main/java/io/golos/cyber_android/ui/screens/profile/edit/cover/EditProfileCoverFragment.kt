@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
@@ -24,7 +25,6 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.TouchImageView
 import io.golos.domain.interactors.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.CyberName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_profile_cover_fragment.*
 import java.io.File

@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.common.search
 
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.application.App
 import io.golos.domain.DispatchersProvider
-import io.golos.sharedmodel.Either
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach

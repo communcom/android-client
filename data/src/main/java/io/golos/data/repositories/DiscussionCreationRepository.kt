@@ -2,9 +2,9 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper

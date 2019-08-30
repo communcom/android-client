@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
@@ -14,7 +15,6 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.Either
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext

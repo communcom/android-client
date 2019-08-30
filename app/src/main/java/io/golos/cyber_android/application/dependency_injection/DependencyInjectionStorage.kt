@@ -1,6 +1,7 @@
 package io.golos.cyber_android.application.dependency_injection
 
 import android.content.Context
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.DaggerAppComponent
@@ -42,7 +43,6 @@ import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.CommunityModel
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.sharedmodel.CyberName
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */

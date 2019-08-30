@@ -3,6 +3,7 @@ package io.golos.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.UserMetadataResult
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.data.api.TransactionsApi
 import io.golos.data.api.UserMetadataApi
 import io.golos.data.errors.CyberToAppErrorMapper
@@ -13,7 +14,6 @@ import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject

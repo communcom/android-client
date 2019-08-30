@@ -3,6 +3,7 @@ package io.golos.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.services.model.AuthResult
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber4j.utils.AuthUtils
 import io.golos.cyber4j.utils.StringSigner
 import io.golos.data.api.AuthApi
@@ -19,7 +20,6 @@ import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject

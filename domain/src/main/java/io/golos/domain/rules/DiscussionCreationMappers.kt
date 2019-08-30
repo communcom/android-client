@@ -1,8 +1,8 @@
 package io.golos.domain.rules
 
-import io.golos.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.domain.Regexps

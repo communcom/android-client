@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_b
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber4j.services.model.UserMetadataResult
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
@@ -18,7 +19,6 @@ import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
-import io.golos.sharedmodel.CyberName
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext

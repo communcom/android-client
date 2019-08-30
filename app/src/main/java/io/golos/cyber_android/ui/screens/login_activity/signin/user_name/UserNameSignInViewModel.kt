@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signin.user_name
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
@@ -14,8 +15,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.extensions.map
+import io.golos.domain.requestmodel.AuthRequestModel
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.Either
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -104,7 +105,7 @@ constructor(
                 userKeysExtractor.process(login, key)
             }
 
-            if(authRequest is Either.Success) {
+            if(authRequest is Either.Success<AuthRequestModel, Exception>) {
                 signInUseCase.authWithCredentials(authRequest.value)
             } else {
                 command.value = ShowMessageCommand(R.string.common_general_error)

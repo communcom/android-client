@@ -5,7 +5,7 @@ import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.cyber4j.services.model.FeedSort
 import io.golos.cyber4j.services.model.FeedTimeFrame
-import io.golos.sharedmodel.CyberName
+import io.golos.cyber4j.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.

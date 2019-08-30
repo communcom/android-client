@@ -4,6 +4,7 @@ import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
 import io.golos.cyber4j.services.model.FeedSort
 import io.golos.cyber4j.services.model.FeedTimeFrame
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
@@ -13,8 +14,6 @@ import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
-import io.golos.sharedmodel.CyberName
-import java.lang.Exception
 import javax.inject.Inject
 
 /**

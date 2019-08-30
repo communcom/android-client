@@ -1,6 +1,6 @@
 package io.golos.domain.requestmodel
 
-import io.golos.sharedmodel.CyberName
+import io.golos.cyber4j.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.

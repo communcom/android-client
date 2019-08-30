@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
@@ -22,7 +23,6 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.CyberName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_bio.*
 import javax.inject.Inject

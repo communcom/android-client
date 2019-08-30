@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import io.golos.cyber4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
@@ -20,7 +21,6 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.sharedmodel.CyberName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*
 import java.io.File

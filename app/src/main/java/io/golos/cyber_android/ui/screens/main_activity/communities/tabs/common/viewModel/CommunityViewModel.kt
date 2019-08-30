@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel
 
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
@@ -9,7 +10,6 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.m
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.extensions.fold
-import io.golos.sharedmodel.Either
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

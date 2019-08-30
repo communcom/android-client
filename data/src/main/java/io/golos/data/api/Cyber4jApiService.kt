@@ -1,21 +1,21 @@
 package io.golos.data.api
 
-import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.abi.implementation.publish.UpdatemssgPublishStruct
-import io.golos.abi.implementation.publish.VotePublishStruct
-import io.golos.abi.implementation.social.PinSocialStruct
-import io.golos.abi.implementation.social.UpdatemetaSocialStruct
 import io.golos.cyber4j.Cyber4J
+import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.publish.VotePublishStruct
+import io.golos.cyber4j.abi.implementation.social.PinSocialStruct
+import io.golos.cyber4j.abi.implementation.social.UpdatemetaSocialStruct
+import io.golos.cyber4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.services.model.*
+import io.golos.cyber4j.sharedmodel.AuthSecret
+import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber4j.utils.Pair
 import io.golos.data.errors.CyberServicesError
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.sharedmodel.AuthSecret
-import io.golos.sharedmodel.CyberName
-import io.golos.sharedmodel.Either
 import java.io.File
 import javax.inject.Inject
 
