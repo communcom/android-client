@@ -11,7 +11,7 @@ class LinkRenderer(
     override fun render(block: JSONObject) {
         linksRepository.putLink(block)
 
-        val attributes = getAttributes(block) ?: throw IllegalArgumentException("Post attributes can't be empty")
+        val attributes = getAttributes(block) ?: throw IllegalArgumentException("Link attributes can't be empty")
 
         val content = block.getString("content")
         val url = attributes.getString("url")

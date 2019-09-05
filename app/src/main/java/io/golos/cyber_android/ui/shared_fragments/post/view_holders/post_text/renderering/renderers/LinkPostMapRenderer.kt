@@ -7,7 +7,7 @@ import java.lang.UnsupportedOperationException
 
 class LinkPostMapRenderer(builder: HtmlBuilder) : RendererBase(builder) {
     override fun render(block: JSONObject) {
-        val attributes = getAttributes(block) ?: throw IllegalArgumentException("Post attributes can't be empty")
+        val attributes = getAttributes(block) ?: throw IllegalArgumentException("Link attributes can't be empty")
 
         val type = attributes.getString("type")
 

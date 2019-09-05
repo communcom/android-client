@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering
 
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.links_repository.LinksRepository
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.html_builder.HtmlBuilder
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.renderers.*
@@ -40,6 +41,7 @@ constructor(
                 // Renders post map here
                 PostMapRenderer(builder, RenderersPostMapFactory(builder)).render(linksRepository)
             } catch (ex: Exception) {
+                App.logger.log(ex)
                 ExceptionRenderer(appResources, builder).render(ex)
             }
 
