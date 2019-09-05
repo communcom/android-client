@@ -51,8 +51,7 @@ const val POST_MENU_REQUEST = 102
 /**
  * Fragment for single [PostModel] presentation
  */
-class PostPageFragment :
-    AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
+class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
 
     @Parcelize
     data class Args(
@@ -82,6 +81,7 @@ class PostPageFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         setupViewModel()
         setupCommentWidget()
         observeViewModel()
@@ -95,8 +95,6 @@ class PostPageFragment :
                 adjustInputVisibility((feedList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition())
             }
         })
-        postCommentBottom.visibility = View.GONE
-        postCommentBottom.alpha = 0f
     }
 
     private fun observeViewModel() {
@@ -206,6 +204,9 @@ class PostPageFragment :
                 startActivityForResult(intent, GALLERY_REQUEST)
             }
         }
+
+        postCommentBottom.visibility = View.GONE
+        postCommentBottom.alpha = 0f
     }
 
     private fun addCommentByParent(discussionId: DiscussionIdModel) {

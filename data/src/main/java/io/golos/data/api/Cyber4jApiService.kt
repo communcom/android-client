@@ -23,7 +23,7 @@ import javax.inject.Inject
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
  */
 @ApplicationScope
-class Cyber4jApiService
+open class Cyber4jApiService
 @Inject
 constructor(private val cyber4j: Cyber4J) :
     PostsApiService,
@@ -64,7 +64,7 @@ constructor(private val cyber4j: Cyber4J) :
         sequenceKey: String?,
         tags: List<String>?
     ): DiscussionsResult {
-        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, 10/*limit*/, sort, tags, sequenceKey).getOrThrow()
+        return cyber4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, limit, sort, tags, sequenceKey).getOrThrow()
     }
 
     override fun getPost(user: CyberName, permlink: String): CyberDiscussion {
@@ -309,7 +309,7 @@ constructor(private val cyber4j: Cyber4J) :
         return cyber4j.unSubscribeOnNotifications(userId, deviceId, AppName.GLS).getOrThrow()
     }
 
-    private fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
+    protected fun <S : Any, F : Any> Either<S, F>.getOrThrow(): S =
         (this as? Either.Success)?.value ?: throw CyberServicesError(this as Either.Failure)
 
     private fun <T> TransactionCommitted<T>.extractResult() = this.resolvedResponse ?:

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.adapter
+package io.golos.cyber_android.ui.shared_fragments.post.view_holders
 
 import android.graphics.drawable.Drawable
 import android.view.View

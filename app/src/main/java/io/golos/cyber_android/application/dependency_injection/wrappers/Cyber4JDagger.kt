@@ -9,6 +9,6 @@ import javax.inject.Inject
  * Wrapper around [Cyber4J]
  */
 @ApplicationScope
-class Cyber4JDagger
+open class Cyber4JDagger
 @Inject
 constructor(config: Cyber4JConfig): Cyber4J(config)

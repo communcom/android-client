@@ -7,6 +7,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.*
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.*
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.PostTextViewHolder
 import io.golos.domain.interactors.model.*
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 
@@ -29,8 +31,7 @@ class PostPageAdapter(
     private val lifecycleOwner: LifecycleOwner,
     commentListener: CommentsAdapter.Listener,
     val listener: Listener
-) :
-    CommentsAdapter(emptyList(), commentListener) {
+) : CommentsAdapter(emptyList(), commentListener) {
 
     override var isLoading = true
         set(value) {
@@ -82,6 +83,7 @@ class PostPageAdapter(
                     false
                 )
             )
+
             CONTENT_IMAGE_TYPE -> PostImageViewHolder(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_content_image,
@@ -89,14 +91,9 @@ class PostPageAdapter(
                     false
                 )
             )
-            CONTENT_EMBED_TYPE ->
-                PostEmbedViewHolder(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.item_content_embed,
-                        parent,
-                        false
-                    )
-                )
+
+            CONTENT_EMBED_TYPE -> EmptyViewHolder(parent.context)
+
             else -> throw RuntimeException("Unsupported view type")
         }
     }
@@ -127,11 +124,17 @@ class PostPageAdapter(
                 holder as PostImageViewHolder
                 holder.bind(postModel!!.content.body.full[adapterPositionToContentRowPosition(position)] as ImageRowModel)
             }
-            CONTENT_EMBED_TYPE -> {
-                holder as PostEmbedViewHolder
-                holder.bind(postModel!!.content.body.embeds.first(), lifecycleOwner)
+            CONTENT_EMBED_TYPE -> {     // do nothing
             }
+        }
+    }
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+
+        when (holder) {
+            is PostTextViewHolder -> holder.cleanUp()
+            else -> {}
         }
     }
 
@@ -201,7 +204,7 @@ class PostPageAdapter(
      * Returns [getItemCount] of superclass but also adds [getItemsOffset] (which is amount of the headers in adapter)
      * and 1 (which is loading view at the bottom)
      */
-    override fun getItemCount() = super.getItemCount() + getItemsOffset() + 1
+    override fun getItemCount() = getItemsOffset() + 1
 
     /**
      * Returns position of loading view holder
@@ -255,6 +258,4 @@ class PostPageAdapter(
             holder.onResume()
         }
     }
-
-
 }

@@ -27,11 +27,11 @@ class AppModule(private val appContext: Context) {
     private val cyber4jConfigs = mapOf(
         "stable" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.202.4.39:8888/",
-            servicesUrl = "ws://116.203.98.241:8080"
+            servicesUrl = "wss://cyber-gate.golos.io"
         ),
         "dev" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://46.4.96.246:8888/",
-            servicesUrl = "ws://159.69.33.136:8080"
+            servicesUrl = "wss://gate.commun.com"
         ),
         "unstable" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
@@ -39,7 +39,7 @@ class AppModule(private val appContext: Context) {
         ),
         "prod" to Cyber4JConfig(
             blockChainHttpApiUrl = "http://116.203.212.190:8888/",
-            servicesUrl = "ws://116.203.208.111:8080"
+            servicesUrl = "wss://gate.golos.io"
         )
     )
 
@@ -64,13 +64,12 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun provideCyber4J(logger: Logger): Cyber4J =
+    internal fun provideConfig(logger: Logger): Cyber4JConfig =
         (cyber4jConfigs[BuildConfig.FLAVOR])!!
             .copy(
                 httpLogger = Cyber4JLogger(logger, Cyber4JLogger.HTTP),
                 socketLogger = Cyber4JLogger(logger, Cyber4JLogger.SOCKET)
             )
-            .let { Cyber4J(it) }
 
     @Provides
     internal fun provideDispatchersProvider(): DispatchersProvider = object : DispatchersProvider {

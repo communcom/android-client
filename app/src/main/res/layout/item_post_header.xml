@@ -4,8 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
->
+        android:layout_height="wrap_content">
     <TextView
             android:id="@+id/postTitle"
             android:layout_marginTop="@dimen/margin_top_post_page_title"

@@ -2,6 +2,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app
 
 import dagger.Binds
 import dagger.Module
+import io.golos.cyber4j.Cyber4J
 import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
 import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
 import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
@@ -11,6 +12,8 @@ import io.golos.cyber4j.services.model.UserMetadataResult
 import io.golos.cyber4j.services.model.UserSettings
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
+import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4JDagger
+import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4jApiServiceFakePosts
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
 import io.golos.domain.CrashlyticsFacade
@@ -61,6 +64,10 @@ import javax.inject.Named
 @Suppress("unused")
 @Module
 abstract class AppModuleBinds {
+    @Binds
+    @ApplicationScope
+    abstract fun provideCyber(cyber: Cyber4JDagger): Cyber4J
+
     @Binds
     @ApplicationScope
     abstract fun provideAppCore(appCore: AppCoreImpl): AppCore
@@ -178,55 +185,55 @@ abstract class AppModuleBinds {
     // region Cyber4jApiService
     @Binds
     @ApplicationScope
-    abstract fun providePostsApiService(service: Cyber4jApiService): PostsApiService
+    abstract fun providePostsApiService(service: Cyber4jApiServiceFakePosts): PostsApiService
 
     @Binds
     @ApplicationScope
-    abstract fun provideAuthApi(service: Cyber4jApiService): AuthApi
+    abstract fun provideAuthApi(service: Cyber4jApiServiceFakePosts): AuthApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideVoteApi(service: Cyber4jApiService): VoteApi
+    abstract fun provideVoteApi(service: Cyber4jApiServiceFakePosts): VoteApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideCommentsApiService(service: Cyber4jApiService): CommentsApiService
+    abstract fun provideCommentsApiService(service: Cyber4jApiServiceFakePosts): CommentsApiService
 
     @Binds
     @ApplicationScope
-    abstract fun provideEmbedApi(service: Cyber4jApiService): EmbedApi
+    abstract fun provideEmbedApi(service: Cyber4jApiServiceFakePosts): EmbedApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideDiscussionsCreationApi(service: Cyber4jApiService): DiscussionsCreationApi
+    abstract fun provideDiscussionsCreationApi(service: Cyber4jApiServiceFakePosts): DiscussionsCreationApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideRegistrationApi(service: Cyber4jApiService): RegistrationApi
+    abstract fun provideRegistrationApi(service: Cyber4jApiServiceFakePosts): RegistrationApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideSettingsApi(service: Cyber4jApiService): SettingsApi
+    abstract fun provideSettingsApi(service: Cyber4jApiServiceFakePosts): SettingsApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideImageUploadApi(service: Cyber4jApiService): ImageUploadApi
+    abstract fun provideImageUploadApi(service: Cyber4jApiServiceFakePosts): ImageUploadApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideEventsApi(service: Cyber4jApiService): EventsApi
+    abstract fun provideEventsApi(service: Cyber4jApiServiceFakePosts): EventsApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideUserMetadataApi(service: Cyber4jApiService): UserMetadataApi
+    abstract fun provideUserMetadataApi(service: Cyber4jApiServiceFakePosts): UserMetadataApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideTransactionsApi(service: Cyber4jApiService): TransactionsApi
+    abstract fun provideTransactionsApi(service: Cyber4jApiServiceFakePosts): TransactionsApi
 
     @Binds
     @ApplicationScope
-    abstract fun providePushNotificationsApi(service: Cyber4jApiService): PushNotificationsApi
+    abstract fun providePushNotificationsApi(service: Cyber4jApiServiceFakePosts): PushNotificationsApi
     // endregion
 
     // region Transformers
