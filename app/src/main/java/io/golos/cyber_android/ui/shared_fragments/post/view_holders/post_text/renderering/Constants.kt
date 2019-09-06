@@ -8,6 +8,7 @@ object BlockType {
     const val LINK = "link"
     const val IMAGE = "image"
     const val VIDEO = "video"
+    const val WEBSITE = "website"
 }
 
 object LinkType {

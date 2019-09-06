@@ -22,6 +22,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
+import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.widgets.CommentWidget
@@ -85,6 +86,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         setupViewModel()
         setupCommentWidget()
         observeViewModel()
+
+        postView.reduceDragSensitivity()
 
         postMenu.setColorFilter(Color.BLACK)
         back.setOnClickListener { activity?.finish() }

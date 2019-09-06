@@ -11,7 +11,11 @@ import io.golos.cyber_android.R
 import io.golos.data.api.Cyber4jApiService
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
 import javax.inject.Inject
+
 
 @ApplicationScope
 open class Cyber4jApiServiceFakePosts
@@ -32,5 +36,25 @@ constructor(
             return value.copy(content = value.content.copy(body = value.content.body.copy(mobile = listOf(newPost))))
         }
         return result.getOrThrow()
+    }
+
+    fun readTextFile(inputStream: InputStream): String {
+        val outputStream = ByteArrayOutputStream()
+
+        val buf = ByteArray(1024)
+        var len: Int
+        try {
+            len = inputStream.read(buf)
+            while (len != -1) {
+                outputStream.write(buf, 0, len)
+                len = inputStream.read(buf)
+            }
+            outputStream.close()
+            inputStream.close()
+        } catch (e: IOException) {
+
+        }
+
+        return outputStream.toString()
     }
 }

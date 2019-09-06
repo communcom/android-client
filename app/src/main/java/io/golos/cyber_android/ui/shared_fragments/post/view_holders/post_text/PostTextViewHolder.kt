@@ -38,7 +38,8 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
 
     fun bind(textRowModel: TextRowModel) {
         renderJob = launch {
-            view.text.text = PostTextRenderingFacade(dispatchersProvider, appResourcesProvider).render(textRowModel.text.toString())
+            val html = PostTextRenderingFacade(dispatchersProvider, appResourcesProvider).render(textRowModel.text.toString())
+            view.webView.loadHtml(html)
         }
     }
 

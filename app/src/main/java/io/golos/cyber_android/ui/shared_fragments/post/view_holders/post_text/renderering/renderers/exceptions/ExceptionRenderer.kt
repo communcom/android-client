@@ -13,13 +13,15 @@ class ExceptionRenderer(
 
         builder.putDoctype()
         builder.putHtml {
+            builder.putStyles()
+
             builder.putBody {
                 builder.putHeader(
                     when(ex) {
                         is IncompatibleVersionsException -> appResources.getString(R.string.post_rendering_low_version_error)
                         else -> appResources.getString(R.string.post_rendering_general_error)
                     }
-                ,2 )
+                , 3)
             }
         }
     }

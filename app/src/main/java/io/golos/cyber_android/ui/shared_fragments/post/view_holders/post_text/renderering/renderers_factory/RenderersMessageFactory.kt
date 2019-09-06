@@ -20,9 +20,11 @@ class RenderersMessageFactory(
 
             BlockType.TEXT -> TextRenderer(builder)
             BlockType.TAG -> TagRenderer(builder)
+
             BlockType.LINK -> LinkRenderer(builder, linksRepository)
             BlockType.IMAGE -> ImageRenderer(builder, linksRepository)
             BlockType.VIDEO -> VideoRenderer(builder, linksRepository)
+            BlockType.WEBSITE -> WebsiteRenderer(builder, linksRepository)
 
             else -> throw UnsupportedOperationException("This type of block is not supported: $type")
         }

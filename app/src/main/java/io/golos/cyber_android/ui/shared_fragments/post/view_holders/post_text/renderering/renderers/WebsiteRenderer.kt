@@ -4,7 +4,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.re
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.links_repository.LinksRepository
 import org.json.JSONObject
 
-class VideoRenderer(
+class WebsiteRenderer(
     builder: HtmlBuilder,
     private val linksRepository: LinksRepository
 ) : RendererBase(builder) {
@@ -18,16 +18,10 @@ class VideoRenderer(
         val title = attributes?.optString("title")
         val description = attributes?.optString("description")
         val thumbnailUrl = attributes?.optString("thumbnail_url")
-        val html = attributes?.optString("html")
+        val provider = attributes?.optString("provider_name")
 
-        if(html != null) {
-            builder.putBlockWrapper {
-                builder.putString(html)
-            }
-        } else {
-            builder.putFigure(thumbnailUrl ?: "file:///android_asset/video_stub.webp") {
-                builder.putFigureCaption(title ?: description ?: url)
-            }
+        builder.putFigure(thumbnailUrl ?: "file:///android_asset/website_stub.webp") {
+            builder.putFigureCaption(title ?: description ?: provider ?: url)
         }
     }
 }

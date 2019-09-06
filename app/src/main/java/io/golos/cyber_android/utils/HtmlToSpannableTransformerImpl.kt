@@ -15,10 +15,17 @@ import javax.inject.Inject
 class HtmlToSpannableTransformerImpl
 @Inject
 constructor() : HtmlToSpannableTransformer {
-    override fun transform(html: String): CharSequence {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            return Html.fromHtml(html, FROM_HTML_MODE_LEGACY)
-        else Html.fromHtml(html)
+    override fun transform(source: String): CharSequence {
+        if(source.startsWith("{")) {        // It's json
+            return source
+        }
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(source, FROM_HTML_MODE_LEGACY)
+        }
+        else {
+            Html.fromHtml(source)
+        }
     }
 }
 
