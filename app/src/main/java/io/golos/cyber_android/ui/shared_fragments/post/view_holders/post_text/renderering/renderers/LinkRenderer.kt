@@ -16,6 +16,8 @@ class LinkRenderer(
         val content = block.getString("content")
         val url = attributes.getString("url")
 
-        builder.putLink(content, url)
+        builder.putLink(url, getId(block)) {
+            builder.putString(content)
+        }
     }
 }

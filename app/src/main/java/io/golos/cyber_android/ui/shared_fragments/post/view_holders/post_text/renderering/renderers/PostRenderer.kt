@@ -25,6 +25,8 @@ class PostRenderer(
             builder.putStyles()
 
             builder.putBody {
+                builder.putScript()
+
                 val content = block.getJSONArray("content")
 
                 for(i in 0 until content.length()) {

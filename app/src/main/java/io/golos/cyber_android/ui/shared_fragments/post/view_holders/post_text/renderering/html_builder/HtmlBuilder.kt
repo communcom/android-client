@@ -16,14 +16,23 @@ class HtmlBuilder {
 
     fun putStyles() =
         putSection("style") {
-            putString(".text_center { text-align: center; }")
-            putString(".border { border-style: solid; border-color: #bbbbbb; border-width: 1pt; }")
-            putString(".image_description { font-style: italic; }")
-            putString(".carousel_height { height: 120pt; }")
-            putString(".carousel { width: 100%; overflow: auto; white-space:nowrap }")
-            putString(".carousel_padding { padding-left: 2pt; }")
-            putString(".carousel_block { display: inline-block; }")
-            putString(".block_wrapper { margin-bottom: 12pt; }")
+            append(".text_center { text-align: center; }")
+            append(".border { border-style: solid; border-color: #bbbbbb; border-width: 1pt; }")
+            append(".image_description { font-style: italic; }")
+            append(".carousel_height { height: 120pt; }")
+            append(".carousel { width: 100%; overflow: auto; white-space:nowrap }")
+            append(".carousel_padding { padding-left: 2pt; }")
+            append(".carousel_block { display: inline-block; }")
+            append(".block_wrapper { margin-bottom: 12pt; }")
+        }
+
+    fun putScript() =
+        putSection("script") {
+            append("function onPostMapItemClick(linkedBlockId) {")
+            append("var linkedBlock = document.getElementById(linkedBlockId);")
+            append("var linkedBlockRect = linkedBlock.getBoundingClientRect();")
+            append("Android.onScrollToBlock(linkedBlockRect.top, window.innerHeight);")
+            append("}")
         }
 
     fun putBody(innerAction: () -> Unit) = putSection("body", innerAction)
@@ -42,7 +51,7 @@ class HtmlBuilder {
                 }
             }
             .also {
-                putSection("h$it", "text_center") {
+                putSection("h$it", "class \"text_center\"") {
                     putString(text)
                 }
             }
@@ -66,15 +75,16 @@ class HtmlBuilder {
         }
     }
 
-    fun putLink(linkText: String, url: String) {
-        append("<a href=\"")
-        append(url)
-        append("\">")
+    fun putLink(url: String, id: Long, innerAction: () -> Unit) =
+        putSection("a", "href = \"$url\" id = \"${createAnchor(id)}\"") {
+            innerAction()
+        }
 
-        append(linkText)
+    fun putLink(url: String, innerAction: () -> Unit) =
+        putSection("a", "href = \"$url\" ") {
+            innerAction()
+        }
 
-        putTag("a", false)
-    }
 
     fun putFigure(url: String, innerAction: () -> Unit) {
         putSection("figure") {
@@ -84,18 +94,18 @@ class HtmlBuilder {
     }
 
     fun putFigureCaption(text: String) =
-        putSection("figcaption", "image_description text_center") {
+        putSection("figcaption", "class = \"image_description text_center\"") {
             append(text)
         }
 
     fun putPostMap(innerAction: () -> Unit) {
         isFirstBlockInPostMap = true
-        putSection("div", "carousel carousel_height") {
+        putSection("div", "class = \"carousel carousel_height\"") {
             innerAction()
         }
     }
 
-    fun putPostMapBlock(imageUrl: String) {
+    fun putPostMapBlock(imageUrl: String, id: Long) {
         val cssClass = if(isFirstBlockInPostMap) {
             isFirstBlockInPostMap = false
             "carousel_block"
@@ -103,7 +113,7 @@ class HtmlBuilder {
             "carousel_block carousel_padding"
         }
 
-        putSection("div", cssClass) {
+        putSection("div", "class = \"$cssClass\" onclick = \"onPostMapItemClick('${createAnchor(id)}')\"") {
             putImage(imageUrl, "carousel_height", null)
         }
     }
@@ -125,7 +135,12 @@ class HtmlBuilder {
     }
 
     fun putBlockWrapper(innerAction: () -> Unit) =
-        putSection("div", "block_wrapper") {
+        putSection("div", "class = \"block_wrapper\"") {
+            innerAction()
+        }
+
+    fun putBlockAnchor(id: Long, innerAction: () -> Unit) =
+        putSection("div", "id = \"${createAnchor(id)}\"") {
             innerAction()
         }
 
@@ -135,12 +150,12 @@ class HtmlBuilder {
         putTag(sectionTag, false)
     }
 
-    private fun putSection(sectionTag: String, cssClass: String,  innerAction: () -> Unit) {
+    private fun putSection(sectionTag: String, attrubutes: String,  innerAction: () -> Unit) {
         append("<")
         append(sectionTag)
-        append(" class = \"")
-        append(cssClass)
-        append("\">")
+        append(" ")
+        append(attrubutes)
+        append(" >")
 
         innerAction()
         putTag(sectionTag, false)
@@ -168,4 +183,6 @@ class HtmlBuilder {
     }
 
     private fun append(s: String) = output.append(s)
+
+    private fun createAnchor(id: Long) = "anchor$id"
  }

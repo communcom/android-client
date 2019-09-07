@@ -4,5 +4,5 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.re
 import org.json.JSONObject
 
 class ImagePostMapRenderer(builder: HtmlBuilder) : RendererBase(builder) {
-    override fun render(block: JSONObject) = builder.putPostMapBlock(block.getString("content"))
+    override fun render(block: JSONObject) = builder.putPostMapBlock(block.getString("content"), getId(block))
 }

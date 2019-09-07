@@ -8,6 +8,8 @@ class TagRenderer(
 ) : RendererBase(builder) {
     override fun render(block: JSONObject) {
         val content = block.getString("content")
-        builder.putLink("#$content", "https://www.w3schools.com/html/$content")
+        builder.putLink("https://www.w3schools.com/html/$content") {
+            builder.putString("#$content")
+        }
     }
 }

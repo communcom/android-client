@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.r
 
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.links_repository.LinksRepository
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.html_builder.HtmlBuilder
+import io.golos.cyber_android.utils.tryString
 import org.json.JSONObject
 
 class ImageRenderer(
@@ -15,10 +16,12 @@ class ImageRenderer(
 
         val attributes = getAttributes(block)
 
-        val description = attributes?.optString("description")
+        val description = attributes?.tryString("description")
 
-        builder.putFigure(url) {
-            description?.let { builder.putFigureCaption(it) }
+        builder.putBlockAnchor(getId(block)) {
+            builder.putFigure(url) {
+                description?.let { builder.putFigureCaption(it) }
+            }
         }
     }
 }

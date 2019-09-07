@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.r
 
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.html_builder.HtmlBuilder
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.links_repository.LinksRepository
+import io.golos.cyber_android.utils.tryString
 import org.json.JSONObject
 
 class VideoRenderer(
@@ -15,18 +16,25 @@ class VideoRenderer(
 
         val attributes = getAttributes(block)
 
-        val title = attributes?.optString("title")
-        val description = attributes?.optString("description")
-        val thumbnailUrl = attributes?.optString("thumbnail_url")
-        val html = attributes?.optString("html")
+        val title = attributes?.tryString("title")
+        val description = attributes?.tryString("description")
+        val thumbnailUrl = attributes?.tryString("thumbnail_url")
+        val html = attributes?.tryString("html")
 
-        if(html != null) {
-            builder.putBlockWrapper {
-                builder.putString(html)
-            }
-        } else {
-            builder.putFigure(thumbnailUrl ?: "file:///android_asset/video_stub.webp") {
-                builder.putFigureCaption(title ?: description ?: url)
+        builder.putBlockAnchor(getId(block)) {
+            if(html != null) {
+                builder.putBlockWrapper {
+                    builder.putString(html)
+                    builder.putLink(url) {
+                        builder.putFigureCaption(title ?: description ?: url)
+                    }
+                }
+            } else {
+                builder.putLink(url) {
+                    builder.putFigure(thumbnailUrl ?: "file:///android_asset/video_stub.webp") {
+                        builder.putFigureCaption(title ?: description ?: url)
+                    }
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.r
 
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.LinkType
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.renderering.html_builder.HtmlBuilder
+import io.golos.cyber_android.utils.tryString
 import org.json.JSONObject
 import java.lang.UnsupportedOperationException
 
@@ -13,11 +14,11 @@ class LinkPostMapRenderer(builder: HtmlBuilder) : RendererBase(builder) {
 
         val imageUrl = when(type) {
             LinkType.IMAGE -> attributes.getString("url")
-            LinkType.VIDEO -> attributes.optString("thumbnail_url") ?: "file:///android_asset/video_stub.webp"
-            LinkType.WEBSITE -> attributes.optString("thumbnail_url") ?: "file:///android_asset/website_stub"
+            LinkType.VIDEO -> attributes.tryString("thumbnail_url") ?: "file:///android_asset/video_stub.webp"
+            LinkType.WEBSITE -> attributes.tryString("thumbnail_url") ?: "file:///android_asset/website_stub"
             else -> throw UnsupportedOperationException("This type of link is not supported: $type")
         }
 
-        builder.putPostMapBlock(imageUrl)
+        builder.putPostMapBlock(imageUrl, getId(block))
     }
 }

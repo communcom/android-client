@@ -33,6 +33,8 @@ class PostPageAdapter(
     val listener: Listener
 ) : CommentsAdapter(emptyList(), commentListener) {
 
+    private lateinit var recyclerView: RecyclerView
+
     override var isLoading = true
         set(value) {
             field = value
@@ -98,6 +100,11 @@ class PostPageAdapter(
         }
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             POST_CONTROLS_TYPE -> {
@@ -118,7 +125,7 @@ class PostPageAdapter(
 
             CONTENT_TEXT_TYPE -> {
                 holder as PostTextViewHolder
-                holder.bind(postModel!!.content.body.full[adapterPositionToContentRowPosition(position)] as TextRowModel)
+                holder.bind(postModel!!.content.body.full[adapterPositionToContentRowPosition(position)] as TextRowModel, recyclerView)
             }
             CONTENT_IMAGE_TYPE -> {
                 holder as PostImageViewHolder
