@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 
 
@@ -54,10 +55,17 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
     }
 
     fun bind(textRowModel: TextRowModel, recyclerView: RecyclerView) {
+        view.loadingIndicator.visibility = View.VISIBLE
+        view.webView.visibility = View.INVISIBLE
+
         this.recyclerView = recyclerView
 
         renderJob = launch {
             val html = PostTextRenderingFacade(dispatchersProvider, appResourcesProvider).render(textRowModel.text.toString())
+
+            view.loadingIndicator.visibility = View.INVISIBLE
+            view.webView.visibility = View.VISIBLE
+
             view.webView.loadHtml(html)
         }
     }
@@ -105,12 +113,8 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
                     }
                 }
 
-                override fun onLoadResource(view: WebView?, url: String?) {
-                    super.onLoadResource(view, url)
-                }
-
                 override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)     // For loading!!!
+                    super.onPageFinished(view, url)
                     webViewHeight = view!!.height
                 }
             }
