@@ -251,18 +251,17 @@ class PostPageAdapter(
         diff.dispatchUpdatesTo(updateCallback)
     }
 
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        if (holder is PostEmbedViewHolder) {
-            //stops webview when offscreen
-            holder.onPause()
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder is PostTextViewHolder) {
+            holder.onResume()
         }
     }
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        if (holder is PostEmbedViewHolder) {
-            holder.onResume()
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        if (holder is PostTextViewHolder) {
+            holder.onPause()
         }
     }
 }

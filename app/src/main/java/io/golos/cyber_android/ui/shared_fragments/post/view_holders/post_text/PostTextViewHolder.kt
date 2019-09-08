@@ -23,9 +23,14 @@ import kotlin.coroutines.CoroutineContext
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.android.synthetic.main.item_content_embed.view.*
+import kotlinx.android.synthetic.main.item_content_text.view.webView
 
 
-class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), CoroutineScope {
+class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), CoroutineScope, LifecycleObserver {
 
     private var scopeJob: Job = SupervisorJob()
 
@@ -121,4 +126,18 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onPause() {
+        view.webView.onPause()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume() {
+        view.webView.onResume()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun onDestroy() {
+        view.webView.onDestroy()
+    }
 }
