@@ -241,43 +241,203 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <RelativeLayout
+    <!--It's a gap between editor and tools panel-->
+    <View
+        android:background="@color/middle_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
             android:orientation="horizontal"
             android:background="@color/bg_post_comment"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <ImageView
-                android:id="@+id/nsfw"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
-                android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                android:layout_gravity="start|center_vertical"
-                app:srcCompat="@drawable/ic_nsfw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
         <ImageView
-                android:id="@+id/photo"
-                android:layout_toEndOf="@+id/nsfw"
-                android:layout_centerVertical="true"
-                android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
-                android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                android:layout_gravity="start|center_vertical"
-                app:srcCompat="@drawable/ic_editor_widget_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/nsfw"
+            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-        <View
-                android:layout_alignParentTop="true"
-                android:background="@color/middle_gray"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-    </RelativeLayout>
+            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
+            android:layout_gravity="start|center_vertical"
+            app:srcCompat="@drawable/ic_nsfw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <View
+                        android:background="@color/middle_gray"
+                        android:layout_width="@dimen/strokeThin"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
+                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_groups"
+                    />
+
+                    <ImageView
+                            android:id="@+id/boldButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_bold"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <ImageView
+                            android:id="@+id/italicButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_italic"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <ImageView
+                            android:id="@+id/textColorButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_text_color"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <View
+                        android:background="@color/middle_gray"
+                        android:layout_width="@dimen/strokeThin"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
+                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_groups"
+                    />
+
+                    <ImageView
+                            android:id="@+id/tagButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_tag"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <ImageView
+                            android:id="@+id/mentionButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_mention"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <ImageView
+                            android:id="@+id/linkInTextButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_link_in_text"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <View
+                        android:background="@color/middle_gray"
+                        android:layout_width="@dimen/strokeThin"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
+                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_groups"
+                    />
+
+                    <ImageView
+                            android:id="@+id/photo"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_editor_widget_camera"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <ImageView
+                            android:id="@+id/linkExternalButton"
+                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                            android:layout_gravity="start|center_vertical"
+
+                            app:srcCompat="@drawable/ic_link_external"
+                            app:tint = "@color/tint_edit_post_button"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </ScrollView>
+    </LinearLayout>
 </LinearLayout>
