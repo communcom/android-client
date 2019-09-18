@@ -2,6 +2,7 @@ package io.golos.posts_editor.dialogs.selectColor
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import io.golos.posts_editor.R
 import io.golos.posts_editor.utilities.MaterialColor
@@ -13,9 +14,9 @@ import io.golos.posts_editor.utilities.MaterialColor
 class SelectColorDialog(
     private val context : Context,
     private val selectedTextColor: MaterialColor,
-    private val title: String,
-    private val okButtonText: String,
-    private val cancelButtonText: String,
+    @StringRes private val title: Int,
+    @StringRes private val okButtonText: Int,
+    @StringRes private val cancelButtonText: Int,
     private val resultCallback: (MaterialColor?) -> Unit) {
 
     //Select dialog's style - colorAccent for options and ? for buttons

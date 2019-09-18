@@ -32,6 +32,8 @@ import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.shared_fragments.editor.dialogs.one_text_line.OneTextLineDialog
+import io.golos.cyber_android.ui.shared_fragments.editor.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TextWatcherBase
@@ -40,6 +42,8 @@ import io.golos.cyber_android.views.utils.colorizeLinks
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
+import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject
@@ -107,15 +111,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         title.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_POST_TITLE_LENGTH))
         content.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_POST_CONTENT_LENGTH))
 
-        nsfw.setOnClickListener {
-            viewModel.switchNSFW()
-        }
-
-        photo.setOnClickListener {
-            ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
-                setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
-            }.show(requireFragmentManager(), "cover")
-        }
+        setupToolButtons()
 
         linkPreviewImageClear.setOnClickListener {
             viewModel.clearPickedImage()
@@ -167,6 +163,53 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 }
 
             })
+        }
+    }
+
+    private fun setupToolButtons() {
+        nsfw.setOnClickListener {
+            viewModel.switchNSFW()
+        }
+
+        textColorButton.setOnClickListener {
+            SelectColorDialog(this.requireContext(), MaterialColor.BLACK, R.string.select_text_color, R.string.ok, R.string.cancel) { selectedColor ->
+                selectedColor?.let {  }
+            }
+            .show()
+        }
+
+        tagButton.setOnClickListener {
+            OneTextLineDialog(requireContext(), "", R.string.enter_tag) { tag ->
+
+            }
+            .show()
+        }
+
+        mentionButton.setOnClickListener {
+            OneTextLineDialog(requireContext(), "", R.string.enter_user_name) { tag ->
+
+            }
+            .show()
+        }
+
+        linkInTextButton.setOnClickListener {
+            OneTextLineDialog(requireContext(), "", R.string.enter_link) { tag ->
+
+            }
+            .show()
+        }
+
+        photo.setOnClickListener {
+            ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
+                setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
+            }.show(requireFragmentManager(), "cover")
+        }
+
+        linkExternalButton.setOnClickListener {
+            TextAndLinkDialog(requireContext(), "", "", R.string.enter_link) { text, link ->
+
+            }
+            .show()
         }
     }
 

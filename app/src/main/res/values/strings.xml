@@ -110,6 +110,12 @@
     <string name="you_will_post_in">You will post in</string>
     <string name="title">Title</string>
     <string name="enter_text">Enter text…</string>
+    <string name="select_text_color">Select text color</string>
+    <string name="enter_tag">Enter a tag</string>
+    <string name="enter_user_name">Enter a user name</string>
+    <string name="enter_link">Enter a link</string>
+    <string name="link_text">Link text</string>
+    <string name="link">Link</string>
 
     <!--Sign Up-->
     <string name="select_country">Select Country</string>
