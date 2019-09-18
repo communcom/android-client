@@ -20,6 +20,7 @@ class RenderersMessageFactory(
 
             BlockType.TEXT -> TextRenderer(builder)
             BlockType.TAG -> TagRenderer(builder)
+            BlockType.MENTION -> MentionRenderer(builder)
 
             BlockType.LINK -> LinkRenderer(builder, linksRepository)
             BlockType.IMAGE -> ImageRenderer(builder, linksRepository)

@@ -5,6 +5,7 @@ object BlockType {
     const val PARAGRAPH ="paragraph"
     const val TEXT = "text"
     const val TAG = "tag"
+    const val MENTION = "mention"
     const val LINK = "link"
     const val IMAGE = "image"
     const val VIDEO = "video"
