@@ -11,6 +11,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -88,7 +89,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     }
 
     private fun setupToolButtons() {
-        nsfw.setOnClickListener {
+        nsfwButton.setOnClickListener {
             viewModel.switchNSFW()
         }
 
@@ -120,7 +121,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             .show()
         }
 
-        photo.setOnClickListener {
+        photoButton.setOnClickListener {
             ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
                 setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
             }.show(requireFragmentManager(), "cover")
@@ -131,6 +132,23 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
             }
             .show()
+        }
+
+        boldButton.isEnabled = false
+        italicButton.isEnabled = false
+        textColorButton.isEnabled = false
+
+        editorWidget.setOnSelectionTextChangeListener { isSomeTextSelected ->
+            boldButton.isEnabled = isSomeTextSelected
+            italicButton.isEnabled = isSomeTextSelected
+            textColorButton.isEnabled = isSomeTextSelected
+
+            tagButton.isEnabled = !isSomeTextSelected
+            mentionButton.isEnabled = !isSomeTextSelected
+            linkInTextButton.isEnabled = !isSomeTextSelected
+
+            photoButton.isEnabled = !isSomeTextSelected
+            linkExternalButton.isEnabled = !isSomeTextSelected
         }
     }
 
@@ -180,9 +198,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //            }
 //        })
 //
-//        viewModel.getNsfwLiveData.observe(this, Observer {
-//            nsfw.isActivated = it
-//        })
+        viewModel.getNsfwLiveData.observe(this, Observer {
+            nsfwButton.isActivated = it
+        })
 //
 //        viewModel.getCommunityLiveData.observe(this, Observer {
 //            if (it != null)

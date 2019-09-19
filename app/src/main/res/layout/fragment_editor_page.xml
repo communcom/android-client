@@ -158,7 +158,7 @@
             android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/nsfw"
+            android:id="@+id/nsfwButton"
             android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
             android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
@@ -309,7 +309,7 @@
                     />
 
                     <ImageView
-                            android:id="@+id/photo"
+                            android:id="@+id/photoButton"
                             android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
                             android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
