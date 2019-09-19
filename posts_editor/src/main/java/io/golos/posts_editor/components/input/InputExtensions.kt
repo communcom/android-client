@@ -288,9 +288,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
                         }
                     }
                 }
-                if (editorCore.editorListener != null) {
-                    editorCore.editorListener!!.onTextChanged(editText, s)
-                }
+                editorCore.editorListener?.onTextChanged(editText, s)
             }
         })
 

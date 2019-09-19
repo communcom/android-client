@@ -10,7 +10,9 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.ui.common.base.FragmentBase
+import io.golos.domain.BitmapsUtils
 import java.io.File
+import javax.inject.Inject
 
 private const val REQUEST_IMAGE_CAPTURE = 200
 private const val REQUEST_GALLERY_IMAGE = 201
@@ -22,12 +24,14 @@ private const val REQUEST_GALLERY_IMAGE = 201
  * the image (like camera or gallery)
  */
 abstract class ImagePickerFragmentBase : FragmentBase() {
-
     enum class ImageSource {
         CAMERA, GALLERY, NONE
     }
 
     private var currentImageFile: Uri? = null
+
+    @Inject
+    internal lateinit var bitmapUtils: BitmapsUtils
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -74,6 +78,7 @@ abstract class ImagePickerFragmentBase : FragmentBase() {
                                 input?.copyTo(fileOut)
                             }
                     }
+                    bitmapUtils.correctOrientation(imageFile)
                     onImagePicked(Uri.fromFile(imageFile))
                 }
             } else {

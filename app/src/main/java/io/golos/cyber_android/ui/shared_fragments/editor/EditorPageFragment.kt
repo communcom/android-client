@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
@@ -307,17 +308,16 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun getInitialImageSource() = getArgs().initialImageSource
 
     override fun onImagePicked(uri: Uri) {
-        viewModel.onLocalImagePicked(uri)
+        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, uri)
+        editorWidget.insertImage(bitmap)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GALLERY_REQUEST) {
             when (resultCode) {
-                ImagePickerDialog.RESULT_GALLERY ->
-                    pickGalleryPhoto()
-                ImagePickerDialog.RESULT_CAMERA ->
-                    takeCameraPhoto()
+                ImagePickerDialog.RESULT_GALLERY -> pickGalleryPhoto()
+                ImagePickerDialog.RESULT_CAMERA -> takeCameraPhoto()
             }
         }
     }

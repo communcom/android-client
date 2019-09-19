@@ -29,46 +29,13 @@
         android:paddingRight="20dp"
         android:textColor="@color/darkText"
 
-        android:maxLength="60"
-        android:maxLines="2"
+        android:maxLength="120"
+        android:maxLines="12"
 
         android:focusable="true"
         android:focusableInTouchMode="true"
 
         android:textSize="12sp" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary"
-            android:indeterminateTintMode="src_in"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/lblStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/progress"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:paddingBottom="2dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="2dp"
-            android:text="@string/uploading"
-            android:textColor="@color/lightGray"
-            android:textSize="@dimen/larger_text"
-            android:visibility="gone" />
-    </RelativeLayout>
 
     <ImageButton
         android:id="@+id/btn_remove"

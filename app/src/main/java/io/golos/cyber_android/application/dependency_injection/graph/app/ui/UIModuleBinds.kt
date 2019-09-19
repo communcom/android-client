@@ -2,12 +2,14 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui
 
 import dagger.Binds
 import dagger.Module
+import io.golos.cyber_android.core.bitmaps.BitmapsUtilsImpl
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.helper.UIHelperImpl
+import io.golos.domain.BitmapsUtils
 import io.golos.domain.dependency_injection.scopes.UIScope
 import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.interactors.UseCase
@@ -70,4 +72,7 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideEventsUseCase(useCase: EventsUseCase): UseCase<EventsListModel>
+
+    @Binds
+    abstract fun provideBitmapUtils(utils: BitmapsUtilsImpl): BitmapsUtils
 }

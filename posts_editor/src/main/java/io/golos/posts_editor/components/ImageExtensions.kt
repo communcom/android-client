@@ -127,7 +127,6 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
         // Render(getStateFromString());
         val childLayout = (editorCore.context as Activity).layoutInflater.inflate(R.layout.widget_image_view, null)
         val imageView = childLayout.findViewById<ImageView>(R.id.imageView)
-        val lblStatus = childLayout.findViewById<TextView>(R.id.lblStatus)
 
         val desc = childLayout.findViewById<CustomEditText>(R.id.descriptionText)
 
@@ -164,13 +163,11 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
         if (editorCore.renderType === RenderType.EDITOR) {
             bindEvents(childLayout)
             if (!hasUploaded) {
-                lblStatus.visibility = View.VISIBLE
-                childLayout.findViewById<View>(R.id.progress).visibility = View.VISIBLE
-                editorCore.editorListener!!.onUpload(image!!, uniqueId)
+                editorCore.editorListener?.onUpload(image!!, uniqueId)
+                onPostUpload(null, uniqueId)
             }
         } else {
             desc.isEnabled = false
-            lblStatus.visibility = View.GONE
         }
 
         return childLayout
@@ -247,27 +244,13 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
 
     fun onPostUpload(url: String?, imageId: String) {
         val view = findImageById(imageId)
-        val lblStatus = view!!.findViewById<View>(R.id.lblStatus) as TextView
-        lblStatus.text = if (!TextUtils.isEmpty(url)) "Upload complete" else "Upload failed"
         if (!url.isNullOrEmpty()) {
 
             val control = ImageMetadata(EditorType.IMG)
             control.path = url
-            view.tag = control
-
-            val timerTask = object : TimerTask() {
-                override fun run() {
-                    (editorCore.context as Activity).runOnUiThread {
-                        // This code will always run on th UI thread, therefore is safe to modify UI elements.
-                        lblStatus.visibility = View.GONE
-                    }
-                }
-            }
-            Timer().schedule(timerTask, 3000)
+            view?.tag = control
         }
-        view.findViewById<View>(R.id.progress).visibility = View.GONE
     }
-
 
     private fun bindEvents(layout: View) {
         val imageView = layout.findViewById<ImageView>(R.id.imageView)
