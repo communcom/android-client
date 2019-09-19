@@ -111,6 +111,21 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.editLinkInText(LinkInfo(text, url))
     }
 
+    /**
+     * Tries to find a tag under a cursor and gets a value of it
+     */
+    fun tryGetTextOfTag(): String? = inputExtensions!!.tryGetTextOfTag()
+
+    /**
+     * Tries to find a mention under a cursor and gets a value of it
+     */
+    fun tryGetTextOfMention(): String? = inputExtensions!!.tryGetTextOfMention()
+
+    /**
+     * Tries to find a link under a cursor and gets a value of it
+     */
+    fun tryGetLinkInTextInfo(): LinkInfo? = inputExtensions!!.tryGetLinkInTextInfo()
+
     fun setDividerLayout(layout: Int) {
         this.dividerExtensions!!.setDividerLayout(layout)
     }

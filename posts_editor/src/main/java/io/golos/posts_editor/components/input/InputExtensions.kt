@@ -9,6 +9,7 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.util.Linkify
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -106,16 +107,16 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
         textView.text = toReplace
     }
 
-    fun insertTag(tagText: String) = insertTag(tagText, true)
+    fun insertTag(tagText: String) = insertTag(tagText, true, false)
 
-    fun insertMention(userName: String) = insertMention(userName, true)
+    fun insertMention(userName: String) = insertMention(userName, true, false)
 
-    fun insertLinkInText(link: LinkInfo) = insertLinkInText(link.text, link.url, true)
+    fun insertLinkInText(link: LinkInfo) = insertLinkInText(link.text, link.url, true, false)
 
     fun editTag(tagText: String) {
         if(removeSpecialSpan(TagSpan::class)) {
             editor.post {
-                insertTag(tagText, false)
+                insertTag(tagText, false, true)
             }
         }
     }
@@ -123,7 +124,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
     fun editMention(userName: String) {
         if(removeSpecialSpan(MentionSpan::class)) {
             editor.post {
-                insertMention(userName, false)
+                insertMention(userName, false, true)
             }
         }
     }
@@ -131,7 +132,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
     fun editLinkInText(link: LinkInfo) {
         if(removeSpecialSpan(LinkSpan::class)) {
             editor.post {
-                insertLinkInText(link.text, link.url, false)
+                insertLinkInText(link.text, link.url, false, true)
             }
         }
     }
@@ -553,19 +554,19 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
         return textView
     }
 
-    private fun insertTag(tagText: String, addSpace: Boolean) =
-        insertSpecialSpan("#$tagText", TagSpan(tagText, specialSpansColors), addSpace)
+    private fun insertTag(tagText: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
+        insertSpecialSpan("#$tagText", TagSpan(tagText, specialSpansColors), addSpace, tryToMoveCursor)
 
-    private fun insertMention(userName: String, addSpace: Boolean) =
-        insertSpecialSpan("@$userName", MentionSpan(userName, specialSpansColors), addSpace)
+    private fun insertMention(userName: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
+        insertSpecialSpan("@$userName", MentionSpan(userName, specialSpansColors), addSpace, tryToMoveCursor)
 
-    private fun insertLinkInText(text: String, url: String, addSpace: Boolean) =
-        insertSpecialSpan(text, LinkSpan(url, specialSpansColors), addSpace)
+    private fun insertLinkInText(text: String, url: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
+        insertSpecialSpan(text, LinkSpan(url, specialSpansColors), addSpace, tryToMoveCursor)
 
     /**
      * Inserts special span into a cursor position
      */
-    private fun insertSpecialSpan(textToDisplay: String, span: CharacterStyle, addSpace: Boolean) {
+    private fun insertSpecialSpan(textToDisplay: String, span: CharacterStyle, addSpace: Boolean, tryToMoveCursor: Boolean) {
         try {
             if(editor.selectionArea != null) {
                 return
@@ -583,6 +584,9 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
 
                 editor.post {
                     spansWorker.createSpan(span, startPosition..endPosition)
+                    if(tryToMoveCursor && textArea.lastIndex >= endPosition) {
+                        editor.setCursorPosition(endPosition+1)
+                    }
                 }
             }
         } catch (ex: Exception) {

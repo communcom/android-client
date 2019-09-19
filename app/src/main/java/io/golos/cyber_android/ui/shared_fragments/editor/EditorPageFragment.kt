@@ -30,6 +30,7 @@ import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
+import io.golos.posts_editor.models.EditorTextStyle
 import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
@@ -93,30 +94,54 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             viewModel.switchNSFW()
         }
 
+        boldButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.BOLD) }
+        italicButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.ITALIC) }
+
         textColorButton.setOnClickListener {
             SelectColorDialog(this.requireContext(), MaterialColor.BLACK, R.string.select_text_color, R.string.ok, R.string.cancel) { selectedColor ->
-                selectedColor?.let {  }
+                selectedColor?.let { editorWidget.updateTextColor(it) }
             }
             .show()
         }
 
         tagButton.setOnClickListener {
-            OneTextLineDialog(requireContext(), "", R.string.enter_tag) { tag ->
-
+            val oldTextOfTag = editorWidget.tryGetTextOfTag()
+            OneTextLineDialog(requireContext(), oldTextOfTag ?: "", R.string.enter_tag) { newTextOfTag ->
+                newTextOfTag?.let {
+                    if(oldTextOfTag == null) {
+                        editorWidget.insertTag(it)
+                    } else {
+                        editorWidget.editTag(it)
+                    }
+                }
             }
             .show()
         }
 
         mentionButton.setOnClickListener {
-            OneTextLineDialog(requireContext(), "", R.string.enter_user_name) { tag ->
-
+            val oldTextOfMention = editorWidget.tryGetTextOfMention()
+            OneTextLineDialog(requireContext(), oldTextOfMention ?: "", R.string.enter_user_name) { newTextOfMention ->
+                newTextOfMention?.let {
+                    if(oldTextOfMention == null) {
+                        editorWidget.insertMention(it)
+                    } else {
+                        editorWidget.editMention(it)
+                    }
+                }
             }
             .show()
         }
 
         linkInTextButton.setOnClickListener {
-            TextAndLinkDialog(requireContext(), "", "", R.string.enter_link) { text, link ->
-
+            val oldLink = editorWidget.tryGetLinkInTextInfo()
+            TextAndLinkDialog(requireContext(), oldLink?.text ?: "", oldLink?.url ?: "", R.string.enter_link) { text, url ->
+                if(text != null && url != null) {
+                    if(oldLink == null) {
+                        editorWidget.insertLinkInText(text, url)
+                    } else {
+                        editorWidget.editLinkInText(text, url)
+                    }
+                }
             }
             .show()
         }

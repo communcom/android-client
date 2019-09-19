@@ -2,6 +2,7 @@ package io.golos.posts_editor.components.input.edit_text
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.Selection
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
@@ -24,4 +25,10 @@ constructor(
 
     override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection =
             CustomInputConnection(this, super.onCreateInputConnection(outAttrs), true)
+
+    fun setCursorPosition(position: Int) {
+
+        //Selection.
+        setSelection(position)
+    }
 }
