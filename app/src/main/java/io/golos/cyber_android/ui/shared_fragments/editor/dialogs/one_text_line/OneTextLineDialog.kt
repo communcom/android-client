@@ -13,17 +13,17 @@ class OneTextLineDialog(
     private val resultCallback: (String?) -> Unit) {
 
     //Select dialog's style - colorAccent for options and ? for buttons
-    fun show() : AlertDialog =
-        AlertDialog
+    fun show() : AlertDialog {
+        val dialog = AlertDialog
             .Builder(context, R.style.NotificationDialogStyle)
             .setTitle(title)
             .setCancelable(true)
-            .also { dialog ->
+            .also { builder ->
                 // Inflate view
                 OneTextLineDialogView(context)
                     .apply {
                         text = textToEdit
-                        dialog.setView(this)
+                        builder.setView(this)
                     }
             }
             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -31,13 +31,27 @@ class OneTextLineDialog(
                 resultCallback(dialogView.text)
             }
             .setNegativeButton(R.string.cancel) { _, _ ->
-                resultCallback (null)
+                resultCallback(null)
             }
             .setOnCancelListener {
                 resultCallback(null)
             }
-            .show()
+            .create()
+
+        dialog.show()
+
+        val view = getView(dialog)
+
+        getOkButton(dialog).isEnabled = !view.isTextEmpty
+        view.setTextIsEmptyListener { textIsEmpty ->
+            getOkButton(dialog).isEnabled = !textIsEmpty
+        }
+
+        return dialog
+    }
 
     private fun getView(dialog: AlertDialog): OneTextLineDialogView =
         dialog.findViewById<View>(R.id.dialogOneTextLineRoot)!!.parent as OneTextLineDialogView
+
+    private fun getOkButton(dialog: AlertDialog) = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
 }

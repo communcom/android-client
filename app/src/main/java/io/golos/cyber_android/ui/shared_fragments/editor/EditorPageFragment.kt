@@ -193,7 +193,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
 
         linkInTextButton.setOnClickListener {
-            OneTextLineDialog(requireContext(), "", R.string.enter_link) { tag ->
+            TextAndLinkDialog(requireContext(), "", "", R.string.enter_link) { text, link ->
 
             }
             .show()
@@ -206,7 +206,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
 
         linkExternalButton.setOnClickListener {
-            TextAndLinkDialog(requireContext(), "", "", R.string.enter_link) { text, link ->
+            OneTextLineDialog(requireContext(), "", R.string.enter_link) { tag ->
 
             }
             .show()

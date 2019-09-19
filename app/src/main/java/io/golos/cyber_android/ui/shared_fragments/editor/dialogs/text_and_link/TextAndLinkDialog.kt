@@ -14,8 +14,8 @@ class TextAndLinkDialog(
     private val resultCallback: (String?, String?) -> Unit) {
 
     //Select dialog's style - colorAccent for options and ? for buttons
-    fun show() : AlertDialog =
-        AlertDialog
+    fun show() : AlertDialog {
+        val dialog = AlertDialog
             .Builder(context, R.style.NotificationDialogStyle)
             .setTitle(title)
             .setCancelable(true)
@@ -33,13 +33,27 @@ class TextAndLinkDialog(
                 resultCallback(dialogView.text, dialogView.link)
             }
             .setNegativeButton(R.string.cancel) { _, _ ->
-                resultCallback (null, null)
+                resultCallback(null, null)
             }
             .setOnCancelListener {
                 resultCallback(null, null)
             }
-            .show()
+            .create()
+
+        dialog.show()
+
+        val view = getView(dialog)
+
+        getOkButton(dialog).isEnabled = !view.isTextEmpty
+        view.setTextIsEmptyListener { textIsEmpty ->
+            getOkButton(dialog).isEnabled = !textIsEmpty
+        }
+
+        return dialog
+    }
 
     private fun getView(dialog: AlertDialog): TextAndLinkDialogView =
         dialog.findViewById<View>(R.id.dialogTextAndLinkRoot)!!.parent as TextAndLinkDialogView
+
+    private fun getOkButton(dialog: AlertDialog) = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
 }
