@@ -36,6 +36,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     init {
         super.editorListener = null
+        inputExtensions!!.insertEditText(childCount, null)
     }
 
     public override fun getContentAsSerialized(state: EditorContent): String {

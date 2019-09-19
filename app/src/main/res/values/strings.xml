@@ -116,6 +116,7 @@
     <string name="enter_link">Enter a link</string>
     <string name="link_text">Link text</string>
     <string name="link">Link</string>
+    <string name="start_writing_here">Start writing here…</string>
 
     <!--Sign Up-->
     <string name="select_country">Select Country</string>
