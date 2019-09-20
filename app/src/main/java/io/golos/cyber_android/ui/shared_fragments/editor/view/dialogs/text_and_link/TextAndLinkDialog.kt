@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.editor.dialogs.one_text_line
+package io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link
 
 import android.content.Context
 import android.view.View
@@ -6,11 +6,12 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import io.golos.cyber_android.R
 
-class OneTextLineDialog(
+class TextAndLinkDialog(
     private val context : Context,
     private val textToEdit: String,
+    private val linkToEdit: String,
     @StringRes private val title: Int,
-    private val resultCallback: (String?) -> Unit) {
+    private val resultCallback: (String?, String?) -> Unit) {
 
     //Select dialog's style - colorAccent for options and ? for buttons
     fun show() : AlertDialog {
@@ -18,23 +19,24 @@ class OneTextLineDialog(
             .Builder(context, R.style.NotificationDialogStyle)
             .setTitle(title)
             .setCancelable(true)
-            .also { builder ->
+            .also { dialog ->
                 // Inflate view
-                OneTextLineDialogView(context)
+                TextAndLinkDialogView(context)
                     .apply {
                         text = textToEdit
-                        builder.setView(this)
+                        link = linkToEdit
+                        dialog.setView(this)
                     }
             }
             .setPositiveButton(R.string.ok) { dialog, _ ->
                 val dialogView = getView(dialog as AlertDialog)
-                resultCallback(dialogView.text)
+                resultCallback(dialogView.text, dialogView.link)
             }
             .setNegativeButton(R.string.cancel) { _, _ ->
-                resultCallback(null)
+                resultCallback(null, null)
             }
             .setOnCancelListener {
-                resultCallback(null)
+                resultCallback(null, null)
             }
             .create()
 
@@ -50,8 +52,8 @@ class OneTextLineDialog(
         return dialog
     }
 
-    private fun getView(dialog: AlertDialog): OneTextLineDialogView =
-        dialog.findViewById<View>(R.id.dialogOneTextLineRoot)!!.parent as OneTextLineDialogView
+    private fun getView(dialog: AlertDialog): TextAndLinkDialogView =
+        dialog.findViewById<View>(R.id.dialogTextAndLinkRoot)!!.parent as TextAndLinkDialogView
 
     private fun getOkButton(dialog: AlertDialog) = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
 }

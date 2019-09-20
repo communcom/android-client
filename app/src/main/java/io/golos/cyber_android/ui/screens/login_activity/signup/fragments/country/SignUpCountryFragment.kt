@@ -88,7 +88,6 @@ class SignUpCountryFragment : FragmentBase() {
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
-
     }
 
     private fun onLoadingSuccess() {

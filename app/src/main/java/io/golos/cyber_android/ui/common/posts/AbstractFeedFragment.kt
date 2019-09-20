@@ -17,7 +17,7 @@ import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
+import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.data.errors.AppError
 import io.golos.domain.entities.DiscussionEntity

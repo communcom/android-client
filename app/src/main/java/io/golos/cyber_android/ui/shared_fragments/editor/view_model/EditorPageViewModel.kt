@@ -1,11 +1,19 @@
-package io.golos.cyber_android.ui.shared_fragments.editor
+package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
+import io.golos.cyber4j.sharedmodel.Either
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
+import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.images.ImageUploadUseCase
@@ -20,14 +28,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
+import io.golos.cyber_android.R
 
 /**
  * There can be two types of the user picked image - local and remote. Local image is the image from device camera
  * or gallery. Remote image can only appear if user choose to edit his post - this way image will be already on the remote
  * server and we don't need to upload it again.
  */
-data class UserPickedImageModel(val localUri: Uri? = null,
-                                val remoteUrl: String? = null) {
+data class UserPickedImageModel(val localUri: Uri? = null, val remoteUrl: String? = null) {
     companion object {
         val EMPTY = UserPickedImageModel()
     }
@@ -36,15 +44,18 @@ data class UserPickedImageModel(val localUri: Uri? = null,
 class EditorPageViewModel
 @Inject
 constructor(
+    dispatchersProvider: DispatchersProvider,
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
-    private val postUseCase: PostWithCommentUseCaseImpl?
-) : ViewModel() {
-
-    private val urlParserJobScope = viewModelScope
+    private val postUseCase: PostWithCommentUseCaseImpl?,
+    model: EditorPageModel
+) : ViewModelBase<EditorPageModel>(
+    dispatchersProvider,
+    model
+) {
     private var urlParserJob: Job? = null
 
     /**
@@ -187,7 +198,7 @@ constructor(
 
     private fun parseUrl(content: CharSequence) {
         urlParserJob?.cancel()
-        urlParserJob = urlParserJobScope.launch {
+        urlParserJob = launch {
             delay(1_000)
             Patterns.WEB_URL.matcher(content).apply {
                 if (find()) {
@@ -279,7 +290,11 @@ constructor(
     }
 
     fun onLocalImagePicked(uri: Uri) {
-        attachementImageLiveData.postValue(UserPickedImageModel(localUri = uri))
+        attachementImageLiveData.postValue(
+            UserPickedImageModel(
+                localUri = uri
+            )
+        )
     }
 
     fun clearPickedImage() {
@@ -287,7 +302,11 @@ constructor(
     }
 
     fun onRemoteImagePicked(url: String) {
-        attachementImageLiveData.postValue(UserPickedImageModel(remoteUrl = url))
+        attachementImageLiveData.postValue(
+            UserPickedImageModel(
+                remoteUrl = url
+            )
+        )
     }
 
     /** Stops to listen to updates of a [postToEdit]. Thus needs to be called when
@@ -297,6 +316,30 @@ constructor(
     fun consumePostToEdit() {
         postToEditLiveData.postValue(null)
         postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+    }
+
+    fun addExternalLink(url: String) {
+        launch {
+            command.value = SetLoadingVisibilityCommand(true)
+
+            val linkInfo = model.getExternalLinkInfo(url)
+            when(linkInfo) {
+                is Either.Success -> {
+                    val value = linkInfo.value
+                    Log.d("", "")
+                }
+
+                is Either.Failure -> {
+                    when(linkInfo.value) {
+                        ExternalLinkError.GENERAL_ERROR -> command.value = ShowMessageCommand(R.string.common_general_error)
+                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> command.value = ShowMessageCommand(R.string.post_edit_invalid_resource_type)
+                        ExternalLinkError.INVALID_URL -> command.value = ShowMessageCommand(R.string.post_edit_invalid_url)
+                    }
+                }
+            }
+
+            command.value = SetLoadingVisibilityCommand(false)
+        }
     }
 }
 

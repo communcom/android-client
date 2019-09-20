@@ -30,7 +30,7 @@ import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
-import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageFragment
+import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.adapter.PostPageAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils

@@ -6,7 +6,7 @@
               android:background="@color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context=".ui.shared_fragments.editor.EditorPageFragment">
+              tools:context=".ui.shared_fragments.editor.view.EditorPageFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

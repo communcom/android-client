@@ -39,6 +39,8 @@
     <string name="export_general_error">An error occurred during the export process.</string>
     <string name="post_rendering_general_error">An error occurred during the post showing.</string>
     <string name="post_rendering_low_version_error">Can\'t show the post. Update the application, please.</string>
+    <string name="post_edit_invalid_url">The link is not valid.</string>
+    <string name="post_edit_invalid_resource_type">The type of the resource, described by the link, is not supported.</string>
 
     <string name="hint_search">Search</string>
 

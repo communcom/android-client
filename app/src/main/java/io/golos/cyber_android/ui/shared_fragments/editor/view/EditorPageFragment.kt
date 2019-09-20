@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.editor
+package io.golos.cyber_android.ui.shared_fragments.editor.view
 
 import android.app.Activity
 import android.content.Intent
@@ -19,11 +19,14 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.shared_fragments.editor.dialogs.one_text_line.OneTextLineDialog
-import io.golos.cyber_android.ui.shared_fragments.editor.dialogs.text_and_link.TextAndLinkDialog
+import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
+import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
+import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.utils.ValidationConstants
@@ -154,8 +157,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
 
         linkExternalButton.setOnClickListener {
-            OneTextLineDialog(requireContext(), "", R.string.enter_link) { tag ->
-
+            OneTextLineDialog(requireContext(), "", R.string.enter_link) { url ->
+                url?.let { viewModel.addExternalLink(it) }
             }
             .show()
         }
@@ -195,6 +198,14 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     }
 
     private fun observeViewModel() {
+        viewModel.command.observe(this, Observer { command ->
+            when(command) {
+                is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                else -> throw UnsupportedOperationException("This command is not supported")
+            }
+        })
+
         // todo [AS] see it later
 //        viewModel.getValidationResultLiveData.observe(this, Observer {
 //            post.isEnabled = it

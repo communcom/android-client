@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.editor.dialogs.one_text_line
+package io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line
 
 import android.content.Context
 import android.util.AttributeSet

@@ -5,7 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.shared_fragments.editor.EditorPageViewModel
+import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
+import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
@@ -41,25 +42,34 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
         voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
         commentFeeEntityToModelMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
-        dispatchersProvider: DispatchersProvider
-    ): ViewModel =
-        EditorPageViewModel(
-            embedsUseCase,
-            posterUseCase,
-            imageUploadUseCase,
-            community,
-            postToEdit,
-            if (postToEdit != null) getPostWithCommentsUseCase(
+        dispatchersProvider: DispatchersProvider,
+        model: EditorPageModel
+    ): ViewModel {
+        val postUseCase = if (postToEdit != null) {
+            getPostWithCommentsUseCase(
                 postToEdit,
                 postFeedRepository,
                 postEntityToModelMapper,
                 commentsRepository,
                 voteRepository,
                 commentFeeEntityToModelMapper,
-                dispatchersProvider
-            )
-            else null
+                dispatchersProvider)
+        }
+        else {
+            null
+        }
+
+        return EditorPageViewModel(
+            dispatchersProvider,
+            embedsUseCase,
+            posterUseCase,
+            imageUploadUseCase,
+            community,
+            postToEdit,
+            postUseCase,
+            model
         )
+    }
 
     private fun getPostWithCommentsUseCase(
         postId: DiscussionIdModel?,
