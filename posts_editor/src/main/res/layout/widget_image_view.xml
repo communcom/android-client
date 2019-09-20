@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
         android:layout_marginTop="3dp"
-        android:background="@android:color/transparent"
+
         android:gravity="center_horizontal"
         android:hint="@string/description_here_optional"
         android:paddingLeft="20dp"
@@ -30,7 +30,10 @@
         android:textColor="@color/darkText"
 
         android:maxLength="120"
-        android:maxLines="12"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
+        android:inputType="text"
 
         android:focusable="true"
         android:focusableInTouchMode="true"

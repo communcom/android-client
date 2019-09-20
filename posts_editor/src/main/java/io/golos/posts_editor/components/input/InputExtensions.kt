@@ -9,7 +9,6 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.util.Linkify
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -36,8 +35,8 @@ import io.golos.posts_editor.components.input.spans.custom.LinkSpan
 import io.golos.posts_editor.components.input.spans.custom.MentionSpan
 import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
-import io.golos.posts_editor.models.control_metadata.InputMetadata
 import io.golos.posts_editor.models.*
+import io.golos.posts_editor.models.control_metadata.InputMetadata
 import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
