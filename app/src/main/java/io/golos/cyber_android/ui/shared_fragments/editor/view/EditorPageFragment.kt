@@ -321,8 +321,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun getInitialImageSource() = getArgs().initialImageSource
 
     override fun onImagePicked(uri: Uri) {
-        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, uri)
-        editorWidget.insertImage(bitmap)
+        editorWidget.insertImage(uri, "")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

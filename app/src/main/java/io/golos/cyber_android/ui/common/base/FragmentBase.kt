@@ -4,14 +4,21 @@ import androidx.fragment.app.Fragment
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.LogTags
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 /**
  * [Fragment] that supports showing progress with [LoadingDialog] via
  * [showLoading] and [hideLoading] methods
  */
-abstract class FragmentBase: Fragment() {
+abstract class FragmentBase: Fragment(), CoroutineScope {
+
+    private val scopeJob: Job = SupervisorJob()
 
     private val loadingDialog = LoadingDialog()
 
@@ -19,6 +26,15 @@ abstract class FragmentBase: Fragment() {
 
     @Inject
     protected lateinit var uiHelper: UIHelper
+
+    @Inject
+    protected lateinit var dispatchersProvider: DispatchersProvider
+
+    /**
+     * Context of this scope.
+     */
+    override val coroutineContext: CoroutineContext
+        get() = scopeJob + dispatchersProvider.uiDispatcher
 
     override fun onResume() {
         super.onResume()

@@ -1,26 +1,27 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.*
 import io.golos.cyber4j.sharedmodel.Either
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
@@ -28,8 +29,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 
 /**
  * There can be two types of the user picked image - local and remote. Local image is the image from device camera

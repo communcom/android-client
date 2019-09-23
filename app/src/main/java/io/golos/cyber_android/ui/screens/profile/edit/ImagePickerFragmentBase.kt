@@ -10,7 +10,8 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.ui.common.base.FragmentBase
-import io.golos.domain.BitmapsUtils
+import io.golos.domain.FileSystemHelper
+import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 
@@ -31,7 +32,7 @@ abstract class ImagePickerFragmentBase : FragmentBase() {
     private var currentImageFile: Uri? = null
 
     @Inject
-    internal lateinit var bitmapUtils: BitmapsUtils
+    internal lateinit var fileSystem: FileSystemHelper
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -66,37 +67,22 @@ abstract class ImagePickerFragmentBase : FragmentBase() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            REQUEST_IMAGE_CAPTURE -> if (resultCode == Activity.RESULT_OK) {
-                currentImageFile?.let {
-                    val path = File(requireActivity().externalCacheDir, "camera")
-                    if (!path.exists()) path.mkdirs()
-                    val imageFile = File(path, System.currentTimeMillis().toString() + ".jpg")
-                    requireContext().contentResolver.openInputStream(it).use { input ->
-                        imageFile
-                            .outputStream()
-                            .use { fileOut ->
-                                input?.copyTo(fileOut)
-                            }
+            REQUEST_IMAGE_CAPTURE -> currentImageFile
+            REQUEST_GALLERY_IMAGE -> data?.data
+            else -> null
+        }
+        ?.let { imageUri ->
+            if (resultCode == Activity.RESULT_OK) {
+                launch {
+                    setLoadingVisibility(true)
+                    val imageFile = fileSystem.copyImageToJunkFolder(imageUri)
+                    setLoadingVisibility(false)
+
+                    if(imageFile != null) {
+                        onImagePicked(imageFile)
+                    } else {
+                        onImagePickingCancel()
                     }
-                    bitmapUtils.correctOrientation(imageFile)
-                    onImagePicked(Uri.fromFile(imageFile))
-                }
-            } else {
-                onImagePickingCancel()
-            }
-            REQUEST_GALLERY_IMAGE -> if (resultCode == Activity.RESULT_OK) {
-                data?.data?.let {
-                    val path = File(requireActivity().externalCacheDir, "camera")
-                    if (!path.exists()) path.mkdirs()
-                    val imageFile = File(path, System.currentTimeMillis().toString() + ".jpg")
-                    requireContext().contentResolver.openInputStream(it).use { input ->
-                        imageFile
-                            .outputStream()
-                            .use { fileOut ->
-                                input?.copyTo(fileOut)
-                            }
-                    }
-                    onImagePicked(Uri.fromFile(imageFile))
                 }
             } else {
                 onImagePickingCancel()

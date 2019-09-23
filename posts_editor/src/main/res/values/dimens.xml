@@ -25,7 +25,7 @@
 
     <!--<editor-fold desc="Color selection control">-->
     <dimen name="select_color_item_size">40dp</dimen>
-    <dimen name="select_color_margin">5dp</dimen>
+    <dimen name="select_color_margin">10dp</dimen>
     <!--</editor-fold>-->
 
     <dimen name="padding_main">20dp</dimen>

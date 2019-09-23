@@ -1,10 +1,13 @@
 package io.golos.posts_editor.utilities
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import io.golos.posts_editor.R
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 @Suppress("unused")
 enum class MaterialColor(@ColorRes val value: Int) {
@@ -31,8 +34,20 @@ enum class MaterialColor(@ColorRes val value: Int) {
         @ColorInt
         fun toSystemColor(color: MaterialColor, context: Context): Int = getColor(color.value, context)
 
-        fun fromSystemColor(@ColorInt color: Int, context: Context): MaterialColor =
-            values().first { toSystemColor(it, context) == color }
+        fun fromSystemColor(@ColorInt color: Int, context: Context): MaterialColor {
+            var minDistance = Double.MAX_VALUE
+            lateinit var minValueColor: MaterialColor
+
+            values().forEach { materialColor ->
+                val distance = getDistance(toSystemColor(materialColor, context), color)
+                if(distance < minDistance) {
+                    minDistance = distance
+                    minValueColor = materialColor
+                }
+            }
+
+            return minValueColor
+        }
 
         @Suppress("DEPRECATION")
         @ColorInt
@@ -42,5 +57,11 @@ enum class MaterialColor(@ColorRes val value: Int) {
             } else {
                 context.resources.getColor(resId)
             }
+
+        private fun getDistance(@ColorInt color1: Int, @ColorInt color2: Int): Double =
+            ((Color.red(color1) - Color.red(color2)).toDouble().pow(2) +
+            (Color.green(color1) - Color.green(color2)).toDouble().pow(2) +
+            (Color.blue(color1) - Color.blue(color2)).toDouble().pow(2))
+                .let { sqrt(it) }
     }
 }
