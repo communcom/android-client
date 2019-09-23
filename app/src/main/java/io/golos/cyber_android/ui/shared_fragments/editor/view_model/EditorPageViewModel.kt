@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 
 /**
  * There can be two types of the user picked image - local and remote. Local image is the image from device camera
@@ -325,8 +326,7 @@ constructor(
             val linkInfo = model.getExternalLinkInfo(url)
             when(linkInfo) {
                 is Either.Success -> {
-                    val value = linkInfo.value
-                    Log.d("", "")
+                    command.value = InsertExternalLinkViewCommand(linkInfo.value)
                 }
 
                 is Either.Failure -> {

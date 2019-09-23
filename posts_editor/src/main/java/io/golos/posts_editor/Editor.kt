@@ -2,6 +2,7 @@ package io.golos.posts_editor
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
@@ -140,6 +141,10 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     fun insertImage(bitmap: Bitmap) {
         imageExtensions!!.insertImage(bitmap, null, -1, null, true)
+    }
+
+    fun insertImage(uri: Uri, description: String) {
+        imageExtensions!!.insertImage(null, uri, -1, description, true)
     }
 
     fun onImageUploadComplete(url: String, imageId: String) {

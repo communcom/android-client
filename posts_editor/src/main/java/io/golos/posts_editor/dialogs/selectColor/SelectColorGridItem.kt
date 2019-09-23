@@ -90,7 +90,7 @@ constructor(
         drawingPaint.color = fillColor
         canvas.drawCircle(cx, cy, radius, drawingPaint)
 
-        val strokeWidth = context.resources.getDimension(R.dimen.strokeThin)
+        val strokeWidth = context.resources.getDimension(R.dimen.stroke_thin)
         drawingPaint.style = Paint.Style.STROKE
         drawingPaint.color = strokeColor
         drawingPaint.strokeWidth = strokeWidth

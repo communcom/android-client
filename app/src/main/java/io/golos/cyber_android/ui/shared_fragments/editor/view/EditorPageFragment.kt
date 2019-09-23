@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.utils.ValidationConstants
@@ -202,6 +203,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             when(command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                is InsertExternalLinkViewCommand -> editorWidget.insertImage(command.linkInfo.thumbnailUrl, command.linkInfo.description)
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
         })

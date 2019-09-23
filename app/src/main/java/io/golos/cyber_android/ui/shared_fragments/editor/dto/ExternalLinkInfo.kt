@@ -1,9 +1,10 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.dto
 
+import android.net.Uri
+
 data class ExternalLinkInfo (
  val type: ExternalLinkType,
- val description: String?,
- val title: String?,
- val thumbnailUrl: String?,
- val sourceUrl: String
+ val description: String,
+ val thumbnailUrl: Uri,
+ val sourceUrl: Uri
 )

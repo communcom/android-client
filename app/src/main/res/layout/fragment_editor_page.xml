@@ -187,7 +187,7 @@
 
                     <View
                         android:background="@color/middle_gray"
-                        android:layout_width="@dimen/strokeThin"
+                        android:layout_width="@dimen/stroke_thin"
                         android:layout_height="match_parent"
 
                         android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
@@ -244,7 +244,7 @@
 
                     <View
                         android:background="@color/middle_gray"
-                        android:layout_width="@dimen/strokeThin"
+                        android:layout_width="@dimen/stroke_thin"
                         android:layout_height="match_parent"
 
                         android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
@@ -301,7 +301,7 @@
 
                     <View
                         android:background="@color/middle_gray"
-                        android:layout_width="@dimen/strokeThin"
+                        android:layout_width="@dimen/stroke_thin"
                         android:layout_height="match_parent"
 
                         android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"

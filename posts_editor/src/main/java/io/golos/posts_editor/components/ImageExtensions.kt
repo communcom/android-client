@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.text.TextUtils
 import android.text.util.Linkify
 import android.view.MotionEvent
@@ -31,6 +32,7 @@ import io.golos.posts_editor.models.control_metadata.ImageDescriptionMetadata
 import io.golos.posts_editor.models.control_metadata.ImageMetadata
 import io.golos.posts_editor.utilities.toHtml
 import org.jsoup.nodes.Element
+import java.lang.UnsupportedOperationException
 import java.util.*
 
 class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(editorCore) {
@@ -76,13 +78,13 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
     }
 
     override fun renderEditorFromState(node: Node, content: EditorContent) {
-        val path = node.content!![0]
-        if (editorCore.renderType === RenderType.RENDERER) {
-            loadImage(path, node.childs!![0])
-        } else {
-            val layout = insertImage(null, path, editorCore.childCount, node.childs!![0].content!![0], false)
-            componentsWrapper!!.inputExtensions!!.applyTextSettings(node.childs!![0], layout.findViewById<View>(R.id.descriptionText) as TextView)
-        }
+//        val path = node.content!![0]
+//        if (editorCore.renderType === RenderType.RENDERER) {
+//            loadImage(path, node.childs!![0])
+//        } else {
+//            val layout = insertImage(null, path, editorCore.childCount, node.childs!![0].content!![0], false)
+//            componentsWrapper!!.inputExtensions!!.applyTextSettings(node.childs!![0], layout.findViewById<View>(R.id.descriptionText) as TextView)
+//        }
     }
 
     override fun buildNodeFromHTML(element: Element): Node? {
@@ -119,10 +121,13 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
     }
 
     @SuppressLint("InflateParams")
-    fun insertImage(image: Bitmap?, url: String?, index: Int, subTitle: String?, appendTextline: Boolean): View {
+    fun insertImage(image: Bitmap?, uri: Uri?, index: Int, subTitle: String?, appendTextline: Boolean): View {
         var determineIndex = index
         var hasUploaded = false
-        if (!TextUtils.isEmpty(url)) hasUploaded = true
+
+        if(uri != null) {
+            hasUploaded = true
+        }
 
         // Render(getStateFromString());
         val childLayout = (editorCore.context as Activity).layoutInflater.inflate(R.layout.widget_image_view, null)
@@ -130,8 +135,8 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
 
         val desc = childLayout.findViewById<CustomEditText>(R.id.descriptionText)
 
-        if (!url.isNullOrEmpty()) {
-            loadImageUsingLib(url, imageView)
+        if (uri != null) {
+            loadImageUsingLib(uri, imageView)
         } else {
             imageView.setImageBitmap(image)
         }
@@ -143,7 +148,7 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
         editorCore.parentView!!.addView(childLayout, determineIndex)
 
         // set the imageId,so we can recognize later after upload
-        childLayout.tag = createImageTag(if (hasUploaded) url else uniqueId)
+        childLayout.tag = createImageTag(if (hasUploaded) uri.toString() else uniqueId)
         desc.tag = createSubTitleTag()
 
         desc.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -201,7 +206,7 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
     }
 
     @SuppressLint("CheckResult")
-    fun loadImageUsingLib(path: String, imageView: ImageView) {
+    fun loadImageUsingLib(uri: Uri, imageView: ImageView) {
         if (requestListener == null) {
             requestListener = object : RequestListener<Drawable> {
                 override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
@@ -233,7 +238,7 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
             transition = DrawableTransitionOptions.withCrossFade().crossFade(1000)
         }
         Glide.with(imageView.context)
-                .load(path)
+                .load(uri)
                 .transition(transition!!)
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)   //No disk cache
@@ -337,23 +342,24 @@ class ImageExtensions(private val editorCore: EditorCore) : EditorComponent(edit
 
     @SuppressLint("InflateParams")
     private fun loadImageRemote(path: String, desc: String?): View {
-        val childLayout = (editorCore.context as Activity).layoutInflater.inflate(R.layout.widget_image_view, null)
-        val imageView = childLayout.findViewById<ImageView>(R.id.imageView)
-        val text = childLayout.findViewById<CustomEditText>(R.id.descriptionText)
-
-        childLayout.tag = createImageTag(path)
-        text.tag = createSubTitleTag()
-        if (!desc.isNullOrEmpty()) {
-            componentsWrapper!!.inputExtensions!!.setText(text, desc)
-        }
-        text.isEnabled = editorCore.renderType === RenderType.EDITOR
-        loadImageUsingLib(path, imageView)
-        editorCore.parentView!!.addView(childLayout)
-
-        if (editorCore.renderType === RenderType.EDITOR) {
-            bindEvents(childLayout)
-        }
-
-        return childLayout
+//        val childLayout = (editorCore.context as Activity).layoutInflater.inflate(R.layout.widget_image_view, null)
+//        val imageView = childLayout.findViewById<ImageView>(R.id.imageView)
+//        val text = childLayout.findViewById<CustomEditText>(R.id.descriptionText)
+//
+//        childLayout.tag = createImageTag(path)
+//        text.tag = createSubTitleTag()
+//        if (!desc.isNullOrEmpty()) {
+//            componentsWrapper!!.inputExtensions!!.setText(text, desc)
+//        }
+//        text.isEnabled = editorCore.renderType === RenderType.EDITOR
+//        loadImageUsingLib(path, imageView)
+//        editorCore.parentView!!.addView(childLayout)
+//
+//        if (editorCore.renderType === RenderType.EDITOR) {
+//            bindEvents(childLayout)
+//        }
+//
+//        return childLayout
+        throw UnsupportedOperationException("This operation is not supported")
     }
 }

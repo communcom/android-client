@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.model
 
+import android.net.Uri
 import io.golos.cyber4j.services.model.OEmbedResult
 import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.application.App
@@ -55,11 +56,16 @@ constructor(
         }
         ?: return null
 
+        val thumbnailUrl = when(type) {
+            ExternalLinkType.VIDEO -> serverLinkInfo.thumbnail_url ?: "file:///android_asset/video_stub.webp"
+            ExternalLinkType.WEBSITE -> serverLinkInfo.thumbnail_url ?: "file:///android_asset/website_stub.webp"
+            ExternalLinkType.IMAGE -> sourceUrl
+        }
+
         return ExternalLinkInfo(
             type,
-            serverLinkInfo.description,
-            serverLinkInfo.title,
-            serverLinkInfo.thumbnail_url,
-            sourceUrl)
+            serverLinkInfo.description ?: serverLinkInfo.title ?: sourceUrl,
+            Uri.parse(thumbnailUrl),
+            Uri.parse(sourceUrl))
     }
 }

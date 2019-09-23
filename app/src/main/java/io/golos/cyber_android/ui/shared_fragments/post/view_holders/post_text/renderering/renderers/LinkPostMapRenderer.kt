@@ -15,7 +15,7 @@ class LinkPostMapRenderer(builder: HtmlBuilder) : RendererBase(builder) {
         val imageUrl = when(type) {
             LinkType.IMAGE -> attributes.getString("url")
             LinkType.VIDEO -> attributes.tryString("thumbnail_url") ?: "file:///android_asset/video_stub.webp"
-            LinkType.WEBSITE -> attributes.tryString("thumbnail_url") ?: "file:///android_asset/website_stub"
+            LinkType.WEBSITE -> attributes.tryString("thumbnail_url") ?: "file:///android_asset/website_stub.webp"
             else -> throw UnsupportedOperationException("This type of link is not supported: $type")
         }
 
