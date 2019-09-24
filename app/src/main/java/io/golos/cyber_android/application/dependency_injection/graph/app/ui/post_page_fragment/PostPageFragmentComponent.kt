@@ -2,7 +2,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.pos
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.PostTextViewHolder
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.PostTextViewHolder
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [

@@ -1,0 +1,28 @@
+package io.golos.posts_parsing_rendering.renderering.renderers.exceptions
+
+import io.golos.posts_parsing_rendering.renderering.html_builder.HtmlBuilder
+import io.golos.domain.AppResourcesProvider
+import io.golos.posts_parsing_rendering.R
+
+class ExceptionRenderer(
+    private val appResources: AppResourcesProvider,
+    private val builder: HtmlBuilder
+) {
+    fun render(ex: Exception) {
+        builder.clear()
+
+        builder.putDoctype()
+        builder.putHtml {
+            builder.putStyles()
+
+            builder.putBody {
+                builder.putHeader(
+                    when(ex) {
+                        is IncompatibleVersionsException -> appResources.getString(R.string.post_rendering_low_version_error)
+                        else -> appResources.getString(R.string.post_rendering_general_error)
+                    }
+                , 3)
+            }
+        }
+    }
+}

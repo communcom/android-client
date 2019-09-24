@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/posts_editor" />
+            <option value="$PROJECT_DIR$/posts_parsing_rendering" />
             <option value="$PROJECT_DIR$/shared_core" />
           </set>
         </option>
