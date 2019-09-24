@@ -2,6 +2,7 @@ package io.golos.posts_editor.components.input.spans.calculators
 
 import android.text.style.CharacterStyle
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerRead
+import io.golos.posts_editor.dto.SpanInfo
 import kotlin.reflect.KClass
 
 @Suppress("LeakingThis")

@@ -32,10 +32,10 @@ class MainActivity : ActivityBase() {
 
     enum class Tab(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),
-        COMMUNITIES(1, R.id.navigation_communities),
-        NOTIFICATIONS(2, R.id.navigation_notifications),
+        //COMMUNITIES(1, R.id.navigation_communities),
+        NOTIFICATIONS(1, R.id.navigation_notifications),
         //WALLET(3, R.id.navigation_wallet),
-        PROFILE(3, R.id.navigation_profile)
+        PROFILE(2, R.id.navigation_profile)
     }
 
     private lateinit var viewModel: MainViewModel
@@ -97,7 +97,7 @@ class MainActivity : ActivityBase() {
             override fun createFragment(position: Int): Fragment {
                 return when (Tab.values().find { it.index == position }) {
                     Tab.FEED -> FeedFragment.newInstance("gls", user.name)
-                    Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
+                    //Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
                     Tab.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     //Tab.WALLET -> WalletFragment.newInstance()
                     Tab.PROFILE -> ProfileFragment.newInstance(user.name)

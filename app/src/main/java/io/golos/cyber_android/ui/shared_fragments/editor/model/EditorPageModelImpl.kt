@@ -22,10 +22,10 @@ constructor(
     private val embedApi: EmbedApi
 ) : ModelBaseImpl(), EditorPageModel {
 
-    override suspend fun getExternalLinkInfo(url: String): Either<ExternalLinkInfo, ExternalLinkError> =
+    override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
-                val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(url), url)
+                val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(uri), uri)
                 if(linkInfo == null) {
                     Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.TYPE_IS_NOT_SUPPORTED)
                 } else {

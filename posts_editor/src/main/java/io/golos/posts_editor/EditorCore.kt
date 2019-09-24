@@ -15,15 +15,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
-import com.github.irshulx.components.*
 import io.golos.posts_editor.components.ComponentsWrapper
-import io.golos.posts_editor.components.HTMLExtensions
-import io.golos.posts_editor.components.ImageExtensions
+import io.golos.posts_editor.components.EmbedExtensions
 import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.components.input.InputExtensions
 import io.golos.posts_editor.models.*
-import io.golos.posts_editor.models.control_metadata.ControlMetadata
+import io.golos.posts_editor.dto.control_metadata.ControlMetadata
+import io.golos.posts_editor.dto.control_metadata.EmbedMetadata
+import io.golos.posts_editor.dto.control_metadata.ParagraphMetadata
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.util.*
@@ -42,13 +42,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     protected var inputExtensions: InputExtensions? = null
         private set
 
-    protected var imageExtensions: ImageExtensions? = null
-        private set
-
-    protected var dividerExtensions: DividerExtensions? = null
-        private set
-
-    private var htmlExtensions: HTMLExtensions? = null
+    protected var embedExtensions: EmbedExtensions? = null
         private set
 
     private val editorSettings: EditorSettings = EditorSettings.init(context, this)
@@ -121,12 +115,8 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
                         node = inputExtensions!!.getContent(view)
                         list.add(node)
                     }
-                    EditorType.IMG -> {
-                        node = imageExtensions!!.getContent(view)
-                        list.add(node)
-                    }
-                    EditorType.HR -> {
-                        node = dividerExtensions!!.getContent(view)
+                    EditorType.EMBED -> {
+                        node = embedExtensions!!.getContent(view)
                         list.add(node)
                     }
                     else -> {}
@@ -170,20 +160,15 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     private fun initialize(attrs: AttributeSet) {
         loadStateFromAttrs(attrs)
         inputExtensions = InputExtensions(this)
-        imageExtensions = ImageExtensions(this)
-        dividerExtensions = DividerExtensions(this)
-        htmlExtensions = HTMLExtensions()
+        embedExtensions = EmbedExtensions(this)
 
         componentsWrapper = ComponentsWrapper.Builder()
             .inputExtensions(inputExtensions!!)
-            .htmlExtensions(htmlExtensions!!)
-            .dividerExtensions(dividerExtensions!!)
-            .imageExtensions(imageExtensions!!)
+            .imageExtensions(embedExtensions!!)
             .build()
 
-        dividerExtensions!!.init(componentsWrapper!!)
         inputExtensions!!.init(componentsWrapper!!)
-        imageExtensions!!.init(componentsWrapper!!)
+        embedExtensions!!.init(componentsWrapper!!)
     }
 
 
@@ -238,8 +223,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         for (item in _state.nodes!!) {
             when (item.type) {
                 EditorType.INPUT -> inputExtensions!!.renderEditorFromState(item, _state)
-                EditorType.HR -> dividerExtensions!!.renderEditorFromState(item, _state)
-                EditorType.IMG -> imageExtensions!!.renderEditorFromState(item, _state)
+                EditorType.EMBED -> embedExtensions!!.renderEditorFromState(item, _state)
                 else -> {}
             }
         }
@@ -253,17 +237,14 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         if ("br" == tag.name || "<br>" == element.html().replace("\\s+".toRegex(), "") || "<br/>" == element.html().replace("\\s+".toRegex(), "")) {
             inputExtensions!!.insertEditText(count, null)
             return
-        } else if ("hr" == tag.name || "<hr>" == element.html().replace("\\s+".toRegex(), "") || "<hr/>" == element.html().replace("\\s+".toRegex(), "")) {
-            dividerExtensions!!.buildNodeFromHTML(element)
-            return
         }
 
         when (tag) {
-            HtmlTag.img -> imageExtensions!!.buildNodeFromHTML(element)
+            HtmlTag.img -> embedExtensions!!.buildNodeFromHTML(element)
             HtmlTag.div -> {
                 val dataTag = element.attr("data-tag")
                 if (dataTag == "img") {
-                    imageExtensions!!.buildNodeFromHTML(element)
+                    embedExtensions!!.buildNodeFromHTML(element)
                 } else {
                     inputExtensions!!.buildNodeFromHTML(element)
                 }
@@ -281,11 +262,10 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
                     html = inputExtensions!!.getContentAsHTML(item, content)
                     htmlBlock.append(html)
                 }
-                EditorType.IMG -> {
-                    val imgHtml = imageExtensions!!.getContentAsHTML(item, content)
+                EditorType.EMBED -> {
+                    val imgHtml = embedExtensions!!.getContentAsHTML(item, content)
                     htmlBlock.append(imgHtml)
                 }
-                EditorType.HR -> htmlBlock.append(dividerExtensions!!.getContentAsHTML(item, content))
                 else -> {}
             }
         }
@@ -366,7 +346,13 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         return size
     }
 
-    fun getControlType(view: View?): EditorType? = view?.let { (it.tag as ControlMetadata).type }
+    fun getControlType(view: View?): EditorType? = view?.tag?.let {
+        when(it as ControlMetadata) {
+            is EmbedMetadata -> EditorType.EMBED
+            is ParagraphMetadata -> EditorType.INPUT
+            else -> null
+        }
+    }
 
     fun getControlMetadata(view: View): ControlMetadata = view.tag as ControlMetadata
 
@@ -436,15 +422,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         return false
     }
 
-    private fun checkLastControl(): Boolean {
-        val control = getControlMetadata(parentView!!.getChildAt(0))
-        when (control.type) {
-            EditorType.UL, EditorType.OL -> this.editorSettings.parentView!!.removeAllViews()
-            else -> {}
-        }
-
-        return false
-    }
+    private fun checkLastControl(): Boolean = false
 
     private fun onViewTouched(motionEvent: MotionEvent) {
         var position = -1
@@ -475,12 +453,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     private fun parseHtml(htmlString: String) {
         val doc = Jsoup.parse(htmlString)
         for (element in doc.body().children()) {
-            if (!HTMLExtensions.matchesTag(element.tagName().toLowerCase(Locale.ROOT))) {
-                val tag = element.attr("data-tag")
-                if (tag != "macro") {
-                    continue
-                }
-            }
             buildNodeFromHTML(element)
         }
     }
@@ -500,9 +472,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 continue
             }
         }
-
-        dividerExtensions!!.removeAllDividersBetweenDeletedAndFocusNext(indexOfDeleteItem, nextFocusIndex)
-
 
         if (nextItem != null) {
             val text = nextItem as CustomEditText?

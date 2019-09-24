@@ -6,5 +6,5 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 
 interface EditorPageModel : ModelBase {
-    suspend fun getExternalLinkInfo(url: String): Either<ExternalLinkInfo, ExternalLinkError>
+    suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError>
 }

@@ -3,6 +3,7 @@ package io.golos.posts_editor.components.input
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Handler
 import android.text.*
 import android.text.style.CharacterStyle
@@ -35,19 +36,22 @@ import io.golos.posts_editor.components.input.spans.custom.LinkSpan
 import io.golos.posts_editor.components.input.spans.custom.MentionSpan
 import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
+import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
+import io.golos.posts_editor.dto.*
 import io.golos.posts_editor.models.*
-import io.golos.posts_editor.models.control_metadata.InputMetadata
+import io.golos.posts_editor.dto.control_metadata.ParagraphMetadata
 import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
 import io.golos.posts_editor.utilities.toHtml
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import java.lang.UnsupportedOperationException
 import java.util.*
 import kotlin.reflect.KClass
 
 @Suppress("KDocUnresolvedReference")
-class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(editorCore) {
+class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<ParagraphMetadata>(editorCore) {
     var defaultTextColor = Color.BLACK
 
     var normalTextSize = 16
@@ -64,6 +68,44 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
      * @param the value is true if some text is selected, otherwise it's false
      */
     private var onSelectionChangeListener: ((Boolean) -> Unit)? = null
+
+    /**
+     * @return null if getting metadata from the view is impossible
+     */
+    override fun getMetadata(view: View): ParagraphMetadata? =
+        (view as? CustomEditText)?.let { textEdit ->
+            val spansWorker = SpansWorkerImpl(textEdit.text)
+
+            val spans = mutableListOf<SpanInfo<*>>()
+
+            spansWorker.getSpansWithIntervals<CharacterStyle>(CharacterStyle::class)
+                .forEach {
+                    if(it.spanInterval.last != it.spanInterval.first) {
+                        val spanInfo =
+                            when(it.span) {
+                                is ForegroundColorSpan -> ColorSpanInfo(it.spanInterval, it.span.foregroundColor)
+                                is StyleSpan -> StyleSpanInfo(it.spanInterval, it.span.style.mapTypefaceToEditorTextStyle())
+                                is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value)
+                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value)
+                                is MentionSpan -> MentionSpanInfo(it.spanInterval, it.span.value)
+                                else -> null
+                            }
+
+                        if(spanInfo != null) {
+                            spans.add(spanInfo)
+                        }
+
+                    }
+                }
+
+            val planText = textEdit.text.toString()
+
+            if(planText.isEmpty()) {
+                null
+            } else {
+                ParagraphMetadata(planText, spans)
+            }
+        }
 
     override fun getContent(view: View): Node =
         this.getNodeInstance(view)
@@ -110,7 +152,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
 
     fun insertMention(userName: String) = insertMention(userName, true, false)
 
-    fun insertLinkInText(link: LinkInfo) = insertLinkInText(link.text, link.url, true, false)
+    fun insertLinkInText(link: LinkDisplayInfo, type: LinkType) = insertLinkInText(link.text, type, link.uri, true, false)
 
     fun editTag(tagText: String) {
         if(removeSpecialSpan(TagSpan::class)) {
@@ -128,10 +170,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
         }
     }
 
-    fun editLinkInText(link: LinkInfo) {
+    fun editLinkInText(link: LinkDisplayInfo, type: LinkType) {
         if(removeSpecialSpan(LinkSpan::class)) {
             editor.post {
-                insertLinkInText(link.text, link.url, false, true)
+                insertLinkInText(link.text, type, link.uri, false, true)
             }
         }
     }
@@ -153,10 +195,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
     /**
      * Tries to find a link under a cursor and gets a value of it
      */
-    fun tryGetLinkInTextInfo(): LinkInfo? = getSpecialSpanData(LinkSpan::class) {
+    fun tryGetLinkInTextInfo(): LinkDisplayInfo? = getSpecialSpanData(LinkSpan::class) {
         (it as LinkSpan).value
     }
-    ?.let { LinkInfo(it.first, it.second) }
+    ?.let { LinkDisplayInfo(it.first, it.second.uri) }
 
     @Suppress("UNCHECKED_CAST")
     fun updateTextColor(color: MaterialColor, editText: TextView?) {
@@ -206,10 +248,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
         if (text != null) {
             setText(editText, text)
         }
-
-        // create tag for the editor
-        val metadata = InputMetadata(EditorType.INPUT)
-        editText.tag = metadata
 
         @Suppress("DEPRECATION")
         editText.setBackgroundDrawable(ContextCompat.getDrawable(this.editorCore.context, R.drawable.invisible_edit_text))
@@ -357,7 +395,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
             return view
         } else {
             val view = getNewTextView(text)
-            view.tag = InputMetadata(EditorType.INPUT)
             editorCore.parentView!!.addView(view)
             return view
         }
@@ -482,7 +519,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
         for (i in 0 until startIndex) {
             val view = editorCore.parentView!!.getChildAt(i)
             val editorType = editorCore.getControlType(view)
-            if (editorType === EditorType.HR || editorType === EditorType.IMG || editorType === EditorType.MAP)
+            if (editorType === EditorType.EMBED || editorType === EditorType.MAP)
                 continue
             if (editorType === EditorType.INPUT) {
                 customEditText = view as CustomEditText
@@ -496,7 +533,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
         for (i in startIndex downTo 1) {
             val view = editorCore.parentView!!.getChildAt(i)
             val editorType = editorCore.getControlType(view)
-            if (editorType === EditorType.HR || editorType === EditorType.IMG || editorType === EditorType.MAP)
+            if (editorType === EditorType.EMBED || editorType === EditorType.MAP)
                 continue
             if (editorType === EditorType.INPUT) {
                 setFocus(view as CustomEditText)
@@ -510,10 +547,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
     }
 
     fun applyStyles(editText: TextView, element: Element) {
-        val styles = componentsWrapper!!.htmlExtensions!!.getStyleMap(element)
-        if (styles.containsKey("color")) {
-            updateTextColor(MaterialColor.BLACK, editText)
-        }
+//        val styles = componentsWrapper!!.htmlExtensions!!.getStyleMap(element)
+//        if (styles.containsKey("color")) {
+//            updateTextColor(MaterialColor.BLACK, editText)
+//        }
     }
 
     fun getInputHtml(): String = ""
@@ -557,8 +594,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent(edi
     private fun insertMention(userName: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
         insertSpecialSpan("@$userName", MentionSpan(userName, specialSpansColors), addSpace, tryToMoveCursor)
 
-    private fun insertLinkInText(text: String, url: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan(text, LinkSpan(url, specialSpansColors), addSpace, tryToMoveCursor)
+    private fun insertLinkInText(text: String, type: LinkType, uri: Uri, addSpace: Boolean, tryToMoveCursor: Boolean) =
+        insertSpecialSpan(text, LinkSpan(LinkInfo(type, uri), specialSpansColors), addSpace, tryToMoveCursor)
 
     /**
      * Inserts special span into a cursor position

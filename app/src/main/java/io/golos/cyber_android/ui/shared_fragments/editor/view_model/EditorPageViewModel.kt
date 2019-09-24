@@ -7,9 +7,12 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
+import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.utils.ValidationConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
@@ -318,14 +321,22 @@ constructor(
         postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
     }
 
-    fun addExternalLink(url: String) {
+    fun addExternalLink(uri: String) = processUri(uri) { linkInfo ->
+        InsertExternalLinkViewCommand(linkInfo)
+    }
+
+    fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
+        UpdateLinkInTextViewCommand(isEdit, text, linkInfo.sourceUrl, linkInfo.type)
+    }
+
+    private fun processUri(uri: String, getSuccessViewCommand: (ExternalLinkInfo) -> ViewCommand) {
         launch {
             command.value = SetLoadingVisibilityCommand(true)
 
-            val linkInfo = model.getExternalLinkInfo(url)
+            val linkInfo = model.getExternalLinkInfo(uri)
             when(linkInfo) {
                 is Either.Success -> {
-                    command.value = InsertExternalLinkViewCommand(linkInfo.value)
+                    command.value = getSuccessViewCommand(linkInfo.value)
                 }
 
                 is Either.Failure -> {

@@ -1,13 +1,15 @@
 package io.golos.posts_editor
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
-import io.golos.posts_editor.components.input.LinkInfo
+import io.golos.posts_editor.dto.LinkDisplayInfo
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
+import io.golos.posts_editor.dto.EmbedType
+import io.golos.posts_editor.dto.LinkType
+import io.golos.posts_editor.dto.control_metadata.ControlMetadata
 import io.golos.posts_editor.models.EditorContent
 import io.golos.posts_editor.models.EditorTextStyle
 import io.golos.posts_editor.models.RenderType
@@ -96,8 +98,8 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.insertMention(mention)
     }
 
-    fun insertLinkInText(text: String, url: String) {
-        inputExtensions!!.insertLinkInText(LinkInfo(text, url))
+    fun insertLinkInText(text: String, uri: Uri, type: LinkType) {
+        inputExtensions!!.insertLinkInText(LinkDisplayInfo(text, uri), type)
     }
 
     fun editTag(tag: String) {
@@ -108,8 +110,8 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.editMention(mention)
     }
 
-    fun editLinkInText(text: String, url: String) {
-        inputExtensions!!.editLinkInText(LinkInfo(text, url))
+    fun editLinkInText(text: String, uri: Uri, type: LinkType) {
+        inputExtensions!!.editLinkInText(LinkDisplayInfo(text, uri), type)
     }
 
     /**
@@ -125,36 +127,14 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     /**
      * Tries to find a link under a cursor and gets a value of it
      */
-    fun tryGetLinkInTextInfo(): LinkInfo? = inputExtensions!!.tryGetLinkInTextInfo()
-
-    fun setDividerLayout(layout: Int) {
-        this.dividerExtensions!!.setDividerLayout(layout)
-    }
-
-    fun insertDivider() {
-        dividerExtensions!!.insertDivider(-1)
-    }
+    fun tryGetLinkInTextInfo(): LinkDisplayInfo? = inputExtensions!!.tryGetLinkInTextInfo()
 
     fun openImagePicker() {
-        imageExtensions!!.openImageGallery()
+        embedExtensions!!.openImageGallery()
     }
 
-    fun insertImage(bitmap: Bitmap) {
-        imageExtensions!!.insertImage(bitmap, null, -1, null, true)
-    }
-
-    fun insertImage(uri: Uri, description: String) {
-        imageExtensions!!.insertImage(null, uri, -1, description, true)
-    }
-
-    fun onImageUploadComplete(url: String, imageId: String) {
-        imageExtensions!!.onPostUpload(url, imageId)
-    }
-
-    @Suppress("unused")
-    fun onImageUploadFailed(imageId: String) {
-        imageExtensions!!.onPostUpload(null, imageId)
-    }
+    fun insertEmbed(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String?) =
+        embedExtensions!!.insert(type, sourceUri, displayUri, description)
 
     override fun onKey(v: View, keyCode: Int, event: KeyEvent, editText: CustomEditText): Boolean {
         val onKey = super.onKey(v, keyCode, event, editText)
@@ -170,6 +150,20 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     fun setOnSelectionTextChangeListener(listener: ((Boolean) -> Unit)?) {
         inputExtensions?.setOnSelectionChangeListener(listener)
+    }
+
+    fun getMetadata(): List<ControlMetadata> {
+        val result = mutableListOf<ControlMetadata>()
+
+        parentView?.let { parent ->
+            for(i in 0 until parent.childCount) {
+                parent.getChildAt(i)
+                    .let { inputExtensions!!.getMetadata(it) ?: embedExtensions!!.getMetadata(it) }
+                    ?.let { result.add(it) }
+            }
+        }
+
+        return result
     }
 
     private fun render() {

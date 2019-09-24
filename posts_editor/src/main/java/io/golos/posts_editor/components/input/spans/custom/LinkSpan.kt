@@ -1,11 +1,12 @@
 package io.golos.posts_editor.components.input.spans.custom
 
 import androidx.annotation.ColorInt
+import io.golos.posts_editor.dto.LinkInfo
 
 class LinkSpan(
-    value: String,
+    data: LinkInfo,
     @ColorInt textColor: Int
-) : SpecialSpansBase<String>(value, textColor) {
+) : SpecialSpansBase<LinkInfo>(data, textColor) {
 
     private val typeId = 2525358
 

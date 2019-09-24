@@ -5,10 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +24,12 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.utils.ValidationConstants
@@ -35,6 +37,8 @@ import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
+import io.golos.posts_editor.dto.EmbedType
+import io.golos.posts_editor.dto.LinkType
 import io.golos.posts_editor.models.EditorTextStyle
 import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
@@ -79,7 +83,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         observeViewModel()
 
         close.setOnClickListener { activity?.finish() }
-        post.setOnClickListener { viewModel.post() }
+        post.setOnClickListener {
+            //viewModel.post()
+            val metadata = editorWidget.getMetadata()
+            Log.d("", "")
+        }
 
         title.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
@@ -139,13 +147,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         linkInTextButton.setOnClickListener {
             val oldLink = editorWidget.tryGetLinkInTextInfo()
-            TextAndLinkDialog(requireContext(), oldLink?.text ?: "", oldLink?.url ?: "", R.string.enter_link) { text, url ->
-                if(text != null && url != null) {
-                    if(oldLink == null) {
-                        editorWidget.insertLinkInText(text, url)
-                    } else {
-                        editorWidget.editLinkInText(text, url)
-                    }
+            TextAndLinkDialog(requireContext(), oldLink?.text ?: "", oldLink?.uri?.toString() ?: "", R.string.enter_link) { text, uri ->
+                if(text != null && uri != null) {
+                    viewModel.checkLinkInText(oldLink != null, text, uri)
                 }
             }
             .show()
@@ -203,7 +207,21 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             when(command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
-                is InsertExternalLinkViewCommand -> editorWidget.insertImage(command.linkInfo.thumbnailUrl, command.linkInfo.description)
+
+                is InsertExternalLinkViewCommand ->
+                    with(command.linkInfo) {
+                        editorWidget.insertEmbed(type.mapToEmbedType(), sourceUrl, thumbnailUrl, description)
+                    }
+
+                is UpdateLinkInTextViewCommand ->
+                    with(command) {
+                        if(isEdit) {
+                            editorWidget.editLinkInText(text, uri, type.mapToLinkType())
+                        } else {
+                            editorWidget.insertLinkInText(text, uri, type.mapToLinkType())
+                        }
+                    }
+
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
@@ -320,9 +338,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     override fun getInitialImageSource() = getArgs().initialImageSource
 
-    override fun onImagePicked(uri: Uri) {
-        editorWidget.insertImage(uri, "")
-    }
+    override fun onImagePicked(uri: Uri) = editorWidget.insertEmbed(EmbedType.LOCAL_IMAGE, uri, uri, null)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -451,4 +467,18 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun onImagePickingCancel() {
         //noop
     }
+
+    private fun ExternalLinkType.mapToEmbedType(): EmbedType =
+        when(this) {
+            ExternalLinkType.IMAGE -> EmbedType.EXTERNAL_IMAGE
+            ExternalLinkType.WEBSITE -> EmbedType.EXTERNAL_WEBSITE
+            ExternalLinkType.VIDEO -> EmbedType.EXTERNAL_VIDEO
+        }
+
+    private fun ExternalLinkType.mapToLinkType(): LinkType =
+        when(this) {
+            ExternalLinkType.IMAGE -> LinkType.IMAGE
+            ExternalLinkType.WEBSITE -> LinkType.WEBSITE
+            ExternalLinkType.VIDEO -> LinkType.VIDEO
+        }
 }

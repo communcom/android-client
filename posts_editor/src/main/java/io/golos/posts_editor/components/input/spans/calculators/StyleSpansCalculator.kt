@@ -1,8 +1,10 @@
 package io.golos.posts_editor.components.input.spans.calculators
 
-import android.graphics.Typeface
 import android.text.style.StyleSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerRead
+import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
+import io.golos.posts_editor.dto.SpanInfo
+import io.golos.posts_editor.dto.StyleSpanInfo
 import io.golos.posts_editor.models.EditorTextStyle
 import kotlin.reflect.KClass
 
@@ -34,20 +36,13 @@ class StyleSpansCalculator(spansReader: SpansWorkerRead) : SpansCalculator<Edito
         }
     }
 
-    override fun SpanInfo<EditorTextStyle>.copy(newValue: EditorTextStyle): SpanInfo<EditorTextStyle> = StyleSpanInfo(area, newValue)
+    override fun SpanInfo<EditorTextStyle>.copy(newValue: EditorTextStyle): SpanInfo<EditorTextStyle> =
+        StyleSpanInfo(area, newValue)
 
     override fun createSpanInfo(area: IntRange, newValue: EditorTextStyle): SpanInfo<EditorTextStyle> =
-            StyleSpanInfo(area, newValue)
+        StyleSpanInfo(area, newValue)
 
     override fun getSpanClass(): KClass<*> = StyleSpan::class
 
-    override fun getSpanValue(rawSpan: Any): EditorTextStyle =
-        (rawSpan as StyleSpan).style.let { typeface ->
-            when(typeface) {
-                Typeface.ITALIC -> EditorTextStyle.ITALIC
-                Typeface.BOLD -> EditorTextStyle.BOLD
-                Typeface.BOLD_ITALIC -> EditorTextStyle.BOLD_ITALIC
-                else -> throw UnsupportedOperationException("This typeface is not supported: $typeface")
-            }
-        }
+    override fun getSpanValue(rawSpan: Any): EditorTextStyle = (rawSpan as StyleSpan).style.mapTypefaceToEditorTextStyle()
 }
