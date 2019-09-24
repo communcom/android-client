@@ -1,5 +1,7 @@
 package io.golos.posts_editor.models
 
+import io.golos.domain.post_editor.EditorTextStyle
+
 class Node {
     var type: EditorType? = null
     var content: MutableList<String>? = null

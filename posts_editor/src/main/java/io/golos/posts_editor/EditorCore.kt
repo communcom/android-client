@@ -21,9 +21,9 @@ import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.components.input.InputExtensions
 import io.golos.posts_editor.models.*
-import io.golos.posts_editor.dto.control_metadata.ControlMetadata
-import io.golos.posts_editor.dto.control_metadata.EmbedMetadata
-import io.golos.posts_editor.dto.control_metadata.ParagraphMetadata
+import io.golos.domain.post_editor.ControlMetadata
+import io.golos.domain.post_editor.EmbedMetadata
+import io.golos.domain.post_editor.ParagraphMetadata
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.util.*

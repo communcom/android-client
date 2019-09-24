@@ -7,11 +7,11 @@ import android.view.KeyEvent
 import android.view.View
 import io.golos.posts_editor.dto.LinkDisplayInfo
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
-import io.golos.posts_editor.dto.EmbedType
-import io.golos.posts_editor.dto.LinkType
-import io.golos.posts_editor.dto.control_metadata.ControlMetadata
+import io.golos.domain.post_editor.EmbedType
+import io.golos.domain.post_editor.LinkType
+import io.golos.domain.post_editor.ControlMetadata
 import io.golos.posts_editor.models.EditorContent
-import io.golos.posts_editor.models.EditorTextStyle
+import io.golos.domain.post_editor.EditorTextStyle
 import io.golos.posts_editor.models.RenderType
 import io.golos.posts_editor.utilities.MaterialColor
 

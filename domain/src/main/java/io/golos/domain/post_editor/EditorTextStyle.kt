@@ -1,4 +1,4 @@
-package io.golos.posts_editor.models
+package io.golos.domain.post_editor
 
 enum class EditorTextStyle {
     BOLD,

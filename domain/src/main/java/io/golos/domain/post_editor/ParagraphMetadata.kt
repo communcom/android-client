@@ -1,6 +1,4 @@
-package io.golos.posts_editor.dto.control_metadata
-
-import io.golos.posts_editor.dto.SpanInfo
+package io.golos.domain.post_editor
 
 /**
  * Metadata for a text paragraph

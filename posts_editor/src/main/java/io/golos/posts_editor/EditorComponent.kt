@@ -6,7 +6,7 @@ import io.golos.posts_editor.components.ComponentsWrapper
 import io.golos.posts_editor.models.EditorContent
 import io.golos.posts_editor.models.EditorType
 import io.golos.posts_editor.models.Node
-import io.golos.posts_editor.dto.control_metadata.ControlMetadata
+import io.golos.domain.post_editor.ControlMetadata
 import org.jsoup.nodes.Element
 
 abstract class EditorComponent<TM: ControlMetadata>(private val editorCore: EditorCore) {

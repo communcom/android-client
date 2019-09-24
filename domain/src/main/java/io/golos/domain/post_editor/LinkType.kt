@@ -1,4 +1,4 @@
-package io.golos.posts_editor.dto
+package io.golos.domain.post_editor
 
 enum class LinkType {
     VIDEO,

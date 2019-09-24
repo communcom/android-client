@@ -1,7 +1,6 @@
-package io.golos.posts_editor.dto.control_metadata
+package io.golos.domain.post_editor
 
 import android.net.Uri
-import io.golos.posts_editor.dto.EmbedType
 
 data class EmbedMetadata (
     val type: EmbedType,

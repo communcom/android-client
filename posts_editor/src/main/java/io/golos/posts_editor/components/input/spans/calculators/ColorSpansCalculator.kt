@@ -2,8 +2,8 @@ package io.golos.posts_editor.components.input.spans.calculators
 
 import android.text.style.ForegroundColorSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerRead
-import io.golos.posts_editor.dto.ColorSpanInfo
-import io.golos.posts_editor.dto.SpanInfo
+import io.golos.domain.post_editor.ColorSpanInfo
+import io.golos.domain.post_editor.SpanInfo
 import kotlin.reflect.KClass
 
 class ColorSpansCalculator(spansReader: SpansWorkerRead): SpansCalculator<Int>(spansReader) {

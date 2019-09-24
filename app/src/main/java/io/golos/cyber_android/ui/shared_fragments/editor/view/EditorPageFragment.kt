@@ -37,9 +37,9 @@ import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
-import io.golos.posts_editor.dto.EmbedType
-import io.golos.posts_editor.dto.LinkType
-import io.golos.posts_editor.models.EditorTextStyle
+import io.golos.domain.post_editor.EmbedType
+import io.golos.domain.post_editor.LinkType
+import io.golos.domain.post_editor.EditorTextStyle
 import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*

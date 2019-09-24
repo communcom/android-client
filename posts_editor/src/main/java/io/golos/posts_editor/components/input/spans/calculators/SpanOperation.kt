@@ -1,7 +1,7 @@
 package io.golos.posts_editor.components.input.spans.calculators
 
 import android.text.style.CharacterStyle
-import io.golos.posts_editor.dto.SpanInfo
+import io.golos.domain.post_editor.SpanInfo
 
 sealed class SpanOperation
 

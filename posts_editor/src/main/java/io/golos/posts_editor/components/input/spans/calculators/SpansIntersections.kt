@@ -1,6 +1,6 @@
 package io.golos.posts_editor.components.input.spans.calculators
 
-import io.golos.posts_editor.dto.SpanInfo
+import io.golos.domain.post_editor.SpanInfo
 
 class SpansIntersections<T> {
     val spansIntersectFull = mutableListOf<SpanInfo<T>>()

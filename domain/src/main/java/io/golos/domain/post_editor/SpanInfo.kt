@@ -1,7 +1,6 @@
-package io.golos.posts_editor.dto
+package io.golos.domain.post_editor
 
 import androidx.annotation.ColorInt
-import io.golos.posts_editor.models.EditorTextStyle
 
 abstract class SpanInfo<T> (val area: IntRange, val value: T)
 

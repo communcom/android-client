@@ -23,10 +23,9 @@ import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
-import io.golos.posts_editor.dto.EmbedType
+import io.golos.domain.post_editor.EmbedType
 import io.golos.posts_editor.models.*
-import io.golos.posts_editor.dto.control_metadata.ControlMetadata
-import io.golos.posts_editor.dto.control_metadata.EmbedMetadata
+import io.golos.domain.post_editor.EmbedMetadata
 import org.jsoup.nodes.Element
 import java.util.*
 

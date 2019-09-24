@@ -23,6 +23,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
+import io.golos.domain.post_editor.*
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
@@ -39,14 +40,12 @@ import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
 import io.golos.posts_editor.dto.*
 import io.golos.posts_editor.models.*
-import io.golos.posts_editor.dto.control_metadata.ParagraphMetadata
 import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
 import io.golos.posts_editor.utilities.toHtml
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import java.lang.UnsupportedOperationException
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -83,8 +82,14 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                     if(it.spanInterval.last != it.spanInterval.first) {
                         val spanInfo =
                             when(it.span) {
-                                is ForegroundColorSpan -> ColorSpanInfo(it.spanInterval, it.span.foregroundColor)
-                                is StyleSpan -> StyleSpanInfo(it.spanInterval, it.span.style.mapTypefaceToEditorTextStyle())
+                                is ForegroundColorSpan -> ColorSpanInfo(
+                                    it.spanInterval,
+                                    it.span.foregroundColor
+                                )
+                                is StyleSpan -> StyleSpanInfo(
+                                    it.spanInterval,
+                                    it.span.style.mapTypefaceToEditorTextStyle()
+                                )
                                 is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value)
                                 is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value)
                                 is MentionSpan -> MentionSpanInfo(it.spanInterval, it.span.value)

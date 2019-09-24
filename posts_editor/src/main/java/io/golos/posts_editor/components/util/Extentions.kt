@@ -1,7 +1,7 @@
 package io.golos.posts_editor.components.util
 
 import android.graphics.Typeface
-import io.golos.posts_editor.models.EditorTextStyle
+import io.golos.domain.post_editor.EditorTextStyle
 
 fun Int.mapTypefaceToEditorTextStyle(): EditorTextStyle =
     when(this) {
