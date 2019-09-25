@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
-import io.golos.posts_parsing_rendering.renderering.PostTextRenderingFacade
+import io.golos.posts_parsing_rendering.json_to_html.PostTextRenderingFacade
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.TextRowModel
