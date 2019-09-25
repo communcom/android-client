@@ -95,10 +95,19 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
 
         loadImageUsingLib(displayUri, imageView)
 
-        val determineIndex = editorCore.determineIndex(EditorType.EMBED)
+        // Index of embed in a list of controls
+        var embedIndex = editorCore.determineIndex(EditorType.EMBED)
 
-        showNextInputHint(determineIndex)
-        editorCore.parentView!!.addView(childLayout, determineIndex)
+        // Remove a prior paragraph if the paragraph is empty
+        val priorView = editorCore.parentView.getChildAt(embedIndex-1)
+        if(priorView is CustomEditText && priorView.text.isNullOrEmpty()) {
+            editorCore.parentView.removeViewAt(embedIndex-1)
+            embedIndex--
+        }
+
+        // Insert the embed
+        showNextInputHint(embedIndex)
+        editorCore.parentView.addView(childLayout, embedIndex)
 
         childLayout.tag = EmbedMetadata(type, sourceUri, displayUri, description)
 
@@ -110,9 +119,11 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
             }
         }
 
+        // Put a new paragraph under the embed
         if (editorCore.isLastRow(childLayout)) {
-            componentsWrapper!!.inputExtensions!!.insertEditText(determineIndex + 1, null)
+            componentsWrapper!!.inputExtensions!!.insertEditText(embedIndex + 1, null)
         }
+
         if (!description.isNullOrEmpty()) {
             componentsWrapper!!.inputExtensions!!.setText(desc, description)
         }
@@ -129,24 +140,24 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
     private fun getDescription(view: View): CustomEditText = view.findViewById(R.id.descriptionText)
 
     private fun showNextInputHint(index: Int) {
-        val view = editorCore.parentView!!.getChildAt(index)
-        val type = editorCore.getControlType(view)
-        if (type !== EditorType.INPUT)
-            return
-        val tv = view as TextView
-        tv.hint = editorCore.placeHolder
-        Linkify.addLinks(tv, Linkify.ALL)
+//        val view = editorCore.parentView.getChildAt(index)
+//        val type = editorCore.getControlType(view)
+//        if (type !== EditorType.INPUT)
+//            return
+//        val tv = view as TextView
+//        tv.hint = editorCore.placeHolder
+//        Linkify.addLinks(tv, Linkify.ALL)
     }
 
     private fun hideInputHint(index: Int) {
-        val view = editorCore.parentView!!.getChildAt(index)
+        val view = editorCore.parentView.getChildAt(index)
         val type = editorCore.getControlType(view)
         if (type !== EditorType.INPUT)
             return
 
         var hint = editorCore.placeHolder
         if (index > 0) {
-            val prevView = editorCore.parentView!!.getChildAt(index - 1)
+            val prevView = editorCore.parentView.getChildAt(index - 1)
             val prevType = editorCore.getControlType(prevView)
             if (prevType === EditorType.INPUT)
                 hint = null
@@ -202,8 +213,8 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
         val btnRemove = layout.findViewById<View>(R.id.btn_remove)
 
         btnRemove.setOnClickListener {
-            val index = editorCore.parentView!!.indexOfChild(layout)
-            editorCore.parentView!!.removeView(layout)
+            val index = editorCore.parentView.indexOfChild(layout)
+            editorCore.parentView.removeView(layout)
             hideInputHint(index)
             componentsWrapper!!.inputExtensions!!.setFocusToPrevious(index)
 
@@ -217,8 +228,8 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
                 val height = view.height
 
                 when {
-                    event.y < paddingTop -> editorCore.onViewTouched(0, editorCore.parentView!!.indexOfChild(layout))
-                    event.y > height - paddingBottom -> editorCore.onViewTouched(1, editorCore.parentView!!.indexOfChild(layout))
+                    event.y < paddingTop -> editorCore.onViewTouched(0, editorCore.parentView.indexOfChild(layout))
+                    event.y > height - paddingBottom -> editorCore.onViewTouched(1, editorCore.parentView.indexOfChild(layout))
                 }
 
                 return@OnTouchListener false

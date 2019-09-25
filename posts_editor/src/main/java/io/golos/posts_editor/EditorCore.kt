@@ -63,7 +63,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
      * used to get the editor node
      * @return
      */
-    val parentView: LinearLayout?
+    val parentView: LinearLayout
         get() = this.editorSettings.parentView
 
     /**
@@ -71,7 +71,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
      * @return
      */
     val parentChildCount: Int
-        get() = this.editorSettings.parentView!!.childCount
+        get() = this.editorSettings.parentView.childCount
 
     /**
      * returns whether editor is set as Editor or Rendeder
@@ -107,11 +107,11 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 return null
             }
 
-            val childCount = this.editorSettings.parentView!!.childCount
+            val childCount = this.editorSettings.parentView.childCount
             val editorState = EditorContent()
             val list = ArrayList<Node>()
             for (i in 0 until childCount) {
-                val view = this.editorSettings.parentView!!.getChildAt(i)
+                val view = this.editorSettings.parentView.getChildAt(i)
                 var node = getNodeInstance(view)
                 when (node.type) {
                     EditorType.INPUT -> {
@@ -228,7 +228,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     protected fun renderEditor(_state: EditorContent) {
-        this.editorSettings.parentView!!.removeAllViews()
+        this.editorSettings.parentView.removeAllViews()
         this.editorSettings.serialRenderInProgress = true
         for (item in _state.nodes!!) {
             when (item.type) {
@@ -242,7 +242,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     private fun buildNodeFromHTML(element: Element) {
         val tag = HtmlTag.valueOf(element.tagName().toLowerCase(Locale.ROOT))
-        val count = parentView!!.childCount
+        val count = parentView.childCount
 
         if ("br" == tag.name || "<br>" == element.html().replace("\\s+".toRegex(), "") || "<br/>" == element.html().replace("\\s+".toRegex(), "")) {
             inputExtensions!!.insertEditText(count, null)
@@ -295,7 +295,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     protected open fun clearAllContents() {
-        this.editorSettings.parentView!!.removeAllViews()
+        this.editorSettings.parentView.removeAllViews()
 
     }
 
@@ -339,13 +339,13 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
      * @return
      */
     fun determineIndex(type: EditorType): Int {
-        val size = this.editorSettings.parentView!!.childCount
+        val size = this.editorSettings.parentView.childCount
         if (this.editorSettings.renderType === RenderType.RENDERER) {
             return size
         }
 
         val view = this.editorSettings.activeView ?: return size
-        val currentIndex = this.editorSettings.parentView!!.indexOfChild(view)
+        val currentIndex = this.editorSettings.parentView.indexOfChild(view)
         val tag = getControlType(view)
 
         if (tag === EditorType.INPUT) {
@@ -368,7 +368,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     private fun deleteFocusedPrevious(view: EditText) {
-        val index = this.editorSettings.parentView!!.indexOfChild(view)
+        val index = this.editorSettings.parentView.indexOfChild(view)
         if (index == 0) {
             return
         }
@@ -398,8 +398,8 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     fun isLastRow(view: View): Boolean {
-        val index = this.editorSettings.parentView!!.indexOfChild(view)
-        val length = this.editorSettings.parentView!!.childCount
+        val index = this.editorSettings.parentView.indexOfChild(view)
+        val length = this.editorSettings.parentView.childCount
         return length - 1 == index
     }
 
@@ -419,7 +419,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
         val nextFocus: CustomEditText?
         if (selectionStart == 0 && length > 0) {
-            val index = parentView!!.indexOfChild(editText)
+            val index = parentView.indexOfChild(editText)
             if (index == 0)
                 return false
             nextFocus = inputExtensions!!.getEditTextPrevious(index)
@@ -469,16 +469,16 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     private fun removeParent(view: View): Int {
-        val indexOfDeleteItem = this.editorSettings.parentView!!.indexOfChild(view)
+        val indexOfDeleteItem = this.editorSettings.parentView.indexOfChild(view)
         var nextItem: View? = null
         var nextFocusIndex = -1
 
         //remove hr if its on top of the delete field
-        this.editorSettings.parentView!!.removeView(view)
+        this.editorSettings.parentView.removeView(view)
         Log.d("indexOfDeleteItem", "indexOfDeleteItem : $indexOfDeleteItem")
         for (i in 0 until indexOfDeleteItem) {
-            if (getControlType(this.editorSettings.parentView!!.getChildAt(i)) === EditorType.INPUT) {
-                nextItem = this.editorSettings.parentView!!.getChildAt(i)
+            if (getControlType(this.editorSettings.parentView.getChildAt(i)) === EditorType.INPUT) {
+                nextItem = this.editorSettings.parentView.getChildAt(i)
                 nextFocusIndex = i
                 continue
             }

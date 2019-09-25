@@ -165,12 +165,10 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     fun getMetadata(): List<ControlMetadata> {
         val result = mutableListOf<ControlMetadata>()
 
-        parentView?.let { parent ->
-            for(i in 0 until parent.childCount) {
-                parent.getChildAt(i)
-                    .let { inputExtensions!!.getMetadata(it) ?: embedExtensions!!.getMetadata(it) }
-                    ?.let { result.add(it) }
-            }
+        for(i in 0 until parentView.childCount) {
+            parentView.getChildAt(i)
+                .let { inputExtensions!!.getMetadata(it) ?: embedExtensions!!.getMetadata(it) }
+                ?.let { result.add(it) }
         }
 
         return result
@@ -179,11 +177,9 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     fun getEmbedCount(): Int {
         var counter = 0
 
-        parentView?.let { parent ->
-            for(i in 0 until parent.childCount) {
-                if(parent.getChildAt(i) is EmbedWidget) {
-                    counter++
-                }
+        for(i in 0 until parentView.childCount) {
+            if(parentView.getChildAt(i) is EmbedWidget) {
+                counter++
             }
         }
 

@@ -134,7 +134,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         when (HtmlTag.valueOf(element.tagName().toLowerCase(Locale.ROOT))) {
             HtmlTag.p, HtmlTag.div -> {
                 text = element.html()
-                count = editorCore.parentView!!.childCount
+                count = editorCore.parentView.childCount
                 tv = insertEditText(count, text)
                 applyStyles(tv, element)
             }
@@ -247,9 +247,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         val editText = CustomEditText(ContextThemeWrapper(this.editorCore.context, R.style.WysiwygEditText))
         addEditableStyling(editText)
         editText.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        if (hint != null) {
-            editText.hint = hint
-        }
         if (text != null) {
             setText(editText, text)
         }
@@ -264,8 +261,14 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         editText.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 editText.clearFocus()
+
+                editText.hint = null
             } else {
                 editorCore.activeView = v
+                
+                if (hint != null) {
+                    editText.hint = hint
+                }
             }
         }
 
@@ -304,7 +307,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                                 s.clear()
                             }
 
-                            val index = editorCore.parentView!!.indexOfChild(editText)
+                            val index = editorCore.parentView.indexOfChild(editText)
                             /* if the index was 0, set the placeholder to empty, behaviour happens when the user just press enter
                              */
                             if (index == 0) {
@@ -358,7 +361,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     private fun isLastText(index: Int): Boolean {
         if (index == 0)
             return false
-        val view = editorCore.parentView!!.getChildAt(index - 1)
+        val view = editorCore.parentView.getChildAt(index - 1)
         val type = editorCore.getControlType(view)
         return type === EditorType.INPUT
     }
@@ -379,7 +382,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
              * when user press enter from first line without keyin anything, need to remove the placeholder from that line 0...
              */
             if (position == 1) {
-                val view = editorCore.parentView!!.getChildAt(0)
+                val view = editorCore.parentView.getChildAt(0)
                 val type = editorCore.getControlType(view)
                 if (type === EditorType.INPUT) {
                     val textView = view as TextView
@@ -390,7 +393,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             }
 
             val view = getNewEditTextInst(nextHint, text)
-            editorCore.parentView!!.addView(view, position)
+            editorCore.parentView.addView(view, position)
             editorCore.activeView = view
             val handler = Handler()
             handler.postDelayed({
@@ -400,7 +403,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             return view
         } else {
             val view = getNewTextView(text)
-            editorCore.parentView!!.addView(view)
+            editorCore.parentView.addView(view)
             return view
         }
     }
@@ -522,7 +525,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     fun getEditTextPrevious(startIndex: Int): CustomEditText? {
         var customEditText: CustomEditText? = null
         for (i in 0 until startIndex) {
-            val view = editorCore.parentView!!.getChildAt(i)
+            val view = editorCore.parentView.getChildAt(i)
             val editorType = editorCore.getControlType(view)
             if (editorType === EditorType.EMBED || editorType === EditorType.MAP)
                 continue
@@ -536,7 +539,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     fun setFocusToPrevious(startIndex: Int) {
         for (i in startIndex downTo 1) {
-            val view = editorCore.parentView!!.getChildAt(i)
+            val view = editorCore.parentView.getChildAt(i)
             val editorType = editorCore.getControlType(view)
             if (editorType === EditorType.EMBED || editorType === EditorType.MAP)
                 continue
@@ -548,7 +551,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     fun isInputTextAtPosition(position: Int): Boolean {
-        return editorCore.getControlType(editorCore.parentView!!.getChildAt(position)) === EditorType.INPUT
+        return editorCore.getControlType(editorCore.parentView.getChildAt(position)) === EditorType.INPUT
     }
 
     fun applyStyles(editText: TextView, element: Element) {
@@ -568,7 +571,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         editText.clearFocus()
         val imm = editorCore.activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editText.windowToken, 0)
-        editorCore.parentView!!.removeView(editText)
+        editorCore.parentView.removeView(editText)
     }
 
     fun setLineSpacing(lineSpacing: Float) {
