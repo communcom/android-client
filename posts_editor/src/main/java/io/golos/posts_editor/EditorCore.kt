@@ -24,6 +24,7 @@ import io.golos.posts_editor.models.*
 import io.golos.domain.post_editor.ControlMetadata
 import io.golos.domain.post_editor.EmbedMetadata
 import io.golos.domain.post_editor.ParagraphMetadata
+import io.golos.posts_editor.dto.EditorAction
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.util.*
@@ -33,6 +34,8 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         const val TAG = "EDITOR"
         const val PICK_IMAGE_REQUEST = 1
     }
+
+    private var isSimpleEditor: Boolean = false
 
     open var editorListener: EditorListener? = null
 
@@ -193,6 +196,13 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         return false
     }
 
+    fun getPossibleActions(): List<EditorAction> =
+        if(isSimpleEditor) {
+            listOf(EditorAction.LOCAL_IMAGE)            // Simple editor supports local images only
+        } else {
+            EditorAction.values().toList()
+        }
+
     private fun isViewInBounds(view: View, x: Float, y: Float): Boolean {
 
         val outRect = Rect(view.left, view.top, view.right, view.bottom)
@@ -290,33 +300,36 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
 
-    @SuppressLint("CustomViewStyleable")
+    @SuppressLint("CustomViewStyleable", "Recycle")
     private fun loadStateFromAttrs(attributeSet: AttributeSet?) {
         if (attributeSet == null) {
             return  // quick exit
         }
 
-        var a: TypedArray? = null
-        try {
-            a = context.obtainStyledAttributes(attributeSet, R.styleable.editor)
-            this.editorSettings.placeHolder = a!!.getString(R.styleable.editor_placeholder)
-            this.editorSettings.autoFocus = a.getBoolean(R.styleable.editor_auto_focus, true)
-            val renderType = a.getString(R.styleable.editor_render_type)
-            if (TextUtils.isEmpty(renderType)) {
-                this.editorSettings.renderType = RenderType.EDITOR
-            } else {
-                this.editorSettings.renderType =
-                    if (renderType!!.toLowerCase(Locale.ROOT) == "renderer") {
-                        RenderType.RENDERER
-                    }
-                    else {
-                        RenderType.EDITOR
-                    }
-            }
+        context.obtainStyledAttributes(attributeSet, R.styleable.editor)
+            ?.let { a ->
+                try {
+                    isSimpleEditor = a.getBoolean(R.styleable.editor_is_simple, false)
 
-        } finally {
-            a?.recycle()
-        }
+                    this.editorSettings.placeHolder = a.getString(R.styleable.editor_placeholder)
+                    this.editorSettings.autoFocus = a.getBoolean(R.styleable.editor_auto_focus, true)
+                    val renderType = a.getString(R.styleable.editor_render_type)
+                    if (TextUtils.isEmpty(renderType)) {
+                        this.editorSettings.renderType = RenderType.EDITOR
+                    } else {
+                        this.editorSettings.renderType =
+                            if (renderType!!.toLowerCase(Locale.ROOT) == "renderer") {
+                                RenderType.RENDERER
+                            }
+                            else {
+                                RenderType.EDITOR
+                            }
+                    }
+
+                } finally {
+                    a.recycle()
+                }
+            }
     }
 
     /**
@@ -353,8 +366,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
             else -> null
         }
     }
-
-    fun getControlMetadata(view: View): ControlMetadata = view.tag as ControlMetadata
 
     private fun deleteFocusedPrevious(view: EditText) {
         val index = this.editorSettings.parentView!!.indexOfChild(view)

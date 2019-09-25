@@ -34,6 +34,11 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
     private var requestOptions: RequestOptions? = null
     private var transition: DrawableTransitionOptions? = null
 
+    /**
+     * @param the value is true if some embed was added
+     */
+    private var onEmbedAddedOrRemovedListener: ((Boolean) -> Unit)? = null
+
     @DrawableRes
     var placeholder = -1
     @DrawableRes
@@ -69,6 +74,10 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
         this.componentsWrapper = componentsWrapper
     }
 
+    fun setOnEmbedAddedOrRemovedListener(listener: ((Boolean) -> Unit)?) {
+        this.onEmbedAddedOrRemovedListener = listener
+    }
+
     fun openImageGallery() {
         val intent = Intent()
         intent.type = "image/*"
@@ -79,7 +88,7 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
     @SuppressLint("InflateParams")
     fun insert(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String?) {
         // Render(getStateFromString());
-        val childLayout = (editorCore.context as Activity).layoutInflater.inflate(R.layout.widget_image_view, null)
+        val childLayout = EmbedWidget(editorCore.context)
         val imageView = childLayout.findViewById<ImageView>(R.id.imageView)
 
         val desc = getDescription(childLayout)
@@ -113,6 +122,8 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
         } else {
             desc.isEnabled = false
         }
+
+        onEmbedAddedOrRemovedListener?.invoke(true)
     }
 
     private fun getDescription(view: View): CustomEditText = view.findViewById(R.id.descriptionText)
@@ -195,6 +206,8 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
             editorCore.parentView!!.removeView(layout)
             hideInputHint(index)
             componentsWrapper!!.inputExtensions!!.setFocusToPrevious(index)
+
+            onEmbedAddedOrRemovedListener?.invoke(false)
         }
 
         layout.setOnTouchListener(View.OnTouchListener { view, event ->

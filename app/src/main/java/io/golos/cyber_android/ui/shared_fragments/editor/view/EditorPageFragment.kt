@@ -40,6 +40,7 @@ import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.domain.post_editor.EmbedType
 import io.golos.domain.post_editor.LinkType
 import io.golos.domain.post_editor.EditorTextStyle
+import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
@@ -99,73 +100,100 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
         title.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_POST_TITLE_LENGTH))
 
-        setupToolButtons()
+        setupEditorToolButtons()
     }
 
-    private fun setupToolButtons() {
+    private fun setupEditorToolButtons() {
         nsfwButton.setOnClickListener {
             viewModel.switchNSFW()
         }
 
-        boldButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.BOLD) }
-        italicButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.ITALIC) }
+        editorWidget.getPossibleActions().forEach { possibleAction ->
+            when(possibleAction) {
+                EditorAction.TEXT_BOLD -> {
+                    boldButton.visibility = View.VISIBLE
+                    boldButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.BOLD) }
+                }
+                EditorAction.TEXT_ITALIC -> {
+                    italicButton.visibility = View.VISIBLE
+                    italicButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.ITALIC) }
+                }
+                EditorAction.TEXT_COLOR -> {
+                    textColorButton.visibility = View.VISIBLE
+                    textColorButton.setOnClickListener {
+                        SelectColorDialog(this.requireContext(), MaterialColor.BLACK, R.string.select_text_color, R.string.ok, R.string.cancel) { selectedColor ->
+                            selectedColor?.let { editorWidget.updateTextColor(it) }
+                        }
+                        .show()
+                    }
+                }
+                EditorAction.TAG -> {
+                    tagButton.visibility = View.VISIBLE
+                    tagButton.setOnClickListener {
+                        val oldTextOfTag = editorWidget.tryGetTextOfTag()
+                        OneTextLineDialog(requireContext(), oldTextOfTag ?: "", R.string.enter_tag) { newTextOfTag ->
+                            newTextOfTag?.let {
+                                if(oldTextOfTag == null) {
+                                    editorWidget.insertTag(it)
+                                } else {
+                                    editorWidget.editTag(it)
+                                }
+                            }
+                        }
+                        .show()
+                    }
+                }
+                EditorAction.MENTION -> {
+                    mentionButton.visibility = View.VISIBLE
+                    mentionButton.setOnClickListener {
+                        val oldTextOfMention = editorWidget.tryGetTextOfMention()
+                        OneTextLineDialog(requireContext(), oldTextOfMention ?: "", R.string.enter_user_name) { newTextOfMention ->
+                            newTextOfMention?.let {
+                                if(oldTextOfMention == null) {
+                                    editorWidget.insertMention(it)
+                                } else {
+                                    editorWidget.editMention(it)
+                                }
+                            }
+                        }
+                        .show()
+                    }
+                }
+                EditorAction.LINK -> {
+                    linkInTextButton.visibility = View.VISIBLE
+                    linkInTextButton.setOnClickListener {
+                        val oldLink = editorWidget.tryGetLinkInTextInfo()
+                        TextAndLinkDialog(requireContext(), oldLink?.text ?: "", oldLink?.uri?.toString() ?: "", R.string.enter_link) { text, uri ->
+                            if(text != null && uri != null) {
+                                viewModel.checkLinkInText(oldLink != null, text, uri)
+                            }
+                        }
+                        .show()
+                    }
+                }
+                EditorAction.LOCAL_IMAGE -> {
+                    viewModel.setEmbedCount(editorWidget.getEmbedCount())
 
-        textColorButton.setOnClickListener {
-            SelectColorDialog(this.requireContext(), MaterialColor.BLACK, R.string.select_text_color, R.string.ok, R.string.cancel) { selectedColor ->
-                selectedColor?.let { editorWidget.updateTextColor(it) }
-            }
-            .show()
-        }
+                    photoButton.visibility = View.VISIBLE
+                    photoButton.setOnClickListener {
+                        ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
+                            setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
+                        }
+                        .show(requireFragmentManager(), "cover")
+                    }
 
-        tagButton.setOnClickListener {
-            val oldTextOfTag = editorWidget.tryGetTextOfTag()
-            OneTextLineDialog(requireContext(), oldTextOfTag ?: "", R.string.enter_tag) { newTextOfTag ->
-                newTextOfTag?.let {
-                    if(oldTextOfTag == null) {
-                        editorWidget.insertTag(it)
-                    } else {
-                        editorWidget.editTag(it)
+                    editorWidget.setOnEmbedAddedOrRemovedListener { isAdded -> viewModel.processEmbedAddedOrRemoved(isAdded)  }
+                }
+                EditorAction.EXTERNAL_LINK -> {
+                    linkExternalButton.visibility = View.VISIBLE
+                    linkExternalButton.setOnClickListener {
+                        OneTextLineDialog(requireContext(), "", R.string.enter_link) { url ->
+                            url?.let { viewModel.addExternalLink(it) }
+                        }
+                        .show()
                     }
                 }
             }
-            .show()
-        }
-
-        mentionButton.setOnClickListener {
-            val oldTextOfMention = editorWidget.tryGetTextOfMention()
-            OneTextLineDialog(requireContext(), oldTextOfMention ?: "", R.string.enter_user_name) { newTextOfMention ->
-                newTextOfMention?.let {
-                    if(oldTextOfMention == null) {
-                        editorWidget.insertMention(it)
-                    } else {
-                        editorWidget.editMention(it)
-                    }
-                }
-            }
-            .show()
-        }
-
-        linkInTextButton.setOnClickListener {
-            val oldLink = editorWidget.tryGetLinkInTextInfo()
-            TextAndLinkDialog(requireContext(), oldLink?.text ?: "", oldLink?.uri?.toString() ?: "", R.string.enter_link) { text, uri ->
-                if(text != null && uri != null) {
-                    viewModel.checkLinkInText(oldLink != null, text, uri)
-                }
-            }
-            .show()
-        }
-
-        photoButton.setOnClickListener {
-            ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
-                setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
-            }.show(requireFragmentManager(), "cover")
-        }
-
-        linkExternalButton.setOnClickListener {
-            OneTextLineDialog(requireContext(), "", R.string.enter_link) { url ->
-                url?.let { viewModel.addExternalLink(it) }
-            }
-            .show()
         }
 
         boldButton.isEnabled = false
@@ -225,6 +253,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
+
+        viewModel.isPhotoButtonEnabled.observe(this, Observer { photoButton.isEnabled = it })
 
         // todo [AS] see it later
 //        viewModel.getValidationResultLiveData.observe(this, Observer {

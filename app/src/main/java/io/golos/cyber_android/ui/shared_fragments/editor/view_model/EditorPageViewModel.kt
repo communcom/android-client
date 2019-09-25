@@ -71,6 +71,8 @@ constructor(
 
     private var lastFile: File? = null
 
+    private var embedCount = 0
+
     /**
      * State of uploading image to remote server
      */
@@ -99,6 +101,7 @@ constructor(
      */
     val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
 
+    val isPhotoButtonEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
 
     /**
      * [LiveData] for image picked by user for this post. If null then there is not image.
@@ -327,6 +330,20 @@ constructor(
 
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
         UpdateLinkInTextViewCommand(isEdit, text, linkInfo.sourceUrl, linkInfo.type)
+    }
+
+    fun setEmbedCount(count: Int) {
+        embedCount = count
+        isPhotoButtonEnabled.value = embedCount == 0
+    }
+
+    fun processEmbedAddedOrRemoved(isAdded: Boolean) {
+        if(isAdded) {
+            embedCount++
+        } else {
+            embedCount--
+        }
+        isPhotoButtonEnabled.value = embedCount == 0
     }
 
     private fun processUri(uri: String, getSuccessViewCommand: (ExternalLinkInfo) -> ViewCommand) {

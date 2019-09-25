@@ -12,6 +12,7 @@ import io.golos.domain.post_editor.LinkType
 import io.golos.domain.post_editor.ControlMetadata
 import io.golos.posts_editor.models.EditorContent
 import io.golos.domain.post_editor.EditorTextStyle
+import io.golos.posts_editor.components.EmbedWidget
 import io.golos.posts_editor.models.RenderType
 import io.golos.posts_editor.utilities.MaterialColor
 
@@ -21,6 +22,11 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
      * @param the value is true if some text is selected, otherwise it's false
      */
     private var onSelectionTextChangeListener: ((Boolean) -> Unit)? = null
+
+    /**
+     * @param the value is true if some text is selected, otherwise it's false
+     */
+    private var onEmbedAddedOrRemovedListener: ((Boolean) -> Unit)? = null
 
     override var editorListener: EditorListener?
         get() = super.editorListener
@@ -152,6 +158,10 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions?.setOnSelectionChangeListener(listener)
     }
 
+    fun setOnEmbedAddedOrRemovedListener(listener: ((Boolean) -> Unit)?) {
+        embedExtensions?.setOnEmbedAddedOrRemovedListener(listener)
+    }
+
     fun getMetadata(): List<ControlMetadata> {
         val result = mutableListOf<ControlMetadata>()
 
@@ -164,6 +174,20 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         }
 
         return result
+    }
+
+    fun getEmbedCount(): Int {
+        var counter = 0
+
+        parentView?.let { parent ->
+            for(i in 0 until parent.childCount) {
+                if(parent.getChildAt(i) is EmbedWidget) {
+                    counter++
+                }
+            }
+        }
+
+        return counter
     }
 
     private fun render() {

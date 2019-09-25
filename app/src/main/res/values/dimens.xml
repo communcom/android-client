@@ -159,7 +159,6 @@
     <!--Editor Page-->
     <dimen name="padding_vertical_editor_page_buttons">8dp</dimen>
     <dimen name="padding_horizontal_editor_page_buttons">8dp</dimen>
-    <dimen name="margin_vertical_editor_page_groups">8dp</dimen>
 
     <dimen name="margin_vertical_editor_page_community_avatar">8dp</dimen>
     <dimen name="margin_top_editor_page_title">6dp</dimen>

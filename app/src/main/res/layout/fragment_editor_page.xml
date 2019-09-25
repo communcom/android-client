@@ -136,6 +136,7 @@
 
                     app:render_type="Editor"
                     app:placeholder="@string/start_writing_here"
+                    app:is_simple = "true"
                 />
             </LinearLayout>
 
@@ -185,160 +186,165 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                    <View
-                        android:background="@color/middle_gray"
-                        android:layout_width="@dimen/stroke_thin"
-                        android:layout_height="match_parent"
+                    <ImageView
+                        android:id="@+id/boldButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                        android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
-                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_groups"
-                    />
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                        android:layout_gravity="start|center_vertical"
+
+                        app:srcCompat="@drawable/ic_bold"
+                        app:tint = "@color/tint_edit_post_button"
+
+                        android:visibility="gone"
+                        tools:visibility="visible"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
-                            android:id="@+id/boldButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                        android:id="@+id/italicButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
-                            android:layout_gravity="start|center_vertical"
+                        android:layout_gravity="start|center_vertical"
 
-                            app:srcCompat="@drawable/ic_bold"
-                            app:tint = "@color/tint_edit_post_button"
+                        app:srcCompat="@drawable/ic_italic"
+                        app:tint = "@color/tint_edit_post_button"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:visibility="gone"
+                        tools:visibility="visible"
 
-                    <ImageView
-                            android:id="@+id/italicButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
-
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
-
-                            android:layout_gravity="start|center_vertical"
-
-                            app:srcCompat="@drawable/ic_italic"
-                            app:tint = "@color/tint_edit_post_button"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
-                            android:id="@+id/textColorButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                        android:id="@+id/textColorButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
-                            android:layout_gravity="start|center_vertical"
+                        android:layout_gravity="start|center_vertical"
 
-                            app:srcCompat="@drawable/ic_text_color"
-                            app:tint = "@color/tint_edit_post_button"
+                        app:srcCompat="@drawable/ic_text_color"
+                        app:tint = "@color/tint_edit_post_button"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:visibility="gone"
+                        tools:visibility="visible"
 
-                    <View
-                        android:background="@color/middle_gray"
-                        android:layout_width="@dimen/stroke_thin"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
-                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_groups"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
-                            android:id="@+id/tagButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                        android:id="@+id/tagButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
-                            android:layout_gravity="start|center_vertical"
+                        android:layout_gravity="start|center_vertical"
 
-                            app:srcCompat="@drawable/ic_tag"
-                            app:tint = "@color/tint_edit_post_button"
+                        app:srcCompat="@drawable/ic_tag"
+                        app:tint = "@color/tint_edit_post_button"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:visibility="gone"
+                        tools:visibility="visible"
 
-                    <ImageView
-                            android:id="@+id/mentionButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
-
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
-
-                            android:layout_gravity="start|center_vertical"
-
-                            app:srcCompat="@drawable/ic_mention"
-                            app:tint = "@color/tint_edit_post_button"
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
-                            android:id="@+id/linkInTextButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                        android:id="@+id/mentionButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
-                            android:layout_gravity="start|center_vertical"
+                        android:layout_gravity="start|center_vertical"
 
-                            app:srcCompat="@drawable/ic_link_in_text"
-                            app:tint = "@color/tint_edit_post_button"
+                        app:srcCompat="@drawable/ic_mention"
+                        app:tint = "@color/tint_edit_post_button"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:visibility="gone"
+                        tools:visibility="visible"
 
-                    <View
-                        android:background="@color/middle_gray"
-                        android:layout_width="@dimen/stroke_thin"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginTop="@dimen/margin_vertical_editor_page_groups"
-                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_groups"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
-                            android:id="@+id/photoButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                        android:id="@+id/linkInTextButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
-                            android:layout_gravity="start|center_vertical"
+                        android:layout_gravity="start|center_vertical"
 
-                            app:srcCompat="@drawable/ic_editor_widget_camera"
-                            app:tint = "@color/tint_edit_post_button"
+                        app:srcCompat="@drawable/ic_link_in_text"
+                        app:tint = "@color/tint_edit_post_button"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:visibility="gone"
+                        tools:visibility="visible"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
-                            android:id="@+id/linkExternalButton"
-                            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                        android:id="@+id/photoButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-                            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
 
-                            android:layout_gravity="start|center_vertical"
+                        android:layout_gravity="start|center_vertical"
 
-                            app:srcCompat="@drawable/ic_link_external"
-                            app:tint = "@color/tint_edit_post_button"
+                        app:srcCompat="@drawable/ic_editor_widget_camera"
+                        app:tint = "@color/tint_edit_post_button"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                        android:visibility="gone"
+                        tools:visibility="visible"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/linkExternalButton"
+                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
+                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+
+                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
+                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+
+                        android:layout_gravity="start|center_vertical"
+
+                        app:srcCompat="@drawable/ic_link_external"
+                        app:tint = "@color/tint_edit_post_button"
+
+                        android:visibility="gone"
+                        tools:visibility="visible"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:ignore="ContentDescription" />
                 </LinearLayout>
             </HorizontalScrollView>
         </ScrollView>
