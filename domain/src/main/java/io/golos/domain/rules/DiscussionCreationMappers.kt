@@ -1,8 +1,8 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.utils.toCyberName
 import io.golos.domain.Regexps
@@ -101,8 +101,8 @@ constructor() : EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionC
 
 class DiscussionCreateResultToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity> {
-    override suspend fun invoke(cyberObject: CreatemssgPublishStruct): DiscussionCreationResultEntity {
+constructor() : CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity> {
+    override suspend fun invoke(cyberObject: CreatemssgGlsPublishStruct): DiscussionCreationResultEntity {
         return when (cyberObject.parent_id.author.name.orEmpty().isEmpty()) {
 
             true -> PostCreationResultEntity(
@@ -128,8 +128,8 @@ constructor() : CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationR
 
 class DiscussionUpdateResultToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity> {
-    override suspend fun invoke(cyberObject: UpdatemssgPublishStruct): UpdatePostResultEntity {
+constructor() : CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity> {
+    override suspend fun invoke(cyberObject: UpdatemssgGlsPublishStruct): UpdatePostResultEntity {
         return UpdatePostResultEntity(
             DiscussionIdEntity(
                 cyberObject.message_id.author.name,
@@ -142,8 +142,8 @@ constructor() : CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEnt
 
 class DiscussionDeleteResultToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity> {
-    override suspend fun invoke(cyberObject: DeletemssgPublishStruct): DeleteDiscussionResultEntity {
+constructor() : CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity> {
+    override suspend fun invoke(cyberObject: DeletemssgGlsPublishStruct): DeleteDiscussionResultEntity {
         return DeleteDiscussionResultEntity(
             DiscussionIdEntity(
                 cyberObject.message_id.author.name,

@@ -265,7 +265,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                 editText.hint = null
             } else {
                 editorCore.activeView = v
-                
+
                 if (hint != null) {
                     editText.hint = hint
                 }

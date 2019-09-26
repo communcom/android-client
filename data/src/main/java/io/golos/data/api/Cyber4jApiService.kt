@@ -1,12 +1,12 @@
 package io.golos.data.api
 
 import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.VotePublishStruct
-import io.golos.cyber4j.abi.implementation.social.PinSocialStruct
-import io.golos.cyber4j.abi.implementation.social.UpdatemetaSocialStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.VoteGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.social.PinGlsSocialStruct
+import io.golos.cyber4j.abi.implementation.gls.social.UpdatemetaGlsSocialStruct
 import io.golos.cyber4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.services.model.*
@@ -120,7 +120,7 @@ constructor(private val cyber4j: Cyber4J) :
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: String,
         voteStrength: Short
-    ): TransactionCommitted<VotePublishStruct> {
+    ): TransactionCommitted<VoteGlsPublishStruct> {
         return cyber4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
             .getOrThrow()
     }
@@ -142,7 +142,7 @@ constructor(private val cyber4j: Cyber4J) :
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): kotlin.Pair<TransactionCommitted<CreatemssgPublishStruct>, CreatemssgPublishStruct> {
+    ): kotlin.Pair<TransactionCommitted<CreatemssgGlsPublishStruct>, CreatemssgGlsPublishStruct> {
         return cyber4j.createComment(
             body,
             parentAccount,
@@ -168,7 +168,7 @@ constructor(private val cyber4j: Cyber4J) :
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): kotlin.Pair<TransactionCommitted<CreatemssgPublishStruct>, CreatemssgPublishStruct> {
+    ): kotlin.Pair<TransactionCommitted<CreatemssgGlsPublishStruct>, CreatemssgGlsPublishStruct> {
         return cyber4j.createPost(
             title,
             body,
@@ -191,12 +191,12 @@ constructor(private val cyber4j: Cyber4J) :
         newBody: String,
         newTags: List<Tag>,
         newJsonMetadata: DiscussionCreateMetadata
-    ): kotlin.Pair<TransactionCommitted<UpdatemssgPublishStruct>, UpdatemssgPublishStruct> {
+    ): kotlin.Pair<TransactionCommitted<UpdatemssgGlsPublishStruct>, UpdatemssgGlsPublishStruct> {
         return cyber4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
             .getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionCommitted<DeletemssgPublishStruct>, DeletemssgPublishStruct> {
+    override fun deletePostOrComment(postOrCommentPermlink: String): kotlin.Pair<TransactionCommitted<DeletemssgGlsPublishStruct>, DeletemssgGlsPublishStruct> {
         return cyber4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
             .getOrThrow().run {
                 this to this.extractResult()
@@ -276,7 +276,7 @@ constructor(private val cyber4j: Cyber4J) :
         about: String?,
         coverImage: String?,
         profileImage: String?
-    ): TransactionCommitted<UpdatemetaSocialStruct> {
+    ): TransactionCommitted<UpdatemetaGlsSocialStruct> {
         return cyber4j.setUserMetadata(
             about = about,
             coverImage = coverImage,
@@ -289,11 +289,11 @@ constructor(private val cyber4j: Cyber4J) :
         return cyber4j.getUserMetadata(user, null).getOrThrow()
     }
 
-    override fun pin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
+    override fun pin(user: CyberName): kotlin.Pair<TransactionCommitted<PinGlsSocialStruct>, PinGlsSocialStruct> {
         return cyber4j.pin(user, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)).getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun unPin(user: CyberName): kotlin.Pair<TransactionCommitted<PinSocialStruct>, PinSocialStruct> {
+    override fun unPin(user: CyberName): kotlin.Pair<TransactionCommitted<PinGlsSocialStruct>, PinGlsSocialStruct> {
         return cyber4j.unPin(user, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)).getOrThrow().run { this to this.extractResult() }
     }
 

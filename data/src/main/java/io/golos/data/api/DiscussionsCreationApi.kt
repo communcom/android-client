@@ -1,8 +1,8 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
 import io.golos.cyber4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.cyber4j.model.*
 import io.golos.cyber4j.sharedmodel.CyberName
@@ -21,7 +21,7 @@ interface DiscussionsCreationApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): Pair<TransactionCommitted<CreatemssgPublishStruct>, CreatemssgPublishStruct>
+    ): Pair<TransactionCommitted<CreatemssgGlsPublishStruct>, CreatemssgGlsPublishStruct>
 
     fun createPost(
         title: String,
@@ -31,15 +31,15 @@ interface DiscussionsCreationApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): Pair<TransactionCommitted<CreatemssgPublishStruct>, CreatemssgPublishStruct>
+    ): Pair<TransactionCommitted<CreatemssgGlsPublishStruct>, CreatemssgGlsPublishStruct>
 
     fun updatePost(postPermlink: String,
                    newTitle: String,
                    newBody: String,
                    newTags: List<Tag>,
                    newJsonMetadata: DiscussionCreateMetadata
-    ): Pair<TransactionCommitted<UpdatemssgPublishStruct>, UpdatemssgPublishStruct>
+    ): Pair<TransactionCommitted<UpdatemssgGlsPublishStruct>, UpdatemssgGlsPublishStruct>
 
     fun deletePostOrComment(postOrCommentPermlink: String):
-            Pair<TransactionCommitted<DeletemssgPublishStruct>, DeletemssgPublishStruct>
+            Pair<TransactionCommitted<DeletemssgGlsPublishStruct>, DeletemssgGlsPublishStruct>
 }

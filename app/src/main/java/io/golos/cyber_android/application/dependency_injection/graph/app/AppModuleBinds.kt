@@ -3,9 +3,9 @@ package io.golos.cyber_android.application.dependency_injection.graph.app
 import dagger.Binds
 import dagger.Module
 import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.abi.implementation.publish.CreatemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.DeletemssgPublishStruct
-import io.golos.cyber4j.abi.implementation.publish.UpdatemssgPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
+import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.services.model.MobileShowSettings
 import io.golos.cyber4j.services.model.UserMetadataResult
@@ -151,13 +151,13 @@ abstract class AppModuleBinds {
     abstract fun providecyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
 
     @Binds
-    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgPublishStruct, DiscussionCreationResultEntity>
+    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>
 
     @Binds
-    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgPublishStruct, UpdatePostResultEntity>
+    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>
 
     @Binds
-    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgPublishStruct, DeleteDiscussionResultEntity>
+    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>
 
     @Binds
     abstract fun provideRequestEntityToArgumentsMapper(mapper: RequestEntityToArgumentsMapper): EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>
