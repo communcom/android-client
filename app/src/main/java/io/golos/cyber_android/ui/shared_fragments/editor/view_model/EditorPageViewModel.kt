@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
+import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
@@ -32,6 +33,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 /**
@@ -165,8 +167,10 @@ constructor(
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { result ->
         if (result is QueryResult.Success) {
-            if (validate(title, content)) {
-                if (postToEdit == null) createPost(listOf(result.originalQuery.url)) else editPost(listOf(result.originalQuery.url))
+            if (postToEdit == null) {
+                createPost(listOf(result.originalQuery.url))
+            } else {
+                editPost(listOf(result.originalQuery.url))
             }
         }
     }
@@ -194,12 +198,10 @@ constructor(
 
     fun onTitleChanged(title: String) {
         this.title = title
-        validate(title, this.content)
     }
 
     fun onContentChanged(content: CharSequence) {
         this.content = content
-        validate(this.title, content)
         parseUrl(content)
     }
 
@@ -227,37 +229,52 @@ constructor(
      * Creates new post. Result of creation can be listened by [discussionCreationLiveData]
      */
     fun post(editorMetadata: List<ControlMetadata>) {
-        if (validate(title, content)) {
-
-            viewModelScope.launch {
-                getAttachedImageLiveData.value?.localUri?.let { uri ->
-                    val imageFile = File(uri.path)
-                    (imageUploadUseCase as ImageUploadUseCase).submitImageForUpload(
-                        imageFile.absolutePath,
-                        CompressionParams.DirectCompressionParams
-                    )
-                    lastFile = imageFile
-                }
-
-                //if there is no image to upload we create post immediately
-                if (getAttachedImageLiveData.value == UserPickedImageModel.EMPTY) {
-                    if (postToEdit == null) createPost() else editPost()
-                }
-
-                //if there is image to upload, but it was already attached to a post (this can only
-                //happens when postToEdit != null and thus user actually editing post, not creating), then
-                //just attach this photo again
-                if (getAttachedImageLiveData.value != UserPickedImageModel.EMPTY &&
-                    getAttachedImageLiveData.value?.remoteUrl != null
-                ) {
-                    val remoteImg = getAttachedImageLiveData.value?.remoteUrl ?: ""
-                    if (postToEdit == null) createPost(listOf(remoteImg)) else editPost(listOf(remoteImg))
-                }
-
-            }
+        // Validate post
+        val validationResult = model.validatePost(title, editorMetadata)
+        if(validationResult != ValidationResult.SUCCESS) {
+            showValidationResult(validationResult)
+            return
         }
+
+//        if (validate(title, content)) {
+//
+//            viewModelScope.launch {
+//                getAttachedImageLiveData.value?.localUri?.let { uri ->
+//                    val imageFile = File(uri.path)
+//                    (imageUploadUseCase as ImageUploadUseCase).submitImageForUpload(
+//                        imageFile.absolutePath,
+//                        CompressionParams.DirectCompressionParams
+//                    )
+//                    lastFile = imageFile
+//                }
+//
+//                //if there is no image to upload we create post immediately
+//                if (getAttachedImageLiveData.value == UserPickedImageModel.EMPTY) {
+//                    if (postToEdit == null) createPost() else editPost()
+//                }
+//
+//                //if there is image to upload, but it was already attached to a post (this can only
+//                //happens when postToEdit != null and thus user actually editing post, not creating), then
+//                //just attach this photo again
+//                if (getAttachedImageLiveData.value != UserPickedImageModel.EMPTY &&
+//                    getAttachedImageLiveData.value?.remoteUrl != null
+//                ) {
+//                    val remoteImg = getAttachedImageLiveData.value?.remoteUrl ?: ""
+//                    if (postToEdit == null) createPost(listOf(remoteImg)) else editPost(listOf(remoteImg))
+//                }
+//
+//            }
+//        }
     }
 
+    private fun showValidationResult(validationResult: ValidationResult) =
+        when(validationResult) {
+            ValidationResult.ERROR_POST_IS_TOO_LONG -> command.value = ShowMessageCommand(R.string.error_post_too_long)
+            ValidationResult.ERROR_TITLE_IS_TOO_LONG -> command.value = ShowMessageCommand(R.string.error_title_too_long)
+            ValidationResult.ERROR_POST_IS_EMPTY -> command.value = ShowMessageCommand(R.string.error_post_empty)
+            ValidationResult.ERROR_TITLE_IS_EMPTY -> command.value = ShowMessageCommand(R.string.error_title_empty)
+            else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
+        }
 
     private fun editPost(images: List<String> = emptyList()) {
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
@@ -276,13 +293,6 @@ constructor(
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
         val postRequest = PostCreationRequestModel(title, content, tags, images)
         (posterUseCase as DiscussionPosterUseCase).createPostOrComment(postRequest)
-    }
-
-    private fun validate(title: CharSequence, content: CharSequence): Boolean {
-        val isValid = content.isNotBlank() && content.length <= PostConstants.MAX_POST_CONTENT_LENGTH
-                && title.isNotBlank() && title.length <= PostConstants.MAX_POST_TITLE_LENGTH
-        validationResultLiveData.postValue(isValid)
-        return isValid
     }
 
     override fun onCleared() {

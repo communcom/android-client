@@ -8,10 +8,13 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
+import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
+import io.golos.cyber_android.utils.PostConstants
 import io.golos.data.api.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.post_editor.ControlMetadata
+import io.golos.domain.post_editor.ParagraphMetadata
 import kotlinx.coroutines.withContext
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
@@ -42,8 +45,28 @@ constructor(
             }
         }
 
-    override fun isPostValid(title: String, content: List<ControlMetadata>): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun validatePost(title: String, content: List<ControlMetadata>): ValidationResult {
+        if(title.isBlank()) {
+            return ValidationResult.ERROR_TITLE_IS_EMPTY
+        }
+
+        if(content.isEmpty()) {
+            return ValidationResult.ERROR_POST_IS_EMPTY
+        }
+
+        if(title.length > PostConstants.MAX_POST_TITLE_LENGTH) {
+            return ValidationResult.ERROR_TITLE_IS_TOO_LONG
+        }
+
+        val postLen = content
+            .filterIsInstance<ParagraphMetadata>()
+            .sumBy { it.plainText.length }
+
+        if(postLen > PostConstants.MAX_POST_CONTENT_LENGTH) {
+            return ValidationResult.ERROR_POST_IS_TOO_LONG
+        }
+
+        return ValidationResult.SUCCESS
     }
 
     /**
