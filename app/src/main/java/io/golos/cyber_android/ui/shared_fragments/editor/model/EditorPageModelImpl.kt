@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.data.api.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.post_editor.ControlMetadata
 import kotlinx.coroutines.withContext
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
@@ -40,6 +41,10 @@ constructor(
                 Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.GENERAL_ERROR)
             }
         }
+
+    override fun isPostValid(title: String, content: List<ControlMetadata>): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     /**
      * @return null - this type of link is not supported

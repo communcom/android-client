@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
-import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.PostConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
@@ -25,6 +25,7 @@ import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
+import io.golos.domain.post_editor.ControlMetadata
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
@@ -101,7 +102,7 @@ constructor(
      */
     val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
 
-    val isPhotoButtonEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isEmbedButtonsEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
 
     /**
      * [LiveData] for image picked by user for this post. If null then there is not image.
@@ -225,7 +226,7 @@ constructor(
     /**
      * Creates new post. Result of creation can be listened by [discussionCreationLiveData]
      */
-    fun post() {
+    fun post(editorMetadata: List<ControlMetadata>) {
         if (validate(title, content)) {
 
             viewModelScope.launch {
@@ -278,8 +279,8 @@ constructor(
     }
 
     private fun validate(title: CharSequence, content: CharSequence): Boolean {
-        val isValid = content.isNotBlank() && content.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
-                && title.isNotBlank() && title.length <= ValidationConstants.MAX_POST_TITLE_LENGTH
+        val isValid = content.isNotBlank() && content.length <= PostConstants.MAX_POST_CONTENT_LENGTH
+                && title.isNotBlank() && title.length <= PostConstants.MAX_POST_TITLE_LENGTH
         validationResultLiveData.postValue(isValid)
         return isValid
     }
@@ -334,7 +335,7 @@ constructor(
 
     fun setEmbedCount(count: Int) {
         embedCount = count
-        isPhotoButtonEnabled.value = embedCount == 0
+        isEmbedButtonsEnabled.value = embedCount == 0
     }
 
     fun processEmbedAddedOrRemoved(isAdded: Boolean) {
@@ -343,7 +344,7 @@ constructor(
         } else {
             embedCount--
         }
-        isPhotoButtonEnabled.value = embedCount == 0
+        isEmbedButtonsEnabled.value = embedCount == 0
     }
 
     private fun processUri(uri: String, getSuccessViewCommand: (ExternalLinkInfo) -> ViewCommand) {

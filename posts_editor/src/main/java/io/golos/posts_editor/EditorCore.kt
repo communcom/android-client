@@ -198,7 +198,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     fun getPossibleActions(): List<EditorAction> =
         if(isSimpleEditor) {
-            listOf(EditorAction.LOCAL_IMAGE)            // Simple editor supports local images only
+            listOf(EditorAction.TAG, EditorAction.MENTION, EditorAction.LINK, EditorAction.LOCAL_IMAGE, EditorAction.EXTERNAL_LINK)
         } else {
             EditorAction.values().toList()
         }

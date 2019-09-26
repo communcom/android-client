@@ -14,7 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
-import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.PostConstants
 import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
@@ -68,7 +68,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
             setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
         }
 
-        view.postComment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
+        view.postComment.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_COMMENT_CONTENT_LENGTH))
 
         return PostViewHolder(view)
     }

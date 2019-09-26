@@ -10,7 +10,7 @@ import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.PostConstants
 import io.golos.cyber_android.views.utils.*
 import kotlinx.android.synthetic.main.view_comment_widget.view.*
 
@@ -46,7 +46,7 @@ class CommentWidget @JvmOverloads constructor(
         })
 
         comment.movementMethod = MultilineLinkMovementMethod()
-        comment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
+        comment.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_COMMENT_CONTENT_LENGTH))
     }
 
     /**
@@ -55,7 +55,7 @@ class CommentWidget @JvmOverloads constructor(
     fun clearText() {
         userName = null
         comment.setText("")
-        comment.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH))
+        comment.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_COMMENT_CONTENT_LENGTH))
     }
 
     private var userName: String? = null
@@ -78,7 +78,7 @@ class CommentWidget @JvmOverloads constructor(
                     }
                 }
                 return@InputFilter source
-            }, InputFilter.LengthFilter(ValidationConstants.MAX_COMMENT_CONTENT_LENGTH + userName.length))
+            }, InputFilter.LengthFilter(PostConstants.MAX_COMMENT_CONTENT_LENGTH + userName.length))
 
             ViewUtils.showKeyboard(comment)
         }

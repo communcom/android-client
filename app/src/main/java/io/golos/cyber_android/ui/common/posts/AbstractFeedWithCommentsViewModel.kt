@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.common.posts
 
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
-import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.PostConstants
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
@@ -46,5 +46,5 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
     }
 
     protected open fun validateComment(comment: CharSequence) =
-        comment.isNotBlank() && comment.length <= ValidationConstants.MAX_POST_CONTENT_LENGTH
+        comment.isNotBlank() && comment.length <= PostConstants.MAX_POST_CONTENT_LENGTH
 }

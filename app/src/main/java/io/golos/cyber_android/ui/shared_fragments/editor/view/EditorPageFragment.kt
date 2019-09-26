@@ -8,7 +8,6 @@ import android.os.Parcelable
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExt
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
-import io.golos.cyber_android.utils.ValidationConstants
+import io.golos.cyber_android.utils.PostConstants
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
@@ -85,9 +84,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         close.setOnClickListener { activity?.finish() }
         post.setOnClickListener {
-            //viewModel.post()
-            val metadata = editorWidget.getMetadata()
-            Log.d("", "")
+            viewModel.post(editorWidget.getMetadata())
         }
 
         title.addTextChangedListener(object : TextWatcherBase() {
@@ -98,7 +95,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         })
 
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        title.filters = arrayOf(InputFilter.LengthFilter(ValidationConstants.MAX_POST_TITLE_LENGTH))
+        title.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
     }
@@ -108,7 +105,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             viewModel.switchNSFW()
         }
 
-        editorWidget.getPossibleActions().forEach { possibleAction ->
+        val possibleEditorActions = editorWidget.getPossibleActions()
+
+        possibleEditorActions.forEach { possibleAction ->
             when(possibleAction) {
                 EditorAction.TEXT_BOLD -> {
                     boldButton.visibility = View.VISIBLE
@@ -172,8 +171,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                     }
                 }
                 EditorAction.LOCAL_IMAGE -> {
-                    viewModel.setEmbedCount(editorWidget.getEmbedCount())
-
                     photoButton.visibility = View.VISIBLE
                     photoButton.setOnClickListener {
                         ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
@@ -181,8 +178,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                         }
                         .show(requireFragmentManager(), "cover")
                     }
-
-                    editorWidget.setOnEmbedAddedOrRemovedListener { isAdded -> viewModel.processEmbedAddedOrRemoved(isAdded)  }
                 }
                 EditorAction.EXTERNAL_LINK -> {
                     linkExternalButton.visibility = View.VISIBLE
@@ -194,6 +189,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                     }
                 }
             }
+        }
+
+        if(possibleEditorActions.contains(EditorAction.LOCAL_IMAGE) || possibleEditorActions.contains(EditorAction.EXTERNAL_LINK)) {
+            viewModel.setEmbedCount(editorWidget.getEmbedCount())
+            editorWidget.setOnEmbedAddedOrRemovedListener { isAdded -> viewModel.processEmbedAddedOrRemoved(isAdded)  }
         }
 
         boldButton.isEnabled = false
@@ -254,7 +254,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             }
         })
 
-        viewModel.isPhotoButtonEnabled.observe(this, Observer { photoButton.isEnabled = it })
+        viewModel.isEmbedButtonsEnabled.observe(this, Observer {
+            photoButton.isEnabled = it
+            linkExternalButton.isEnabled = it
+        })
 
         // todo [AS] see it later
 //        viewModel.getValidationResultLiveData.observe(this, Observer {
