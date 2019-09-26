@@ -1,9 +1,14 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
-import androidx.lifecycle.*
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
@@ -14,7 +19,6 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
-import io.golos.cyber_android.utils.PostConstants
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
@@ -22,18 +26,15 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
-import io.golos.domain.interactors.images.ImageUploadUseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post_editor.ControlMetadata
-import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 /**
@@ -228,6 +229,7 @@ constructor(
     /**
      * Creates new post. Result of creation can be listened by [discussionCreationLiveData]
      */
+    @Suppress("MoveVariableDeclarationIntoWhen")
     fun post(editorMetadata: List<ControlMetadata>) {
         // Validate post
         val validationResult = model.validatePost(title, editorMetadata)
@@ -236,43 +238,37 @@ constructor(
             return
         }
 
-//        if (validate(title, content)) {
-//
-//            viewModelScope.launch {
-//                getAttachedImageLiveData.value?.localUri?.let { uri ->
-//                    val imageFile = File(uri.path)
-//                    (imageUploadUseCase as ImageUploadUseCase).submitImageForUpload(
-//                        imageFile.absolutePath,
-//                        CompressionParams.DirectCompressionParams
-//                    )
-//                    lastFile = imageFile
-//                }
-//
-//                //if there is no image to upload we create post immediately
-//                if (getAttachedImageLiveData.value == UserPickedImageModel.EMPTY) {
-//                    if (postToEdit == null) createPost() else editPost()
-//                }
-//
-//                //if there is image to upload, but it was already attached to a post (this can only
-//                //happens when postToEdit != null and thus user actually editing post, not creating), then
-//                //just attach this photo again
-//                if (getAttachedImageLiveData.value != UserPickedImageModel.EMPTY &&
-//                    getAttachedImageLiveData.value?.remoteUrl != null
-//                ) {
-//                    val remoteImg = getAttachedImageLiveData.value?.remoteUrl ?: ""
-//                    if (postToEdit == null) createPost(listOf(remoteImg)) else editPost(listOf(remoteImg))
-//                }
-//
-//            }
-//        }
+        command.value = SetLoadingVisibilityCommand(true)
+
+        launch {
+            try {
+                val uploadResult = model.uploadLocalImage(editorMetadata)
+
+                when(uploadResult) {
+                    is Either.Failure -> {              // Can't upload the file
+                        command.value = ShowMessageCommand(R.string.error_upload_file)
+                    }
+                    is Either.Success -> {              // Create post and attach the file
+                        createPost(listOf(uploadResult.value.url))
+                    }
+                    null -> {                           // No files to upload
+                        createPost()
+                    }
+                }
+            } catch(ex: Exception) {
+                App.logger.log(ex)
+                command.value = ShowMessageCommand(R.string.error_send_post)
+            } finally {
+                command.value = SetLoadingVisibilityCommand(false)
+            }
+
+        }
     }
 
     private fun showValidationResult(validationResult: ValidationResult) =
         when(validationResult) {
             ValidationResult.ERROR_POST_IS_TOO_LONG -> command.value = ShowMessageCommand(R.string.error_post_too_long)
-            ValidationResult.ERROR_TITLE_IS_TOO_LONG -> command.value = ShowMessageCommand(R.string.error_title_too_long)
             ValidationResult.ERROR_POST_IS_EMPTY -> command.value = ShowMessageCommand(R.string.error_post_empty)
-            ValidationResult.ERROR_TITLE_IS_EMPTY -> command.value = ShowMessageCommand(R.string.error_title_empty)
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
@@ -290,9 +286,10 @@ constructor(
     }
 
     private fun createPost(images: List<String> = emptyList()) {
-        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
-        val postRequest = PostCreationRequestModel(title, content, tags, images)
-        (posterUseCase as DiscussionPosterUseCase).createPostOrComment(postRequest)
+        Log.d("", "")
+//        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
+//        val postRequest = PostCreationRequestModel(title, content, tags, images)
+//        (posterUseCase as DiscussionPosterUseCase).createPostOrComment(postRequest)
     }
 
     override fun onCleared() {

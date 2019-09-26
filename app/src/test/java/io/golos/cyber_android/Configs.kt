@@ -224,7 +224,7 @@
 //                toAppErrorMapper
 //            )
 //        }
-//val imageUploadRepo = ImageUploadRepository(apiService, dispatchersProvider, imageCompressor, logger)
+//val imageUploadRepo = ImageUploadRepositoryLiveData(apiService, dispatchersProvider, imageCompressor, logger)
 //
 //
 //val settingsRepo = SettingsRepository(

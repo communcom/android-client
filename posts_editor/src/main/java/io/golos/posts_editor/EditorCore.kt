@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.content.res.TypedArray
 import android.graphics.Rect
 import android.preference.PreferenceManager
 import android.text.TextUtils
@@ -35,7 +34,10 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         const val PICK_IMAGE_REQUEST = 1
     }
 
-    private var isSimpleEditor: Boolean = false
+    private var isTextStylesSupported: Boolean = false
+
+    var isSimpleEditor: Boolean = false
+        private set
 
     open var editorListener: EditorListener? = null
 
@@ -197,7 +199,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     fun getPossibleActions(): List<EditorAction> =
-        if(isSimpleEditor) {
+        if(isTextStylesSupported) {
             listOf(EditorAction.TAG, EditorAction.MENTION, EditorAction.LINK, EditorAction.LOCAL_IMAGE, EditorAction.EXTERNAL_LINK)
         } else {
             EditorAction.values().toList()
@@ -309,6 +311,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         context.obtainStyledAttributes(attributeSet, R.styleable.editor)
             ?.let { a ->
                 try {
+                    isTextStylesSupported = a.getBoolean(R.styleable.editor_is_text_styles_supported, false)
                     isSimpleEditor = a.getBoolean(R.styleable.editor_is_simple, false)
 
                     this.editorSettings.placeHolder = a.getString(R.styleable.editor_placeholder)

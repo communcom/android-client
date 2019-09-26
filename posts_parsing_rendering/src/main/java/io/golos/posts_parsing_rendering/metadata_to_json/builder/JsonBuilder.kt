@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.metadata_to_json
+package io.golos.posts_parsing_rendering.metadata_to_json.builder
 
 import io.golos.posts_parsing_rendering.BlockType
 

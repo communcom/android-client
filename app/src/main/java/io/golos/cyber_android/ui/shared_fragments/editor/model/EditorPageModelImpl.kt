@@ -12,18 +12,27 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.utils.PostConstants
 import io.golos.data.api.EmbedApi
 import io.golos.data.errors.CyberServicesError
+import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.post_editor.ControlMetadata
+import io.golos.domain.post_editor.EmbedMetadata
+import io.golos.domain.post_editor.EmbedType
 import io.golos.domain.post_editor.ParagraphMetadata
+import io.golos.domain.requestmodel.CompressionParams
+import io.golos.domain.requestmodel.ImageUploadRequest
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.lang.UnsupportedOperationException
+import java.net.URI
 import javax.inject.Inject
 
 class EditorPageModelImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val embedApi: EmbedApi
+    private val embedApi: EmbedApi,
+    private val imageUploadRepository: ImageUploadRepository
 ) : ModelBaseImpl(), EditorPageModel {
 
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
@@ -46,16 +55,8 @@ constructor(
         }
 
     override fun validatePost(title: String, content: List<ControlMetadata>): ValidationResult {
-        if(title.isBlank()) {
-            return ValidationResult.ERROR_TITLE_IS_EMPTY
-        }
-
         if(content.isEmpty()) {
             return ValidationResult.ERROR_POST_IS_EMPTY
-        }
-
-        if(title.length > PostConstants.MAX_POST_TITLE_LENGTH) {
-            return ValidationResult.ERROR_TITLE_IS_TOO_LONG
         }
 
         val postLen = content
@@ -68,6 +69,16 @@ constructor(
 
         return ValidationResult.SUCCESS
     }
+
+    /**
+     * @return null if no image to upload otherwise - operation result
+     */
+    override suspend fun uploadLocalImage(content: List<ControlMetadata>): Either<UploadedImageEntity, Throwable>? =
+        content
+            .firstOrNull { it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE }
+            ?.let { metadata -> (metadata as EmbedMetadata).sourceUri }
+            ?.let { uri -> File(URI.create(uri.toString())) }
+            ?.let { file -> imageUploadRepository.upload(ImageUploadRequest(file, CompressionParams.DirectCompressionParams)) }
 
     /**
      * @return null - this type of link is not supported

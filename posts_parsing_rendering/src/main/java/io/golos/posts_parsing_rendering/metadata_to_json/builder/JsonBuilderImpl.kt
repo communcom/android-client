@@ -1,10 +1,12 @@
-package io.golos.posts_parsing_rendering.metadata_to_json
+package io.golos.posts_parsing_rendering.metadata_to_json.builder
 
 import io.golos.posts_parsing_rendering.BlockType
 
-class JsonBuilderImpl private constructor(): JsonBuilder, JsonBuilderItems {
+class JsonBuilderImpl private constructor(): JsonBuilder,
+    JsonBuilderItems {
     companion object {
-        fun create(): JsonBuilderBlocks = JsonBuilderImpl()
+        fun create(): JsonBuilderBlocks =
+            JsonBuilderImpl()
     }
 
     private val output = StringBuilder()

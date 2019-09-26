@@ -51,6 +51,9 @@ import io.golos.data.api.*
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
+import io.golos.data.repositories.images_uploading.ImageUploadRepository
+import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
+import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
@@ -321,7 +324,10 @@ abstract class AppModuleBinds {
     abstract fun provideSettingsRepository(repository: SettingsRepository): Repository<UserSettingEntity, SettingChangeRequest>
 
     @Binds
-    abstract fun provideImageUploadRepository(repository: ImageUploadRepository): Repository<UploadedImagesEntity, ImageUploadRequest>
+    abstract fun provideImageUploadRepositoryLiveData(repository: ImageUploadRepositoryLiveData): Repository<UploadedImagesEntity, ImageUploadRequest>
+
+    @Binds
+    abstract fun provideImageUploadRepository(repository: ImageUploadRepositoryImpl): ImageUploadRepository
 
     @Binds
     abstract fun provideEventsRepository(repository: EventsRepository): Repository<EventsListEntity, EventsFeedUpdateRequest>

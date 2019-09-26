@@ -119,8 +119,8 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
             }
         }
 
-        // Put a new paragraph under the embed
-        if (editorCore.isLastRow(childLayout)) {
+        // Put a new paragraph under the embed (for long read editor only)
+        if (editorCore.isLastRow(childLayout) && !editorCore.isSimpleEditor) {
             componentsWrapper!!.inputExtensions!!.insertEditText(embedIndex + 1, null)
         }
 

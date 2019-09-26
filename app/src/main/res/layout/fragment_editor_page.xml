@@ -120,6 +120,10 @@
                     android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
                     android:background="@color/white"
                     android:hint="@string/title"
+
+                    android:visibility="gone"
+                    tools:visibility="visible"
+
                     android:inputType="textFilter" />
 
                 <io.golos.posts_editor.Editor
@@ -137,6 +141,7 @@
                     app:render_type="Editor"
                     app:placeholder="@string/start_writing_here"
                     app:is_simple = "true"
+                    app:is_text_styles_supported = "false"
                 />
             </LinearLayout>
 

@@ -5,6 +5,7 @@
         <attr name="placeholder" format="string"/>
         <attr name="auto_focus" format="boolean" />
         <attr name="is_simple" format="boolean" />
+        <attr name="is_text_styles_supported" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SelectColorGridItem">

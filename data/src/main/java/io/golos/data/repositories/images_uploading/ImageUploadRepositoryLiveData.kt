@@ -1,4 +1,4 @@
-package io.golos.data.repositories
+package io.golos.data.repositories.images_uploading
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,14 +20,15 @@ import javax.inject.Inject
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-29.
  */
-class ImageUploadRepository
+class ImageUploadRepositoryLiveData
 @Inject
 constructor(
-    private val api: ImageUploadApi,
-    private val dispatchersProvider: DispatchersProvider,
-    private val compressor: ImageCompressor,
+    api: ImageUploadApi,
+    dispatchersProvider: DispatchersProvider,
+    compressor: ImageCompressor,
     private val logger: Logger
-) : Repository<UploadedImagesEntity, ImageUploadRequest> {
+) : ImageUploadRepositoryBase(dispatchersProvider, api, compressor),
+    Repository<UploadedImagesEntity, ImageUploadRequest> {
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
     private val uploadedImages = MutableLiveData<UploadedImagesEntity>()
@@ -48,29 +49,8 @@ constructor(
                 uploadedUpdateStates.value =
                     uploadedUpdateStates.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val result = withContext(dispatchersProvider.calculationsDispatcher) {
+                val result = uploadImage(params)
 
-                    val compressedFile = when (params.compressionParams) {
-                        is CompressionParams.DirectCompressionParams -> compressor.compressImageFile(params.imageFile)
-                        is CompressionParams.AbsoluteCompressionParams ->
-                            compressor.compressImageFile(
-                                params.imageFile,
-                                (params.compressionParams as CompressionParams.AbsoluteCompressionParams).transX,
-                                (params.compressionParams as CompressionParams.AbsoluteCompressionParams).transY,
-                                (params.compressionParams as CompressionParams.AbsoluteCompressionParams).rotation
-                            )
-                        is CompressionParams.RelativeCompressionParams ->
-                            compressor.compressImageFile(
-                                params.imageFile,
-                                (params.compressionParams as CompressionParams.RelativeCompressionParams).paddingXPercent,
-                                (params.compressionParams as CompressionParams.RelativeCompressionParams).paddingYPercent,
-                                (params.compressionParams as CompressionParams.RelativeCompressionParams).requiredWidthPercent,
-                                (params.compressionParams as CompressionParams.RelativeCompressionParams).requiredHeightPercent
-                            )
-                    }
-
-                    api.uploadImage(compressedFile)
-                }
                 uploadedImages.value =
                     UploadedImagesEntity(
                         uploadedImages.value?.imageUrls.orEmpty() + (params.imageFile.absolutePath to UploadedImageEntity(

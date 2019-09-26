@@ -117,10 +117,10 @@
     <string name="link_text">Link text</string>
     <string name="link">Link</string>
     <string name="start_writing_here">Start writing here…</string>
-    <string name="error_title_empty">Title can\'t be empty</string>
     <string name="error_post_empty">Post can\'t be empty</string>
-    <string name="error_title_too_long">The title length is too long</string>
     <string name="error_post_too_long">The post length is too long</string>
+    <string name="error_upload_file">Unfortunately, an error was encountered during the file uploading.</string>
+    <string name="error_send_post">Unfortunately, an error was encountered during the post sending.</string>
 
     <!--Sign Up-->
     <string name="select_country">Select Country</string>

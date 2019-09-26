@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.metadata_to_json
+package io.golos.posts_parsing_rendering.metadata_to_json.builder
 
 import io.golos.posts_parsing_rendering.Attribute
 
@@ -10,11 +10,13 @@ open class PostAttribute {
         fun toJson(builder: JsonBuilderItems, isLast: Boolean)
     }
 
-    private class StringPostAttribute(private val key: Attribute, private val value: String): PostAttributeWriter {
+    private class StringPostAttribute(private val key: Attribute, private val value: String):
+        PostAttributeWriter {
         override fun toJson(builder: JsonBuilderItems, isLast: Boolean) = builder.putItem(key.value, value, isLast)
     }
 
-    private class LongPostAttribute(private val key: Attribute, private val value: Long): PostAttributeWriter {
+    private class LongPostAttribute(private val key: Attribute, private val value: Long):
+        PostAttributeWriter {
         override fun toJson(builder: JsonBuilderItems, isLast: Boolean) = builder.putItem(key.value, value, isLast)
     }
 
