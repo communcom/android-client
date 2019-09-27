@@ -270,20 +270,12 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         }
 
         editText.addTextChangedListener(object : TextWatcher {
+            private var updateRange: IntRange? = null
+
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                val spansWorker = SpansWorkerImpl(s)
-
-                // If a span is edited by user we should remove it
-                val tagsSpans = spansWorker.getSpans<TagSpan>(TagSpan::class, start..start+count)
-                tagsSpans.forEach { spansWorker.removeSpan(it) }
-
-                val mentionsSpans = spansWorker.getSpans<MentionSpan>(MentionSpan::class, start..start+count)
-                mentionsSpans.forEach { spansWorker.removeSpan(it) }
-
-                val linksSpans = spansWorker.getSpans<LinkSpan>(LinkSpan::class, start..start+count)
-                linksSpans.forEach { spansWorker.removeSpan(it) }
+                updateRange = start..start+count
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -292,42 +284,37 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                 if (s.isEmpty() && tag != null)
                     editText.hint = tag.toString()
 
+                var isEnterPressed = false
+
                 if (s.isNotEmpty()) {
                     // if user had pressed enter, replace it with br
                     for (i in s.indices) {
                         if (s[i] == '\n') {
-                            val htmlText = SpannableStringBuilder(s.subSequence(0, i)).toHtml()
-                            if (htmlText.isNotEmpty())
-                                setText(editText, htmlText)
+                            isEnterPressed = true
 
-                            if (i + 1 == s.length) {
-                                s.clear()
-                            }
+                            s.delete(i, i+1)
 
                             val index = editorCore.parentView.indexOfChild(editText)
-                            /* if the index was 0, set the placeholder to empty, behaviour happens when the user just press enter
-                             */
-                            if (index == 0) {
-                                editText.hint = null
-                                editText.setTag(R.id.control_tag, hint)
-                            }
                             val position = index + 1
                             val editable = SpannableStringBuilder()
-                            val lastIndex = s.length
-                            val nextIndex = i + 1
 
-                            if (nextIndex < lastIndex) {
-                                val newText = s.subSequence(nextIndex, lastIndex)
-                                for (j in newText.indices) {
-                                    editable.append(newText[j])
-                                    if (newText[j] == '\n') {
-                                        editable.append('\n')
-                                    }
-                                }
-                            }
                             insertEditText(position, editable)
                             break
                         }
+                    }
+
+                    if(!isEnterPressed) {
+                        val spansWorker = SpansWorkerImpl(s)
+
+                        // If a span is edited by user we should remove it
+                        val tagsSpans = spansWorker.getSpans<TagSpan>(TagSpan::class, updateRange!!)
+                        tagsSpans.forEach { spansWorker.removeSpan(it) }
+
+                        val mentionsSpans = spansWorker.getSpans<MentionSpan>(MentionSpan::class, updateRange!!)
+                        mentionsSpans.forEach { spansWorker.removeSpan(it) }
+
+                        val linksSpans = spansWorker.getSpans<LinkSpan>(LinkSpan::class, updateRange!!)
+                        linksSpans.forEach { spansWorker.removeSpan(it) }
                     }
                 }
                 editorCore.editorListener?.onTextChanged(editText, s)
@@ -696,4 +683,13 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     private fun getSanitizedHtml(text: CharSequence): CharSequence = noTrailingWhiteLines(text.toString().fromHtml())
+
+    private fun CharSequence.isEnterPressed(): Boolean {
+        for(i in this.indices) {
+            if(this[i] == '\n') {
+                return true
+            }
+        }
+        return false
+    }
 }
