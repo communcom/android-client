@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.model
 
 import android.net.Uri
+import android.util.Log
 import io.golos.cyber4j.services.model.OEmbedResult
 import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.application.App
@@ -21,6 +22,7 @@ import io.golos.domain.post_editor.EmbedType
 import io.golos.domain.post_editor.ParagraphMetadata
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
+import io.golos.posts_parsing_rendering.metadata_to_json.MetadataToJsonMapper
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.UnsupportedOperationException
@@ -79,6 +81,11 @@ constructor(
             ?.let { metadata -> (metadata as EmbedMetadata).sourceUri }
             ?.let { uri -> File(URI.create(uri.toString())) }
             ?.let { file -> imageUploadRepository.upload(ImageUploadRequest(file, CompressionParams.DirectCompressionParams)) }
+
+    override suspend fun createPost(content: List<ControlMetadata>, images: List<String>) {
+        val json = MetadataToJsonMapper().map(content)
+        Log.d("", "")
+    }
 
     /**
      * @return null - this type of link is not supported

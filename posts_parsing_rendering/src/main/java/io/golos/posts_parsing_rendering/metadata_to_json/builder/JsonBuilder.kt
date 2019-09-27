@@ -9,15 +9,15 @@ interface JsonBuilderBlocks {
 
     fun putBlock(
         type: BlockType,
-        vararg attributes: PostAttribute,
         isLast: Boolean,
+        vararg attributes: PostAttribute,
         contentAction: (JsonBuilderBlocks) -> Unit)
 
     fun putBlock(
         type: BlockType,
-        vararg attributes: PostAttribute,
         isLast: Boolean,
-        content: String)
+        content: String,
+        vararg attributes: PostAttribute)
 }
 
 interface JsonBuilderItems {

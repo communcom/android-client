@@ -9,7 +9,8 @@ enum class BlockType(val value: String) {
     LINK("link"),
     IMAGE("image"),
     VIDEO("video"),
-    WEBSITE("website")
+    WEBSITE("website"),
+    ATTACHMENTS("attachments")
 }
 
 enum class Attribute(val value: String) {
@@ -23,4 +24,10 @@ enum class Attribute(val value: String) {
     DESCRIPTION("description"),
     PROVIDER_NAME("provider_name"),
     HTML("html")
+}
+
+object LinkTypeJson {
+    const val IMAGE = "image"
+    const val VIDEO = "video"
+    const val WEBSITE = "website"
 }

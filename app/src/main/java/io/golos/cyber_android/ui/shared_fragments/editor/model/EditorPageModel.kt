@@ -17,4 +17,6 @@ interface EditorPageModel : ModelBase {
      * @return null if no image to upload otherwise - operation result
      */
     suspend fun uploadLocalImage(content: List<ControlMetadata>): Either<UploadedImageEntity, Throwable>?
+
+    suspend fun createPost(content: List<ControlMetadata>, images: List<String> = emptyList())
 }

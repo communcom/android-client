@@ -93,6 +93,8 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
 
         val desc = getDescription(childLayout)
 
+        desc.visibility = if(editorCore.isSimpleEditor) View.GONE else View.VISIBLE
+
         loadImageUsingLib(displayUri, imageView)
 
         // Index of embed in a list of controls

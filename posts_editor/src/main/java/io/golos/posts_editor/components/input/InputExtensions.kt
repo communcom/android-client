@@ -3,7 +3,6 @@ package io.golos.posts_editor.components.input
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Handler
 import android.text.*
 import android.text.style.CharacterStyle
@@ -38,7 +37,6 @@ import io.golos.posts_editor.components.input.spans.custom.MentionSpan
 import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
-import io.golos.posts_editor.dto.*
 import io.golos.posts_editor.models.*
 import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
@@ -157,7 +155,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     fun insertMention(userName: String) = insertMention(userName, true, false)
 
-    fun insertLinkInText(link: LinkDisplayInfo, type: LinkType) = insertLinkInText(link.text, type, link.uri, true, false)
+    fun insertLinkInText(linkInfo: LinkInfo) = insertLinkInText(linkInfo, true, false)
 
     fun editTag(tagText: String) {
         if(removeSpecialSpan(TagSpan::class)) {
@@ -175,10 +173,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         }
     }
 
-    fun editLinkInText(link: LinkDisplayInfo, type: LinkType) {
+    fun editLinkInText(linkInfo: LinkInfo) {
         if(removeSpecialSpan(LinkSpan::class)) {
             editor.post {
-                insertLinkInText(link.text, type, link.uri, false, true)
+                insertLinkInText(linkInfo, false, true)
             }
         }
     }
@@ -200,10 +198,9 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     /**
      * Tries to find a link under a cursor and gets a value of it
      */
-    fun tryGetLinkInTextInfo(): LinkDisplayInfo? = getSpecialSpanData(LinkSpan::class) {
+    fun tryGetLinkInTextInfo(): LinkInfo? = getSpecialSpanData(LinkSpan::class) {
         (it as LinkSpan).value
-    }
-    ?.let { LinkDisplayInfo(it.first, it.second.uri) }
+    }?.second
 
     @Suppress("UNCHECKED_CAST")
     fun updateTextColor(color: MaterialColor, editText: TextView?) {
@@ -602,8 +599,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     private fun insertMention(userName: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
         insertSpecialSpan("@$userName", MentionSpan(userName, specialSpansColors), addSpace, tryToMoveCursor)
 
-    private fun insertLinkInText(text: String, type: LinkType, uri: Uri, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan(text, LinkSpan(LinkInfo(type, uri), specialSpansColors), addSpace, tryToMoveCursor)
+    private fun insertLinkInText(linkInfo: LinkInfo, addSpace: Boolean, tryToMoveCursor: Boolean) =
+        insertSpecialSpan(linkInfo.text!!, LinkSpan(linkInfo, specialSpansColors), addSpace, tryToMoveCursor)
 
     /**
      * Inserts special span into a cursor position

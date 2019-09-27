@@ -5,13 +5,9 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
-import io.golos.posts_editor.dto.LinkDisplayInfo
+import io.golos.domain.post_editor.*
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
-import io.golos.domain.post_editor.EmbedType
-import io.golos.domain.post_editor.LinkType
-import io.golos.domain.post_editor.ControlMetadata
 import io.golos.posts_editor.models.EditorContent
-import io.golos.domain.post_editor.EditorTextStyle
 import io.golos.posts_editor.components.EmbedWidget
 import io.golos.posts_editor.models.RenderType
 import io.golos.posts_editor.utilities.MaterialColor
@@ -104,9 +100,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.insertMention(mention)
     }
 
-    fun insertLinkInText(text: String, uri: Uri, type: LinkType) {
-        inputExtensions!!.insertLinkInText(LinkDisplayInfo(text, uri), type)
-    }
+    fun insertLinkInText(linkInfo: LinkInfo) = inputExtensions!!.insertLinkInText(linkInfo)
 
     fun editTag(tag: String) {
         inputExtensions!!.editTag(tag)
@@ -116,9 +110,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.editMention(mention)
     }
 
-    fun editLinkInText(text: String, uri: Uri, type: LinkType) {
-        inputExtensions!!.editLinkInText(LinkDisplayInfo(text, uri), type)
-    }
+    fun editLinkInText(linkInfo: LinkInfo) = inputExtensions!!.editLinkInText(linkInfo)
 
     /**
      * Tries to find a tag under a cursor and gets a value of it
@@ -133,7 +125,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     /**
      * Tries to find a link under a cursor and gets a value of it
      */
-    fun tryGetLinkInTextInfo(): LinkDisplayInfo? = inputExtensions!!.tryGetLinkInTextInfo()
+    fun tryGetLinkInTextInfo(): LinkInfo? = inputExtensions!!.tryGetLinkInTextInfo()
 
     fun openImagePicker() {
         embedExtensions!!.openImageGallery()

@@ -5,8 +5,7 @@ import io.golos.posts_parsing_rendering.BlockType
 class JsonBuilderImpl private constructor(): JsonBuilder,
     JsonBuilderItems {
     companion object {
-        fun create(): JsonBuilderBlocks =
-            JsonBuilderImpl()
+        fun create(): JsonBuilder = JsonBuilderImpl()
     }
 
     private val output = StringBuilder()
@@ -21,16 +20,16 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
 
     @Suppress("RemoveRedundantSpreadOperator")
     override fun putBlock(type: BlockType, isLast: Boolean, contentAction: (JsonBuilderBlocks) -> Unit) =
-        putBlock(type, *arrayOf(), isLast = isLast, contentAction = contentAction)
+        putBlock(type, isLast, *arrayOf(), contentAction = contentAction)
 
     @Suppress("RemoveRedundantSpreadOperator")
     override fun putBlock(type: BlockType, isLast: Boolean, content: String) =
-        putBlock(type, *arrayOf(), isLast = isLast, content = content)
+        putBlock(type, isLast, content, *arrayOf())
 
     override fun putBlock(
         type: BlockType,
-        vararg attributes: PostAttribute,
         isLast: Boolean,
+        vararg attributes: PostAttribute,
         contentAction: (JsonBuilderBlocks) -> Unit) =
             putBlock(type, attributes, isLast) {
                 putItem("content", attributes.isEmpty()) {
@@ -42,9 +41,9 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
 
     override fun putBlock(
         type: BlockType,
-        vararg attributes: PostAttribute,
         isLast: Boolean,
-        content: String) =
+        content: String,
+        vararg attributes: PostAttribute) =
             putBlock(type, attributes, isLast) {
                 putItem("content", content, attributes.isEmpty())
             }
@@ -106,7 +105,7 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
     private fun getNextId() = idCounter++
 
     private fun StringBuilder.appendJsonString(s: String) {
-        append("\'")
+        append("\"")
         append(s)
         append("\"")
     }

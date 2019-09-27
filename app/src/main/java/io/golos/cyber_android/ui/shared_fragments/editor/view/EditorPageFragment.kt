@@ -244,9 +244,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 is UpdateLinkInTextViewCommand ->
                     with(command) {
                         if(isEdit) {
-                            editorWidget.editLinkInText(text, uri, type.mapToLinkType())
+                            editorWidget.editLinkInText(command.linkInfo)
                         } else {
-                            editorWidget.insertLinkInText(text, uri, type.mapToLinkType())
+                            editorWidget.insertLinkInText(command.linkInfo)
                         }
                     }
 
@@ -506,12 +506,5 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             ExternalLinkType.IMAGE -> EmbedType.EXTERNAL_IMAGE
             ExternalLinkType.WEBSITE -> EmbedType.EXTERNAL_WEBSITE
             ExternalLinkType.VIDEO -> EmbedType.EXTERNAL_VIDEO
-        }
-
-    private fun ExternalLinkType.mapToLinkType(): LinkType =
-        when(this) {
-            ExternalLinkType.IMAGE -> LinkType.IMAGE
-            ExternalLinkType.WEBSITE -> LinkType.WEBSITE
-            ExternalLinkType.VIDEO -> LinkType.VIDEO
         }
 }

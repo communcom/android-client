@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +14,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
+import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
@@ -30,6 +30,8 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post_editor.ControlMetadata
+import io.golos.domain.post_editor.LinkInfo
+import io.golos.domain.post_editor.LinkType
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -167,13 +169,13 @@ constructor(
 
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { result ->
-        if (result is QueryResult.Success) {
-            if (postToEdit == null) {
-                createPost(listOf(result.originalQuery.url))
-            } else {
-                editPost(listOf(result.originalQuery.url))
-            }
-        }
+//        if (result is QueryResult.Success) {
+//            if (postToEdit == null) {
+//                createPost(listOf(result.originalQuery.url))
+//            } else {
+//                editPost(listOf(result.originalQuery.url))
+//            }
+//        }
     }
 
     private val postToEditObserver = Observer<PostModel> {
@@ -230,9 +232,9 @@ constructor(
      * Creates new post. Result of creation can be listened by [discussionCreationLiveData]
      */
     @Suppress("MoveVariableDeclarationIntoWhen")
-    fun post(editorMetadata: List<ControlMetadata>) {
+    fun post(content: List<ControlMetadata>) {
         // Validate post
-        val validationResult = model.validatePost(title, editorMetadata)
+        val validationResult = model.validatePost(title, content)
         if(validationResult != ValidationResult.SUCCESS) {
             showValidationResult(validationResult)
             return
@@ -242,17 +244,17 @@ constructor(
 
         launch {
             try {
-                val uploadResult = model.uploadLocalImage(editorMetadata)
+                val uploadResult = model.uploadLocalImage(content)
 
                 when(uploadResult) {
                     is Either.Failure -> {              // Can't upload the file
                         command.value = ShowMessageCommand(R.string.error_upload_file)
                     }
                     is Either.Success -> {              // Create post and attach the file
-                        createPost(listOf(uploadResult.value.url))
+                        model.createPost(content, listOf(uploadResult.value.url))
                     }
                     null -> {                           // No files to upload
-                        createPost()
+                        model.createPost(content)
                     }
                 }
             } catch(ex: Exception) {
@@ -285,12 +287,12 @@ constructor(
         )
     }
 
-    private fun createPost(images: List<String> = emptyList()) {
-        Log.d("", "")
+//    private fun createPost(images: List<String> = emptyList()) {
+//        Log.d("", "")
 //        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
 //        val postRequest = PostCreationRequestModel(title, content, tags, images)
 //        (posterUseCase as DiscussionPosterUseCase).createPostOrComment(postRequest)
-    }
+//    }
 
     override fun onCleared() {
         super.onCleared()
@@ -337,7 +339,7 @@ constructor(
     }
 
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        UpdateLinkInTextViewCommand(isEdit, text, linkInfo.sourceUrl, linkInfo.type)
+        UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.type.mapToLinkType(), linkInfo.sourceUrl, linkInfo.thumbnailUrl))
     }
 
     fun setEmbedCount(count: Int) {
@@ -376,6 +378,13 @@ constructor(
             command.value = SetLoadingVisibilityCommand(false)
         }
     }
+
+    private fun ExternalLinkType.mapToLinkType(): LinkType =
+        when(this) {
+            ExternalLinkType.IMAGE -> LinkType.IMAGE
+            ExternalLinkType.WEBSITE -> LinkType.WEBSITE
+            ExternalLinkType.VIDEO -> LinkType.VIDEO
+        }
 }
 
 internal fun ContentBodyModel.toContent(): CharSequence = this.full
