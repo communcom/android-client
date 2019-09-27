@@ -67,7 +67,7 @@ class MetadataToJsonMapper() {
 
                     is SplittedLink -> builder.putBlock(
                         BlockType.LINK,
-                        isLast,
+                        isLastSplit,
                         split.content,
                         PostAttribute(Attribute.URL, split.uri.toString()),
                         PostAttribute(Attribute.TYPE, split.type.map()),
