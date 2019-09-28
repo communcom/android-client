@@ -51,6 +51,9 @@ import io.golos.data.api.*
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
+import io.golos.data.repositories.discussion_creation.DiscussionCreationRepository
+import io.golos.data.repositories.discussion_creation.DiscussionCreationRepositoryImpl
+import io.golos.data.repositories.discussion_creation.DiscussionCreationRepositoryLiveData
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
@@ -302,7 +305,10 @@ abstract class AppModuleBinds {
 
     @Binds
     @ApplicationScope
-    abstract fun provideDiscussionCreationRepository(repository: DiscussionCreationRepository): Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
+    abstract fun provideDiscussionCreationRepositoryLiveData(repository: DiscussionCreationRepositoryLiveData): Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
+
+    @Binds
+    abstract fun provideDiscussionCreationRepository(repository: DiscussionCreationRepositoryImpl): DiscussionCreationRepository
 
     @Binds
     @ApplicationScope

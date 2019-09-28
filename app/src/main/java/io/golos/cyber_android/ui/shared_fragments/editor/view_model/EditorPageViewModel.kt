@@ -18,6 +18,8 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreatedViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
@@ -229,7 +231,7 @@ constructor(
     }
 
     /**
-     * Creates new post. Result of creation can be listened by [discussionCreationLiveData]
+     * Creates new post
      */
     @Suppress("MoveVariableDeclarationIntoWhen")
     fun post(content: List<ControlMetadata>) {
@@ -246,20 +248,20 @@ constructor(
             try {
                 val uploadResult = model.uploadLocalImage(content)
 
-                when(uploadResult) {
-                    is Either.Failure -> {              // Can't upload the file
-                        command.value = ShowMessageCommand(R.string.error_upload_file)
-                    }
-                    is Either.Success -> {              // Create post and attach the file
-                        model.createPost(content, listOf(uploadResult.value.url))
-                    }
-                    null -> {                           // No files to upload
-                        model.createPost(content)
+                if(uploadResult is Either.Failure) {        // Can't upload the file
+                    command.value = ShowMessageCommand(R.string.error_upload_file)
+                } else {
+                    val images = if(uploadResult is Either.Success) listOf(uploadResult.value.url) else listOf()
+
+                    command.value = when(val createPostResult = model.createPost(content, nsfwLiveData.value == true, images)) {
+                        is Either.Failure -> PostErrorViewCommand(createPostResult.value)
+                        is Either.Success -> PostCreatedViewCommand(createPostResult.value)
                     }
                 }
+
             } catch(ex: Exception) {
                 App.logger.log(ex)
-                command.value = ShowMessageCommand(R.string.error_send_post)
+                command.value = PostErrorViewCommand(ex)
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
             }

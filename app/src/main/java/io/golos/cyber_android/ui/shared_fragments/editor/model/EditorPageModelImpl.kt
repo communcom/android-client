@@ -13,15 +13,19 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.utils.PostConstants
 import io.golos.data.api.EmbedApi
 import io.golos.data.errors.CyberServicesError
+import io.golos.data.repositories.discussion_creation.DiscussionCreationRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.entities.DiscussionCreationResultEntity
+import io.golos.domain.entities.PostCreationResultEntity
 import io.golos.domain.entities.UploadedImageEntity
-import io.golos.domain.post_editor.ControlMetadata
-import io.golos.domain.post_editor.EmbedMetadata
-import io.golos.domain.post_editor.EmbedType
-import io.golos.domain.post_editor.ParagraphMetadata
+import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.interactors.model.PostCreationRequestModel
+import io.golos.domain.interactors.model.PostCreationResultModel
+import io.golos.domain.post_editor.*
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
+import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.posts_parsing_rendering.metadata_to_json.MetadataToJsonMapper
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -34,7 +38,8 @@ class EditorPageModelImpl
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val embedApi: EmbedApi,
-    private val imageUploadRepository: ImageUploadRepository
+    private val imageUploadRepository: ImageUploadRepository,
+    private val discussionCreationRepository: DiscussionCreationRepository
 ) : ModelBaseImpl(), EditorPageModel {
 
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
@@ -82,9 +87,38 @@ constructor(
             ?.let { uri -> File(URI.create(uri.toString())) }
             ?.let { file -> imageUploadRepository.upload(ImageUploadRequest(file, CompressionParams.DirectCompressionParams)) }
 
-    override suspend fun createPost(content: List<ControlMetadata>, images: List<String>) {
-        val json = MetadataToJsonMapper().map(content)
-        Log.d("", "")
+    override suspend fun createPost(
+        content: List<ControlMetadata>,
+        adultOnly: Boolean,
+        localImagesUri: List<String>
+    ): Either<PostCreationResultModel, Throwable> {
+        val postText = MetadataToJsonMapper().map(content, localImagesUri)
+
+        val tags = content
+            .asSequence()
+            .filterIsInstance<ParagraphMetadata>()
+            .map { it.spans }
+            .flatten()
+            .filterIsInstance<TagSpanInfo>()
+            .map { it.value }
+            .toMutableSet()
+
+        if(adultOnly) {
+            tags.add("nsfw")
+        }
+
+        val postRequest = PostCreationRequestEntity("", postText, postText, tags.toList(), localImagesUri)
+
+        return when(val creationResult = discussionCreationRepository.createOrUpdate(postRequest)) {
+            is Either.Failure -> Either.Failure<PostCreationResultModel, Throwable>(creationResult.value)
+            is Either.Success -> {
+                (creationResult.value as PostCreationResultEntity)
+                .let {
+                    Either.Success<PostCreationResultModel, Throwable>(PostCreationResultModel(
+                        DiscussionIdModel(it.postId.userId, it.postId.permlink)))
+                }
+            }
+        }
     }
 
     /**

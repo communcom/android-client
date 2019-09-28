@@ -132,7 +132,7 @@ constructor(
         val requestEntity = when (request) {
             is PostCreationRequestModel -> PostCreationRequestEntity(
                 request.title,
-                fromSpannableTransformer.transform(request.body),
+                request.body.toString(),
                 request.body,
                 request.tags,
                 request.images

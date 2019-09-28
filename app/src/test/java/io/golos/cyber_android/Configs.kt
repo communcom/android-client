@@ -182,7 +182,7 @@
 //
 //val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)
 //
-//val discussionCreationRepo = DiscussionCreationRepository(
+//val discussionCreationRepo = DiscussionCreationRepositoryLiveData(
 //    apiService,
 //    apiService,
 //    dispatchersProvider,

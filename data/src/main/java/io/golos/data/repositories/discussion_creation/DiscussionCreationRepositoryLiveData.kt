@@ -1,4 +1,4 @@
-package io.golos.data.repositories
+package io.golos.data.repositories.discussion_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,20 +29,27 @@ import kotlin.collections.HashMap
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.
  */
 @ApplicationScope
-class DiscussionCreationRepository
+class DiscussionCreationRepositoryLiveData
 @Inject
 constructor(
-    private val discussionsCreationApi: DiscussionsCreationApi,
-    private val transactionsApi: TransactionsApi,
-    private val dispatchersProvider: DispatchersProvider,
+    discussionsCreationApi: DiscussionsCreationApi,
+    transactionsApi: TransactionsApi,
+    dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    private val toEntityResultMapper: CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>,
-    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>,
-    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>,
+    toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
+    toEntityResultMapper: CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>,
+    toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>,
+    toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
-
-) : Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
+) : DiscussionCreationRepositoryBase(
+    dispatchersProvider,
+    toCyberRequestMapper,
+    toEntityResultMapper,
+    toEntityUpdateResultMapper,
+    toEntityDeleteResultMapper,
+    discussionsCreationApi,
+    transactionsApi
+),  Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
@@ -72,43 +79,7 @@ constructor(
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val discussionCreationResult = withContext(dispatchersProvider.calculationsDispatcher) {
-                    val request = toCyberRequestMapper(params)
-                    val apiAnswer = when (request) {
-                        is CreateCommentRequest -> discussionsCreationApi.createComment(
-                            request.body,
-                            request.parentAccount,
-                            request.parentPermlink,
-                            request.category,
-                            request.metadata,
-                            request.beneficiaries,
-                            request.vestPayment,
-                            request.tokenProp
-                        )
-                        is CreatePostRequest -> discussionsCreationApi.createPost(
-                            request.title, request.body, request.tags,
-                            request.metadata, request.beneficiaries, request.vestPayment, request.tokenProp
-                        )
-                        is UpdatePostRequest -> discussionsCreationApi.updatePost(
-                            request.postPermlink, request.title, request.body,
-                            request.tags, request.metadata
-                        )
-                        is DeleteDiscussionRequest -> discussionsCreationApi.deletePostOrComment(request.permlink)
-                    }
-                    try {
-                        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
-                    } catch (e: SocketTimeoutException) {
-                        //for now SocketTimeoutException during waitForTransaction phase counts as a
-                        //success, so we just log it and ignore
-                        logger.log(e)
-                    }
-
-                    when (request) {
-                        is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdatemssgGlsPublishStruct)
-                        is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeletemssgGlsPublishStruct)
-                        else -> toEntityResultMapper(apiAnswer.second as CreatemssgGlsPublishStruct)
-                    }
-                }
+                val discussionCreationResult = createOrUpdateDiscussion(params)
 
                 (getAsLiveData(params) as MutableLiveData).value = discussionCreationResult
                 updateStateLiveData.value =

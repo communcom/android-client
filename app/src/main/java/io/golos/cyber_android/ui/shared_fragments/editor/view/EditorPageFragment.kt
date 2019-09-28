@@ -28,6 +28,8 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageVi
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreatedViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
@@ -249,6 +251,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                             editorWidget.insertLinkInText(command.linkInfo)
                         }
                     }
+
+                is PostErrorViewCommand -> onPostError(command.result)
+                is PostCreatedViewCommand -> onPostResult(command.result)
 
                 else -> throw UnsupportedOperationException("This command is not supported")
             }

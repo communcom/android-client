@@ -12,7 +12,7 @@ import io.golos.posts_parsing_rendering.metadata_to_json.spans_splitter.*
 
 class MetadataToJsonMapper() {
     @Suppress("NestedLambdaShadowedImplicitParameter")
-    fun map(postMetadata: List<ControlMetadata>): String {
+    fun map(postMetadata: List<ControlMetadata>, localImagesUri: List<String>): String {
         val builder = JsonBuilderImpl.create()
         val spansSplitter = SpansSplitter()
 
@@ -27,7 +27,7 @@ class MetadataToJsonMapper() {
 
             if(embeds.isNotEmpty()) {
                 it.putBlock(BlockType.ATTACHMENTS, true) {
-                    putEmbed(embeds.first(), it)
+                    putEmbed(embeds.first(), it, localImagesUri)
                 }
             }
         }
@@ -35,8 +35,10 @@ class MetadataToJsonMapper() {
         return builder.build()
     }
 
-    private fun putEmbed(metadataBlock: EmbedMetadata, builder: JsonBuilderBlocks) {
-        builder.putBlock(metadataBlock.type.mapToBlockType(), true, metadataBlock.sourceUri.toString())
+    private fun putEmbed(metadataBlock: EmbedMetadata, builder: JsonBuilderBlocks, localImagesUri: List<String>) {
+        val uri = if(metadataBlock.type == EmbedType.LOCAL_IMAGE) localImagesUri[0] else metadataBlock.sourceUri.toString()
+
+        builder.putBlock(metadataBlock.type.mapToBlockType(), true, uri)
     }
 
     private fun EmbedType.mapToBlockType(): BlockType =
