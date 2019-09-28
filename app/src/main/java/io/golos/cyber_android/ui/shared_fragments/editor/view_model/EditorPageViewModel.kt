@@ -31,9 +31,9 @@ import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
-import io.golos.domain.post_editor.ControlMetadata
-import io.golos.domain.post_editor.LinkInfo
-import io.golos.domain.post_editor.LinkType
+import io.golos.domain.post.editor_output.ControlMetadata
+import io.golos.domain.post.editor_output.LinkInfo
+import io.golos.domain.post.LinkType
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -341,7 +341,9 @@ constructor(
     }
 
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.type.mapToLinkType(), linkInfo.sourceUrl, linkInfo.thumbnailUrl))
+        UpdateLinkInTextViewCommand(isEdit,
+            LinkInfo(text, linkInfo.type.mapToLinkType(), linkInfo.sourceUrl, linkInfo.thumbnailUrl)
+        )
     }
 
     fun setEmbedCount(count: Int) {

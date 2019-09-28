@@ -1,9 +1,9 @@
-package io.golos.posts_parsing_rendering.metadata_to_json.spans_splitter
+package io.golos.posts_parsing_rendering.editor_output_to_json.spans_splitter
 
-import io.golos.domain.post_editor.LinkSpanInfo
-import io.golos.domain.post_editor.MentionSpanInfo
-import io.golos.domain.post_editor.ParagraphMetadata
-import io.golos.domain.post_editor.TagSpanInfo
+import io.golos.domain.post.editor_output.LinkSpanInfo
+import io.golos.domain.post.editor_output.MentionSpanInfo
+import io.golos.domain.post.editor_output.ParagraphMetadata
+import io.golos.domain.post.editor_output.TagSpanInfo
 import java.lang.UnsupportedOperationException
 
 class SpansSplitter {

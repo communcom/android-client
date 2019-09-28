@@ -1,7 +1,7 @@
-package io.golos.posts_parsing_rendering.metadata_to_json.spans_splitter
+package io.golos.posts_parsing_rendering.editor_output_to_json.spans_splitter
 
 import android.net.Uri
-import io.golos.domain.post_editor.LinkType
+import io.golos.domain.post.LinkType
 
 sealed class SplittedItem
 

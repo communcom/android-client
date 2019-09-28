@@ -20,9 +20,9 @@ import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.components.input.InputExtensions
 import io.golos.posts_editor.models.*
-import io.golos.domain.post_editor.ControlMetadata
-import io.golos.domain.post_editor.EmbedMetadata
-import io.golos.domain.post_editor.ParagraphMetadata
+import io.golos.domain.post.editor_output.ControlMetadata
+import io.golos.domain.post.editor_output.EmbedMetadata
+import io.golos.domain.post.editor_output.ParagraphMetadata
 import io.golos.posts_editor.dto.EditorAction
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element

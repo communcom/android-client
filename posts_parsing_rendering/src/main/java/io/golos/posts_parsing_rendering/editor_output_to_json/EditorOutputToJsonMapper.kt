@@ -1,16 +1,17 @@
-package io.golos.posts_parsing_rendering.metadata_to_json
+package io.golos.posts_parsing_rendering.editor_output_to_json
 
-import io.golos.domain.post_editor.*
+import io.golos.domain.post.LinkType
+import io.golos.domain.post.editor_output.*
 import io.golos.posts_parsing_rendering.Attribute
 import io.golos.posts_parsing_rendering.BlockType
 import io.golos.posts_parsing_rendering.GlobalConstants
 import io.golos.posts_parsing_rendering.LinkTypeJson
-import io.golos.posts_parsing_rendering.metadata_to_json.builder.JsonBuilderBlocks
-import io.golos.posts_parsing_rendering.metadata_to_json.builder.JsonBuilderImpl
-import io.golos.posts_parsing_rendering.metadata_to_json.builder.PostAttribute
-import io.golos.posts_parsing_rendering.metadata_to_json.spans_splitter.*
+import io.golos.posts_parsing_rendering.editor_output_to_json.builder.JsonBuilderBlocks
+import io.golos.posts_parsing_rendering.editor_output_to_json.builder.JsonBuilderImpl
+import io.golos.posts_parsing_rendering.editor_output_to_json.builder.PostAttribute
+import io.golos.posts_parsing_rendering.editor_output_to_json.spans_splitter.*
 
-class MetadataToJsonMapper() {
+class EditorOutputToJsonMapper {
     @Suppress("NestedLambdaShadowedImplicitParameter")
     fun map(postMetadata: List<ControlMetadata>, localImagesUri: List<String>): String {
         val builder = JsonBuilderImpl.create()

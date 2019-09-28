@@ -21,9 +21,12 @@ enum class Attribute(val value: String) {
     URL("url"),
     TYPE("type"),
     THUMBNAIL_URL("thumbnail_url"),
+    THUMBNAIL_SIZE("thumbnail_size"),
     DESCRIPTION("description"),
     PROVIDER_NAME("provider_name"),
-    HTML("html")
+    HTML("html"),
+    AUTHOR("author"),
+    AUTHOR_URL("author_url")
 }
 
 object LinkTypeJson {

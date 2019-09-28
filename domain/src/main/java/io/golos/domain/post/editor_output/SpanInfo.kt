@@ -1,10 +1,11 @@
-package io.golos.domain.post_editor
+package io.golos.domain.post.editor_output
 
 import androidx.annotation.ColorInt
+import io.golos.domain.post.TextStyle
 
 abstract class SpanInfo<T> (val area: IntRange, val value: T)
 
-class StyleSpanInfo(area: IntRange, value: EditorTextStyle): SpanInfo<EditorTextStyle>(area, value)
+class StyleSpanInfo(area: IntRange, value: TextStyle): SpanInfo<TextStyle>(area, value)
 
 /**
  * [value] - color's value as Int

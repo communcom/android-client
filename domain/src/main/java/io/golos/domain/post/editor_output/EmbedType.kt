@@ -1,4 +1,4 @@
-package io.golos.domain.post_editor
+package io.golos.domain.post.editor_output
 
 enum class EmbedType {
     EXTERNAL_VIDEO,

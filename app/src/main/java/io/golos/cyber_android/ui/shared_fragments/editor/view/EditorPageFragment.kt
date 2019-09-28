@@ -38,9 +38,8 @@ import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
-import io.golos.domain.post_editor.EmbedType
-import io.golos.domain.post_editor.LinkType
-import io.golos.domain.post_editor.EditorTextStyle
+import io.golos.domain.post.editor_output.EmbedType
+import io.golos.domain.post.TextStyle
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
@@ -113,11 +112,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             when(possibleAction) {
                 EditorAction.TEXT_BOLD -> {
                     boldButton.visibility = View.VISIBLE
-                    boldButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.BOLD) }
+                    boldButton.setOnClickListener { editorWidget.updateTextStyle(TextStyle.BOLD) }
                 }
                 EditorAction.TEXT_ITALIC -> {
                     italicButton.visibility = View.VISIBLE
-                    italicButton.setOnClickListener { editorWidget.updateTextStyle(EditorTextStyle.ITALIC) }
+                    italicButton.setOnClickListener { editorWidget.updateTextStyle(TextStyle.ITALIC) }
                 }
                 EditorAction.TEXT_COLOR -> {
                     textColorButton.visibility = View.VISIBLE

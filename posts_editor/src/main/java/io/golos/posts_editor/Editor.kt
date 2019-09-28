@@ -5,7 +5,10 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
-import io.golos.domain.post_editor.*
+import io.golos.domain.post.editor_output.ControlMetadata
+import io.golos.domain.post.TextStyle
+import io.golos.domain.post.editor_output.EmbedType
+import io.golos.domain.post.editor_output.LinkInfo
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.models.EditorContent
 import io.golos.posts_editor.components.EmbedWidget
@@ -75,7 +78,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         }
     }
 
-    fun updateTextStyle(style: EditorTextStyle) {
+    fun updateTextStyle(style: TextStyle) {
         inputExtensions!!.updateTextStyle(style, null)
     }
 

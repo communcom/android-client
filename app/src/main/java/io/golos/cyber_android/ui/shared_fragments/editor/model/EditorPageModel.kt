@@ -5,10 +5,9 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
-import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.interactors.model.PostCreationResultModel
-import io.golos.domain.post_editor.ControlMetadata
+import io.golos.domain.post.editor_output.ControlMetadata
 
 interface EditorPageModel : ModelBase {
     suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError>

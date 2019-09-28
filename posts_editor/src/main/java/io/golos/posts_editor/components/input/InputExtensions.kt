@@ -22,7 +22,8 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
-import io.golos.domain.post_editor.*
+import io.golos.domain.post.TextStyle
+import io.golos.domain.post.editor_output.*
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
@@ -90,7 +91,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                                 )
                                 is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value)
                                 is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value)
-                                is MentionSpan -> MentionSpanInfo(it.spanInterval, it.span.value)
+                                is MentionSpan -> MentionSpanInfo(
+                                    it.spanInterval,
+                                    it.span.value
+                                )
                                 else -> null
                             }
 
@@ -393,7 +397,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun updateTextStyle(style: EditorTextStyle, editText: TextView?) {
+    fun updateTextStyle(style: TextStyle, editText: TextView?) {
         try {
             val editTextLocal = (editText ?: editor) as CustomEditText
 
@@ -409,7 +413,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                         is DeleteSpanOperation -> spansWorker.removeSpan(operation.span)
 
                         is CreateSpanOperation<*> -> {
-                            with((operation as CreateSpanOperation<EditorTextStyle>).spanInfo) {
+                            with((operation as CreateSpanOperation<TextStyle>).spanInfo) {
                                 spansWorker.createSpan(StyleSpan(styleToTypeface(value)), area)
                             }
                         }
@@ -422,11 +426,11 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         }
     }
 
-    private fun styleToTypeface(style: EditorTextStyle): Int =
+    private fun styleToTypeface(style: TextStyle): Int =
         when(style) {
-            EditorTextStyle.ITALIC -> Typeface.ITALIC
-            EditorTextStyle.BOLD -> Typeface.BOLD
-            EditorTextStyle.BOLD_ITALIC -> Typeface.BOLD_ITALIC
+            TextStyle.ITALIC -> Typeface.ITALIC
+            TextStyle.BOLD -> Typeface.BOLD
+            TextStyle.BOLD_ITALIC -> Typeface.BOLD_ITALIC
         }
 
     fun insertLink() {
