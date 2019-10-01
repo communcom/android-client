@@ -1,9 +1,12 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
@@ -11,13 +14,17 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.common.extensions.openLinkExternal
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.spans.LinkClickableSpan
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.*
 import io.golos.domain.post.toTypeface
 import javax.inject.Inject
+
 
 class ParagraphWidget
 @JvmOverloads
@@ -27,6 +34,9 @@ constructor(
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr),
     PostBlockWidget<ParagraphBlock> {
+
+    @ColorInt
+    private val spansColor = Color.BLUE
 
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider
@@ -61,6 +71,8 @@ constructor(
             params.bottomMargin = it
             layoutParams = params
         }
+
+        movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun setText(block: ParagraphBlock) {
@@ -88,19 +100,24 @@ constructor(
     private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText("#${block.content}")
 
-        builder.setSpan(ForegroundColorSpan(Color.BLUE), textInterval)
+        builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
     }
 
     private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText("@${block.content}")
 
-        builder.setSpan(ForegroundColorSpan(Color.BLUE), textInterval)
+        builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
     }
 
     private fun addLink(block: LinkBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText(block.content)
 
-        builder.setSpan(ForegroundColorSpan(Color.BLUE), textInterval)
+        builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
+
+        // Open link in browser
+        builder.setSpan(object: LinkClickableSpan(block.url, spansColor) {
+            override fun onClick(spanData: Uri) = this@ParagraphWidget.openLinkExternal(spanData)
+        }, textInterval)
     }
 
     private fun SpannableStringBuilder.setSpan(span: CharacterStyle, interval: IntRange) =

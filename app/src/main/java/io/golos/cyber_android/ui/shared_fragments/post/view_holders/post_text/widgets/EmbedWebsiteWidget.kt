@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.common.extensions.openLinkExternal
 import io.golos.cyber_android.ui.common.glide.TopRoundedCorners
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.WebsiteBlock
@@ -46,6 +47,10 @@ constructor(
 
         title.text = block.title ?: block.description ?: block.providerName ?: host
         siteName.text = host
+
+        siteName.setOnClickListener {
+            it.openLinkExternal(block.content)
+        }
     }
 
     override fun cancel() {
