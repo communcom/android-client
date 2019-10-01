@@ -29,8 +29,7 @@ enum class Attribute(val value: String) {
     AUTHOR_URL("author_url")
 }
 
-object LinkTypeJson {
-    const val IMAGE = "image"
-    const val VIDEO = "video"
-    const val WEBSITE = "website"
+object PostTypeJson {
+    const val BASIC = "basic"
+    const val ARTICLE = "article"
 }

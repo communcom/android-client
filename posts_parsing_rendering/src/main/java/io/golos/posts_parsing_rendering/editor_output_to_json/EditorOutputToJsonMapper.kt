@@ -1,11 +1,7 @@
 package io.golos.posts_parsing_rendering.editor_output_to_json
 
-import io.golos.domain.post.LinkType
 import io.golos.domain.post.editor_output.*
-import io.golos.posts_parsing_rendering.Attribute
-import io.golos.posts_parsing_rendering.BlockType
-import io.golos.posts_parsing_rendering.GlobalConstants
-import io.golos.posts_parsing_rendering.LinkTypeJson
+import io.golos.posts_parsing_rendering.*
 import io.golos.posts_parsing_rendering.editor_output_to_json.builder.JsonBuilderBlocks
 import io.golos.posts_parsing_rendering.editor_output_to_json.builder.JsonBuilderImpl
 import io.golos.posts_parsing_rendering.editor_output_to_json.builder.PostAttribute
@@ -17,7 +13,12 @@ class EditorOutputToJsonMapper {
         val builder = JsonBuilderImpl.create()
         val spansSplitter = SpansSplitter()
 
-        builder.putBlock(BlockType.POST, true, PostAttribute(Attribute.VERSION, GlobalConstants.postFormatVersion)) {
+        builder.putBlock(
+            BlockType.POST,
+            true,
+            PostAttribute(Attribute.VERSION, GlobalConstants.postFormatVersion.toString()),
+            PostAttribute(Attribute.TYPE, PostTypeJson.BASIC)) {
+
             val paragraphs = postMetadata.filterIsInstance<ParagraphMetadata>()
             val embeds = postMetadata.filterIsInstance<EmbedMetadata>()
 
@@ -72,19 +73,10 @@ class EditorOutputToJsonMapper {
                         BlockType.LINK,
                         isLastSplit,
                         split.content,
-                        PostAttribute(Attribute.URL, split.uri.toString()),
-                        PostAttribute(Attribute.TYPE, split.type.map()),
-                        PostAttribute(Attribute.THUMBNAIL_URL, split.thumbnailUrl.toString())
+                        PostAttribute(Attribute.URL, split.uri.toString())
                     )
                 }
             }
         }
     }
-
-    private fun LinkType.map(): String =
-        when(this) {
-            LinkType.IMAGE -> LinkTypeJson.IMAGE
-            LinkType.VIDEO -> LinkTypeJson.VIDEO
-            LinkType.WEBSITE -> LinkTypeJson.WEBSITE
-        }
 }

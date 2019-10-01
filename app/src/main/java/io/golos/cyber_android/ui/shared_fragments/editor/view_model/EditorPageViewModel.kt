@@ -33,7 +33,6 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
-import io.golos.domain.post.LinkType
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -341,9 +340,7 @@ constructor(
     }
 
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        UpdateLinkInTextViewCommand(isEdit,
-            LinkInfo(text, linkInfo.type.mapToLinkType(), linkInfo.sourceUrl, linkInfo.thumbnailUrl)
-        )
+        UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
     }
 
     fun setEmbedCount(count: Int) {
@@ -382,13 +379,6 @@ constructor(
             command.value = SetLoadingVisibilityCommand(false)
         }
     }
-
-    private fun ExternalLinkType.mapToLinkType(): LinkType =
-        when(this) {
-            ExternalLinkType.IMAGE -> LinkType.IMAGE
-            ExternalLinkType.WEBSITE -> LinkType.WEBSITE
-            ExternalLinkType.VIDEO -> LinkType.VIDEO
-        }
 }
 
 internal fun ContentBodyModel.toContent(): CharSequence = this.full

@@ -3,7 +3,6 @@ package io.golos.posts_parsing_rendering.json_to_dto.mappers
 import android.graphics.Color
 import android.net.Uri
 import android.util.Size
-import io.golos.domain.post.LinkType
 import io.golos.domain.post.TextStyle
 import io.golos.domain.post.post_dto.Block
 import io.golos.posts_parsing_rendering.Attribute
@@ -73,25 +72,15 @@ abstract class MapperBase<T: Block>(protected val mappersFactory: MappersFactory
 
     protected fun JSONObject.getLong(attr: Attribute): Long = this.getLong(attr.value)
 
+    protected fun JSONObject.getString(attr: Attribute): String = this.getString(attr.value)
+
     protected fun JSONObject.getUri(attr: Attribute): Uri = Uri.parse(this.getString(attr.value))
-
-    protected fun JSONObject.getLinkType(attr: Attribute): LinkType = this.getString(attr.value).mapStringToLinkType()
-
 
     protected fun JSONObject.getContentAsArray(): JSONArray = this.getJSONArray("content")
 
     protected fun JSONObject.getContentAsString(): String = this.getString("content")
 
     protected fun JSONObject.getContentAsUri(): Uri = Uri.parse(this.getContentAsString())
-
-
-    private fun String.mapStringToLinkType(): LinkType =
-        when(this) {
-            "image" -> LinkType.IMAGE
-            "video" -> LinkType.VIDEO
-            "website" -> LinkType.WEBSITE
-            else -> throw UnsupportedOperationException("This type of link is not supported: $this")
-        }
 
     private fun List<String>.mapStringToTextStyle(): TextStyle =
         when(this.size) {

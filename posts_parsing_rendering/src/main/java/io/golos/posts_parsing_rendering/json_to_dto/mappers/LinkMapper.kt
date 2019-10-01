@@ -10,9 +10,7 @@ class LinkMapper(mappersFactory: MappersFactory): MapperBase<LinkBlock>(mappersF
 
         return LinkBlock(
             source.getContentAsString(),
-            attributes.getUri(Attribute.URL),
-            attributes.getLinkType(Attribute.TYPE),
-            attributes.tryUri(Attribute.THUMBNAIL_URL)
+            attributes.getUri(Attribute.URL)
         )
     }
 }

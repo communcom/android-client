@@ -1,5 +1,6 @@
 package io.golos.posts_parsing_rendering.json_to_html.renderers
 
+import io.golos.domain.post.post_dto.PostFormatVersion
 import io.golos.posts_parsing_rendering.Attribute
 import io.golos.posts_parsing_rendering.GlobalConstants.postFormatVersion
 import io.golos.posts_parsing_rendering.json_to_html.html_builder.HtmlBuilder
@@ -15,9 +16,9 @@ class PostRenderer(
     override fun render(block: JSONObject) {
         val attributes = getAttributes(block) ?: throw IllegalArgumentException("Post attributes can't be empty")
 
-        val postVersion = attributes.getLong(Attribute.VERSION.value)
+        val postVersion = PostFormatVersion.parse(attributes.getString(Attribute.VERSION.value))
 
-        if(postVersion > postFormatVersion) {
+        if(postVersion.major > postFormatVersion.major) {
             throw IncompatibleVersionsException()
         }
 

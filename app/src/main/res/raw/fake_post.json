@@ -2,8 +2,9 @@
   "id": 1,
   "type": "post",
   "attributes": {
-    "version": 1,
-    "title": "Сказка про царя"
+    "version": "1.0",
+    "title": "Сказка про царя",
+    "type": "article"
   },
   "content": [
     {
@@ -34,9 +35,7 @@
           "type": "link",
           "content": " , Люди ",
           "attributes": {
-            "url": "https://www.youtube.com/watch?v=UiYlRkVxC_4",
-            "type": "video",
-            "thumbnail_url": "https://i.ytimg.com/vi/UiYlRkVxC_4/hqdefault.jpg"
+            "url": "https://www.youtube.com/watch?v=UiYlRkVxC_4"
           }
         },
         {
@@ -44,8 +43,7 @@
           "type": "link",
           "content": "помнят ",
           "attributes": {
-            "url": "https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg",
-            "type": "image"
+            "url": "https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg"
           }
         },
         {
@@ -53,9 +51,7 @@
           "type": "link",
           "content": "чудака.",
           "attributes": {
-            "url": "https://diletant.media",
-            "type": "website",
-            "thumbnail_url": "https://yastatic.net/s3/home/logos/share/share-logo_ru.png"
+            "url": "https://diletant.media"
           }
         }
       ]
