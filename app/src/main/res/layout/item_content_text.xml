@@ -4,6 +4,15 @@
         android:layout_height="wrap_content"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <TextView
+        android:id="@+id/errorHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        tools:text="Some error"
+        android:layout_gravity="center"
+        />
+
     <ProgressBar
         android:id="@+id/loadingIndicator"
         android:indeterminateOnly="true"
@@ -11,11 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <im.delight.android.webview.AdvancedWebView
-        android:id="@+id/webView"
+    <LinearLayout
+        android:id="@+id/postWidgetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:visibility="visible"
-        android:visibility="invisible"
+        android:orientation="vertical"
     />
+
 </FrameLayout>

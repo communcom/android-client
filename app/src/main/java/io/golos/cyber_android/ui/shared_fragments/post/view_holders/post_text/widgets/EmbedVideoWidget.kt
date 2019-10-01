@@ -18,13 +18,14 @@ constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr),
+    PostBlockWidget<VideoBlock> {
 
     init {
         inflate(context, R.layout.view_post_embed_video, this)
     }
 
-    fun render(block:  VideoBlock) {
+    override fun render(block:  VideoBlock) {
         description.text = block.description ?: block.title ?: block.author ?: ""
 
         if(block.html != null) {
@@ -43,7 +44,7 @@ constructor(
         }
     }
 
-    fun cancel() {
+    override fun cancel() {
         if(video.visibility == View.VISIBLE) {
             video.stopLoading()
         }

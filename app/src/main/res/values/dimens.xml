@@ -100,6 +100,10 @@
     <dimen name="gap_title_website">2dp</dimen>
     <dimen name="size_post_attachments">50dp</dimen>
     <dimen name="gap_post_attachments">5dp</dimen>
+    <dimen name="text_size_post_normal">@dimen/text_size_17_sp</dimen>
+    <dimen name="text_size_post_less_normal">@dimen/text_size_15_sp</dimen>
+    <dimen name="text_size_post_small">@dimen/text_size_12_sp</dimen>
+    <dimen name="text_size_post_tiny">@dimen/text_size_10_sp</dimen>
 
     <!--Post Page-->
     <dimen name="margin_top_post_page_title">16dp</dimen>

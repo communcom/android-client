@@ -21,6 +21,11 @@ class MappersFactory {
             VideoMapper::class -> VideoMapper(this)
             ImageMapper::class -> ImageMapper(this)
 
+            TextMapper::class -> TextMapper(this)
+            TagMapper::class -> TagMapper(this)
+            MentionMapper::class -> MentionMapper(this)
+            LinkMapper::class -> LinkMapper(this)
+
             AttachmentsMapper::class -> AttachmentsMapper(this)
 
             else -> throw UnsupportedOperationException("This type of block is not supported: $type")

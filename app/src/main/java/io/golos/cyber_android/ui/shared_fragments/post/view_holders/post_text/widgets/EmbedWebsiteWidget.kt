@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
@@ -20,7 +21,8 @@ constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr),
+    PostBlockWidget<WebsiteBlock> {
 
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider
@@ -32,12 +34,12 @@ constructor(
     }
 
     @SuppressLint("DefaultLocale")
-    fun render(block: WebsiteBlock) {
+    override fun render(block: WebsiteBlock) {
         val radius = appResourcesProvider.getDimens(R.dimen.radius_corner_embed_website)
         Glide
             .with(this)
             .load(block.thumbnailUrl?.toString() ?: Stubs.website)
-            .transform(TopRoundedCorners(radius))
+            .transform(CenterCrop(), TopRoundedCorners(radius))
             .into(image)
 
         val host = block.content.host?.capitalize()
@@ -46,7 +48,7 @@ constructor(
         siteName.text = host
     }
 
-    fun cancel() {
+    override fun cancel() {
         Glide
             .with(this)
             .clear(image)

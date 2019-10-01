@@ -26,7 +26,8 @@ constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr),
+    PostBlockWidget<AttachmentsBlock> {
 
     private var images = mutableListOf<ImageView>()
 
@@ -39,7 +40,7 @@ constructor(
         inflate(context, R.layout.view_post_attachments, this)
     }
 
-    fun render(block: AttachmentsBlock) {
+    override fun render(block: AttachmentsBlock) {
         attachmentsContainer.removeAllViews()
 
         val size = appResProvider.getDimens(R.dimen.size_post_attachments).toInt()
@@ -59,7 +60,7 @@ constructor(
         }
     }
 
-    fun cancel() {
+    override fun cancel() {
         images.forEach {
             Glide.with(this).clear(it)
         }

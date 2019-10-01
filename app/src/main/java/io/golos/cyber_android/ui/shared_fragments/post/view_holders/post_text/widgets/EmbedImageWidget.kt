@@ -15,13 +15,14 @@ constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr),
+    PostBlockWidget<ImageBlock> {
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
-    fun render(block: ImageBlock) {
+    override fun render(block: ImageBlock) {
         description.text = block.description
 
         Glide
@@ -31,7 +32,7 @@ constructor(
             .into(image)
     }
 
-    fun cancel() {
+    override fun cancel() {
         Glide.with(this).clear(image)
     }
 }

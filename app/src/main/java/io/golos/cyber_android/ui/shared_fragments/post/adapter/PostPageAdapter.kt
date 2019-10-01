@@ -250,18 +250,4 @@ class PostPageAdapter(
     override fun dispatchUpdates(diff: DiffUtil.DiffResult) {
         diff.dispatchUpdatesTo(updateCallback)
     }
-
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        if (holder is PostTextViewHolder) {
-            holder.onResume()
-        }
-    }
-
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        if (holder is PostTextViewHolder) {
-            holder.onPause()
-        }
-    }
 }

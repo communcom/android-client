@@ -8,6 +8,7 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
 import io.golos.cyber_android.R
@@ -24,23 +25,31 @@ constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = android.R.attr.textViewStyle
-) : TextView(context, attrs, defStyleAttr)  {
+) : TextView(context, attrs, defStyleAttr),
+    PostBlockWidget<ParagraphBlock> {
 
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider
 
     init {
         App.injections.get<UIComponent>().inject(this)
-
-        setUp()
     }
 
-    fun render(block: ParagraphBlock) = setText(block)
+    override fun render(block: ParagraphBlock) = setText(block)
+
+    override fun cancel() {
+        // do nothing
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setUp()
+    }
 
     private fun setUp() {
         setTextColor(Color.BLACK)
 
-        textSize = appResourcesProvider.getDimens(R.dimen.text_size_17_sp)
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, appResourcesProvider.getDimens(R.dimen.text_size_post_normal))
 
         appResourcesProvider.getDimens(R.dimen.padding_post_paragraph).toInt().also {
             setPadding(it, 0, it, 0)
@@ -77,19 +86,19 @@ constructor(
     }
 
     private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText("#${block.content}}")
+        val textInterval = builder.appendText("#${block.content}")
 
         builder.setSpan(ForegroundColorSpan(Color.BLUE), textInterval)
     }
 
     private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText("@${block.content}}")
+        val textInterval = builder.appendText("@${block.content}")
 
         builder.setSpan(ForegroundColorSpan(Color.BLUE), textInterval)
     }
 
     private fun addLink(block: LinkBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText("@${block.content}}")
+        val textInterval = builder.appendText(block.content)
 
         builder.setSpan(ForegroundColorSpan(Color.BLUE), textInterval)
     }

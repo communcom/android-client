@@ -1,32 +1,26 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text
 
-import android.annotation.SuppressLint
 import android.view.View
-import android.webkit.JavascriptInterface
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import androidx.annotation.StringRes
+import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber4j.sharedmodel.Either
+import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.core.display_info.DisplayInfoProvider
-import io.golos.posts_parsing_rendering.json_to_html.PostTextRenderingFacade
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.*
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.Logger
 import io.golos.domain.interactors.model.TextRowModel
+import io.golos.domain.post.post_dto.*
+import io.golos.posts_parsing_rendering.json_to_dto.JsonMappingErrorCode
+import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
 import kotlinx.android.synthetic.main.item_content_text.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
-import android.content.Intent
-import android.net.Uri
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import io.golos.domain.Logger
-import kotlinx.android.synthetic.main.item_content_text.view.webView
 
 
 class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), CoroutineScope, LifecycleObserver {
@@ -36,11 +30,6 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
     private var renderJob: Job? = null
 
     private lateinit var recyclerView: RecyclerView
-    private var webViewHeight = 0
-
-    init {
-        setupWebView()
-    }
 
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
@@ -52,9 +41,6 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
     internal lateinit var appResourcesProvider: AppResourcesProvider
 
     @Inject
-    internal lateinit var displayInfoProvider: DisplayInfoProvider
-
-    @Inject
     internal lateinit var logger: Logger
 
     init {
@@ -63,83 +49,67 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
 
     fun bind(textRowModel: TextRowModel, recyclerView: RecyclerView) {
         view.loadingIndicator.visibility = View.VISIBLE
-        view.webView.visibility = View.INVISIBLE
+        view.postWidgetContainer.visibility = View.INVISIBLE
+        view.errorHolder.visibility = View.INVISIBLE
 
         this.recyclerView = recyclerView
 
         renderJob = launch {
-            val html = PostTextRenderingFacade(dispatchersProvider, appResourcesProvider, logger).render(textRowModel.text.toString())
+            try {
+                val post = withContext(dispatchersProvider.calculationsDispatcher) {
+                    JsonToDtoMapper(App.logger).map(textRowModel.text.toString())
+                }
 
-            view.loadingIndicator.visibility = View.INVISIBLE
-            view.webView.visibility = View.VISIBLE
+                when(post) {
+                    is Either.Failure -> {
+                        when(post.value) {
+                            JsonMappingErrorCode.GENERAL -> showError(R.string.common_general_error)
+                            JsonMappingErrorCode.JSON -> showError(R.string.invalid_post_format)
+                            JsonMappingErrorCode.INCOMPATIBLE_VERSIONS -> showError(R.string.post_processor_is_too_format)
+                        }
+                    }
 
-            view.webView.loadHtml(html)
+                    is Either.Success -> {
+                        view.postWidgetContainer.visibility = View.VISIBLE
+
+                        post.value.content.forEach { block ->
+                            view.postWidgetContainer.addView(createWidget(block) as View)
+                        }
+
+                        post.value.attachments?.let { view.postWidgetContainer.addView(createWidget(it) as View) }
+                    }
+                }
+            } catch (ex: Exception) {
+                logger.log(ex)
+                showError(R.string.common_general_error)
+            } finally {
+                view.loadingIndicator.visibility = View.INVISIBLE
+            }
         }
     }
 
     fun cleanUp() {
         renderJob?.takeIf { it.isActive }?.cancel()
-    }
 
-    private fun setupWebView() {
-        with(view.webView) {
-            isFocusable = false
-            isFocusableInTouchMode = false
-
-            @SuppressLint("SetJavaScriptEnabled")
-            settings.javaScriptEnabled = true
-
-            addJavascriptInterface(object {
-                @Suppress("unused")
-                @JavascriptInterface
-                /**
-                 * We need to scroll to the block
-                 * [blockTopOffset] top offset of the block in pixels
-                 */
-                fun onScrollToBlock(blockTopOffset: Int, viewportHeight: Int) {
-                    val topOffsetRecalculated = ((webViewHeight/viewportHeight.toFloat())*blockTopOffset).toInt()
-
-                    val halfScreenSize = displayInfoProvider.sizeInPix.height/2
-                    recyclerView.smoothScrollBy(0, -(webViewHeight-topOffsetRecalculated-halfScreenSize))
-                    return
-                }
-            }, "Android")
-
-            webViewClient = object : WebViewClient() {
-                /**
-                 * Opens links in an external application
-                 */
-                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    return if (url != null && (url.startsWith("http://") || url.startsWith("https://"))) {
-                        view!!.context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        )
-                        true
-                    } else {
-                        false
-                    }
-                }
-
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    webViewHeight = view!!.height
-                }
+        with(view.postWidgetContainer) {
+            for(i in 0 until childCount) {
+                getChildAt(i).let {it as? PostBlockWidget<*>}?.cancel()
             }
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause() {
-        view.webView.onPause()
+    private fun showError(@StringRes errorText: Int) {
+        view.errorHolder.text = appResourcesProvider.getString(errorText)
+        view.errorHolder.visibility = View.VISIBLE
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume() {
-        view.webView.onResume()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
-        view.webView.onDestroy()
-    }
+    private fun createWidget(block: Block): PostBlockWidget<*> =
+        when(block) {
+            is AttachmentsBlock -> AttachmentsWidget(this.view.context).apply { render(block) }
+            is ImageBlock -> EmbedImageWidget(this.view.context).apply { render(block) }
+            is VideoBlock -> EmbedVideoWidget(this.view.context).apply { render(block) }
+            is WebsiteBlock -> EmbedWebsiteWidget(this.view.context).apply { render(block) }
+            is ParagraphBlock -> ParagraphWidget(this.view.context).apply { render(block) }
+            else -> throw UnsupportedOperationException("This type of block is not supported: $block")
+        }
 }
