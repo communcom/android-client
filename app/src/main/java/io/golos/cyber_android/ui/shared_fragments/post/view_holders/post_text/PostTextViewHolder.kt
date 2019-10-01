@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.view_holders
+package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text
 
 import android.annotation.SuppressLint
 import android.view.View

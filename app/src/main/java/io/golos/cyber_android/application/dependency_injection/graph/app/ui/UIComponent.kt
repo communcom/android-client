@@ -12,6 +12,9 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.AttachmentsWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.EmbedWebsiteWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.ParagraphWidget
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -38,4 +41,8 @@ interface UIComponent {
     val feedbackActivity: FeedbackActivityComponent.Builder
 
     fun inject(pinDigit: PinDigit)
+
+    fun inject(widget: ParagraphWidget)
+    fun inject(widget: EmbedWebsiteWidget)
+    fun inject(widget: AttachmentsWidget)
 }

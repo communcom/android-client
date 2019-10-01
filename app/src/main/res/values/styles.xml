@@ -23,6 +23,22 @@
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
+    <style name="Post.Image.Description.TextStyle" parent="Common.Base.TextStyle">
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+    </style>
+
+    <style name="Post.Website.Title.TextStyle" parent="Post.Image.Description.TextStyle">
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+    </style>
+
+    <style name="Post.Website.Link.TextStyle" parent="Post.Image.Description.TextStyle">
+        <item name="android:textSize">@dimen/text_size_10_sp</item>
+        <item name="android:textColor">@color/black_20</item>
+    </style>
+
     <style name="StandardText16spStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_16_sp</item>
     </style>

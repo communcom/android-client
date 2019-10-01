@@ -24,6 +24,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import io.golos.domain.post.TextStyle
 import io.golos.domain.post.editor_output.*
+import io.golos.domain.post.toTypeface
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
@@ -414,7 +415,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
                         is CreateSpanOperation<*> -> {
                             with((operation as CreateSpanOperation<TextStyle>).spanInfo) {
-                                spansWorker.createSpan(StyleSpan(styleToTypeface(value)), area)
+                                spansWorker.createSpan(StyleSpan(value.toTypeface()), area)
                             }
                         }
                     }
@@ -425,13 +426,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             e.printStackTrace()
         }
     }
-
-    private fun styleToTypeface(style: TextStyle): Int =
-        when(style) {
-            TextStyle.ITALIC -> Typeface.ITALIC
-            TextStyle.BOLD -> Typeface.BOLD
-            TextStyle.BOLD_ITALIC -> Typeface.BOLD_ITALIC
-        }
 
     fun insertLink() {
         val inputAlert = AlertDialog.Builder(this.editorCore.context)

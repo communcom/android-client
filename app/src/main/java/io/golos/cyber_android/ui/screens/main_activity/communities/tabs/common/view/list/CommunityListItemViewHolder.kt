@@ -35,7 +35,7 @@ class CommunityListItemViewHolder(
             return
         }
 
-        itemView.titleText.text = listItem.name
+        itemView.title.text = listItem.name
         itemView.followersText.text = followersFormatter.format(listItem.followersQuantity.toLong())
 
         if(listItem.isJoined) {
