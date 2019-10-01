@@ -21,7 +21,7 @@ class EditProfileCoverActivity : ActivityBase() {
         setContentView(R.layout.edit_profile_cover_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EditProfileCoverFragment.newInstance(intent.getStringExtra(Tags.ARGS)))
+                .replace(R.id.container, EditProfileCoverFragment.newInstance(intent.getParcelableExtra(Tags.ARGS)))
                 .commitNow()
         }
     }

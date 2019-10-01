@@ -20,7 +20,7 @@ class EditProfileAvatarActivity : AppCompatActivity() {
         setContentView(R.layout.edit_profile_avatar_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EditProfileAvatarFragment.newInstance(intent.getStringExtra(Tags.ARGS)))
+                .replace(R.id.container, EditProfileAvatarFragment.newInstance(intent.getParcelableExtra(Tags.ARGS)))
                 .commitNow()
         }
     }

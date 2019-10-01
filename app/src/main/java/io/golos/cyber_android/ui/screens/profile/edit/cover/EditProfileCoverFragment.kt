@@ -165,10 +165,10 @@ class EditProfileCoverFragment : ImagePickerFragmentBase() {
     private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 
     companion object {
-        fun newInstance(serializedArgs: String) =
+        fun newInstance(serializedArgs: Args) =
             EditProfileCoverFragment().apply {
                 arguments = Bundle().apply {
-                    putString(Tags.ARGS, serializedArgs)
+                    putParcelable(Tags.ARGS, serializedArgs)
                 }
             }
     }
