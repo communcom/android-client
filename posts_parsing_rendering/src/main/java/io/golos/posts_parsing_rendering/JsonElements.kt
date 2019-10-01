@@ -32,4 +32,5 @@ enum class Attribute(val value: String) {
 object PostTypeJson {
     const val BASIC = "basic"
     const val ARTICLE = "article"
+    const val COMMENT = "comment"
 }

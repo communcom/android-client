@@ -63,6 +63,7 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersF
         when(this) {
             PostTypeJson.ARTICLE -> PostType.ARTICLE
             PostTypeJson.BASIC -> PostType.BASIC
+            PostTypeJson.COMMENT -> PostType.COMMENT
             else -> throw java.lang.UnsupportedOperationException("This type of post is not supported: $this")
         }
 }
