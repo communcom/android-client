@@ -28,6 +28,8 @@ constructor(
 
     /**
      * Returns wrapper to process an authentication
+     *
+     * Before call this method need check that device support fingerprinting. For this use [checkAuthenticationPossibility].
      */
     @RequiresApi(Build.VERSION_CODES.M)
     override fun getEventsHandler(): FingerprintAuthEventsHandler {
@@ -43,8 +45,10 @@ constructor(
             return false
         }
 
+        val fingerprintService = getFingerprintService() ?: return false
+
         // Check that the device has a sensor
-        val fingerprintManager = getFingerprintManager()
+        val fingerprintManager = fingerprintService as FingerprintManager
         if (!fingerprintManager.isHardwareDetected) {
             return false
         }
@@ -69,5 +73,8 @@ constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun getFingerprintManager() = appContext.getSystemService(FINGERPRINT_SERVICE) as FingerprintManager
+    private fun getFingerprintManager() : FingerprintManager = getFingerprintService() as FingerprintManager
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun getFingerprintService() = appContext.getSystemService(FINGERPRINT_SERVICE)
 }
