@@ -31,7 +31,7 @@ constructor(
             val value = result.value
 
             val post = (value.content.body.mobile!![0] as TextRow)
-            val newPost = post.copy(content = String(appResourcesProvider.getRaw(R.raw.fake_post).readBytes()))
+            val newPost = post.copy(content = String(appResourcesProvider.getRaw(R.raw.fake_post_basic).readBytes()))
 
             return value.copy(content = value.content.copy(body = value.content.body.copy(mobile = listOf(newPost))))
         }

@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.domain.post.post_dto.VideoBlock
-import kotlinx.android.synthetic.main.view_post_embed_image.view.*
+import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_video.view.*
 import kotlinx.android.synthetic.main.view_post_embed_video.view.description
 import kotlinx.android.synthetic.main.view_post_embed_video.view.image
@@ -39,7 +39,7 @@ constructor(
 
             Glide
                 .with(this)
-                .load(block.thumbnailUrl?.toString() ?: Stubs.video)
+                .load(block.thumbnailUrl?.toString() ?: PostStubs.video)
                 .into(image)
         }
     }

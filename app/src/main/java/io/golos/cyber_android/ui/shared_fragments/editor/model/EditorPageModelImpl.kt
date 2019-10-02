@@ -24,6 +24,7 @@ import io.golos.domain.post.editor_output.*
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
+import io.golos.posts_editor.utilities.post.PostStubs
 import io.golos.posts_parsing_rendering.editor_output_to_json.EditorOutputToJsonMapper
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -135,8 +136,8 @@ constructor(
         ?: return null
 
         val thumbnailUrl = when(type) {
-            ExternalLinkType.VIDEO -> serverLinkInfo.thumbnail_url ?: "file:///android_asset/video_stub.webp"
-            ExternalLinkType.WEBSITE -> serverLinkInfo.thumbnail_url ?: "file:///android_asset/website_stub.webp"
+            ExternalLinkType.VIDEO -> serverLinkInfo.thumbnail_url ?: PostStubs.video
+            ExternalLinkType.WEBSITE -> serverLinkInfo.thumbnail_url ?: PostStubs.website
             ExternalLinkType.IMAGE -> sourceUrl
         }
 

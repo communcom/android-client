@@ -1,0 +1,73 @@
+{
+  "id": 1,
+  "type": "post",
+  "attributes": {
+    "version": "1.0",
+    "title": "Сказка про царя",
+    "type": "basic"
+  },
+  "content": [
+    {
+      "id": 2,
+      "type": "paragraph",
+      "content": [
+        {
+          "id": 3,
+          "type": "text",
+          "content": "Много лет тому назад, "
+        },
+        {
+          "id": 4,
+          "type": "mention",
+          "content": "Царь"
+        },
+        {
+          "id": 5,
+          "type": "text",
+          "content": " купил себе айпад. ",
+          "attributes": {
+            "style": ["bold", "italic"],
+            "text_color": "#ff0000"
+          }
+        },
+        {
+          "id": 6,
+          "type": "tag",
+          "content": "с_той_поры_прошли_века"
+        },
+        {
+          "id": 7,
+          "type": "link",
+          "content": " , Люди ",
+          "attributes": {
+            "url": "https://www.youtube.com/watch?v=UiYlRkVxC_4"
+          }
+        },
+        {
+          "id": 8,
+          "type": "link",
+          "content": "помнят ",
+          "attributes": {
+            "url": "https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg"
+          }
+        },
+        {
+          "id": 9,
+          "type": "link",
+          "content": "чудака.",
+          "attributes": {
+            "url": "https://diletant.media"
+          }
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "image",
+      "content": "https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg",
+      "attributes": {
+        "description": "Hi!"
+      }
+    }
+  ]
+}

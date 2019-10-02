@@ -16,7 +16,8 @@ import io.golos.posts_editor.models.RenderType
 import io.golos.posts_editor.utilities.MaterialColor
 
 @Suppress("KDocUnresolvedReference")
-class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs) {
+class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs), EditorDataLoader {
+
     /**
      * @param the value is true if some text is selected, otherwise it's false
      */
@@ -39,12 +40,8 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     public override val contentAsSerialized: String
         get() = super.contentAsSerialized
 
-    val contentAsHTML: String
-        get() = htmlContent
-
     init {
         super.editorListener = null
-        inputExtensions!!.insertEditText(childCount, null)
     }
 
     public override fun getContentAsSerialized(state: EditorContent): String {
@@ -53,22 +50,6 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     public override fun getContentDeserialized(EditorContentSerialized: String): EditorContent {
         return super.getContentDeserialized(EditorContentSerialized)
-    }
-
-    fun getContentAsHTML(content: EditorContent): String {
-        return getHTMLContent(content)
-    }
-
-    fun getContentAsHTML(editorContentAsSerialized: String): String {
-        return getHTMLContent(editorContentAsSerialized)
-    }
-
-    fun render(_state: EditorContent) {
-        super.renderEditor(_state)
-    }
-
-    fun render(HtmlString: String) {
-        renderEditorFromHtml(HtmlString)
     }
 
     public override fun clearAllContents() {
@@ -84,10 +65,6 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     fun updateTextColor(color: MaterialColor) {
         inputExtensions!!.updateTextColor(color, null)
-    }
-
-    fun insertLink() {
-        inputExtensions!!.insertLink()
     }
 
     @Suppress("unused")
@@ -130,11 +107,15 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
      */
     fun tryGetLinkInTextInfo(): LinkInfo? = inputExtensions!!.tryGetLinkInTextInfo()
 
-    fun openImagePicker() {
-        embedExtensions!!.openImageGallery()
+    fun insertEmptyParagraph() {
+        inputExtensions!!.insertEditText(childCount, null)
     }
 
-    fun insertEmbed(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String?) =
+    override fun insertParagraph(text: CharSequence) {
+        inputExtensions!!.insertEditText(childCount, text)
+    }
+
+    override fun insertEmbed(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String?) =
         embedExtensions!!.insert(type, sourceUri, displayUri, description)
 
     override fun onKey(v: View, keyCode: Int, event: KeyEvent, editText: CustomEditText): Boolean {

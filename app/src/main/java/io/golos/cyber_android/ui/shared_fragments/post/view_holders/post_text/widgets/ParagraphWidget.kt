@@ -1,13 +1,10 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
@@ -23,6 +20,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.wi
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.*
 import io.golos.domain.post.toTypeface
+import io.golos.posts_editor.utilities.post.spans.appendText
+import io.golos.posts_editor.utilities.post.spans.setSpan
 import javax.inject.Inject
 
 
@@ -118,16 +117,5 @@ constructor(
         builder.setSpan(object: LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) = this@ParagraphWidget.openLinkExternal(spanData)
         }, textInterval)
-    }
-
-    private fun SpannableStringBuilder.setSpan(span: CharacterStyle, interval: IntRange) =
-        this.setSpan(span, interval.first, interval.last, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-
-    private fun SpannableStringBuilder.appendText(text: String): IntRange {
-        val start = this.length
-
-        this.append(text)
-
-        return start..this.length
     }
 }

@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.common.extensions.openLinkExternal
 import io.golos.cyber_android.ui.common.glide.TopRoundedCorners
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.WebsiteBlock
+import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ constructor(
         val radius = appResourcesProvider.getDimens(R.dimen.radius_corner_embed_website)
         Glide
             .with(this)
-            .load(block.thumbnailUrl?.toString() ?: Stubs.website)
+            .load(block.thumbnailUrl?.toString() ?: PostStubs.website)
             .transform(CenterCrop(), TopRoundedCorners(radius))
             .into(image)
 

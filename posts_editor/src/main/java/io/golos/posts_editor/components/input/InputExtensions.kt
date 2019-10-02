@@ -2,7 +2,6 @@ package io.golos.posts_editor.components.input
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Handler
 import android.text.*
 import android.text.style.CharacterStyle
@@ -18,18 +17,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import io.golos.domain.post.TextStyle
 import io.golos.domain.post.editor_output.*
-import io.golos.domain.post.toTypeface
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
 import io.golos.posts_editor.components.ComponentsWrapper
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
+import io.golos.posts_editor.utilities.post.spans.PostSpansFactory
+import io.golos.posts_editor.utilities.post.spans.PostSpansTextFactory
 import io.golos.posts_editor.components.input.spans.calculators.ColorSpansCalculator
 import io.golos.posts_editor.components.input.spans.calculators.CreateSpanOperation
 import io.golos.posts_editor.components.input.spans.calculators.DeleteSpanOperation
@@ -56,9 +55,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     var normalTextSize = 16
 
     private var lineSpacing = -1f
-
-    @ColorInt
-    private val specialSpansColors = Color.BLUE
 
     private val editor: CustomEditText
         get() = editorCore.activeView as CustomEditText
@@ -152,8 +148,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     fun setText(textView: TextView, text: CharSequence) {
-        val toReplace = getSanitizedHtml(text)
-        textView.text = toReplace
+//        val toReplace = getSanitizedHtml(text)
+        textView.text = text
     }
 
     fun insertTag(tagText: String) = insertTag(tagText, true, false)
@@ -225,7 +221,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
                         is CreateSpanOperation<*> -> {
                             with((operation as CreateSpanOperation<Int>).spanInfo) {
-                                spansWorker.createSpan(ForegroundColorSpan(value), area)
+                                spansWorker.appendSpan(PostSpansFactory.createTextColor(value), area)
                             }
                         }
                     }
@@ -415,7 +411,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
                         is CreateSpanOperation<*> -> {
                             with((operation as CreateSpanOperation<TextStyle>).spanInfo) {
-                                spansWorker.createSpan(StyleSpan(value.toTypeface()), area)
+                                spansWorker.appendSpan(PostSpansFactory.createTextStyle(value), area)
                             }
                         }
                     }
@@ -579,13 +575,13 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     private fun insertTag(tagText: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan("#$tagText", TagSpan(tagText, specialSpansColors), addSpace, tryToMoveCursor)
+        insertSpecialSpan(PostSpansTextFactory.createTagText(tagText), PostSpansFactory.createTag(tagText), addSpace, tryToMoveCursor)
 
     private fun insertMention(userName: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan("@$userName", MentionSpan(userName, specialSpansColors), addSpace, tryToMoveCursor)
+        insertSpecialSpan(PostSpansTextFactory.createMentionText(userName), PostSpansFactory.createMention(userName), addSpace, tryToMoveCursor)
 
     private fun insertLinkInText(linkInfo: LinkInfo, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan(linkInfo.text!!, LinkSpan(linkInfo, specialSpansColors), addSpace, tryToMoveCursor)
+        insertSpecialSpan(linkInfo.text, PostSpansFactory.createLink(linkInfo), addSpace, tryToMoveCursor)
 
     /**
      * Inserts special span into a cursor position
@@ -607,7 +603,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                 textArea.insert(editor.cursorPosition, "$textToDisplay$suffix")
 
                 editor.post {
-                    spansWorker.createSpan(span, startPosition..endPosition)
+                    spansWorker.appendSpan(span, startPosition..endPosition)
                     if(tryToMoveCursor && textArea.lastIndex >= endPosition) {
                         editor.setCursorPosition(endPosition+1)
                     }

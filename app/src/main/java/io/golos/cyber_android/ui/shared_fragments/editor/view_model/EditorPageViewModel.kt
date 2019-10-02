@@ -32,7 +32,10 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
+import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.posts_parsing_rendering.json_to_dto.JsonMappingErrorCode
+import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -182,6 +185,8 @@ constructor(
         if (it.content.body.full.isNotEmpty())
             postToEditLiveData.postValue(it)
     }
+
+    val isInEditMode = postToEdit != null
 
     init {
         embedsUseCase.subscribe()
@@ -354,6 +359,28 @@ constructor(
             embedCount--
         }
         isEmbedButtonsEnabled.value = embedCount == 0
+    }
+
+    /**
+     * @return null in case of error
+     */
+    fun parsePostContent(content: CharSequence): PostBlock? {
+        val parsedPost = JsonToDtoMapper(App.logger).map(content.toString())
+
+        return when(parsedPost) {
+            is Either.Failure -> {
+                when(parsedPost.value) {
+                    JsonMappingErrorCode.GENERAL -> command.value = ShowMessageCommand(R.string.common_general_error)
+                    JsonMappingErrorCode.JSON -> command.value = ShowMessageCommand(R.string.invalid_post_format)
+                    JsonMappingErrorCode.INCOMPATIBLE_VERSIONS -> command.value = ShowMessageCommand(R.string.post_processor_is_too_format)
+                }
+                null
+            }
+
+            is Either.Success -> {
+                parsedPost.value
+            }
+        }
     }
 
     private fun processUri(uri: String, getSuccessViewCommand: (ExternalLinkInfo) -> ViewCommand) {

@@ -1,9 +1,9 @@
 package io.golos.posts_parsing_rendering.json_to_dto
 
-import android.util.Log
 import io.golos.cyber4j.sharedmodel.Either
 import io.golos.domain.Logger
-import io.golos.domain.post.post_dto.*
+import io.golos.domain.post.post_dto.PostBlock
+import io.golos.domain.post.post_dto.PostMetadata
 import io.golos.posts_parsing_rendering.json_to_dto.mappers.MappersFactory
 import io.golos.posts_parsing_rendering.json_to_dto.mappers.PostMapper
 import io.golos.posts_parsing_rendering.json_to_dto.mappers.PostMetadataMapper

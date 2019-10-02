@@ -16,6 +16,7 @@ import io.golos.domain.post.post_dto.AttachmentsBlock
 import io.golos.domain.post.post_dto.ImageBlock
 import io.golos.domain.post.post_dto.VideoBlock
 import io.golos.domain.post.post_dto.WebsiteBlock
+import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
@@ -51,8 +52,8 @@ constructor(
         block.content.forEachIndexed() { index, mediaBlock ->
             val uriToShow = when(mediaBlock) {
                 is ImageBlock -> mediaBlock.content
-                is WebsiteBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(Stubs.website)
-                is VideoBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(Stubs.video)
+                is WebsiteBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.website)
+                is VideoBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.video)
                 else -> throw UnsupportedOperationException("This block is not supported: $mediaBlock")
             }
 

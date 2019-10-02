@@ -5,5 +5,5 @@ import android.text.style.CharacterStyle
 interface SpansWorker: SpansWorkerRead {
     fun removeSpan(span: CharacterStyle)
 
-    fun createSpan(span: CharacterStyle, interval: IntRange)
+    fun appendSpan(span: CharacterStyle, interval: IntRange)
 }

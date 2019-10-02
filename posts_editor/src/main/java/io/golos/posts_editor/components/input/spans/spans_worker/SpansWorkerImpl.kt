@@ -30,7 +30,7 @@ class SpansWorkerImpl(text: CharSequence?) : SpansWorker {
     private fun getSpansInternal(spanType: KClass<*>, interval: IntRange) =
         spannableString.getSpans(interval.first, interval.last, spanType.java)
 
-    override fun createSpan(span: CharacterStyle, interval: IntRange) =
+    override fun appendSpan(span: CharacterStyle, interval: IntRange) =
         spannableString.setSpan(span, interval.first, interval.last, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
 
     /**

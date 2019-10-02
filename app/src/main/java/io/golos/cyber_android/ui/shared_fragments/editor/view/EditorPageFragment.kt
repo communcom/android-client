@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
+import io.golos.cyber_android.ui.shared_fragments.editor.view.post_to_editor_loader.PostToEditorLoader
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreatedViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
@@ -42,6 +43,7 @@ import io.golos.domain.post.editor_output.EmbedType
 import io.golos.domain.post.TextStyle
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
+import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject
@@ -81,9 +83,16 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         super.onActivityCreated(savedInstanceState)
 
         setupViewModel()
+
+        // Add empty line to the editor for a new post
+        if(!viewModel.isInEditMode) {
+            editorWidget.insertEmptyParagraph()
+        }
+
         observeViewModel()
 
         close.setOnClickListener { activity?.finish() }
+
         post.setOnClickListener {
             viewModel.post(editorWidget.getMetadata())
         }
@@ -301,10 +310,24 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //                setupCommunity(it)
 //        })
 //
-//        viewModel.getPostToEditLiveData.observe(this, Observer {
+        viewModel.getPostToEditLiveData.observe(this, Observer {
+            it?.let {
+                val parsedPost = viewModel.parsePostContent(it.content.body.full)
+                if(parsedPost != null) {
+                    toolbarTitle.setText(R.string.edit_post)
+                    title.setText(it.content.title)
+                    PostToEditorLoader.load(editorWidget, parsedPost)
+
+                    nsfwButton.isActivated = it.content.tags.contains(TagModel("nsfw"))
+                    viewModel.consumePostToEdit()
+
+                } else {
+                    activity?.finish()
+                }
+            }
 //            if (it != null)
 //                setupPostToEdit(it)
-//        })
+        })
 //
 //        viewModel.getAttachedImageLiveData.observe(this, Observer {
 //            when {
