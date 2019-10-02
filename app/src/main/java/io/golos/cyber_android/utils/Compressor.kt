@@ -86,7 +86,10 @@ constructor() : ImageCompressor {
                 bitmap,
                 x,
                 y,
-                width - x, height - y, matrix, true
+                width,
+                height,
+                matrix,
+                true
             )
 
 
@@ -172,7 +175,7 @@ constructor() : ImageCompressor {
             }
         }
 
-        return inSampleSize * 2
+        return inSampleSize
     }
 
     private fun getOrientationFix(file: File): Float {
