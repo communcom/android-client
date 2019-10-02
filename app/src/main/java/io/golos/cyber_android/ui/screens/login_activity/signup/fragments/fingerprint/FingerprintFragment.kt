@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint
 
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +15,10 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_fingerprint.*
@@ -51,22 +54,39 @@ class FingerprintFragment : FragmentBase() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK && requestCode == InAppAuthActivity.REQUEST_CODE){
+            navigateToSignUpProtectionKeysScreen()
+        }
+    }
+
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(FingerprintViewModel::class.java)
     }
 
     private fun observeViewModel() {
         viewModel.command.observe(this, Observer { command ->
-            when(command) {
+            when (command) {
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
 
-                is NavigateToKeysCommand -> findNavController().navigate(R.id.action_fingerprintFragment_to_signUpProtectionKeysFragment)
+                is NavigateToKeysCommand -> navigateToSignUpProtectionKeysScreen()
 
                 is NavigateToMainScreenCommand -> {
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
                 }
+                is NavigateToInAppAuthScreenCommand -> {
+                    InAppAuthActivity.start(this, false)
+                }
             }
         })
+    }
+
+    /**
+     * Navigate to screen with sign up protection keys
+     */
+    private fun navigateToSignUpProtectionKeysScreen(){
+        findNavController().navigate(R.id.action_fingerprintFragment_to_signUpProtectionKeysFragment)
     }
 }

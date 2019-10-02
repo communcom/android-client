@@ -41,29 +41,35 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
 
         const val PIN_CODE_HEADER_ID = "PIN_CODE_HEADER_ID"
         const val FINGERPRINT_HEADER_ID = "PIN_CODE_HEADER_ID"
+        const val PIN_CODE_UNLOCK_ENABLED = "PIN_CODE_UNLOCK_ENABLED"
 
         fun start(activity: ActivityBase,
+                  isPinCodeUnlockEnabled: Boolean = true,
                   @StringRes pinCodeHeaderText: Int = R.string.authPinCodeDefaultHeader,
                   @StringRes fingerprintHeaderText: Int = R.string.authFingerprintDefaultHeader) {
 
-            activity.startActivityForResult(createStartIntent(activity, pinCodeHeaderText, fingerprintHeaderText), REQUEST_CODE)
+            activity.startActivityForResult(createStartIntent(activity, isPinCodeUnlockEnabled, pinCodeHeaderText, fingerprintHeaderText), REQUEST_CODE)
         }
 
         fun start(fragment: Fragment,
+                  isPinCodeUnlockEnabled: Boolean = true,
                   @StringRes pinCodeHeaderText: Int = R.string.authPinCodeDefaultHeader,
                   @StringRes fingerprintHeaderText: Int = R.string.authFingerprintDefaultHeader) {
 
-            fragment.startActivityForResult(createStartIntent(fragment.requireContext(), pinCodeHeaderText, fingerprintHeaderText), REQUEST_CODE)
+            fragment.startActivityForResult(createStartIntent(fragment.requireContext(), isPinCodeUnlockEnabled, pinCodeHeaderText, fingerprintHeaderText), REQUEST_CODE)
         }
 
-        private fun createStartIntent(context: Context, @StringRes pinCodeHeaderText: Int, @StringRes fingerprintHeaderText: Int): Intent =
+        private fun createStartIntent(context: Context,
+                                      isPinCodeUnlockEnabled: Boolean = true,
+                                      @StringRes pinCodeHeaderText: Int,
+                                      @StringRes fingerprintHeaderText: Int): Intent =
             Intent(context, InAppAuthActivity::class.java)
                 .also { intent ->
                     Bundle()
                         .apply {
                             putInt(PIN_CODE_HEADER_ID, pinCodeHeaderText)
                             putInt(FINGERPRINT_HEADER_ID, fingerprintHeaderText)
-
+                            putBoolean(PIN_CODE_UNLOCK_ENABLED, isPinCodeUnlockEnabled)
                             intent.putExtras(this)
                         }
                 }
@@ -80,7 +86,9 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
                 AppUnlockWay.PIN_CODE ->
                     navigator.setPinCodeAsHome(this@InAppAuthActivity, intent.extras!!.getInt(PIN_CODE_HEADER_ID))
                 AppUnlockWay.FINGERPRINT ->
-                    navigator.setFingerprintAsHome(this@InAppAuthActivity, intent.extras!!.getInt(FINGERPRINT_HEADER_ID))
+                    navigator.setFingerprintAsHome(this@InAppAuthActivity,
+                        intent.extras!!.getInt(FINGERPRINT_HEADER_ID),
+                        intent.extras!!.getBoolean(PIN_CODE_UNLOCK_ENABLED))
             }
         }
     }

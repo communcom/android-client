@@ -11,18 +11,20 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerpr
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.PinCodeAuthFragment
 import javax.inject.Inject
 
-class NavigatorImpl
-@Inject
-constructor(): NavigatorBaseImpl(R.id.authNavHost), Navigator {
-    override fun setFingerprintAsHome(activity: FragmentActivity, @StringRes headerText: Int) =
+class NavigatorImpl @Inject constructor() : NavigatorBaseImpl(R.id.authNavHost), Navigator {
+
+    override fun setFingerprintAsHome(activity: FragmentActivity, @StringRes headerText: Int, isPinCodeUnlockEnabled: Boolean) =
         Bundle()
-            .apply { putInt(InAppAuthActivity.FINGERPRINT_HEADER_ID, headerText) }
-            .let { setHome(R.id.fingerprintAuthFragment, R.navigation.graph_in_app_auth,  activity, it) }
+            .apply {
+                putInt(InAppAuthActivity.FINGERPRINT_HEADER_ID, headerText)
+                putBoolean(InAppAuthActivity.PIN_CODE_UNLOCK_ENABLED, isPinCodeUnlockEnabled)
+            }
+            .let { setHome(R.id.fingerprintAuthFragment, R.navigation.graph_in_app_auth, activity, it) }
 
     override fun setPinCodeAsHome(activity: FragmentActivity, @StringRes headerText: Int) =
         Bundle()
             .apply { putInt(InAppAuthActivity.PIN_CODE_HEADER_ID, headerText) }
-            .let { setHome(R.id.pinCodeAuthFragment, R.navigation.graph_in_app_auth,  activity, it) }
+            .let { setHome(R.id.pinCodeAuthFragment, R.navigation.graph_in_app_auth, activity, it) }
 
     override fun processAuthSuccess(activity: FragmentActivity) {
         activity.setResult(Activity.RESULT_OK)
@@ -38,7 +40,8 @@ constructor(): NavigatorBaseImpl(R.id.authNavHost), Navigator {
             .apply {
                 putInt(
                     InAppAuthActivity.FINGERPRINT_HEADER_ID,
-                    fragment.requireActivity().intent.extras!!.getInt(InAppAuthActivity.FINGERPRINT_HEADER_ID))
+                    fragment.requireActivity().intent.extras!!.getInt(InAppAuthActivity.FINGERPRINT_HEADER_ID)
+                )
             }
             .let {
                 getNavigationController(fragment.requireActivity())
@@ -50,7 +53,8 @@ constructor(): NavigatorBaseImpl(R.id.authNavHost), Navigator {
             .apply {
                 putInt(
                     InAppAuthActivity.PIN_CODE_HEADER_ID,
-                    fragment.requireActivity().intent.extras!!.getInt(InAppAuthActivity.PIN_CODE_HEADER_ID))
+                    fragment.requireActivity().intent.extras!!.getInt(InAppAuthActivity.PIN_CODE_HEADER_ID)
+                )
             }
             .let {
                 getNavigationController(fragment.requireActivity())

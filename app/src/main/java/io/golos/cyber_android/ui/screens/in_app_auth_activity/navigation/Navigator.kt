@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerpr
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.PinCodeAuthFragment
 
 interface Navigator: NavigatorBase {
-    fun setFingerprintAsHome(activity: FragmentActivity, @StringRes headerText: Int)
+    fun setFingerprintAsHome(activity: FragmentActivity, @StringRes headerText: Int, isPinCodeUnlockEnabled: Boolean)
 
     fun setPinCodeAsHome(activity: FragmentActivity, @StringRes headerText: Int)
 

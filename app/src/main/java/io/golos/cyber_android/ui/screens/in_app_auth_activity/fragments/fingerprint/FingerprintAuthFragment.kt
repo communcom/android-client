@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint
 
+import android.os.Bundle
+import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.fingerprint_auth_fragment.FingerprintAuthFragmentComponent
@@ -11,6 +13,7 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerpr
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToPinCodeCommand
+import kotlinx.android.synthetic.main.fragment_fingerprint_auth.*
 import javax.inject.Inject
 
 /**
@@ -31,6 +34,11 @@ class FingerprintAuthFragment : FragmentBaseMVVM<FragmentFingerprintAuthBinding,
 
     override fun linkViewModel(binding: FragmentFingerprintAuthBinding, viewModel: FingerprintAuthViewModel) {
         binding.viewModel = viewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        switchToPinButton.visibility = if(arguments!!.getBoolean(InAppAuthActivity.PIN_CODE_UNLOCK_ENABLED)) View.VISIBLE else View.GONE
     }
 
     override fun onResume() {

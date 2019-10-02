@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.finger
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.view_commands.NavigateToKeysCommand
@@ -45,7 +46,13 @@ constructor(
             if(model.saveAppUnlockWay(appUnlockWay)) {
                 command.value =
                     when(model.getAuthType()) {
-                        AuthType.SIGN_UP -> NavigateToKeysCommand()
+                        AuthType.SIGN_UP -> {
+                            if(appUnlockWay == AppUnlockWay.PIN_CODE){
+                                NavigateToKeysCommand()
+                            } else{
+                                NavigateToInAppAuthScreenCommand()
+                            }
+                        }
                         AuthType.SIGN_IN -> NavigateToMainScreenCommand()
                         else -> throw UnsupportedOperationException("This type is not supported")
                     }
