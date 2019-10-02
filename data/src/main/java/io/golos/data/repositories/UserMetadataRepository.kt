@@ -10,6 +10,7 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.requestmodel.*
@@ -22,10 +23,11 @@ import kotlin.collections.HashMap
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
  */
+@ApplicationScope
 class UserMetadataRepository
 @Inject
 constructor(
-    private val metadadataApi: UserMetadataApi,
+    private val metadataApi: UserMetadataApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
@@ -58,8 +60,8 @@ constructor(
                     is FollowUserRequest -> {
                         val pinResult = withContext(dispatchersProvider.calculationsDispatcher) {
                             val result = if (params.toPin)
-                                metadadataApi.pin(params.user)
-                            else metadadataApi.unPin(params.user)
+                                metadataApi.pin(params.user)
+                            else metadataApi.unPin(params.user)
                             transactionsApi.waitForTransaction(result.first.transaction_id)
                             result.second
                         }
@@ -98,7 +100,7 @@ constructor(
 
                     is UserMetadataFetchRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
-                            metadadataApi.getUserMetadata(params.user)
+                            metadataApi.getUserMetadata(params.user)
                                 .run { toEntityMapper(this) }
                         }
                         savedMetadata.value =
@@ -107,14 +109,14 @@ constructor(
 
                     is UserMetadataUpdateRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
-                            val transactionResult = metadadataApi.setUserMetadata(
+                            val transactionResult = metadataApi.setUserMetadata(
                                 about = params.bio,
                                 coverImage = params.coverImageUrl,
                                 profileImage = params.profileImageUrl
                             )
                             if (params.shouldWaitForTransaction) {
                                 transactionsApi.waitForTransaction(transactionResult.transaction_id)
-                                metadadataApi.getUserMetadata(params.user)
+                                metadataApi.getUserMetadata(params.user)
                                     .run { toEntityMapper(this) }
                             } else {
                                 //if we should not wait for transaction to complete, then we need to provide

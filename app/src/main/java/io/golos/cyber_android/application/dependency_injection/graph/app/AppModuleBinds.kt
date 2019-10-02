@@ -14,11 +14,7 @@ import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4JDagger
 import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4jApiServiceFakePosts
-import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
-import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
-import io.golos.domain.CrashlyticsFacade
 import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
-import io.golos.domain.DeviceInfoProvider
 import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
 import io.golos.cyber_android.core.display_info.DisplayInfoProviderImpl
@@ -33,6 +29,8 @@ import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsI
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
+import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
 import io.golos.cyber_android.core.logger.LoggerImpl
 import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
@@ -62,7 +60,9 @@ import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Named
@@ -339,6 +339,7 @@ abstract class AppModuleBinds {
     abstract fun provideEventsRepository(repository: EventsRepository): Repository<EventsListEntity, EventsFeedUpdateRequest>
 
     @Binds
+    @ApplicationScope
     abstract fun provideUserMetadataRepository(repository: UserMetadataRepository): Repository<UserMetadataCollectionEntity, UserMetadataRequest>
 
     @Binds
