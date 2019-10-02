@@ -27,7 +27,7 @@ abstract class EditProfileViewModelBase(private val userMetadataUseCase: UserMet
     }
 
     override fun onCleared() {
-        super.onCleared()
         userMetadataUseCase.unsubscribe()
+        super.onCleared()
     }
 }
