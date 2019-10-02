@@ -22,7 +22,7 @@ class EditProfileBioActivity : ActivityBase() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container,
-                    EditProfileBioFragment.newInstance(intent.getStringExtra(Tags.ARGS))
+                    EditProfileBioFragment.newInstance(intent.getParcelableExtra(Tags.ARGS))
                 )
                 .commitNow()
         }

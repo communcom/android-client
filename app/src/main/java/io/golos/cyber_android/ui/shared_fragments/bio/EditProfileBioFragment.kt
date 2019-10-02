@@ -33,9 +33,9 @@ class EditProfileBioFragment : FragmentBase() {
     ): Parcelable
 
     companion object {
-        fun newInstance(serializedArgs: String) = EditProfileBioFragment().apply {
+        fun newInstance(serializedArgs: Args) = EditProfileBioFragment().apply {
             arguments = Bundle().apply {
-                putString(Tags.ARGS, serializedArgs)
+                putParcelable(Tags.ARGS, serializedArgs)
             }
         }
     }
