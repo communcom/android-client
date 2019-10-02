@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,8 +37,12 @@ import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
+import io.golos.domain.post.post_dto.PostFormatVersion
+import io.golos.domain.post.post_dto.PostType
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.posts_parsing_rendering.PostGlobalConstants
+import io.golos.posts_parsing_rendering.metadata
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_post.*
 import kotlinx.android.synthetic.main.header_post_card.*
@@ -160,7 +165,9 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
             postMenu.visibility = if (isMyPost) View.VISIBLE else View.GONE
 
             postMenu.setOnClickListener {
-                PostPageMenuDialog.newInstance(isMyPost).apply {
+                val postMetadata = viewModel.postLiveData.value!!.metadata
+
+                PostPageMenuDialog.newInstance(isMyPost, postMetadata.type, postMetadata.version).apply {
                     setTargetFragment(this@PostPageFragment, POST_MENU_REQUEST)
                 }.show(requireFragmentManager(), "menu")
             }

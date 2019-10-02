@@ -18,8 +18,6 @@ import io.golos.cyber_android.views.utils.colorizeUsernames
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.ContentBodyModel
-import io.golos.domain.interactors.model.ImageRowModel
-import io.golos.domain.interactors.model.TextRowModel
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlin.math.pow
 
@@ -105,10 +103,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                 commentContent.text = commentModel.content.body.toCommentContent()
                 commentContent.colorizeLinks()
                 commentContent.colorizeUsernames()
-                (commentContent.movementMethod as CustomLinkMovementMethod).imageLinks =
-                    commentModel.content.body.full
-                        .filterIsInstance<ImageRowModel>()
-                        .map { it.src }
+                (commentContent.movementMethod as CustomLinkMovementMethod).imageLinks = listOf()
 
                 commentReply.setOnClickListener {
                     listener.onReplyClick(commentModel)
@@ -190,16 +185,5 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         fun onUsernameClick(userId: String)
     }
 
-    private fun ContentBodyModel.toCommentContent(): CharSequence {
-        val builder = StringBuilder()
-        for (row in full) {
-            when (row) {
-                is TextRowModel -> builder.append(row.text)
-                is ImageRowModel -> builder.append(row.src)
-            }
-            builder.append("\n")
-        }
-        return builder
-    }
-
+    private fun ContentBodyModel.toCommentContent(): CharSequence  = full
 }

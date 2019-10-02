@@ -1,10 +1,11 @@
 package io.golos.posts_parsing_rendering.json_to_dto.mappers
 
-import io.golos.domain.post.post_dto.*
+import io.golos.domain.post.post_dto.AttachmentsBlock
+import io.golos.domain.post.post_dto.Block
+import io.golos.domain.post.post_dto.PostBlock
 import io.golos.posts_parsing_rendering.Attribute
 import io.golos.posts_parsing_rendering.BlockType
-import io.golos.posts_parsing_rendering.GlobalConstants
-import io.golos.posts_parsing_rendering.PostTypeJson
+import io.golos.posts_parsing_rendering.PostGlobalConstants
 import io.golos.posts_parsing_rendering.json_to_dto.IncompatibleVersionsException
 import org.json.JSONObject
 
@@ -12,15 +13,13 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersF
     override fun map(source: JSONObject): PostBlock {
         val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
 
-        val version = PostFormatVersion.parse(jsonAttributes.getString(Attribute.VERSION))
+        val metadata = PostMetadataMapper().map(source)
 
-        if(version.major > GlobalConstants.postFormatVersion.major) {
+        if(metadata.version.major > PostGlobalConstants.postFormatVersion.major) {
             throw IncompatibleVersionsException()
         }
 
         val title = jsonAttributes.tryString(Attribute.TITLE)
-
-        val postType = jsonAttributes.getString(Attribute.TYPE).toPostType()
 
         val jsonContent = source.getContentAsArray()
 
@@ -56,14 +55,6 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersF
 
         }
 
-        return PostBlock(version, title, postType, content, attachments)
+        return PostBlock(metadata, title, content, attachments)
     }
-
-    private fun String.toPostType(): PostType =
-        when(this) {
-            PostTypeJson.ARTICLE -> PostType.ARTICLE
-            PostTypeJson.BASIC -> PostType.BASIC
-            PostTypeJson.COMMENT -> PostType.COMMENT
-            else -> throw java.lang.UnsupportedOperationException("This type of post is not supported: $this")
-        }
 }

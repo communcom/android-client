@@ -86,13 +86,13 @@ class PostPageAdapter(
                 )
             )
 
-            CONTENT_IMAGE_TYPE -> PostImageViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_content_image,
-                    parent,
-                    false
-                )
-            )
+//            CONTENT_IMAGE_TYPE -> PostImageViewHolder(
+//                LayoutInflater.from(parent.context).inflate(
+//                    R.layout.item_content_image,
+//                    parent,
+//                    false
+//                )
+//            )
 
             CONTENT_EMBED_TYPE -> EmptyViewHolder(parent.context)
 
@@ -117,7 +117,7 @@ class PostPageAdapter(
                 holder as CommentsTitleViewHolder
                 holder.bind(postModel?.comments?.count ?: 0)
             }
-            COMMENT_TYPE -> super.onBindViewHolder(holder, position - getItemsOffset())
+//            COMMENT_TYPE -> super.onBindViewHolder(holder, position - getItemsOffset())
             LOADING_TYPE -> {
                 holder as LoadingViewHolder
                 holder.bind(isLoading)
@@ -125,11 +125,7 @@ class PostPageAdapter(
 
             CONTENT_TEXT_TYPE -> {
                 holder as PostTextViewHolder
-                holder.bind(postModel!!.content.body.full[adapterPositionToContentRowPosition(position)] as TextRowModel, recyclerView)
-            }
-            CONTENT_IMAGE_TYPE -> {
-                holder as PostImageViewHolder
-                holder.bind(postModel!!.content.body.full[adapterPositionToContentRowPosition(position)] as ImageRowModel)
+                postModel?.let { holder.bind(it.content.body.full.toString(), recyclerView) }
             }
             CONTENT_EMBED_TYPE -> {     // do nothing
             }
@@ -145,14 +141,16 @@ class PostPageAdapter(
         }
     }
 
+//    override fun getItemViewType(position: Int): Int = CONTENT_TEXT_TYPE
+
     override fun getItemViewType(position: Int): Int {
         if (postModel != null) {
-            if (position in getPostContentPositionStart() until (postModel!!.content.body.full.size + getPostContentPositionStart())) {
+            if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
                 if (postModel!!.content.body.full.isNotEmpty())
-                    return when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
+                    return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
                         is TextRowModel -> CONTENT_TEXT_TYPE
                         is ImageRowModel -> CONTENT_IMAGE_TYPE
-                    }
+                    }*/
             }
             //display only first embed on position 0 for now
             if (getEmbedsCount() > 0 && position == 0)
@@ -204,8 +202,11 @@ class PostPageAdapter(
      * (1 for view with controls like upvote, downvote etc) +
      * (1 for comments title)
      */
-    private fun getHeadersCount() =
-        (postModel?.content?.body?.full?.size ?: 0) + getPostContentPositionStart() + 1
+    private fun getHeadersCount() = 1 + getPostContentPositionStart() + 1
+
+//    private fun getHeadersCount() =
+//        (postModel?.content?.body?.full?.size ?: 0) + getPostContentPositionStart() + 1
+
 
     /**
      * Returns [getItemCount] of superclass but also adds [getItemsOffset] (which is amount of the headers in adapter)

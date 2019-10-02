@@ -16,7 +16,7 @@ class EditorOutputToJsonMapper {
         builder.putBlock(
             BlockType.POST,
             true,
-            PostAttribute(Attribute.VERSION, GlobalConstants.postFormatVersion.toString()),
+            PostAttribute(Attribute.VERSION, PostGlobalConstants.postFormatVersion.toString()),
             PostAttribute(Attribute.TYPE, PostTypeJson.BASIC)) {
 
             val paragraphs = postMetadata.filterIsInstance<ParagraphMetadata>()

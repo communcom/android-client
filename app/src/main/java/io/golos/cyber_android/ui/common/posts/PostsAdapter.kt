@@ -15,7 +15,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.domain.interactors.model.ImageRowModel
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.header_post_card.view.*
@@ -117,16 +116,8 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 postContentPreview.text =
                     postModel.content.title
 
-                val postImage = postModel.content.body.mobilePreview.find { it is ImageRowModel } as? ImageRowModel
-                if (postImage != null) {
-                    postMedia.visibility = View.VISIBLE
-                    Glide.with(itemView.context)
-                        .load(postImage.src)
-                        .into(postMedia)
-                } else {
-                    postMedia.setImageResource(0)
-                    postMedia.visibility = View.GONE
-                }
+                postMedia.setImageResource(0)
+                postMedia.visibility = View.GONE
 
                 val postRating = postModel.votes.upCount - postModel.votes.downCount
                 postUpvotesCount.text = "$postRating"

@@ -12,7 +12,6 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.wi
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.interactors.model.TextRowModel
 import io.golos.domain.post.post_dto.*
 import io.golos.posts_parsing_rendering.json_to_dto.JsonMappingErrorCode
 import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
@@ -47,7 +46,7 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
         App.injections.get<PostPageFragmentComponent>().inject(this)
     }
 
-    fun bind(textRowModel: TextRowModel, recyclerView: RecyclerView) {
+    fun bind(text: String, recyclerView: RecyclerView) {
         view.loadingIndicator.visibility = View.VISIBLE
         view.postWidgetContainer.visibility = View.INVISIBLE
         view.errorHolder.visibility = View.INVISIBLE
@@ -57,7 +56,7 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
         renderJob = launch {
             try {
                 val post = withContext(dispatchersProvider.calculationsDispatcher) {
-                    JsonToDtoMapper(App.logger).map(textRowModel.text.toString())
+                    JsonToDtoMapper(App.logger).map(text)
                 }
 
                 when(post) {

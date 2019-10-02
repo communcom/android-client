@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.post.post_dto.PostFormatVersion
+import io.golos.domain.post.post_dto.PostType
+import io.golos.posts_parsing_rendering.PostGlobalConstants
 import kotlinx.android.synthetic.main.dialog_post_menu.*
 
 /**
@@ -31,18 +33,24 @@ class PostPageMenuDialog : BottomSheetDialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //val isMyPost = arguments?.getBoolean("isMyPost")
+        //val isMyPost = arguments?.getBoolean(IS_MY_POST)
+        val type = PostType.create(arguments!!.getInt(TYPE))
+        val postFormat = arguments!!.getParcelable<PostFormatVersion>(FORMAT_VERSION)!!
+
+        val canEdit = type == PostType.BASIC && PostGlobalConstants.postFormatVersion.major >= postFormat.major
+
+        edit.visibility = if(canEdit) View.VISIBLE else View.GONE
 
         edit.setOnClickListener {
             targetFragment?.onActivityResult(targetRequestCode, RESULT_EDIT, Intent().apply {
-                putExtra(Tags.DISCUSSION_ID, arguments?.getString("payload"))
+                putExtra(Tags.DISCUSSION_ID, arguments?.getString(PAYLOAD))
             })
             dismiss()
         }
 
         delete.setOnClickListener {
             targetFragment?.onActivityResult(targetRequestCode, RESULT_DELETE, Intent().apply {
-                putExtra(Tags.DISCUSSION_ID, arguments?.getString("payload"))
+                putExtra(Tags.DISCUSSION_ID, arguments?.getString(PAYLOAD))
             })
             dismiss()
         }
@@ -52,11 +60,18 @@ class PostPageMenuDialog : BottomSheetDialogFragment() {
         const val RESULT_EDIT = Activity.RESULT_FIRST_USER + 1
         const val RESULT_DELETE = Activity.RESULT_FIRST_USER + 2
 
-        fun newInstance(isMyPost: Boolean, payload: String = ""): PostPageMenuDialog {
+        private const val IS_MY_POST = "IS_MY_POST"
+        private const val PAYLOAD = "PAYLOAD"
+        private const val TYPE = "TYPE"
+        private const val FORMAT_VERSION = "FORMAT_VERSION"
+
+        fun newInstance(isMyPost: Boolean, type: PostType, formatVersion: PostFormatVersion, payload: String = ""): PostPageMenuDialog {
             return PostPageMenuDialog().apply {
                 arguments = Bundle().apply {
-                    putSerializable("isMyPost", isMyPost)
-                    putString("payload", payload)
+                    putSerializable(IS_MY_POST, isMyPost)
+                    putString(PAYLOAD, payload)
+                    putInt(TYPE, type.value)
+                    putParcelable(FORMAT_VERSION, formatVersion)
                 }
             }
         }

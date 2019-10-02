@@ -14,7 +14,6 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
-import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
@@ -382,4 +381,3 @@ constructor(
 }
 
 internal fun ContentBodyModel.toContent(): CharSequence = this.full
-    .filter { it is TextRowModel }.joinToString("\n") { (it as TextRowModel).text }

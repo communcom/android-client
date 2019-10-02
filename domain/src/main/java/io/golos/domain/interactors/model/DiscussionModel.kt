@@ -76,17 +76,10 @@ data class EmbedModel(
     val html: String
 ) : Model
 
-sealed class ContentRowModel : Model
-
-data class TextRowModel(val text: CharSequence) : ContentRowModel()
-
-data class ImageRowModel(val src: String) : ContentRowModel()
-
-
 data class ContentBodyModel(
-    val full: List<ContentRowModel>,
+    val full: CharSequence,
     val embeds: List<EmbedModel>,
-    val mobilePreview: List<ContentRowModel>
+    val mobilePreview: CharSequence
 ) : Model
 
 

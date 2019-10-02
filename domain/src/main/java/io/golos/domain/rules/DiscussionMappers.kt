@@ -2,7 +2,6 @@ package io.golos.domain.rules
 
 import io.golos.cyber4j.model.CyberDiscussion
 import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.cyber4j.model.ImageRow
 import io.golos.cyber4j.model.TextRow
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
@@ -21,6 +20,7 @@ class CyberPostToEntityMapper
 @Inject
 constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
 
+    @Suppress("CAST_NEVER_SUCCEEDS")
     override suspend fun invoke(cyberObject: CyberDiscussion): PostEntity {
         return PostEntity(
             DiscussionIdEntity(
@@ -41,13 +41,7 @@ constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
                 cyberObject.content.title!!,
                 ContentBody(
                     cyberObject.content.body.preview ?: "",
-                    cyberObject.content.body.mobile.orEmpty().map {
-                        when (it) {
-                            is ImageRow -> ImageRowEntity(it.src)
-                            is TextRow -> TextRowEntity(it.content)
-                        }
-                    }
-                    ,
+                    (cyberObject.content.body.mobile.orEmpty().firstOrNull() as? TextRow)?.content ?: "",
                     cyberObject.content.embeds
                         .map {
                             EmbedEntity(
@@ -59,12 +53,7 @@ constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
                                 it.result?.html ?: ""
                             )
                         },
-                    cyberObject.content.body.mobilePreview.orEmpty().map {
-                        when (it) {
-                            is ImageRow -> ImageRowEntity(it.src)
-                            is TextRow -> TextRowEntity(it.content)
-                        }
-                    }),
+                    (cyberObject.content.body.mobilePreview.orEmpty().firstOrNull() as? TextRow)?.content ?: ""),
                 cyberObject.content.tags?.map { TagEntity(it) } ?: emptyList()
             ),
             DiscussionVotes(
@@ -118,13 +107,8 @@ constructor() : CyberToEntityMapper<CyberDiscussion, CommentEntity> {
             ),
             CommentContent(
                 ContentBody("",
-                    cyberObject.content.body.mobile.orEmpty()
-                        .map {
-                            when (it) {
-                                is ImageRow -> ImageRowEntity(it.src)
-                                is TextRow -> TextRowEntity(it.content)
-                            }
-                        }, cyberObject.content.embeds
+                    (cyberObject.content.body.mobile.orEmpty().firstOrNull() as? TextRow)?.content ?: "",
+                     cyberObject.content.embeds
                         .map {
                             EmbedEntity(
                                 it.result?.type ?: "",
@@ -135,13 +119,7 @@ constructor() : CyberToEntityMapper<CyberDiscussion, CommentEntity> {
                                 it.result?.html ?: ""
                             )
                         },
-                    cyberObject.content.body.mobilePreview.orEmpty()
-                        .map {
-                            when (it) {
-                                is ImageRow -> ImageRowEntity(it.src)
-                                is TextRow -> TextRowEntity(it.content)
-                            }
-                        }
+                    (cyberObject.content.body.mobilePreview.orEmpty().firstOrNull() as? TextRow)?.content ?: ""
                 )
             ),
             DiscussionVotes(

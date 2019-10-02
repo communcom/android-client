@@ -43,13 +43,9 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                 PostContentModel(
                     post.content.title,
                     ContentBodyModel(
-                        post.content.body.full.map { rowEntity ->
-                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
-                        },
+                        post.content.body.full,
                         post.content.body.embeds.map { it.toEmbedModel() },
-                        post.content.body.mobilePreview.map { rowEntity ->
-                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
-                        }
+                        post.content.body.mobilePreview
                     ),
                     post.content.tags.map { it.toModel() }
                 ),
@@ -95,13 +91,9 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                 DiscussionAuthorModel(comment.author.userId, comment.author.username, comment.author.avatarUrl),
                 CommentContentModel(
                     ContentBodyModel(
-                        comment.content.body.full.map { rowEntity ->
-                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
-                        },
+                        comment.content.body.full,
                         comment.content.body.embeds.map { it.toEmbedModel() },
-                        comment.content.body.mobilePreview.map { rowEntity ->
-                            rowEntity.toContentRowModel(htmlToSpannableTransformer, cashedSpans)
-                        }),
+                        comment.content.body.mobilePreview),
                     if (comment.parentCommentId != null) 1 else 0
                 ),
                 DiscussionVotesModel(
@@ -128,16 +120,6 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
             )
         }
         return out
-    }
-}
-
-private fun ContentRowEntity.toContentRowModel(
-    transformer: HtmlToSpannableTransformer,
-    cache: MutableMap<String, CharSequence>
-): ContentRowModel {
-    return when (this) {
-        is ImageRowEntity -> ImageRowModel(src)
-        is TextRowEntity -> TextRowModel(cache.getOrPut(text) { transformer.transform(text) })
     }
 }
 

@@ -16,9 +16,9 @@ data class CommentContent(val body: ContentBody) : Entity
 
 data class ContentBody(
     val preview: String,
-    val full: List<ContentRowEntity>,
+    val full: String,
     val embeds: List<EmbedEntity>,
-    val mobilePreview : List<ContentRowEntity>
+    val mobilePreview : String
 ) : Entity
 
 data class EmbedEntity(
@@ -29,13 +29,6 @@ data class EmbedEntity(
     val provider_name: String,
     val html: String
 ) : Entity
-
-sealed class ContentRowEntity : Entity
-
-data class TextRowEntity(val text: String) : ContentRowEntity()
-
-data class ImageRowEntity(val src: String) : ContentRowEntity()
-
 
 data class DiscussionMetadata(val time: Date) : Entity
 
