@@ -144,7 +144,12 @@
     <string name="keys_saved_successfully">Keys saved successfully</string>
     <string name="setup_passcode">Set up Passcode</string>
     <string name="add_short_pin">Add short PIN code</string>
-    <string name="user_name_invalid">Invalid username format</string>
+    <string name="user_name_short">Username cannot be shorter than 5 characters</string>
+    <string name="user_name_long">Username cannot exceed 32 characters</string>
+    <string name="user_name_contain_characters">You can use latin letters, numbers, and special characters</string>
+    <string name="user_name_begin_not_correct">Username can\'t start with a dash</string>
+    <string name="user_name_end_not_correct">Username can\'t end with a dash</string>
+    <string name="user_name_two_dot">Username can\'t have two consecutive dot characters</string>
 
     <!--Settings-->
     <string name="general">General</string>

@@ -56,8 +56,11 @@ constructor(
 
     private val selectedCountryLiveData = MutableLiveData<CountryEntity?>(null)
 
-    private val selectedPhoneLiveData = MutableLiveData<String>("")
+    private val selectedPhoneLiveData = MutableLiveData("")
 
+    private val validateUserNameErrorLiveData = MutableLiveData<Int>()
+
+    private val validateUserNameSuccessLiveData = MutableLiveData<Any>()
 
     /**
      * [LiveData] for country that was selected for phone number
@@ -68,6 +71,10 @@ constructor(
      * [LiveData] for country that was selected for phone number
      */
     val getSelectedPhoneLiveData = selectedPhoneLiveData as LiveData<String>
+
+    val getValidateUserNameErrorLivaData = validateUserNameErrorLiveData as LiveData<Int>
+
+    val getValidateUserNameSuccessLiveData = validateUserNameSuccessLiveData as LiveData<Any>
 
     /**
      * Sets [CountryModel] for this ViewModel
@@ -140,7 +147,20 @@ constructor(
         )
     }
 
-    fun checkUserName(userName: String): Boolean = UserNameValidator().isValid(userName)
+    /**
+     * Validate user name by rules application.
+     * If user name correct, then view model
+     *
+     * @param userName user name
+     */
+    fun validateUserName(userName: String) {
+        val userNameValidator = UserNameValidator()
+        if(userNameValidator.isValid(userName)){
+            validateUserNameSuccessLiveData.postValue(Any())
+        } else{
+            validateUserNameErrorLiveData.postValue(userNameValidator.getValidateErrorMessage())
+        }
+    }
 
     fun initSelectedCountry() {
         if(selectedCountryLiveData.value != null) {
@@ -166,8 +186,8 @@ constructor(
     }
 
     override fun onCleared() {
-        super.onCleared()
         signUpUseCase.unsubscribe()
         scopeJob.takeIf { it.isActive }?.cancel()
+        super.onCleared()
     }
 }

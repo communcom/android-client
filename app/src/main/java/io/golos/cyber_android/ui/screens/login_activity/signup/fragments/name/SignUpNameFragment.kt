@@ -45,11 +45,7 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(SignUpN
 
         back.setOnClickListener { findNavController().navigateUp() }
         next.setOnClickListener {
-            if(signUpViewModel.checkUserName(username.text.toString())) {
-                signUpViewModel.updateRegisterState()
-            } else {
-                uiHelper.showMessage(R.string.user_name_invalid)
-            }
+            signUpViewModel.validateUserName(username.text.toString())
         }
 
         username?.post {
@@ -91,6 +87,18 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(SignUpN
 
         signUpViewModel.lastRegisteredUser.asEvent().observe(this, Observer {
             onSuccess()
+        })
+
+        signUpViewModel.getValidateUserNameErrorLivaData.observe(this, Observer { error ->
+            run {
+                uiHelper.showMessage(error)
+            }
+        })
+
+        signUpViewModel.getValidateUserNameSuccessLiveData.observe(this, Observer { success ->
+            run {
+                signUpViewModel.updateRegisterState()
+            }
         })
     }
 
