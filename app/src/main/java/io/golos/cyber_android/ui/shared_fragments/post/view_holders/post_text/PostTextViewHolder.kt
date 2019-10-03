@@ -71,6 +71,7 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
                     is Either.Success -> {
                         view.postWidgetContainer.visibility = View.VISIBLE
 
+                        view.postWidgetContainer.removeAllViews()
                         post.value.content.forEach { block ->
                             view.postWidgetContainer.addView(createWidget(block) as View)
                         }

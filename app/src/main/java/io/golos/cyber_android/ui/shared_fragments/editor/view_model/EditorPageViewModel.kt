@@ -256,6 +256,7 @@ constructor(
                 } else {
                     val images = if(uploadResult is Either.Success) listOf(uploadResult.value.url) else listOf()
 
+//                    See condition in [4]
                     command.value = when(val createPostResult = model.createPost(content, nsfwLiveData.value == true, images)) {
                         is Either.Failure -> PostErrorViewCommand(createPostResult.value)
                         is Either.Success -> PostCreatedViewCommand(createPostResult.value)
@@ -279,6 +280,9 @@ constructor(
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
+
+//    Move to model like model.createPost
+//    Call result must be the same[?]
     private fun editPost(images: List<String> = emptyList()) {
         val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
 
