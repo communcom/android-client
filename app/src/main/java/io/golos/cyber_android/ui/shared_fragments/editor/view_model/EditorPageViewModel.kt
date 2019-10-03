@@ -28,14 +28,13 @@ import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.model.*
-import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
 import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.posts_parsing_rendering.json_to_dto.JsonMappingErrorCode
-import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
+import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonMappingErrorCode
+import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

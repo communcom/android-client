@@ -43,7 +43,6 @@ import io.golos.domain.post.editor_output.EmbedType
 import io.golos.domain.post.TextStyle
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
-import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject

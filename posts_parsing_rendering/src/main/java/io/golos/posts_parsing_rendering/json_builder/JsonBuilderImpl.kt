@@ -1,11 +1,12 @@
-package io.golos.posts_parsing_rendering.editor_output_to_json.builder
+package io.golos.posts_parsing_rendering.json_builder
 
 import io.golos.posts_parsing_rendering.BlockType
 
 class JsonBuilderImpl private constructor(): JsonBuilder,
     JsonBuilderItems {
     companion object {
-        fun create(): JsonBuilder = JsonBuilderImpl()
+        fun create(): JsonBuilder =
+            JsonBuilderImpl()
     }
 
     private val output = StringBuilder()
@@ -43,7 +44,8 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
         type: BlockType,
         isLast: Boolean,
         content: String,
-        vararg attributes: PostAttribute) =
+        vararg attributes: PostAttribute
+    ) =
             putBlock(type, attributes, isLast) {
                 putItem("content", content, attributes.isEmpty())
             }

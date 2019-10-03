@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.editor_output_to_json.spans_splitter
+package io.golos.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter
 
 import android.net.Uri
 

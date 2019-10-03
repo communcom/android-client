@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.json_to_dto.mappers
+package io.golos.posts_parsing_rendering.mappers.json_to_dto.mappers
 
 import io.golos.domain.post.post_dto.AttachmentsBlock
 import io.golos.domain.post.post_dto.Block
@@ -6,7 +6,7 @@ import io.golos.domain.post.post_dto.PostBlock
 import io.golos.posts_parsing_rendering.Attribute
 import io.golos.posts_parsing_rendering.BlockType
 import io.golos.posts_parsing_rendering.PostGlobalConstants
-import io.golos.posts_parsing_rendering.json_to_dto.IncompatibleVersionsException
+import io.golos.posts_parsing_rendering.mappers.json_to_dto.IncompatibleVersionsException
 import org.json.JSONObject
 
 class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersFactory) {

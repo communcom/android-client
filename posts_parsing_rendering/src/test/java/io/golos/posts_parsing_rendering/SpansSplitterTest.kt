@@ -3,7 +3,7 @@ package io.golos.posts_parsing_rendering
 import io.golos.domain.post.editor_output.MentionSpanInfo
 import io.golos.domain.post.editor_output.ParagraphMetadata
 import io.golos.domain.post.editor_output.TagSpanInfo
-import io.golos.posts_parsing_rendering.editor_output_to_json.spans_splitter.*
+import io.golos.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.*
 import org.junit.Test
 
 import org.junit.Assert.*

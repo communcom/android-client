@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.json_to_dto
+package io.golos.posts_parsing_rendering.mappers.json_to_dto
 
 enum class JsonMappingErrorCode {
     INCOMPATIBLE_VERSIONS,

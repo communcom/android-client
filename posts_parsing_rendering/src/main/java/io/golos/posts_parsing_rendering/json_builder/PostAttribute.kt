@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.editor_output_to_json.builder
+package io.golos.posts_parsing_rendering.json_builder
 
 import io.golos.posts_parsing_rendering.Attribute
 

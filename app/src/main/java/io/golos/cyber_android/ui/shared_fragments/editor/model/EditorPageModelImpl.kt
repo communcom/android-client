@@ -29,7 +29,7 @@ import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.domain.requestmodel.PostUpdateRequestEntity
 import io.golos.posts_editor.utilities.post.PostStubs
-import io.golos.posts_parsing_rendering.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.lang.UnsupportedOperationException
@@ -95,7 +95,7 @@ constructor(
         adultOnly: Boolean,
         localImagesUri: List<String>
     ): Either<DiscussionCreationResultModel, Throwable> {
-        val postText = EditorOutputToJsonMapper().map(content, localImagesUri)
+        val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
 
         val tags = extractTags(content, adultOnly)
 
@@ -119,7 +119,7 @@ constructor(
         adultOnly: Boolean,
         localImagesUri: List<String>
     ): Either<DiscussionCreationResultModel, Throwable> {
-        val postText = EditorOutputToJsonMapper().map(content, localImagesUri)
+        val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
 
         val tags = extractTags(content, adultOnly)
 

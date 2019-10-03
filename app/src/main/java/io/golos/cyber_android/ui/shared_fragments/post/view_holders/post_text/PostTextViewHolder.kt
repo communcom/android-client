@@ -13,8 +13,8 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.post.post_dto.*
-import io.golos.posts_parsing_rendering.json_to_dto.JsonMappingErrorCode
-import io.golos.posts_parsing_rendering.json_to_dto.JsonToDtoMapper
+import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonMappingErrorCode
+import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import kotlinx.android.synthetic.main.item_content_text.view.*
 import kotlinx.coroutines.*
 import java.lang.UnsupportedOperationException

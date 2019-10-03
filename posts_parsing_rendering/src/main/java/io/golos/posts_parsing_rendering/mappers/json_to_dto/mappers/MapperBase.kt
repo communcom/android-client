@@ -1,4 +1,4 @@
-package io.golos.posts_parsing_rendering.json_to_dto.mappers
+package io.golos.posts_parsing_rendering.mappers.json_to_dto.mappers
 
 import io.golos.domain.post.post_dto.Block
 import org.json.JSONObject
