@@ -16,14 +16,18 @@ import io.golos.data.repositories.discussion_creation.DiscussionCreationReposito
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.PostCreationResultEntity
+import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.entities.UploadedImageEntity
+import io.golos.domain.interactors.model.DiscussionCreationResultModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostCreationResultModel
+import io.golos.domain.interactors.model.UpdatePostResultModel
 import io.golos.domain.post.editor_output.TagSpanInfo
 import io.golos.domain.post.editor_output.*
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
+import io.golos.domain.requestmodel.PostUpdateRequestEntity
 import io.golos.posts_editor.utilities.post.PostStubs
 import io.golos.posts_parsing_rendering.editor_output_to_json.EditorOutputToJsonMapper
 import kotlinx.coroutines.withContext
@@ -90,32 +94,45 @@ constructor(
         content: List<ControlMetadata>,
         adultOnly: Boolean,
         localImagesUri: List<String>
-    ): Either<PostCreationResultModel, Throwable> {
+    ): Either<DiscussionCreationResultModel, Throwable> {
         val postText = EditorOutputToJsonMapper().map(content, localImagesUri)
 
-        val tags = content
-            .asSequence()
-            .filterIsInstance<ParagraphMetadata>()
-            .map { it.spans }
-            .flatten()
-            .filterIsInstance<TagSpanInfo>()
-            .map { it.value }
-            .toMutableSet()
-
-        if(adultOnly) {
-            tags.add("nsfw")
-        }
+        val tags = extractTags(content, adultOnly)
 
         val postRequest = PostCreationRequestEntity("", postText, postText, tags.toList(), localImagesUri)
 
         return when(val creationResult = discussionCreationRepository.createOrUpdate(postRequest)) {
-            is Either.Failure -> Either.Failure<PostCreationResultModel, Throwable>(creationResult.value)
+            is Either.Failure -> Either.Failure<DiscussionCreationResultModel, Throwable>(creationResult.value)
             is Either.Success -> {
                 (creationResult.value as PostCreationResultEntity)
                 .let {
-                    Either.Success<PostCreationResultModel, Throwable>(PostCreationResultModel(
+                    Either.Success<DiscussionCreationResultModel, Throwable>(PostCreationResultModel(
                         DiscussionIdModel(it.postId.userId, it.postId.permlink)))
                 }
+            }
+        }
+    }
+
+    override suspend fun updatePost(
+        content: List<ControlMetadata>,
+        permlink: String,
+        adultOnly: Boolean,
+        localImagesUri: List<String>
+    ): Either<DiscussionCreationResultModel, Throwable> {
+        val postText = EditorOutputToJsonMapper().map(content, localImagesUri)
+
+        val tags = extractTags(content, adultOnly)
+
+        val postRequest = PostUpdateRequestEntity(permlink, "", postText, postText, tags.toList(), localImagesUri)
+
+        return when(val updateResult = discussionCreationRepository.createOrUpdate(postRequest)) {
+            is Either.Failure -> Either.Failure<DiscussionCreationResultModel, Throwable>(updateResult.value)
+            is Either.Success -> {
+                (updateResult.value as UpdatePostResultEntity)
+                    .let {
+                        Either.Success<DiscussionCreationResultModel, Throwable>(UpdatePostResultModel(
+                            DiscussionIdModel(it.id.userId, it.id.permlink)))
+                    }
             }
         }
     }
@@ -146,5 +163,22 @@ constructor(
             serverLinkInfo.description ?: serverLinkInfo.title ?: sourceUrl,
             Uri.parse(thumbnailUrl),
             Uri.parse(sourceUrl))
+    }
+
+    private fun extractTags(content: List<ControlMetadata>, adultOnly: Boolean): Set<String> {
+        val tags = content
+            .asSequence()
+            .filterIsInstance<ParagraphMetadata>()
+            .map { it.spans }
+            .flatten()
+            .filterIsInstance<TagSpanInfo>()
+            .map { it.value }
+            .toMutableSet()
+
+        if(adultOnly) {
+            tags.add("nsfw")
+        }
+
+        return tags
     }
 }

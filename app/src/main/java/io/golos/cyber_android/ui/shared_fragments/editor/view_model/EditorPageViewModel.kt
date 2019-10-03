@@ -256,10 +256,17 @@ constructor(
                 } else {
                     val images = if(uploadResult is Either.Success) listOf(uploadResult.value.url) else listOf()
 
-//                    See condition in [4]
-                    command.value = when(val createPostResult = model.createPost(content, nsfwLiveData.value == true, images)) {
-                        is Either.Failure -> PostErrorViewCommand(createPostResult.value)
-                        is Either.Success -> PostCreatedViewCommand(createPostResult.value)
+                    val adultOnly = nsfwLiveData.value == true
+
+                    val callResult = if(postToEdit == null) {
+                        model.createPost(content, adultOnly, images)
+                    } else {
+                        model.updatePost(content, postToEdit.permlink, adultOnly, images)
+                    }
+
+                    command.value = when(callResult) {
+                        is Either.Failure -> PostErrorViewCommand(callResult.value)
+                        is Either.Success -> PostCreatedViewCommand(callResult.value)
                     }
                 }
 
@@ -283,18 +290,18 @@ constructor(
 
 //    Move to model like model.createPost
 //    Call result must be the same[?]
-    private fun editPost(images: List<String> = emptyList()) {
-        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
-
-        (posterUseCase as DiscussionPosterUseCase).updatePost(
-            UpdatePostRequestModel(
-                postToEdit!!.permlink, title, content,
-                tags,
-                images
-            )
-
-        )
-    }
+//    private fun editPost(images: List<String> = emptyList()) {
+//        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
+//
+//        (posterUseCase as DiscussionPosterUseCase).updatePost(
+//            UpdatePostRequestModel(
+//                postToEdit!!.permlink, title, content,
+//                tags,
+//                images
+//            )
+//
+//        )
+//    }
 
 //    private fun createPost(images: List<String> = emptyList()) {
 //        Log.d("", "")

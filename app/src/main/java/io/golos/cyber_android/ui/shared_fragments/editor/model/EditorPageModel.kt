@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.domain.entities.UploadedImageEntity
-import io.golos.domain.interactors.model.PostCreationResultModel
+import io.golos.domain.interactors.model.DiscussionCreationResultModel
 import io.golos.domain.post.editor_output.ControlMetadata
 
 interface EditorPageModel : ModelBase {
@@ -23,5 +23,13 @@ interface EditorPageModel : ModelBase {
         content: List<ControlMetadata>,
         adultOnly: Boolean,
         localImagesUri: List<String> = emptyList()
-    ): Either<PostCreationResultModel, Throwable>
+    ): Either<DiscussionCreationResultModel, Throwable>
+
+    suspend fun updatePost(
+        content: List<ControlMetadata>,
+        permlink: String,
+        adultOnly: Boolean,
+        localImagesUri: List<String> = emptyList()
+    ): Either<DiscussionCreationResultModel, Throwable>
+
 }

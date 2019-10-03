@@ -24,11 +24,7 @@
         {
           "id": 5,
           "type": "text",
-          "content": " купил себе айпад. ",
-          "attributes": {
-            "style": ["bold", "italic"],
-            "text_color": "#ff0000"
-          }
+          "content": " купил себе айпад. "
         },
         {
           "id": 6,
