@@ -16,7 +16,7 @@ data class PostCreationRequestModel(
 ) : DiscussionCreationRequest()
 
 data class CommentCreationRequestModel(
-    val body: CharSequence,//in real app use only spanned
+    val body: String,//in real app use only spanned
     val parentId: DiscussionIdModel,
     val tags: List<String>
 ) : DiscussionCreationRequest()

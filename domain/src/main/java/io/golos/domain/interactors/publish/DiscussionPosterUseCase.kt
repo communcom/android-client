@@ -138,7 +138,7 @@ constructor(
                 request.images
             )
             is CommentCreationRequestModel -> CommentCreationRequestEntity(
-                fromSpannableTransformer.transform(request.body),
+                request.body,
                 request.parentId,
                 request.tags
             )

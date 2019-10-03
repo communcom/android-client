@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.AttributeSet
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.utils.PostConstants
@@ -19,20 +20,22 @@ class CommentWidget @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    interface Listener {
+        fun onSendClick(text: CharSequence)
+        fun onGalleryClick()
+        fun onUserNameCleared()
+        fun onCommentChanged(text: CharSequence)
+    }
+
     var listener: Listener? = null
 
     var isSendEnabled: Boolean = false
         set(value) {
             field = value
-            sendButton.isEnabled = value
-            sendButton.alpha = if (sendButton.isEnabled) 1f else 0.3f
         }
 
     init {
         inflate(context, R.layout.view_comment_widget, this)
-
-        galleryButton.setOnClickListener { listener?.onGalleryClick() }
-        sendButton.setOnClickListener { listener?.onSendClick(comment.text ?: "") }
 
         comment.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
@@ -45,7 +48,14 @@ class CommentWidget @JvmOverloads constructor(
             }
         })
 
-        comment.movementMethod = MultilineLinkMovementMethod()
+        comment.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                listener?.onSendClick(comment.text ?: "")
+            }
+            false
+        }
+
+//        comment.movementMethod = MultilineLinkMovementMethod()
         comment.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_COMMENT_CONTENT_LENGTH))
     }
 
@@ -89,17 +99,5 @@ class CommentWidget @JvmOverloads constructor(
         newText.setSpan(StyleSpan(Typeface.BOLD), 0, userName.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
         comment.text = newText
         comment.setSelection(newText.length)
-    }
-
-
-
-    interface Listener {
-        fun onSendClick(text: CharSequence)
-
-        fun onGalleryClick()
-
-        fun onUserNameCleared()
-
-        fun onCommentChanged(text: CharSequence)
     }
 }

@@ -11,6 +11,7 @@ import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 
 /**
  * Extends [AbstractFeedViewModel] with ability to create comments via [sendComment] method. Result of creation
@@ -40,7 +41,9 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
      */
     fun sendComment(id: DiscussionIdModel, comment: CharSequence) {
         if (validateComment(comment)) {
-            val postRequest = CommentCreationRequestModel(comment, id, emptyList())
+            val jsonComment = CommentToJsonMapper.mapText(comment.toString())
+
+            val postRequest = CommentCreationRequestModel(jsonComment, id, emptyList())
             posterUseCase.createPostOrComment(postRequest)
         }
     }

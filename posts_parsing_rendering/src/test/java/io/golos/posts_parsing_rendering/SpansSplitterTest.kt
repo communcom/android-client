@@ -5,7 +5,6 @@ import io.golos.domain.post.editor_output.ParagraphMetadata
 import io.golos.domain.post.editor_output.TagSpanInfo
 import io.golos.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.*
 import org.junit.Test
-
 import org.junit.Assert.*
 
 class SpansSplitterTest {

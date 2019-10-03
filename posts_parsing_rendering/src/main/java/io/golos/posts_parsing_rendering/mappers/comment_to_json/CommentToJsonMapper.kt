@@ -6,6 +6,7 @@ import io.golos.posts_parsing_rendering.PostGlobalConstants
 import io.golos.posts_parsing_rendering.PostTypeJson
 import io.golos.posts_parsing_rendering.json_builder.JsonBuilderImpl
 import io.golos.posts_parsing_rendering.json_builder.PostAttribute
+import io.golos.posts_parsing_rendering.mappers.comment_to_json.tags.CommentTagsExtractor
 
 object CommentToJsonMapper {
     /**
@@ -21,7 +22,13 @@ object CommentToJsonMapper {
             PostAttribute(Attribute.TYPE, PostTypeJson.COMMENT)) {
 
             builder.putBlock(BlockType.PARAGRAPH, true) {
-                builder.putBlock(BlockType.TEXT, true, text)
+                val splittedText = CommentTagsExtractor.extract(text)
+
+                for(i in splittedText.indices) {
+                    val type = if(splittedText[i].isTag) BlockType.TAG else BlockType.TEXT
+
+                    builder.putBlock(type, i == splittedText.lastIndex, splittedText[i].text)
+                }
             }
         }
 
