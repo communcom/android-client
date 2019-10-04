@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel
+package io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber4j.sharedmodel.Either
@@ -8,19 +8,19 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
+import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CommunityViewModel
+class SelectCommunityDialogViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: CommunityModel
+    model: CommunityModel,
+    appResourcesProvider: AppResourcesProvider
 ) : ViewModelBase<CommunityModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
-
-    private var isSetup = false
 
     var searchString = ""
         private set
@@ -33,20 +33,9 @@ constructor(
     val searchResultItems: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
 
     init {
+        model.initModel(appResourcesProvider.getDimens(R.dimen.select_community_dialog_height).toInt())
         model.setOnSearchResultListener { processSearchResult(it) }
-    }
-
-    fun onViewCreated() {
-        isSetup = false
-    }
-
-    fun onActive(controlHeight: Int) {
-        model.initModel(controlHeight)
-
-        if(!isSetup) {
-            loadPage(0)
-            isSetup = true
-        }
+        loadPage(0)
     }
 
     fun onScroll(lastVisibleItemPosition: Int) {

@@ -32,8 +32,8 @@ class MainActivity : ActivityBase() {
 
     enum class Tab(val index: Int, @IdRes val navItem: Int) {
         FEED(0, R.id.navigation_feed),
-        //COMMUNITIES(1, R.id.navigation_communities),
-        NOTIFICATIONS(1, R.id.navigation_notifications),
+        COMMUNITIES(1, R.id.navigation_communities),
+        //NOTIFICATIONS(1, R.id.navigation_notifications),
         //WALLET(3, R.id.navigation_wallet),
         PROFILE(2, R.id.navigation_profile)
     }
@@ -74,11 +74,11 @@ class MainActivity : ActivityBase() {
     private var notificationsBadge: View? = null
 
     private fun addNotificationsBadge() {
-        val menuView = navigationView.getChildAt(0) as BottomNavigationMenuView
-        val itemView = menuView.getChildAt(Tab.NOTIFICATIONS.index) as BottomNavigationItemView
-        notificationsBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false)
-        notificationsBadge?.visibility = View.GONE
-        itemView.addView(notificationsBadge)
+//        val menuView = navigationView.getChildAt(0) as BottomNavigationMenuView
+//        val itemView = menuView.getChildAt(Tab.NOTIFICATIONS.index) as BottomNavigationItemView
+//        notificationsBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false)
+//        notificationsBadge?.visibility = View.GONE
+//        itemView.addView(notificationsBadge)
     }
 
     private fun refreshNotificationsBadge(count: Int) {
@@ -97,8 +97,8 @@ class MainActivity : ActivityBase() {
             override fun createFragment(position: Int): Fragment {
                 return when (Tab.values().find { it.index == position }) {
                     Tab.FEED -> FeedFragment.newInstance("gls", user.name)
-                    //Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
-                    Tab.NOTIFICATIONS -> NotificationsFragment.newInstance()
+                    Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
+                    //Tab.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     //Tab.WALLET -> WalletFragment.newInstance()
                     Tab.PROFILE -> ProfileFragment.newInstance(user.name)
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")

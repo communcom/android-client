@@ -21,10 +21,12 @@
     <color name="middle_gray_3">#F5F5F5</color>
     <color name="dark_gray">#9B9FA2</color>
     <color name="blue_40">#666A80F5</color>
+
     <color name="pale_black">#8A000000</color>
     <color name="transparent">#00000000</color>
-    <color name="bg_post_comment">#ffffff</color>
-    <color name="bg_dialog_color">#ffffff</color>
+
+    <color name="bg_post_comment">@color/white</color>
+    <color name="bg_dialog_color">@color/white</color>
 
     <color name="light_button">@color/white</color>
     <color name="light_button_pressed">@color/middle_gray_3</color>

@@ -1,4 +1,6 @@
 <resources>
+    <dimen name="height_action_bar">44dp</dimen>
+
     <dimen name="padding_global">8dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
@@ -175,18 +177,27 @@
     <dimen name="padding_horizontal_notification_dialog_button">12dp</dimen>
 
     <!--Editor Page-->
-    <dimen name="padding_vertical_editor_page_buttons">8dp</dimen>
-    <dimen name="padding_horizontal_editor_page_buttons">8dp</dimen>
+    <dimen name="height_editor_toolbar">55dp</dimen>
+    <dimen name="size_editor_tool_button">35dp</dimen>
+    <dimen name="size_editor_tool_button_icon">18dp</dimen>
+    <dimen name="margin_size_editor_common">15dp</dimen>
+    <dimen name="margin_size_editor_small">10dp</dimen>
+    <dimen name="margin_size_editor_tool_button">5dp</dimen>
+    <dimen name="width_editor_post_button">60dp</dimen>
+    <dimen name="height_editor_post_button">35dp</dimen>
+    <dimen name="scale_editor_tool_buttons_small">0.7</dimen>
+    <dimen name="margin_size_editor_tool_button_side_small">10dp</dimen>
+    <dimen name="size_community_icon">40dp</dimen>
+    <dimen name="height_community_area">70dp</dimen>
+    <dimen name="vertical_margin_text_community_area">15dp</dimen>
 
-    <dimen name="margin_vertical_editor_page_community_avatar">8dp</dimen>
     <dimen name="margin_top_editor_page_title">6dp</dimen>
     <dimen name="padding_top_bottom_editor_page">10dp</dimen>
     <dimen name="height_editor_image_preview">200dp</dimen>
-    <dimen name="margin_top_editor_page_summary">16dp</dimen>
-    <dimen name="margin_top_editor_page_provider">4dp</dimen>
-    <dimen name="margin_top_editor_page_content">8dp</dimen>
-    <dimen name="margin_top_editor_page_link_preview">12dp</dimen>
     <dimen name="min_height_editor">50dp</dimen>
+
+    <!-- Select community dialog -->
+    <dimen name="select_community_dialog_height">200dp</dimen>
 
     <!--Comment Widget-->
     <dimen name="padding_comment_widget_gallery_button">6dp</dimen>

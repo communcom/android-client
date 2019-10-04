@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialogViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/root"
+        android:animateLayoutChanges="true"
+        tools:context="io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialog">
+
+        <EditText
+            android:id="@+id/searchField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:ignore="Autofill,LabelFor" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/communitiesList"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/select_community_dialog_height"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchField"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/communitiesSearchList"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/select_community_dialog_height"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchField"
+
+            android:visibility="invisible"
+            tools:visibility="visible"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

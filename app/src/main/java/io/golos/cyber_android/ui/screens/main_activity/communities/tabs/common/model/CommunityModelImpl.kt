@@ -56,10 +56,12 @@ constructor(
             return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(false, null))
         }
 
-        return when(currentStage) {
+        val either1 = when (currentStage) {
             LoadingStage.SHOWING_PROGRESS -> showProgressIndicator()
             LoadingStage.LOAD_DATA -> showItems()
         }
+        val either = either1
+        return either
     }
 
     override fun close() = search.close()

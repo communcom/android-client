@@ -5,18 +5,18 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
-import io.golos.cyber_android.databinding.FragmentDiscoverBinding
+import io.golos.cyber_android.databinding.FragmentCommunitiesDiscoverBinding
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.CommunitiesTabFragmentBase
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
 import io.golos.domain.AppResourcesProvider
-import kotlinx.android.synthetic.main.fragment_discover.*
-import kotlinx.android.synthetic.main.fragment_discover.root as rootView
-import kotlinx.android.synthetic.main.fragment_discover.searchResultList as searchResultListView
-import kotlinx.android.synthetic.main.fragment_discover.mainList as mainListView
+import kotlinx.android.synthetic.main.fragment_communities_discover.*
+import kotlinx.android.synthetic.main.fragment_communities_discover.root as rootView
+import kotlinx.android.synthetic.main.fragment_communities_discover.searchResultList as searchResultListView
+import kotlinx.android.synthetic.main.fragment_communities_discover.mainList as mainListView
 
 import javax.inject.Inject
 
-class DiscoverFragment : CommunitiesTabFragmentBase<FragmentDiscoverBinding>() {
+class DiscoverFragment : CommunitiesTabFragmentBase<FragmentCommunitiesDiscoverBinding>() {
     companion object {
         fun newInstance() = DiscoverFragment()
     }
@@ -33,7 +33,7 @@ class DiscoverFragment : CommunitiesTabFragmentBase<FragmentDiscoverBinding>() {
     @Inject
     internal lateinit var appResources: AppResourcesProvider
 
-    override fun provideLayout(): Int = R.layout.fragment_discover
+    override fun provideLayout(): Int = R.layout.fragment_communities_discover
 
     override fun inject() = App.injections.get<DiscoverFragmentComponent>().inject(this)
 
@@ -41,7 +41,7 @@ class DiscoverFragment : CommunitiesTabFragmentBase<FragmentDiscoverBinding>() {
         App.injections.release<DiscoverFragmentComponent>()
     }
 
-    override fun linkViewModel(binding: FragmentDiscoverBinding, viewModel: CommunityViewModel) {
+    override fun linkViewModel(binding: FragmentCommunitiesDiscoverBinding, viewModel: CommunityViewModel) {
         binding.viewModel = viewModel
     }
 

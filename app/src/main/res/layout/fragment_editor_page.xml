@@ -18,45 +18,54 @@
                 app:elevation="0dp"
                 android:id="@+id/actionBar"
                 android:background="@color/white"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="@dimen/height_action_bar"
                 android:layout_width="match_parent"
                 android:theme="@style/AppTheme.AppBarOverlay">
 
-            <LinearLayout
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                <ImageButton
-                        android:id="@+id/close"
-                        android:padding="@dimen/padding_toolbar_buttons_20dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_gravity="start|center_vertical"
-                        app:srcCompat="@drawable/ic_close"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/close"
+
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
+
+                    android:background="@drawable/bcg_editor_tool_button"
+
+                    android:scaleX="@dimen/scale_editor_tool_buttons_small"
+                    android:scaleY="@dimen/scale_editor_tool_buttons_small"
+
+                    app:imageButton_icon="@drawable/ic_close"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
+
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button_side_small"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                        android:id="@+id/toolbarTitle"
-                        android:text="@string/create_post"
-                        android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-                        android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
-                        android:theme="@style/ToolbarTitleTextStyle"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/toolbarTitle"
 
-                <ImageButton
-                        android:id="@+id/post"
-                        android:padding="@dimen/padding_toolbar_buttons_20dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:layout_gravity="start|center_vertical"
-                        app:srcCompat="@drawable/ic_ok"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:text="@string/create_post"
+                    style="@style/ToolbarTitleTextStyle"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -70,44 +79,92 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!--Post icon etc.-->
-                <RelativeLayout
+                <!-- Community area -->
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_top_editor_page_content">
+                    android:layout_height="@dimen/height_community_area">
 
                     <ImageView
                         android:id="@+id/communityAvatar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-                        android:layout_marginTop="@dimen/margin_vertical_editor_page_community_avatar"
-                        android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
-                        android:layout_marginBottom="@dimen/margin_vertical_editor_page_community_avatar"
-                        android:src="@drawable/img_example_community" />
+
+                        android:layout_width="@dimen/size_community_icon"
+                        android:layout_height="@dimen/size_community_icon"
+
+                        android:layout_marginStart="@dimen/margin_size_editor_common"
+
+                        android:src="@drawable/ic_group_temporary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/communityTitle"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="@dimen/margin_vertical_editor_page_community_avatar"
+
                         android:layout_toEndOf="@+id/communityAvatar"
+
                         android:text="@string/you_will_post_in"
-                        android:theme="@style/PostCardAuthorTextStyle" />
+                        style="@style/PostCardAuthorTextStyle"
+
+                        app:layout_constraintBottom_toTopOf="@+id/communityName"
+                        app:layout_constraintStart_toEndOf="@+id/communityAvatar"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="spread_inside"
+
+                        android:layout_marginStart="@dimen/margin_size_editor_small"
+                        android:layout_marginTop="@dimen/vertical_margin_text_community_area"
+
+                        />
 
                     <TextView
                         android:id="@+id/communityName"
-                        android:layout_width="wrap_content"
+
+                        style="@style/ToolbarTitleTextStyle"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/communityTitle"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toEndOf="@+id/communityAvatar"
-                        android:theme="@style/PostCardCommunityTextStyle"
-                        tools:text="Overwatch" />
-                </RelativeLayout>
+
+                        android:layout_marginBottom="@dimen/vertical_margin_text_community_area"
+                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button_side_small"
+
+                        android:ellipsize="end"
+                        android:maxLines="1"
+
+                        tools:text="Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/showCommunities"
+
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/communityTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/communityTitle" />
+
+                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                        android:id="@+id/showCommunities"
+
+                        android:layout_width="@dimen/size_editor_tool_button"
+                        android:layout_height="@dimen/size_editor_tool_button"
+
+                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button_side_small"
+
+                        android:background="@drawable/bcg_editor_tool_button"
+                        android:scaleX="@dimen/scale_editor_tool_buttons_small"
+
+                        android:scaleY="@dimen/scale_editor_tool_buttons_small"
+                        app:imageButton_icon="@drawable/ic_drop_down"
+                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+
+                        app:imageButton_tint="@color/tint_editor_tool_button"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!--Title-->
                 <EditText
@@ -149,209 +206,239 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!--It's a gap between editor and tools panel-->
-    <View
-        android:background="@color/middle_gray"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
     <!--Toolbar-->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="horizontal"
-            android:background="@color/bg_post_comment"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/height_editor_toolbar"
+            android:background="@drawable/bcg_editor_toolbar">
 
-        <ImageView
+        <Button
             android:id="@+id/nsfwButton"
-            android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-            android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
 
-            android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-            android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+            android:layout_width="@dimen/size_editor_tool_button"
+            android:layout_height="@dimen/size_editor_tool_button"
 
-            android:layout_gravity="start|center_vertical"
-            app:srcCompat="@drawable/ic_nsfw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="?android:attr/borderlessButtonStyle"
 
+            android:layout_marginStart="@dimen/margin_size_editor_common"
+            android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-            <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+            android:background="@drawable/bcg_editor_tool_button_adult"
+            android:textColor="@color/tint_editor_tool_button_adult"
 
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            android:text="@string/adult_only"
+            android:textSize="@dimen/text_size_13_sp"
+            />
 
-                    <ImageView
-                        android:id="@+id/boldButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+            android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+            android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                        android:layout_gravity="start|center_vertical"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
 
-                        app:srcCompat="@drawable/ic_bold"
-                        app:tint = "@color/tint_edit_post_button"
+            app:layout_constraintEnd_toStartOf="@+id/postButton"
+            app:layout_constraintStart_toEndOf="@+id/nsfwButton"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent">
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/italicButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/boldButton"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
 
-                        android:layout_gravity="start|center_vertical"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
 
-                        app:srcCompat="@drawable/ic_italic"
-                        app:tint = "@color/tint_edit_post_button"
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+                    app:imageButton_icon="@drawable/ic_bold"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
 
-                    <ImageView
-                        android:id="@+id/textColorButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                    tools:visibility="visible" />
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/italicButton"
 
-                        android:layout_gravity="start|center_vertical"
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
 
-                        app:srcCompat="@drawable/ic_text_color"
-                        app:tint = "@color/tint_edit_post_button"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
 
-                    <ImageView
-                        android:id="@+id/tagButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                    app:imageButton_icon="@drawable/ic_italic"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                    tools:visibility="visible" />
 
-                        android:layout_gravity="start|center_vertical"
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/textColorButton"
 
-                        app:srcCompat="@drawable/ic_tag"
-                        app:tint = "@color/tint_edit_post_button"
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                    <ImageView
-                        android:id="@+id/mentionButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                    app:imageButton_icon="@drawable/ic_text_color"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
 
-                        android:layout_gravity="start|center_vertical"
+                    tools:visibility="visible" />
 
-                        app:srcCompat="@drawable/ic_mention"
-                        app:tint = "@color/tint_edit_post_button"
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/tagButton"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
 
-                    <ImageView
-                        android:id="@+id/linkInTextButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
 
-                        android:layout_gravity="start|center_vertical"
+                    app:imageButton_icon="@drawable/ic_tag"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
 
-                        app:srcCompat="@drawable/ic_link_in_text"
-                        app:tint = "@color/tint_edit_post_button"
+                    tools:visibility="visible" />
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/mentionButton"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
 
-                    <ImageView
-                        android:id="@+id/photoButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                        android:layout_gravity="start|center_vertical"
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
 
-                        app:srcCompat="@drawable/ic_editor_widget_camera"
-                        app:tint = "@color/tint_edit_post_button"
+                    app:imageButton_icon="@drawable/ic_mention"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                    tools:visibility="visible" />
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/linkInTextButton"
 
-                    <ImageView
-                        android:id="@+id/linkExternalButton"
-                        android:paddingTop="@dimen/padding_vertical_editor_page_buttons"
-                        android:paddingBottom="@dimen/padding_vertical_editor_page_buttons"
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
 
-                        android:paddingStart="@dimen/padding_horizontal_editor_page_buttons"
-                        android:paddingEnd="@dimen/padding_horizontal_editor_page_buttons"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
 
-                        android:layout_gravity="start|center_vertical"
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
 
-                        app:srcCompat="@drawable/ic_link_external"
-                        app:tint = "@color/tint_edit_post_button"
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
 
-                        android:visibility="gone"
-                        tools:visibility="visible"
+                    app:imageButton_icon="@drawable/ic_link_in_text"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="ContentDescription" />
-                </LinearLayout>
-            </HorizontalScrollView>
-        </ScrollView>
-    </LinearLayout>
+                    tools:visibility="visible" />
+
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/photoButton"
+
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
+
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
+
+                    app:imageButton_icon="@drawable/ic_photo"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
+
+                    tools:visibility="visible" />
+
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/linkExternalButton"
+
+                    android:layout_width="@dimen/size_editor_tool_button"
+                    android:layout_height="@dimen/size_editor_tool_button"
+
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+
+                    android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                    android:background="@drawable/bcg_editor_tool_button"
+                    android:visibility="gone"
+
+                    app:imageButton_icon="@drawable/ic_link_external"
+                    app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                    app:imageButton_tint="@color/tint_editor_tool_button"
+
+                    tools:visibility="visible" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <Button
+            android:id="@+id/postButton"
+
+            android:layout_width="@dimen/width_editor_post_button"
+            android:layout_height="@dimen/height_editor_post_button"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            style="?android:attr/borderlessButtonStyle"
+
+            android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+            android:layout_marginEnd="@dimen/margin_size_editor_common"
+
+            android:background="@drawable/bcg_editor_post_button"
+            android:textColor="@color/tint_editor_post_button"
+
+            android:text="@string/post_button"
+            android:textSize="@dimen/text_size_15_sp"
+            android:textAllCaps="false"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

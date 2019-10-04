@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialog
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
@@ -82,17 +83,20 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         super.onActivityCreated(savedInstanceState)
 
         setupViewModel()
+        setupView()
+        observeViewModel()
 
+    }
+
+    private fun setupView() {
         // Add empty line to the editor for a new post
         if(!viewModel.isInEditMode) {
             editorWidget.insertEmptyParagraph()
         }
 
-        observeViewModel()
-
         close.setOnClickListener { activity?.finish() }
 
-        post.setOnClickListener {
+        postButton.setOnClickListener {
             viewModel.post(editorWidget.getMetadata())
         }
 
@@ -102,6 +106,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 viewModel.onTitleChanged(s.toString())
             }
         })
+
+        // Show communities selection dialog
+        showCommunities.setOnClickListener {
+            SelectCommunityDialog.newInstance(uiHelper, showCommunities).show(requireFragmentManager(), "communities")
+        }
 
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
         title.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_POST_TITLE_LENGTH))

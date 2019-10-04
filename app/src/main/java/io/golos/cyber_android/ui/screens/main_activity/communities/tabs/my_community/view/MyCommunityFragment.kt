@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.my_community_fragment.MyCommunityFragmentComponent
-import io.golos.cyber_android.databinding.FragmentMyCommunitiesBinding
+import io.golos.cyber_android.databinding.FragmentCommunitiesMyBinding
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.CommunitiesTabFragmentBase
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
-import kotlinx.android.synthetic.main.fragment_my_communities.root as rootView
-import kotlinx.android.synthetic.main.fragment_my_communities.searchResultList as searchResultListView
-import kotlinx.android.synthetic.main.fragment_my_communities.mainList as mainListView
+import kotlinx.android.synthetic.main.fragment_communities_my.root as rootView
+import kotlinx.android.synthetic.main.fragment_communities_my.searchResultList as searchResultListView
+import kotlinx.android.synthetic.main.fragment_communities_my.mainList as mainListView
 
-class MyCommunityFragment : CommunitiesTabFragmentBase<FragmentMyCommunitiesBinding>() {
+class MyCommunityFragment : CommunitiesTabFragmentBase<FragmentCommunitiesMyBinding>() {
 
     companion object {
         fun newInstance() = MyCommunityFragment()
@@ -27,7 +27,7 @@ class MyCommunityFragment : CommunitiesTabFragmentBase<FragmentMyCommunitiesBind
     override val mainList: RecyclerView
         get() = mainListView
 
-    override fun provideLayout(): Int = R.layout.fragment_my_communities
+    override fun provideLayout(): Int = R.layout.fragment_communities_my
 
     override fun inject() = App.injections.get<MyCommunityFragmentComponent>().inject(this)
 
@@ -35,7 +35,7 @@ class MyCommunityFragment : CommunitiesTabFragmentBase<FragmentMyCommunitiesBind
         App.injections.release<MyCommunityFragmentComponent>()
     }
 
-    override fun linkViewModel(binding: FragmentMyCommunitiesBinding, viewModel: CommunityViewModel) {
+    override fun linkViewModel(binding: FragmentCommunitiesMyBinding, viewModel: CommunityViewModel) {
         binding.viewModel = viewModel
     }
 }

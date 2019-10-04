@@ -81,7 +81,7 @@
 
     <style name="PostCardAuthorTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
-        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textSize">@dimen/text_size_10_sp</item>
     </style>
 
     <style name="PostCardPreviewTextStyle" parent="StandardText16spStyle" />
@@ -182,8 +182,9 @@
     </style>
 
     <style name="ToolbarTitleTextStyle" parent="Common.Base.TextStyle">
-        <item name="android:textSize">@dimen/text_size_20_sp</item>
-        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="EditorPostTitleTextStyle" parent="SearchBarTextStyle">
@@ -345,5 +346,11 @@
         <item name="android:textColor">@color/tint_community_join_button_text</item>
         <item name="android:background">@drawable/bg_community_join_button</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SelectCommunityDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 </resources>
