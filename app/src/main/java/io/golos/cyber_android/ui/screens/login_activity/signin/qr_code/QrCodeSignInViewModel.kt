@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber4j.sharedmodel.Either
+import io.golos.cyber4j.utils.AuthUtils
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
@@ -16,6 +18,7 @@ import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
+import java.lang.Exception
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -50,6 +53,8 @@ constructor(
         it?.get(currentUser) is QueryResult.Error
     }.asEvent()
 
+
+
     /**
      * [LiveData] that indicates current state of auth process
      */
@@ -60,8 +65,8 @@ constructor(
     }
 
     fun onCodeReceived(code: QrCodeDecrypted) {
-        currentUser = CyberUser(code.userName)
 
+        currentUser = CyberUser(code.userName)
         launch {
             val authRequest = withContext(dispatchersProvider.ioDispatcher) {
                 userKeysExtractor.process(code)

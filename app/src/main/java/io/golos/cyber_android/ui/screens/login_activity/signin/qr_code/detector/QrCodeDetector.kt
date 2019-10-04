@@ -37,7 +37,7 @@ class QrCodeDetector(private val appContext: Context) {
     }
 
     fun startDetection(context: Context, cameraView: SurfaceView) {
-        if(isStartDetection) {
+        if (isStartDetection) {
             return
         }
 
@@ -46,7 +46,7 @@ class QrCodeDetector(private val appContext: Context) {
         // Create & check detector
         detector = BarcodeDetector.Builder(appContext).setBarcodeFormats(QR_CODE).build()
 
-        if(!detector!!.isOperational) {
+        if (!detector!!.isOperational) {
             onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL)
             return
         }
@@ -58,8 +58,7 @@ class QrCodeDetector(private val appContext: Context) {
                 .setAutoFocusEnabled(true)
                 .setRequestedFps(2.0f)
                 .build()
-        }
-        catch(ex: Exception) {
+        } catch (ex: Exception) {
             App.logger.log(ex)
             onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL)
             return
@@ -92,10 +91,11 @@ class QrCodeDetector(private val appContext: Context) {
             }
 
             override fun receiveDetections(detections: Detector.Detections<Barcode>) {
+
                 val items = detections.detectedItems
 
-                for(i in 0 until items.size()) {
-                    if(detector == null) {
+                for (i in 0 until items.size()) {
+                    if (detector == null) {
                         break
                     }
 
@@ -106,6 +106,11 @@ class QrCodeDetector(private val appContext: Context) {
     }
 
     fun stopDetection() {
+        if (!isStartDetection) {
+            return
+        }
+
+
         cameraViewCallback?.let {
             cameraView?.holder?.removeCallback(it)
         }
@@ -115,28 +120,30 @@ class QrCodeDetector(private val appContext: Context) {
         detector?.release()
         detector = null
 
-        onDetectionErrorListener = null
-        onCodeReceivedListener = null
-
         isStartDetection = false
     }
 
     private fun tryToParseCode(rawCode: String) {
+
         @Suppress("RegExpRedundantEscape")
 
         val keyParts = rawCode.split(" ")
+
         if (keyParts.size != 5) {
+
             mainThreadHandler.post {
                 onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.INVALID_CODE)
             }
         } else {
+
             onCodeReceivedListener?.invoke(
                 QrCodeDecrypted(
                     keyParts[0],        // User name
                     keyParts[1],        // Owner key
                     keyParts[2],        // Active key
                     keyParts[3],        // Posting key
-                    keyParts[4])        // Memo key
+                    keyParts[4]
+                )        // Memo key
             )
         }
     }
