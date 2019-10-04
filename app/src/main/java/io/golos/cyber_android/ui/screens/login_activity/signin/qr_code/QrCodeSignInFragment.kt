@@ -68,8 +68,10 @@ class QrCodeSignInFragment : FragmentBase(), SignInChildFragment {
         App.injections.get<LoginActivityComponent>().inject(this)
 
         qrCodeDetector.setOnCodeReceivedListener { qrCodeDecrypted ->
-            isCodeProcessing = true
-            viewModel.onCodeReceived(qrCodeDecrypted)
+            if(!isCodeProcessing){
+                isCodeProcessing = true
+                viewModel.onCodeReceived(qrCodeDecrypted)
+            }
         }
 
         qrCodeDetector.setOnDetectionErrorListener { errorCode ->
