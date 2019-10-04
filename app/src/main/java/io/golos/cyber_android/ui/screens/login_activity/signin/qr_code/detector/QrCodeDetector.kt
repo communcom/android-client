@@ -26,6 +26,8 @@ class QrCodeDetector(private val appContext: Context) {
 
     private var cameraViewCallback: SurfaceHolder.Callback? = null
 
+    private var isStartDetection = false
+
     fun setOnCodeReceivedListener(listener: ((QrCodeDecrypted) -> Unit)?) {
         onCodeReceivedListener = listener
     }
@@ -35,9 +37,11 @@ class QrCodeDetector(private val appContext: Context) {
     }
 
     fun startDetection(context: Context, cameraView: SurfaceView) {
-        if(camera != null) {
+        if(isStartDetection) {
             return
         }
+
+        isStartDetection = true
 
         // Create & check detector
         detector = BarcodeDetector.Builder(appContext).setBarcodeFormats(QR_CODE).build()
@@ -75,7 +79,7 @@ class QrCodeDetector(private val appContext: Context) {
             }
 
             override fun surfaceDestroyed(holder: SurfaceHolder) {
-                camera?.stop()
+                stopDetection()
             }
         }
 
@@ -105,8 +109,7 @@ class QrCodeDetector(private val appContext: Context) {
         cameraViewCallback?.let {
             cameraView?.holder?.removeCallback(it)
         }
-
-        camera?.stop()
+        camera?.release()
         camera = null
 
         detector?.release()
@@ -114,6 +117,8 @@ class QrCodeDetector(private val appContext: Context) {
 
         onDetectionErrorListener = null
         onCodeReceivedListener = null
+
+        isStartDetection = false
     }
 
     private fun tryToParseCode(rawCode: String) {

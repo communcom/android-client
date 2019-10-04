@@ -46,7 +46,9 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
         INVALID_DETECTOR
     }
 
-    private var detector: QrCodeDetector? = null
+    private val qrCodeDetector by lazy {
+        QrCodeDetector(appContext)
+    }
 
     @Inject
     internal lateinit var viewModelFactory: ActivityViewModelFactory
@@ -69,7 +71,6 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupViewModel()
         observeViewModel()
     }
@@ -80,8 +81,8 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     }
 
     override fun onStop() {
-        super.onStop()
         onUnselected()
+        super.onStop()
     }
 
     override fun onSelected() {
@@ -92,12 +93,12 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
         if (!checkCameraPermissions()) {
             requestCameraPermissions()
         } else {
-            initCodeReading()
+            startQrCodeReading()
         }
     }
 
     override fun onUnselected() {
-        releaseCodeReading()
+        stopQrCodeReading()
         uiHelper.hideMessage()
     }
 
@@ -109,36 +110,33 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == REQUEST_CAMERA_PERMISSIONS) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                initCodeReading()
+                startQrCodeReading()
             } else {
                 setVisibilityMode(VisibilityMode.NO_PERMISSIONS)
             }
         }
     }
 
-    private fun initCodeReading() {
+    private fun startQrCodeReading() {
         setVisibilityMode(VisibilityMode.DETECTION)
-
-        detector = QrCodeDetector(appContext)
-            .apply {
-                setOnCodeReceivedListener {
-                    releaseCodeReading()
-                    viewModel.onCodeReceived(it)
-                }
-
-                setOnDetectionErrorListener { errorCode ->
-                    when(errorCode) {
-                        QrCodeDetectorErrorCode.INVALID_CODE -> uiHelper.showMessage(R.string.sign_in_scan_qr_invalid_format)
-                        QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL -> setVisibilityMode(VisibilityMode.INVALID_DETECTOR)
-                    }
-                }
-
-                startDetection(requireContext(), cameraView)
+        qrCodeDetector.startDetection(requireContext(), cameraView)
+        qrCodeDetector.apply {
+            setOnCodeReceivedListener {
+                stopQrCodeReading()
+                viewModel.onCodeReceived(it)
             }
+
+            setOnDetectionErrorListener { errorCode ->
+                when (errorCode) {
+                    QrCodeDetectorErrorCode.INVALID_CODE -> uiHelper.showMessage(R.string.sign_in_scan_qr_invalid_format)
+                    QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL -> setVisibilityMode(VisibilityMode.INVALID_DETECTOR)
+                }
+            }
+        }
     }
 
-    private fun releaseCodeReading() {
-        detector?.stopDetection()
+    private fun stopQrCodeReading() {
+        qrCodeDetector.stopDetection()
     }
 
     private fun setVisibilityMode(mode: VisibilityMode) {
@@ -213,7 +211,7 @@ class QrCodeSignInFragment: FragmentBase(), SignInChildFragment {
         if (requireFragmentManager().findFragmentByTag("notification") == null)
             NotificationDialog
                 .newInstance(getString(R.string.login_error))
-                .setOnOkClickListener { initCodeReading()  }
+                .setOnOkClickListener { startQrCodeReading()  }
                 .show(requireFragmentManager(), "notification")
         hideLoading()
     }
