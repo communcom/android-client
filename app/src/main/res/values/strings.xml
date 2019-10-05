@@ -129,7 +129,7 @@
     <string name="phone_number">Phone number</string>
     <string name="country_with_phone_code_format">%1$s (+%2$s)</string>
     <string name="phone_format">+%1$s (___) ___-__-__</string>
-    <string name="phone_prefix_format">+%1$s</string>
+    <string name="phone_prefix_format">+%1$s (</string>
     <string name="verification">Verification</string>
     <string name="enter_sms_code">Enter SMS-Code</string>
     <string name="resend_verification_code">Resend verification code</string>

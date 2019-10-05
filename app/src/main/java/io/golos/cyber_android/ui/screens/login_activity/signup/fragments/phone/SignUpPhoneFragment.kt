@@ -19,8 +19,8 @@ import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
-import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
+import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
 import io.golos.cyber_android.views.utils.ViewUtils
 import io.golos.domain.entities.CountryEntity
@@ -169,15 +169,11 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
     }
 
     private fun setupPhoneMask(countryModel: CountryEntity) {
-        val mask = UnderscoreDigitSlotsParser().parseSlots(
-            requireContext().getString(R.string.phone_format).format(countryModel.countryPhoneCode)
-        )
+        val phoneFormat = getString(R.string.phone_format).format(countryModel.countryPhoneCode)
+        val mask = UnderscoreDigitSlotsParser().parseSlots(phoneFormat)
         phoneMaskWatcher.setMask(MaskImpl.createTerminated(mask))
-
-//        val phonePrefix = requireContext().getString(R.string.phone_prefix_format).format(countryModel.countryPhoneCode)
-//        if (!phone.text.startsWith(phonePrefix))
-//            phone.setText(phonePrefix)
-
+        val prefixPhoneNumber = getString(R.string.phone_prefix_format).format(countryModel.countryPhoneCode)
+        phone.prefix = prefixPhoneNumber
         ViewUtils.showKeyboard(phone)
     }
 }
