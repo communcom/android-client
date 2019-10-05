@@ -1,32 +1,21 @@
-package io.golos.domain.rules
+package io.golos.domain.mappers
 
 import io.golos.commun4j.services.model.FirstRegistrationStepResult
 import io.golos.commun4j.services.model.UserRegistrationState
-import io.golos.commun4j.services.model.UserRegistrationStateResult
 import io.golos.domain.entities.*
-import io.golos.domain.requestmodel.RegistrationStepRequest
 import io.golos.domain.requestmodel.SetUserKeysRequest
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
- */
-class UserRegistrationStateRelatedData(
-    val requestResult: Any?,
-    val request: RegistrationStepRequest,
-    val stateRequestResult: UserRegistrationStateResult
-)
-
 class UserRegistrationStateEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity> {
-    override suspend fun invoke(cyberObject: UserRegistrationStateRelatedData): UserRegistrationStateEntity {
-        val stateRequestResult = cyberObject.stateRequestResult
-        val requestResult = cyberObject.requestResult
-        val stateRequest = cyberObject.request
+constructor() : CommunToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity> {
+    override suspend fun map(communObject: UserRegistrationStateRelatedData): UserRegistrationStateEntity {
+        val stateRequestResult = communObject.stateRequestResult
+        val requestResult = communObject.requestResult
+        val stateRequest = communObject.request
 
-        return when (cyberObject.stateRequestResult.state
+        return when (communObject.stateRequestResult.state
             ?: throw IllegalArgumentException("server didn't returned reg state of user")) {
 
             UserRegistrationState.REGISTERED -> RegisteredUser(

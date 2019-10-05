@@ -10,7 +10,7 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.UserSubscriptionsFeedUpdateRequest
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 import javax.inject.Inject
 
 interface UserSubscriptionsFeedUseCase {

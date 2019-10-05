@@ -1,6 +1,10 @@
 package io.golos.domain
 
 import io.golos.cyber4j.Cyber4J
+import io.golos.domain.mappers.CyberFeedToEntityMapper
+import io.golos.domain.mappers.CyberPostToEntityMapper
+import io.golos.domain.mappers.PostEntityEntitiesToModelMapper
+import io.golos.domain.mappers.PostFeedEntityToModelMapper
 import io.golos.domain.rules.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

@@ -9,8 +9,8 @@ import io.golos.domain.*
 import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
 import io.golos.domain.requestmodel.*
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EntityToCyberMapper
+import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.EntityToCommunMapper
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
@@ -23,8 +23,8 @@ class SettingsRepository
 @Inject
 constructor(
     private val api: SettingsApi,
-    private val toEntityMapper: CyberToEntityMapper<UserSettings, UserSettingEntity>,
-    private val toCyberMapper: EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings>,
+    private val toEntityMapper: CommunToEntityMapper<UserSettings, UserSettingEntity>,
+    private val toCyberMapper: EntityToCommunMapper<NotificationSettingsEntity, MobileShowSettings>,
     private val dispatchersProvider: DispatchersProvider,
     private val deviceIdProvider: DeviceIdProvider,
     defaultUserSettingsProvider: DefaultSettingProvider,
@@ -57,12 +57,12 @@ constructor(
                     is ChangeNotificationSettingRequest -> withContext(dispatchersProvider.calculationsDispatcher) {
                         api.setNotificationSettings(
                             deviceIdProvider.provide(),
-                            toCyberMapper(params.newNotificationSettings)
+                            toCyberMapper.map(params.newNotificationSettings)
                         )
                     }
                 }
                 userSettings.value = withContext(dispatchersProvider.calculationsDispatcher) {
-                    toEntityMapper(api.getSettings(deviceIdProvider.provide()))
+                    toEntityMapper.map(api.getSettings(deviceIdProvider.provide()))
                 }
                 updatingStates.value = updatingStates.value.orEmpty() + (params.id to QueryResult.Success(params))
             } catch (e: Exception) {

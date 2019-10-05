@@ -18,7 +18,7 @@ import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 
 @Module
 class EditorPageFragmentModule(private val community: CommunityModel?, private val postToEdit: DiscussionIdModel?) {

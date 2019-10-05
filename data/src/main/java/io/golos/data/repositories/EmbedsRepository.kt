@@ -12,9 +12,9 @@ import io.golos.domain.entities.ProcessedLinksEntity
 import io.golos.domain.requestmodel.EmbedRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.IFramelyEmbedResultRelatedData
-import io.golos.domain.rules.OembedResultRelatedData
+import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.IFramelyEmbedResultRelatedData
+import io.golos.domain.mappers.OembedResultRelatedData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -31,8 +31,8 @@ constructor(
     private val embedApi: EmbedApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toEmbedMapperIframely: CyberToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>,
-    private val toEmbedMapperOembed: CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
+    private val toEmbedMapperIframely: CommunToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>,
+    private val toEmbedMapperOembed: CommunToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
 ) : Repository<ProcessedLinksEntity, EmbedRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -61,7 +61,7 @@ constructor(
             try {
                 result = withContext(dispatchersProvider.calculationsDispatcher) {
                     val iframelyData = embedApi.getIframelyEmbed(params.url)
-                    toEmbedMapperIframely(IFramelyEmbedResultRelatedData(iframelyData, params.url))
+                    toEmbedMapperIframely.map(IFramelyEmbedResultRelatedData(iframelyData, params.url))
                 }
             } catch (e: Exception) {
                 logger.log(e)
@@ -69,7 +69,7 @@ constructor(
                 try {
                     result = withContext(dispatchersProvider.calculationsDispatcher) {
                         val oembedData = embedApi.getOEmbedEmbed(params.url)
-                        toEmbedMapperOembed(OembedResultRelatedData(oembedData, params.url))
+                        toEmbedMapperOembed.map(OembedResultRelatedData(oembedData, params.url))
                     }
                 } catch (e: java.lang.Exception) {
                     logger.log(e)

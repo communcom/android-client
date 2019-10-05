@@ -12,6 +12,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
+import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -25,8 +26,8 @@ import kotlin.collections.HashMap
  */
 
 abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdateRequest>(
-    private val feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
-    private val discussionMapper: CyberToEntityMapper<CyberDiscussion, D>,
+    private val feedMapper: CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
+    private val discussionMapper: CommunToEntityMapper<CyberDiscussion, D>,
     private val discussionMerger: EntityMerger<D>,
     private val discussionsFeedMerger: EntityMerger<FeedRelatedData<D>>,
     private val requestApprover: RequestApprover<Q>,
@@ -194,7 +195,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             val feed = getOnBackground { getFeedOnBackground(params) }
 
-            val feedEntity = feedMapper.invoke(FeedUpdateRequestsWithResult(params, feed))
+            val feedEntity = feedMapper.map(FeedUpdateRequestsWithResult(params, feed))
 
             val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
 
@@ -242,8 +243,8 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     protected abstract suspend fun getFeedOnBackground(updateRequest: Q): DiscussionsResult
 
 
-    private suspend fun <F, T : Entity> CyberToEntityMapper<F, T>.convertOnBackground(cyberItem: F) =
-        getOnBackground { invoke(cyberItem) }
+    private suspend fun <F, T : Entity> CommunToEntityMapper<F, T>.convertOnBackground(cyberItem: F) =
+        getOnBackground { map(cyberItem) }
 
     private fun getAllPostsAsLiveDataList() = discussionsFeedMap.values.toList()
 }

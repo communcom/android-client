@@ -14,8 +14,8 @@ import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
-import io.golos.domain.rules.EntityToModelMapper
-import io.golos.domain.rules.ModelToEntityMapper
+import io.golos.domain.mappers.EntityToModelMapper
+import io.golos.domain.mappers.ModelToEntityMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch

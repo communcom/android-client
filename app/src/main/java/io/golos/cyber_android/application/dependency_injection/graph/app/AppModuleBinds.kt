@@ -62,6 +62,11 @@ import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.mappers.*
+import io.golos.domain.mappers.discussion_creation.request.DiscussionCreationRequestMapper
+import io.golos.domain.mappers.discussion_creation.result.DiscussionCreateResultToEntityMapper
+import io.golos.domain.mappers.discussion_creation.result.DiscussionDeleteResultToEntityMapper
+import io.golos.domain.mappers.discussion_creation.result.DiscussionUpdateResultToEntityMapper
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Named
@@ -111,16 +116,16 @@ abstract class AppModuleBinds {
 
     // region Mappers
     @Binds
-    abstract fun provideUserMetadataToEntityMapper(mapper: UserMetadataToEntityMapper): CyberToEntityMapper<GetProfileResult, UserMetadataEntity>
+    abstract fun provideUserMetadataToEntityMapper(mapper: UserMetadataToEntityMapper): CommunToEntityMapper<GetProfileResult, UserMetadataEntity>
 
     @Binds
-    abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapper): CyberToEntityMapper<CyberDiscussion, PostEntity>
+    abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapper): CommunToEntityMapper<CyberDiscussion, PostEntity>
 
     @Binds
     abstract fun provideVoteToEntityMapper(mapper: VoteRequestModelToEntityMapper): ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
 
     @Binds
-    abstract fun provideCyberFeedToEntityMapper(mapper: CyberFeedToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>
+    abstract fun provideCyberFeedToEntityMapper(mapper: CyberFeedToEntityMapper): CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>
 
     @Binds
     @ApplicationScope
@@ -141,38 +146,38 @@ abstract class AppModuleBinds {
     abstract fun provideCommentFeeEntityToModelMapper(mapper: CommentsFeedEntityToModelMapper): EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>
 
     @Binds
-    abstract fun provideToRegistrationMapper(mapper: UserRegistrationStateEntityMapper): CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>
+    abstract fun provideToRegistrationMapper(mapper: UserRegistrationStateEntityMapper): CommunToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>
 
     @Binds
-    abstract fun provideIfremlyEmbedMapper(mapper: IfremlyEmbedMapper): CyberToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>
+    abstract fun provideIfremlyEmbedMapper(mapper: IfremlyEmbedMapper): CommunToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>
 
     @Binds
-    abstract fun provideOembedMapper(mapper: OembedMapper): CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
+    abstract fun provideOembedMapper(mapper: OembedMapper): CommunToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
 
     @Binds
-    abstract fun provideCyberCommentToEntityMapper(mapper: CyberCommentToEntityMapper): CyberToEntityMapper<CyberDiscussion, CommentEntity>
+    abstract fun provideCyberCommentToEntityMapper(mapper: CyberCommentToEntityMapper): CommunToEntityMapper<CyberDiscussion, CommentEntity>
 
     @Binds
-    abstract fun providecyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
+    abstract fun providecyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapper): CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
 
     @Binds
-    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>
+    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CommunToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>
 
     @Binds
-    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>
+    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CommunToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>
 
     @Binds
-    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>
+    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CommunToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>
 
     @Binds
-    abstract fun provideRequestEntityToArgumentsMapper(mapper: RequestEntityToArgumentsMapper): EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>
+    abstract fun provideRequestEntityToArgumentsMapper(mapper: DiscussionCreationRequestMapper): EntityToCommunMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>
 
     @Binds
     abstract fun provideCyberToAppErrorMapperImpl(mapper: CyberToAppErrorMapperImpl): CyberToAppErrorMapper
 
     @Binds
     @ApplicationScope
-    abstract fun provideEventsToEntityMapper(mapper: EventsToEntityMapper): CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity>
+    abstract fun provideEventsToEntityMapper(mapper: EventsToEntityMapper): CommunToEntityMapper<EventsListDataWithQuery, EventsListEntity>
 
     @Binds
     abstract fun provideEventsEntityMerger(merger: EventsEntityMerger): EntityMerger<EventsListEntity>
@@ -181,10 +186,10 @@ abstract class AppModuleBinds {
     abstract fun provideEventsApprover(approver: EventsApprover): RequestApprover<EventsFeedUpdateRequest>
 
     @Binds
-    abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapper): CyberToEntityMapper<UserSettings, UserSettingEntity>
+    abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapper): CommunToEntityMapper<UserSettings, UserSettingEntity>
 
     @Binds
-    abstract fun provideSettingToCyberMapper(mapper: SettingToCyberMapper): EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings>
+    abstract fun provideSettingToCyberMapper(mapper: SettingToCyberMapper): EntityToCommunMapper<NotificationSettingsEntity, MobileShowSettings>
     // endregion
 
     // region Cyber4jApiService

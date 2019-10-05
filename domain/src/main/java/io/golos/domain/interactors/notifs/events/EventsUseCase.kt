@@ -17,7 +17,7 @@ import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

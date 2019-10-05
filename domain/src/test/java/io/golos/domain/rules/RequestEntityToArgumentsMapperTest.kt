@@ -1,5 +1,6 @@
 package io.golos.domain.rules
 
+import io.golos.domain.mappers.discussion_creation.DiscussionCreationRequestMapper
 import io.golos.domain.requestmodel.CreatePostRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
 import junit.framework.Assert.assertEquals
@@ -11,7 +12,7 @@ import org.junit.Test
  */
 class RequestEntityToArgumentsMapperTest {
 
-    private val mapper = RequestEntityToArgumentsMapper()
+    private val mapper = DiscussionCreationRequestMapper()
 
     @Test
     fun testHashTagExtractor() = runBlocking {

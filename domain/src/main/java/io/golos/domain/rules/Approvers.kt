@@ -1,5 +1,7 @@
 package io.golos.domain.rules
 
+import io.golos.domain.mappers.CyberCommentsToEntityMapper
+import io.golos.domain.mappers.CyberFeedToEntityMapper
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import javax.inject.Inject

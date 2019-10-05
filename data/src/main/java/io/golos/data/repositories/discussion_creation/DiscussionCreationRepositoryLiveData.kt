@@ -17,10 +17,9 @@ import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EntityToCyberMapper
+import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.EntityToCommunMapper
 import kotlinx.coroutines.*
-import java.net.SocketTimeoutException
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -36,10 +35,10 @@ constructor(
     transactionsApi: TransactionsApi,
     dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    toEntityResultMapper: CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
-    toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
-    toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
+    toCyberRequestMapper: EntityToCommunMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
+    toEntityResultMapper: CommunToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
+    toEntityUpdateResultMapper: CommunToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
+    toEntityDeleteResultMapper: CommunToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,

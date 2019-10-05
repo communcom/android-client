@@ -1,4 +1,4 @@
-package io.golos.domain.rules
+package io.golos.domain.mappers
 
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
@@ -6,9 +6,6 @@ import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
 import javax.inject.Inject
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
- */
 class VoteRequestModelToEntityMapper
 @Inject
 constructor() : ModelToEntityMapper<VoteRequestModel, VoteRequestEntity> {

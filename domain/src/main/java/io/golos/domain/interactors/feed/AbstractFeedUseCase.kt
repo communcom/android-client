@@ -16,7 +16,7 @@ import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 import kotlinx.coroutines.*
 
 /**

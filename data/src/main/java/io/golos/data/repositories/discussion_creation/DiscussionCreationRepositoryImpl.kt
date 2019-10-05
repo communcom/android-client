@@ -13,18 +13,18 @@ import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.requestmodel.DiscussionCreateRequest
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EntityToCyberMapper
+import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.EntityToCommunMapper
 import javax.inject.Inject
 
 class DiscussionCreationRepositoryImpl
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    toEntityResultMapper: CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
-    toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
-    toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
+    toCyberRequestMapper: EntityToCommunMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
+    toEntityResultMapper: CommunToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
+    toEntityUpdateResultMapper: CommunToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
+    toEntityDeleteResultMapper: CommunToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
     discussionsCreationApi: DiscussionsCreationApi,
     transactionsApi: TransactionsApi,
     private val logger: Logger

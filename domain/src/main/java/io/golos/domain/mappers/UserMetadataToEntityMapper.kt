@@ -1,4 +1,4 @@
-package io.golos.domain.rules
+package io.golos.domain.mappers
 
 import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
@@ -6,14 +6,14 @@ import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.entities.UserPersonalDataEntity
 
 import io.golos.domain.entities.*
-import java.util.*
+import io.golos.domain.mappers.CommunToEntityMapper
 import javax.inject.Inject
 
 // todo[AS] temporary stub to compile!!!
 class UserMetadataToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<GetProfileResult, UserMetadataEntity> {
-    override suspend fun invoke(cyberObject: GetProfileResult): UserMetadataEntity {
+constructor() : CommunToEntityMapper<GetProfileResult, UserMetadataEntity> {
+    override suspend fun map(communObject: GetProfileResult): UserMetadataEntity {
         return UserMetadataEntity(
             UserPersonalDataEntity(
                 "",
@@ -23,11 +23,11 @@ constructor() : CyberToEntityMapper<GetProfileResult, UserMetadataEntity> {
                     "", "", "", "")
             ),
             UserSubscriptionsEntity(0, 0),
-            UserStatsEntity(cyberObject.stats.postsCount, cyberObject.stats.commentsCount),
+            UserStatsEntity(communObject.stats.postsCount, communObject.stats.commentsCount),
             CyberName(""),
-            cyberObject.username!!,
-            SubscribersEntity(cyberObject.subscribers.usersCount, cyberObject.subscribers.communitiesCount),
-            cyberObject.registration.time,
+            communObject.username!!,
+            SubscribersEntity(communObject.subscribers.usersCount, communObject.subscribers.communitiesCount),
+            communObject.registration.time,
             false
         )
     }

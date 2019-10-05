@@ -10,7 +10,7 @@ import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 import javax.inject.Inject
 
 /**

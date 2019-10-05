@@ -30,8 +30,8 @@ import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.UserSettingModel
 import io.golos.domain.requestmodel.VoteRequestModel
-import io.golos.domain.rules.EntityToModelMapper
-import io.golos.domain.rules.EventEntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
+import io.golos.domain.mappers.EventEntityToModelMapper
 
 @Module
 abstract class UIModuleBinds {
