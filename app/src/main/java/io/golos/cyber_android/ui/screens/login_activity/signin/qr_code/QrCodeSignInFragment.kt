@@ -46,9 +46,7 @@ class QrCodeSignInFragment : FragmentBase(), SignInChildFragment {
         INVALID_DETECTOR
     }
 
-    private val qrCodeDetector by lazy {
-        QrCodeDetector(appContext)
-    }
+    private val qrCodeDetector by lazy { QrCodeDetector(appContext) }
 
     @Inject
     internal lateinit var viewModelFactory: ActivityViewModelFactory

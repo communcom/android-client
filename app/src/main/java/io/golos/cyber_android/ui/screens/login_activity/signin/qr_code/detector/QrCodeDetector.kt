@@ -15,6 +15,9 @@ import io.golos.cyber_android.application.App
 
 class QrCodeDetector(private val appContext: Context) {
 
+    /**
+     * The interval after which we can show the error to the user again
+     */
     var timeRepeatErrorMessageInMillis: Long = DEFAULT_TIME_REPEAT_ERROR_MESSAGE_IM_MILLIS
 
     private var lastShowErrorMessageTime: Long = 0
@@ -115,7 +118,6 @@ class QrCodeDetector(private val appContext: Context) {
             return
         }
 
-
         cameraViewCallback?.let {
             cameraView?.holder?.removeCallback(it)
         }
@@ -153,8 +155,7 @@ class QrCodeDetector(private val appContext: Context) {
                     keyParts[1],        // Owner key
                     keyParts[2],        // Active key
                     keyParts[3],        // Posting key
-                    keyParts[4]
-                )        // Memo key
+                    keyParts[4])        // Memo key
             )
         }
     }
