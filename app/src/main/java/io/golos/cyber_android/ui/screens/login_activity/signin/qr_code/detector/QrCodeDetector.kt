@@ -14,6 +14,11 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 import io.golos.cyber_android.application.App
 
 class QrCodeDetector(private val appContext: Context) {
+
+    var timeRepeatErrorMessageInMillis: Long = DEFAULT_TIME_REPEAT_ERROR_MESSAGE_IM_MILLIS
+
+    private var lastShowErrorMessageTime: Long = 0
+
     private var onCodeReceivedListener: ((QrCodeDecrypted) -> Unit)? = null
 
     private var onDetectionErrorListener: ((QrCodeDetectorErrorCode) -> Unit)? = null
@@ -36,7 +41,7 @@ class QrCodeDetector(private val appContext: Context) {
         onDetectionErrorListener = listener
     }
 
-    fun startDetection(context: Context, cameraView: SurfaceView) {
+    fun startDetection(cameraView: SurfaceView) {
         if (isStartDetection) {
             return
         }
@@ -53,10 +58,10 @@ class QrCodeDetector(private val appContext: Context) {
 
         // Setup camera
         try {
-            camera = CameraSource.Builder(context, detector)
+            camera = CameraSource.Builder(appContext, detector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setAutoFocusEnabled(true)
-                .setRequestedFps(2.0f)
+                .setRequestedFps(DEFAULT_CAMERA_FPS)
                 .build()
         } catch (ex: Exception) {
             App.logger.log(ex)
@@ -131,9 +136,15 @@ class QrCodeDetector(private val appContext: Context) {
 
         if (keyParts.size != 5) {
 
-            mainThreadHandler.post {
-                onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.INVALID_CODE)
+            val currentTimeMillis = System.currentTimeMillis()
+
+            if(currentTimeMillis - lastShowErrorMessageTime >= timeRepeatErrorMessageInMillis){
+                mainThreadHandler.post {
+                    onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.INVALID_CODE)
+                }
+                lastShowErrorMessageTime = currentTimeMillis
             }
+
         } else {
 
             onCodeReceivedListener?.invoke(
@@ -146,5 +157,19 @@ class QrCodeDetector(private val appContext: Context) {
                 )        // Memo key
             )
         }
+    }
+
+    private companion object{
+
+        /**
+         * Default time for repeat error message in milli seconds. After this time, we can show error message for user again
+         */
+        private const val DEFAULT_TIME_REPEAT_ERROR_MESSAGE_IM_MILLIS = 3000L
+
+        /**
+         * Default value fps camera
+         */
+        private const val DEFAULT_CAMERA_FPS = 2.0f
+
     }
 }

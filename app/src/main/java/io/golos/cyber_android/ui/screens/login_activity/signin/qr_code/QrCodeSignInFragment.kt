@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -136,7 +135,7 @@ class QrCodeSignInFragment : FragmentBase(), SignInChildFragment {
     private fun startQrCodeReading() {
         if(!isCodeProcessing){
             setVisibilityMode(VisibilityMode.DETECTION)
-            qrCodeDetector.startDetection(requireContext(), cameraView)
+            qrCodeDetector.startDetection(cameraView)
         }
     }
 
