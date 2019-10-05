@@ -15,10 +15,7 @@ data class PostContent(
 data class CommentContent(val body: ContentBody) : Entity
 
 data class ContentBody(
-    val preview: String,
-    val full: String,
-    val embeds: List<EmbedEntity>,
-    val mobilePreview : String
+    val rawData: String         // Our Json (see https://docs.google.com/document/d/17MZm4u2VQhtwpPUcp-qAn-g2KvB8_P-0G6uW___ru5o/edit?usp=sharing)
 ) : Entity
 
 data class EmbedEntity(
@@ -39,8 +36,8 @@ data class DiscussionStats(val rShares: BigInteger, val viewsCount: Long) : Enti
 data class DiscussionVotes(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
-    val upCount: Int,
-    val downCount: Int
+    val upCount: Long,
+    val downCount: Long
 ) : Entity
 
 data class TagEntity(val tag: String)

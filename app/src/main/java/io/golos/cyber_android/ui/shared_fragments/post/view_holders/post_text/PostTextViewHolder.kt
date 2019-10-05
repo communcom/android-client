@@ -4,7 +4,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent

@@ -320,7 +320,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //
         viewModel.getPostToEditLiveData.observe(this, Observer {
             it?.let {
-                val parsedPost = viewModel.parsePostContent(it.content.body.full)
+                val parsedPost = viewModel.parsePostContent(it.content.body.rawData)
                 if(parsedPost != null) {
                     toolbarTitle.setText(R.string.edit_post)
                     title.setText(it.content.title)

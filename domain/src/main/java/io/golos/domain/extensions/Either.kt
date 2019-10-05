@@ -1,6 +1,6 @@
 package io.golos.domain.extensions
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 
 /**
  * Calls [actionSuccess] or [actionFail]

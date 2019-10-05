@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
@@ -181,7 +181,7 @@ constructor(
     }
 
     private val postToEditObserver = Observer<PostModel> {
-        if (it.content.body.full.isNotEmpty())
+        if (it.content.body.rawData.isNotEmpty())
             postToEditLiveData.postValue(it)
     }
 
@@ -417,4 +417,4 @@ constructor(
     }
 }
 
-internal fun ContentBodyModel.toContent(): CharSequence = this.full
+internal fun ContentBodyModel.toContent(): CharSequence = this.rawData

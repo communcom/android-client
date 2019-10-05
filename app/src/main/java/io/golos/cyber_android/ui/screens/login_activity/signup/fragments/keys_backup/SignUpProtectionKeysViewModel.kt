@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_b
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber4j.services.model.UserMetadataResult
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.services.model.GetProfileResult
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
@@ -66,7 +66,7 @@ constructor(
 
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = StartExportingCommand(
-                    metadata.username,
+                    metadata.username!!,
                     metadata.userId.name,
                     keys
                 )
@@ -90,7 +90,7 @@ constructor(
 
             // Backup keys to the cloud
             val masterKey = allKeys.single { it.keyType == UserKeyType.MASTER }.key
-            val userName = getUserMetadata(getUser()).username
+            val userName = getUserMetadata(getUser()).username!!
 
             backupKeysFacade.putKey(userName, masterKey)
         }
@@ -115,7 +115,7 @@ constructor(
             keyValueStorage.getAuthState()!!.user
         }
 
-    private suspend fun getUserMetadata(user: CyberName): UserMetadataResult =
+    private suspend fun getUserMetadata(user: CyberName): GetProfileResult =
         withContext(dispatchersProvider.ioDispatcher) {
             metadadataApi.getUserMetadata(user)
         }

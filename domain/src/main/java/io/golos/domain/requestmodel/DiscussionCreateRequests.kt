@@ -1,8 +1,10 @@
 package io.golos.domain.requestmodel
 
-import io.golos.cyber4j.model.DiscussionCreateMetadata
-import io.golos.cyber4j.model.Tag
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.model.Beneficiary
+import io.golos.commun4j.model.DiscussionCreateMetadata
+import io.golos.commun4j.model.Tag
+import io.golos.commun4j.sharedmodel.CyberName
+
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
@@ -15,7 +17,7 @@ data class CreateCommentRequest(
     val parentPermlink: String,
     val category: List<Tag>,
     val metadata: DiscussionCreateMetadata,
-    val beneficiaries: List<io.golos.cyber4j.model.Beneficiary>,
+    val beneficiaries: List<Beneficiary>,
     val vestPayment: Boolean,
     val tokenProp: Long
 ) : DiscussionCreateRequest()
@@ -25,7 +27,7 @@ data class CreatePostRequest(
     val body: String,
     val tags: List<Tag>,
     val metadata: DiscussionCreateMetadata,
-    val beneficiaries: List<io.golos.cyber4j.model.Beneficiary>,
+    val beneficiaries: List<Beneficiary>,
     val vestPayment: Boolean,
     val tokenProp: Long
 ):DiscussionCreateRequest()

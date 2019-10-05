@@ -1,8 +1,8 @@
 package io.golos.cyber_android.core.user_keys_store
 
 import android.util.Log
-import io.golos.cyber4j.model.AuthType
-import io.golos.cyber4j.utils.AuthUtils
+import io.golos.commun4j.model.AuthType
+import io.golos.commun4j.utils.AuthUtils
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter

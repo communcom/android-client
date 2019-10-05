@@ -4,4 +4,5 @@ package io.golos.data.api
 object AppName {
     const val CYBER = "cyber"
     const val GLS = "gls"
+    const val COMMUN = "comn"
 }

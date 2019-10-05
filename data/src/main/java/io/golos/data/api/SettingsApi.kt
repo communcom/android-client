@@ -1,8 +1,8 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.services.model.MobileShowSettings
-import io.golos.cyber4j.services.model.ResultOk
-import io.golos.cyber4j.services.model.UserSettings
+import io.golos.commun4j.services.model.MobileShowSettings
+import io.golos.commun4j.services.model.ResultOk
+import io.golos.commun4j.services.model.UserSettings
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.

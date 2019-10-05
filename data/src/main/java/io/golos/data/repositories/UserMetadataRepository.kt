@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.services.model.UserMetadataResult
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.services.model.GetProfileResult
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.TransactionsApi
 import io.golos.data.api.UserMetadataApi
 import io.golos.data.errors.CyberToAppErrorMapper
@@ -31,7 +31,7 @@ constructor(
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toEntityMapper: CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>,
+    private val toEntityMapper: CyberToEntityMapper<GetProfileResult, UserMetadataEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserMetadataCollectionEntity, UserMetadataRequest> {
 

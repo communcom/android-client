@@ -1,8 +1,8 @@
 package io.golos.domain.rules
 
 
-import io.golos.cyber4j.services.model.IFramelyEmbedResult
-import io.golos.cyber4j.services.model.OEmbedResult
+import io.golos.commun4j.services.model.IFramelyEmbedResult
+import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.domain.entities.LinkEmbedResult
 import javax.inject.Inject
 

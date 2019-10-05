@@ -1,8 +1,8 @@
 package io.golos.data.repositories.discussion_creation
 
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
 import io.golos.domain.DispatchersProvider
@@ -17,9 +17,9 @@ import kotlinx.coroutines.withContext
 abstract class DiscussionCreationRepositoryBase(
     private val dispatchersProvider: DispatchersProvider,
     private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    private val toEntityResultMapper: CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>,
-    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>,
-    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>,
+    private val toEntityResultMapper: CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
+    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
+    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
     private val discussionsCreationApi: DiscussionsCreationApi,
     private val transactionsApi: TransactionsApi
 ) {
@@ -51,9 +51,9 @@ abstract class DiscussionCreationRepositoryBase(
             transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
 
             when (request) {
-                is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdatemssgGlsPublishStruct)
-                is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeletemssgGlsPublishStruct)
-                else -> toEntityResultMapper(apiAnswer.second as CreatemssgGlsPublishStruct)
+                is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdatemssgComnGalleryStruct)
+                is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeletemssgComnGalleryStruct)
+                else -> toEntityResultMapper(apiAnswer.second as CreatemssgComnGalleryStruct)
             }
         }
 }

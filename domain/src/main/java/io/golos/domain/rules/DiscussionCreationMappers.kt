@@ -1,10 +1,12 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
-import io.golos.cyber4j.model.*
-import io.golos.cyber4j.utils.toCyberName
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.model.DiscussionCreateMetadata
+import io.golos.commun4j.model.EmbedmentsUrl
+import io.golos.commun4j.model.Tag
+import io.golos.commun4j.utils.toCyberName
 import io.golos.domain.Regexps
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.*
@@ -101,8 +103,8 @@ constructor() : EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionC
 
 class DiscussionCreateResultToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity> {
-    override suspend fun invoke(cyberObject: CreatemssgGlsPublishStruct): DiscussionCreationResultEntity {
+constructor() : CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity> {
+    override suspend fun invoke(cyberObject: CreatemssgComnGalleryStruct): DiscussionCreationResultEntity {
         return when (cyberObject.parent_id.author.name.orEmpty().isEmpty()) {
 
             true -> PostCreationResultEntity(
@@ -128,8 +130,8 @@ constructor() : CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreati
 
 class DiscussionUpdateResultToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity> {
-    override suspend fun invoke(cyberObject: UpdatemssgGlsPublishStruct): UpdatePostResultEntity {
+constructor() : CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity> {
+    override suspend fun invoke(cyberObject: UpdatemssgComnGalleryStruct): UpdatePostResultEntity {
         return UpdatePostResultEntity(
             DiscussionIdEntity(
                 cyberObject.message_id.author.name,
@@ -142,8 +144,8 @@ constructor() : CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResult
 
 class DiscussionDeleteResultToEntityMapper
 @Inject
-constructor() : CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity> {
-    override suspend fun invoke(cyberObject: DeletemssgGlsPublishStruct): DeleteDiscussionResultEntity {
+constructor() : CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity> {
+    override suspend fun invoke(cyberObject: DeletemssgComnGalleryStruct): DeleteDiscussionResultEntity {
         return DeleteDiscussionResultEntity(
             DiscussionIdEntity(
                 cyberObject.message_id.author.name,

@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand

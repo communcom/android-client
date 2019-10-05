@@ -1,6 +1,6 @@
 package io.golos.domain.entities
 
-import io.golos.cyber4j.model.DiscussionId
+import io.golos.commun4j.model.DiscussionId
 import io.golos.domain.Entity
 import io.golos.domain.interactors.model.DiscussionIdModel
 

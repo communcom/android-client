@@ -1,6 +1,6 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.services.model.*
+import io.golos.commun4j.services.model.*
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest

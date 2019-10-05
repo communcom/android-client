@@ -1,11 +1,11 @@
 package io.golos.data.api
 
 import androidx.annotation.WorkerThread
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.cyber4j.services.model.FeedSort
-import io.golos.cyber4j.services.model.FeedTimeFrame
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.model.CyberDiscussion
+import io.golos.commun4j.model.DiscussionsResult
+import io.golos.commun4j.services.model.FeedSort
+import io.golos.commun4j.services.model.FeedTimeFrame
+import io.golos.commun4j.sharedmodel.CyberName
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.

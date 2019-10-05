@@ -2,7 +2,7 @@
 
 package io.golos.domain.requestmodel
 
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.interactors.model.FeedTimeFrameOption

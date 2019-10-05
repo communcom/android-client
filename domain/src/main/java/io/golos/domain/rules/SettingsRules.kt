@@ -5,10 +5,10 @@ import android.content.Context
 import android.provider.Settings
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import io.golos.cyber4j.services.model.MobileShowSettings
-import io.golos.cyber4j.services.model.NotificationSettings
-import io.golos.cyber4j.services.model.ServiceSettingsLanguage
-import io.golos.cyber4j.services.model.UserSettings
+import io.golos.commun4j.services.model.MobileShowSettings
+import io.golos.commun4j.services.model.NotificationSettings
+import io.golos.commun4j.services.model.ServiceSettingsLanguage
+import io.golos.commun4j.services.model.UserSettings
 import io.golos.domain.DefaultSettingProvider
 import io.golos.domain.DeviceIdProvider
 import io.golos.domain.Logger

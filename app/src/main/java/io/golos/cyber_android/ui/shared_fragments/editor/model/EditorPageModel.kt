@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.model
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo

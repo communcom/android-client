@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.commun4j.model.CyberDiscussion
+import io.golos.commun4j.model.DiscussionsResult
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer

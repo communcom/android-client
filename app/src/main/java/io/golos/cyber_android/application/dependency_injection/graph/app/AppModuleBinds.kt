@@ -2,18 +2,17 @@ package io.golos.cyber_android.application.dependency_injection.graph.app
 
 import dagger.Binds
 import dagger.Module
-import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.services.model.MobileShowSettings
-import io.golos.cyber4j.services.model.UserMetadataResult
-import io.golos.cyber4j.services.model.UserSettings
+import io.golos.commun4j.Commun4j
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.model.CyberDiscussion
+import io.golos.commun4j.services.model.GetProfileResult
+import io.golos.commun4j.services.model.MobileShowSettings
+import io.golos.commun4j.services.model.UserSettings
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4JDagger
-import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4jApiServiceFakePosts
 import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
@@ -72,7 +71,7 @@ import javax.inject.Named
 abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
-    abstract fun provideCyber(cyber: Cyber4JDagger): Cyber4J
+    abstract fun provideCyber(cyber: Cyber4JDagger): Commun4j
 
     @Binds
     @ApplicationScope
@@ -112,7 +111,7 @@ abstract class AppModuleBinds {
 
     // region Mappers
     @Binds
-    abstract fun provideUserMetadataToEntityMapper(mapper: UserMetadataToEntityMapper): CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>
+    abstract fun provideUserMetadataToEntityMapper(mapper: UserMetadataToEntityMapper): CyberToEntityMapper<GetProfileResult, UserMetadataEntity>
 
     @Binds
     abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapper): CyberToEntityMapper<CyberDiscussion, PostEntity>
@@ -157,13 +156,13 @@ abstract class AppModuleBinds {
     abstract fun providecyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
 
     @Binds
-    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>
+    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>
 
     @Binds
-    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>
+    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>
 
     @Binds
-    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>
+    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>
 
     @Binds
     abstract fun provideRequestEntityToArgumentsMapper(mapper: RequestEntityToArgumentsMapper): EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>
@@ -191,55 +190,55 @@ abstract class AppModuleBinds {
     // region Cyber4jApiService
     @Binds
     @ApplicationScope
-    abstract fun providePostsApiService(service: Cyber4jApiServiceFakePosts): PostsApiService
+    abstract fun providePostsApiService(service: Commun4jApiService): PostsApiService
 
     @Binds
     @ApplicationScope
-    abstract fun provideAuthApi(service: Cyber4jApiServiceFakePosts): AuthApi
+    abstract fun provideAuthApi(service: Commun4jApiService): AuthApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideVoteApi(service: Cyber4jApiServiceFakePosts): VoteApi
+    abstract fun provideVoteApi(service: Commun4jApiService): VoteApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideCommentsApiService(service: Cyber4jApiServiceFakePosts): CommentsApiService
+    abstract fun provideCommentsApiService(service: Commun4jApiService): CommentsApiService
 
     @Binds
     @ApplicationScope
-    abstract fun provideEmbedApi(service: Cyber4jApiServiceFakePosts): EmbedApi
+    abstract fun provideEmbedApi(service: Commun4jApiService): EmbedApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideDiscussionsCreationApi(service: Cyber4jApiServiceFakePosts): DiscussionsCreationApi
+    abstract fun provideDiscussionsCreationApi(service: Commun4jApiService): DiscussionsCreationApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideRegistrationApi(service: Cyber4jApiServiceFakePosts): RegistrationApi
+    abstract fun provideRegistrationApi(service: Commun4jApiService): RegistrationApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideSettingsApi(service: Cyber4jApiServiceFakePosts): SettingsApi
+    abstract fun provideSettingsApi(service: Commun4jApiService): SettingsApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideImageUploadApi(service: Cyber4jApiServiceFakePosts): ImageUploadApi
+    abstract fun provideImageUploadApi(service: Commun4jApiService): ImageUploadApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideEventsApi(service: Cyber4jApiServiceFakePosts): EventsApi
+    abstract fun provideEventsApi(service: Commun4jApiService): EventsApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideUserMetadataApi(service: Cyber4jApiServiceFakePosts): UserMetadataApi
+    abstract fun provideUserMetadataApi(service: Commun4jApiService): UserMetadataApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideTransactionsApi(service: Cyber4jApiServiceFakePosts): TransactionsApi
+    abstract fun provideTransactionsApi(service: Commun4jApiService): TransactionsApi
 
     @Binds
     @ApplicationScope
-    abstract fun providePushNotificationsApi(service: Cyber4jApiServiceFakePosts): PushNotificationsApi
+    abstract fun providePushNotificationsApi(service: Commun4jApiService): PushNotificationsApi
     // endregion
 
     // region Transformers

@@ -1,6 +1,6 @@
 package io.golos.data.repositories.discussion_creation
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 

@@ -126,7 +126,8 @@ constructor(
 
         if (comment.contentId != lastCommentCreatedId.commentId) return
 
-        postFeedRepository.requestDiscussionUpdate(comment.parentPostId)
+        // Temporary commented
+        //postFeedRepository.requestDiscussionUpdate(comment.parentPostId)
 
         commentsRepository.fixOnPositionDiscussion(comment, lastCommentCreatedId.parentId)
 

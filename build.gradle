@@ -16,8 +16,8 @@ buildscript {
         minsdk = 21
         targetsdk = 28
 
-        // Cyber4J
-        cyber4jVersion = "0.7.6"
+        // Commun4j
+        commun4jVersion = "0.8.3"
 
         // Kotlin
         kotlin_version = '1.3.50'
@@ -82,7 +82,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url 'http://116.203.39.126:34333/repository/cyber4j' }   /* aka "archiva" */
+        maven { url 'http://116.203.39.126:34333/repository/commun4j' }   /* aka "archiva" */
         mavenLocal()
         mavenCentral()
     }

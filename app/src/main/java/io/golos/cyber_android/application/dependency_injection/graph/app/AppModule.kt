@@ -6,8 +6,7 @@ import android.os.Build
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.sharedmodel.Cyber4JConfig
+import io.golos.commun4j.sharedmodel.Commun4jConfig
 import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
@@ -25,19 +24,19 @@ import javax.inject.Named
 @Module
 class AppModule(private val appContext: Context) {
     private val cyber4jConfigs = mapOf(
-        "stable" to Cyber4JConfig(
+        "stable" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.202.4.39:8888/",
             servicesUrl = "wss://cyber-gate.golos.io"
         ),
-        "dev" to Cyber4JConfig(
-            blockChainHttpApiUrl = "http://46.4.96.246:8888/",
-            servicesUrl = "wss://gate.commun.com"
-        ),
-        "unstable" to Cyber4JConfig(
+        "dev" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
-            servicesUrl = "ws://159.69.33.136:8080"
+            servicesUrl = "wss://dev-gate.commun.com"
         ),
-        "prod" to Cyber4JConfig(
+        "unstable" to Commun4jConfig(
+            blockChainHttpApiUrl = "http://116.202.4.46:8888/",
+            servicesUrl = "wss://dev-gate.commun.com"
+        ),
+        "prod" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.203.212.190:8888/",
             servicesUrl = "wss://gate.golos.io"
         )
@@ -64,7 +63,7 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun provideConfig(logger: Logger): Cyber4JConfig =
+    internal fun provideConfig(logger: Logger): Commun4jConfig =
         (cyber4jConfigs[BuildConfig.FLAVOR])!!
             .copy(
                 httpLogger = Cyber4JLogger(logger, Cyber4JLogger.HTTP),

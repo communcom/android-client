@@ -30,7 +30,6 @@ data class CommentModel(
     val content: CommentContentModel,
     override val votes: DiscussionVotesModel,
     override val payout: DiscussionPayoutModel,
-    val parentPostId: DiscussionIdModel,
     val parentCommentId: DiscussionIdModel?,
     override val meta: DiscussionMetadataModel,
     override val stats: DiscussionStatsModel
@@ -77,9 +76,7 @@ data class EmbedModel(
 ) : Model
 
 data class ContentBodyModel(
-    val full: CharSequence,
-    val embeds: List<EmbedModel>,
-    val mobilePreview: CharSequence
+    val rawData: String
 ) : Model
 
 
@@ -92,8 +89,8 @@ data class DiscussionStatsModel(val rShares: BigInteger, val viewsCount: Long) :
 data class DiscussionVotesModel(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
-    val upCount: Int,
-    val downCount: Int,
+    val upCount: Long,
+    val downCount: Long,
     val hasUpVoteProgress: Boolean,
     val hasDownVotingProgress: Boolean,
     val hasVoteCancelProgress: Boolean

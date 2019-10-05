@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
@@ -20,7 +17,6 @@ import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.main_activity.communities.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
-import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.utils.asEvent
 import kotlinx.android.synthetic.main.activity_main.*

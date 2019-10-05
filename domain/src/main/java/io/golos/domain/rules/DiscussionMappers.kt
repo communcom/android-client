@@ -1,8 +1,7 @@
 package io.golos.domain.rules
 
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.cyber4j.model.TextRow
+import io.golos.commun4j.model.CyberDiscussion
+import io.golos.commun4j.model.DiscussionsResult
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import java.math.BigInteger
@@ -28,44 +27,32 @@ constructor() : CyberToEntityMapper<CyberDiscussion, PostEntity> {
                 cyberObject.contentId.permlink
             ),
             DiscussionAuthorEntity(
-                CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
-                cyberObject.author?.username ?: "unknown",
-                cyberObject.author?.avatarUrl ?: ""
+                CyberUser(cyberObject.author.userId.name ?: "unknown"),
+                cyberObject.author.username ?: "unknown",
+                cyberObject.author.avatarUrl ?: ""
             ),
             CommunityEntity(
-                cyberObject.community!!.id,
-                cyberObject.community!!.name,
-                cyberObject.community!!.getAvatarUrl
+                cyberObject.community.id,
+                cyberObject.community.name!!,
+                cyberObject.community.avatarUrl
             ),
             PostContent(
-                cyberObject.content.title!!,
+                cyberObject.content.attributes.title,
                 ContentBody(
-                    cyberObject.content.body.preview ?: "",
-                    (cyberObject.content.body.mobile.orEmpty().firstOrNull() as? TextRow)?.content ?: "",
-                    cyberObject.content.embeds
-                        .map {
-                            EmbedEntity(
-                                it.result?.type ?: "",
-                                it.result?.title ?: "",
-                                it.result?.url ?: "",
-                                it.result?.author ?: "",
-                                it.result?.provider_name ?: "",
-                                it.result?.html ?: ""
-                            )
-                        },
-                    (cyberObject.content.body.mobilePreview.orEmpty().firstOrNull() as? TextRow)?.content ?: ""),
-                cyberObject.content.tags?.map { TagEntity(it) } ?: emptyList()
+                    "{ \"id\": 1, \"type\": \"post\", \"attributes\": { \"version\": \"1.0\", \"title\": \"Сказка про царя\", \"type\": \"basic\" }, \"content\": [ { \"id\": 2, \"type\": \"paragraph\", \"content\": [ { \"id\": 3, \"type\": \"text\", \"content\": \"Много лет тому назад, \" }, { \"id\": 4, \"type\": \"mention\", \"content\": \"Царь\" }, { \"id\": 5, \"type\": \"text\", \"content\": \" купил себе айпад. \" }, { \"id\": 6, \"type\": \"tag\", \"content\": \"с_той_поры_прошли_века\" }, { \"id\": 7, \"type\": \"link\", \"content\": \" , Люди \", \"attributes\": { \"url\": \"https://www.youtube.com/watch?v=UiYlRkVxC_4\" } }, { \"id\": 8, \"type\": \"link\", \"content\": \"помнят \", \"attributes\": { \"url\": \"https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg\" } }, { \"id\": 9, \"type\": \"link\", \"content\": \"чудака.\", \"attributes\": { \"url\": \"https://diletant.media\" } } ] }, { \"id\": 10, \"type\": \"image\", \"content\": \"https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg\", \"attributes\": { \"description\": \"Hi!\" } } ] }"
+                ),
+                listOf()
             ),
             DiscussionVotes(
-                cyberObject.votes.hasUpVote,
-                cyberObject.votes.hasDownVote,
+                cyberObject.votes.upCount > 0,
+                cyberObject.votes.downCount > 0,
                 cyberObject.votes.upCount,
                 cyberObject.votes.downCount
             ),
-            DiscussionCommentsCount(cyberObject.stats!!.commentsCount!!),
+            DiscussionCommentsCount(0L),            // note[AS] temporary zero - it'll be in a future
             DiscussionPayout(),
-            DiscussionMetadata(cyberObject.meta.time),
-            DiscussionStats(cyberObject.stats?.rShares.orZero(), cyberObject.stats?.viewCount ?: 0L)
+            DiscussionMetadata(cyberObject.meta.creationTime),
+            DiscussionStats(0.toBigInteger(), 0L)                  // note[AS] temporary zero - it'll be in a future
         )
     }
 }
@@ -101,42 +88,23 @@ constructor() : CyberToEntityMapper<CyberDiscussion, CommentEntity> {
                 cyberObject.contentId.permlink
             ),
             DiscussionAuthorEntity(
-                CyberUser(cyberObject.author?.userId?.name ?: "unknown"),
-                cyberObject.author?.username ?: "unknown",
-                cyberObject.author?.avatarUrl ?: ""
+                CyberUser(cyberObject.author.userId.name ?: "unknown"),
+                cyberObject.author.username ?: "unknown",
+                cyberObject.author.avatarUrl ?: ""
             ),
             CommentContent(
-                ContentBody("",
-                    (cyberObject.content.body.mobile.orEmpty().firstOrNull() as? TextRow)?.content ?: "",
-                     cyberObject.content.embeds
-                        .map {
-                            EmbedEntity(
-                                it.result?.type ?: "",
-                                it.result?.title ?: "",
-                                it.result?.url ?: "",
-                                it.result?.author ?: "",
-                                it.result?.provider_name ?: "",
-                                it.result?.html ?: ""
-                            )
-                        },
-                    (cyberObject.content.body.mobilePreview.orEmpty().firstOrNull() as? TextRow)?.content ?: ""
-                )
+                ContentBody("")
             ),
             DiscussionVotes(
-                cyberObject.votes.hasUpVote,
-                cyberObject.votes.hasDownVote,
+                cyberObject.votes.upCount > 0,
+                cyberObject.votes.downCount > 0,
                 cyberObject.votes.upCount,
                 cyberObject.votes.downCount
             ),
             DiscussionPayout(),
-            cyberObject.parent!!.post!!.contentId.let {
-                DiscussionIdEntity(it.userId, it.permlink)
-            },
-            cyberObject.parent?.comment?.contentId?.let {
-                DiscussionIdEntity(it.userId, it.permlink)
-            },
-            DiscussionMetadata(cyberObject.meta.time),
-            DiscussionStats(cyberObject.stats?.rShares.orZero(), cyberObject.stats?.viewCount ?: 0L)
+            null,                           // note[AS] it's an Id of a parent comment. Temporary null - it'll be in a future
+            DiscussionMetadata(cyberObject.meta.creationTime),
+            DiscussionStats(0.toBigInteger(), 0L)
         )
     }
 }

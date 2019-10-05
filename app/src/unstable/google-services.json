@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "490496210742",
+    "firebase_url": "https://golos-5b0d5.firebaseio.com",
+    "project_id": "golos-5b0d5",
+    "storage_bucket": "golos-5b0d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490496210742:android:711320ebaf549c3e",
+        "android_client_info": {
+          "package_name": "io.golos.cyber_android.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490496210742-tdsb18dsd2qgu9foqtlnq1s3hkhdcumr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXPRMBas20u7UQfIlaB8cPP9ikZamoQ6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490496210742-tdsb18dsd2qgu9foqtlnq1s3hkhdcumr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "490496210742-uf3dbhdrdmutqq3n4cj4e48iqs2ogtrm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.golos.testing.golos-ios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:490496210742:android:139bee1c9eb524ac",
+        "android_client_info": {
+          "package_name": "io.golos.golos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "490496210742-nbv6aet45v8dp36sug5a9colof86k53a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.golos.golos",
+            "certificate_hash": "ff4795f3a6cb990c736bdf0793b6e73246a27517"
+          }
+        },
+        {
+          "client_id": "490496210742-tdsb18dsd2qgu9foqtlnq1s3hkhdcumr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXPRMBas20u7UQfIlaB8cPP9ikZamoQ6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490496210742-tdsb18dsd2qgu9foqtlnq1s3hkhdcumr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "490496210742-uf3dbhdrdmutqq3n4cj4e48iqs2ogtrm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.golos.testing.golos-ios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
 package io.golos.cyber_android.application.dependency_injection
 
 import android.content.Context
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.DaggerAppComponent

@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.model
 
 import android.net.Uri
-import io.golos.cyber4j.services.model.OEmbedResult
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.services.model.OEmbedResult
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError

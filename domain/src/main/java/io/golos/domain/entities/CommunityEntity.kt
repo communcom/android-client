@@ -1,6 +1,6 @@
 package io.golos.domain.entities
 
-import io.golos.cyber4j.services.model.CyberCommunity
+import io.golos.commun4j.services.model.CyberCommunity
 import io.golos.domain.Entity
 
 /**
@@ -13,7 +13,7 @@ data class CommunityEntity(
 ) : Entity {
     companion object {
         fun fromCyber(cyberObject: CyberCommunity) =
-            CommunityEntity(cyberObject.id, cyberObject.name, cyberObject.getAvatarUrl)
+            CommunityEntity(cyberObject.id, cyberObject.name!!, cyberObject.avatarUrl)
     }
 }
 

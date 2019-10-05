@@ -105,7 +105,7 @@ buildscript {
 
 dependencies {
     /* Our libraries */
-    implementation("io.golos.cyber4j:cyber4j:$cyber4jVersion")
+    implementation("io.golos.commun4j:commun4j:$commun4jVersion")
 
     /*Modules*/
     implementation project(':domain')
@@ -163,6 +163,6 @@ dependencies {
 
     /* Libraries & modules */
     testImplementation project(':domain')
-    testImplementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
+    testImplementation "io.golos.commun4j:commun4j:$commun4jVersion"
     testImplementation project(':data')
 }

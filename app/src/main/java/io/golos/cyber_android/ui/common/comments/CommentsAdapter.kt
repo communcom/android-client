@@ -185,5 +185,5 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         fun onUsernameClick(userId: String)
     }
 
-    private fun ContentBodyModel.toCommentContent(): CharSequence  = full
+    private fun ContentBodyModel.toCommentContent(): CharSequence  = this.rawData
 }

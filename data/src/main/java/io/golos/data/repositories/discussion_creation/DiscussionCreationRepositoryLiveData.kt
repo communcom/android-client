@@ -2,9 +2,9 @@ package io.golos.data.repositories.discussion_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
@@ -37,9 +37,9 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
     toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    toEntityResultMapper: CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>,
-    toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>,
-    toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>,
+    toEntityResultMapper: CyberToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
+    toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
+    toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,

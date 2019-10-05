@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.profile.edit.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber4j.services.model.UserMetadataResult
+import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
@@ -135,7 +135,7 @@ constructor(
 
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = StartExportingCommand(
-                    metadata.username,
+                    metadata.username!!,
                     metadata.userId.name,
                     keys
                 )
@@ -171,7 +171,7 @@ constructor(
                 }
         }
 
-    private suspend fun getUserMetadata(): UserMetadataResult =
+    private suspend fun getUserMetadata(): GetProfileResult =
         withContext(dispatchersProvider.ioDispatcher) {
             metadadataApi.getUserMetadata(keyValueStorage.getAuthState()!!.user)
         }

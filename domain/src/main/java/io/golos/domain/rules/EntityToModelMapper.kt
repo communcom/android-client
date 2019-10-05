@@ -43,9 +43,7 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                 PostContentModel(
                     post.content.title,
                     ContentBodyModel(
-                        post.content.body.full,
-                        post.content.body.embeds.map { it.toEmbedModel() },
-                        post.content.body.mobilePreview
+                        post.content.body.rawData
                     ),
                     post.content.tags.map { it.toModel() }
                 ),
@@ -91,9 +89,7 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                 DiscussionAuthorModel(comment.author.userId, comment.author.username, comment.author.avatarUrl),
                 CommentContentModel(
                     ContentBodyModel(
-                        comment.content.body.full,
-                        comment.content.body.embeds.map { it.toEmbedModel() },
-                        comment.content.body.mobilePreview),
+                        comment.content.body.rawData),
                     if (comment.parentCommentId != null) 1 else 0
                 ),
                 DiscussionVotesModel(
@@ -106,10 +102,6 @@ constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) 
                     (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power == 0.toShort())
                 ),
                 DiscussionPayoutModel(),
-                DiscussionIdModel(
-                    comment.parentPostId.userId,
-                    comment.parentPostId.permlink
-                ),
                 comment.parentCommentId?.let {
                     DiscussionIdModel(it.userId, it.permlink)
                 },

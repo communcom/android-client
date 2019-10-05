@@ -1,11 +1,14 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
-import io.golos.cyber4j.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.cyber4j.model.*
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
+import io.golos.commun4j.model.Beneficiary
+import io.golos.commun4j.model.DiscussionCreateMetadata
+import io.golos.commun4j.model.Tag
+import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.commun4j.utils.Pair as CommunPair
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
@@ -21,7 +24,7 @@ interface DiscussionsCreationApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): Pair<TransactionCommitted<CreatemssgGlsPublishStruct>, CreatemssgGlsPublishStruct>
+    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
     fun createPost(
         title: String,
@@ -31,15 +34,15 @@ interface DiscussionsCreationApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): Pair<TransactionCommitted<CreatemssgGlsPublishStruct>, CreatemssgGlsPublishStruct>
+    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
     fun updatePost(postPermlink: String,
                    newTitle: String,
                    newBody: String,
                    newTags: List<Tag>,
                    newJsonMetadata: DiscussionCreateMetadata
-    ): Pair<TransactionCommitted<UpdatemssgGlsPublishStruct>, UpdatemssgGlsPublishStruct>
+    ): CommunPair<TransactionCommitted<UpdatemssgComnGalleryStruct>, UpdatemssgComnGalleryStruct>
 
     fun deletePostOrComment(postOrCommentPermlink: String):
-            Pair<TransactionCommitted<DeletemssgGlsPublishStruct>, DeletemssgGlsPublishStruct>
+            CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
 }

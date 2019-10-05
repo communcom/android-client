@@ -2,7 +2,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.mai
 
 import dagger.Module
 import dagger.Provides
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.entities.CyberUser
 
 @Module

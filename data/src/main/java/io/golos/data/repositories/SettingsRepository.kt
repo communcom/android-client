@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.services.model.MobileShowSettings
-import io.golos.cyber4j.services.model.UserSettings
+import io.golos.commun4j.services.model.MobileShowSettings
+import io.golos.commun4j.services.model.UserSettings
 import io.golos.data.api.SettingsApi
 import io.golos.domain.*
 import io.golos.domain.entities.NotificationSettingsEntity
