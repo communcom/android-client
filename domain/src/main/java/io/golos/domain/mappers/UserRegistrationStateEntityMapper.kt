@@ -5,12 +5,9 @@ import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.domain.entities.*
 import io.golos.domain.requestmodel.SetUserKeysRequest
 import java.util.*
-import javax.inject.Inject
 
-class UserRegistrationStateEntityMapper
-@Inject
-constructor() : CommunToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity> {
-    override suspend fun map(communObject: UserRegistrationStateRelatedData): UserRegistrationStateEntity {
+object UserRegistrationStateEntityMapper {
+    fun map(communObject: UserRegistrationStateRelatedData): UserRegistrationStateEntity {
         val stateRequestResult = communObject.stateRequestResult
         val requestResult = communObject.requestResult
         val stateRequest = communObject.request

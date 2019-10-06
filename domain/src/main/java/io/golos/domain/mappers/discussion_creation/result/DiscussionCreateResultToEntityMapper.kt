@@ -8,11 +8,8 @@ import io.golos.domain.entities.PostCreationResultEntity
 import io.golos.domain.mappers.CommunToEntityMapper
 import javax.inject.Inject
 
-class DiscussionCreateResultToEntityMapper
-@Inject
-constructor() :
-    CommunToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity> {
-    override suspend fun map(communObject: CreatemssgComnGalleryStruct): DiscussionCreationResultEntity {
+object DiscussionCreateResultToEntityMapper {
+    fun map(communObject: CreatemssgComnGalleryStruct): DiscussionCreationResultEntity {
         return when (communObject.parent_id.author.name.orEmpty().isEmpty()) {
 
             true -> PostCreationResultEntity(

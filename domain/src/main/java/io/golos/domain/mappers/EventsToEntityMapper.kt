@@ -7,13 +7,13 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
+interface EventsToEntityMapper : CommunToEntityMapper<EventsListDataWithQuery, EventsListEntity>
+
 @ApplicationScope
-class EventsToEntityMapper
+class EventsToEntityMapperImpl
 @Inject
-constructor() :
-    CommunToEntityMapper<EventsListDataWithQuery, EventsListEntity> {
-    private val cache =
-        Collections.synchronizedMap(HashMap<Event, EventEntity>())
+constructor() : EventsToEntityMapper {
+    private val cache = Collections.synchronizedMap(HashMap<Event, EventEntity>())
 
     override suspend fun map(communObject: EventsListDataWithQuery): EventsListEntity {
         return EventsListEntity(

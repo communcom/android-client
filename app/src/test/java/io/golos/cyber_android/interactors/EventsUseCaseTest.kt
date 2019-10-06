@@ -8,7 +8,7 @@
 //import io.golos.domain.interactors.model.UpdateOption
 //import io.golos.domain.interactors.notifs.events.EventsUseCase
 //import io.golos.domain.requestmodel.QueryResult
-//import io.golos.domain.mappers.EventEntityToModelMapper
+//import io.golos.domain.mappers.EventEntityToModelMapperImpl
 //import junit.framework.Assert.*
 //import kotlinx.coroutines.delay
 //import kotlinx.coroutines.runBlocking
@@ -32,7 +32,7 @@
 //            EventTypeEntity.values().toSet(),
 //            eventsRepos,
 //            authStateRepository,
-//            EventEntityToModelMapper(),
+//            EventEntityToModelMapperImpl(),
 //            dispatchersProvider
 //        )
 //    }

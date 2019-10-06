@@ -6,12 +6,14 @@ import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
 import javax.inject.Inject
 
-class VoteRequestModelToEntityMapper
+interface VoteRequestModelToEntityMapper : ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
+
+class VoteRequestModelToEntityMapperImpl
 @Inject
-constructor() : ModelToEntityMapper<VoteRequestModel, VoteRequestEntity> {
+constructor() : VoteRequestModelToEntityMapper {
     private val cash = Collections.synchronizedMap(HashMap<VoteRequestModel, VoteRequestEntity>())
 
-    override suspend fun invoke(model: VoteRequestModel): VoteRequestEntity {
+    override suspend fun map(model: VoteRequestModel): VoteRequestEntity {
         return cash.getOrPut(model) {
             return when (model) {
                 is VoteRequestModel.VoteForPostRequest -> VoteRequestEntity.VoteForAPostRequestEntity(

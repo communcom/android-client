@@ -35,17 +35,9 @@ constructor(
     transactionsApi: TransactionsApi,
     dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    toCyberRequestMapper: EntityToCommunMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    toEntityResultMapper: CommunToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
-    toEntityUpdateResultMapper: CommunToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
-    toEntityDeleteResultMapper: CommunToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,
-    toCyberRequestMapper,
-    toEntityResultMapper,
-    toEntityUpdateResultMapper,
-    toEntityDeleteResultMapper,
     discussionsCreationApi,
     transactionsApi
 ),  Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {

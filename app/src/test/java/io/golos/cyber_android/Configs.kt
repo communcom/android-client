@@ -36,20 +36,20 @@
 //
 //val cyberPostToEntityMapper = CyberPostToEntityMapper()
 //val voteToEntityMapper = VoteRequestModelToEntityMapper()
-//val cyberFeedToEntityMapper = CyberFeedToEntityMapper(cyberPostToEntityMapper)
+//val cyberFeedToEntityMapper = CyberFeedToEntityMapperImpl(cyberPostToEntityMapper)
 //
-//val postEntityToModelMapper = PostEntityEntitiesToModelMapper(object : HtmlToSpannableTransformer {
+//val postEntityToModelMapper = PostEntitiesToModelMapper(object : HtmlToSpannableTransformer {
 //    override fun transform(html: String): CharSequence {
 //        return html
 //    }
 //})
 //val feedEntityToModelMapper = PostFeedEntityToModelMapper(postEntityToModelMapper)
-//val commentEntityToModelMapper = CommentEntityToModelMapper(object : HtmlToSpannableTransformer {
+//val commentEntityToModelMapper = CommentEntityToModelMapperImpl(object : HtmlToSpannableTransformer {
 //    override fun transform(html: String): CharSequence {
 //        return html
 //    }
 //})
-//val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapper(commentEntityToModelMapper)
+//val commentFeeEntityToModelMapper = CommentsFeedEntityToModelMapperImpl(commentEntityToModelMapper)
 //val voteEntityToPostMapper = VoteRequestEntityToModelMapper()
 //
 //val toCountryModelMapper = CountryEntityToModelMapper()
@@ -65,8 +65,8 @@
 //val emptyPostFeedProducer = EmptyPostFeedProducer()
 //
 //
-//val cyberCommentToEntityMapper = CyberCommentToEntityMapper()
-//val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapper(cyberCommentToEntityMapper)
+//val cyberCommentToEntityMapper = CyberCommentToEntityMapperImpl()
+//val cyberCommentFeedToEntityMapper = CyberCommentsToEntityMapperImpl(cyberCommentToEntityMapper)
 //
 //val toRegistrationMapper = UserRegistrationStateEntityMapper()
 //
@@ -239,7 +239,7 @@
 //val eventsRepos: Repository<EventsListEntity, EventsFeedUpdateRequest>
 //        by lazy {
 //            EventsRepository(
-//                apiService, EventsToEntityMapper(), EventsEntityMerger(), EventsApprover(),
+//                apiService, EventsToEntityMapperImpl(), EventsEntityMerger(), EventsApprover(),
 //                dispatchersProvider, logger
 //            )
 //        }

@@ -5,13 +5,9 @@ import io.golos.commun4j.services.model.NotificationSettings
 import io.golos.commun4j.services.model.ServiceSettingsLanguage
 import io.golos.domain.entities.NotificationSettingsEntity
 import java.util.*
-import javax.inject.Inject
 
-class SettingToCyberMapper
-@Inject
-constructor() :
-    EntityToCommunMapper<NotificationSettingsEntity, MobileShowSettings> {
-    override suspend fun map(entity: NotificationSettingsEntity): MobileShowSettings {
+object SettingToCyberMapper {
+    fun map(entity: NotificationSettingsEntity): MobileShowSettings {
         return MobileShowSettings(
             NotificationSettings(
                 entity.showUpvote, entity.showDownvote,

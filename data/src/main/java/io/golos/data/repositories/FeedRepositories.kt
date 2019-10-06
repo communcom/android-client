@@ -12,7 +12,7 @@ import io.golos.domain.Logger
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.FeedTimeFrameOption
-import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Inject
@@ -25,8 +25,8 @@ class PostsFeedRepository
 @Inject
 constructor(
     private val apiService: PostsApiService,
-    feedMapper: CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>,
-    postMapper: CommunToEntityMapper<CyberDiscussion, PostEntity>,
+    feedMapper: CyberFeedToEntityMapper,
+    postMapper: CyberPostToEntityMapper,
     postMerger: EntityMerger<PostEntity>,
     feedMerger: EntityMerger<FeedRelatedData<PostEntity>>,
     feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
@@ -86,8 +86,8 @@ class CommentsFeedRepository
 @Inject
 constructor(
     private val apiService: CommentsApiService,
-    feedMapper: CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>,
-    postMapper: CommunToEntityMapper<CyberDiscussion, CommentEntity>,
+    feedMapper: CyberCommentsToEntityMapper,
+    postMapper: CyberCommentToEntityMapper,
     postMerger: EntityMerger<CommentEntity>,
     feedMerger: EntityMerger<FeedRelatedData<CommentEntity>>,
     approver: RequestApprover<CommentFeedUpdateRequest>,

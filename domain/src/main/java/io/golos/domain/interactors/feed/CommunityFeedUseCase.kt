@@ -4,13 +4,15 @@ import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.DiscussionsSort
-import io.golos.domain.entities.FeedRelatedEntities
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.VoteRequestEntity
-import io.golos.domain.interactors.model.*
+import io.golos.domain.interactors.model.CommunityId
+import io.golos.domain.interactors.model.FeedTimeFrameOption
+import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.mappers.PostFeedEntityToModelMapper
 import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.mappers.EntityToModelMapper
 import javax.inject.Inject
 
 /**
@@ -22,7 +24,7 @@ constructor(
     private val communityId: CommunityId,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    feedMapper: EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>,
+    feedMapper: PostFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
     postFeedRepository,

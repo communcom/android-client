@@ -21,19 +21,11 @@ class DiscussionCreationRepositoryImpl
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    toCyberRequestMapper: EntityToCommunMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    toEntityResultMapper: CommunToEntityMapper<CreatemssgComnGalleryStruct, DiscussionCreationResultEntity>,
-    toEntityUpdateResultMapper: CommunToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity>,
-    toEntityDeleteResultMapper: CommunToEntityMapper<DeletemssgComnGalleryStruct, DeleteDiscussionResultEntity>,
     discussionsCreationApi: DiscussionsCreationApi,
     transactionsApi: TransactionsApi,
     private val logger: Logger
 ): DiscussionCreationRepositoryBase(
     dispatchersProvider,
-    toCyberRequestMapper,
-    toEntityResultMapper,
-    toEntityUpdateResultMapper,
-    toEntityDeleteResultMapper,
     discussionsCreationApi,
     transactionsApi
 ), DiscussionCreationRepository {

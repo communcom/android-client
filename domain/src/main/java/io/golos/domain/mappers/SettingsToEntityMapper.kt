@@ -10,12 +10,14 @@ import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
 import javax.inject.Inject
 
-class SettingsToEntityMapper
+interface SettingsToEntityMapper: CommunToEntityMapper<UserSettings, UserSettingEntity>
+
+class SettingsToEntityMapperImpl
 @Inject
 constructor (
     private val moshi: Moshi,
     private val logger: Logger
-) : CommunToEntityMapper<UserSettings, UserSettingEntity> {
+) : SettingsToEntityMapper {
     override suspend fun map(communObject: UserSettings): UserSettingEntity {
         val push = communObject.push?.show
         val mapType = Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)

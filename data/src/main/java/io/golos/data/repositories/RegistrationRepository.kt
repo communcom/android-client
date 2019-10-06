@@ -11,9 +11,9 @@ import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserRegistrationStateEntity
-import io.golos.domain.requestmodel.*
-import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.UserRegistrationStateEntityMapper
 import io.golos.domain.mappers.UserRegistrationStateRelatedData
+import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
@@ -28,7 +28,6 @@ constructor(
     private val registrationApi: RegistrationApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toRegistrationStateEntityMapper: CommunToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserRegistrationStateEntity, RegistrationStepRequest> {
 
@@ -91,7 +90,7 @@ constructor(
                             if (params !is SetUserKeysRequest) registrationApi.getRegistrationState(params.phone)
                             else UserRegistrationStateResult(UserRegistrationState.REGISTERED, params.userName)
 
-                        toRegistrationStateEntityMapper.map(
+                        UserRegistrationStateEntityMapper.map(
                             UserRegistrationStateRelatedData(
                                 actionResult,
                                 params,

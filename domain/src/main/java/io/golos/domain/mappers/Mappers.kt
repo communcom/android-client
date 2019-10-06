@@ -16,10 +16,10 @@ interface EntityToCommunMapper<TE : Entity, TC> {
 
 interface EntityToModelMapper<TE : Entity, TM : Model> {
     @WorkerThread
-    suspend operator fun invoke(entity: TE): TM
+    suspend fun map(entity: TE): TM
 }
 
 interface ModelToEntityMapper<TM : Model, TE : Entity> {
     @WorkerThread
-    suspend operator fun invoke(model: TM): TE
+    suspend fun map(model: TM): TE
 }

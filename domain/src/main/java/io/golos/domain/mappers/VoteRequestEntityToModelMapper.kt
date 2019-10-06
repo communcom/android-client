@@ -8,15 +8,15 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
-@ApplicationScope
-class VoteRequestEntityToModelMapper
-@Inject
-constructor() :
-    EntityToModelMapper<VoteRequestEntity, VoteRequestModel> {
-    private val cash =
-        Collections.synchronizedMap(HashMap<VoteRequestEntity, VoteRequestModel>())
+interface VoteRequestEntityToModelMapper: EntityToModelMapper<VoteRequestEntity, VoteRequestModel>
 
-    override suspend fun invoke(entity: VoteRequestEntity): VoteRequestModel {
+@ApplicationScope
+class VoteRequestEntityToModelMapperImpl
+@Inject
+constructor() : VoteRequestEntityToModelMapper {
+    private val cash = Collections.synchronizedMap(HashMap<VoteRequestEntity, VoteRequestModel>())
+
+    override suspend fun map(entity: VoteRequestEntity): VoteRequestModel {
         return cash.getOrPut(entity) {
             when (entity) {
                 is VoteRequestEntity.VoteForAPostRequestEntity -> VoteRequestModel.VoteForPostRequest(

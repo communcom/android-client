@@ -10,15 +10,15 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
-@UIScope
-class EventEntityToModelMapper
-@Inject
-constructor() :
-    EntityToModelMapper<EventsListEntity, EventsListModel> {
-    private val cache =
-        Collections.synchronizedMap(HashMap<EventEntity, EventModel>())
+interface EventEntityToModelMapper : EntityToModelMapper<EventsListEntity, EventsListModel>
 
-    override suspend fun invoke(entity: EventsListEntity): EventsListModel {
+@UIScope
+class EventEntityToModelMapperImpl
+@Inject
+constructor() : EventEntityToModelMapper {
+    private val cache = Collections.synchronizedMap(HashMap<EventEntity, EventModel>())
+
+    override suspend fun map(entity: EventsListEntity): EventsListModel {
         return EventsListModel(entity.data.map { event ->
             cache.getOrPut(event) {
                 when (event) {

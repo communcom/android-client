@@ -2,15 +2,12 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.commun4j.services.model.MobileShowSettings
-import io.golos.commun4j.services.model.UserSettings
 import io.golos.data.api.SettingsApi
 import io.golos.domain.*
-import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
+import io.golos.domain.mappers.SettingToCyberMapper
+import io.golos.domain.mappers.SettingsToEntityMapper
 import io.golos.domain.requestmodel.*
-import io.golos.domain.mappers.CommunToEntityMapper
-import io.golos.domain.mappers.EntityToCommunMapper
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
@@ -23,8 +20,7 @@ class SettingsRepository
 @Inject
 constructor(
     private val api: SettingsApi,
-    private val toEntityMapper: CommunToEntityMapper<UserSettings, UserSettingEntity>,
-    private val toCyberMapper: EntityToCommunMapper<NotificationSettingsEntity, MobileShowSettings>,
+    private val toEntityMapper: SettingsToEntityMapper,
     private val dispatchersProvider: DispatchersProvider,
     private val deviceIdProvider: DeviceIdProvider,
     defaultUserSettingsProvider: DefaultSettingProvider,
@@ -57,7 +53,7 @@ constructor(
                     is ChangeNotificationSettingRequest -> withContext(dispatchersProvider.calculationsDispatcher) {
                         api.setNotificationSettings(
                             deviceIdProvider.provide(),
-                            toCyberMapper.map(params.newNotificationSettings)
+                            SettingToCyberMapper.map(params.newNotificationSettings)
                         )
                     }
                 }

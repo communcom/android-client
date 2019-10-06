@@ -11,19 +11,19 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
+interface CommentEntityToModelMapper : EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel>
+
 @ApplicationScope
-class CommentEntityToModelMapper
+class CommentEntityToModelMapperImpl
 @Inject
-constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
-    EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel> {
+constructor(
+    private val htmlToSpannableTransformer: HtmlToSpannableTransformer
+) : CommentEntityToModelMapper {
 
-
-    private val cashedValues =
-        Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<CommentEntity>, CommentModel>())
+    private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<CommentEntity>, CommentModel>())
     private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
-
-    override suspend fun invoke(entity: DiscussionRelatedEntities<CommentEntity>): CommentModel {
+    override suspend fun map(entity: DiscussionRelatedEntities<CommentEntity>): CommentModel {
         val comment = entity.discussionEntity
 
         val voteEntity = entity.voteStateEntity

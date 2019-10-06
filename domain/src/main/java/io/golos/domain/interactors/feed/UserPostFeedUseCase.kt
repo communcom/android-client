@@ -11,6 +11,7 @@ import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.UserPostsUpdateRequest
 import io.golos.domain.mappers.EntityToModelMapper
+import io.golos.domain.mappers.PostFeedEntityToModelMapper
 import javax.inject.Inject
 
 /**
@@ -22,7 +23,7 @@ constructor(
     private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    feedMapper: EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>,
+    feedMapper: PostFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
     postFeedRepository,

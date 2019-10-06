@@ -12,16 +12,19 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
+interface PostEntitiesToModelMapper : EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>
+
 @ApplicationScope
-class PostEntityEntitiesToModelMapper
+class PostEntitiesToModelMapperImpl
 @Inject
-constructor(private val htmlToSpannableTransformer: HtmlToSpannableTransformer) :
-    EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel> {
-    private val cashedValues =
-        Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
+constructor(
+    private val htmlToSpannableTransformer: HtmlToSpannableTransformer
+) : PostEntitiesToModelMapper {
+
+    private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
     private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
-    override suspend fun invoke(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
+    override suspend fun map(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
         val post = entity.discussionEntity
 
         val voteEntity = entity.voteStateEntity

@@ -1,16 +1,16 @@
 package io.golos.domain.mappers
 
-import io.golos.commun4j.model.CyberDiscussion
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.rules.FeedUpdateRequestsWithResult
 import javax.inject.Inject
 
-class CyberFeedToEntityMapper
+interface CyberFeedToEntityMapper : CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>
+
+class CyberFeedToEntityMapperImpl
 @Inject
-constructor(val postMapper: CommunToEntityMapper<CyberDiscussion, PostEntity>) :
-    CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>> {
+constructor(val postMapper: CyberPostToEntityMapper) : CyberFeedToEntityMapper {
 
     override suspend fun map(communObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<PostEntity> {
         return FeedEntity(

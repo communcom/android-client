@@ -71,12 +71,7 @@ constructor(
             //TODO empty feed state
 
             val resultFeed = withContext(dispatchersProvider.calculationsDispatcher) {
-                feedMapper(
-                    FeedRelatedEntities(
-                        feedEntity,
-                        votes
-                    )
-                )
+                feedMapper.map(FeedRelatedEntities(feedEntity, votes))
             }
 
             val lastFeedItems = postFeedLiveData.value?.items.orEmpty()

@@ -9,12 +9,10 @@ import io.golos.domain.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.LinkEmbedResult
 import io.golos.domain.entities.ProcessedLinksEntity
+import io.golos.domain.mappers.*
 import io.golos.domain.requestmodel.EmbedRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.mappers.CommunToEntityMapper
-import io.golos.domain.mappers.IFramelyEmbedResultRelatedData
-import io.golos.domain.mappers.OembedResultRelatedData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -30,9 +28,7 @@ class EmbedsRepository
 constructor(
     private val embedApi: EmbedApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger,
-    private val toEmbedMapperIframely: CommunToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>,
-    private val toEmbedMapperOembed: CommunToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
+    private val logger: Logger
 ) : Repository<ProcessedLinksEntity, EmbedRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -61,7 +57,7 @@ constructor(
             try {
                 result = withContext(dispatchersProvider.calculationsDispatcher) {
                     val iframelyData = embedApi.getIframelyEmbed(params.url)
-                    toEmbedMapperIframely.map(IFramelyEmbedResultRelatedData(iframelyData, params.url))
+                    IfremlyEmbedMapper.map(IFramelyEmbedResultRelatedData(iframelyData, params.url))
                 }
             } catch (e: Exception) {
                 logger.log(e)
@@ -69,7 +65,7 @@ constructor(
                 try {
                     result = withContext(dispatchersProvider.calculationsDispatcher) {
                         val oembedData = embedApi.getOEmbedEmbed(params.url)
-                        toEmbedMapperOembed.map(OembedResultRelatedData(oembedData, params.url))
+                        OembedMapper.map(OembedResultRelatedData(oembedData, params.url))
                     }
                 } catch (e: java.lang.Exception) {
                     logger.log(e)

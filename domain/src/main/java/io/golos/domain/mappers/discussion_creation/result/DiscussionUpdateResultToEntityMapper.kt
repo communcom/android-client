@@ -6,11 +6,8 @@ import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.mappers.CommunToEntityMapper
 import javax.inject.Inject
 
-class DiscussionUpdateResultToEntityMapper
-@Inject
-constructor() :
-    CommunToEntityMapper<UpdatemssgComnGalleryStruct, UpdatePostResultEntity> {
-    override suspend fun map(communObject: UpdatemssgComnGalleryStruct): UpdatePostResultEntity {
+object DiscussionUpdateResultToEntityMapper {
+    fun map(communObject: UpdatemssgComnGalleryStruct): UpdatePostResultEntity {
         return UpdatePostResultEntity(
             DiscussionIdEntity(
                 communObject.message_id.author.name,

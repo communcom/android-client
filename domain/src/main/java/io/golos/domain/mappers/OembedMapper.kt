@@ -1,13 +1,9 @@
 package io.golos.domain.mappers
 
-
 import io.golos.domain.entities.LinkEmbedResult
-import javax.inject.Inject
 
-class OembedMapper
-@Inject
-constructor() : CommunToEntityMapper<OembedResultRelatedData, LinkEmbedResult> {
-    override suspend fun map(communObject: OembedResultRelatedData): LinkEmbedResult {
+object OembedMapper {
+    fun map(communObject: OembedResultRelatedData): LinkEmbedResult {
         val url = communObject.originalRequestUrl
         val embedData = communObject.oembedResult
 

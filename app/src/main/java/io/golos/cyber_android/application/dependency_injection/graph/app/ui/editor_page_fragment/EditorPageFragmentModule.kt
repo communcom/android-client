@@ -16,9 +16,11 @@ import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.publish.EmbedsUseCase
+import io.golos.domain.mappers.CommentsFeedEntityToModelMapper
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.mappers.EntityToModelMapper
+import io.golos.domain.mappers.PostEntitiesToModelMapper
 
 @Module
 class EditorPageFragmentModule(private val community: CommunityModel?, private val postToEdit: DiscussionIdModel?) {
@@ -38,10 +40,10 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         community: CommunityModel?,
         postToEdit: DiscussionIdModel?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-        postEntityToModelMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>,
+        postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
         voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-        commentFeeEntityToModelMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
+        commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
         dispatchersProvider: DispatchersProvider,
         model: EditorPageModel
     ): ViewModel {
@@ -74,10 +76,10 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
     private fun getPostWithCommentsUseCase(
         postId: DiscussionIdModel?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-        postEntityToModelMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>,
+        postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
         voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-        commentFeeEntityToModelMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
+        commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
         dispatchersProvider: DispatchersProvider
     ) : PostWithCommentUseCaseImpl =
         PostWithCommentUseCaseImpl(

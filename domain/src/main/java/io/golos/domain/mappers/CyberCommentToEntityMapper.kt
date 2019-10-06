@@ -4,10 +4,11 @@ import io.golos.commun4j.model.CyberDiscussion
 import io.golos.domain.entities.*
 import javax.inject.Inject
 
-class CyberCommentToEntityMapper
+interface CyberCommentToEntityMapper : CommunToEntityMapper<CyberDiscussion, CommentEntity>
+
+class CyberCommentToEntityMapperImpl
 @Inject
-constructor() :
-    CommunToEntityMapper<CyberDiscussion, CommentEntity> {
+constructor() : CyberCommentToEntityMapper {
 
     override suspend fun map(communObject: CyberDiscussion): CommentEntity {
         return CommentEntity(

@@ -15,6 +15,7 @@ import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.requestmodel.*
 import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.UserMetadataToEntityMapper
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +32,6 @@ constructor(
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    private val toEntityMapper: CommunToEntityMapper<GetProfileResult, UserMetadataEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserMetadataCollectionEntity, UserMetadataRequest> {
 
@@ -101,7 +101,7 @@ constructor(
                     is UserMetadataFetchRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
                             metadataApi.getUserMetadata(params.user)
-                                .run { toEntityMapper.map(this) }
+                                .run { UserMetadataToEntityMapper.map(this) }
                         }
                         savedMetadata.value =
                             UserMetadataCollectionEntity(savedMetadata.value?.map.orEmpty() + (params.user to updatedMeta))
@@ -117,7 +117,7 @@ constructor(
                             if (params.shouldWaitForTransaction) {
                                 transactionsApi.waitForTransaction(transactionResult.transaction_id)
                                 metadataApi.getUserMetadata(params.user)
-                                    .run { toEntityMapper.map(this) }
+                                    .run { UserMetadataToEntityMapper.map(this) }
                             } else {
                                 //if we should not wait for transaction to complete, then we need to provide
                                 //to user some response for his request. So we try to obtain previously saved

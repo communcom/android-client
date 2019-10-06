@@ -1,12 +1,8 @@
 package io.golos.domain.mappers
 
 import io.golos.domain.entities.LinkEmbedResult
-import javax.inject.Inject
 
-class IfremlyEmbedMapper
-@Inject
-constructor() :
-    CommunToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult> {
+object IfremlyEmbedMapper {
     private val typeHtmlText = "text/html"
     private val typeImage = "image"
     private val xIcon = "image/x-icon"
@@ -16,8 +12,7 @@ constructor() :
     private val svgImage = "image/x-icon"
     private val image = "image"
 
-
-    override suspend fun map(communObject: IFramelyEmbedResultRelatedData): LinkEmbedResult {
+    fun map(communObject: IFramelyEmbedResultRelatedData): LinkEmbedResult {
         val url = communObject.originalRequestUrl
         val embedData = communObject.iframelyResult
 

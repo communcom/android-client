@@ -7,12 +7,15 @@ import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionsFeed
 import javax.inject.Inject
 
-class CommentsFeedEntityToModelMapper
-@Inject
-constructor(private val commentsMapper: EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel>) :
-    EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>> {
+interface CommentsFeedEntityToModelMapper : EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>
 
-    override suspend fun invoke(entity: FeedRelatedEntities<CommentEntity>): DiscussionsFeed<CommentModel> {
+class CommentsFeedEntityToModelMapperImpl
+@Inject
+constructor(
+    private val commentsMapper: CommentEntityToModelMapper
+) : CommentsFeedEntityToModelMapper {
+
+    override suspend fun map(entity: FeedRelatedEntities<CommentEntity>): DiscussionsFeed<CommentModel> {
         val comments = entity.feed.discussions
         val votes = entity.votes.values.associateBy { it.originalQuery.discussionIdEntity }
 
@@ -21,6 +24,6 @@ constructor(private val commentsMapper: EntityToModelMapper<DiscussionRelatedEnt
                 DiscussionRelatedEntities(commentEntity, votes[commentEntity.contentId])
 
             }
-            .map { postRelatedEntities -> commentsMapper(postRelatedEntities) })
+            .map { postRelatedEntities -> commentsMapper.map(postRelatedEntities) })
     }
 }

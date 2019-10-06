@@ -4,10 +4,11 @@ import io.golos.commun4j.model.CyberDiscussion
 import io.golos.domain.entities.*
 import javax.inject.Inject
 
-class CyberPostToEntityMapper
+interface CyberPostToEntityMapper : CommunToEntityMapper<CyberDiscussion, PostEntity>
+
+class CyberPostToEntityMapperImpl
 @Inject
-constructor() :
-    CommunToEntityMapper<CyberDiscussion, PostEntity> {
+constructor() : CyberPostToEntityMapper {
 
     @Suppress("CAST_NEVER_SUCCEEDS")
     override suspend fun map(communObject: CyberDiscussion): PostEntity {

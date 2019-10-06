@@ -2,18 +2,11 @@ package io.golos.domain.mappers
 
 import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.entities.UserMetadataEntity
-import io.golos.domain.entities.UserPersonalDataEntity
-
 import io.golos.domain.entities.*
-import io.golos.domain.mappers.CommunToEntityMapper
-import javax.inject.Inject
 
 // todo[AS] temporary stub to compile!!!
-class UserMetadataToEntityMapper
-@Inject
-constructor() : CommunToEntityMapper<GetProfileResult, UserMetadataEntity> {
-    override suspend fun map(communObject: GetProfileResult): UserMetadataEntity {
+object UserMetadataToEntityMapper {
+    fun map(communObject: GetProfileResult): UserMetadataEntity {
         return UserMetadataEntity(
             UserPersonalDataEntity(
                 "",

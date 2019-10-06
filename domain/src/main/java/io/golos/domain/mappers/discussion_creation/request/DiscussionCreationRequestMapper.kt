@@ -5,15 +5,10 @@ import io.golos.commun4j.model.EmbedmentsUrl
 import io.golos.commun4j.model.Tag
 import io.golos.commun4j.utils.toCyberName
 import io.golos.domain.Regexps
-import io.golos.domain.mappers.EntityToCommunMapper
 import io.golos.domain.requestmodel.*
-import javax.inject.Inject
 
-class DiscussionCreationRequestMapper
-@Inject
-constructor() : EntityToCommunMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest> {
-
-    override suspend fun map(entity: DiscussionCreationRequestEntity): DiscussionCreateRequest {
+object DiscussionCreationRequestMapper {
+    fun map(entity: DiscussionCreationRequestEntity): DiscussionCreateRequest {
         val tags = HashSet<String>()
         val links = HashSet<String>()
 
