@@ -2,7 +2,9 @@ package io.golos.data.api
 
 import androidx.annotation.WorkerThread
 import io.golos.commun4j.model.CyberDiscussion
+import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.commun4j.model.DiscussionsResult
+import io.golos.commun4j.model.GetDiscussionsResultRaw
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
@@ -19,13 +21,13 @@ interface PostsApiService {
         timeFrame: FeedTimeFrame,
         sequenceKey: String? = null,
         tags: List<String>? = null
-    ): DiscussionsResult
+    ): GetDiscussionsResultRaw
 
     @WorkerThread
     fun getPost(
         user: CyberName,
         permlink: String
-    ): CyberDiscussion
+    ): CyberDiscussionRaw
 
     @WorkerThread
     fun getUserSubscriptions(
@@ -33,7 +35,7 @@ interface PostsApiService {
         limit: Int,
         sort: FeedSort,
         sequenceKey: String? = null
-    ): DiscussionsResult
+    ): GetDiscussionsResultRaw
 
     @WorkerThread
     fun getUserPost(
@@ -41,7 +43,7 @@ interface PostsApiService {
         limit: Int,
         sort: FeedSort,
         sequenceKey: String? = null
-    ): DiscussionsResult
+    ): GetDiscussionsResultRaw
 }
 
 interface CommentsApiService {
@@ -52,11 +54,11 @@ interface CommentsApiService {
         limit: Int,
         sort: FeedSort,
         sequenceKey: String? = null
-    ): DiscussionsResult
+    ): GetDiscussionsResultRaw
 
     @WorkerThread
     fun getComment(
         user: CyberName,
         permlink: String
-    ): CyberDiscussion
+    ): CyberDiscussionRaw
 }

@@ -1,17 +1,21 @@
 package io.golos.domain.mappers
 
-import io.golos.commun4j.model.CyberDiscussion
+import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.domain.Logger
 import io.golos.domain.entities.*
+import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import javax.inject.Inject
 
-interface CyberPostToEntityMapper : CommunToEntityMapper<CyberDiscussion, PostEntity>
+interface CyberPostToEntityMapper : CommunToEntityMapper<CyberDiscussionRaw, PostEntity>
 
 class CyberPostToEntityMapperImpl
 @Inject
-constructor() : CyberPostToEntityMapper {
+constructor(logger: Logger) : CyberPostToEntityMapper {
+
+    private val jsonMapper = JsonToDtoMapper(logger)
 
     @Suppress("CAST_NEVER_SUCCEEDS")
-    override suspend fun map(communObject: CyberDiscussion): PostEntity {
+    override suspend fun map(communObject: CyberDiscussionRaw): PostEntity {
         return PostEntity(
             DiscussionIdEntity(
                 communObject.contentId.userId,
@@ -28,10 +32,7 @@ constructor() : CyberPostToEntityMapper {
                 communObject.community.avatarUrl
             ),
             PostContent(
-                communObject.content.attributes.title,
-                ContentBody(
-                    "{ \"id\": 1, \"type\": \"post\", \"attributes\": { \"version\": \"1.0\", \"title\": \"Сказка про царя\", \"type\": \"basic\" }, \"content\": [ { \"id\": 2, \"type\": \"paragraph\", \"content\": [ { \"id\": 3, \"type\": \"text\", \"content\": \"Много лет тому назад, \" }, { \"id\": 4, \"type\": \"mention\", \"content\": \"Царь\" }, { \"id\": 5, \"type\": \"text\", \"content\": \" купил себе айпад. \" }, { \"id\": 6, \"type\": \"tag\", \"content\": \"с_той_поры_прошли_века\" }, { \"id\": 7, \"type\": \"link\", \"content\": \" , Люди \", \"attributes\": { \"url\": \"https://www.youtube.com/watch?v=UiYlRkVxC_4\" } }, { \"id\": 8, \"type\": \"link\", \"content\": \"помнят \", \"attributes\": { \"url\": \"https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg\" } }, { \"id\": 9, \"type\": \"link\", \"content\": \"чудака.\", \"attributes\": { \"url\": \"https://diletant.media\" } } ] }, { \"id\": 10, \"type\": \"image\", \"content\": \"https://assets.pixyblog.com/wp-content/uploads/sites/3/2018/10/JULIE-LONDON-51-copy-515x600.jpg\", \"attributes\": { \"description\": \"Hi!\" } } ] }"
-                ),
+                ContentBody(jsonMapper.map(communObject.content)),
                 listOf()
             ),
             DiscussionVotes(

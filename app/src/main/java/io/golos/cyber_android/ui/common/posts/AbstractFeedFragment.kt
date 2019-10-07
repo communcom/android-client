@@ -26,7 +26,6 @@ import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.posts_parsing_rendering.metadata
 import javax.inject.Inject
 
 const val POST_MENU_REQUEST = 301
@@ -120,7 +119,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     }
 
     fun showDiscussionMenu(postModel: PostModel) {
-        val metadata = postModel.metadata
+        val metadata = postModel.content.body.postBlock.metadata
 
         PostPageMenuDialog.newInstance(
             postModel.isActiveUserDiscussion,

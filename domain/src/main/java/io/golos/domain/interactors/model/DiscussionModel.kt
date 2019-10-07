@@ -2,6 +2,7 @@ package io.golos.domain.interactors.model
 
 import android.os.Parcelable
 import io.golos.domain.Model
+import io.golos.domain.post.post_dto.PostBlock
 import kotlinx.android.parcel.Parcelize
 import java.math.BigInteger
 import java.util.*
@@ -56,7 +57,6 @@ data class DiscussionIdModel(
 data class DiscussionCommentsCountModel(val count: Long) : Model
 
 data class PostContentModel(
-    val title: String,
     val body: ContentBodyModel,
     val tags: List<TagModel>
 ) : Model
@@ -76,7 +76,7 @@ data class EmbedModel(
 ) : Model
 
 data class ContentBodyModel(
-    val rawData: String
+    val postBlock: PostBlock
 ) : Model
 
 

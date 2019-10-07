@@ -43,9 +43,8 @@ constructor(
                     post.community.avatarUrl
                 ),
                 PostContentModel(
-                    post.content.title,
                     ContentBodyModel(
-                        post.content.body.rawData
+                        post.content.body.postBlock
                     ),
                     post.content.tags.map { it.toModel() }
                 ),

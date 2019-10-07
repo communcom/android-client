@@ -38,7 +38,7 @@ constructor(
                 ),
                 CommentContentModel(
                     ContentBodyModel(
-                        comment.content.body.rawData
+                        comment.content.body.postBlock
                     ),
                     if (comment.parentCommentId != null) 1 else 0
                 ),

@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.commun4j.model.CyberDiscussion
-import io.golos.commun4j.model.DiscussionsResult
+import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.commun4j.model.GetDiscussionsResultRaw
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
@@ -16,7 +16,10 @@ import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.*
+import io.golos.domain.rules.EmptyEntityProducer
+import io.golos.domain.rules.EntityMerger
+import io.golos.domain.rules.FeedUpdateRequestsWithResult
+import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -27,7 +30,7 @@ import kotlin.collections.HashMap
 
 abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdateRequest>(
     private val feedMapper: CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
-    private val discussionMapper: CommunToEntityMapper<CyberDiscussion, D>,
+    private val discussionMapper: CommunToEntityMapper<CyberDiscussionRaw, D>,
     private val discussionMerger: EntityMerger<D>,
     private val discussionsFeedMerger: EntityMerger<FeedRelatedData<D>>,
     private val requestApprover: RequestApprover<Q>,
@@ -223,7 +226,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
     private suspend fun <T> getOnBackground(
         block: suspend CoroutineScope.() -> T
-    ) = kotlinx.coroutines.withContext(dispatchersProvider.calculationsDispatcher, block)
+    ) = withContext(dispatchersProvider.calculationsDispatcher, block)
 
     private fun launch(
         exceptionCallback: (Exception) -> Unit = {},
@@ -238,9 +241,9 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         }
     }
 
-    protected abstract suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion
+    protected abstract suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw
 
-    protected abstract suspend fun getFeedOnBackground(updateRequest: Q): DiscussionsResult
+    protected abstract suspend fun getFeedOnBackground(updateRequest: Q): GetDiscussionsResultRaw
 
 
     private suspend fun <F, T : Entity> CommunToEntityMapper<F, T>.convertOnBackground(cyberItem: F) =

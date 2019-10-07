@@ -17,7 +17,7 @@ constructor(val postMapper: CyberPostToEntityMapper) : CyberFeedToEntityMapper {
             communObject.discussionsResult.items
                 .map { postMapper.map(it) },
             communObject.feedRequest.pageKey,
-            communObject.discussionsResult.sequenceKey ?: feedEndMark
+            "" //communObject.discussionsResult.sequenceKey ?: feedEndMark  - for DiscussionResult. For now - no idea
         )
     }
 

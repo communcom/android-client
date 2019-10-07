@@ -18,6 +18,7 @@ import io.golos.cyber_android.views.utils.colorizeUsernames
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.ContentBodyModel
+import io.golos.domain.post.post_dto.PostBlock
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlin.math.pow
 
@@ -100,7 +101,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                     commentModel.meta.elapsedFormCreation.elapsedDays,
                     context
                 )
-                commentContent.text = commentModel.content.body.toCommentContent()
+                commentContent.text = "" //commentModel.content.body.toCommentContent() [AS] temporary commenter
                 commentContent.colorizeLinks()
                 commentContent.colorizeUsernames()
                 (commentContent.movementMethod as CustomLinkMovementMethod).imageLinks = listOf()
@@ -185,5 +186,5 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         fun onUsernameClick(userId: String)
     }
 
-    private fun ContentBodyModel.toCommentContent(): CharSequence  = this.rawData
+    private fun ContentBodyModel.toCommentContent(): PostBlock  = this.postBlock
 }

@@ -55,7 +55,7 @@ constructor(private val commun4j: Commun4j) :
     }
 
     override fun resolveCanonicalCyberName(name: String): ResolvedProfile {
-        return commun4j.resolveCanonicalCyberName(name, AppName.COMMUN).getOrThrow()
+        return commun4j.resolveCanonicalCyberName(name).getOrThrow()
     }
 
     override fun getCommunityPosts(
@@ -65,14 +65,13 @@ constructor(private val commun4j: Commun4j) :
         timeFrame: FeedTimeFrame,
         sequenceKey: String?,
         tags: List<String>?
-    ): DiscussionsResult {
+    ): GetDiscussionsResultRaw {
         // note[AS] it'll be "getPosts" method in a future. So far we use a stub
-        return DiscussionsResult(listOf(), "")
-        //return commun4j.getCommunityPosts(communityId, ContentParsingType.MOBILE, timeFrame, limit, sort, tags, sequenceKey).getOrThrow()
+        return GetDiscussionsResultRaw(listOf())
     }
 
-    override fun getPost(user: CyberName, permlink: String): CyberDiscussion {
-        return commun4j.getPost(user, "", permlink).getOrThrow()
+    override fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw {
+        return commun4j.getPostRaw(user, "", permlink).getOrThrow()
     }
 
     override fun getUserSubscriptions(
@@ -80,9 +79,9 @@ constructor(private val commun4j: Commun4j) :
         limit: Int,
         sort: FeedSort,
         sequenceKey: String?
-    ): DiscussionsResult {
+    ): GetDiscussionsResultRaw {
         // note[AS] no method so far. So we use a stub
-        return DiscussionsResult(listOf(), "")
+        return GetDiscussionsResultRaw(listOf())
 //        return commun4j.getUserSubscriptions(CyberName(userId), null, ContentParsingType.MOBILE, limit, sort, sequenceKey)
 //            .getOrThrow()
     }
@@ -92,10 +91,9 @@ constructor(private val commun4j: Commun4j) :
         limit: Int,
         sort: FeedSort,
         sequenceKey: String?
-    ): DiscussionsResult {
+    ): GetDiscussionsResultRaw {
         // note[AS] it'll be "getPosts" method in a future. So far we use a stub
-        return DiscussionsResult(listOf(), "")
-
+        return GetDiscussionsResultRaw(listOf())
         //return commun4j.getUserPosts(CyberName(userId), null, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
@@ -105,9 +103,9 @@ constructor(private val commun4j: Commun4j) :
         limit: Int,
         sort: FeedSort,
         sequenceKey: String?
-    ): DiscussionsResult {
+    ): GetDiscussionsResultRaw {
         // note[AS] it'll be "getComments" method in a future. So far we use a stub
-        return DiscussionsResult(listOf(), "")
+        return GetDiscussionsResultRaw(listOf())
 //        return commun4j.getCommentsOfPost(
 //            user,
 //            null,
@@ -119,14 +117,10 @@ constructor(private val commun4j: Commun4j) :
 //        ).getOrThrow()
     }
 
-    override fun getComment(user: CyberName, permlink: String): CyberDiscussion {
+    override fun getComment(user: CyberName, permlink: String): CyberDiscussionRaw {
         // note[AS] it'll be "getComment" method in a future. So far we use a stub
-        return CyberDiscussion(
-            CyberDiscussionContent(
-                CyberAttributes("", 0.0, ""),
-                0L,
-                "",
-                listOf()),
+        return CyberDiscussionRaw(
+            "",
             DiscussionVotes(0L, 0L),
             DiscussionMetadata(Date()),
             DiscussionId("", ""),
@@ -188,6 +182,7 @@ constructor(private val commun4j: Commun4j) :
             "",
             listOf(),
             "",
+            0,
             0
         )
 
@@ -240,6 +235,7 @@ constructor(private val commun4j: Commun4j) :
             "",
             listOf(),
             "",
+            0,
             0
         )
 

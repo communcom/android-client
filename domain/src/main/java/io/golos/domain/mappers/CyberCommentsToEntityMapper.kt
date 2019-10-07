@@ -17,7 +17,7 @@ constructor(val postMapper: CyberCommentToEntityMapper) : CyberCommentsToEntityM
             communObject.discussionsResult.items
                 .map { postMapper.map(it) },
             communObject.feedRequest.pageKey,
-            communObject.discussionsResult.sequenceKey ?: feedEndMark
+            ""  // [AS] communObject.discussionsResult.sequenceKey ?: feedEndMark - for DiscussionResult. For now - no idea
         )
     }
 

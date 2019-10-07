@@ -14,10 +14,7 @@ constructor() : EntityMerger<PostEntity> {
         return PostEntity(
             new.contentId, new.author, new.community,
             PostContent(
-                new.content.title,
-                ContentBody(
-                    if (new.content.body.rawData.isNotEmpty()) new.content.body.rawData else old.content.body.rawData
-                ),
+                new.content.body,
                 new.content.tags
             ),
             new.votes, new.comments, new.payout, new.meta, new.stats
@@ -73,9 +70,7 @@ constructor() : EntityMerger<CommentEntity> {
         return CommentEntity(
             new.contentId, new.author,
             CommentContent(
-                ContentBody(
-                    if (new.content.body.rawData.isNotEmpty()) new.content.body.rawData else old.content.body.rawData
-                )
+                new.content.body
             ),
             new.votes, new.payout,
             new.parentCommentId, new.meta, new.stats

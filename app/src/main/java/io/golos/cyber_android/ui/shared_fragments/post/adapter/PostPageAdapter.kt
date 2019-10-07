@@ -125,7 +125,7 @@ class PostPageAdapter(
 
             CONTENT_TEXT_TYPE -> {
                 holder as PostTextViewHolder
-                postModel?.let { holder.bind(it.content.body.rawData, recyclerView) }
+                postModel?.let { holder.bind(it.content.body.postBlock, recyclerView) }
             }
             CONTENT_EMBED_TYPE -> {     // do nothing
             }
@@ -146,7 +146,7 @@ class PostPageAdapter(
     override fun getItemViewType(position: Int): Int {
         if (postModel != null) {
             if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
-                if (postModel!!.content.body.rawData.isNotEmpty())
+                if (postModel!!.content.body.postBlock.content.isNotEmpty())
                     return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
                         is TextRowModel -> CONTENT_TEXT_TYPE
                         is ImageRowModel -> CONTENT_IMAGE_TYPE
