@@ -116,8 +116,11 @@ constructor(
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (e: Throwable) {
                             logger.log(e)
-                            val userName = authApi.resolveCanonicalCyberName(newParams.user.userId)
-                            authApi.getUserAccount(userName.userId)
+                            // Shit! newParams.user.userId is user's name (login) but not user's id.
+                            // So we must get user's id from a server
+                            val userId = authApi.resolveCanonicalCyberName(newParams.user.userId)
+                            newParams = AuthRequest(userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
+                            authApi.getUserAccount(userId.userId)
                         }
 
                     }
@@ -227,14 +230,14 @@ constructor(
                 AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ", AuthType.SIGN_UP)
             }
 
-    private suspend fun auth(name: String, key: String, authType: AuthType): AuthResult? {
-        logger.log(LogTags.LOGIN, "Start auth. User: $name, authType: $authType")
+    private suspend fun auth(userId: String, key: String, authType: AuthType): AuthResult? {
+        logger.log(LogTags.LOGIN, "Start auth. User: $userId, authType: $authType")
 
         return withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val secret = authApi.getAuthSecret()
                 authApi.authWithSecret(
-                    name,
+                    userId,
                     secret.secret,
                     StringSigner.signString(secret.secret, key)
                 )
@@ -261,8 +264,9 @@ constructor(
 
         val loadingQuery = withContext(dispatchersProvider.calculationsDispatcher) {
             authRequestsLiveData.value?.entries?.find {
-                val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
-                loadingUser != null && (loadingUser == originalName.userId)
+                true            // first and only record
+//                val loadingUser = (it.value as? QueryResult.Loading)?.originalQuery?.user?.userId
+//                loadingUser != null && (loadingUser == originalName.userId)
             }
         }
 
