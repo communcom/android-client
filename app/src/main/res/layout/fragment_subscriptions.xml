@@ -18,6 +18,7 @@
         <include layout="@layout/item_toolbar" />
 
         <include
+            android:id="@+id/layoutSearchBar"
             layout="@layout/view_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,6 +40,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchBar"
             tools:listitem="@layout/item_subscription" />
+
+
+        <include
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.communitiesSubscriptionsLoadingProgressVisibilityLiveData}"
+            app:layout_constraintBottom_toBottomOf="@+id/rvSubscriptions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rvSubscriptions" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clNoSubscriptionsPlaceHolder"
@@ -85,18 +97,19 @@
 
             <Button
                 android:id="@+id/btnFindCommunities"
+                style="@style/FindCommunityButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/subscriptions_btn_find_communities_height"
-                android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
-                android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
-                android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
                 android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+                android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+                android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
                 android:text="@string/find_communities"
+                android:onClick="@{() -> viewModel.onFindCommunitiesClicked()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvEmptySubscriptionsDescription"
-                style="@style/FindCommunityButton"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvEmptySubscriptionsDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -129,10 +142,21 @@
             layout="@layout/item_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="@{viewModel.recommendedCommunitiesLoadingProgressVisibilityLiveData}"
+            app:layout_constraintBottom_toBottomOf="@+id/rvCommunitiesRecommended"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionBar"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rvCommunitiesRecommended" />
+
+        <include
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.generalLoadingProgressVisibilityLiveData}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
