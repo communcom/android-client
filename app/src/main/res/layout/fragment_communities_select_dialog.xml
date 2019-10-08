@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_community_dialog_height"
 
-            android:layout_marginTop="@dimen/select_community_dialog_search_margin_bottom"
+            android:layout_marginTop="@dimen/select_community_dialog_search_margin"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_community_dialog_height"
 
-            android:layout_marginTop="@dimen/select_community_dialog_search_margin_bottom"
+            android:layout_marginTop="@dimen/select_community_dialog_search_margin"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

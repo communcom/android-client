@@ -342,7 +342,7 @@
 
     <style name="CommunityJoinButtonText" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_14_sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/tint_community_join_button_text</item>
         <item name="android:background">@drawable/bg_community_join_button</item>
         <item name="android:textStyle">bold</item>

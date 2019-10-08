@@ -1,12 +1,9 @@
-package io.golos.data.api
+package io.golos.data.api.settings
 
 import io.golos.commun4j.services.model.MobileShowSettings
 import io.golos.commun4j.services.model.ResultOk
 import io.golos.commun4j.services.model.UserSettings
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-04-26.
- */
 interface SettingsApi {
     fun setBasicSettings(deviceId: String, basic: Map<String, String>): ResultOk
 

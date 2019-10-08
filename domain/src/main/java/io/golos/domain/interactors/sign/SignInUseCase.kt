@@ -49,8 +49,7 @@ constructor(
         mediator.observeForever(observer)
         mediator.addSource(authRepo.getAsLiveData(authRepo.allDataRequest)) {
 
-            authState.value =
-                UserAuthState(it.isUserLoggedIn, it.user)
+            authState.value = UserAuthState(it.isUserLoggedIn, it.user)
 
             updateLogInState()
 

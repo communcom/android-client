@@ -1,13 +1,10 @@
-package io.golos.data.api
+package io.golos.data.api.events
 
 import io.golos.commun4j.services.model.EventType
 import io.golos.commun4j.services.model.EventsData
 import io.golos.commun4j.services.model.FreshResult
 import io.golos.commun4j.services.model.ResultOk
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-04-24.
- */
 interface EventsApi {
     fun getEvents(
         userProfile: String,

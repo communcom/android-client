@@ -2,23 +2,16 @@ package io.golos.data.repositories.discussion_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
-import io.golos.data.api.DiscussionsCreationApi
-import io.golos.data.api.TransactionsApi
+import io.golos.data.api.discussions.DiscussionsApi
+import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.DeleteDiscussionResultEntity
 import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
-import io.golos.domain.mappers.CommunToEntityMapper
-import io.golos.domain.mappers.EntityToCommunMapper
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +24,7 @@ import kotlin.collections.HashMap
 class DiscussionCreationRepositoryLiveData
 @Inject
 constructor(
-    discussionsCreationApi: DiscussionsCreationApi,
+    discussionsCreationApi: DiscussionsApi,
     transactionsApi: TransactionsApi,
     dispatchersProvider: DispatchersProvider,
     private val logger: Logger,

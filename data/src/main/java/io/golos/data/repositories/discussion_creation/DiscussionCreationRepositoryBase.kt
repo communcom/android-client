@@ -3,8 +3,8 @@ package io.golos.data.repositories.discussion_creation
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
-import io.golos.data.api.DiscussionsCreationApi
-import io.golos.data.api.TransactionsApi
+import io.golos.data.api.discussions.DiscussionsApi
+import io.golos.data.api.transactions.TransactionsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.mappers.discussion_creation.request.DiscussionCreationRequestMapper
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 
 abstract class DiscussionCreationRepositoryBase(
     private val dispatchersProvider: DispatchersProvider,
-    private val discussionsCreationApi: DiscussionsCreationApi,
+    private val discussionsCreationApi: DiscussionsApi,
     private val transactionsApi: TransactionsApi
 ) {
     protected suspend fun createOrUpdateDiscussion(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =

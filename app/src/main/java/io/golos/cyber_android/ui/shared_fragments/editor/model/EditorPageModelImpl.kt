@@ -10,7 +10,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.data.api.EmbedApi
+import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.repositories.discussion_creation.DiscussionCreationRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository

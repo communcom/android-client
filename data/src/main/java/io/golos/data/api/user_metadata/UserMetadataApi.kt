@@ -1,4 +1,4 @@
-package io.golos.data.api
+package io.golos.data.api.user_metadata
 
 import io.golos.commun4j.abi.implementation.comn.social.PinComnSocialStruct
 import io.golos.commun4j.abi.implementation.comn.social.UpdatemetaComnSocialStruct
@@ -7,9 +7,6 @@ import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.Pair as CommunPair
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
- */
 interface UserMetadataApi {
     fun setUserMetadata(
         about: String? = null,

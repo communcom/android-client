@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.data.api.TransactionsApi
-import io.golos.data.api.VoteApi
+import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.api.vote.VoteApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider

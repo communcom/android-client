@@ -1,19 +1,40 @@
-package io.golos.data.api
+package io.golos.data.api.discussions
 
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.commun4j.model.Beneficiary
-import io.golos.commun4j.model.DiscussionCreateMetadata
-import io.golos.commun4j.model.Tag
+import io.golos.commun4j.model.*
+import io.golos.commun4j.services.model.FeedSort
+import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.Pair as CommunPair
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-04-02.
- */
-interface DiscussionsCreationApi {
+interface DiscussionsApi {
+    fun getCommunityPosts(
+        communityId: String,
+        limit: Int,
+        sort: FeedSort,
+        timeFrame: FeedTimeFrame,
+        sequenceKey: String? = null,
+        tags: List<String>? = null
+    ): GetDiscussionsResultRaw
+
+    fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw
+
+    fun getUserSubscriptions(userId: String, limit: Int, sort: FeedSort, sequenceKey: String? = null): GetDiscussionsResultRaw
+
+    fun getUserPost(userId: String, limit: Int, sort: FeedSort, sequenceKey: String? = null): GetDiscussionsResultRaw
+
+    fun getCommentsOfPost(
+        user: CyberName,
+        permlink: String,
+        limit: Int,
+        sort: FeedSort,
+        sequenceKey: String? = null
+    ): GetDiscussionsResultRaw
+
+    fun getComment(user: CyberName, permlink: String): CyberDiscussionRaw
 
     fun createComment(
         body: String,
@@ -43,6 +64,6 @@ interface DiscussionsCreationApi {
                    newJsonMetadata: DiscussionCreateMetadata
     ): CommunPair<TransactionCommitted<UpdatemssgComnGalleryStruct>, UpdatemssgComnGalleryStruct>
 
-    fun deletePostOrComment(postOrCommentPermlink: String):
-            CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+    fun deletePostOrComment(postOrCommentPermlink: String): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+
 }

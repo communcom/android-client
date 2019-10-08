@@ -2,7 +2,7 @@ package io.golos.data.repositories.images_uploading
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.data.api.ImageUploadApi
+import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger

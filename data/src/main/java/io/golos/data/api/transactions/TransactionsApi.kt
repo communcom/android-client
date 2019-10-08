@@ -1,4 +1,4 @@
-package io.golos.data.api
+package io.golos.data.api.transactions
 
 import io.golos.commun4j.services.model.ResultOk
 

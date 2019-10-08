@@ -1,13 +1,11 @@
 package io.golos.data.repositories
 
 import io.golos.commun4j.model.CyberDiscussionRaw
-import io.golos.commun4j.model.DiscussionsResult
 import io.golos.commun4j.model.GetDiscussionsResultRaw
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.data.api.CommentsApiService
-import io.golos.data.api.PostsApiService
+import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
@@ -30,7 +28,7 @@ import javax.inject.Inject
 class PostsFeedRepository
 @Inject
 constructor(
-    private val apiService: PostsApiService,
+    private val apiService: DiscussionsApi,
     feedMapper: CyberFeedToEntityMapper,
     postMapper: CyberPostToEntityMapper,
     postMerger: EntityMerger<PostEntity>,
@@ -91,7 +89,7 @@ constructor(
 class CommentsFeedRepository
 @Inject
 constructor(
-    private val apiService: CommentsApiService,
+    private val apiService: DiscussionsApi,
     feedMapper: CyberCommentsToEntityMapper,
     postMapper: CyberCommentToEntityMapper,
     postMerger: EntityMerger<CommentEntity>,

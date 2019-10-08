@@ -38,9 +38,36 @@ import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.ImageCompressorImpl
 import io.golos.data.api.*
+import io.golos.data.api.auth.AuthApi
+import io.golos.data.api.auth.AuthApiImpl
+import io.golos.data.api.communities.CommunitiesApi
+import io.golos.data.api.communities.CommunitiesApiImpl
+import io.golos.data.api.discussions.DiscussionsApi
+import io.golos.data.api.discussions.DiscussionsApiImpl
+import io.golos.data.api.embed.EmbedApi
+import io.golos.data.api.embed.EmbedApiImpl
+import io.golos.data.api.events.EventsApi
+import io.golos.data.api.events.EventsApiImpl
+import io.golos.data.api.image_upload.ImageUploadApi
+import io.golos.data.api.image_upload.ImageUploadApiImpl
+import io.golos.data.api.push_notifications.PushNotificationsApi
+import io.golos.data.api.push_notifications.PushNotificationsApiImpl
+import io.golos.data.api.registration.RegistrationApi
+import io.golos.data.api.registration.RegistrationApiImpl
+import io.golos.data.api.settings.SettingsApi
+import io.golos.data.api.settings.SettingsApiImpl
+import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.api.transactions.TransactionsApiImpl
+import io.golos.data.api.user_metadata.UserMetadataApi
+import io.golos.data.api.user_metadata.UserMetadataApiImpl
+import io.golos.data.api.vote.VoteApi
+import io.golos.data.api.vote.VoteApiImpl
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
+import io.golos.data.repositories.current_user_repository.CurrentUserRepository
+import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
+import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.data.repositories.discussion_creation.DiscussionCreationRepository
 import io.golos.data.repositories.discussion_creation.DiscussionCreationRepositoryImpl
 import io.golos.data.repositories.discussion_creation.DiscussionCreationRepositoryLiveData
@@ -151,58 +178,42 @@ abstract class AppModuleBinds {
     abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapperImpl): SettingsToEntityMapper
     // endregion
 
-    // region Cyber4jApiService
+    // region Api
     @Binds
-    @ApplicationScope
-    abstract fun providePostsApiService(service: Commun4jApiService): PostsApiService
+    abstract fun provideAuthApi(service: AuthApiImpl): AuthApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideAuthApi(service: Commun4jApiService): AuthApi
+    abstract fun provideCommunitiesApi(api: CommunitiesApiImpl): CommunitiesApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideVoteApi(service: Commun4jApiService): VoteApi
+    abstract fun provideDiscussionsApi(api: DiscussionsApiImpl): DiscussionsApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideCommentsApiService(service: Commun4jApiService): CommentsApiService
+    abstract fun provideEmbedApi(api: EmbedApiImpl): EmbedApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideEmbedApi(service: Commun4jApiService): EmbedApi
+    abstract fun provideEventsApi(api: EventsApiImpl): EventsApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideDiscussionsCreationApi(service: Commun4jApiService): DiscussionsCreationApi
+    abstract fun provideImageUploadApi(api: ImageUploadApiImpl): ImageUploadApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideRegistrationApi(service: Commun4jApiService): RegistrationApi
+    abstract fun providePushNotificationsApi(api: PushNotificationsApiImpl): PushNotificationsApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideSettingsApi(service: Commun4jApiService): SettingsApi
+    abstract fun provideRegistrationApi(api: RegistrationApiImpl): RegistrationApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideImageUploadApi(service: Commun4jApiService): ImageUploadApi
+    abstract fun provideSettingsApi(api: SettingsApiImpl): SettingsApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideEventsApi(service: Commun4jApiService): EventsApi
+    abstract fun provideTransactionsApi(api: TransactionsApiImpl): TransactionsApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideUserMetadataApi(service: Commun4jApiService): UserMetadataApi
+    abstract fun provideVoteApi(api: VoteApiImpl): VoteApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideTransactionsApi(service: Commun4jApiService): TransactionsApi
-
-    @Binds
-    @ApplicationScope
-    abstract fun providePushNotificationsApi(service: Commun4jApiService): PushNotificationsApi
+    abstract fun provideUserMetadataApi(api: UserMetadataApiImpl): UserMetadataApi
     // endregion
 
     // region Transformers
@@ -339,4 +350,12 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideUIMonitor(monitor: UIMonitorImpl): UIMonitor
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideCurrentUserRepository(repository: CurrentUserRepositoryImpl): CurrentUserRepository
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideCurrentUserRepositoryRead(repository: CurrentUserRepositoryImpl): CurrentUserRepositoryRead
 }

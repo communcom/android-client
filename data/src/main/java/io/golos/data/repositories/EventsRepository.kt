@@ -3,7 +3,7 @@ package io.golos.data.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.EventType
-import io.golos.data.api.EventsApi
+import io.golos.data.api.events.EventsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.Repository
@@ -13,7 +13,6 @@ import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.mappers.EventsToEntityMapper
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover

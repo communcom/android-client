@@ -196,16 +196,6 @@
     <dimen name="height_editor_image_preview">200dp</dimen>
     <dimen name="min_height_editor">50dp</dimen>
 
-    <!-- Select community dialog -->
-    <dimen name="select_community_dialog_height">200dp</dimen>
-    <dimen name="select_community_dialog_padding_small">10dp</dimen>
-    <dimen name="select_community_dialog_padding_large">15dp</dimen>
-    <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>
-    <dimen name="select_community_dialog_padding">12dp</dimen>
-    <dimen name="select_community_dialog_drawable_padding">8dp</dimen>
-    <dimen name="select_community_dialog_search_margin_bottom">15dp</dimen>
-    <dimen name="select_community_dialog_list_header_height">7dp</dimen>
-
     <!--Comment Widget-->
     <dimen name="padding_comment_widget_gallery_button">6dp</dimen>
     <dimen name="padding_comment_widget_send_button">8dp</dimen>
@@ -287,5 +277,17 @@
     <!--Community page-->
     <dimen name="height_community_list_item">60dp</dimen>
     <dimen name="size_icon_community">40dp</dimen>
-    <dimen name="height_community_join_button">30dp</dimen>
+    <dimen name="community_join_button_height">35dp</dimen>
+    <dimen name="community_join_button_width">60dp</dimen>
+
+    <!-- Select community dialog -->
+    <dimen name="select_community_dialog_height">200dp</dimen>
+    <dimen name="select_community_dialog_padding_small">10dp</dimen>
+    <dimen name="select_community_dialog_padding_large">15dp</dimen>
+    <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>
+    <dimen name="select_community_dialog_padding">12dp</dimen>
+    <dimen name="select_community_dialog_drawable_padding">8dp</dimen>
+    <dimen name="select_community_dialog_search_margin">15dp</dimen>
+    <dimen name="select_community_dialog_search_margin_small">10dp</dimen>
+    <dimen name="select_community_dialog_list_header_height">7dp</dimen>
 </resources>

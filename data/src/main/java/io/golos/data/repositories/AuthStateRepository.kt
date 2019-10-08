@@ -6,8 +6,9 @@ import io.golos.commun4j.services.model.AuthResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.AuthUtils
 import io.golos.commun4j.utils.StringSigner
-import io.golos.data.api.AuthApi
-import io.golos.data.api.UserMetadataApi
+import io.golos.data.api.auth.AuthApi
+import io.golos.data.api.user_metadata.UserMetadataApi
+import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
 import io.golos.domain.*
@@ -38,13 +39,16 @@ constructor(
     private val logger: Logger,
     private val keyValueStorage: KeyValueStorageFacade,
     private val userKeyStore: UserKeyStore,
-    private val crashlytics: CrashlyticsFacade
+    private val crashlytics: CrashlyticsFacade,
+    private val currentUserRepository: CurrentUserRepository
 ) : Repository<AuthState, AuthRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 
     private val authRequestsLiveData = MutableLiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>>()
+
     private val authState = MutableLiveData<AuthState>()
+
     private val authJobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
     init {
@@ -277,6 +281,7 @@ constructor(
             )
 
             authState.value = finalAuthState
+            currentUserRepository.authState = finalAuthState
 
             val originalLoadingQuery = loadingQuery.value as QueryResult.Loading
             authRequestsLiveData.value =
