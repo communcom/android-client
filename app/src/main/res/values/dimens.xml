@@ -281,7 +281,7 @@
     <dimen name="community_join_button_width">60dp</dimen>
 
     <!-- Select community dialog -->
-    <dimen name="select_community_dialog_height">200dp</dimen>
+    <dimen name="select_community_dialog_list_height">236dp</dimen>
     <dimen name="select_community_dialog_padding_small">10dp</dimen>
     <dimen name="select_community_dialog_padding_large">15dp</dimen>
     <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>

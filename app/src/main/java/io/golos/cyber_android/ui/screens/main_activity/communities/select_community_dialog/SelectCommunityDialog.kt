@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog
 
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -89,6 +91,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
         return binding.root
     }
 

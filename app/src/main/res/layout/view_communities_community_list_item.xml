@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:background="@color/communities_select_dialog_list_item"
         android:layout_height="@dimen/height_community_list_item">
 
     <ImageView
@@ -83,4 +84,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
     />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/stroke_normal"
+
+        android:background="@color/select_community_dialog_bcg"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

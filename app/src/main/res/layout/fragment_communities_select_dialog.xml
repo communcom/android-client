@@ -57,7 +57,7 @@
             android:id="@+id/communitiesList"
 
             android:layout_width="match_parent"
-            android:layout_height="@dimen/select_community_dialog_height"
+            android:layout_height="wrap_content"
 
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
 
@@ -70,7 +70,7 @@
             android:id="@+id/communitiesSearchList"
 
             android:layout_width="match_parent"
-            android:layout_height="@dimen/select_community_dialog_height"
+            android:layout_height="wrap_content"
 
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
 

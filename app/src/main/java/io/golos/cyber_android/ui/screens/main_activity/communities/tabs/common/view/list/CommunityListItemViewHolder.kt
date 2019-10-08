@@ -38,6 +38,8 @@ class CommunityListItemViewHolder(
         itemView.title.text = listItem.name
         itemView.followersText.text = followersFormatter.format(listItem.followersQuantity.toLong())
 
+        itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.externalId) }
+
         if(listItem.isJoined) {
             itemView.joinButton.text = appResources.getString(R.string.joined_to_community)
             itemView.joinButton.isEnabled = false
@@ -56,9 +58,12 @@ class CommunityListItemViewHolder(
             .load(listItem.logoUrl)
             .apply(RequestOptions.circleCropTransform())
             .into(itemView.logoImage)
+
+
     }
 
     override fun release() {
         itemView.joinButton.setOnClickListener(null)
+        itemView.setOnClickListener(null)
     }
 }

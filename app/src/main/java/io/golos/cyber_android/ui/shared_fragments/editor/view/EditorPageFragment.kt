@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.editor.view
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable

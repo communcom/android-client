@@ -33,7 +33,7 @@ constructor(
     val searchResultItems: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
 
     init {
-        model.initModel(appResourcesProvider.getDimens(R.dimen.select_community_dialog_height).toInt())
+        model.initModel(appResourcesProvider.getDimens(R.dimen.select_community_dialog_list_height).toInt())
         model.setOnSearchResultListener { processSearchResult(it) }
         loadPage(0)
     }

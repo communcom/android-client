@@ -4,7 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:topRightRadius="@dimen/select_community_dialog_bcg_corners_radius"
                 android:topLeftRadius="@dimen/select_community_dialog_bcg_corners_radius" />
-            <solid android:color="@color/light_gray" />
+            <solid android:color="@color/select_community_dialog_bcg" />
         </shape>
     </item>
 </selector>
