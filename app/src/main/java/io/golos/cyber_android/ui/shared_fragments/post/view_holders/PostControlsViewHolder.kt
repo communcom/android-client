@@ -36,17 +36,14 @@ class PostControlsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             postUpvote.setOnClickListener { listener.onPostUpvote(postModel) }
             postDownvote.setOnClickListener { listener.onPostDownvote(postModel) }
 
-            postTitle.text = postModel.content.title
+            postTitle.text = postModel.content.body.postBlock.title
             postTitle.visibility =
-                if (postModel.content.title.isNotBlank())
+                if (!postModel.content.body.postBlock.title.isNullOrBlank())
                     View.VISIBLE
                 else
                     View.GONE
-            postContent.visibility =
-                if (postModel.content.body.full.isEmpty() && postModel.content.body.embeds.isEmpty())
-                    View.VISIBLE
-                else
-                    View.GONE
+
+            postContent.visibility = View.VISIBLE
         }
     }
 

@@ -54,7 +54,6 @@ class CommentEntity(
     val content: CommentContent,
     votes: DiscussionVotes,
     payout: DiscussionPayout,
-    val parentPostId: DiscussionIdEntity,
     val parentCommentId: DiscussionIdEntity?,
     meta: DiscussionMetadata,
     stats: DiscussionStats
@@ -70,7 +69,6 @@ class CommentEntity(
         other as CommentEntity
 
         if (content != other.content) return false
-        if (parentPostId != other.parentPostId) return false
         if (parentCommentId != other.parentCommentId) return false
 
         return true
@@ -79,13 +77,12 @@ class CommentEntity(
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + content.hashCode()
-        result = 31 * result + parentPostId.hashCode()
         result = 31 * result + (parentCommentId?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return "CommentEntity(content=$content, parentPostId=$parentPostId, parentCommentId=$parentCommentId)"
+        return "CommentEntity(content=$content, parentCommentId=$parentCommentId)"
     }
 
 }

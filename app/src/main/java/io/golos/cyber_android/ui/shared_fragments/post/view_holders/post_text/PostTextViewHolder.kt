@@ -4,7 +4,6 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
@@ -13,11 +12,11 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.post.post_dto.*
-import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonMappingErrorCode
-import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import kotlinx.android.synthetic.main.item_content_text.view.*
-import kotlinx.coroutines.*
-import java.lang.UnsupportedOperationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -46,7 +45,7 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
         App.injections.get<PostPageFragmentComponent>().inject(this)
     }
 
-    fun bind(text: String, recyclerView: RecyclerView) {
+    fun bind(post: PostBlock, recyclerView: RecyclerView) {
         view.loadingIndicator.visibility = View.VISIBLE
         view.postWidgetContainer.visibility = View.INVISIBLE
         view.errorHolder.visibility = View.INVISIBLE
@@ -55,30 +54,14 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
 
         renderJob = launch {
             try {
-                val post = withContext(dispatchersProvider.calculationsDispatcher) {
-                    JsonToDtoMapper(App.logger).map(text)
+                view.postWidgetContainer.visibility = View.VISIBLE
+
+                view.postWidgetContainer.removeAllViews()
+                post.content.forEach { block ->
+                    view.postWidgetContainer.addView(createWidget(block) as View)
                 }
 
-                when(post) {
-                    is Either.Failure -> {
-                        when(post.value) {
-                            JsonMappingErrorCode.GENERAL -> showError(R.string.common_general_error)
-                            JsonMappingErrorCode.JSON -> showError(R.string.invalid_post_format)
-                            JsonMappingErrorCode.INCOMPATIBLE_VERSIONS -> showError(R.string.post_processor_is_too_format)
-                        }
-                    }
-
-                    is Either.Success -> {
-                        view.postWidgetContainer.visibility = View.VISIBLE
-
-                        view.postWidgetContainer.removeAllViews()
-                        post.value.content.forEach { block ->
-                            view.postWidgetContainer.addView(createWidget(block) as View)
-                        }
-
-                        post.value.attachments?.let { view.postWidgetContainer.addView(createWidget(it) as View) }
-                    }
-                }
+                post.attachments?.let { view.postWidgetContainer.addView(createWidget(it) as View) }
             } catch (ex: Exception) {
                 logger.log(ex)
                 showError(R.string.common_general_error)

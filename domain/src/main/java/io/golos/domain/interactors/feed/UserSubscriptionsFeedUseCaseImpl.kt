@@ -3,14 +3,16 @@ package io.golos.domain.interactors.feed
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
-import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.entities.CyberUser
+import io.golos.domain.entities.DiscussionsSort
+import io.golos.domain.entities.PostEntity
+import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
+import io.golos.domain.mappers.PostFeedEntityToModelMapper
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.UserSubscriptionsFeedUpdateRequest
-import io.golos.domain.rules.EntityToModelMapper
 import javax.inject.Inject
 
 interface UserSubscriptionsFeedUseCase {
@@ -25,7 +27,7 @@ constructor(
     private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    feedMapper: EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>,
+    feedMapper: PostFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
     postFeedRepository,

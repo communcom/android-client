@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore

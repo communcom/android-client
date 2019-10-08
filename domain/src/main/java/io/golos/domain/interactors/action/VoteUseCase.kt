@@ -8,14 +8,14 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.extensions.map
+import io.golos.domain.mappers.VoteRequestEntityToModelMapper
+import io.golos.domain.mappers.VoteRequestModelToEntityMapper
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
-import io.golos.domain.rules.EntityToModelMapper
-import io.golos.domain.rules.ModelToEntityMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -31,8 +31,8 @@ constructor(
     private val authRepository: Repository<AuthState, AuthRequest>,
     private val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     private val dispatchersProvider: DispatchersProvider,
-    private val voteEntityToModelMapper: EntityToModelMapper<VoteRequestEntity, VoteRequestModel>,
-    private val voteModelToEntityMapper: ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
+    private val voteEntityToModelMapper: VoteRequestEntityToModelMapper,
+    private val voteModelToEntityMapper: VoteRequestModelToEntityMapper
 ) : UseCase<MutableMap<DiscussionIdModel, QueryResult<VoteRequestModel>>> {
 
     private val useCaseScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -55,7 +55,7 @@ constructor(
             useCaseScope.launch {
                 val newVoteStateMap = withContext(dispatchersProvider.calculationsDispatcher) {
                     voteStates.values
-                        .map { it.map(voteEntityToModelMapper(it.originalQuery)) }
+                        .map { it.map(voteEntityToModelMapper.map(it.originalQuery)) }
                         .associateBy { it.originalQuery.discussionIdEntity }
                         .toMutableMap()
                 }
@@ -86,7 +86,7 @@ constructor(
         } else {
             useCaseScope.launch(dispatchersProvider.calculationsDispatcher) {
                 voteRepository.makeAction(
-                    voteModelToEntityMapper(request)
+                    voteModelToEntityMapper.map(request)
                 )
             }
         }

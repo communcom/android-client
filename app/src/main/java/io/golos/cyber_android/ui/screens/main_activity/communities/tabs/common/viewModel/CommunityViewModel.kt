@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand

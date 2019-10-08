@@ -10,7 +10,7 @@ import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-27.

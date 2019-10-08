@@ -1,6 +1,6 @@
 package io.golos.domain
 
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.UserKeyType

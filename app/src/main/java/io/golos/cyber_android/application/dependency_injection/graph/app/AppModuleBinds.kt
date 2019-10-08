@@ -2,18 +2,10 @@ package io.golos.cyber_android.application.dependency_injection.graph.app
 
 import dagger.Binds
 import dagger.Module
-import io.golos.cyber4j.Cyber4J
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.services.model.MobileShowSettings
-import io.golos.cyber4j.services.model.UserMetadataResult
-import io.golos.cyber4j.services.model.UserSettings
+import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4JDagger
-import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4jApiServiceFakePosts
 import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
@@ -60,9 +52,7 @@ import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionsFeed
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.mappers.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Named
@@ -72,7 +62,7 @@ import javax.inject.Named
 abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
-    abstract fun provideCyber(cyber: Cyber4JDagger): Cyber4J
+    abstract fun provideCyber(cyber: Cyber4JDagger): Commun4j
 
     @Binds
     @ApplicationScope
@@ -112,68 +102,44 @@ abstract class AppModuleBinds {
 
     // region Mappers
     @Binds
-    abstract fun provideUserMetadataToEntityMapper(mapper: UserMetadataToEntityMapper): CyberToEntityMapper<UserMetadataResult, UserMetadataEntity>
+    abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapperImpl): CyberPostToEntityMapper
 
     @Binds
-    abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapper): CyberToEntityMapper<CyberDiscussion, PostEntity>
+    abstract fun provideVoteToEntityMapper(mapper: VoteRequestModelToEntityMapperImpl): VoteRequestModelToEntityMapper
 
     @Binds
-    abstract fun provideVoteToEntityMapper(mapper: VoteRequestModelToEntityMapper): ModelToEntityMapper<VoteRequestModel, VoteRequestEntity>
-
-    @Binds
-    abstract fun provideCyberFeedToEntityMapper(mapper: CyberFeedToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>
+    abstract fun provideCyberFeedToEntityMapper(mapper: CyberFeedToEntityMapperImpl): CyberFeedToEntityMapper
 
     @Binds
     @ApplicationScope
-    abstract fun providePostEntityToModelMapper(mapper: PostEntityEntitiesToModelMapper): EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>
+    abstract fun providePostEntityToModelMapper(mapper: PostEntitiesToModelMapperImpl): PostEntitiesToModelMapper
 
     @Binds
-    abstract fun provideFeedEntityToModelMapper(mapper: PostFeedEntityToModelMapper): EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideVoteEntityToPostMapper(mapper: VoteRequestEntityToModelMapper): EntityToModelMapper<VoteRequestEntity, VoteRequestModel>
+    abstract fun provideFeedEntityToModelMapper(mapper: PostFeedEntityToModelMapperImpl): PostFeedEntityToModelMapper
 
     @Binds
     @ApplicationScope
-    abstract fun provideCommentEntityToModelMapper(mapper: CommentEntityToModelMapper): EntityToModelMapper<DiscussionRelatedEntities<CommentEntity>, CommentModel>
+    abstract fun provideVoteEntityToPostMapper(mapper: VoteRequestEntityToModelMapperImpl): VoteRequestEntityToModelMapper
 
     @Binds
-    abstract fun provideCommentFeeEntityToModelMapper(mapper: CommentsFeedEntityToModelMapper): EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>
+    @ApplicationScope
+    abstract fun provideCommentEntityToModelMapper(mapper: CommentEntityToModelMapperImpl): CommentEntityToModelMapper
 
     @Binds
-    abstract fun provideToRegistrationMapper(mapper: UserRegistrationStateEntityMapper): CyberToEntityMapper<UserRegistrationStateRelatedData, UserRegistrationStateEntity>
+    abstract fun provideCommentFeeEntityToModelMapper(mapper: CommentsFeedEntityToModelMapperImpl): CommentsFeedEntityToModelMapper
 
     @Binds
-    abstract fun provideIfremlyEmbedMapper(mapper: IfremlyEmbedMapper): CyberToEntityMapper<IFramelyEmbedResultRelatedData, LinkEmbedResult>
+    abstract fun provideCyberCommentToEntityMapper(mapper: CyberCommentToEntityMapperImpl): CyberCommentToEntityMapper
 
     @Binds
-    abstract fun provideOembedMapper(mapper: OembedMapper): CyberToEntityMapper<OembedResultRelatedData, LinkEmbedResult>
-
-    @Binds
-    abstract fun provideCyberCommentToEntityMapper(mapper: CyberCommentToEntityMapper): CyberToEntityMapper<CyberDiscussion, CommentEntity>
-
-    @Binds
-    abstract fun providecyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapper): CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
-
-    @Binds
-    abstract fun provideDiscussionCreateResultToEntityMapper (mapper: DiscussionCreateResultToEntityMapper): CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>
-
-    @Binds
-    abstract fun provideDiscussionUpdateResultToEntityMapper(mapper: DiscussionUpdateResultToEntityMapper): CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>
-
-    @Binds
-    abstract fun provideDiscussionDeleteResultToEntityMapper(mapper: DiscussionDeleteResultToEntityMapper): CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>
-
-    @Binds
-    abstract fun provideRequestEntityToArgumentsMapper(mapper: RequestEntityToArgumentsMapper): EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>
+    abstract fun provideCyberCommentFeedToEntityMapper(mapper: CyberCommentsToEntityMapperImpl): CyberCommentsToEntityMapper
 
     @Binds
     abstract fun provideCyberToAppErrorMapperImpl(mapper: CyberToAppErrorMapperImpl): CyberToAppErrorMapper
 
     @Binds
     @ApplicationScope
-    abstract fun provideEventsToEntityMapper(mapper: EventsToEntityMapper): CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity>
+    abstract fun provideEventsToEntityMapper(mapper: EventsToEntityMapperImpl): EventsToEntityMapper
 
     @Binds
     abstract fun provideEventsEntityMerger(merger: EventsEntityMerger): EntityMerger<EventsListEntity>
@@ -182,64 +148,61 @@ abstract class AppModuleBinds {
     abstract fun provideEventsApprover(approver: EventsApprover): RequestApprover<EventsFeedUpdateRequest>
 
     @Binds
-    abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapper): CyberToEntityMapper<UserSettings, UserSettingEntity>
-
-    @Binds
-    abstract fun provideSettingToCyberMapper(mapper: SettingToCyberMapper): EntityToCyberMapper<NotificationSettingsEntity, MobileShowSettings>
+    abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapperImpl): SettingsToEntityMapper
     // endregion
 
     // region Cyber4jApiService
     @Binds
     @ApplicationScope
-    abstract fun providePostsApiService(service: Cyber4jApiServiceFakePosts): PostsApiService
+    abstract fun providePostsApiService(service: Commun4jApiService): PostsApiService
 
     @Binds
     @ApplicationScope
-    abstract fun provideAuthApi(service: Cyber4jApiServiceFakePosts): AuthApi
+    abstract fun provideAuthApi(service: Commun4jApiService): AuthApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideVoteApi(service: Cyber4jApiServiceFakePosts): VoteApi
+    abstract fun provideVoteApi(service: Commun4jApiService): VoteApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideCommentsApiService(service: Cyber4jApiServiceFakePosts): CommentsApiService
+    abstract fun provideCommentsApiService(service: Commun4jApiService): CommentsApiService
 
     @Binds
     @ApplicationScope
-    abstract fun provideEmbedApi(service: Cyber4jApiServiceFakePosts): EmbedApi
+    abstract fun provideEmbedApi(service: Commun4jApiService): EmbedApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideDiscussionsCreationApi(service: Cyber4jApiServiceFakePosts): DiscussionsCreationApi
+    abstract fun provideDiscussionsCreationApi(service: Commun4jApiService): DiscussionsCreationApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideRegistrationApi(service: Cyber4jApiServiceFakePosts): RegistrationApi
+    abstract fun provideRegistrationApi(service: Commun4jApiService): RegistrationApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideSettingsApi(service: Cyber4jApiServiceFakePosts): SettingsApi
+    abstract fun provideSettingsApi(service: Commun4jApiService): SettingsApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideImageUploadApi(service: Cyber4jApiServiceFakePosts): ImageUploadApi
+    abstract fun provideImageUploadApi(service: Commun4jApiService): ImageUploadApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideEventsApi(service: Cyber4jApiServiceFakePosts): EventsApi
+    abstract fun provideEventsApi(service: Commun4jApiService): EventsApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideUserMetadataApi(service: Cyber4jApiServiceFakePosts): UserMetadataApi
+    abstract fun provideUserMetadataApi(service: Commun4jApiService): UserMetadataApi
 
     @Binds
     @ApplicationScope
-    abstract fun provideTransactionsApi(service: Cyber4jApiServiceFakePosts): TransactionsApi
+    abstract fun provideTransactionsApi(service: Commun4jApiService): TransactionsApi
 
     @Binds
     @ApplicationScope
-    abstract fun providePushNotificationsApi(service: Cyber4jApiServiceFakePosts): PushNotificationsApi
+    abstract fun providePushNotificationsApi(service: Commun4jApiService): PushNotificationsApi
     // endregion
 
     // region Transformers

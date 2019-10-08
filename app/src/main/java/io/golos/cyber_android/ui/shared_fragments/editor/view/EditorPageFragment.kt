@@ -320,18 +320,18 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //
         viewModel.getPostToEditLiveData.observe(this, Observer {
             it?.let {
-                val parsedPost = viewModel.parsePostContent(it.content.body.full)
-                if(parsedPost != null) {
+                val parsedPost = it.content.body.postBlock
+//                if(parsedPost != null) {
                     toolbarTitle.setText(R.string.edit_post)
-                    title.setText(it.content.title)
+                    title.setText(parsedPost.title)
                     PostToEditorLoader.load(editorWidget, parsedPost)
 
                     nsfwButton.isActivated = it.content.tags.contains(TagModel("nsfw"))
                     viewModel.consumePostToEdit()
 
-                } else {
-                    activity?.finish()
-                }
+//                } else {
+//                    activity?.finish()
+//                }
             }
 //            if (it != null)
 //                setupPostToEdit(it)

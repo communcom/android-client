@@ -2,7 +2,7 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.services.model.EventType
+import io.golos.commun4j.services.model.EventType
 import io.golos.data.api.EventsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -13,7 +13,8 @@ import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.CyberToEntityMapper
+import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.EventsToEntityMapper
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*
@@ -27,7 +28,7 @@ class EventsRepository
 @Inject
 constructor(
     private val eventsApi: EventsApi,
-    private val eventsFeedMapper: CyberToEntityMapper<EventsListDataWithQuery, EventsListEntity>,
+    private val eventsFeedMapper: EventsToEntityMapper,
     private val eventsFeeMerger: EntityMerger<EventsListEntity>,
     private val requestAproover: RequestApprover<EventsFeedUpdateRequest>,
     private val dispatchersProvider: DispatchersProvider,
@@ -69,7 +70,7 @@ constructor(
                         false,
                         params.types.map { it.toEventType() }
                     ).let { eventsData ->
-                        eventsFeedMapper(EventsListDataWithQuery(eventsData, params))
+                        eventsFeedMapper.map(EventsListDataWithQuery(eventsData, params))
                     }
                 }
                 val oldEvents = getAsLiveData(params).value ?: EventsListEntity(0, 0, null, emptyList())

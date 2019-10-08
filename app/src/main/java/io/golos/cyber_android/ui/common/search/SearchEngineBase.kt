@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.common.search
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.application.App
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.*

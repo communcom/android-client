@@ -113,8 +113,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                     ),
                     postModel.author.username
                 )
-                postContentPreview.text =
-                    postModel.content.title
+                postContentPreview.text = postModel.content.body.postBlock.title
 
                 postMedia.setImageResource(0)
                 postMedia.visibility = View.GONE

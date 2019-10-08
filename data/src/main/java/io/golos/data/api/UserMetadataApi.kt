@@ -1,10 +1,11 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.abi.implementation.gls.social.PinGlsSocialStruct
-import io.golos.cyber4j.abi.implementation.gls.social.UpdatemetaGlsSocialStruct
-import io.golos.cyber4j.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.cyber4j.services.model.UserMetadataResult
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.abi.implementation.comn.social.PinComnSocialStruct
+import io.golos.commun4j.abi.implementation.comn.social.UpdatemetaComnSocialStruct
+import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
+import io.golos.commun4j.services.model.GetProfileResult
+import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.commun4j.utils.Pair as CommunPair
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-30.
@@ -14,11 +15,11 @@ interface UserMetadataApi {
         about: String? = null,
         coverImage: String? = null,
         profileImage: String? = null
-    ): TransactionCommitted<UpdatemetaGlsSocialStruct>
+    ): TransactionCommitted<UpdatemetaComnSocialStruct>
 
-    fun getUserMetadata(user: CyberName): UserMetadataResult
+    fun getUserMetadata(user: CyberName): GetProfileResult
 
-    fun pin(user: CyberName): Pair<TransactionCommitted<PinGlsSocialStruct>, PinGlsSocialStruct>
+    fun pin(user: CyberName): CommunPair<TransactionCommitted<PinComnSocialStruct>, PinComnSocialStruct>
 
-    fun unPin(user: CyberName): Pair<TransactionCommitted<PinGlsSocialStruct>, PinGlsSocialStruct>
+    fun unPin(user: CyberName): CommunPair<TransactionCommitted<PinComnSocialStruct>, PinComnSocialStruct>
 }

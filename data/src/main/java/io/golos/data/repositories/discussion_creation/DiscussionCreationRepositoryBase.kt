@@ -1,31 +1,27 @@
 package io.golos.data.repositories.discussion_creation
 
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.DeleteDiscussionResultEntity
 import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.entities.UpdatePostResultEntity
+import io.golos.domain.mappers.discussion_creation.request.DiscussionCreationRequestMapper
+import io.golos.domain.mappers.discussion_creation.result.DiscussionCreateResultToEntityMapper
+import io.golos.domain.mappers.discussion_creation.result.DiscussionDeleteResultToEntityMapper
+import io.golos.domain.mappers.discussion_creation.result.DiscussionUpdateResultToEntityMapper
 import io.golos.domain.requestmodel.*
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EntityToCyberMapper
 import kotlinx.coroutines.withContext
 
 abstract class DiscussionCreationRepositoryBase(
     private val dispatchersProvider: DispatchersProvider,
-    private val toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    private val toEntityResultMapper: CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>,
-    private val toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>,
-    private val toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>,
     private val discussionsCreationApi: DiscussionsCreationApi,
     private val transactionsApi: TransactionsApi
 ) {
     protected suspend fun createOrUpdateDiscussion(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =
         withContext(dispatchersProvider.ioDispatcher) {
-            val request = toCyberRequestMapper(params)
+            val request = DiscussionCreationRequestMapper.map(params)
             val apiAnswer = when (request) {
                 is CreateCommentRequest -> discussionsCreationApi.createComment(
                     request.body,
@@ -51,9 +47,9 @@ abstract class DiscussionCreationRepositoryBase(
             transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
 
             when (request) {
-                is UpdatePostRequest -> toEntityUpdateResultMapper(apiAnswer.second as UpdatemssgGlsPublishStruct)
-                is DeleteDiscussionRequest -> toEntityDeleteResultMapper(apiAnswer.second as DeletemssgGlsPublishStruct)
-                else -> toEntityResultMapper(apiAnswer.second as CreatemssgGlsPublishStruct)
+                is UpdatePostRequest -> DiscussionUpdateResultToEntityMapper.map(apiAnswer.second as UpdatemssgComnGalleryStruct)
+                is DeleteDiscussionRequest -> DiscussionDeleteResultToEntityMapper.map(apiAnswer.second as DeletemssgComnGalleryStruct)
+                else -> DiscussionCreateResultToEntityMapper.map(apiAnswer.second as CreatemssgComnGalleryStruct)
             }
         }
 }

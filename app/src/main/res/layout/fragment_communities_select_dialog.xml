@@ -16,13 +16,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/root"
         android:animateLayoutChanges="true"
+
+        android:background="@drawable/bcg_communities_select_dialog_bcg"
+
+        android:paddingStart="@dimen/select_community_dialog_padding_small"
+        android:paddingEnd="@dimen/select_community_dialog_padding_small"
+        android:paddingTop="@dimen/select_community_dialog_padding_large"
+        android:paddingBottom="@dimen/select_community_dialog_padding_small"
+
         tools:context="io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialog">
 
         <EditText
             android:id="@+id/searchField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:imeOptions="actionDone"
             android:inputType="text"
 
@@ -30,24 +37,42 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
+            android:drawableStart="@drawable/ic_search_small"
+
+            android:drawablePadding="@dimen/select_community_dialog_drawable_padding"
+            android:padding="@dimen/select_community_dialog_padding"
+
+            android:background="@drawable/bcg_common_white_round_rect"
+
+            android:hint="@string/hint_search"
+            android:textSize="@dimen/text_size_17_sp"
+
+            android:maxLength="16"
+            android:maxLines="1"
+            android:lines="1"
+
             tools:ignore="Autofill,LabelFor" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialogList
             android:id="@+id/communitiesList"
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_community_dialog_height"
+
+            android:layout_marginTop="@dimen/select_community_dialog_search_margin_bottom"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchField"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialogList
             android:id="@+id/communitiesSearchList"
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/select_community_dialog_height"
+
+            android:layout_marginTop="@dimen/select_community_dialog_search_margin_bottom"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

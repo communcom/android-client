@@ -125,7 +125,7 @@ class PostPageAdapter(
 
             CONTENT_TEXT_TYPE -> {
                 holder as PostTextViewHolder
-                postModel?.let { holder.bind(it.content.body.full.toString(), recyclerView) }
+                postModel?.let { holder.bind(it.content.body.postBlock, recyclerView) }
             }
             CONTENT_EMBED_TYPE -> {     // do nothing
             }
@@ -146,7 +146,7 @@ class PostPageAdapter(
     override fun getItemViewType(position: Int): Int {
         if (postModel != null) {
             if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
-                if (postModel!!.content.body.full.isNotEmpty())
+                if (postModel!!.content.body.postBlock.content.isNotEmpty())
                     return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
                         is TextRowModel -> CONTENT_TEXT_TYPE
                         is ImageRowModel -> CONTENT_IMAGE_TYPE
@@ -222,7 +222,7 @@ class PostPageAdapter(
     /**
      * Use only first embed if any
      */
-    private fun getEmbedsCount() = (if (postModel?.content?.body?.embeds.isNullOrEmpty()) 0 else 1)
+    private fun getEmbedsCount() = 0
 
     interface Listener {
         fun onPostUpvote(postModel: PostModel)

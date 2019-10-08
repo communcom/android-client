@@ -1,9 +1,9 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.services.model.FirstRegistrationStepResult
-import io.golos.cyber4j.services.model.RegisterResult
-import io.golos.cyber4j.services.model.ResultOk
-import io.golos.cyber4j.services.model.UserRegistrationStateResult
+import io.golos.commun4j.services.model.FirstRegistrationStepResult
+import io.golos.commun4j.services.model.RegisterResult
+import io.golos.commun4j.services.model.ResultOk
+import io.golos.commun4j.services.model.UserRegistrationStateResult
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.

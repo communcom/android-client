@@ -1,6 +1,6 @@
 package io.golos.domain.entities
 
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.Entity
 import java.util.*
 
@@ -10,7 +10,7 @@ import java.util.*
 data class UserMetadataCollectionEntity(val map: Map<CyberName, UserMetadataEntity>) : Entity,
     Map<CyberName, UserMetadataEntity> by map
 
-data class UserMetadataEntity(
+data class UserMetadataEntity   (
     val personal: UserPersonalDataEntity,
     val subscriptions: UserSubscriptionsEntity,
     val stats: UserStatsEntity,

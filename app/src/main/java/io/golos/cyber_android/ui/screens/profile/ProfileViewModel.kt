@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.data.errors.AppError

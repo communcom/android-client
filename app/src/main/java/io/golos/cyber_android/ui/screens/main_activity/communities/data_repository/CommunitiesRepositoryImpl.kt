@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.main_activity.communities.data_reposit
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityExt
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
 import io.golos.domain.AppResourcesProvider

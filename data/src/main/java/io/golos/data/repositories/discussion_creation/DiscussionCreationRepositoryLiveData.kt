@@ -2,9 +2,9 @@ package io.golos.data.repositories.discussion_creation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.abi.implementation.gls.publish.CreatemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.DeletemssgGlsPublishStruct
-import io.golos.cyber4j.abi.implementation.gls.publish.UpdatemssgGlsPublishStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
 import io.golos.data.api.DiscussionsCreationApi
 import io.golos.data.api.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
@@ -17,10 +17,9 @@ import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
-import io.golos.domain.rules.CyberToEntityMapper
-import io.golos.domain.rules.EntityToCyberMapper
+import io.golos.domain.mappers.CommunToEntityMapper
+import io.golos.domain.mappers.EntityToCommunMapper
 import kotlinx.coroutines.*
-import java.net.SocketTimeoutException
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -36,17 +35,9 @@ constructor(
     transactionsApi: TransactionsApi,
     dispatchersProvider: DispatchersProvider,
     private val logger: Logger,
-    toCyberRequestMapper: EntityToCyberMapper<DiscussionCreationRequestEntity, DiscussionCreateRequest>,
-    toEntityResultMapper: CyberToEntityMapper<CreatemssgGlsPublishStruct, DiscussionCreationResultEntity>,
-    toEntityUpdateResultMapper: CyberToEntityMapper<UpdatemssgGlsPublishStruct, UpdatePostResultEntity>,
-    toEntityDeleteResultMapper: CyberToEntityMapper<DeletemssgGlsPublishStruct, DeleteDiscussionResultEntity>,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,
-    toCyberRequestMapper,
-    toEntityResultMapper,
-    toEntityUpdateResultMapper,
-    toEntityDeleteResultMapper,
     discussionsCreationApi,
     transactionsApi
 ),  Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {

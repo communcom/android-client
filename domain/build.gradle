@@ -34,7 +34,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation("com.squareup.moshi:moshi:$moshiVersion")
 
-    implementation "io.golos.cyber4j:cyber4j:$cyber4jVersion"
+    implementation("io.golos.commun4j:commun4j:$commun4jVersion")
 
     /* Dagger */
     implementation "com.google.dagger:dagger:$dagger_version"

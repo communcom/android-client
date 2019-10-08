@@ -6,18 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
-import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.entities.EventsListEntity
+import io.golos.domain.extensions.distinctUntilChanged
+import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.extensions.map
+import io.golos.domain.mappers.EventEntityToModelMapper
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class EventsUseCase
 constructor(
     private val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>,
     private val authRepository: Repository<AuthState, AuthRequest>,
-    private val eventsMapper: EntityToModelMapper<EventsListEntity, EventsListModel>,
+    private val eventsMapper: EventEntityToModelMapper,
     private val dispatchersProvider: DispatchersProvider
 ) : UseCase<EventsListModel> {
 
@@ -82,7 +82,7 @@ constructor(
                     lastEventsJob = useCaseScope.launch {
                         val eventsList = it ?: return@launch
                         freshLiveData.value = eventsList.freshCount
-                        val newEvents = withContext(dispatchersProvider.calculationsDispatcher) { eventsMapper(eventsList) }
+                        val newEvents = withContext(dispatchersProvider.calculationsDispatcher) { eventsMapper.map(eventsList) }
                         lastFetchedChunkLiveData.value = if (eventsLiveData.value == null)
                             newEvents
                         else

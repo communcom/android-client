@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -25,10 +24,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog.*
-import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject
 
 class SelectCommunityDialog : BottomSheetDialogFragment() {
@@ -38,13 +34,6 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
             return SelectCommunityDialog()
         }
     }
-
-    private lateinit var communitiesListAdapter: CommunityListAdapter
-    private lateinit var communitiesListLayoutManager: LinearLayoutManager
-    private var communitiesScrollListener: CommunityListScrollListener? = null
-
-    private lateinit var searchListAdapter: CommunityListAdapter
-    private lateinit var searchListLayoutManager: LinearLayoutManager
 
     private lateinit var viewModel: SelectCommunityDialogViewModel
 
@@ -107,6 +96,8 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchField.setTextChangeListener { viewModel.onSearchStringUpdated(it) }
+
+        communitiesList.setOnScrollListener { viewModel.onScroll(it) }
     }
 
     override fun onDestroy() {
@@ -124,49 +115,9 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         }
     }
 
-    private fun updateList(data: List<ListItem>) {
-        if(!::communitiesListAdapter.isInitialized) {
-            communitiesListLayoutManager = LinearLayoutManager(context)
+    private fun updateList(data: List<ListItem>) = communitiesList.updateList(data, viewModel)
 
-            communitiesListAdapter = CommunityListAdapter(viewModel)
-            communitiesListAdapter.setHasStableIds(true)
+    private fun updateSearchList(data: List<ListItem>) = communitiesSearchList.updateList(data, viewModel)
 
-            communitiesList.isSaveEnabled = false
-            communitiesList.itemAnimator = null
-            communitiesList.layoutManager = communitiesListLayoutManager
-            communitiesList.adapter = communitiesListAdapter
-        }
-
-        communitiesListAdapter.update(data)
-
-        communitiesList.postDelayed({ communitiesListLayoutManager.scrollToPosition(2) }, 500)
-    }
-
-    private fun updateSearchList(data: List<ListItem>) {
-        if(!::searchListAdapter.isInitialized) {
-            searchListLayoutManager = LinearLayoutManager(context)
-
-            searchListAdapter = CommunityListAdapter(viewModel)
-            searchListAdapter.setHasStableIds(true)
-
-            communitiesSearchList.isSaveEnabled = false
-            communitiesSearchList.itemAnimator = null
-            communitiesSearchList.layoutManager = searchListLayoutManager
-            communitiesSearchList.adapter = searchListAdapter
-        }
-
-        searchListAdapter.update(data)
-    }
-
-    private fun setScrollState(isScrollEnabled: Boolean) {
-        if(!::communitiesListAdapter.isInitialized) {
-            return
-        }
-
-        communitiesScrollListener?.let { communitiesList.removeOnScrollListener(it) }
-
-        if(isScrollEnabled) {
-            communitiesList.addOnScrollListener(CommunityListScrollListener(communitiesListLayoutManager) { viewModel.onScroll(it) })
-        }
-    }
+    private fun setScrollState(isScrollEnabled: Boolean) = communitiesList.setScrollState(isScrollEnabled)
 }

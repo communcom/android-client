@@ -1,7 +1,7 @@
 package io.golos.data.api
 
-import io.golos.cyber4j.services.model.IFramelyEmbedResult
-import io.golos.cyber4j.services.model.OEmbedResult
+import io.golos.commun4j.services.model.IFramelyEmbedResult
+import io.golos.commun4j.services.model.OEmbedResult
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-01.

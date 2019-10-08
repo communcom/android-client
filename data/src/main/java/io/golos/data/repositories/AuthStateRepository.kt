@@ -2,10 +2,10 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.services.model.AuthResult
-import io.golos.cyber4j.sharedmodel.CyberName
-import io.golos.cyber4j.utils.AuthUtils
-import io.golos.cyber4j.utils.StringSigner
+import io.golos.commun4j.services.model.AuthResult
+import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.commun4j.utils.AuthUtils
+import io.golos.commun4j.utils.StringSigner
 import io.golos.data.api.AuthApi
 import io.golos.data.api.UserMetadataApi
 import io.golos.data.toCyberName

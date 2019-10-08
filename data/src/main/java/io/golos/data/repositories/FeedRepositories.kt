@@ -1,10 +1,11 @@
 package io.golos.data.repositories
 
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.cyber4j.services.model.FeedSort
-import io.golos.cyber4j.services.model.FeedTimeFrame
-import io.golos.cyber4j.sharedmodel.CyberName
+import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.commun4j.model.DiscussionsResult
+import io.golos.commun4j.model.GetDiscussionsResultRaw
+import io.golos.commun4j.services.model.FeedSort
+import io.golos.commun4j.services.model.FeedTimeFrame
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.CommentsApiService
 import io.golos.data.api.PostsApiService
 import io.golos.domain.DispatchersProvider
@@ -12,8 +13,14 @@ import io.golos.domain.Logger
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.FeedTimeFrameOption
+import io.golos.domain.mappers.CyberCommentToEntityMapper
+import io.golos.domain.mappers.CyberCommentsToEntityMapper
+import io.golos.domain.mappers.CyberFeedToEntityMapper
+import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.requestmodel.*
-import io.golos.domain.rules.*
+import io.golos.domain.rules.EmptyEntityProducer
+import io.golos.domain.rules.EntityMerger
+import io.golos.domain.rules.RequestApprover
 import javax.inject.Inject
 
 /**
@@ -24,8 +31,8 @@ class PostsFeedRepository
 @Inject
 constructor(
     private val apiService: PostsApiService,
-    feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<PostEntity>>,
-    postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
+    feedMapper: CyberFeedToEntityMapper,
+    postMapper: CyberPostToEntityMapper,
     postMerger: EntityMerger<PostEntity>,
     feedMerger: EntityMerger<FeedRelatedData<PostEntity>>,
     feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
@@ -43,7 +50,7 @@ constructor(
         logger
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
         return apiService.getPost(CyberName(params.userId), params.permlink)
     }
 
@@ -52,7 +59,7 @@ constructor(
         throw UnsupportedOperationException()
     }
 
-    override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): DiscussionsResult {
+    override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): GetDiscussionsResultRaw {
         return when (updateRequest) {
             is CommunityFeedUpdateRequest -> apiService.getCommunityPosts(
                 updateRequest.communityId,
@@ -85,8 +92,8 @@ class CommentsFeedRepository
 @Inject
 constructor(
     private val apiService: CommentsApiService,
-    feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>,
-    postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,
+    feedMapper: CyberCommentsToEntityMapper,
+    postMapper: CyberCommentToEntityMapper,
     postMerger: EntityMerger<CommentEntity>,
     feedMerger: EntityMerger<FeedRelatedData<CommentEntity>>,
     approver: RequestApprover<CommentFeedUpdateRequest>,
@@ -105,7 +112,7 @@ constructor(
         logger
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion {
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
         return apiService.getComment(CyberName(params.userId), params.permlink)
     }
 
@@ -164,7 +171,7 @@ constructor(
 
     }
 
-    override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): DiscussionsResult {
+    override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): GetDiscussionsResultRaw {
         return when (updateRequest) {
             is CommentsOfApPostUpdateRequest -> apiService.getCommentsOfPost(
                 CyberName(updateRequest.user),

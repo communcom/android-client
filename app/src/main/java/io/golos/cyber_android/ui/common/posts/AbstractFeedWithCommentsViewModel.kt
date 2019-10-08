@@ -11,7 +11,7 @@ import io.golos.domain.interactors.model.DiscussionModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.FeedUpdateRequest
-import io.golos.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
+import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 
 /**
  * Extends [AbstractFeedViewModel] with ability to create comments via [sendComment] method. Result of creation

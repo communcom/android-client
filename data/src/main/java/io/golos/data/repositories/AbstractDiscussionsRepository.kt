@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.DiscussionsResult
+import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.commun4j.model.GetDiscussionsResultRaw
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
@@ -12,10 +12,14 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.Logger
 import io.golos.domain.entities.*
+import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.*
+import io.golos.domain.rules.EmptyEntityProducer
+import io.golos.domain.rules.EntityMerger
+import io.golos.domain.rules.FeedUpdateRequestsWithResult
+import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -25,8 +29,8 @@ import kotlin.collections.HashMap
  */
 
 abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdateRequest>(
-    private val feedMapper: CyberToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
-    private val discussionMapper: CyberToEntityMapper<CyberDiscussion, D>,
+    private val feedMapper: CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
+    private val discussionMapper: CommunToEntityMapper<CyberDiscussionRaw, D>,
     private val discussionMerger: EntityMerger<D>,
     private val discussionsFeedMerger: EntityMerger<FeedRelatedData<D>>,
     private val requestApprover: RequestApprover<Q>,
@@ -194,7 +198,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             val feed = getOnBackground { getFeedOnBackground(params) }
 
-            val feedEntity = feedMapper.invoke(FeedUpdateRequestsWithResult(params, feed))
+            val feedEntity = feedMapper.map(FeedUpdateRequestsWithResult(params, feed))
 
             val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
 
@@ -222,7 +226,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
     private suspend fun <T> getOnBackground(
         block: suspend CoroutineScope.() -> T
-    ) = kotlinx.coroutines.withContext(dispatchersProvider.calculationsDispatcher, block)
+    ) = withContext(dispatchersProvider.calculationsDispatcher, block)
 
     private fun launch(
         exceptionCallback: (Exception) -> Unit = {},
@@ -237,13 +241,13 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         }
     }
 
-    protected abstract suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussion
+    protected abstract suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw
 
-    protected abstract suspend fun getFeedOnBackground(updateRequest: Q): DiscussionsResult
+    protected abstract suspend fun getFeedOnBackground(updateRequest: Q): GetDiscussionsResultRaw
 
 
-    private suspend fun <F, T : Entity> CyberToEntityMapper<F, T>.convertOnBackground(cyberItem: F) =
-        getOnBackground { invoke(cyberItem) }
+    private suspend fun <F, T : Entity> CommunToEntityMapper<F, T>.convertOnBackground(cyberItem: F) =
+        getOnBackground { map(cyberItem) }
 
     private fun getAllPostsAsLiveDataList() = discussionsFeedMap.values.toList()
 }

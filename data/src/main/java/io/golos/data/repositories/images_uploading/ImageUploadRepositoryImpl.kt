@@ -1,6 +1,6 @@
 package io.golos.data.repositories.images_uploading
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.api.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider

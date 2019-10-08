@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
@@ -31,10 +31,7 @@ import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
-import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonMappingErrorCode
-import io.golos.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -180,10 +177,7 @@ constructor(
 //        }
     }
 
-    private val postToEditObserver = Observer<PostModel> {
-        if (it.content.body.full.isNotEmpty())
-            postToEditLiveData.postValue(it)
-    }
+    private val postToEditObserver = Observer<PostModel> { postToEditLiveData.postValue(it) }
 
     val isInEditMode = postToEdit != null
 
@@ -374,24 +368,24 @@ constructor(
     /**
      * @return null in case of error
      */
-    fun parsePostContent(content: CharSequence): PostBlock? {
-        val parsedPost = JsonToDtoMapper(App.logger).map(content.toString())
-
-        return when(parsedPost) {
-            is Either.Failure -> {
-                when(parsedPost.value) {
-                    JsonMappingErrorCode.GENERAL -> command.value = ShowMessageCommand(R.string.common_general_error)
-                    JsonMappingErrorCode.JSON -> command.value = ShowMessageCommand(R.string.invalid_post_format)
-                    JsonMappingErrorCode.INCOMPATIBLE_VERSIONS -> command.value = ShowMessageCommand(R.string.post_processor_is_too_format)
-                }
-                null
-            }
-
-            is Either.Success -> {
-                parsedPost.value
-            }
-        }
-    }
+//    fun parsePostContent(content: CharSequence): PostBlock? {
+//        val parsedPost = JsonToDtoMapper(App.logger).map(content.toString())
+//
+//        return when(parsedPost) {
+//            is Either.Failure -> {
+//                when(parsedPost.value) {
+//                    PostParsingErrorCode.GENERAL -> command.value = ShowMessageCommand(R.string.common_general_error)
+//                    PostParsingErrorCode.JSON -> command.value = ShowMessageCommand(R.string.invalid_post_format)
+//                    PostParsingErrorCode.INCOMPATIBLE_VERSIONS -> command.value = ShowMessageCommand(R.string.post_processor_is_too_format)
+//                }
+//                null
+//            }
+//
+//            is Either.Success -> {
+//                parsedPost.value
+//            }
+//        }
+//    }
 
     private fun processUri(uri: String, getSuccessViewCommand: (ExternalLinkInfo) -> ViewCommand) {
         launch {
@@ -416,5 +410,3 @@ constructor(
         }
     }
 }
-
-internal fun ContentBodyModel.toContent(): CharSequence = this.full

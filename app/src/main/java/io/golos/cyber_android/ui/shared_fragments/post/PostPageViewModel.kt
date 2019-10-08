@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.shared_fragments.post
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber4j.utils.toCyberName
+import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.domain.extensions.distinctUntilChanged

@@ -16,7 +16,7 @@ import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.rules.EntityToModelMapper
+import io.golos.domain.mappers.EntityToModelMapper
 import kotlinx.coroutines.*
 
 /**
@@ -71,12 +71,7 @@ constructor(
             //TODO empty feed state
 
             val resultFeed = withContext(dispatchersProvider.calculationsDispatcher) {
-                feedMapper(
-                    FeedRelatedEntities(
-                        feedEntity,
-                        votes
-                    )
-                )
+                feedMapper.map(FeedRelatedEntities(feedEntity, votes))
             }
 
             val lastFeedItems = postFeedLiveData.value?.items.orEmpty()

@@ -11,7 +11,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.domain.post.post_dto.PostFormatVersion
 import io.golos.domain.post.post_dto.PostType
-import io.golos.posts_parsing_rendering.PostGlobalConstants
+import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import kotlinx.android.synthetic.main.dialog_post_menu.*
 
 /**

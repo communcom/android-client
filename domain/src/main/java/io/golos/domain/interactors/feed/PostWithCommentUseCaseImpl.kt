@@ -7,15 +7,14 @@ import androidx.lifecycle.Observer
 import io.golos.domain.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Repository
-import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.mappers.CommentsFeedEntityToModelMapper
+import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.rules.EntityToModelMapper
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -32,10 +31,10 @@ class PostWithCommentUseCaseImpl
 constructor (
     postId: DiscussionIdModel,
     private val postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-    private val toModelMapper: EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>,
+    private val toModelMapper: PostEntitiesToModelMapper,
     commentsFeedRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
     voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
-    feedMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
+    feedMapper: CommentsFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : PostCommentsFeedUseCase(
     postId,
@@ -61,7 +60,7 @@ constructor (
             val votes = getVotes()
 
             postLiveData.value = withContext(dispatchersProvider.calculationsDispatcher) {
-                toModelMapper(
+                toModelMapper.map(
                     DiscussionRelatedEntities(
                         postEntity,
                         votes.orEmpty().values.find { it.originalQuery.discussionIdEntity.asModel == postId })

@@ -76,8 +76,8 @@ class CommunitiesFragment : FragmentBase(), ParentSearchFragment {
         communitiesPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
                 val fragment = when (position) {
-                    Tab.MY_COMMUNITIES.index -> MyCommunityFragment.newInstance() as Fragment
-                    Tab.DISCOVER.index -> DiscoverFragment.newInstance() as Fragment
+                    Tab.MY_COMMUNITIES.index -> MyCommunityFragment.newInstance()
+                    Tab.DISCOVER.index -> DiscoverFragment.newInstance()
                     else -> throw RuntimeException("Unsupported tab")
                 }
 

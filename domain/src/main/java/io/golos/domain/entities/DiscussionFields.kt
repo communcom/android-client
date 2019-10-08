@@ -1,13 +1,13 @@
 package io.golos.domain.entities
 
 import io.golos.domain.Entity
+import io.golos.domain.post.post_dto.PostBlock
 import java.math.BigInteger
 import java.util.*
 
 data class DiscussionCommentsCount(val count: Long) : Entity
 
 data class PostContent(
-    val title: String,
     val body: ContentBody,
     val tags: List<TagEntity>
 ) : Entity
@@ -15,10 +15,7 @@ data class PostContent(
 data class CommentContent(val body: ContentBody) : Entity
 
 data class ContentBody(
-    val preview: String,
-    val full: String,
-    val embeds: List<EmbedEntity>,
-    val mobilePreview : String
+    val postBlock: PostBlock
 ) : Entity
 
 data class EmbedEntity(
@@ -39,8 +36,8 @@ data class DiscussionStats(val rShares: BigInteger, val viewsCount: Long) : Enti
 data class DiscussionVotes(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
-    val upCount: Int,
-    val downCount: Int
+    val upCount: Long,
+    val downCount: Long
 ) : Entity
 
 data class TagEntity(val tag: String)

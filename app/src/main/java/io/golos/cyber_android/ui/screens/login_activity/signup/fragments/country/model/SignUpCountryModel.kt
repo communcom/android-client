@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.model
 
-import io.golos.cyber4j.sharedmodel.Either
+import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.entities.CountryEntity
 
 interface SignUpCountryModel {

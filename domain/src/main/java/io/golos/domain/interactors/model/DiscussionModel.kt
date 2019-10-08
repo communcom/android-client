@@ -2,6 +2,7 @@ package io.golos.domain.interactors.model
 
 import android.os.Parcelable
 import io.golos.domain.Model
+import io.golos.domain.post.post_dto.PostBlock
 import kotlinx.android.parcel.Parcelize
 import java.math.BigInteger
 import java.util.*
@@ -30,7 +31,6 @@ data class CommentModel(
     val content: CommentContentModel,
     override val votes: DiscussionVotesModel,
     override val payout: DiscussionPayoutModel,
-    val parentPostId: DiscussionIdModel,
     val parentCommentId: DiscussionIdModel?,
     override val meta: DiscussionMetadataModel,
     override val stats: DiscussionStatsModel
@@ -57,7 +57,6 @@ data class DiscussionIdModel(
 data class DiscussionCommentsCountModel(val count: Long) : Model
 
 data class PostContentModel(
-    val title: String,
     val body: ContentBodyModel,
     val tags: List<TagModel>
 ) : Model
@@ -77,9 +76,7 @@ data class EmbedModel(
 ) : Model
 
 data class ContentBodyModel(
-    val full: CharSequence,
-    val embeds: List<EmbedModel>,
-    val mobilePreview: CharSequence
+    val postBlock: PostBlock
 ) : Model
 
 
@@ -92,8 +89,8 @@ data class DiscussionStatsModel(val rShares: BigInteger, val viewsCount: Long) :
 data class DiscussionVotesModel(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
-    val upCount: Int,
-    val downCount: Int,
+    val upCount: Long,
+    val downCount: Long,
     val hasUpVoteProgress: Boolean,
     val hasDownVotingProgress: Boolean,
     val hasVoteCancelProgress: Boolean
