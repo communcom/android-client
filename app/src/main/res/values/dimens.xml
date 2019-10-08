@@ -288,4 +288,21 @@
     <dimen name="height_community_list_item">60dp</dimen>
     <dimen name="size_icon_community">40dp</dimen>
     <dimen name="height_community_join_button">30dp</dimen>
+
+    <!--Subscriptions-->
+    <dimen name="subscriptions_community_icon_margin_top">46dp</dimen>
+    <dimen name="subscriptions_no_subscriptions_label_margin_top">16dp</dimen>
+    <dimen name="subscriptions_btn_find_communities_margin">24dp</dimen>
+    <dimen name="subscriptions_btn_find_communities_height">56dp</dimen>
+    <dimen name="subscriptions_recommended_title_margin_top">76dp</dimen>
+    <dimen name="subscriptions_recommend_list_margin_top">14dp</dimen>
+    <dimen name="subscriptions_logo_size">50dp</dimen>
+    <dimen name="subscriptions_list_item_logo_margin">12dp</dimen>
+    <dimen name="subscriptions_divider_height">1dp</dimen>
+
+    <!--Button-->
+    <dimen name="btn_round_radius_size">8dp</dimen>
+
+
+
 </resources>

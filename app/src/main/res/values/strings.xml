@@ -300,4 +300,10 @@
     <string name="loading_indicator">Loading…</string>
     <string name="join_to_community">Join</string>
     <string name="joined_to_community">Joined</string>
+
+    <!--Subscriptions-->
+    <string name="no_subscriptions">No Subscriptions</string>
+    <string name="you_not_subscribed_t_any_community">You have not subscribed to any community</string>
+    <string name="find_communities">Find communities</string>
+    <string name="point" translatable="false">•</string>
 </resources>

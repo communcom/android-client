@@ -30,4 +30,8 @@
 
     <color name="light_button">@color/white</color>
     <color name="light_button_pressed">@color/middle_gray_3</color>
+
+    <!--List-->
+    <color name="list_item_background">@color/white</color>
+
 </resources>

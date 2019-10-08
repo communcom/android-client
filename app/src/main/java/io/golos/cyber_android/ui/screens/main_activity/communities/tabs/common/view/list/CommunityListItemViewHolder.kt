@@ -55,7 +55,7 @@ class CommunityListItemViewHolder(
         Glide.with(itemView)
             .load(listItem.logoUrl)
             .apply(RequestOptions.circleCropTransform())
-            .into(itemView.logoImage)
+            .into(itemView.ivLogo)
     }
 
     override fun release() {

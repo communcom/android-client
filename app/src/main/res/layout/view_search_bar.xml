@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/searchBar"
-        style="@style/SearchBarTextStyle"
-        android:hint="@string/hint_search"
-        android:paddingTop="@dimen/padding_vertical_feed_search_bar"
-        android:paddingBottom="@dimen/padding_vertical_feed_search_bar"
-        android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
-        android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
-        android:drawablePadding="@dimen/padding_feed_search_view_icon"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:elevation="@dimen/elevation_search_bar"
+<androidx.appcompat.widget.AppCompatEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchBar"
+    style="@style/SearchBarTextStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:drawableLeft="@drawable/ic_search"
+    android:drawablePadding="@dimen/padding_feed_search_view_icon"
+    android:elevation="@dimen/elevation_search_bar"
+    android:hint="@string/hint_search"
+    android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
+    android:paddingTop="@dimen/padding_vertical_feed_search_bar"
+    android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
 
-        android:drawableLeft="@drawable/ic_search"
-/>
+    android:paddingBottom="@dimen/padding_vertical_feed_search_bar" />

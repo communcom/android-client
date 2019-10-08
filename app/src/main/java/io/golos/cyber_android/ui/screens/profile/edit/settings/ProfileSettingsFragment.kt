@@ -31,6 +31,7 @@ import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.Not
 import io.golos.data.errors.AppError
 import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult
+import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.profile_settings_fragment.*
 import java.text.MessageFormat
 import javax.inject.Inject
