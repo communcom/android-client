@@ -24,6 +24,7 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
@@ -56,7 +57,6 @@ constructor(
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
-    community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCaseImpl?,
     model: EditorPageModel
@@ -88,16 +88,7 @@ constructor(
 
     val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
-
-    private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
-        postValue(community)
-    }
-
-    /**
-     * [LiveData] for community that post will be created in
-     */
-    val getCommunityLiveData = communityLiveData as LiveData<CommunityModel?>
-
+    val community = MutableLiveData<Community?>()
 
     private val validationResultLiveData = MutableLiveData(false)
 
@@ -190,7 +181,7 @@ constructor(
         getFileUploadingStateLiveData.observeForever(imageUploadObserver)
         postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
 
-        communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
+        //communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
 
     fun switchNSFW() {
@@ -206,24 +197,8 @@ constructor(
         parseUrl(content)
     }
 
-    private fun parseUrl(content: CharSequence) {
-        urlParserJob?.cancel()
-        urlParserJob = launch {
-            delay(1_000)
-            Patterns.WEB_URL.matcher(content).apply {
-                if (find()) {
-                    emptyEmbedLiveData.postValue(false)
-                    val link = group()
-                    if (currentEmbeddedLink.compareTo(link) != 0) {
-                        currentEmbeddedLink = link
-                        (embedsUseCase as EmbedsUseCase).requestLinkEmbedData(currentEmbeddedLink)
-                    }
-                } else {
-                    emptyEmbedLiveData.postValue(true)
-                    currentEmbeddedLink = ""
-                }
-            }
-        }
+    fun setCommunity(community: Community) {
+        this.community.value = community
     }
 
     /**
@@ -407,6 +382,26 @@ constructor(
             }
 
             command.value = SetLoadingVisibilityCommand(false)
+        }
+    }
+
+    private fun parseUrl(content: CharSequence) {
+        urlParserJob?.cancel()
+        urlParserJob = launch {
+            delay(1_000)
+            Patterns.WEB_URL.matcher(content).apply {
+                if (find()) {
+                    emptyEmbedLiveData.postValue(false)
+                    val link = group()
+                    if (currentEmbeddedLink.compareTo(link) != 0) {
+                        currentEmbeddedLink = link
+                        (embedsUseCase as EmbedsUseCase).requestLinkEmbedData(currentEmbeddedLink)
+                    }
+                } else {
+                    emptyEmbedLiveData.postValue(true)
+                    currentEmbeddedLink = ""
+                }
+            }
         }
     }
 }

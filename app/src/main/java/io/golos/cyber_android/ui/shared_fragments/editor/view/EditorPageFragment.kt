@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,8 +110,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         })
 
         // Show communities selection dialog
-        showCommunities.setOnClickListener {
-            SelectCommunityDialog.newInstance(uiHelper, showCommunities).show(requireFragmentManager(), "communities")
+        postCommunity.setOnShowCommunitiesClickListener {
+            SelectCommunityDialog.newInstance(uiHelper, postCommunity) {
+                community -> community?.let { viewModel.setCommunity(it) }
+            }
+            .show(requireFragmentManager(), "communities")
         }
 
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
@@ -233,10 +237,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
     }
 
-    private fun setupCommunity(community: CommunityModel) {
-        communityName.text = community.name
-    }
-
     private fun setupPostToEdit(post: PostModel) {
         // todo [AS] see it later
 //        toolbarTitle.setText(R.string.edit_post)
@@ -280,6 +280,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             photoButton.isEnabled = it
             linkExternalButton.isEnabled = it
         })
+
+        viewModel.community.observe({viewLifecycleOwner.lifecycle}) { community ->
+            community?.let { postCommunity.setCommunity(it) }
+        }
 
         // todo [AS] see it later
 //        viewModel.getValidationResultLiveData.observe(this, Observer {

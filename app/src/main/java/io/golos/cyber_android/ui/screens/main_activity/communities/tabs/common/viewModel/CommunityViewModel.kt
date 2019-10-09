@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -72,7 +73,7 @@ constructor(
         model.close()
     }
 
-    override fun onItemClick(externalId: String) {
+    override fun onItemClick(community: Community) {
         // do nothing
     }
 

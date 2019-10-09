@@ -16,7 +16,7 @@ class CommunityListItemDiffAlg(
 
         return when {
             oldItem is CommunityListItem && newItem is CommunityListItem -> {
-                oldItem.externalId == newItem.externalId
+                oldItem.community.id == newItem.community.id
             }
             oldItem is LoadingListItem && newItem is LoadingListItem -> true
             else -> false

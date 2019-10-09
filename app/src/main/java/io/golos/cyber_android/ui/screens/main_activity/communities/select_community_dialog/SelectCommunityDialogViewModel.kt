@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.m
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,6 +32,7 @@ constructor(
 
     val searchResultVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
     val searchResultItems: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
+    val isSearchStringEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
         model.initModel(appResourcesProvider.getDimens(R.dimen.select_community_dialog_list_height).toInt())
@@ -61,8 +63,8 @@ constructor(
         model.close()
     }
 
-    override fun onItemClick(externalId: String) {
-        // do nothing
+    override fun onItemClick(community: Community) {
+        command.value = CommunitySelected(community)
     }
 
     private fun loadPage(lastVisibleItemPosition: Int) {
@@ -71,6 +73,7 @@ constructor(
 
             page.fold({ pageInfo ->
                 pageInfo.data?.let { list -> items.value = list }
+                isSearchStringEnabled.value = true
 
                 if(pageInfo.hasNextData) {
                     loadPage(lastVisibleItemPosition)

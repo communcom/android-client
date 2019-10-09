@@ -44,6 +44,8 @@
 
             android:background="@drawable/bcg_common_white_round_rect"
 
+            android:enabled="@{viewModel.isSearchStringEnabled}"
+
             android:hint="@string/hint_search"
             android:textSize="@dimen/text_size_17_sp"
 

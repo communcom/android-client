@@ -36,7 +36,6 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         embedsUseCase: EmbedsUseCase,
         posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
-        community: CommunityModel?,
         postToEdit: DiscussionIdModel?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
@@ -65,7 +64,6 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
             embedsUseCase,
             posterUseCase,
             imageUploadUseCase,
-            community,
             postToEdit,
             postUseCase,
             model

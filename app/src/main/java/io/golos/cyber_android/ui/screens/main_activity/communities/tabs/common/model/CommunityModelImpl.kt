@@ -117,10 +117,7 @@ constructor(
     private fun Community.map(): ListItem =
         CommunityListItem(
             MurmurHash.hash64(this.id),
-            this.id,
-            this.name,
-            this.followersQuantity,
-            this.logoUrl,
+            this,
             false
         )
 }
