@@ -28,7 +28,11 @@ constructor(
         showCommunitiesButton.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
     }
 
-    fun setCommunity(community: Community) {
+    fun setCommunity(community: Community?) {
+        if(community == null) {
+            return
+        }
+
         communityName.text = community.name
 
         Glide.with(this)
