@@ -20,7 +20,7 @@ class AuthStateRepositoryTest {
     public val rule = InstantTaskExecutorRule()
 
     private val cyber4JApi = Commun4jApiBase(Cyber4J())
-    private val authStateRepository = AuthStateRepository(cyber4JApi, dispatchersProvider, logger)
+    private val authStateRepository = AuthStateRepositoryImpl(cyber4JApi, dispatchersProvider, logger)
 
     @Test
     fun test() {

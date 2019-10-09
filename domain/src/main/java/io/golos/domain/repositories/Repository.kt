@@ -1,8 +1,9 @@
-package io.golos.domain
+package io.golos.domain.repositories
 
 import androidx.annotation.AnyThread
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
+import io.golos.domain.Entity
 import io.golos.domain.entities.DiscussionEntity
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.FeedEntity

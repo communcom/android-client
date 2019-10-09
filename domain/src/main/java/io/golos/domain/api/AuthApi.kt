@@ -1,4 +1,4 @@
-package io.golos.data.api.auth
+package io.golos.domain.api
 
 import io.golos.commun4j.model.UserProfile
 import io.golos.commun4j.services.model.AuthResult

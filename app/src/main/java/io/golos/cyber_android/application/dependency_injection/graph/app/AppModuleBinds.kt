@@ -37,8 +37,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_ex
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.ImageCompressorImpl
-import io.golos.data.api.*
-import io.golos.data.api.auth.AuthApi
+import io.golos.domain.api.AuthApi
 import io.golos.data.api.auth.AuthApiImpl
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.communities.CommunitiesApiImpl
@@ -80,6 +79,9 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.mappers.*
+import io.golos.domain.repositories.AuthStateRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Named
@@ -290,7 +292,7 @@ abstract class AppModuleBinds {
 
     @Binds
     @ApplicationScope
-    abstract fun provideAuthRepository(repository: AuthStateRepository): Repository<AuthState, AuthRequest>
+    abstract fun provideAuthRepository(repository: AuthStateRepositoryImpl): AuthStateRepository
 
     @Binds
     @ApplicationScope

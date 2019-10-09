@@ -25,13 +25,13 @@ constructor(
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userName: String): GeneratedUserKeys = createKeys(userName, generateMasterKey())
+    override fun createKeys(userId: String, userName: String): GeneratedUserKeys = createKeys(userId, userName, generateMasterKey())
 
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userName: String, masterKey: String): GeneratedUserKeys {
-        val keys = generateKeys(userName, masterKey)
+    override fun createKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
+        val keys = generateKeys(userId, userName, masterKey)
 
         listOf(
             UserKey(UserKeyType.MASTER, keys.masterPassword),
@@ -70,54 +70,28 @@ constructor(
         .replace("-", "")
         .substring(0..50)
 
-    private fun generateKeys(userName: String, masterKey: String): GeneratedUserKeys {
-        val publicKeys = AuthUtils.generatePublicWiFs(userName,  masterKey, AuthType.values())
-        val privateKeys = AuthUtils.generatePrivateWiFs(userName, masterKey, AuthType.values())
+    private fun generateKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
+//        val masterKeyTmp = "NCylnTBrIRwkaCSXwjnFXylvBHPfZIFuMIvMjNeylcKrVdVoGvOL"
 
+        val publicKeys = AuthUtils.generatePublicWiFs(userId,  masterKey, AuthType.values())
+        val privateKeys = AuthUtils.generatePrivateWiFs(userId, masterKey, AuthType.values())
+
+        Log.d("KEYS_GENERATION", "userId: $userId")
         Log.d("KEYS_GENERATION", "userName: $userName")
         Log.d("KEYS_GENERATION", "masterKey: $masterKey")
         return GeneratedUserKeys(
             userName,
             masterKey,
-//            publicKeys.getValue(AuthType.OWNER),
-//            privateKeys.getValue(AuthType.OWNER),
-//            publicKeys.getValue(AuthType.ACTIVE),
-//            privateKeys.getValue(AuthType.ACTIVE),
-//            publicKeys.getValue(AuthType.POSTING),
-//            privateKeys.getValue(AuthType.POSTING),
-//            publicKeys.getValue(AuthType.MEMO),
-//            privateKeys.getValue(AuthType.MEMO)
-            // todo[AS] temporary!!!!!
-            "GLS86oPZfmRTTeitrJD3VcymSxfmuyPb1zqNi8ShQ4uyQ6714TgdJ",
-            "5JGbtBTQTJg6jnjowxfLeF3BG5FirnVqhYPw3XKRR6LUvUVdBfK",
-            "GLS7WQvt15rdAgYXgUrh1sBXZcKjLfArqo1kgUBPuJS9jUtNwh9zg",
-            "5JkFtYDEuPQCcxNm27o8n4ErubajUB5Sqag2KdKnYHwMx3DWJ23",
-            "GLS6iWFtxbh9N9RownYz26fAberutBrqxvcB84xsqPnc7YCZNWgBN",
-            "5HxpWGeEpWxHKuS1RNcaUP3dTzDiLw7oNjdMVRtUgKYrMqtSRWW",
-            "GLS5A77uJ8GVH5VVzYVHs9jdhKd4TkMArqreenedsPwdncRFn3iCV",
-            "5KX4ybZ49jSLhuUDLpa15S5mkXAwaSCmFgzvs7rx33xHJDq1HPk"
+            publicKeys.getValue(AuthType.OWNER),
+            privateKeys.getValue(AuthType.OWNER),
+            publicKeys.getValue(AuthType.ACTIVE),
+            privateKeys.getValue(AuthType.ACTIVE),
+            publicKeys.getValue(AuthType.POSTING),
+            privateKeys.getValue(AuthType.POSTING),
+            publicKeys.getValue(AuthType.MEMO),
+            privateKeys.getValue(AuthType.MEMO)
         ).also {
             Log.d("KEYS_GENERATION", "generatedKeys: $it")
         }
     }
 }
-
-/*
-{
-    "username": "tst2elpyxqzd",
-    "alias": "runolfsson-elliot-v",
-    "password": "NCylnTBrIRwkaCSXwjnFXylvBHPfZIFuMIvMjNeylcKrVdVoGvOL",
-    "phone": "+70000000001",
-    "email": "dragontimer+tst@gmail.com",
-    "owner_key": "5JGbtBTQTJg6jnjowxfLeF3BG5FirnVqhYPw3XKRR6LUvUVdBfK",
-    "active_key": "5JkFtYDEuPQCcxNm27o8n4ErubajUB5Sqag2KdKnYHwMx3DWJ23",
-    "posting_key": "5HxpWGeEpWxHKuS1RNcaUP3dTzDiLw7oNjdMVRtUgKYrMqtSRWW",
-    "memo_key": "5KX4ybZ49jSLhuUDLpa15S5mkXAwaSCmFgzvs7rx33xHJDq1HPk",
-    "owner_public_key": "GLS86oPZfmRTTeitrJD3VcymSxfmuyPb1zqNi8ShQ4uyQ6714TgdJ",
-    "active_public_key": "GLS7WQvt15rdAgYXgUrh1sBXZcKjLfArqo1kgUBPuJS9jUtNwh9zg",
-    "posting_public_key": "GLS6iWFtxbh9N9RownYz26fAberutBrqxvcB84xsqPnc7YCZNWgBN",
-    "memo_public_key": "GLS5A77uJ8GVH5VVzYVHs9jdhKd4TkMArqreenedsPwdncRFn3iCV",
-    "testnet_id": 5,
-    "user_db_id": 20117,
-    "comment_id": 0
-}*/

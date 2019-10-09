@@ -4,6 +4,7 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
+import io.golos.domain.api.AuthApi
 import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.requestmodel.AuthRequestModel
@@ -18,13 +19,15 @@ class MasterPassKeysExtractorImpl
 constructor (
     private val userKeyStore: UserKeyStore,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger
+    private val logger: Logger,
+    private val authApi: AuthApi
 ) : MasterPassKeysExtractor {
 
     override suspend fun process(userName: String, masterKey: String): Either<AuthRequestModel, Exception> =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
-                val activeKey = userKeyStore.createKeys(userName, masterKey).activePrivateKey
+                val userId = authApi.resolveCanonicalCyberName(userName).userId.name
+                val activeKey = userKeyStore.createKeys(userId, userName, masterKey).activePrivateKey
                 val model = AuthRequestModel(CyberUser(userName), activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {

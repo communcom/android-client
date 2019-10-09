@@ -6,7 +6,7 @@ import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.entities.UploadedImagesEntity
 import io.golos.domain.requestmodel.CompressionParams

@@ -7,6 +7,7 @@ import io.golos.data.api.push_notifications.PushNotificationsApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.*
 import io.golos.domain.entities.PushNotificationsStateEntity
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

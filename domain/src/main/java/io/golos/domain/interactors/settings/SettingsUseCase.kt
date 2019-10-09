@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.GeneralSettingEntity
 import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
 import io.golos.domain.interactors.UseCase
+import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.*
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class SettingsUseCase
 @Inject
 constructor(
     private val settingsRepository: Repository<UserSettingEntity, SettingChangeRequest>,
-    private val authRepository: Repository<AuthState, AuthRequest>
+    private val authRepository: AuthStateRepository
 ) : UseCase<UserSettingModel> {
 
     private val observer = Observer<Any> {}

@@ -5,16 +5,19 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.UserKeyStore
+import io.golos.domain.api.AuthApi
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.*
 import io.golos.domain.extensions.map
+import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -24,8 +27,9 @@ class SignUpUseCase
 @Inject
 constructor(
     private val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>,
-    private val authRepository: Repository<AuthState, AuthRequest>,
-    dispatchersProvider: DispatchersProvider,
+    private val authRepository: AuthStateRepository,
+    private val authApi: AuthApi,
+    private val dispatchersProvider: DispatchersProvider,
     private val testPassProvider: TestPassProvider,
     private val userKeyStore: UserKeyStore
 ) : UseCase<UserRegistrationStateModel> {
@@ -138,7 +142,7 @@ constructor(
         )
     }
 
-    fun makeRegistrationStep(param: NextRegistrationStepRequestModel) {
+    suspend fun makeRegistrationStep(param: NextRegistrationStepRequestModel) {
 
         val lastRequestLocal = lastRequest
         if (lastRequestLocal?.phone != param.phone) {
@@ -165,8 +169,11 @@ constructor(
                 is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.code)
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
+                    val userId = withContext(dispatchersProvider.ioDispatcher) {
+                        authApi.resolveCanonicalCyberName(param.userName).userId.name
+                    }
                     // Keys are generated and sent to server (public parts only)
-                    val userKeys = userKeyStore.createKeys(param.userName)
+                    val userKeys = userKeyStore.createKeys(userId, param.userName)
                     SetUserKeysRequest(
                         param.phone,
                         userKeys.userName,

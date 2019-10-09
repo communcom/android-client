@@ -8,7 +8,7 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity

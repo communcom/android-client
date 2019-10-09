@@ -6,7 +6,7 @@ import io.golos.commun4j.services.model.AuthResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.AuthUtils
 import io.golos.commun4j.utils.StringSigner
-import io.golos.data.api.auth.AuthApi
+import io.golos.domain.api.AuthApi
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.data.toCyberName
@@ -18,6 +18,7 @@ import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.extensions.distinctUntilChanged
+import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -30,7 +31,7 @@ import kotlin.collections.HashMap
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
 @ApplicationScope
-class AuthStateRepository
+class AuthStateRepositoryImpl
 @Inject
 constructor(
     private val authApi: AuthApi,
@@ -41,7 +42,7 @@ constructor(
     private val userKeyStore: UserKeyStore,
     private val crashlytics: CrashlyticsFacade,
     private val currentUserRepository: CurrentUserRepository
-) : Repository<AuthState, AuthRequest> {
+) : AuthStateRepository {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 

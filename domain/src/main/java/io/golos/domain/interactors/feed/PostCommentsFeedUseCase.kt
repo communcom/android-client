@@ -1,8 +1,8 @@
 package io.golos.domain.interactors.feed
 
-import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.FeedRelatedEntities

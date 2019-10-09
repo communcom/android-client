@@ -178,7 +178,7 @@
 //
 //val backupManager = BackupManager(InstrumentationRegistry.getInstrumentation().targetContext.applicationContext)
 //
-//val authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, persister, backupManager)
+//val authStateRepository = AuthStateRepositoryImpl(apiService, dispatchersProvider, logger, persister, backupManager)
 //
 //val voteRepo = VoteRepository(apiService, apiService, dispatchersProvider, toAppErrorMapper, logger)
 //

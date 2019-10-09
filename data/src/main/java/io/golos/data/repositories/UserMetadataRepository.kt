@@ -8,7 +8,7 @@ import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.entities.UserMetadataEntity

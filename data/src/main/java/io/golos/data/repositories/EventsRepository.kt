@@ -6,7 +6,7 @@ import io.golos.commun4j.services.model.EventType
 import io.golos.data.api.events.EventsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.entities.EventsListDataWithQuery
 import io.golos.domain.entities.EventsListEntity

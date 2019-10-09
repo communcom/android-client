@@ -6,7 +6,7 @@
 //import io.golos.domain.KeyValueStorageFacade
 //import io.golos.cyber_android.dispatchersProvider
 //import io.golos.cyber_android.logger
-//import io.golos.data.repositories.AuthStateRepository
+//import io.golos.data.repositories.AuthStateRepositoryImpl
 //import io.golos.domain.entities.AuthState
 //import io.golos.domain.entities.CyberUser
 //import io.golos.domain.interactors.model.UserAuthState
@@ -33,12 +33,12 @@
 //    public val rule = InstantTaskExecutorRule()
 //
 //    private lateinit var authUseCase: SignInUseCase
-//    private lateinit var authStateRepository: AuthStateRepository
+//    private lateinit var authStateRepository: AuthStateRepositoryImpl
 //
 //    @Before
 //    fun before() {
 //
-//        authStateRepository = AuthStateRepository(apiService, dispatchersProvider, logger, object :
+//        authStateRepository = AuthStateRepositoryImpl(apiService, dispatchersProvider, logger, object :
 //            KeyValueStorageFacade {
 //            override fun saveAESCryptoKey(key: ByteArray) {
 //            }

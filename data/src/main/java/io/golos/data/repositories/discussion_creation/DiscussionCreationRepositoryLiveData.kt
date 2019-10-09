@@ -7,7 +7,7 @@ import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -33,7 +33,7 @@ constructor(
     dispatchersProvider,
     discussionsCreationApi,
     transactionsApi
-),  Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
+), Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
 

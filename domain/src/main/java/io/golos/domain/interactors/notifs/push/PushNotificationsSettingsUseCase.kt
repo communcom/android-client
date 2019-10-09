@@ -5,10 +5,11 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.KeyValueStorageFacade
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.PushNotificationsStateEntity
 import io.golos.domain.interactors.UseCase
+import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.*
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class PushNotificationsSettingsUseCaseImpl
 @Inject
 constructor(
     private val pushRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>,
-    private val authRepository: Repository<AuthState, AuthRequest>,
+    private val authRepository: AuthStateRepository,
     private val keyValueStorage: KeyValueStorageFacade
 ) : PushNotificationsSettingsUseCase {
 

@@ -7,7 +7,7 @@ import io.golos.commun4j.model.GetDiscussionsResultRaw
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.putIfAbsentAndGet
 import io.golos.data.replaceByProducer
-import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.Logger
