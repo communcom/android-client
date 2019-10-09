@@ -114,6 +114,11 @@ object Paginator {
 
     class Store<T> @Inject constructor() {
         private var state: State = State.Empty
+
+        fun initState(state: State){
+            this.state = state
+        }
+
         var render: (State) -> Unit = {}
             set(value) {
                 field = value

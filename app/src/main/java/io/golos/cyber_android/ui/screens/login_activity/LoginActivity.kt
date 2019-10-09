@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatio
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimator
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatorTarget
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
+import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsFragment
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -38,10 +39,16 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.injections.get<LoginActivityComponent>().inject(this)
+        /*App.injections.get<LoginActivityComponent>().inject(this)
 
         setContentView(R.layout.activity_login)
-        setupViewModel()
+        setupViewModel()*/
+
+        setContentView(R.layout.activity_login)
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.testLayout, SubscriptionsFragment(), SubscriptionsFragment::javaClass.name)
+            .commit()
     }
 
 

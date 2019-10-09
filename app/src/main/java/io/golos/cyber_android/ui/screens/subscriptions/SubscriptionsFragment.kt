@@ -3,22 +3,24 @@ package io.golos.cyber_android.ui.screens.subscriptions
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.databinding.FragmentSubscriptionsBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
-import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
 
 class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, SubscriptionsModel, SubscriptionsViewModel>() {
 
+    private val subscriptionsAdapter: CommunitiesAdapter = CommunitiesAdapter()
 
     override fun provideViewModelType(): Class<SubscriptionsViewModel> = SubscriptionsViewModel::class.java
 
@@ -32,11 +34,39 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         binding.viewModel = viewModel
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        searchBar.addTextChangedListener(object: TextWatcher{
+        setupSearchCommunitiesObserver()
+        setupCommunitiesRecommendedList()
+        setupSubscriptionsList()
+        viewModel.start()
+    }
+
+    private fun setupCommunitiesRecommendedList(){
+        rvCommunitiesRecommended.layoutManager = LinearLayoutManager(requireContext())
+        rvCommunitiesRecommended.adapter = subscriptionsAdapter
+        subscriptionsAdapter.nextPageCallback = {
+            viewModel.loadMoreRecommendedCommunities()
+        }
+        subscriptionsAdapter.onJoinClickedCallback = {
+            viewModel.changeRecommendedCommunitySubscriptionStatus(it)
+        }
+    }
+
+    private fun setupSubscriptionsList(){
+        rvSubscriptions.layoutManager = LinearLayoutManager(requireContext())
+        rvSubscriptions.adapter = subscriptionsAdapter
+        subscriptionsAdapter.nextPageCallback = {
+            viewModel.loadMoreRecommendedCommunities()
+        }
+        subscriptionsAdapter.onJoinClickedCallback = {
+            viewModel.changeRecommendedCommunitySubscriptionStatus(it)
+        }
+    }
+
+    private fun setupSearchCommunitiesObserver(){
+        (layoutSearchBar as EditText).addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -51,31 +81,61 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
             }
 
         })
-        viewModel.start()
     }
 
     private fun observeViewModel() {
-        viewModel.subscriptionsState.observe(this, Observer {
+        viewModel.subscriptionsStateLiveData.observe(this, Observer {
             when (it) {
                 SubscriptionsViewModel.SubscriptionsState.UNDEFINED -> setUndefinedSubscriptionsState()
                 SubscriptionsViewModel.SubscriptionsState.EMPTY -> setEmptySubscriptionsState()
                 SubscriptionsViewModel.SubscriptionsState.EXIST -> setExistSubscriptionsState()
-                else -> { Timber.e("undefined subscription state type") }
+                else -> {
+                    Timber.e("undefined subscription state type")
+                }
             }
         })
         viewModel.command.observe(this, Observer {
-            when(it) {
-                is NavigateToSearchCommunitiesCommand -> {}
-                is BackCommand -> {}
+            when (it) {
+                is NavigateToSearchCommunitiesCommand -> {
+                }
+                is BackCommand -> {
+                }
             }
         })
-        viewModel.subscriptionsListState.observe(this, Observer {
-
+        viewModel.subscriptionsListStateLiveData.observe(this, Observer {
+            updateListState(it)
         })
-        viewModel.recommendedSubscriptionsListState.observe(this, Observer {
-
+        viewModel.recommendedSubscriptionsListStateLiveData.observe(this, Observer {
+            updateListState(it)
         })
 
+        viewModel.generalLoadingProgressVisibilityLiveData.observe(this, Observer {
+            if (it) {
+                generalProgressLoading.visibility = View.VISIBLE
+            } else {
+                generalProgressLoading.visibility = View.INVISIBLE
+            }
+        })
+
+        viewModel.recommendedSubscriptionStatusLiveData.observe(this, Observer {
+            subscriptionsAdapter.updateSubscriptionStatus(it)
+        })
+        viewModel.subscriptionsStatusLiveData.observe(this, Observer {
+            subscriptionsAdapter.updateSubscriptionStatus(it)
+        })
+    }
+
+    private fun updateListState(state: Paginator.State){
+        when(state){
+            is Paginator.State.Data<*> -> {
+                subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
+                subscriptionsAdapter.isFullData = false
+            }
+            is Paginator.State.FullData<*> -> {
+                subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
+                subscriptionsAdapter.isFullData = true
+            }
+        }
     }
 
     private fun setUndefinedSubscriptionsState() {

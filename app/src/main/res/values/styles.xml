@@ -358,6 +358,7 @@
         <item name="android:textColor">@color/tint_community_join_button_text</item>
         <item name="android:background">@drawable/bg_community_join_button</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="SelectCommunityDialog" parent="Theme.Design.Light.BottomSheetDialog">

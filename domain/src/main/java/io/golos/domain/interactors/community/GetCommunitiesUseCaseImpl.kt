@@ -3,9 +3,9 @@ package io.golos.domain.interactors.community
 import io.golos.domain.entities.CommunityPageDomain
 import javax.inject.Inject
 
-class GetCommunitiesUseCaseImpl @Inject constructor() : GetCommunitiesUseCase {
+class GetCommunitiesUseCaseImpl @Inject constructor(private val communitiesRepository: CommunitiesRepository) : GetCommunitiesUseCase {
 
     override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
-        return CommunityPageDomain("", emptyList())
+        return communitiesRepository.getCommunitiesByQuery(query, sequenceKey, pageLimitSize)
     }
 }

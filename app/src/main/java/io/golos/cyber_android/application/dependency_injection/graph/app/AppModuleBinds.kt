@@ -52,6 +52,7 @@ import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
+import io.golos.domain.interactors.community.CommunitiesRepository
 import io.golos.domain.mappers.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
@@ -203,6 +204,11 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun providePushNotificationsApi(service: Commun4jApiService): PushNotificationsApi
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideCommunitiesApi(service: Commun4jApiService): CommunitiesApi
+
     // endregion
 
     // region Transformers
@@ -310,6 +316,10 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun providePushesRepository(repository: PushNotificationsRepository): Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
+
+    @Binds
+    abstract fun provideCommunitiesRepository(repository: CommunitiesRepositoryImpl): CommunitiesRepository
+
     // endregion
 
     // ------------- Sign In -----------

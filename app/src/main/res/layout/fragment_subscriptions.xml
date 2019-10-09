@@ -41,17 +41,6 @@
             app:layout_constraintTop_toBottomOf="@+id/searchBar"
             tools:listitem="@layout/item_subscription" />
 
-
-        <include
-            layout="@layout/item_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.communitiesSubscriptionsLoadingProgressVisibilityLiveData}"
-            app:layout_constraintBottom_toBottomOf="@+id/rvSubscriptions"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rvSubscriptions" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clNoSubscriptionsPlaceHolder"
             android:layout_width="match_parent"
@@ -139,20 +128,10 @@
             tools:visibility="visible" />
 
         <include
+            android:id="@+id/generalProgressLoading"
             layout="@layout/item_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.recommendedCommunitiesLoadingProgressVisibilityLiveData}"
-            app:layout_constraintBottom_toBottomOf="@+id/rvCommunitiesRecommended"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rvCommunitiesRecommended" />
-
-        <include
-            layout="@layout/item_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.generalLoadingProgressVisibilityLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

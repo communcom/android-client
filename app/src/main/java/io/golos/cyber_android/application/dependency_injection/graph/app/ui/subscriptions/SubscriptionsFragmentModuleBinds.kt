@@ -41,11 +41,14 @@ interface SubscriptionsFragmentModuleBinds {
     fun bindPaginatorRecomendedCommunities(impl: Paginator.Store<Community>): Paginator.Store<Community>
 
     @Binds
-    fun bindCheckSubscriptionsOnCommunitiesUseCase(model: CheckSubscriptionsOnCommunityUseCaseImpl): CheckSubscriptionsOnCommunitiesUseCase
-
-    @Binds
     fun bindGetCommunitiesUseCase(model: GetCommunitiesUseCaseImpl): GetCommunitiesUseCase
 
     @Binds
     fun bindGetRecommendedCommunitiesUseCase(model: GetRecommendedCommunitiesUseCaseImpl): GetRecommendedCommunitiesUseCase
+
+    @Binds
+    fun bindSubscribeToCommunityUseCase(model: SubscribeToCommunityUseCaseImpl): SubscribeToCommunityUseCase
+
+    @Binds
+    fun bindUnsubscribeToCommunityUseCase(model: UnsubscribeToCommunityUseCaseImpl): UnsubscribeToCommunityUseCase
 }

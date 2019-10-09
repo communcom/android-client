@@ -16,10 +16,17 @@ import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.errors.CyberServicesError
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.entities.CommunityDomain
+import io.golos.domain.entities.CommunityPageDomain
 import java.io.File
 import java.util.*
 import javax.inject.Inject
 import io.golos.commun4j.utils.Pair as CommunPair
+import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
+import kotlinx.coroutines.delay
+
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
@@ -40,7 +47,62 @@ constructor(private val commun4j: Commun4j) :
     EventsApi,
     UserMetadataApi,
     TransactionsApi,
-    PushNotificationsApi {
+    PushNotificationsApi,
+    CommunitiesApi{
+
+    override suspend fun unsubscribeToCommunity(communityId: String) {
+        delay(2000)
+    }
+
+    override suspend fun subscribeToCommunity(communityId: String) {
+        delay(2000)
+    }
+
+    override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+        delay(2000)
+        if(sequenceKey == null){
+            val rand = Random()
+            if(rand.nextBoolean()){
+                return getMockCommunitiesList()
+            } else{
+                return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
+            }
+        }
+        return getMockCommunitiesList()
+
+        //return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
+    }
+
+    override suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+        delay(2000)
+        return getMockCommunitiesList()
+    }
+
+    private fun getMockCommunitiesList(): CommunityPageDomain{
+        val communityNamesArray = mutableListOf<String>()
+        communityNamesArray.add("Overwatch")
+        communityNamesArray.add("Commun")
+        communityNamesArray.add("ADME")
+        communityNamesArray.add("Dribbble")
+        communityNamesArray.add("Behance")
+
+        val communityLogoArray = mutableListOf<String>()
+        communityLogoArray.add("https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg")
+        communityLogoArray.add("https://brandmark.io/logo-rank/random/beats.png")
+        communityLogoArray.add("https://brandmark.io/logo-rank/random/pepsi.png")
+        communityLogoArray.add("https://99designs-start-attachments.imgix.net/alchemy-pictures/2019%2F01%2F31%2F23%2F04%2F58%2Ff99d01d7-bf50-4b79-942f-605d6ed1fdce%2Fludibes.png?auto=format&ch=Width%2CDPR&w=250&h=250")
+
+        val communityList =  mutableListOf<CommunityDomain>()
+        val rand = Random()
+
+        for(i in 0..30){
+            val communityName = communityNamesArray[rand.nextInt(communityNamesArray.size - 1)]
+            val communityLogo: String = communityLogoArray[rand.nextInt(communityLogoArray.size - 1)]
+            val communityDomain = CommunityDomain(UUID.randomUUID().toString(), communityName, communityLogo, rand.nextInt(1000000).toLong(), rand.nextBoolean())
+            communityList.add(communityDomain)
+        }
+        return CommunityPageDomain(UUID.randomUUID().toString(), communityList)
+    }
 
     override fun getUserAccount(user: CyberName): UserProfile {
         return commun4j.getUserAccount(user).getOrThrow()
