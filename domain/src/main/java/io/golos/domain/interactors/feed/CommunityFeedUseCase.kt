@@ -2,11 +2,11 @@ package io.golos.domain.interactors.feed
 
 import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.VoteRequestEntity
-import io.golos.domain.interactors.model.CommunityId
 import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption

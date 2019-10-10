@@ -8,6 +8,7 @@ import io.golos.commun4j.model.*
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.commun4j.utils.Pair as CommunPair
 
 interface DiscussionsApi {
@@ -20,7 +21,7 @@ interface DiscussionsApi {
         tags: List<String>? = null
     ): GetDiscussionsResultRaw
 
-    fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw
+    suspend fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw
 
     fun getUserSubscriptions(userId: String, limit: Int, sort: FeedSort, sequenceKey: String? = null): GetDiscussionsResultRaw
 
@@ -47,10 +48,11 @@ interface DiscussionsApi {
         tokenProp: Long = 0L
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
-    fun createPost(
+    suspend fun createPost(
         title: String,
         body: String,
         tags: List<Tag>,
+        communityId: CommunityId,
         metadata: DiscussionCreateMetadata,
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,

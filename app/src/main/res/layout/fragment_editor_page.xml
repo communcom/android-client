@@ -358,6 +358,8 @@
 
                 style="?android:attr/borderlessButtonStyle"
 
+                android:enabled="@{viewModel.isPostEnabled}"
+
                 android:layout_marginStart="@dimen/margin_size_editor_tool_button"
                 android:layout_marginEnd="@dimen/margin_size_editor_common"
 

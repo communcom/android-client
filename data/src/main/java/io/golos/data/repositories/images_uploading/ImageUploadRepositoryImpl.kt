@@ -1,6 +1,5 @@
 package io.golos.data.repositories.images_uploading
 
-import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider
@@ -14,16 +13,9 @@ class ImageUploadRepositoryImpl
 constructor(
     api: ImageUploadApi,
     dispatchersProvider: DispatchersProvider,
-    compressor: ImageCompressor,
-    private val logger: Logger
+    compressor: ImageCompressor
 ) : ImageUploadRepositoryBase(dispatchersProvider, api, compressor),
     ImageUploadRepository {
 
-    override suspend fun upload(params: ImageUploadRequest): Either<UploadedImageEntity, Throwable> =
-        try {
-            Either.Success<UploadedImageEntity, Throwable>(UploadedImageEntity(uploadImage(params)))
-        } catch (ex: Exception) {
-            logger.log(ex)
-            Either.Failure<UploadedImageEntity, Throwable>(ex)
-        }
+    override suspend fun upload(params: ImageUploadRequest): UploadedImageEntity = UploadedImageEntity(uploadImage(params))
 }

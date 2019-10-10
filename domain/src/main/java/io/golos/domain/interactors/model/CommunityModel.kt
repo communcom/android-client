@@ -2,6 +2,7 @@ package io.golos.domain.interactors.model
 
 import android.os.Parcelable
 import io.golos.domain.Model
+import io.golos.domain.commun_entities.CommunityId
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -13,6 +14,3 @@ data class CommunityModel(
     val name: String,
     val avatarUrl: String?
 ) : Model, Parcelable
-
-@Parcelize
-class CommunityId(val id: String): Parcelable

@@ -9,6 +9,7 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
@@ -25,6 +26,7 @@ import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
+import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
@@ -89,6 +91,7 @@ constructor(
     val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
     val community = MutableLiveData<Community?>()
+    val isPostEnabled = MutableLiveData<Boolean>(false)
 
     private val validationResultLiveData = MutableLiveData(false)
 
@@ -181,6 +184,8 @@ constructor(
         getFileUploadingStateLiveData.observeForever(imageUploadObserver)
         postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
 
+        setUp()
+
         //communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
 
@@ -199,6 +204,7 @@ constructor(
 
     fun setCommunity(community: Community) {
         this.community.value = community
+        isPostEnabled.value = true
     }
 
     /**
@@ -213,29 +219,35 @@ constructor(
             return
         }
 
-        command.value = SetLoadingVisibilityCommand(true)
-
         launch {
             try {
-                val uploadResult = model.uploadLocalImage(content)
+                command.value = SetLoadingVisibilityCommand(true)
 
-                if(uploadResult is Either.Failure) {        // Can't upload the file
+                model.saveLastUsedCommunity(community.value!!)
+
+                var uploadResult: UploadedImageEntity? = null
+                try {
+                    uploadResult = model.uploadLocalImage(content)
+                } catch (ex: Exception) {
+                    App.logger.log(ex)
                     command.value = ShowMessageCommand(R.string.error_upload_file)
-                } else {
-                    val images = if(uploadResult is Either.Success) listOf(uploadResult.value.url) else listOf()
+                    return@launch
+                }
 
-                    val adultOnly = nsfwLiveData.value == true
+                val images = uploadResult?.let { listOf(it.url) } ?: listOf()
 
+                val adultOnly = nsfwLiveData.value == true
+
+                try {
                     val callResult = if(postToEdit == null) {
-                        model.createPost(content, adultOnly, images)
+                        model.createPost(content, adultOnly, community.value!!.id, images)
                     } else {
                         model.updatePost(content, postToEdit.permlink, adultOnly, images)
                     }
-
-                    command.value = when(callResult) {
-                        is Either.Failure -> PostErrorViewCommand(callResult.value)
-                        is Either.Success -> PostCreatedViewCommand(callResult.value)
-                    }
+                    command.value = PostCreatedViewCommand(callResult)
+                } catch (ex: Exception) {
+                    App.logger.log(ex)
+                    command.value = PostErrorViewCommand(ex)
                 }
 
             } catch(ex: Exception) {
@@ -244,7 +256,6 @@ constructor(
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
             }
-
         }
     }
 
@@ -401,6 +412,21 @@ constructor(
                     emptyEmbedLiveData.postValue(true)
                     currentEmbeddedLink = ""
                 }
+            }
+        }
+    }
+
+    private fun setUp() {
+        launch {
+            try {
+                model.getLastUsedCommunity().let {
+                    community.value = it
+                    isPostEnabled.value = it != null
+                }
+            } catch (ex: Exception) {
+                App.logger.log(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
+                command.value = NavigateToMainScreenCommand()
             }
         }
     }

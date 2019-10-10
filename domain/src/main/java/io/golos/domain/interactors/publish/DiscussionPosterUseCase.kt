@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FromSpannedToHtmlTransformer
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
@@ -135,6 +136,7 @@ constructor(
                 request.body.toString(),
                 request.body,
                 request.tags,
+                CommunityId(""),
                 request.images
             )
             is CommentCreationRequestModel -> CommentCreationRequestEntity(

@@ -3,18 +3,19 @@ package io.golos.data.api.discussions
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.MssgidComnGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.commun4j.http.rpc.model.transaction.response.TransactionParentReceipt
-import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcessed
 import io.golos.commun4j.model.*
 import io.golos.commun4j.services.model.CyberCommunity
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.Commun4jApiBase
+import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.CommunityId
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct as UpdatemssgComnGalleryStruct1
@@ -24,7 +25,9 @@ class DiscussionsApiImpl
 @Inject
 constructor(
     commun4j: Commun4j,
-    currentUserRepository: CurrentUserRepositoryRead
+    currentUserRepository: CurrentUserRepositoryRead,
+    private val communitiesApi: CommunitiesApi,
+    private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), DiscussionsApi {
     override fun createComment(
         body: String,
@@ -40,28 +43,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val createStruct = CreatemssgComnGalleryStruct(
-            CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
-            "",
-            "",
-            listOf(),
-            "",
-            0,
-            0
-        )
-
-        return CommunPair(
-            TransactionCommitted(
-                "",
-                TransactionProcessed(
-                    "",
-                    TransactionParentReceipt("", 0, 0),
-                    0, 0, true, listOf(), null, null),
-                createStruct
-            ),
-            createStruct)
+        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyCreatemssgComnGalleryStruct())
 
 //        return commun4j.createComment(
 //            body,
@@ -80,10 +62,11 @@ constructor(
 //        .run { this to this.extractResult() }
     }
 
-    override fun createPost(
+    override suspend fun createPost(
         title: String,
         body: String,
         tags: List<Tag>,
+        communityId: CommunityId,
         metadata: DiscussionCreateMetadata,
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
@@ -92,30 +75,15 @@ constructor(
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
+        return withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
 
-        val createStruct = CreatemssgComnGalleryStruct(
-            CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
-            "",
-            "",
-            listOf(),
-            "",
-            0,
-            0
-        )
+            val community = communitiesApi.getCommunityById(communityId)
+            val post = StubDataFactory.createPost(body, community!!, authState.user.name)
+            DataStorage.posts.add(post)
 
-        return CommunPair(
-            TransactionCommitted(
-                "",
-                TransactionProcessed(
-                    "",
-                    TransactionParentReceipt("", 0, 0),
-                    0, 0, true, listOf(), null, null),
-                createStruct
-            ),
-            createStruct)
-
+            StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyCreatemssgComnGalleryStruct())
+        }
 
 //        return commun4j.createPost(
 //            title,
@@ -143,22 +111,7 @@ constructor(
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
-        val updateStruct = UpdatemssgComnGalleryStruct1(
-            CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
-            "",
-            "",
-            listOf(),
-            "")
-
-        return CommunPair(
-            TransactionCommitted(
-                "",
-                TransactionProcessed(
-                    "",
-                    TransactionParentReceipt("", 0, 0),
-                    0, 0, true, listOf(), null, null), updateStruct),
-            updateStruct)
+        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyUpdatemssgComnGalleryStruct())
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run { this to this.extractResult() }
@@ -170,16 +123,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val deleteStruct = DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(""), ""))
-
-        return CommunPair(
-            TransactionCommitted(
-                "",
-                TransactionProcessed(
-                    "",
-                    TransactionParentReceipt("", 0, 0),
-                    0, 0, true, listOf(), null, null), deleteStruct),
-            deleteStruct)
+        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyDeletemssgComnGalleryStruct())
 
 //        return commun4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run {
@@ -199,8 +143,15 @@ constructor(
         return GetDiscussionsResultRaw(listOf())
     }
 
-    override fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw {
-        return commun4j.getPostRaw(user, "", permlink).getOrThrow()
+    override suspend fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw {
+        return withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            DataStorage.posts.first {
+                it.contentId.userId == user.name && it.contentId.permlink == permlink
+            }
+        }
+
+        // return commun4j.getPostRaw(user, "", permlink).getOrThrow()
     }
 
     override fun getUserSubscriptions(

@@ -24,7 +24,7 @@ constructor(
         return if(searchString.length < 3) {
             return null
         } else {
-            communitiesApi.searchInCommunities(searchString, communityType == CommunityType.USER).getOrThrow()
+            communitiesApi.searchInCommunities(searchString, communityType == CommunityType.USER)
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.golos.domain.interactors.images
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -71,6 +72,6 @@ constructor(
     }
 
     fun submitImageForUpload(absolutePathToLocalFile: String, compressionParams: CompressionParams) {
-        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile), compressionParams))
+        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile), Uri.EMPTY, compressionParams))
     }
 }

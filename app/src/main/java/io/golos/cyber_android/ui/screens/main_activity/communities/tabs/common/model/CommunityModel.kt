@@ -10,7 +10,7 @@ interface CommunityModel: ModelBase {
 
     fun canLoad(lastVisibleItemPosition: Int): Boolean
 
-    suspend fun getPage(lastVisibleItemPosition: Int): Either<PageLoadResult, PageLoadResult>
+    suspend fun getPage(lastVisibleItemPosition: Int): PageLoadResult
 
     fun search(searchTest: String)
 

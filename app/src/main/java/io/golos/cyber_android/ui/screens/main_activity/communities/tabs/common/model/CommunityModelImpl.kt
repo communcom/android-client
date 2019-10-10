@@ -13,7 +13,6 @@ import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.mapSuccess
-import io.golos.domain.extensions.mapSuccessOrFail
 import io.golos.shared_core.IdUtil
 import io.golos.shared_core.MurmurHash
 import javax.inject.Inject
@@ -51,17 +50,15 @@ constructor(
     override fun canLoad(lastVisibleItemPosition: Int): Boolean =
         !allDataLoaded && lastVisibleItemPosition >= loadedItems.size - pageSize / 3
 
-    override suspend fun getPage(lastVisibleItemPosition: Int): Either<PageLoadResult, PageLoadResult> {
+    override suspend fun getPage(lastVisibleItemPosition: Int): PageLoadResult {
         if(allDataLoaded) {
-            return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(false, null))
+            return PageLoadResult(false, null)
         }
 
-        val either1 = when (currentStage) {
+        return when (currentStage) {
             LoadingStage.SHOWING_PROGRESS -> showProgressIndicator()
             LoadingStage.LOAD_DATA -> showItems()
         }
-        val either = either1
-        return either
     }
 
     override fun close() = search.close()
@@ -78,45 +75,44 @@ constructor(
         }
     }
 
-    private fun showProgressIndicator(): Either<PageLoadResult, PageLoadResult> {
+    private fun showProgressIndicator(): PageLoadResult {
         val copyItems = loadedItems.toMutableList()
         copyItems.add(LoadingListItem(IdUtil.generateLongId()))     // Loading indicator has been added
 
         loadedItems = copyItems
 
         currentStage = LoadingStage.LOAD_DATA
-        return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(true, loadedItems))
+        return PageLoadResult(true, loadedItems)
     }
 
-    private suspend fun showItems(): Either<PageLoadResult, PageLoadResult> {
+    private suspend fun showItems(): PageLoadResult {
         val copyItems = loadedItems.toMutableList()
         copyItems.removeAt(copyItems.indices.last)          // Loading indicator has been removed
 
-        return communitiesApi.getCommunitiesList(copyItems.size, pageSize, communityType == CommunityType.USER)
-            .mapSuccessOrFail ({ items ->       // Success
-                items
-                    .map { rawItem -> rawItem.map() }
-                    .let {
-                        allDataLoaded = it.size < pageSize
+        return try {
+            communitiesApi.getCommunitiesList(copyItems.size, pageSize, communityType == CommunityType.USER)
+                .map { rawItem -> rawItem.map() }
+                .let {
+                    allDataLoaded = it.size < pageSize
 
-                        copyItems.addAll(it)
-                        loadedItems = copyItems
+                    copyItems.addAll(it)
+                    loadedItems = copyItems
 
-                        currentStage = LoadingStage.SHOWING_PROGRESS
+                    currentStage = LoadingStage.SHOWING_PROGRESS
 
-                        PageLoadResult(false, loadedItems)
-                    }
-            }, {                                // Fail
-                allDataLoaded = true
-                loadedItems = copyItems
-                currentStage = LoadingStage.SHOWING_PROGRESS
-                PageLoadResult(false, loadedItems)
-            })
+                    PageLoadResult(false, loadedItems)
+                }
+        } catch(ex: Exception) {
+            allDataLoaded = true
+            loadedItems = copyItems
+            currentStage = LoadingStage.SHOWING_PROGRESS
+            PageLoadResult(false, loadedItems)
+        }
     }
 
     private fun Community.map(): ListItem =
         CommunityListItem(
-            MurmurHash.hash64(this.id),
+            MurmurHash.hash64(this.id.id),
             this,
             false
         )

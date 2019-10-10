@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 abstract class ImageUploadRepositoryBase(
     private val dispatchersProvider: DispatchersProvider,
-    private val api: ImageUploadApi,
+    private val imageUplpoadApi: ImageUploadApi,
     private val compressor: ImageCompressor
 ) {
     protected suspend fun uploadImage(params: ImageUploadRequest): String =
@@ -33,6 +33,6 @@ abstract class ImageUploadRepositoryBase(
                     )
             }
 
-            api.uploadImage(compressedFile)
+            imageUplpoadApi.uploadImage(compressedFile, params.localUri)
         }
 }

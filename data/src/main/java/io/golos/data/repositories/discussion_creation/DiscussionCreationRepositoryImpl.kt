@@ -1,6 +1,5 @@
 package io.golos.data.repositories.discussion_creation
 
-import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.domain.DispatchersProvider
@@ -22,11 +21,6 @@ constructor(
     transactionsApi
 ), DiscussionCreationRepository {
     
-    override suspend fun createOrUpdate(params: DiscussionCreationRequestEntity): Either<DiscussionCreationResultEntity, Throwable> =
-        try {
-            Either.Success<DiscussionCreationResultEntity, Throwable>(createOrUpdateDiscussion(params))
-        } catch (ex: Exception) {
-            logger.log(ex)
-            Either.Failure<DiscussionCreationResultEntity, Throwable>(ex)
-        }
+    override suspend fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =
+        createOrUpdateDiscussion(params)
 }

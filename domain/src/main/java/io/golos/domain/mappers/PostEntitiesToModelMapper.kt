@@ -1,6 +1,7 @@
 package io.golos.domain.mappers
 
 import io.golos.domain.HtmlToSpannableTransformer
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionRelatedEntities
 import io.golos.domain.entities.PostEntity

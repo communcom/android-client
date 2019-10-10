@@ -5,6 +5,8 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
+import io.golos.domain.commun_entities.Community
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.interactors.model.DiscussionCreationResultModel
 import io.golos.domain.post.editor_output.ControlMetadata
@@ -17,19 +19,23 @@ interface EditorPageModel : ModelBase {
     /**
      * @return null if no image to upload otherwise - operation result
      */
-    suspend fun uploadLocalImage(content: List<ControlMetadata>): Either<UploadedImageEntity, Throwable>?
+    suspend fun uploadLocalImage(content: List<ControlMetadata>): UploadedImageEntity?
 
     suspend fun createPost(
         content: List<ControlMetadata>,
         adultOnly: Boolean,
+        communityId: CommunityId,
         localImagesUri: List<String> = emptyList()
-    ): Either<DiscussionCreationResultModel, Throwable>
+    ): DiscussionCreationResultModel
 
     suspend fun updatePost(
         content: List<ControlMetadata>,
         permlink: String,
         adultOnly: Boolean,
         localImagesUri: List<String> = emptyList()
-    ): Either<DiscussionCreationResultModel, Throwable>
+    ): DiscussionCreationResultModel
 
+    suspend fun getLastUsedCommunity(): Community?
+
+    suspend fun saveLastUsedCommunity(community: Community)
 }

@@ -3,12 +3,13 @@ package io.golos.data.api.communities
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Community
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.shared_core.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -23,12 +24,20 @@ constructor(
     currentUserRepository: CurrentUserRepositoryRead,
     private val appResources: AppResourcesProvider,
     private val moshi: Moshi,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val logger: Logger
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
 
     private val communities: List<Community> by lazy { loadCommunities() }
 
-    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): Either<List<Community>, Throwable> =
+    private data class CommunityRaw (
+        val id: String,
+        val name: String,
+        val followersQuantity: Int,
+        val logoUrl: String
+    )
+
+    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<Community> =
         withContext(dispatchersProvider.calculationsDispatcher) {
             delay(500)
 
@@ -45,19 +54,19 @@ constructor(
                     .drop(offset)
                     .take(pageSize)
                     .toList()
-                    .let { Either.Success<List<Community>, Throwable>(it) }
+
             } catch(ex: Exception) {
-                Either.Failure<List<Community>, Throwable>(ex)
+                logger.log(ex)
+                throw ex
             }
         }
 
-    override suspend fun joinToCommunity(externalId: String): Either<Unit, Throwable> =
+    override suspend fun joinToCommunity(externalId: String) =
         withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
-            Either.Success<Unit, Throwable>(Unit)
         }
 
-    override suspend fun searchInCommunities(query: String, isUser: Boolean): Either<List<Community>, Throwable> =
+    override suspend fun searchInCommunities(query: String, isUser: Boolean): List<Community> =
         withContext(dispatchersProvider.calculationsDispatcher) {
             delay(500)
 
@@ -75,10 +84,16 @@ constructor(
                     }
                     .filter { it.name.toLowerCase().contains(queryLower) }
                     .toList()
-                    .let { Either.Success<List<Community>, Throwable>(it) }
             } catch(ex: Exception) {
-                Either.Failure<List<Community>, Throwable>(ex)
+                logger.log(ex)
+                throw ex
             }
+        }
+
+    override suspend fun getCommunityById(communityId: CommunityId): Community? =
+        withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            communities.firstOrNull { it.id == communityId }
         }
 
     private fun loadCommunities(): List<Community> {
@@ -86,10 +101,10 @@ constructor(
 
         return String(appResources.getCommunities().readBytes())
             .let {
-                moshi.adapter<List<Community>>(
+                moshi.adapter<List<CommunityRaw>>(
                     Types.newParameterizedType(
                         List::class.java,
-                        Community::class.java
+                        CommunityRaw::class.java
                     )
                 ).fromJson(it)!!
             }
@@ -102,7 +117,7 @@ constructor(
                     it.followersQuantity < 100 -> it.followersQuantity * random.nextInt(50)
                     else -> it.followersQuantity * random.nextInt(500)
                 }
-                it.copy(followersQuantity = followersQuantity)
+                Community(CommunityId(it.id), it.name, followersQuantity, it.logoUrl)
             }
     }
 

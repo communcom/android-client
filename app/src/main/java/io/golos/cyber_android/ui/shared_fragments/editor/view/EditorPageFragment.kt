@@ -20,6 +20,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.databinding.FragmentEditorPageBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
@@ -260,7 +261,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+
+                is NavigateToMainScreenCommand -> activity?.finish()
 
                 is InsertExternalLinkViewCommand ->
                     with(command.linkInfo) {

@@ -1,6 +1,7 @@
 package io.golos.domain.requestmodel
 
 import io.golos.domain.Entity
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.interactors.model.DiscussionIdModel
 
 /**
@@ -13,6 +14,7 @@ data class PostCreationRequestEntity(
     val body: String,
     val originalBody: CharSequence,
     val tags: List<String>,
+    val communityId: CommunityId,
     val images: List<String>
 ) : DiscussionCreationRequestEntity() {
     private val _id = Id()

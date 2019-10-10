@@ -34,8 +34,14 @@ abstract class DiscussionCreationRepositoryBase(
                     request.tokenProp
                 )
                 is CreatePostRequest -> discussionsCreationApi.createPost(
-                    request.title, request.body, request.tags,
-                    request.metadata, request.beneficiaries, request.vestPayment, request.tokenProp
+                    request.title,
+                    request.body,
+                    request.tags,
+                    request.communityId,
+                    request.metadata,
+                    request.beneficiaries,
+                    request.vestPayment,
+                    request.tokenProp
                 )
                 is UpdatePostRequest -> discussionsCreationApi.updatePost(
                     request.postPermlink, request.title, request.body,
