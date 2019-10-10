@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatEditText xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/searchBar"
-    style="@style/SearchBarTextStyle"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:drawableLeft="@drawable/ic_search"
-    android:drawablePadding="@dimen/padding_feed_search_view_icon"
-    android:elevation="@dimen/elevation_search_bar"
-    android:hint="@string/hint_search"
-    android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
-    android:paddingTop="@dimen/padding_vertical_feed_search_bar"
-    android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
+    app:cardElevation="@dimen/elevation_search_bar">
 
-    android:paddingBottom="@dimen/padding_vertical_feed_search_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchBar"
+            style="@style/SearchBarTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/padding_feed_search_view_icon"
+            android:hint="@string/hint_search"
+            android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
+            android:paddingTop="@dimen/padding_vertical_feed_search_bar"
+            android:paddingBottom="@dimen/padding_vertical_feed_search_bar" />
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateOnly="true"
+            android:padding="@dimen/padding_list_loading"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

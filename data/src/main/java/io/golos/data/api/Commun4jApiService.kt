@@ -60,14 +60,14 @@ constructor(private val commun4j: Commun4j) :
 
     override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
         delay(2000)
-        if(sequenceKey == null){
+        /*if(sequenceKey == null){
             val rand = Random()
             if(rand.nextBoolean()){
                 return getMockCommunitiesList()
             } else{
                 return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
             }
-        }
+        }*/
         return getMockCommunitiesList()
 
         //return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())

@@ -90,7 +90,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         postView.reduceDragSensitivity()
 
         postMenu.setColorFilter(Color.BLACK)
-        back.setOnClickListener { activity?.finish() }
+        ivBack.setOnClickListener { activity?.finish() }
 
         feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

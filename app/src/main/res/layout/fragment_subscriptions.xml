@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <include layout="@layout/item_toolbar" />
 
         <include
@@ -28,17 +27,19 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionBar" />
+            app:layout_constraintTop_toBottomOf="@+id/actionBar"
+            tools:visibility="visible"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSubscriptions"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="invisible"
+            android:layout_marginTop="@dimen/margin_vertical_default_8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchBar"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSearchBar"
             tools:listitem="@layout/item_subscription" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -27,7 +27,7 @@ class SignInFragment : FragmentBase(), SignInParentFragment {
         setupViewPager()
         setupTabLayout()
 
-        back.setOnClickListener {
+        ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
     }

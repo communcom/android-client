@@ -39,7 +39,7 @@
                         app:layout_constraintTop_toTopOf="parent"/>
 
                 <ImageView
-                        android:id="@+id/back"
+                        android:id="@+id/ivBack"
                         android:visibility="gone"
                         android:padding="@dimen/margin_horizontal_default_16dp"
                         app:srcCompat="@drawable/ic_back"
@@ -321,7 +321,7 @@
 
                             <TextView
                                     style="@style/ProfileFollowersTextStyle"
-                                    android:text="@string/subscribers"
+                                    android:text="@string/subscribes"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                             />

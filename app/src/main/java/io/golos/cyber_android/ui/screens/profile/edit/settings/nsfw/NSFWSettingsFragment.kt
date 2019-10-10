@@ -44,7 +44,7 @@ class NSFWSettingsFragment : FragmentBase() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        back.setOnClickListener { findNavController().navigateUp() }
+        ivBack.setOnClickListener { findNavController().navigateUp() }
         settingsList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         settingsList.adapter = NSFWSettingsAdapter(object :
             NSFWSettingsAdapter.Listener {

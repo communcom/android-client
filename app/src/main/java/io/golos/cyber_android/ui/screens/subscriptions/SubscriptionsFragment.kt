@@ -16,6 +16,9 @@ import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
+import kotlinx.android.synthetic.main.item_content_embed.*
+import kotlinx.android.synthetic.main.item_toolbar.*
+import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
 
 class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, SubscriptionsModel, SubscriptionsViewModel>() {
@@ -37,43 +40,51 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        setupSearchCommunitiesObserver()
+        setupSearch()
         setupCommunitiesRecommendedList()
         setupSubscriptionsList()
+        setupToolbar()
         viewModel.start()
     }
 
-    private fun setupCommunitiesRecommendedList(){
+    private fun setupToolbar() {
+        toolbarTitle.setText(R.string.subscriptions)
+        ivBack.setOnClickListener {
+            viewModel.back()
+        }
+    }
+
+    private fun setupCommunitiesRecommendedList() {
         rvCommunitiesRecommended.layoutManager = LinearLayoutManager(requireContext())
         rvCommunitiesRecommended.adapter = subscriptionsAdapter
         subscriptionsAdapter.nextPageCallback = {
             viewModel.loadMoreRecommendedCommunities()
         }
         subscriptionsAdapter.onJoinClickedCallback = {
-            viewModel.changeRecommendedCommunitySubscriptionStatus(it)
+            viewModel.changeCommunitySubscriptionStatus(it)
         }
     }
 
-    private fun setupSubscriptionsList(){
+    private fun setupSubscriptionsList() {
         rvSubscriptions.layoutManager = LinearLayoutManager(requireContext())
         rvSubscriptions.adapter = subscriptionsAdapter
         subscriptionsAdapter.nextPageCallback = {
-            viewModel.loadMoreRecommendedCommunities()
+            viewModel.loadSubscriptions()
         }
         subscriptionsAdapter.onJoinClickedCallback = {
-            viewModel.changeRecommendedCommunitySubscriptionStatus(it)
+            viewModel.changeCommunitySubscriptionStatus(it)
         }
     }
 
-    private fun setupSearchCommunitiesObserver(){
-        (layoutSearchBar as EditText).addTextChangedListener(object : TextWatcher {
+    private fun setupSearch() {
+        searchBar.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                //implement if need
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                //implement if need
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -97,6 +108,7 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         viewModel.command.observe(this, Observer {
             when (it) {
                 is NavigateToSearchCommunitiesCommand -> {
+
                 }
                 is BackCommand -> {
                 }
@@ -125,15 +137,20 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         })
     }
 
-    private fun updateListState(state: Paginator.State){
-        when(state){
+    private fun updateListState(state: Paginator.State) {
+        when (state) {
             is Paginator.State.Data<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = false
+                pbLoading.visibility = View.INVISIBLE
             }
             is Paginator.State.FullData<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = true
+                pbLoading.visibility = View.INVISIBLE
+            }
+            is Paginator.State.SearchProgress<*> -> {
+                pbLoading.visibility = View.VISIBLE
             }
         }
     }

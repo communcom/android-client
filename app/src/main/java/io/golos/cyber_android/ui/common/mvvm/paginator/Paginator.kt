@@ -12,6 +12,7 @@ object Paginator {
         data class Data<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class Refresh<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class NewPageProgress<T>(val sequenceKey: String?, val data: List<T>) : State()
+        data class SearchProgress<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class FullData<T>(val sequenceKey: String?, val data: List<T>) : State()
     }
 
@@ -21,6 +22,7 @@ object Paginator {
         object LoadMore : Action()
         data class NewPage<T>(val sequenceKey: String?, val items: List<T>) : Action()
         data class PageError(val error: Throwable) : Action()
+        object Search : Action()
     }
 
     sealed class SideEffect {
@@ -60,6 +62,22 @@ object Paginator {
                     else -> state
                 }
             }
+            is Action.Search -> {
+                sideEffectListener(SideEffect.LoadPage(null))
+                when (state) {
+                    is State.Empty -> State.EmptyProgress
+                    is State.EmptyError -> State.EmptyProgress
+                    is State.Data<*> -> {
+                        State.SearchProgress(state.sequenceKey, state.data as List<T>)
+                    }
+                    is State.Refresh<*> -> State.EmptyProgress
+                    is State.NewPageProgress<*> -> State.EmptyProgress
+                    is State.FullData<*> -> {
+                        State.SearchProgress(state.sequenceKey, state.data as List<T>)
+                    }
+                    else -> state
+                }
+            }
             is Action.LoadMore -> {
                 when (state) {
                     is State.Data<*> -> {
@@ -91,6 +109,13 @@ object Paginator {
                             State.FullData(state.sequenceKey, state.data as List<T>)
                         } else {
                             State.Data(state.sequenceKey, state.data as List<T> + items)
+                        }
+                    }
+                    is State.SearchProgress<*> -> {
+                        if (items.isEmpty()) {
+                            State.FullData(state.sequenceKey, emptyList<T>())
+                        } else {
+                            State.Data(state.sequenceKey, items)
                         }
                     }
                     else -> state

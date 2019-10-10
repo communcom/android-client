@@ -46,7 +46,8 @@ class CommunitiesAdapter : RecyclerView.Adapter<CommunitiesAdapter.RecommendedCo
 
     fun updateCommunities(communities: MutableList<Community>) {
         val calculateDiff = DiffUtil.calculateDiff(CommunitiesDiffUtil(this.communitiesList, communities))
-        this.communitiesList = communities
+        this.communitiesList.clear()
+        this.communitiesList.addAll(communities)
         calculateDiff.dispatchUpdatesTo(this)
     }
 

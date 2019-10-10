@@ -50,7 +50,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        back.setOnClickListener {
+        ivBack.setOnClickListener {
             findNavController().navigateUp()
         }
 

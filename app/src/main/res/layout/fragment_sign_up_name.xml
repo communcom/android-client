@@ -22,7 +22,7 @@
                 android:layout_height="match_parent">
             <ImageButton
                     android:padding="@dimen/margin_horizontal_default_16dp"
-                    android:id="@+id/back"
+                    android:id="@+id/ivBack"
                     android:background="?attr/selectableItemBackground"
                     android:layout_gravity="start|center_vertical"
                     app:srcCompat="@drawable/ic_back"

@@ -108,8 +108,8 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
             }.show(requireFragmentManager(), "cover")
         }
 
-        back.setOnClickListener { requireActivity().finish() }
-        back.visibility = if (isSeparateActivity()) View.VISIBLE else View.GONE
+        ivBack.setOnClickListener { requireActivity().finish() }
+        ivBack.visibility = if (isSeparateActivity()) View.VISIBLE else View.GONE
 
         profileSwipeRefresh.setOnRefreshListener { viewModel.requestRefresh() }
 
@@ -279,7 +279,7 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
             follow.visibility = View.VISIBLE
             sentPoints.visibility = View.VISIBLE
             editBio.visibility = View.GONE
-            back.visibility = View.VISIBLE
+            ivBack.visibility = View.VISIBLE
             bio.setOnClickListener { }
             editBio.setOnClickListener { }
         }

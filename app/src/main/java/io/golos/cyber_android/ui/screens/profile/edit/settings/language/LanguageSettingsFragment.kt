@@ -47,7 +47,7 @@ class LanguageSettingsFragment : FragmentBase() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        back.setOnClickListener { findNavController().navigateUp() }
+        ivBack.setOnClickListener { findNavController().navigateUp() }
         toolbarTitle.setText(R.string.interface_language)
 
         settingsList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)

@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,11 +47,13 @@ class SubscriptionsViewModel @Inject constructor(
 
     val subscriptionsStatusLiveData = _subscriptionStatusLiveData as LiveData<Community>
 
-    private val recommendedCommunities = mutableListOf<Community>()
+    private val recommendedCommunitiesList = mutableListOf<Community>()
 
-    private val communities = mutableListOf<Community>()
+    private val communitiesList = mutableListOf<Community>()
 
     private var communitySearchQuery: String = ""
+
+    private var getCommunitiesJob: Job? = null
 
     init {
         paginatorSubscriptions.sideEffectListener = {
@@ -78,17 +82,21 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     private fun getCommunities(sequenceKey: String?) {
-        launch {
-            try{
+        getCommunitiesJob?.cancel()
+        getCommunitiesJob = launch {
+            try {
                 val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, sequenceKey, PAGE_SIZE_LIMIT)
-                communities.addAll(CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities))
+                if(sequenceKey == null){
+                    communitiesList.clear()
+                }
+                communitiesList.addAll(CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities))
                 paginatorSubscriptions.proceed(
                     Paginator.Action.NewPage(
                         communitiesByQueryPage.sequenceKey,
-                        communities
+                        communitiesList
                     )
                 )
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 logger.log(e)
             }
         }
@@ -98,11 +106,14 @@ class SubscriptionsViewModel @Inject constructor(
         launch {
             try {
                 val recommendedCommunitiesPage = model.getRecommendedCommunities(sequenceKey, PAGE_SIZE_LIMIT)
-                recommendedCommunities.addAll(CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities))
+                if(sequenceKey == null){
+                    recommendedCommunitiesList.clear()
+                }
+                recommendedCommunitiesList.addAll(CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities))
                 paginatorRecommendedCommunities.proceed(
                     Paginator.Action.NewPage(
                         recommendedCommunitiesPage.sequenceKey,
-                        recommendedCommunities
+                        recommendedCommunitiesList
                     )
                 )
             } catch (e : java.lang.Exception){
@@ -147,13 +158,19 @@ class SubscriptionsViewModel @Inject constructor(
 
     fun onCommunitySearchQueryChanged(query: String) {
         communitySearchQuery = query
+        getCommunitiesJob?.cancel()
+        paginatorSubscriptions.proceed(Paginator.Action.Search)
     }
 
     fun loadMoreRecommendedCommunities() {
         paginatorRecommendedCommunities.proceed(Paginator.Action.LoadMore)
     }
 
-    fun changeRecommendedCommunitySubscriptionStatus(community: Community) {
+    fun loadSubscriptions() {
+        paginatorSubscriptions.proceed(Paginator.Action.LoadMore)
+    }
+
+    fun changeCommunitySubscriptionStatus(community: Community) {
         launch {
             command.value = SetLoadingVisibilityCommand(true)
             val communityId = community.communityId
@@ -201,6 +218,10 @@ class SubscriptionsViewModel @Inject constructor(
             }
         }
         return state
+    }
+
+    fun back() {
+        command.value = BackCommand()
     }
 
     enum class SubscriptionsState {

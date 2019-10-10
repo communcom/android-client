@@ -70,7 +70,7 @@ class SignUpCountryFragment : FragmentBase() {
             }
         })
 
-        back.setOnClickListener { findNavController().navigateUp() }
+        ivBack.setOnClickListener { findNavController().navigateUp() }
 
         setupViewModel()
         observeViewModel()

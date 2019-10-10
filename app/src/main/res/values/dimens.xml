@@ -60,9 +60,9 @@
 
     <!--Feed page-->
     <dimen name="margin_feed_search_bar">8dp</dimen>
-    <dimen name="padding_horizontal_feed_search_bar">15dp</dimen>
+    <dimen name="padding_horizontal_feed_search_bar">@dimen/margin_horizontal_default_16dp</dimen>
     <dimen name="padding_vertical_feed_search_bar">12dp</dimen>
-    <dimen name="padding_feed_search_view_icon">35dp</dimen>
+    <dimen name="padding_feed_search_view_icon">14dp</dimen>
     <dimen name="padding_list_loading">10dp</dimen>
 
     <!--Sorting Widget-->
@@ -303,6 +303,8 @@
     <!--Button-->
     <dimen name="btn_round_radius_size">8dp</dimen>
 
+    <!--ProgressBar-->
+    <dimen name="search_input_pr_bar_end_padding">36dp</dimen>
 
 
 </resources>

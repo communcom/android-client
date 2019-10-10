@@ -43,7 +43,7 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(SignUpN
             AllLowersInputFilter()
         )
 
-        back.setOnClickListener { findNavController().navigateUp() }
+        ivBack.setOnClickListener { findNavController().navigateUp() }
         next.setOnClickListener {
             signUpViewModel.validateUserName(username.text.toString())
         }

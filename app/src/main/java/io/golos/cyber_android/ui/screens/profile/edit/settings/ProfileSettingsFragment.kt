@@ -84,7 +84,7 @@ class ProfileSettingsFragment : FragmentBase() {
             findNavController().navigate(R.id.action_profileSettingsFragment_to_LanguageSettingsFragment)
         }
 
-        back.setOnClickListener { requireActivity().finish() }
+        ivBack.setOnClickListener { requireActivity().finish() }
 
         logOut.setOnClickListener {
             ConfirmationDialog.newInstance(getString(R.string.log_out_question)).apply {

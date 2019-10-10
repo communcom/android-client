@@ -198,7 +198,7 @@
     <string name="edit_bio">Edit Bio</string>
     <string name="followers">Followers</string>
     <string name="followings">Followings</string>
-    <string name="subscribers">Subscribers</string>
+    <string name="subscribes">Subscribes</string>
     <string name="posts">Posts</string>
     <string name="comments">Comments</string>
     <string name="settings">Settings</string>
@@ -306,4 +306,5 @@
     <string name="you_not_subscribed_t_any_community">You have not subscribed to any community</string>
     <string name="find_communities">Find communities</string>
     <string name="point" translatable="false">•</string>
+    <string name="subscriptions">Subscriptions</string>
 </resources>
