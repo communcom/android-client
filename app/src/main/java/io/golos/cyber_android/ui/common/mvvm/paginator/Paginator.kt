@@ -14,6 +14,7 @@ object Paginator {
         data class NewPageProgress<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class SearchProgress<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class FullData<T>(val sequenceKey: String?, val data: List<T>) : State()
+        data class PageError<T>(val sequenceKey: String?, val data: List<T>) : State()
     }
 
     sealed class Action {
@@ -84,6 +85,10 @@ object Paginator {
                         sideEffectListener(SideEffect.LoadPage(state.sequenceKey))
                         State.NewPageProgress(state.sequenceKey, state.data as List<T>)
                     }
+                    is State.PageError<*> -> {
+                        sideEffectListener(SideEffect.LoadPage(state.sequenceKey))
+                        State.NewPageProgress(state.sequenceKey, state.data as List<T>)
+                    }
                     else -> state
                 }
             }
@@ -129,6 +134,10 @@ object Paginator {
                         State.Data(state.sequenceKey, state.data as List<T>)
                     }
                     is State.NewPageProgress<*> -> {
+                        sideEffectListener(SideEffect.ErrorEvent(action.error))
+                        State.PageError(state.sequenceKey, state.data as List<T>)
+                    }
+                    is State.SearchProgress<*> -> {
                         sideEffectListener(SideEffect.ErrorEvent(action.error))
                         State.Data(state.sequenceKey, state.data as List<T>)
                     }

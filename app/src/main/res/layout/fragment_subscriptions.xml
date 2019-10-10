@@ -140,7 +140,7 @@
 
 
         <Button
-            android:id="@+id/btnUpdateSubscriptions"
+            android:id="@+id/btnRetry"
             style="@style/FindCommunityButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/subscriptions_btn_find_communities_height"
@@ -148,7 +148,7 @@
             android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
             android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
             android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
-            android:text="@string/find_communities"
+            android:text="@string/retry"
             android:onClick="@{() -> viewModel.start()}"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"

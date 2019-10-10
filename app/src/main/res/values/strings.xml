@@ -309,6 +309,7 @@
     <string name="subscriptions">Subscriptions</string>
 
     <string name="loading_error">Loading error</string>
+    <string name="retry">Retry</string>
 
     <plurals name="plural_followers">
         <item quantity="zero">followers</item>

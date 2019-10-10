@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.obsez.android.lib.filechooser.internals.UiUtil
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.databinding.FragmentSubscriptionsBinding
-import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
-import kotlinx.android.synthetic.main.item_content_embed.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
@@ -63,6 +59,9 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         subscriptionsAdapter.nextPageCallback = {
             viewModel.loadMoreRecommendedCommunities()
         }
+        subscriptionsAdapter.onPageRetryLoadingCallback = {
+            viewModel.loadMoreRecommendedCommunities()
+        }
         subscriptionsAdapter.onJoinClickedCallback = {
             viewModel.changeCommunitySubscriptionStatus(it)
         }
@@ -72,6 +71,9 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         rvSubscriptions.layoutManager = LinearLayoutManager(requireContext())
         rvSubscriptions.adapter = subscriptionsAdapter
         subscriptionsAdapter.nextPageCallback = {
+            viewModel.loadSubscriptions()
+        }
+        subscriptionsAdapter.onPageRetryLoadingCallback = {
             viewModel.loadSubscriptions()
         }
         subscriptionsAdapter.onJoinClickedCallback = {
@@ -144,9 +146,16 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         })
         viewModel.generalErrorVisibilityLiveData.observe(this, Observer{
             if(it){
-                btnUpdateSubscriptions.visibility = View.VISIBLE
+                btnRetry.visibility = View.VISIBLE
             } else{
-                btnUpdateSubscriptions.visibility = View.INVISIBLE
+                btnRetry.visibility = View.INVISIBLE
+            }
+        })
+        viewModel.searchErrorVisibilityLiveData.observe(this, Observer {
+            if(it){
+                pbLoading.visibility = View.VISIBLE
+            } else{
+                pbLoading.visibility = View.INVISIBLE
             }
         })
     }
@@ -156,15 +165,14 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
             is Paginator.State.Data<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = false
-                pbLoading.visibility = View.INVISIBLE
             }
             is Paginator.State.FullData<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = true
-                pbLoading.visibility = View.INVISIBLE
             }
-            is Paginator.State.SearchProgress<*> -> {
-                pbLoading.visibility = View.VISIBLE
+            is Paginator.State.PageError<*> -> {
+                subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
+                subscriptionsAdapter.isPageError = true
             }
         }
     }

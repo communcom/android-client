@@ -15,6 +15,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.RuntimeException
+import java.util.*
 import javax.inject.Inject
 
 class SubscriptionsViewModel @Inject constructor(
@@ -40,6 +42,8 @@ class SubscriptionsViewModel @Inject constructor(
 
     private val _subscriptionStatusLiveData: MutableLiveData<Community> = MutableLiveData()
 
+    private val _searchErrorVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
     val subscriptionsListStateLiveData = _subscriptionsListStateLiveData as LiveData<Paginator.State>
 
     val recommendedSubscriptionsListStateLiveData = _recommendedSubscriptionsListStateLiveData as LiveData<Paginator.State>
@@ -54,6 +58,8 @@ class SubscriptionsViewModel @Inject constructor(
 
     val generalErrorVisibilityLiveData = _generalErrorVisibilityLiveData as LiveData<Boolean>
 
+    val searchErrorVisibilityLiveData = _searchErrorVisibilityLiveData as LiveData<Boolean>
+
     private val recommendedCommunitiesList = mutableListOf<Community>()
 
     private val communitiesList = mutableListOf<Community>()
@@ -67,20 +73,18 @@ class SubscriptionsViewModel @Inject constructor(
             when (it) {
                 is Paginator.SideEffect.LoadPage -> getCommunities(it.sequenceKey)
                 is Paginator.SideEffect.ErrorEvent -> {
-                    command.value = ShowMessageCommand(R.string.loading_error)
+                    _searchErrorVisibilityLiveData.value = false
                 }
             }
         }
         paginatorSubscriptions.render = {
             _subscriptionsListStateLiveData.value = it
+            _searchErrorVisibilityLiveData.value = it is Paginator.State.SearchProgress<*>
         }
 
         paginatorRecommendedCommunities.sideEffectListener = {
             when (it) {
                 is Paginator.SideEffect.LoadPage -> getRecommendedCommunities(it.sequenceKey)
-                is Paginator.SideEffect.ErrorEvent -> {
-                    command.value = ShowMessageCommand(R.string.loading_error)
-                }
             }
         }
         paginatorRecommendedCommunities.render = {
@@ -96,6 +100,7 @@ class SubscriptionsViewModel @Inject constructor(
                 if(sequenceKey == null){
                     communitiesList.clear()
                 }
+                randomException()
                 communitiesList.addAll(CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities))
                 paginatorSubscriptions.proceed(
                     Paginator.Action.NewPage(
@@ -135,14 +140,23 @@ class SubscriptionsViewModel @Inject constructor(
         command.value = NavigateToSearchCommunitiesCommand()
     }
 
+    private fun randomException(){
+        val rand = Random()
+        if(rand.nextBoolean()){
+            throw RuntimeException()
+        }
+    }
+
     fun start() {
-        if (_subscriptionsState.value == SubscriptionsState.UNDEFINED) {
+        val subscriptionsState = _subscriptionsState.value
+        if (subscriptionsState == SubscriptionsState.UNDEFINED || subscriptionsState == SubscriptionsState.ERROR) {
             launch {
                 try {
                     _generalErrorVisibilityLiveData.value = false
                     _generalLoadingProgressVisibilityLiveData.value = true
                     val recommendedCommunitiesPage = model.getRecommendedCommunities(null, PAGE_SIZE_LIMIT)
                     val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, null, PAGE_SIZE_LIMIT)
+                    randomException()
                     if (communitiesByQueryPage.communities.isEmpty()) {
                         val recommendedCommunities = CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
                         val state = Paginator.State.Data(recommendedCommunitiesPage.sequenceKey, recommendedCommunities)
@@ -185,30 +199,38 @@ class SubscriptionsViewModel @Inject constructor(
 
     fun changeCommunitySubscriptionStatus(community: Community) {
         launch {
-            command.value = SetLoadingVisibilityCommand(true)
-            val communityId = community.communityId
-            if(community.isSubscribed){
-                model.unsubscribeToCommunity(communityId)
-            } else{
-                model.subscribeToCommunity(communityId)
+            try {
+                command.value = SetLoadingVisibilityCommand(true)
+                val communityId = community.communityId
+                if(community.isSubscribed){
+                    model.unsubscribeToCommunity(communityId)
+                } else{
+                    model.subscribeToCommunity(communityId)
+                }
+                randomException()
+                val isRecommendedState = _subscriptionsState.value == SubscriptionsState.EMPTY
+                val state: Paginator.State = if(isRecommendedState){
+                    _recommendedSubscriptionsListStateLiveData.value!!
+                } else{
+                    _subscriptionsListStateLiveData.value!!
+                }
+                community.isSubscribed = !community.isSubscribed
+                val updatedState = updateCommunitySubscriptionStatusInState(state, community)
+                if(isRecommendedState){
+                    _recommendedSubscriptionsListStateLiveData.value = updatedState
+                    _recommendedSubscriptionStatusLiveData.value = community
+                } else{
+                    _subscriptionsListStateLiveData.value = updatedState
+                    _subscriptionStatusLiveData.value = community
+                }
+                command.value = SetLoadingVisibilityCommand(false)
+            } catch (e: Exception){
+                logger.log(e)
+                command.value = ShowMessageCommand(R.string.loading_error)
+                command.value = SetLoadingVisibilityCommand(false)
             }
-            val isRecommendedState = _subscriptionsState.value == SubscriptionsState.EMPTY
-            val state: Paginator.State = if(isRecommendedState){
-                _recommendedSubscriptionsListStateLiveData.value!!
-            } else{
-                _subscriptionsListStateLiveData.value!!
-            }
-            community.isSubscribed = !community.isSubscribed
-            val updatedState = updateCommunitySubscriptionStatusInState(state, community)
-            if(isRecommendedState){
-                _recommendedSubscriptionsListStateLiveData.value = updatedState
-                _recommendedSubscriptionStatusLiveData.value = community
-            } else{
-                _subscriptionsListStateLiveData.value = updatedState
-                _subscriptionStatusLiveData.value = community
-            }
-            command.value = SetLoadingVisibilityCommand(false)
         }
+
     }
 
     private fun updateCommunitySubscriptionStatusInState(state: Paginator.State, community: Community): Paginator.State{

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.subscriptions
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.DiffUtil
@@ -9,24 +10,41 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.utils.SPACE
+import kotlinx.android.synthetic.main.item_progress_error.view.*
 import kotlinx.android.synthetic.main.item_subscription.view.*
 import java.text.NumberFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var isFullData: Boolean = false
+    var isFullData by Delegates.observable(false) { _, isFullDataOld, isFullDataNew ->
+        if (isFullDataOld != isFullDataNew) {
+            notifyItemChanged(communitiesList.size - 1)
+        }
+    }
 
     var nextPageCallback: (() -> Unit)? = null
 
     var onJoinClickedCallback: ((Community) -> Unit)? = null
 
+    var onPageRetryLoadingCallback: (() -> Unit)? = null
+
+    var isPageError by Delegates.observable(false) { _, isPageErrorOld, isPageErrorNew ->
+        if (isPageErrorOld != isPageErrorNew) {
+            val positionProgressErrorHolder = communitiesList.size - 1
+            if (getItemViewType(positionProgressErrorHolder) == PROGRESS_ERROR) {
+                notifyItemChanged(positionProgressErrorHolder)
+            }
+        }
+    }
+
     private var communitiesList: MutableList<Community> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType){
-            PROGRESS -> ProgressViewHolder(parent)
-            ITEM -> CommunityViewHolder(parent)
+        return when (viewType) {
+            PROGRESS_ERROR -> ProgressErrorViewHolder(parent)
+            DATA -> CommunityViewHolder(parent)
             else -> CommunityViewHolder(parent)
         }
     }
@@ -34,24 +52,29 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = communitiesList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if(position == communitiesList.size - 1 && !isFullData){
-            PROGRESS
+        return if (position == communitiesList.size - 1 && !isFullData) {
+            PROGRESS_ERROR
         } else {
-            ITEM
+            DATA
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder.itemViewType == ITEM){
-            val community = communitiesList[position]
-            (holder as CommunityViewHolder).bind(community)
+        when (holder.itemViewType) {
+            DATA -> {
+                val community = communitiesList[position]
+                (holder as CommunityViewHolder).bind(community)
+            }
+            PROGRESS_ERROR -> {
+                (holder as ProgressErrorViewHolder).bind()
+            }
         }
-        if (!isFullData && position >= communitiesList.size - 10) nextPageCallback?.invoke()
+        if (!isFullData && position >= communitiesList.size - 10 && !isPageError) nextPageCallback?.invoke()
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
-        if(holder.itemViewType == ITEM){
+        if (holder.itemViewType == DATA) {
             (holder as CommunityViewHolder).unbind()
         }
     }
@@ -75,7 +98,7 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class CommunityViewHolder(parent: ViewGroup) :
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_subscription, parent, false)) {
 
-        fun bind(community: Community){
+        fun bind(community: Community) {
             setLogo(community.logo)
             setCommunityName(community.name)
             setFollowersCount(community.followersCount)
@@ -96,7 +119,7 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         private fun setFollowersCount(followersCount: Long) {
-            val pluralCount: Int = if(followersCount > 10) 10 else followersCount.toInt()
+            val pluralCount: Int = if (followersCount > 10) 10 else followersCount.toInt()
             val followersCountFormatted = NumberFormat.getNumberInstance(Locale.US).format(followersCount)
             val followersLabel = itemView.context.resources.getQuantityString(R.plurals.plural_followers, pluralCount)
             itemView.tvFollowers.text = followersCountFormatted.plus(SPACE).plus(followersLabel)
@@ -126,18 +149,42 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class ProgressViewHolder(parent: ViewGroup) :
-        RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false))
+    inner class ProgressErrorViewHolder(parent: ViewGroup) :
+        RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_progress_error, parent, false)) {
+
+        fun bind() {
+            if (isPageError) {
+                setErrorState()
+            } else {
+                setProgressState()
+            }
+            itemView.btnPageLoadingRetry.setOnClickListener {
+                onPageRetryLoadingCallback?.let {
+                    setProgressState()
+                    it.invoke()
+                }
+            }
+        }
+
+        private fun setProgressState(){
+            itemView.pbPageLoading.visibility = View.VISIBLE
+            itemView.btnPageLoadingRetry.visibility = View.INVISIBLE
+        }
+
+        private fun setErrorState(){
+            itemView.pbPageLoading.visibility = View.INVISIBLE
+            itemView.btnPageLoadingRetry.visibility = View.VISIBLE
+        }
+    }
 
     private companion object {
 
-        @IntDef(ITEM, PROGRESS, ERROR)
+        @IntDef(DATA, PROGRESS_ERROR)
         @Retention(AnnotationRetention.SOURCE)
         annotation class PAGINATION_ITEM_VIEW_TYPE
 
-        const val ITEM = 0
-        const val PROGRESS = 1
-        const val ERROR = 2
+        const val DATA = 0
+        const val PROGRESS_ERROR = 1
     }
 
 }
