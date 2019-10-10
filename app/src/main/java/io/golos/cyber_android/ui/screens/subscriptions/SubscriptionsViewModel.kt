@@ -2,11 +2,13 @@ package io.golos.cyber_android.ui.screens.subscriptions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
@@ -24,6 +26,8 @@ class SubscriptionsViewModel @Inject constructor(
     ViewModelBase<SubscriptionsModel>(dispatchersProvider, model) {
 
     private val _generalLoadingProgressVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    private val _generalErrorVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private val _subscriptionsState: MutableLiveData<SubscriptionsState> = MutableLiveData(SubscriptionsState.UNDEFINED)
 
@@ -47,6 +51,8 @@ class SubscriptionsViewModel @Inject constructor(
 
     val subscriptionsStatusLiveData = _subscriptionStatusLiveData as LiveData<Community>
 
+    val generalErrorVisibilityLiveData = _generalErrorVisibilityLiveData as LiveData<Boolean>
+
     private val recommendedCommunitiesList = mutableListOf<Community>()
 
     private val communitiesList = mutableListOf<Community>()
@@ -60,7 +66,7 @@ class SubscriptionsViewModel @Inject constructor(
             when (it) {
                 is Paginator.SideEffect.LoadPage -> getCommunities(it.sequenceKey)
                 is Paginator.SideEffect.ErrorEvent -> {
-
+                    command.value = ShowMessageCommand(R.string.loading_error)
                 }
             }
         }
@@ -72,7 +78,7 @@ class SubscriptionsViewModel @Inject constructor(
             when (it) {
                 is Paginator.SideEffect.LoadPage -> getRecommendedCommunities(it.sequenceKey)
                 is Paginator.SideEffect.ErrorEvent -> {
-
+                    command.value = ShowMessageCommand(R.string.loading_error)
                 }
             }
         }
@@ -98,6 +104,7 @@ class SubscriptionsViewModel @Inject constructor(
                 )
             } catch (e: java.lang.Exception) {
                 logger.log(e)
+                paginatorSubscriptions.proceed(Paginator.Action.PageError(e))
             }
         }
     }
@@ -118,6 +125,7 @@ class SubscriptionsViewModel @Inject constructor(
                 )
             } catch (e : java.lang.Exception){
                 logger.log(e)
+                paginatorRecommendedCommunities.proceed(Paginator.Action.PageError(e))
             }
         }
     }
@@ -130,6 +138,7 @@ class SubscriptionsViewModel @Inject constructor(
         if (_subscriptionsState.value == SubscriptionsState.UNDEFINED) {
             launch {
                 try {
+                    _generalErrorVisibilityLiveData.value = false
                     _generalLoadingProgressVisibilityLiveData.value = true
                     val recommendedCommunitiesPage = model.getRecommendedCommunities(null, PAGE_SIZE_LIMIT)
                     val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, null, PAGE_SIZE_LIMIT)
@@ -151,6 +160,7 @@ class SubscriptionsViewModel @Inject constructor(
                     logger.log(e)
                     _subscriptionsState.value = SubscriptionsState.ERROR
                     _generalLoadingProgressVisibilityLiveData.value = false
+                    _generalErrorVisibilityLiveData.value = true
                 }
             }
         }

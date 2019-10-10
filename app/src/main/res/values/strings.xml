@@ -307,4 +307,7 @@
     <string name="find_communities">Find communities</string>
     <string name="point" translatable="false">•</string>
     <string name="subscriptions">Subscriptions</string>
+
+    <string name="loading_error">Loading error</string>
+
 </resources>

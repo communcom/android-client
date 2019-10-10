@@ -7,14 +7,17 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.obsez.android.lib.filechooser.internals.UiUtil
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.databinding.FragmentSubscriptionsBinding
+import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
 import kotlinx.android.synthetic.main.item_content_embed.*
 import kotlinx.android.synthetic.main.item_toolbar.*
@@ -111,6 +114,10 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
 
                 }
                 is BackCommand -> {
+
+                }
+                is ShowMessageCommand -> {
+                    uiHelper.showMessage(it.textResId)
                 }
             }
         })
@@ -134,6 +141,13 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         })
         viewModel.subscriptionsStatusLiveData.observe(this, Observer {
             subscriptionsAdapter.updateSubscriptionStatus(it)
+        })
+        viewModel.generalErrorVisibilityLiveData.observe(this, Observer{
+            if(it){
+                btnUpdateSubscriptions.visibility = View.VISIBLE
+            } else{
+                btnUpdateSubscriptions.visibility = View.INVISIBLE
+            }
         })
     }
 
