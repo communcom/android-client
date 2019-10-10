@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.utils.SPACE
 import kotlinx.android.synthetic.main.item_subscription.view.*
+import java.text.NumberFormat
+import java.util.*
 
 class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -31,7 +34,7 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = communitiesList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if(position == communitiesList.size - 1){
+        return if(position == communitiesList.size - 1 && !isFullData){
             PROGRESS
         } else {
             ITEM
@@ -93,7 +96,10 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         private fun setFollowersCount(followersCount: Long) {
-            itemView.tvFollowers.text = followersCount.toString()
+            val pluralCount: Int = if(followersCount > 10) 10 else followersCount.toInt()
+            val followersCountFormatted = NumberFormat.getNumberInstance(Locale.US).format(followersCount)
+            val followersLabel = itemView.context.resources.getQuantityString(R.plurals.plural_followers, pluralCount)
+            itemView.tvFollowers.text = followersCountFormatted.plus(SPACE).plus(followersLabel)
         }
 
         private fun setFollowingStatus(following: Boolean) {
@@ -121,9 +127,6 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class ProgressViewHolder(parent: ViewGroup) :
-        RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false))
-
-    inner class ErrorViewHolder(parent: ViewGroup) :
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false))
 
     private companion object {

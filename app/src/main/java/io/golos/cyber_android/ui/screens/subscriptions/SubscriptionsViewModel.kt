@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommu
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
+import io.golos.cyber_android.utils.EMPTY
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import kotlinx.coroutines.Job
@@ -57,7 +58,7 @@ class SubscriptionsViewModel @Inject constructor(
 
     private val communitiesList = mutableListOf<Community>()
 
-    private var communitySearchQuery: String = ""
+    private var communitySearchQuery: String = EMPTY
 
     private var getCommunitiesJob: Job? = null
 
@@ -167,9 +168,11 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun onCommunitySearchQueryChanged(query: String) {
-        communitySearchQuery = query
-        getCommunitiesJob?.cancel()
-        paginatorSubscriptions.proceed(Paginator.Action.Search)
+        if(communitySearchQuery != query){
+            communitySearchQuery = query
+            getCommunitiesJob?.cancel()
+            paginatorSubscriptions.proceed(Paginator.Action.Search)
+        }
     }
 
     fun loadMoreRecommendedCommunities() {
