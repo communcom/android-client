@@ -15,8 +15,6 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.RuntimeException
-import java.util.*
 import javax.inject.Inject
 
 class SubscriptionsViewModel @Inject constructor(
@@ -24,7 +22,8 @@ class SubscriptionsViewModel @Inject constructor(
     model: SubscriptionsModel,
     private val paginatorSubscriptions: Paginator.Store<Community>,
     private val paginatorRecommendedCommunities: Paginator.Store<Community>,
-    private val logger: Logger) :
+    private val logger: Logger
+) :
 
     ViewModelBase<SubscriptionsModel>(dispatchersProvider, model) {
 
@@ -36,7 +35,8 @@ class SubscriptionsViewModel @Inject constructor(
 
     private val _subscriptionsListStateLiveData: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
 
-    private val _recommendedSubscriptionsListStateLiveData: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
+    private val _recommendedSubscriptionsListStateLiveData: MutableLiveData<Paginator.State> =
+        MutableLiveData(Paginator.State.Empty)
 
     private val _recommendedSubscriptionStatusLiveData: MutableLiveData<Community> = MutableLiveData()
 
@@ -59,10 +59,6 @@ class SubscriptionsViewModel @Inject constructor(
     val generalErrorVisibilityLiveData = _generalErrorVisibilityLiveData as LiveData<Boolean>
 
     val searchErrorVisibilityLiveData = _searchErrorVisibilityLiveData as LiveData<Boolean>
-
-    private val recommendedCommunitiesList = mutableListOf<Community>()
-
-    private val communitiesList = mutableListOf<Community>()
 
     private var communitySearchQuery: String = EMPTY
 
@@ -97,14 +93,10 @@ class SubscriptionsViewModel @Inject constructor(
         getCommunitiesJob = launch {
             try {
                 val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, sequenceKey, PAGE_SIZE_LIMIT)
-                if(sequenceKey == null){
-                    communitiesList.clear()
-                }
-                communitiesList.addAll(CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities))
                 paginatorSubscriptions.proceed(
                     Paginator.Action.NewPage(
                         communitiesByQueryPage.sequenceKey,
-                        communitiesList
+                        CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities)
                     )
                 )
             } catch (e: java.lang.Exception) {
@@ -118,17 +110,13 @@ class SubscriptionsViewModel @Inject constructor(
         launch {
             try {
                 val recommendedCommunitiesPage = model.getRecommendedCommunities(sequenceKey, PAGE_SIZE_LIMIT)
-                if(sequenceKey == null){
-                    recommendedCommunitiesList.clear()
-                }
-                recommendedCommunitiesList.addAll(CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities))
                 paginatorRecommendedCommunities.proceed(
                     Paginator.Action.NewPage(
                         recommendedCommunitiesPage.sequenceKey,
-                        recommendedCommunitiesList
+                        CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
                     )
                 )
-            } catch (e : java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 logger.log(e)
                 paginatorRecommendedCommunities.proceed(Paginator.Action.PageError(e))
             }
@@ -149,13 +137,15 @@ class SubscriptionsViewModel @Inject constructor(
                     val recommendedCommunitiesPage = model.getRecommendedCommunities(null, PAGE_SIZE_LIMIT)
                     val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, null, PAGE_SIZE_LIMIT)
                     if (communitiesByQueryPage.communities.isEmpty()) {
-                        val recommendedCommunities = CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
+                        val recommendedCommunities =
+                            CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
                         val state = Paginator.State.Data(recommendedCommunitiesPage.sequenceKey, recommendedCommunities)
                         paginatorRecommendedCommunities.initState(state)
                         _subscriptionsState.value = SubscriptionsState.EMPTY
                         _recommendedSubscriptionsListStateLiveData.value = state
                     } else {
-                        val recommendedCommunities = CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities)
+                        val recommendedCommunities =
+                            CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities)
                         val state = Paginator.State.Data(communitiesByQueryPage.sequenceKey, recommendedCommunities)
                         paginatorSubscriptions.initState(state)
                         _subscriptionsState.value = SubscriptionsState.EXIST
@@ -173,7 +163,9 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun onCommunitySearchQueryChanged(query: String) {
-        if(communitySearchQuery != query){
+        if(communitySearchQuery == query){
+            _searchErrorVisibilityLiveData.value = false
+        } else{
             communitySearchQuery = query
             getCommunitiesJob?.cancel()
             paginatorSubscriptions.proceed(Paginator.Action.Search)
@@ -193,28 +185,28 @@ class SubscriptionsViewModel @Inject constructor(
             try {
                 command.value = SetLoadingVisibilityCommand(true)
                 val communityId = community.communityId
-                if(community.isSubscribed){
+                if (community.isSubscribed) {
                     model.unsubscribeToCommunity(communityId)
-                } else{
+                } else {
                     model.subscribeToCommunity(communityId)
                 }
                 val isRecommendedState = _subscriptionsState.value == SubscriptionsState.EMPTY
-                val state: Paginator.State = if(isRecommendedState){
+                val state: Paginator.State = if (isRecommendedState) {
                     _recommendedSubscriptionsListStateLiveData.value!!
-                } else{
+                } else {
                     _subscriptionsListStateLiveData.value!!
                 }
                 community.isSubscribed = !community.isSubscribed
                 val updatedState = updateCommunitySubscriptionStatusInState(state, community)
-                if(isRecommendedState){
+                if (isRecommendedState) {
                     _recommendedSubscriptionsListStateLiveData.value = updatedState
                     _recommendedSubscriptionStatusLiveData.value = community
-                } else{
+                } else {
                     _subscriptionsListStateLiveData.value = updatedState
                     _subscriptionStatusLiveData.value = community
                 }
                 command.value = SetLoadingVisibilityCommand(false)
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 logger.log(e)
                 command.value = ShowMessageCommand(R.string.loading_error)
                 command.value = SetLoadingVisibilityCommand(false)
@@ -223,8 +215,8 @@ class SubscriptionsViewModel @Inject constructor(
 
     }
 
-    private fun updateCommunitySubscriptionStatusInState(state: Paginator.State, community: Community): Paginator.State{
-        when(state){
+    private fun updateCommunitySubscriptionStatusInState(state: Paginator.State, community: Community): Paginator.State {
+        when (state) {
             is Paginator.State.Data<*> -> {
                 val findCommunity = (state.data as List<Community>).find { it == community }
                 findCommunity?.isSubscribed = community.isSubscribed

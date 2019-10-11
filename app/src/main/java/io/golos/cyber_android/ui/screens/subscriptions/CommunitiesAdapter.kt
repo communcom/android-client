@@ -39,6 +39,13 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    var isSearchProgress by Delegates.observable(false) { _, isSearchProgressOld, isSearchProgressNew ->
+        if (isSearchProgressOld != isSearchProgressNew) {
+            val lastPositionItem = communitiesList.size - 1
+            notifyItemChanged(lastPositionItem)
+        }
+    }
+
     private var communitiesList: MutableList<Community> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -69,7 +76,7 @@ class CommunitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 (holder as ProgressErrorViewHolder).bind()
             }
         }
-        if (!isFullData && position >= communitiesList.size - 10 && !isPageError) nextPageCallback?.invoke()
+        if (!isFullData && position >= communitiesList.size - 10 && !isPageError && !isSearchProgress) nextPageCallback?.invoke()
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {

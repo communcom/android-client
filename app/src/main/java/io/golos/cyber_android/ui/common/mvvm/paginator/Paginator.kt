@@ -15,6 +15,7 @@ object Paginator {
         data class SearchProgress<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class FullData<T>(val sequenceKey: String?, val data: List<T>) : State()
         data class PageError<T>(val sequenceKey: String?, val data: List<T>) : State()
+        data class SearchPageError<T>(val sequenceKey: String?, val data: List<T>) : State()
     }
 
     sealed class Action {
@@ -76,6 +77,12 @@ object Paginator {
                     is State.FullData<*> -> {
                         State.SearchProgress(state.sequenceKey, state.data as List<T>)
                     }
+                    is State.PageError<*> -> {
+                        State.SearchProgress(state.sequenceKey, state.data as List<T>)
+                    }
+                    is State.SearchPageError<*> -> {
+                        State.SearchProgress(state.sequenceKey, state.data as List<T>)
+                    }
                     else -> state
                 }
             }
@@ -86,6 +93,10 @@ object Paginator {
                         State.NewPageProgress(state.sequenceKey, state.data as List<T>)
                     }
                     is State.PageError<*> -> {
+                        sideEffectListener(SideEffect.LoadPage(state.sequenceKey))
+                        State.NewPageProgress(state.sequenceKey, state.data as List<T>)
+                    }
+                    is State.SearchPageError<*> -> {
                         sideEffectListener(SideEffect.LoadPage(state.sequenceKey))
                         State.NewPageProgress(state.sequenceKey, state.data as List<T>)
                     }
@@ -139,7 +150,7 @@ object Paginator {
                     }
                     is State.SearchProgress<*> -> {
                         sideEffectListener(SideEffect.ErrorEvent(action.error))
-                        State.Data(state.sequenceKey, state.data as List<T>)
+                        State.SearchPageError(state.sequenceKey, state.data as List<T>)
                     }
                     else -> state
                 }

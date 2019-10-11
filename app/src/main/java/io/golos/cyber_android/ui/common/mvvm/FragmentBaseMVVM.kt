@@ -21,12 +21,15 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Base class for all fragments
  */
-abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewModelBase<TM>> : Fragment() {
+abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewModelBase<TM>> : Fragment(), CoroutineScope {
 
     private lateinit var binding: TB
 
@@ -47,6 +50,8 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
 
     @Inject
     internal lateinit var viewModelFactory: FragmentViewModelFactory
+
+    override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

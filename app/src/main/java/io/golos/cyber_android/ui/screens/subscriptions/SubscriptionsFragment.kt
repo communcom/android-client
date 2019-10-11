@@ -15,6 +15,8 @@ import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.utils.debounce
+import io.golos.cyber_android.utils.throttleLatest
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -82,7 +84,13 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
     }
 
     private fun setupSearch() {
+
+
         searchBar.addTextChangedListener(object : TextWatcher {
+
+            private val querySearchListener: (String) -> Unit = debounce({
+                viewModel.onCommunitySearchQueryChanged(it)
+            })
 
             override fun afterTextChanged(s: Editable?) {
                 //implement if need
@@ -93,7 +101,7 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.onCommunitySearchQueryChanged(s.toString())
+                querySearchListener(s.toString())
             }
 
         })
@@ -165,14 +173,31 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
             is Paginator.State.Data<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = false
+                subscriptionsAdapter.isPageError = false
+                subscriptionsAdapter.isSearchProgress = false
             }
             is Paginator.State.FullData<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = true
+                subscriptionsAdapter.isPageError = false
+                subscriptionsAdapter.isSearchProgress = false
             }
             is Paginator.State.PageError<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isPageError = true
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
+                subscriptionsAdapter.isPageError = false
+            }
+            is Paginator.State.SearchProgress<*> -> {
+                subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
+                subscriptionsAdapter.isSearchProgress = true
+            }
+            is Paginator.State.SearchPageError<*> -> {
+                subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
+                subscriptionsAdapter.isSearchProgress = false
+                uiHelper.showMessage(R.string.loading_error)
             }
         }
     }
