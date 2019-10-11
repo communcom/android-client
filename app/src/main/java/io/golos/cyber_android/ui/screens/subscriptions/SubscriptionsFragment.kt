@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
@@ -11,10 +12,10 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.databinding.FragmentSubscriptionsBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.utils.debounce
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
 import kotlinx.android.synthetic.main.item_toolbar.*
@@ -42,6 +43,18 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         observeViewModel()
         setupToolbar()
         viewModel.start()
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        when (command) {
+            is NavigateToSearchCommunitiesCommand -> {
+
+            }
+            is BackCommand -> {
+                fragmentManager?.popBackStack()
+            }
+        }
     }
 
     private fun setupToolbar() {
@@ -114,19 +127,6 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
                 }
             }
         })
-        viewModel.command.observe(this, Observer {
-            when (it) {
-                is NavigateToSearchCommunitiesCommand -> {
-
-                }
-                is BackCommand -> {
-
-                }
-                is ShowMessageCommand -> {
-                    uiHelper.showMessage(it.textResId)
-                }
-            }
-        })
         viewModel.subscriptionsListStateLiveData.observe(this, Observer {
             updateListState(it)
         })
@@ -148,17 +148,17 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         viewModel.subscriptionsStatusLiveData.observe(this, Observer {
             subscriptionsAdapter.updateSubscriptionStatus(it)
         })
-        viewModel.generalErrorVisibilityLiveData.observe(this, Observer{
-            if(it){
+        viewModel.generalErrorVisibilityLiveData.observe(this, Observer {
+            if (it) {
                 btnRetry.visibility = View.VISIBLE
-            } else{
+            } else {
                 btnRetry.visibility = View.INVISIBLE
             }
         })
         viewModel.searchErrorVisibilityLiveData.observe(this, Observer {
-            if(it){
+            if (it) {
                 pbLoading.visibility = View.VISIBLE
-            } else{
+            } else {
                 pbLoading.visibility = View.INVISIBLE
             }
         })
@@ -223,5 +223,12 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         rvCommunitiesRecommended.visibility = View.INVISIBLE
         setupSearch()
         setupSubscriptionsList()
+    }
+
+    companion object {
+
+        fun newInstance(): Fragment {
+            return SubscriptionsFragment()
+        }
     }
 }

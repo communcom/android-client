@@ -26,17 +26,18 @@ import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.screens.edit_profile_bio_activity.EditProfileBioActivity
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageLiveDataProvider
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
-import io.golos.cyber_android.ui.screens.edit_profile_bio_activity.EditProfileBioActivity
-import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverActivity
 import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverFragment
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsActivity
 import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedFragment
+import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsFragment
+import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.views.utils.TabLayoutMediator
 import io.golos.data.errors.AppError
@@ -124,6 +125,15 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
         subscribersPhotosView.visibility = View.GONE
 
         profilePager.reduceDragSensitivity()
+
+        subscribers.setOnClickListener {
+            val tag = SubscriptionsFragment::javaClass.name
+            requireFragmentManager()
+                .beginTransaction()
+                .add(R.id.rootContainer, SubscriptionsFragment.newInstance(), tag)
+                .addToBackStack(tag)
+                .commit()
+        }
     }
 
     /**
@@ -389,5 +399,4 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
             }
         }
     }
-
 }
