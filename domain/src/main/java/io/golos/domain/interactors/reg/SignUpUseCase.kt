@@ -72,7 +72,8 @@ constructor(
                     if (authRepository.getAsLiveData(authRepository.allDataRequest).value?.isUserLoggedIn != true) {
                         authRepository.makeAction(
                             AuthRequest(
-                                CyberUser(lastRequestLocal.userName),
+                                lastRequestLocal.userName,
+                                CyberUser(""),
                                 userKeyStore.getKey(UserKeyType.ACTIVE),
                                 AuthType.SIGN_UP
                             )

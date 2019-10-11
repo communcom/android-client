@@ -61,6 +61,7 @@ constructor(
             authLoadingState.value = it.orEmpty().map { mapEntry ->
                 mapEntry.value.map(
                     AuthRequestModel(
+                        mapEntry.value.originalQuery.userName,
                         mapEntry.value.originalQuery.user,
                         mapEntry.value.originalQuery.activeKey,
                         AuthType.SIGN_IN
@@ -83,7 +84,7 @@ constructor(
 
             delay(100)
             val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value
-                ?: AuthState(CyberName(""), false, false, false, false, AuthType.SIGN_IN)
+                ?: AuthState("", CyberName(""), false, false, false, false, AuthType.SIGN_IN)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             val isSetupCompleted = with(authStateInRepository) {
@@ -109,15 +110,15 @@ constructor(
     override fun unsubscribe() {
         super.unsubscribe()
         mediator.removeObserver(observer)
-        mediator.removeSource(authRepo.getAsLiveData(AuthRequest(CyberUser(""), "", AuthType.SIGN_IN)))
+        mediator.removeSource(authRepo.getAsLiveData(AuthRequest("", CyberUser(""), "", AuthType.SIGN_IN)))
         mediator.removeSource(authRepo.updateStates)
     }
 
     fun authWithCredentials(request: AuthRequestModel) {
-        authRepo.makeAction(AuthRequest(CyberUser(request.user.userId.trim()), request.activeKey.trim(), AuthType.SIGN_IN))
+        authRepo.makeAction(AuthRequest(request.userName, CyberUser(request.user.userId.trim()), request.activeKey.trim(), AuthType.SIGN_IN))
     }
 
     fun logOut() {
-        authRepo.makeAction(AuthRequest(CyberUser(""), "", AuthType.LOG_OUT))
+        authRepo.makeAction(AuthRequest("", CyberUser(""), "", AuthType.LOG_OUT))
     }
 }

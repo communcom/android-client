@@ -20,3 +20,14 @@ fun setCommunityToCommunityContainer(view: CommunityContainer, valueToBind: Muta
         }
     }
 }
+
+@BindingAdapter("select_community_enabled")
+fun setSelectCommunityEnabled(view: CommunityContainer, valueToBind: MutableLiveData<Boolean>?) {
+    valueToBind?.let { value ->
+        view.parentActivity?.let { activity ->
+            value.observe(activity, Observer { isEnabled ->
+                view.setSelectCommunityEnabled(isEnabled)
+            })
+        }
+    }
+}

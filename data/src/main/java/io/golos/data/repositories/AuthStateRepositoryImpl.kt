@@ -64,7 +64,7 @@ constructor(
         repositoryScope.launch {
             if (params.type == AuthType.LOG_OUT) {
                 logout()
-                authState.value = AuthState("".toCyberName(), false, false, false, false, AuthType.LOG_OUT)
+                authState.value = AuthState("", "".toCyberName(), false, false, false, false, AuthType.LOG_OUT)
                 return@launch
             }
 
@@ -75,12 +75,12 @@ constructor(
             }
 
             if(newParams.isEmpty()) {
-                authState.value = AuthState("".toCyberName(), false, false, false, false, newParams.type)   // User is not logged in
+                authState.value = AuthState("", "".toCyberName(), false, false, false, false, newParams.type)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
-                authState.value = AuthState("".toCyberName(), false, false, false, false, newParams.type)
+                authState.value = AuthState("", "".toCyberName(), false, false, false, false, newParams.type)
             }
             else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
@@ -113,17 +113,11 @@ constructor(
             try {
                 val account =
                     withContext(dispatchersProvider.ioDispatcher) {
-                        try {
-                            authApi.getUserAccount(newParams.user.userId.toCyberName())
-                        } catch (e: Throwable) {
-                            logger.log(e)
-                            // Shit! newParams.user.userId is user's name (login) but not user's id.
-                            // So we must get user's id from a server
-                            val userId = authApi.resolveCanonicalCyberName(newParams.user.userId)
-                            newParams = AuthRequest(userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
-                            authApi.getUserAccount(userId.userId)
+                        if(newParams.user.userId.isEmpty()) {
+                            val userId = authApi.resolveCanonicalCyberName(newParams.userName)
+                            newParams = AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
                         }
-
+                        authApi.getUserAccount(newParams.user.userId.toCyberName())
                     }
 
                 if (account.account_name.isEmpty()) {
@@ -186,12 +180,12 @@ constructor(
 
 
             try {
-                val authResult = auth(newParams.user.userId, newParams.activeKey, newParams.type)!!
+                val authResult = auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
                 withContext(dispatchersProvider.ioDispatcher) {
                     authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
                 }
 
-                onAuthSuccess(authResult.user, newParams.user, newParams.type)
+                onAuthSuccess(newParams.userName, authResult.user, newParams.user, newParams.type)
             } catch (e: Exception) {
                 logger.log(e)
                 authRequestsLiveData.value =
@@ -228,17 +222,18 @@ constructor(
 
     override val allDataRequest: AuthRequest
             by lazy {
-                AuthRequest("destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ", AuthType.SIGN_UP)
+                AuthRequest("destroyer2k", "destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ", AuthType.SIGN_UP)
             }
 
-    private suspend fun auth(userId: String, key: String, authType: AuthType): AuthResult? {
-        logger.log(LogTags.LOGIN, "Start auth. User: $userId, authType: $authType")
+    private suspend fun auth(userName: String, cyberName: CyberName, key: String, authType: AuthType): AuthResult? {
+        logger.log(LogTags.LOGIN, "Start auth. User: $userName, authType: $authType")
 
         return withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val secret = authApi.getAuthSecret()
                 authApi.authWithSecret(
-                    userId,
+                    userName,
+                    cyberName,
                     secret.secret,
                     StringSigner.signString(secret.secret, key)
                 )
@@ -250,7 +245,7 @@ constructor(
         }
     }
 
-    private suspend fun onAuthSuccess(resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
+    private suspend fun onAuthSuccess(userName: String, resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
         logger.log(LogTags.LOGIN, "Auth success")
 
         val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
@@ -277,6 +272,7 @@ constructor(
 
         if (loadingQuery != null) {
             val finalAuthState = AuthState(
+                userName,
                 resolvedName,
                 true,
                 oldAuthState?.isPinCodeSettingsPassed ?: false,
@@ -304,7 +300,7 @@ constructor(
         logger.log(LogTags.LOGIN, "Auth fail")
 
         repositoryScope.launch {
-            authState.value = AuthState("".toCyberName(), false, false, false, false, authType)
+            authState.value = AuthState("", "".toCyberName(), false, false, false, false, authType)
             val loadingQuery =
                 authRequestsLiveData.value?.entries?.findLast { it.value is QueryResult.Loading }
 
@@ -330,13 +326,13 @@ constructor(
                 userKeyStore.getKey(UserKeyType.ACTIVE)
             }
 
-            AuthRequest(authSavedAuthState.user.toCyberUser(), key, authType)
+            AuthRequest(authSavedAuthState.userName, authSavedAuthState.user.toCyberUser(), key, authType)
         }
     }
 
-    private fun getEmptyRequest(type: AuthType) = AuthRequest(CyberUser(""), "", type)
+    private fun getEmptyRequest(type: AuthType) = AuthRequest("", CyberUser(""), "", type)
 
-    private fun AuthRequest.isEmpty() = this.user.userId == "" && this.activeKey == ""
+    private fun AuthRequest.isEmpty() = this.userName.isEmpty() && this.user.userId == "" && this.activeKey == ""
 
     private suspend fun logout() {
         withContext(dispatchersProvider.ioDispatcher) {

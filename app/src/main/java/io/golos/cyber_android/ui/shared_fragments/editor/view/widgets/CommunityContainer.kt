@@ -44,4 +44,8 @@ constructor(
     fun setOnShowCommunitiesClickListener(listener: () -> Unit) {
         onShowCommunitiesClickListener = listener
     }
+
+    fun setSelectCommunityEnabled(isEnabled: Boolean) {
+        showCommunitiesButton.isEnabled = isEnabled
+    }
 }

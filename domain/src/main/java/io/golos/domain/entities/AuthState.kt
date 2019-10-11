@@ -7,6 +7,7 @@ import io.golos.domain.Entity
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
 data class AuthState(
+    val userName: String,
     val user: CyberName,
     val isUserLoggedIn: Boolean,
     val isPinCodeSettingsPassed: Boolean,

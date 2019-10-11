@@ -7,6 +7,7 @@ import io.golos.domain.entities.CyberUser
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
  */
 open class AuthRequest(
+    val userName: String,
     val user: CyberUser,
     val activeKey: String,
     val type: AuthType
@@ -35,6 +36,7 @@ open class AuthRequest(
 }
 
 data class AuthRequestModel(
+    val userName: String,
     val user: CyberUser,
     val activeKey: String,
     val type: AuthType)

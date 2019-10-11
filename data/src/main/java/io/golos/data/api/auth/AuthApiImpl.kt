@@ -24,8 +24,14 @@ constructor(
 
     override fun getAuthSecret(): AuthSecret = commun4j.getAuthSecret().getOrThrow()
 
-    override fun authWithSecret(user: String, secret: String, signedSecret: String): AuthResult =
-        commun4j.authWithSecret(user, secret, signedSecret).getOrThrow()
+    override fun authWithSecret(user: String, cyberName: CyberName, secret: String, signedSecret: String): AuthResult {
+        return try {
+            commun4j.authWithSecret(user, secret, signedSecret).getOrThrow()
+        } catch (ex: Exception) {
+            // It's a dirty fix for 0.8.7 library
+            AuthResult(cyberName, user, Array(0) {""}, "")
+        }
+    }
 
     override fun resolveCanonicalCyberName(name: String): ResolvedProfile = commun4j.resolveCanonicalCyberName(name).getOrThrow()
 

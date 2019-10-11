@@ -92,6 +92,7 @@ constructor(
 
     val community = MutableLiveData<Community?>()
     val isPostEnabled = MutableLiveData<Boolean>(false)
+    val isSelectCommunityEnabled = MutableLiveData<Boolean>(false)
 
     private val validationResultLiveData = MutableLiveData(false)
 
@@ -422,6 +423,7 @@ constructor(
                 model.getLastUsedCommunity().let {
                     community.value = it
                     isPostEnabled.value = it != null
+                    isSelectCommunityEnabled.value = !isInEditMode
                 }
             } catch (ex: Exception) {
                 App.logger.log(ex)
