@@ -26,6 +26,7 @@ import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGallerySt
 import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import kotlinx.coroutines.delay
+import java.lang.RuntimeException
 
 
 /**
@@ -52,13 +53,16 @@ constructor(private val commun4j: Commun4j) :
 
     override suspend fun unsubscribeToCommunity(communityId: String) {
         delay(2000)
+        randomException()
     }
 
     override suspend fun subscribeToCommunity(communityId: String) {
         delay(2000)
+        randomException()
     }
 
     override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+
         delay(2000)
         /*if(sequenceKey == null){
             val rand = Random()
@@ -68,9 +72,17 @@ constructor(private val commun4j: Commun4j) :
                 return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
             }
         }*/
+        randomException()
         return getMockCommunitiesList()
 
         //return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
+    }
+
+    private fun randomException(){
+        val rand = Random()
+        if(rand.nextBoolean()){
+            throw RuntimeException()
+        }
     }
 
     override suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {

@@ -100,7 +100,6 @@ class SubscriptionsViewModel @Inject constructor(
                 if(sequenceKey == null){
                     communitiesList.clear()
                 }
-                randomException()
                 communitiesList.addAll(CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities))
                 paginatorSubscriptions.proceed(
                     Paginator.Action.NewPage(
@@ -140,13 +139,6 @@ class SubscriptionsViewModel @Inject constructor(
         command.value = NavigateToSearchCommunitiesCommand()
     }
 
-    private fun randomException(){
-        val rand = Random()
-        if(rand.nextBoolean()){
-            throw RuntimeException()
-        }
-    }
-
     fun start() {
         val subscriptionsState = _subscriptionsState.value
         if (subscriptionsState == SubscriptionsState.UNDEFINED || subscriptionsState == SubscriptionsState.ERROR) {
@@ -156,7 +148,6 @@ class SubscriptionsViewModel @Inject constructor(
                     _generalLoadingProgressVisibilityLiveData.value = true
                     val recommendedCommunitiesPage = model.getRecommendedCommunities(null, PAGE_SIZE_LIMIT)
                     val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, null, PAGE_SIZE_LIMIT)
-                    randomException()
                     if (communitiesByQueryPage.communities.isEmpty()) {
                         val recommendedCommunities = CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
                         val state = Paginator.State.Data(recommendedCommunitiesPage.sequenceKey, recommendedCommunities)
@@ -207,7 +198,6 @@ class SubscriptionsViewModel @Inject constructor(
                 } else{
                     model.subscribeToCommunity(communityId)
                 }
-                randomException()
                 val isRecommendedState = _subscriptionsState.value == SubscriptionsState.EMPTY
                 val state: Paginator.State = if(isRecommendedState){
                     _recommendedSubscriptionsListStateLiveData.value!!
