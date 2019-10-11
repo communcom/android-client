@@ -11,12 +11,11 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.databinding.FragmentSubscriptionsBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
+import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.utils.debounce
-import io.golos.cyber_android.utils.throttleLatest
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*

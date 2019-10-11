@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.subscriptions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
+import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand

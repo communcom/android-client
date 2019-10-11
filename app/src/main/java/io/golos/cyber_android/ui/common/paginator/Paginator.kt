@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.mvvm.paginator
+package io.golos.cyber_android.ui.common.paginator
 
 import timber.log.Timber
 import javax.inject.Inject

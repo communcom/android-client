@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.mvvm.paginator.Paginator
+import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
@@ -15,7 +15,6 @@ import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.interactors.community.*
 import javax.inject.Named
-import javax.inject.Qualifier
 
 @Module
 interface SubscriptionsFragmentModuleBinds {
