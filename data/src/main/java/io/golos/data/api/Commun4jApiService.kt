@@ -62,20 +62,17 @@ constructor(private val commun4j: Commun4j) :
     }
 
     override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
-
         delay(2000)
-        /*if(sequenceKey == null){
+        if(sequenceKey == null){
             val rand = Random()
-            if(rand.nextBoolean()){
-                return getMockCommunitiesList()
+            return if(rand.nextBoolean()){
+                getMockCommunitiesList()
             } else{
-                return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
+                CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
             }
-        }*/
+        }
         randomException()
         return getMockCommunitiesList()
-
-        //return CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
     }
 
     private fun randomException(){
@@ -87,6 +84,7 @@ constructor(private val commun4j: Commun4j) :
 
     override suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
         delay(2000)
+        randomException()
         return getMockCommunitiesList()
     }
 

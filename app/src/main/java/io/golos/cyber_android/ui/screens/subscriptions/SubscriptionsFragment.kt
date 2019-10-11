@@ -40,9 +40,6 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        setupSearch()
-        setupCommunitiesRecommendedList()
-        setupSubscriptionsList()
         setupToolbar()
         viewModel.start()
     }
@@ -215,6 +212,7 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         clNoSubscriptionsPlaceHolder.visibility = View.VISIBLE
         tvRecommendedTitle.visibility = View.VISIBLE
         rvCommunitiesRecommended.visibility = View.VISIBLE
+        setupCommunitiesRecommendedList()
     }
 
     private fun setExistSubscriptionsState() {
@@ -223,5 +221,7 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
         clNoSubscriptionsPlaceHolder.visibility = View.INVISIBLE
         tvRecommendedTitle.visibility = View.INVISIBLE
         rvCommunitiesRecommended.visibility = View.INVISIBLE
+        setupSearch()
+        setupSubscriptionsList()
     }
 }
