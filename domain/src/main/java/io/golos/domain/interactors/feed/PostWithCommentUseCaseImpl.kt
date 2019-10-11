@@ -1,12 +1,13 @@
 package io.golos.domain.interactors.feed
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -59,18 +60,26 @@ constructor (
             val postEntity = getPostEntity() ?: return@launch
             val votes = getVotes()
 
+            Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl content: ${postEntity.content.body.postBlock}")
+
             postLiveData.value = withContext(dispatchersProvider.calculationsDispatcher) {
-                toModelMapper.map(
+                val mappedPost = toModelMapper.map(
                     DiscussionRelatedEntities(
                         postEntity,
                         votes.orEmpty().values.find { it.originalQuery.discussionIdEntity.asModel == postId })
                 )
+
+                Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl mapped: ${mappedPost.content.body.postBlock}")
+
+                mappedPost
             }
         }
     }
 
 
     override fun subscribe() {
+        Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl subscribe()")
+
         super.subscribe()
         mediator.addSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId))) {
             onRelatedDataChanges()
@@ -82,12 +91,13 @@ constructor (
         postFeedRepository.requestDiscussionUpdate(DiscussionIdEntity.fromModel(postId))
     }
 
-    private fun getPostEntity() =
-        postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)).value
+    private fun getPostEntity() = postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)).value
 
     private fun getVotes() = voteRepository.updateStates.value
 
     override fun unsubscribe() {
+        Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl unsubscribe()")
+
         super.unsubscribe()
         mediator.removeSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)))
         mediator.removeSource(voteRepository.updateStates)

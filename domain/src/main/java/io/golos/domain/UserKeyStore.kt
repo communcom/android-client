@@ -8,12 +8,12 @@ interface UserKeyStore {
     /**
      * Generates new keys, stores and returns them
      */
-    fun createKeys(userName: String): GeneratedUserKeys
+    fun createKeys(userId: String, userName: String): GeneratedUserKeys
 
     /**
      * Generates new keys, stores and returns them
      */
-    fun createKeys(userName: String, masterKey: String): GeneratedUserKeys
+    fun createKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys
 
     /**
      * Returns private part of a key (in case of master - key itself)

@@ -4,24 +4,23 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.CommunitiesRepository
-import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityExt
 import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.PageLoadResult
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearch
+import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.AppResourcesProvider
+import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.mapSuccess
-import io.golos.domain.extensions.mapSuccessOrFail
-import io.golos.shared_core.IdUtil
-import io.golos.shared_core.MurmurHash
+import io.golos.domain.utils.IdUtil
+import io.golos.domain.utils.MurmurHash
 import javax.inject.Inject
 
 class CommunityModelImpl
 @Inject
 constructor(
-    private val communitiesRepository: CommunitiesRepository,
+    private val communitiesApi: CommunitiesApi,
     private val appResources: AppResourcesProvider,
     private val search: CommunitiesSearch,
     private val communityType: CommunityType
@@ -51,17 +50,15 @@ constructor(
     override fun canLoad(lastVisibleItemPosition: Int): Boolean =
         !allDataLoaded && lastVisibleItemPosition >= loadedItems.size - pageSize / 3
 
-    override suspend fun getPage(lastVisibleItemPosition: Int): Either<PageLoadResult, PageLoadResult> {
+    override suspend fun getPage(lastVisibleItemPosition: Int): PageLoadResult {
         if(allDataLoaded) {
-            return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(false, null))
+            return PageLoadResult(false, null)
         }
 
-        val either1 = when (currentStage) {
+        return when (currentStage) {
             LoadingStage.SHOWING_PROGRESS -> showProgressIndicator()
             LoadingStage.LOAD_DATA -> showItems()
         }
-        val either = either1
-        return either
     }
 
     override fun close() = search.close()
@@ -72,55 +69,51 @@ constructor(
     override fun setOnSearchResultListener(listener: (Either<List<ListItem>?, Throwable>) -> Unit) {
         search.setOnSearchResultListener {
             it.mapSuccess {
-                it?.map { it.map() as ListItem }
+                it?.map { it.map() }
             }
             .let { listener(it) }
         }
     }
 
-    private fun showProgressIndicator(): Either<PageLoadResult, PageLoadResult> {
+    private fun showProgressIndicator(): PageLoadResult {
         val copyItems = loadedItems.toMutableList()
         copyItems.add(LoadingListItem(IdUtil.generateLongId()))     // Loading indicator has been added
 
         loadedItems = copyItems
 
         currentStage = LoadingStage.LOAD_DATA
-        return Either.Success<PageLoadResult, PageLoadResult>(PageLoadResult(true, loadedItems))
+        return PageLoadResult(true, loadedItems)
     }
 
-    private suspend fun showItems(): Either<PageLoadResult, PageLoadResult> {
+    private suspend fun showItems(): PageLoadResult {
         val copyItems = loadedItems.toMutableList()
         copyItems.removeAt(copyItems.indices.last)          // Loading indicator has been removed
 
-        return communitiesRepository.getCommunities(pageSize, copyItems.size, communityType)
-            .mapSuccessOrFail ({ items ->       // Success
-                items
-                    .map { rawItem -> rawItem.map() }
-                    .let {
-                        allDataLoaded = it.size < pageSize
+        return try {
+            communitiesApi.getCommunitiesList(copyItems.size, pageSize, communityType == CommunityType.USER)
+                .map { rawItem -> rawItem.map() }
+                .let {
+                    allDataLoaded = it.size < pageSize
 
-                        copyItems.addAll(it)
-                        loadedItems = copyItems
+                    copyItems.addAll(it)
+                    loadedItems = copyItems
 
-                        currentStage = LoadingStage.SHOWING_PROGRESS
+                    currentStage = LoadingStage.SHOWING_PROGRESS
 
-                        PageLoadResult(false, loadedItems)
-                    }
-            }, {                                // Fail
-                allDataLoaded = true
-                loadedItems = copyItems
-                currentStage = LoadingStage.SHOWING_PROGRESS
-                PageLoadResult(false, loadedItems)
-            })
+                    PageLoadResult(false, loadedItems)
+                }
+        } catch(ex: Exception) {
+            allDataLoaded = true
+            loadedItems = copyItems
+            currentStage = LoadingStage.SHOWING_PROGRESS
+            PageLoadResult(false, loadedItems)
+        }
     }
 
-    private fun CommunityExt.map(): CommunityListItem =
+    private fun Community.map(): ListItem =
         CommunityListItem(
-            MurmurHash.hash64(this.id),
-            this.id,
-            this.name,
-            this.followersQuantity,
-            this.logoUrl,
+            MurmurHash.hash64(this.id.id),
+            this,
             false
         )
 }

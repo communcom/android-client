@@ -22,6 +22,7 @@ object DiscussionCreationRequestMapper {
                     entity.title,
                     entity.body,
                     tags.map { Tag(it) },
+                    entity.communityId,
                     DiscussionCreateMetadata((links + entity.images).map { EmbedmentsUrl(it) }),
                     emptyList(),
                     false,

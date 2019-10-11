@@ -10,29 +10,30 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.data.api.EmbedApi
+import io.golos.data.api.communities.CommunitiesApi
+import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
-import io.golos.data.repositories.discussion_creation.DiscussionCreationRepository
+import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.data.repositories.discussion.DiscussionRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.KeyValueStorageFacade
+import io.golos.domain.commun_entities.Community
+import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.entities.PostCreationResultEntity
 import io.golos.domain.entities.UpdatePostResultEntity
 import io.golos.domain.entities.UploadedImageEntity
-import io.golos.domain.interactors.model.DiscussionCreationResultModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostCreationResultModel
-import io.golos.domain.interactors.model.UpdatePostResultModel
-import io.golos.domain.post.editor_output.TagSpanInfo
+import io.golos.domain.interactors.model.*
 import io.golos.domain.post.editor_output.*
+import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.domain.requestmodel.PostUpdateRequestEntity
 import io.golos.posts_editor.utilities.post.PostStubs
-import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.lang.UnsupportedOperationException
 import java.net.URI
 import javax.inject.Inject
 
@@ -41,8 +42,11 @@ class EditorPageModelImpl
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val embedApi: EmbedApi,
+    private val communityApi: CommunitiesApi,
     private val imageUploadRepository: ImageUploadRepository,
-    private val discussionCreationRepository: DiscussionCreationRepository
+    private val discussionRepository: DiscussionRepository,
+    private val keyValueStorage: KeyValueStorageFacade,
+    private val currentUserRepository: CurrentUserRepositoryRead
 ) : ModelBaseImpl(), EditorPageModel {
 
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
@@ -83,59 +87,67 @@ constructor(
     /**
      * @return null if no image to upload otherwise - operation result
      */
-    override suspend fun uploadLocalImage(content: List<ControlMetadata>): Either<UploadedImageEntity, Throwable>? =
-        content
-            .firstOrNull { it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE }
-            ?.let { metadata -> (metadata as EmbedMetadata).sourceUri }
-            ?.let { uri -> File(URI.create(uri.toString())) }
-            ?.let { file -> imageUploadRepository.upload(ImageUploadRequest(file, CompressionParams.DirectCompressionParams)) }
+    @Suppress("IfThenToElvis")
+    override suspend fun uploadLocalImage(content: List<ControlMetadata>): UploadedImageEntity? =
+        withContext(dispatchersProvider.ioDispatcher) {
+            val firstLocalImage = content.firstOrNull { it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE }
+
+            if(firstLocalImage == null) {
+                return@withContext null
+            } else {
+                firstLocalImage
+                    .let { metadata -> (metadata as EmbedMetadata).sourceUri }
+                    .let { uri ->
+                        val file = File(URI.create(uri.toString()))
+                        imageUploadRepository.upload(ImageUploadRequest(file, uri, CompressionParams.DirectCompressionParams))
+                    }
+            }
+        }
 
     override suspend fun createPost(
         content: List<ControlMetadata>,
         adultOnly: Boolean,
-        localImagesUri: List<String>
-    ): Either<DiscussionCreationResultModel, Throwable> {
+        communityId: CommunityId,
+        localImagesUri: List<String>) : DiscussionCreationResultModel {
         val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
 
         val tags = extractTags(content, adultOnly)
 
-        val postRequest = PostCreationRequestEntity("", postText, postText, tags.toList(), localImagesUri)
+        val postRequest = PostCreationRequestEntity("", postText, postText, tags.toList(), communityId, localImagesUri)
 
-        return when(val creationResult = discussionCreationRepository.createOrUpdate(postRequest)) {
-            is Either.Failure -> Either.Failure<DiscussionCreationResultModel, Throwable>(creationResult.value)
-            is Either.Success -> {
-                (creationResult.value as PostCreationResultEntity)
-                .let {
-                    Either.Success<DiscussionCreationResultModel, Throwable>(PostCreationResultModel(
-                        DiscussionIdModel(it.postId.userId, it.postId.permlink)))
-                }
+        return (discussionRepository.createOrUpdate(postRequest) as PostCreationResultEntity)
+            .let {
+                PostCreationResultModel(DiscussionIdModel(it.postId.userId, it.postId.permlink))
             }
-        }
     }
 
-    override suspend fun updatePost(
-        content: List<ControlMetadata>,
-        permlink: String,
-        adultOnly: Boolean,
-        localImagesUri: List<String>
-    ): Either<DiscussionCreationResultModel, Throwable> {
+    override suspend fun updatePost(content: List<ControlMetadata>, permlink: Permlink, adultOnly: Boolean, localImagesUri: List<String>)
+            : DiscussionCreationResultModel {
         val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
 
         val tags = extractTags(content, adultOnly)
 
         val postRequest = PostUpdateRequestEntity(permlink, "", postText, postText, tags.toList(), localImagesUri)
 
-        return when(val updateResult = discussionCreationRepository.createOrUpdate(postRequest)) {
-            is Either.Failure -> Either.Failure<DiscussionCreationResultModel, Throwable>(updateResult.value)
-            is Either.Success -> {
-                (updateResult.value as UpdatePostResultEntity)
-                    .let {
-                        Either.Success<DiscussionCreationResultModel, Throwable>(UpdatePostResultModel(
-                            DiscussionIdModel(it.id.userId, it.id.permlink)))
-                    }
+        return (discussionRepository.createOrUpdate(postRequest) as UpdatePostResultEntity)
+            .let {
+                UpdatePostResultModel(DiscussionIdModel(it.id.userId, it.id.permlink))
             }
+    }
+
+    override suspend fun getLastUsedCommunity(): Community? =
+        withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.getLastUsedCommunityId()?.let {communityApi.getCommunityById(CommunityId(it))}
+        }
+
+    override suspend fun saveLastUsedCommunity(community: Community) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            keyValueStorage.saveLastUsedCommunityId(community.id.id)
         }
     }
+
+    override suspend fun getPostToEdit(permlink: Permlink): PostModel =
+        discussionRepository.getPost(currentUserRepository.authState!!.user, permlink)
 
     /**
      * @return null - this type of link is not supported

@@ -2,6 +2,7 @@ package io.golos.domain.mappers
 
 import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.domain.Logger
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.entities.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import javax.inject.Inject
@@ -19,7 +20,7 @@ constructor(logger: Logger) : CyberPostToEntityMapper {
         return PostEntity(
             DiscussionIdEntity(
                 communObject.contentId.userId,
-                communObject.contentId.permlink
+                Permlink(communObject.contentId.permlink)
             ),
             DiscussionAuthorEntity(
                 CyberUser(communObject.author.userId.name ?: "unknown"),

@@ -336,7 +336,8 @@
     </style>
 
     <style name="CommunityListItemFollowersText" parent="CommunityListItemTitleText">
-        <item name="android:textStyle">normal</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
         <item name="android:textColor">@color/dark_gray</item>
     </style>
 
@@ -354,7 +355,7 @@
 
     <style name="CommunityJoinButton" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_14_sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/tint_community_join_button_text</item>
         <item name="android:background">@drawable/bg_community_join_button</item>
         <item name="android:textStyle">bold</item>
@@ -365,6 +366,11 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="FindCommunityButton" parent="Common.Base.TextStyle">

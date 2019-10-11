@@ -40,10 +40,10 @@ constructor(
             listAdapter = CommunityListAdapter(listItemEventsProcessor)
             listAdapter.setHasStableIds(true)
 
-            communitiesList.isSaveEnabled = false
-            communitiesList.itemAnimator = null
-            communitiesList.layoutManager = listLayoutManager
-            communitiesList.adapter = listAdapter
+            itemsList.isSaveEnabled = false
+            itemsList.itemAnimator = null
+            itemsList.layoutManager = listLayoutManager
+            itemsList.adapter = listAdapter
         }
 
         listAdapter.update(data)
@@ -54,10 +54,10 @@ constructor(
             return
         }
 
-        scrollListener?.let { communitiesList.removeOnScrollListener(it) }
+        scrollListener?.let { itemsList.removeOnScrollListener(it) }
 
         if(isScrollEnabled) {
-            communitiesList.addOnScrollListener(CommunityListScrollListener(listLayoutManager) { onScrollListener?.invoke(it) })
+            itemsList.addOnScrollListener(CommunityListScrollListener(listLayoutManager) { onScrollListener?.invoke(it) })
         }
     }
 

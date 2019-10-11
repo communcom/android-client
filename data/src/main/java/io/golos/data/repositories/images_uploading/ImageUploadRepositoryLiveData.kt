@@ -1,12 +1,13 @@
 package io.golos.data.repositories.images_uploading
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.data.api.ImageUploadApi
+import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.entities.UploadedImagesEntity
 import io.golos.domain.requestmodel.CompressionParams
@@ -34,7 +35,7 @@ constructor(
     private val uploadedImages = MutableLiveData<UploadedImagesEntity>()
     private val uploadedUpdateStates = MutableLiveData<Map<Identifiable.Id, QueryResult<ImageUploadRequest>>>()
 
-    private val allRequest = ImageUploadRequest(File("\\"), CompressionParams.DirectCompressionParams)
+    private val allRequest = ImageUploadRequest(File("\\"), Uri.EMPTY, CompressionParams.DirectCompressionParams)
     private val jobsMap: HashMap<ImageUploadRequest, Job> = hashMapOf()
 
     override val allDataRequest: ImageUploadRequest = allRequest

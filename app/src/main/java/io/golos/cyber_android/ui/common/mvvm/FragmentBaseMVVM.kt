@@ -62,11 +62,11 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            _viewModel.command.observe({viewLifecycleOwner.lifecycle}) {
-                if(!processViewCommandGeneral(it)) {
-                    processViewCommand(it)
-                }
+        _viewModel.command.observe({viewLifecycleOwner.lifecycle}) {
+            if(!processViewCommandGeneral(it)) {
+                processViewCommand(it)
             }
+        }
 
         binding = DataBindingUtil.inflate(inflater, provideLayout(), container, false)
         binding.lifecycleOwner = this

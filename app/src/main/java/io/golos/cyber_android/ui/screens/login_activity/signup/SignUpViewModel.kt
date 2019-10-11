@@ -92,19 +92,23 @@ constructor(
         selectedPhoneLiveData.postValue(phone)
 
         currentPhone = getNormalizedPhone(phone)
-        signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
+        launch {
+            signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
+        }
     }
 
     /**
      * Verifies sms code
      */
     fun verifyCode(code: String) {
-        signUpUseCase.makeRegistrationStep(
-            SendVerificationCodeRequestModel(
-                currentPhone,
-                Integer.parseInt(code)
+        launch {
+            signUpUseCase.makeRegistrationStep(
+                SendVerificationCodeRequestModel(
+                    currentPhone,
+                    Integer.parseInt(code)
+                )
             )
-        )
+        }
     }
 
     /**
@@ -112,27 +116,33 @@ constructor(
      */
     fun sendName(name: String) {
         currentName = name
-        signUpUseCase.makeRegistrationStep(
-            SetUserNameRequestModel(currentPhone, name)
-        )
+        launch {
+            signUpUseCase.makeRegistrationStep(
+                SetUserNameRequestModel(currentPhone, name)
+            )
+        }
     }
 
     /**
      * Writes user into blockchain
      */
     fun writeToBlockchain() {
-        signUpUseCase.makeRegistrationStep(
-            WriteUserToBlockChainRequestModel(currentPhone, currentName)
-        )
+        launch {
+            signUpUseCase.makeRegistrationStep(
+                WriteUserToBlockChainRequestModel(currentPhone, currentName)
+            )
+        }
     }
 
     /**
      * Resends sms code
      */
     fun resendCode() {
-        signUpUseCase.makeRegistrationStep(
-            ResendSmsVerificationCodeModel(currentPhone)
-        )
+        launch {
+            signUpUseCase.makeRegistrationStep(
+                ResendSmsVerificationCodeModel(currentPhone)
+            )
+        }
     }
 
     /**
@@ -142,9 +152,11 @@ constructor(
         selectedPhoneLiveData.postValue(phone)
 
         currentPhone = getNormalizedPhone(phone)
-        signUpUseCase.makeRegistrationStep(
-            GetUserRegistrationStepRequestModel(currentPhone)
-        )
+        launch {
+            signUpUseCase.makeRegistrationStep(
+                GetUserRegistrationStepRequestModel(currentPhone)
+            )
+        }
     }
 
     /**

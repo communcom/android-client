@@ -1,6 +1,6 @@
 package io.golos.data.repositories.images_uploading
 
-import io.golos.data.api.ImageUploadApi
+import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.requestmodel.CompressionParams
@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 abstract class ImageUploadRepositoryBase(
     private val dispatchersProvider: DispatchersProvider,
-    private val api: ImageUploadApi,
+    private val imageUplpoadApi: ImageUploadApi,
     private val compressor: ImageCompressor
 ) {
     protected suspend fun uploadImage(params: ImageUploadRequest): String =
@@ -33,6 +33,6 @@ abstract class ImageUploadRepositoryBase(
                     )
             }
 
-            api.uploadImage(compressedFile)
+            imageUplpoadApi.uploadImage(compressedFile, params.localUri)
         }
 }

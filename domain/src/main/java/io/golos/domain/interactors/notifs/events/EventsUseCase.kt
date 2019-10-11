@@ -5,8 +5,6 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
-import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.extensions.distinctUntilChanged
@@ -14,7 +12,8 @@ import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.mappers.EventEntityToModelMapper
-import io.golos.domain.requestmodel.AuthRequest
+import io.golos.domain.repositories.AuthStateRepository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
@@ -28,7 +27,7 @@ class EventsUseCase
 @Inject
 constructor(
     private val eventsRepository: Repository<EventsListEntity, EventsFeedUpdateRequest>,
-    private val authRepository: Repository<AuthState, AuthRequest>,
+    private val authRepository: AuthStateRepository,
     private val eventsMapper: EventEntityToModelMapper,
     private val dispatchersProvider: DispatchersProvider
 ) : UseCase<EventsListModel> {

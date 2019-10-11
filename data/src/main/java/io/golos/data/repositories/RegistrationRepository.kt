@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.commun4j.services.model.UserRegistrationStateResult
-import io.golos.data.api.RegistrationApi
+import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserRegistrationStateEntity
 import io.golos.domain.mappers.UserRegistrationStateEntityMapper

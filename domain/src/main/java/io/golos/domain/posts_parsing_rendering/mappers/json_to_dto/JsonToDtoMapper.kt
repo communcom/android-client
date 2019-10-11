@@ -1,6 +1,5 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto
 
-import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.Logger
 import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.post.post_dto.PostMetadata

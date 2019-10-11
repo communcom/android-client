@@ -118,6 +118,17 @@ constructor(
             it.remove("APP_UNLOCK_WAY")
         }
 
+    override fun getLastUsedCommunityId(): String? =
+        keyValueStorage.read {
+            it.readString("LAST_USED_COMMUNITY_ID")
+        }
+
+    override fun saveLastUsedCommunityId(communityId: String) {
+        keyValueStorage.update {
+            it.putString("LAST_USED_COMMUNITY_ID", communityId)
+        }
+    }
+
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =
         when(keyType) {
             UserKeyType.POSTING -> "USER_KEY_TYPE_POSTING"

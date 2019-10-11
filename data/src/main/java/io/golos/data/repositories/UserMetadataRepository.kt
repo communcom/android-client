@@ -2,19 +2,17 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.data.api.TransactionsApi
-import io.golos.data.api.UserMetadataApi
+import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserMetadataCollectionEntity
 import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.requestmodel.*
-import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.mappers.UserMetadataToEntityMapper
 import kotlinx.coroutines.*
 import java.util.*

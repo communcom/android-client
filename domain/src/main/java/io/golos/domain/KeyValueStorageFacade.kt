@@ -36,4 +36,7 @@ interface KeyValueStorageFacade {
     fun saveAppUnlockWay(unlockWay: AppUnlockWay)
     fun getAppUnlockWay(): AppUnlockWay?
     fun removeAppUnlockWay()
+
+    fun getLastUsedCommunityId(): String?
+    fun saveLastUsedCommunityId(communityId: String)
 }

@@ -6,15 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
-import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
+import io.golos.domain.extensions.distinctUntilChanged
+import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.UserAuthState
-import io.golos.domain.extensions.map
-import io.golos.domain.requestmodel.*
+import io.golos.domain.repositories.AuthStateRepository
+import io.golos.domain.requestmodel.AuthRequest
+import io.golos.domain.requestmodel.AuthRequestModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.SignInState
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -24,7 +27,7 @@ import javax.inject.Inject
 class SignInUseCase
 @Inject
 constructor(
-    private val authRepo: Repository<AuthState, AuthRequest>,
+    private val authRepo: AuthStateRepository,
     dispatcher: DispatchersProvider
 ) : UseCase<UserAuthState> {
     private val authState = MutableLiveData<UserAuthState>()
@@ -49,8 +52,7 @@ constructor(
         mediator.observeForever(observer)
         mediator.addSource(authRepo.getAsLiveData(authRepo.allDataRequest)) {
 
-            authState.value =
-                UserAuthState(it.isUserLoggedIn, it.user)
+            authState.value = UserAuthState(it.isUserLoggedIn, it.user)
 
             updateLogInState()
 
@@ -59,6 +61,7 @@ constructor(
             authLoadingState.value = it.orEmpty().map { mapEntry ->
                 mapEntry.value.map(
                     AuthRequestModel(
+                        mapEntry.value.originalQuery.userName,
                         mapEntry.value.originalQuery.user,
                         mapEntry.value.originalQuery.activeKey,
                         AuthType.SIGN_IN
@@ -81,7 +84,7 @@ constructor(
 
             delay(100)
             val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value
-                ?: AuthState(CyberName(""), false, false, false, false, AuthType.SIGN_IN)
+                ?: AuthState("", CyberName(""), false, false, false, false, AuthType.SIGN_IN)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             val isSetupCompleted = with(authStateInRepository) {
@@ -107,15 +110,15 @@ constructor(
     override fun unsubscribe() {
         super.unsubscribe()
         mediator.removeObserver(observer)
-        mediator.removeSource(authRepo.getAsLiveData(AuthRequest(CyberUser(""), "", AuthType.SIGN_IN)))
+        mediator.removeSource(authRepo.getAsLiveData(AuthRequest("", CyberUser(""), "", AuthType.SIGN_IN)))
         mediator.removeSource(authRepo.updateStates)
     }
 
     fun authWithCredentials(request: AuthRequestModel) {
-        authRepo.makeAction(AuthRequest(CyberUser(request.user.userId.trim()), request.activeKey.trim(), AuthType.SIGN_IN))
+        authRepo.makeAction(AuthRequest(request.userName, CyberUser(request.user.userId.trim()), request.activeKey.trim(), AuthType.SIGN_IN))
     }
 
     fun logOut() {
-        authRepo.makeAction(AuthRequest(CyberUser(""), "", AuthType.LOG_OUT))
+        authRepo.makeAction(AuthRequest("", CyberUser(""), "", AuthType.LOG_OUT))
     }
 }

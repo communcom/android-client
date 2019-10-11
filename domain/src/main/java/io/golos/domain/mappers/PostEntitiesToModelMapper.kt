@@ -1,6 +1,7 @@
 package io.golos.domain.mappers
 
 import io.golos.domain.HtmlToSpannableTransformer
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionRelatedEntities
 import io.golos.domain.entities.PostEntity
@@ -12,7 +13,9 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
-interface PostEntitiesToModelMapper : EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel>
+interface PostEntitiesToModelMapper : EntityToModelMapper<DiscussionRelatedEntities<PostEntity>, PostModel> {
+    fun map(post: PostEntity): PostModel
+}
 
 @ApplicationScope
 class PostEntitiesToModelMapperImpl
@@ -65,6 +68,40 @@ constructor(
         }
         return out
     }
+
+    override fun map(post: PostEntity): PostModel =
+        PostModel(
+            DiscussionIdModel(post.contentId.userId, post.contentId.permlink),
+            DiscussionAuthorModel(
+                post.author.userId,
+                post.author.username,
+                post.author.avatarUrl
+            ),
+            CommunityModel(
+                CommunityId(post.community.id),
+                post.community.name,
+                post.community.avatarUrl
+            ),
+            PostContentModel(
+                ContentBodyModel(
+                    post.content.body.postBlock
+                ),
+                post.content.tags.map { it.toModel() }
+            ),
+            DiscussionVotesModel(
+                post.votes.hasUpVote,
+                post.votes.hasDownVote,
+                post.votes.upCount,
+                post.votes.downCount,
+                false,
+                false,
+                false
+            ),
+            DiscussionCommentsCountModel(post.comments.count),
+            DiscussionPayoutModel(),
+            DiscussionMetadataModel(post.meta.time, post.meta.time.asElapsedTime()),
+            DiscussionStatsModel(post.stats.rShares, post.stats.viewsCount)
+        )
 
     private fun TagEntity.toModel() = TagModel(this.tag)
 }

@@ -8,7 +8,7 @@ import android.util.Log.d
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
-import io.golos.shared_core.MurmurHash
+import io.golos.domain.utils.MurmurHash
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import java.io.FileOutputStream

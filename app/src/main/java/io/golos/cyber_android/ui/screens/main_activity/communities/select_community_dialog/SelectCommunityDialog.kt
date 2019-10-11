@@ -24,16 +24,24 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
+import io.golos.domain.commun_entities.Community
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog.*
 import javax.inject.Inject
 
 class SelectCommunityDialog : BottomSheetDialogFragment() {
     companion object {
-        fun newInstance(uiHelper: UIHelper, someViewInWindow: View): SelectCommunityDialog {
+        /**
+         * @param closeAction null if a community was not selected
+         */
+        fun newInstance(uiHelper: UIHelper, someViewInWindow: View, closeAction: (Community?) -> Unit): SelectCommunityDialog {
             uiHelper.setSoftKeyboardVisibility(someViewInWindow, false)
-            return SelectCommunityDialog()
+            return SelectCommunityDialog().apply { closeActionListener = closeAction }
         }
     }
+
+    private lateinit var  closeActionListener: (Community?) -> Unit
+
+    private var isCommunitySelected = false
 
     private lateinit var viewModel: SelectCommunityDialogViewModel
 
@@ -58,15 +66,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        dialog.setOnShowListener {
-            Handler().post {
-                val bottomSheet = (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? FrameLayout
-                bottomSheet?.let {
-                    BottomSheetBehavior.from(it).state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
-        }
+        setupDialog(dialog)
 
         return dialog
     }
@@ -89,6 +89,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
         return binding.root
     }
 
@@ -102,6 +103,11 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        if(!isCommunitySelected) {
+            closeActionListener(null)
+        }
+
         App.injections.release<SelectCommunityDialogComponent>()
     }
 
@@ -112,6 +118,11 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
     private fun processViewCommand(command: ViewCommand) {
         when(command) {
             is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+            is CommunitySelected -> {
+                closeActionListener(command.community)
+                isCommunitySelected = true
+                dismiss()
+            }
         }
     }
 
@@ -120,4 +131,16 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
     private fun updateSearchList(data: List<ListItem>) = communitiesSearchList.updateList(data, viewModel)
 
     private fun setScrollState(isScrollEnabled: Boolean) = communitiesList.setScrollState(isScrollEnabled)
+
+    private fun setupDialog(dialog: Dialog) {
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog.setOnShowListener {
+            Handler().post {
+                val bottomSheet = (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? FrameLayout
+                bottomSheet?.let {
+                    BottomSheetBehavior.from(it).state = BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+        }
+    }
 }

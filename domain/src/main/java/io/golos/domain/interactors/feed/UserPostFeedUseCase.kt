@@ -1,16 +1,14 @@
 package io.golos.domain.interactors.feed
 
-import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.DiscussionsFeed
 import io.golos.domain.interactors.model.FeedTimeFrameOption
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.model.UpdateOption
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.UserPostsUpdateRequest
-import io.golos.domain.mappers.EntityToModelMapper
 import io.golos.domain.mappers.PostFeedEntityToModelMapper
 import javax.inject.Inject
 

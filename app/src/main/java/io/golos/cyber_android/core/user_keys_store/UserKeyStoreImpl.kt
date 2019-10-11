@@ -25,13 +25,13 @@ constructor(
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userName: String): GeneratedUserKeys = createKeys(userName, generateMasterKey())
+    override fun createKeys(userId: String, userName: String): GeneratedUserKeys = createKeys(userId, userName, generateMasterKey())
 
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userName: String, masterKey: String): GeneratedUserKeys {
-        val keys = generateKeys(userName, masterKey)
+    override fun createKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
+        val keys = generateKeys(userId, userName, masterKey)
 
         listOf(
             UserKey(UserKeyType.MASTER, keys.masterPassword),
@@ -70,15 +70,18 @@ constructor(
         .replace("-", "")
         .substring(0..50)
 
-    private fun generateKeys(userName: String, masterKey: String): GeneratedUserKeys {
-        val publicKeys = AuthUtils.generatePublicWiFs(userName,  masterKey, AuthType.values())
-        val privateKeys = AuthUtils.generatePrivateWiFs(userName, masterKey, AuthType.values())
+    private fun generateKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
+        val masterKeyTmp = "uiCaodabxotBAwRxADKOFDaQXtUJloZuhSNOmYlbcfuUXOxFxZSk"
 
+        val publicKeys = AuthUtils.generatePublicWiFs(userId,  masterKeyTmp, AuthType.values())
+        val privateKeys = AuthUtils.generatePrivateWiFs(userId, masterKeyTmp, AuthType.values())
+
+        Log.d("KEYS_GENERATION", "userId: $userId")
         Log.d("KEYS_GENERATION", "userName: $userName")
-        Log.d("KEYS_GENERATION", "masterKey: $masterKey")
+        Log.d("KEYS_GENERATION", "masterKey: $masterKeyTmp")
         return GeneratedUserKeys(
             userName,
-            masterKey,
+            masterKeyTmp,
             publicKeys.getValue(AuthType.OWNER),
             privateKeys.getValue(AuthType.OWNER),
             publicKeys.getValue(AuthType.ACTIVE),
@@ -92,3 +95,22 @@ constructor(
         }
     }
 }
+
+//{
+//    "username": "tst3xxiihfzq",
+//    "alias": "johnston-yaeko-i",
+//    "password": "uiCaodabxotBAwRxADKOFDaQXtUJloZuhSNOmYlbcfuUXOxFxZSk",
+//    "phone": "+70000000001",
+//    "email": "dragontimer+tst@gmail.com",
+//    "owner_key": "5JbHzNYAwqk4DNrFBWFB1K2siWGrcCd59P8fvYcuJUbPjM5UVCv",
+//    "active_key": "5Jt4DvP9UbdneAV6h6FBPuzPAup2gEh4eSckrACdazqUPk3yypS",
+//    "posting_key": "5KMtQUtRVKksaNc8YcGm7twEsSYRi9JmePMA59b6d3Vy1SBAF9L",
+//    "memo_key": "5JrzLTD1Ho1aFyjsutpp26jaeY8vCnzxcaFHt9nMocjouakh7Go",
+//    "owner_public_key": "GLS5Kvy98yGfyhpMME1q3LxGfTrg8KWvsxXe52KqARWVMaGXKLTEx",
+//    "active_public_key": "GLS8TAh1buc6sym8Za1rCsRpzf9yWk32oLwo6H4w38VkVeB6Y3dBt",
+//    "posting_public_key": "GLS8ezThKDPUbkTfzWGBwgYzghxu2jPNcNiCi3W5PM6kN6ZeyNajG",
+//    "memo_public_key": "GLS7aNjZFWTHHpMX2MuYQK8yh9WBrcWEoEPkNfSpd6fABhEgyuAZ1",
+//    "testnet_id": 5,
+//    "user_db_id": 20236,
+//    "comment_id": 0
+//}

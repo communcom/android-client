@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">posts_parsing_rendering</string>
-
-    <string name="post_rendering_general_error">An error occurred during the post showing.</string>
-    <string name="post_rendering_low_version_error">Can\'t show the post. Update the application, please.</string>
-</resources>

@@ -145,12 +145,14 @@ class PostPageAdapter(
 
     override fun getItemViewType(position: Int): Int {
         if (postModel != null) {
-            if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
-                if (postModel!!.content.body.postBlock.content.isNotEmpty())
-                    return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
+            with(postModel!!.content.body.postBlock) {
+                if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
+                    if (content.isNotEmpty() || attachments?.content?.isNotEmpty() == true)
+                        return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
                         is TextRowModel -> CONTENT_TEXT_TYPE
                         is ImageRowModel -> CONTENT_IMAGE_TYPE
                     }*/
+                }
             }
             //display only first embed on position 0 for now
             if (getEmbedsCount() > 0 && position == 0)

@@ -2,11 +2,12 @@ package io.golos.cyber_android.application
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
+import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -27,7 +28,7 @@ constructor(
     private val postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     private val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     private val userMetadataRepository: Repository<UserMetadataCollectionEntity, UserMetadataRequest>,
-    private val authRepository: Repository<AuthState, AuthRequest>
+    private val authRepository: AuthStateRepository
 ) : AppCore {
     private val isInited = AtomicBoolean(false)
     private val scope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())

@@ -2,13 +2,14 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.data.api.TransactionsApi
-import io.golos.data.api.VoteApi
+import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.api.vote.VoteApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
-import io.golos.domain.Repository
+import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionIdEntity
 import io.golos.domain.entities.VoteRequestEntity
@@ -81,7 +82,7 @@ constructor(
 
     override val allDataRequest: VoteRequestEntity
             by lazy {
-                VoteRequestEntity.VoteForAPostRequestEntity(0, DiscussionIdEntity("stub", "stub"))
+                VoteRequestEntity.VoteForAPostRequestEntity(0, DiscussionIdEntity("stub", Permlink("stub")))
             }
     override val updateStates: LiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>
         get() = votingStates

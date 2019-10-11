@@ -7,9 +7,9 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
-import io.golos.domain.DiscussionsFeedRepository
+import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
@@ -19,7 +19,6 @@ import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.mappers.CommentsFeedEntityToModelMapper
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.mappers.EntityToModelMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
 
 @Module
@@ -37,7 +36,6 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         embedsUseCase: EmbedsUseCase,
         posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
-        community: CommunityModel?,
         postToEdit: DiscussionIdModel?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
@@ -66,7 +64,6 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
             embedsUseCase,
             posterUseCase,
             imageUploadUseCase,
-            community,
             postToEdit,
             postUseCase,
             model

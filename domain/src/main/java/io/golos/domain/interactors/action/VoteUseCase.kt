@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.extensions.map
@@ -13,6 +13,7 @@ import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.mappers.VoteRequestEntityToModelMapper
 import io.golos.domain.mappers.VoteRequestModelToEntityMapper
+import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
@@ -28,7 +29,7 @@ import javax.inject.Inject
 class VoteUseCase
 @Inject
 constructor(
-    private val authRepository: Repository<AuthState, AuthRequest>,
+    private val authRepository: AuthStateRepository,
     private val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     private val dispatchersProvider: DispatchersProvider,
     private val voteEntityToModelMapper: VoteRequestEntityToModelMapper,

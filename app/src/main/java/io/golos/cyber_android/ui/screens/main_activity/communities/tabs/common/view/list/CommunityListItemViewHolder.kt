@@ -35,8 +35,10 @@ class CommunityListItemViewHolder(
             return
         }
 
-        itemView.title.text = listItem.name
-        itemView.followersText.text = followersFormatter.format(listItem.followersQuantity.toLong())
+        itemView.title.text = listItem.community.name
+        itemView.followersText.text = followersFormatter.format(listItem.community.followersQuantity.toLong())
+
+        itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community) }
 
         if(listItem.isJoined) {
             itemView.joinButton.text = appResources.getString(R.string.joined_to_community)
@@ -53,12 +55,13 @@ class CommunityListItemViewHolder(
         }
 
         Glide.with(itemView)
-            .load(listItem.logoUrl)
+            .load(listItem.community.logoUrl)
             .apply(RequestOptions.circleCropTransform())
             .into(itemView.ivLogo)
     }
 
     override fun release() {
         itemView.joinButton.setOnClickListener(null)
+        itemView.setOnClickListener(null)
     }
 }

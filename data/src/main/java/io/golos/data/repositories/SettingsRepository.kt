@@ -2,11 +2,12 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.data.api.SettingsApi
+import io.golos.data.api.settings.SettingsApi
 import io.golos.domain.*
 import io.golos.domain.entities.UserSettingEntity
 import io.golos.domain.mappers.SettingToCyberMapper
 import io.golos.domain.mappers.SettingsToEntityMapper
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import java.util.*

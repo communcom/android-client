@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:background="@color/communities_select_dialog_list_item"
         android:layout_height="@dimen/height_community_list_item">
 
     <ImageView
@@ -13,6 +14,8 @@
             android:layout_height="@dimen/size_icon_community"
 
             app:srcCompat="@drawable/img_example_flag"
+
+            android:layout_marginStart="@dimen/select_community_dialog_search_margin"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,8 +37,8 @@
             app:layout_constraintStart_toEndOf="@+id/ivLogo"
             app:layout_constraintEnd_toStartOf="@+id/joinButton"
 
-            android:layout_marginEnd="@dimen/margin_horizontal_default_8dp"
-            android:layout_marginStart="@dimen/margin_horizontal_default_8dp"
+            android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+            android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
 
             app:layout_constraintVertical_chainStyle="packed"
 
@@ -57,8 +60,8 @@
             app:layout_constraintStart_toEndOf="@+id/ivLogo"
             app:layout_constraintEnd_toStartOf="@+id/joinButton"
 
-            android:layout_marginEnd="@dimen/margin_horizontal_default_8dp"
-            android:layout_marginStart="@dimen/margin_horizontal_default_8dp"
+            android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+            android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
 
             android:layout_marginTop="@dimen/gap_4dp"/>
 
@@ -67,13 +70,29 @@
 
             android:text="@string/join_to_community"
 
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_community_join_button"
+            android:layout_width="@dimen/community_join_button_width"
+            android:layout_height="@dimen/community_join_button_height"
+
+            android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
 
             style="@style/CommunityJoinButton"
+
+            android:visibility="gone"
+            tools:visibility="visible"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
     />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/stroke_normal"
+
+        android:background="@color/select_community_dialog_bcg"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
@@ -24,6 +26,8 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
 import io.golos.cyber_android.views.utils.Patterns
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Community
+import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
@@ -56,7 +60,6 @@ constructor(
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
-    community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCaseImpl?,
     model: EditorPageModel
@@ -88,16 +91,9 @@ constructor(
 
     val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
-
-    private val communityLiveData = MutableLiveData<CommunityModel?>().apply {
-        postValue(community)
-    }
-
-    /**
-     * [LiveData] for community that post will be created in
-     */
-    val getCommunityLiveData = communityLiveData as LiveData<CommunityModel?>
-
+    val community = MutableLiveData<Community?>()
+    val isPostEnabled = MutableLiveData<Boolean>(false)
+    val isSelectCommunityEnabled = MutableLiveData<Boolean>(false)
 
     private val validationResultLiveData = MutableLiveData(false)
 
@@ -162,9 +158,9 @@ constructor(
      */
     val getNsfwLiveData = nsfwLiveData as LiveData<Boolean>
 
-    private val postToEditLiveData = MutableLiveData<PostModel?>()
+    val editingPost = MutableLiveData<PostModel?>()
 
-    val getPostToEditLiveData: LiveData<PostModel?> = postToEditLiveData
+//    val getEditingPost: LiveData<PostModel?> = editingPost
 
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { result ->
@@ -177,20 +173,25 @@ constructor(
 //        }
     }
 
-    private val postToEditObserver = Observer<PostModel> { postToEditLiveData.postValue(it) }
+//    private val postToEditObserver = Observer<PostModel> {
+//        Log.d("UPDATE_POST", "EditorPageViewModel content: ${it.content.body.postBlock}")
+//        editingPost.postValue(it)
+//    }
 
     val isInEditMode = postToEdit != null
 
     init {
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
-        postUseCase?.subscribe()
+
         imageUploadUseCase.subscribe()
 
         getFileUploadingStateLiveData.observeForever(imageUploadObserver)
-        postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
+        //postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
 
-        communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
+        setUp()
+
+        //communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
 
     fun switchNSFW() {
@@ -206,24 +207,9 @@ constructor(
         parseUrl(content)
     }
 
-    private fun parseUrl(content: CharSequence) {
-        urlParserJob?.cancel()
-        urlParserJob = launch {
-            delay(1_000)
-            Patterns.WEB_URL.matcher(content).apply {
-                if (find()) {
-                    emptyEmbedLiveData.postValue(false)
-                    val link = group()
-                    if (currentEmbeddedLink.compareTo(link) != 0) {
-                        currentEmbeddedLink = link
-                        (embedsUseCase as EmbedsUseCase).requestLinkEmbedData(currentEmbeddedLink)
-                    }
-                } else {
-                    emptyEmbedLiveData.postValue(true)
-                    currentEmbeddedLink = ""
-                }
-            }
-        }
+    fun setCommunity(community: Community) {
+        this.community.value = community
+        isPostEnabled.value = true
     }
 
     /**
@@ -238,29 +224,35 @@ constructor(
             return
         }
 
-        command.value = SetLoadingVisibilityCommand(true)
-
         launch {
             try {
-                val uploadResult = model.uploadLocalImage(content)
+                command.value = SetLoadingVisibilityCommand(true)
 
-                if(uploadResult is Either.Failure) {        // Can't upload the file
+                model.saveLastUsedCommunity(community.value!!)
+
+                var uploadResult: UploadedImageEntity? = null
+                try {
+                    uploadResult = model.uploadLocalImage(content)
+                } catch (ex: Exception) {
+                    App.logger.log(ex)
                     command.value = ShowMessageCommand(R.string.error_upload_file)
-                } else {
-                    val images = if(uploadResult is Either.Success) listOf(uploadResult.value.url) else listOf()
+                    return@launch
+                }
 
-                    val adultOnly = nsfwLiveData.value == true
+                val images = uploadResult?.let { listOf(it.url) } ?: listOf()
 
+                val adultOnly = nsfwLiveData.value == true
+
+                try {
                     val callResult = if(postToEdit == null) {
-                        model.createPost(content, adultOnly, images)
+                        model.createPost(content, adultOnly, community.value!!.id, images)
                     } else {
                         model.updatePost(content, postToEdit.permlink, adultOnly, images)
                     }
-
-                    command.value = when(callResult) {
-                        is Either.Failure -> PostErrorViewCommand(callResult.value)
-                        is Either.Success -> PostCreatedViewCommand(callResult.value)
-                    }
+                    command.value = PostCreatedViewCommand(callResult)
+                } catch (ex: Exception) {
+                    App.logger.log(ex)
+                    command.value = PostErrorViewCommand(ex)
                 }
 
             } catch(ex: Exception) {
@@ -269,7 +261,6 @@ constructor(
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
             }
-
         }
     }
 
@@ -310,7 +301,7 @@ constructor(
         postUseCase?.unsubscribe()
         imageUploadUseCase.unsubscribe()
         getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
-        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+        //postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
         urlParserJob?.cancel()
     }
 
@@ -339,8 +330,8 @@ constructor(
      * on activity recreations.
      */
     fun consumePostToEdit() {
-        postToEditLiveData.postValue(null)
-        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+//        editingPost.postValue(null)
+//        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
     }
 
     fun addExternalLink(uri: String) = processUri(uri) { linkInfo ->
@@ -409,4 +400,55 @@ constructor(
             command.value = SetLoadingVisibilityCommand(false)
         }
     }
+
+    private fun parseUrl(content: CharSequence) {
+        urlParserJob?.cancel()
+        urlParserJob = launch {
+            delay(1_000)
+            Patterns.WEB_URL.matcher(content).apply {
+                if (find()) {
+                    emptyEmbedLiveData.postValue(false)
+                    val link = group()
+                    if (currentEmbeddedLink.compareTo(link) != 0) {
+                        currentEmbeddedLink = link
+                        (embedsUseCase as EmbedsUseCase).requestLinkEmbedData(currentEmbeddedLink)
+                    }
+                } else {
+                    emptyEmbedLiveData.postValue(true)
+                    currentEmbeddedLink = ""
+                }
+            }
+        }
+    }
+
+    private fun setUp() {
+        launch {
+            try {
+                model.getLastUsedCommunity().let {
+                    community.value = it
+                    isPostEnabled.value = it != null
+                    isSelectCommunityEnabled.value = !isInEditMode
+
+                    postToEdit?.let { post ->
+                        val postToEdit = model.getPostToEdit(post.permlink)
+                        editingPost.value = postToEdit
+                    }
+                }
+            } catch (ex: Exception) {
+                App.logger.log(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
+                command.value = NavigateToMainScreenCommand()
+            }
+        }
+    }
 }
+
+// Try (in coroutines)
+// +[1] do nothing - comment the code
+// In model
+// +Api: get post
+// +Map the post from Api to an entity post (see AbstractDiscussionsRepository::line 128)
+// +Map to model - see PostWithCommentUseCaseImpl::line 66
+// Load parallel community and a post
+// Try to use Loading indicator
+//postUseCase?.subscribe()

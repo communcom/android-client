@@ -1,10 +1,11 @@
 package io.golos.domain.interactors.images
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.Repository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.entities.UploadedImagesEntity
 import io.golos.domain.interactors.UseCase
@@ -71,6 +72,6 @@ constructor(
     }
 
     fun submitImageForUpload(absolutePathToLocalFile: String, compressionParams: CompressionParams) {
-        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile), compressionParams))
+        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile), Uri.EMPTY, compressionParams))
     }
 }

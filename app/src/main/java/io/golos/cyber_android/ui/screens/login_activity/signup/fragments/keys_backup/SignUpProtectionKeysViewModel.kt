@@ -12,7 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.view_commands.NavigateToOnboardingCommand
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
-import io.golos.data.api.UserMetadataApi
+import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.Logger

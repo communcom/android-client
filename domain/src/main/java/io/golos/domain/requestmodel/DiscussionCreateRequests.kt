@@ -4,6 +4,8 @@ import io.golos.commun4j.model.Beneficiary
 import io.golos.commun4j.model.DiscussionCreateMetadata
 import io.golos.commun4j.model.Tag
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 
 
 /**
@@ -14,7 +16,7 @@ sealed class DiscussionCreateRequest
 data class CreateCommentRequest(
     val body: String,
     val parentAccount: CyberName,
-    val parentPermlink: String,
+    val parentPermlink: Permlink,
     val category: List<Tag>,
     val metadata: DiscussionCreateMetadata,
     val beneficiaries: List<Beneficiary>,
@@ -26,6 +28,7 @@ data class CreatePostRequest(
     val title: String,
     val body: String,
     val tags: List<Tag>,
+    val communityId: CommunityId,
     val metadata: DiscussionCreateMetadata,
     val beneficiaries: List<Beneficiary>,
     val vestPayment: Boolean,
@@ -33,7 +36,7 @@ data class CreatePostRequest(
 ):DiscussionCreateRequest()
 
 data class UpdatePostRequest(
-    val postPermlink: String,
+    val postPermlink: Permlink,
     val title: String,
     val body: String,
     val tags: List<Tag>,
@@ -41,5 +44,5 @@ data class UpdatePostRequest(
 ):DiscussionCreateRequest()
 
 data class DeleteDiscussionRequest(
-    val permlink: String
+    val permlink: Permlink
 ):DiscussionCreateRequest()

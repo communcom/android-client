@@ -37,6 +37,25 @@ object PostToEditorLoader {
                 }
             }
         }
+
+        post.attachments?.content?.forEach { block ->
+            when(block) {
+                is ImageBlock -> {
+                    editor.insertEmbed(EmbedType.EXTERNAL_IMAGE, block.content, block.content)
+                    return
+                }
+
+                is VideoBlock -> {
+                    editor.insertEmbed(EmbedType.EXTERNAL_VIDEO, block.content, block.thumbnailUrl ?: Uri.parse(PostStubs.video))
+                    return
+                }
+
+                is WebsiteBlock -> {
+                    editor.insertEmbed(EmbedType.EXTERNAL_WEBSITE, block.content, block.thumbnailUrl ?: Uri.parse(PostStubs.website))
+                    return
+                }
+            }
+        }
     }
 
     private fun getParagraphText(paragraph: ParagraphBlock): CharSequence {

@@ -11,13 +11,16 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
+import io.golos.cyber_android.databinding.FragmentEditorPageBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
@@ -25,7 +28,6 @@ import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialog
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
-import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.post_to_editor_loader.PostToEditorLoader
@@ -33,15 +35,16 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExt
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreatedViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
+import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
 import io.golos.cyber_android.utils.PostConstants
 import io.golos.cyber_android.views.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
-import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
-import io.golos.domain.post.editor_output.EmbedType
 import io.golos.domain.post.TextStyle
+import io.golos.domain.post.editor_output.EmbedType
+import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
 import kotlinx.android.parcel.Parcelize
@@ -58,6 +61,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         val initialImageSource: ImageSource = ImageSource.NONE
     ): Parcelable
 
+    private lateinit var binding: FragmentEditorPageBinding
+
     private lateinit var viewModel: EditorPageViewModel
 
     @Inject
@@ -68,6 +73,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         val args = getArgs()
         App.injections.get<EditorPageFragmentComponent>(args.community, args.postToEdit).inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditorPageViewModel::class.java)
     }
 
     override fun onDestroy() {
@@ -76,16 +83,19 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_editor_page, container, false)
+        observeViewModel()
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editor_page, container, false)
+        binding.lifecycleOwner = this
+
+        binding.viewModel = viewModel
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setupViewModel()
         setupView()
-        observeViewModel()
-
     }
 
     private fun setupView() {
@@ -108,8 +118,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         })
 
         // Show communities selection dialog
-        showCommunities.setOnClickListener {
-            SelectCommunityDialog.newInstance(uiHelper, showCommunities).show(requireFragmentManager(), "communities")
+        postCommunity.setOnShowCommunitiesClickListener {
+            SelectCommunityDialog.newInstance(uiHelper, postCommunity) {
+                community -> community?.let { viewModel.setCommunity(it) }
+            }
+            .show(requireFragmentManager(), "communities")
         }
 
         title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
@@ -232,10 +245,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
     }
 
-    private fun setupCommunity(community: CommunityModel) {
-        communityName.text = community.name
-    }
-
     private fun setupPostToEdit(post: PostModel) {
         // todo [AS] see it later
 //        toolbarTitle.setText(R.string.edit_post)
@@ -252,7 +261,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         viewModel.command.observe(this, Observer { command ->
             when(command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+
+                is NavigateToMainScreenCommand -> activity?.finish()
 
                 is InsertExternalLinkViewCommand ->
                     with(command.linkInfo) {
@@ -318,7 +330,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //                setupCommunity(it)
 //        })
 //
-        viewModel.getPostToEditLiveData.observe(this, Observer {
+        viewModel.editingPost.observe(this, Observer {
             it?.let {
                 val parsedPost = it.content.body.postBlock
 //                if(parsedPost != null) {
@@ -511,10 +523,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //        linkPreviewLayout.visibility = View.VISIBLE
 //        linkPreviewProgress.visibility = View.GONE
 //    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditorPageViewModel::class.java)
-    }
 
     private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 

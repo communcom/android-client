@@ -9,8 +9,10 @@ import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 class CommunityViewModel
@@ -72,27 +74,26 @@ constructor(
         model.close()
     }
 
-    override fun onItemClick(externalId: String) {
+    override fun onItemClick(community: Community) {
         // do nothing
     }
 
     private fun loadPage(lastVisibleItemPosition: Int) {
         launch {
-            val page = model.getPage(lastVisibleItemPosition)
+            try {
+                val page = model.getPage(lastVisibleItemPosition)
 
-            page.fold({ pageInfo ->
-                pageInfo.data?.let { list -> items.value = list }
+                page.data?.let { list -> items.value = list }
 
-                if(pageInfo.hasNextData) {
+                if(page.hasNextData) {
                     loadPage(lastVisibleItemPosition)
                 } else {
                     isScrollEnabled.value = true
                 }
-            }, {
+            } catch (ex: Exception) {
                 command.value = ShowMessageCommand(R.string.common_general_error)
-                it.data?.let { list -> items.value = list }
                 isScrollEnabled.value = true
-            })
+            }
         }
     }
 
