@@ -1,5 +1,6 @@
 package io.golos.data.api.discussions
 
+import android.util.Log
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
@@ -43,7 +44,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyCreatemssgComnGalleryStruct())
+        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyCreatemssgComnGalleryStruct("", ""))
 
 //        return commun4j.createComment(
 //            body,
@@ -80,9 +81,11 @@ constructor(
 
             val community = communitiesApi.getCommunityById(communityId)
             val post = StubDataFactory.createPost(body, community!!, authState.user.name)
+            Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
             DataStorage.posts.add(post)
 
-            StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyCreatemssgComnGalleryStruct())
+            StubDataFactory.createCommitedTransaction(
+                StubDataFactory.getEmptyCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
         }
 
 //        return commun4j.createPost(
@@ -145,6 +148,7 @@ constructor(
 
     override suspend fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw {
         return withContext(dispatchersProvider.ioDispatcher) {
+            Log.d("CREATE_POST", "getPost() UserId: ${user.name}; permlink: $permlink")
             delay(500)
             DataStorage.posts.first {
                 it.contentId.userId == user.name && it.contentId.permlink == permlink

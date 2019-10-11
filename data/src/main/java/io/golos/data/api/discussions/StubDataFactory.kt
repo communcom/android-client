@@ -31,10 +31,10 @@ internal object StubDataFactory {
             struct)
     }
 
-    fun getEmptyCreatemssgComnGalleryStruct(): CreatemssgComnGalleryStruct =
+    fun getEmptyCreatemssgComnGalleryStruct(userId: String, permlink: String): CreatemssgComnGalleryStruct =
         CreatemssgComnGalleryStruct(
             CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
+            MssgidComnGalleryStruct(CyberName(userId), permlink),
             MssgidComnGalleryStruct(CyberName(""), ""),
             "",
             "",
