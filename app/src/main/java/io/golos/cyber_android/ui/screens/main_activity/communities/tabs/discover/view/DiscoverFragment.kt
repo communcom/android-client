@@ -49,7 +49,7 @@ class DiscoverFragment : CommunitiesTabFragmentBase<FragmentCommunitiesDiscoverB
         super.updateSearchResultVisibility(isVisible)
 
         val labelLayoutParams = recomendedText.layoutParams as ConstraintLayout.LayoutParams
-        val labelTopMargin = if(isVisible) appResources.getDimens(R.dimen.margin_vertical_default_16dp).toInt() else 0
+        val labelTopMargin = if(isVisible) appResources.getDimens(R.dimen.margin_default).toInt() else 0
         labelLayoutParams.setMargins(0, labelTopMargin, 0, 0)
         recomendedText.layoutParams = labelLayoutParams
     }

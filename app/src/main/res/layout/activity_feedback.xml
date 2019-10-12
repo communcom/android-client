@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="io.golos.cyber_android.ui.screens.feedback_activity.FeedbackActivity"
-        android:padding="@dimen/margin_vertical_default_16dp">
+        android:padding="@dimen/margin_default">
 
     <EditText
             android:id="@+id/requestText"
@@ -25,12 +25,12 @@
             android:maxLines="100"
             android:maxLength="256"
 
-            android:padding="@dimen/margin_horizontal_default_8dp"
+            android:padding="@dimen/margin_small"
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
+            android:layout_marginBottom="@dimen/margin_default"
             app:layout_constraintBottom_toTopOf="@+id/sendButton"
 
             tools:ignore="Autofill"/>

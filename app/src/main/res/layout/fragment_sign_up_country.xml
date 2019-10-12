@@ -33,8 +33,8 @@
             <TextView
                     android:id="@+id/toolbarTitle"
                     android:text="@string/select_country"
-                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
                     android:theme="@style/ToolbarTitleTextStyle"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
@@ -59,7 +59,7 @@
             android:id="@+id/countriesList"
             android:clipToPadding="false"
             android:clipChildren="false"
-            android:paddingTop="@dimen/margin_vertical_default_16dp"
+            android:paddingTop="@dimen/margin_default"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

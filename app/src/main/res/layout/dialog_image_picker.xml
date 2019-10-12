@@ -14,8 +14,8 @@
             android:drawablePadding="30dp"
             android:paddingTop="18dp"
             android:paddingBottom="18dp"
-            android:paddingStart="@dimen/margin_horizontal_default_16dp"
-            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <androidx.appcompat.widget.AppCompatTextView
@@ -28,8 +28,8 @@
             android:drawablePadding="30dp"
             android:paddingTop="18dp"
             android:paddingBottom="18dp"
-            android:paddingStart="@dimen/margin_horizontal_default_16dp"
-            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <androidx.appcompat.widget.AppCompatTextView
@@ -42,8 +42,8 @@
             android:drawablePadding="30dp"
             android:paddingTop="18dp"
             android:paddingBottom="18dp"
-            android:paddingStart="@dimen/margin_horizontal_default_16dp"
-            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 </LinearLayout>

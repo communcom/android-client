@@ -289,8 +289,8 @@
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
-        <item name="android:paddingStart">@dimen/margin_horizontal_default_16dp</item>
-        <item name="android:paddingEnd">@dimen/margin_horizontal_default_16dp</item>
+        <item name="android:paddingStart">@dimen/margin_default</item>
+        <item name="android:paddingEnd">@dimen/margin_default</item>
     </style>
 
     <style name="SettingsOptionTitleTextStyle" parent="StandardText16spStyle" />

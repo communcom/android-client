@@ -45,7 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
 
                 app:layout_constraintTop_toBottomOf="@+id/searchResultList"
-                android:layout_marginTop="@dimen/margin_vertical_default_8dp"
+                android:layout_marginTop="@dimen/margin_small"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

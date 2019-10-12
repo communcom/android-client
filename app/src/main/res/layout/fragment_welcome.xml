@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:paddingTop="@dimen/margin_vertical_default_16dp"
-              android:paddingBottom="@dimen/margin_vertical_default_16dp"
+              android:paddingTop="@dimen/margin_default"
+              android:paddingBottom="@dimen/margin_default"
               android:background="@color/white"
               android:orientation="vertical"
               android:layout_width="match_parent"
@@ -11,8 +11,8 @@
 
     <io.golos.cyber_android.views.WelcomePagerIndicatorView
             android:id="@+id/slidesIndicator"
-            android:layout_marginStart="@dimen/margin_horizontal_default_8dp"
-            android:layout_marginEnd="@dimen/margin_horizontal_default_8dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_welcome_pager_indicator"/>
 
@@ -56,8 +56,8 @@
 
             style="@style/SignInTextLabel"
 
-            android:layout_marginTop="@dimen/margin_vertical_default_16dp"
-            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
     />
 
 </LinearLayout>

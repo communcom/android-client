@@ -8,11 +8,10 @@
     <dimen name="padding_horizontal_editor_widget">16dp</dimen>
     <dimen name="size_editor_widget_avatar">40dp</dimen>
 
-    <dimen name="margin_horizontal_default_16dp">16dp</dimen>
-    <dimen name="margin_horizontal_default_8dp">8dp</dimen>
-    <dimen name="margin_vertical_default_16dp">16dp</dimen>
-    <dimen name="margin_vertical_default_8dp">8dp</dimen>
-    <dimen name="gap_4dp">4dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+
+    <dimen name="gap">4dp</dimen>
 
     <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
 
@@ -60,7 +59,7 @@
 
     <!--Feed page-->
     <dimen name="margin_feed_search_bar">8dp</dimen>
-    <dimen name="padding_horizontal_feed_search_bar">@dimen/margin_horizontal_default_16dp</dimen>
+    <dimen name="padding_horizontal_feed_search_bar">@dimen/margin_default</dimen>
     <dimen name="padding_vertical_feed_search_bar">12dp</dimen>
     <dimen name="padding_feed_search_view_icon">14dp</dimen>
     <dimen name="padding_list_loading">10dp</dimen>

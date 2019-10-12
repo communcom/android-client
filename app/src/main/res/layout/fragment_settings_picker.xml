@@ -35,8 +35,8 @@
                     android:id="@+id/toolbarTitle"
                     style="@style/ToolbarTitleTextStyle"
                     android:text="@string/nsfw_content"
-                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -46,7 +46,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_vertical_default_16dp"
+            android:layout_marginTop="@dimen/margin_default"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:overScrollMode="never"
             android:id="@+id/settingsList"

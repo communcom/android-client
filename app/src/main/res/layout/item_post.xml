@@ -10,7 +10,7 @@
 
     <include
             android:id="@+id/postHeader"
-            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginStart="@dimen/margin_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/header_post_card"/>

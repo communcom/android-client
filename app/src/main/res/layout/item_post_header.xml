@@ -12,8 +12,8 @@
             tools:text="Discussion - The Dangerous Path Overwatch is Headed: Giving Players"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"/>
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"/>
 
     <include
             android:layout_width="match_parent"
@@ -26,8 +26,8 @@
             tools:text="Discussion - The Dangerous Path Overwatch is Headed: Giving Players"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
     />
 
 </LinearLayout>

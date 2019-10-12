@@ -16,8 +16,8 @@
             android:layout_height="@dimen/size_post_card_avatar"
             android:background="@drawable/bg_profile_avatar_no_borders"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-            android:layout_marginTop="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
             app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -37,8 +37,8 @@
     <RelativeLayout
             android:id="@+id/commentAuthorParent"
             android:orientation="horizontal"
-            android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
             app:layout_constraintStart_toEndOf="@+id/commentAvatar"
             app:layout_constraintTop_toTopOf="@+id/commentAvatar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +76,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@+id/commentAuthorParent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+            android:layout_marginEnd="@dimen/margin_default"
             app:layout_constraintTop_toBottomOf="@+id/commentAuthorParent"/>
 
     <ImageButton

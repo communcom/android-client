@@ -14,9 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:paddingTop="@dimen/margin_vertical_default_16dp"
-            android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-            android:paddingStart="@dimen/margin_horizontal_default_16dp"
+            android:paddingTop="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
+            android:paddingStart="@dimen/margin_default"
             android:background="@color/white"
             tools:context=".ui.screens.in_app_auth_activity.fragments.fingerprint.FingerprintAuthFragment">
 
@@ -104,7 +104,7 @@
                 android:visibility="@{viewModel.switchButtonVisibility}"
                 tools:visibility="visible"
 
-                android:paddingBottom="@dimen/margin_vertical_default_16dp"
+                android:paddingBottom="@dimen/margin_default"
 
                 style="@style/TextButtonStyle"
         />

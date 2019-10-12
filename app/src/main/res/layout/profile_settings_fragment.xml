@@ -32,10 +32,10 @@
                     android:orientation="vertical"
                     android:background="?attr/selectableItemBackground"
                     android:layout_marginTop="@dimen/margin_top_settings_language"
-                    android:paddingTop="@dimen/margin_vertical_default_8dp"
-                    android:paddingBottom="@dimen/margin_vertical_default_8dp"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                    android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingStart="@dimen/margin_default"
+                    android:paddingEnd="@dimen/margin_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <TextView
@@ -57,10 +57,10 @@
                     android:orientation="vertical"
                     android:background="?attr/selectableItemBackground"
                     android:layout_marginBottom="@dimen/margin_top_settings_language"
-                    android:paddingTop="@dimen/margin_vertical_default_8dp"
-                    android:paddingBottom="@dimen/margin_vertical_default_8dp"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                    android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingStart="@dimen/margin_default"
+                    android:paddingEnd="@dimen/margin_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <TextView
@@ -79,16 +79,16 @@
 
             <LinearLayout
                           android:orientation="horizontal"
-                          android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
-                          android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                          android:layout_marginBottom="@dimen/margin_default"
+                          android:layout_marginEnd="@dimen/margin_default"
                           android:gravity="center_vertical"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content">
 
                 <TextView
                         android:text="@string/push_notifications"
-                        android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                        android:paddingEnd="@dimen/margin_horizontal_default_16dp"
+                        android:paddingStart="@dimen/margin_default"
+                        android:paddingEnd="@dimen/margin_default"
                         style="@style/SettingsOptionTitleTextStyle"
                         android:layout_weight="1"
                         android:layout_width="0dp"
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/margin_vertical_default_16dp"
+                    android:layout_marginTop="@dimen/margin_default"
                     android:overScrollMode="never"
                     android:id="@+id/notificationSettingsList"
                     android:layout_width="match_parent"
@@ -122,7 +122,7 @@
             <View
                     android:visibility="gone"
                     android:background="@color/middle_gray"
-                    android:layout_marginTop="@dimen/margin_vertical_default_8dp"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
 
@@ -137,7 +137,7 @@
             <RelativeLayout
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_top_settings_general"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
+                    android:paddingStart="@dimen/margin_default"
                     android:paddingEnd="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -153,7 +153,7 @@
                 <ImageButton
                         app:srcCompat="@drawable/ic_copy"
                         android:id="@+id/postingPassCopy"
-                        android:padding="@dimen/margin_horizontal_default_16dp"
+                        android:padding="@dimen/margin_default"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:background="?attr/selectableItemBackground"
@@ -174,8 +174,8 @@
 
             <RelativeLayout
                     android:visibility="gone"
-                    android:layout_marginTop="@dimen/margin_vertical_default_16dp"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:paddingStart="@dimen/margin_default"
                     android:paddingEnd="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -191,7 +191,7 @@
                 <ImageButton
                         app:srcCompat="@drawable/ic_copy"
                         android:id="@+id/activePassCopy"
-                        android:padding="@dimen/margin_horizontal_default_16dp"
+                        android:padding="@dimen/margin_default"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:background="?attr/selectableItemBackground"
@@ -212,7 +212,7 @@
             <RelativeLayout
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_top_settings_general"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
+                    android:paddingStart="@dimen/margin_default"
                     android:paddingEnd="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -228,7 +228,7 @@
                 <ImageButton
                         app:srcCompat="@drawable/ic_copy"
                         android:id="@+id/ownerPassCopy"
-                        android:padding="@dimen/margin_horizontal_default_16dp"
+                        android:padding="@dimen/margin_default"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:background="?attr/selectableItemBackground"
@@ -257,9 +257,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_edit_bio_button"
                     android:layout_marginTop="@dimen/margin_top_settings_general"
-                    android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
-                    android:layout_marginStart="@dimen/margin_horizontal_default_16dp"
-                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
+                    android:layout_marginBottom="@dimen/margin_default"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:layout_marginEnd="@dimen/margin_default"
                     />
 
             <TextView
@@ -268,10 +268,10 @@
                     style="@style/SettingsBlackTextStyle"
                     android:gravity="start"
                     android:background="?attr/selectableItemBackground"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                    android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                    android:paddingTop="@dimen/margin_vertical_default_16dp"
-                    android:paddingBottom="@dimen/margin_vertical_default_16dp"
+                    android:paddingStart="@dimen/margin_default"
+                    android:paddingEnd="@dimen/margin_default"
+                    android:paddingTop="@dimen/margin_default"
+                    android:paddingBottom="@dimen/margin_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
             />
@@ -282,11 +282,11 @@
                     style="@style/SettingsLogoutTextStyle"
                     android:gravity="start"
                     android:background="?attr/selectableItemBackground"
-                    android:paddingStart="@dimen/margin_horizontal_default_16dp"
-                    android:paddingEnd="@dimen/margin_horizontal_default_16dp"
-                    android:paddingTop="@dimen/margin_vertical_default_16dp"
-                    android:paddingBottom="@dimen/margin_vertical_default_16dp"
-                    android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
+                    android:paddingStart="@dimen/margin_default"
+                    android:paddingEnd="@dimen/margin_default"
+                    android:paddingTop="@dimen/margin_default"
+                    android:paddingBottom="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -304,8 +304,8 @@
 
                     style="@style/SignInTextLabel"
 
-                    android:layout_marginEnd="@dimen/margin_horizontal_default_16dp"
-                    android:layout_marginBottom="@dimen/margin_vertical_default_16dp"
+                    android:layout_marginEnd="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
             />
         </LinearLayout>
 
