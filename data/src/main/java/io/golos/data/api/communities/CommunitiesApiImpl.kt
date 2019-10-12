@@ -10,6 +10,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.entities.CommunityDomain
+import io.golos.domain.entities.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -96,6 +98,30 @@ constructor(
             communities.firstOrNull { it.id == communityId }
         }
 
+    override suspend fun unsubscribeToCommunity(communityId: String) {
+        delay(2000)
+        randomException()
+    }
+
+    override suspend fun subscribeToCommunity(communityId: String) {
+        delay(2000)
+        randomException()
+    }
+
+    override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+        delay(2000)
+        if(sequenceKey == null){
+            val rand = Random
+            return if(rand.nextBoolean()){
+                getMockCommunitiesList()
+            } else{
+                CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
+            }
+        }
+        randomException()
+        return getMockCommunitiesList()
+    }
+
     private fun loadCommunities(): List<Community> {
         val random = Random(Date().time)
 
@@ -122,4 +148,43 @@ constructor(
     }
 
     private fun isUserCommunity(communityExt: Community) = MurmurHash.hash64(communityExt.name) % 2 == 0L
+
+    private fun randomException(){
+        val rand = Random
+        if(rand.nextBoolean()){
+            throw RuntimeException()
+        }
+    }
+
+    override suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+        delay(2000)
+        randomException()
+        return getMockCommunitiesList()
+    }
+
+    private fun getMockCommunitiesList(): CommunityPageDomain {
+        val communityNamesArray = mutableListOf<String>()
+        communityNamesArray.add("Overwatch")
+        communityNamesArray.add("Commun")
+        communityNamesArray.add("ADME")
+        communityNamesArray.add("Dribbble")
+        communityNamesArray.add("Behance")
+
+        val communityLogoArray = mutableListOf<String>()
+        communityLogoArray.add("https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg")
+        communityLogoArray.add("https://brandmark.io/logo-rank/random/beats.png")
+        communityLogoArray.add("https://brandmark.io/logo-rank/random/pepsi.png")
+        communityLogoArray.add("https://99designs-start-attachments.imgix.net/alchemy-pictures/2019%2F01%2F31%2F23%2F04%2F58%2Ff99d01d7-bf50-4b79-942f-605d6ed1fdce%2Fludibes.png?auto=format&ch=Width%2CDPR&w=250&h=250")
+
+        val communityList =  mutableListOf<CommunityDomain>()
+        val rand = Random
+
+        for(i in 0..30){
+            val communityName = communityNamesArray[rand.nextInt(communityNamesArray.size - 1)]
+            val communityLogo: String = communityLogoArray[rand.nextInt(communityLogoArray.size - 1)]
+            val communityDomain = CommunityDomain(UUID.randomUUID().toString(), communityName, communityLogo, rand.nextInt(1000000).toLong(), rand.nextBoolean())
+            communityList.add(communityDomain)
+        }
+        return CommunityPageDomain(UUID.randomUUID().toString(), communityList)
+    }
 }

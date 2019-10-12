@@ -216,17 +216,6 @@ abstract class AppModuleBinds {
     abstract fun provideVoteApi(api: VoteApiImpl): VoteApi
 
     @Binds
-    @ApplicationScope
-    abstract fun provideTransactionsApi(service: Commun4jApiService): TransactionsApi
-
-    @Binds
-    @ApplicationScope
-    abstract fun providePushNotificationsApi(service: Commun4jApiService): PushNotificationsApi
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideCommunitiesApi(service: Commun4jApiService): CommunitiesApi
-
     abstract fun provideUserMetadataApi(api: UserMetadataApiImpl): UserMetadataApi
     // endregion
 

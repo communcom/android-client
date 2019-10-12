@@ -1,6 +1,6 @@
 package io.golos.data.repositories
 
-import io.golos.data.api.CommunitiesApi
+import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommunityPageDomain
 import io.golos.domain.interactors.community.CommunitiesRepository
