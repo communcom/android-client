@@ -1,6 +1,6 @@
 package io.golos.cyber_android.core.keys_backup.raw_data
 
-import io.golos.shared_core.MurmurHash
+import io.golos.domain.utils.MurmurHash
 
 /**
  * Wrapper around raw backup data

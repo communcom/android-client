@@ -1,6 +1,7 @@
 package io.golos.domain.interactors.model
 
 import io.golos.domain.Model
+import io.golos.domain.commun_entities.Permlink
 import java.io.File
 
 /**
@@ -22,7 +23,7 @@ data class CommentCreationRequestModel(
 ) : DiscussionCreationRequest()
 
 data class UpdatePostRequestModel(
-    val permlink: String,
+    val permlink: Permlink,
     val title: String,
     val body: CharSequence,//in real app use only spanned
     val tags: List<String>,

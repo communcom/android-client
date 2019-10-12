@@ -32,7 +32,6 @@ android {
 
 dependencies {
     implementation project(':domain')
-    implementation project(':shared_core')
 
     implementation("io.golos.commun4j:commun4j:$commun4jVersion")
 

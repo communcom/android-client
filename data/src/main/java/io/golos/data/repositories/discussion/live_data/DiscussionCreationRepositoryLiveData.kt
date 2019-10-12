@@ -1,12 +1,14 @@
-package io.golos.data.repositories.discussion_creation
+package io.golos.data.repositories.discussion.live_data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
+import io.golos.data.repositories.discussion.DiscussionCreationRepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.DiscussionCreationResultEntity
@@ -46,7 +48,7 @@ constructor(
 
     private val lastCreateResultRequest = CommentCreationRequestEntity(
         "#stub#",
-        DiscussionIdModel("#stub#", "#stub#"), emptyList()
+        DiscussionIdModel("#stub#", Permlink("#stub#")), emptyList()
     )
 
     override val allDataRequest: DiscussionCreationRequestEntity

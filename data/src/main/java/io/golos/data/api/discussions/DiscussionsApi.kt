@@ -9,6 +9,7 @@ import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import io.golos.commun4j.utils.Pair as CommunPair
 
 interface DiscussionsApi {
@@ -21,7 +22,7 @@ interface DiscussionsApi {
         tags: List<String>? = null
     ): GetDiscussionsResultRaw
 
-    suspend fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw
+    suspend fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw
 
     fun getUserSubscriptions(userId: String, limit: Int, sort: FeedSort, sequenceKey: String? = null): GetDiscussionsResultRaw
 
@@ -29,18 +30,18 @@ interface DiscussionsApi {
 
     fun getCommentsOfPost(
         user: CyberName,
-        permlink: String,
+        permlink: Permlink,
         limit: Int,
         sort: FeedSort,
         sequenceKey: String? = null
     ): GetDiscussionsResultRaw
 
-    fun getComment(user: CyberName, permlink: String): CyberDiscussionRaw
+    fun getComment(user: CyberName, permlink: Permlink): CyberDiscussionRaw
 
     fun createComment(
         body: String,
         parentAccount: CyberName,
-        parentPermlink: String,
+        parentPermlink: Permlink,
         category: List<Tag>,
         metadata: DiscussionCreateMetadata,
         beneficiaries: List<Beneficiary> = emptyList(),
@@ -59,13 +60,14 @@ interface DiscussionsApi {
         tokenProp: Long = 0L
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
-    fun updatePost(postPermlink: String,
-                   newTitle: String,
-                   newBody: String,
-                   newTags: List<Tag>,
-                   newJsonMetadata: DiscussionCreateMetadata
+    suspend fun updatePost(
+        postPermlink: Permlink,
+        newTitle: String,
+        newBody: String,
+        newTags: List<Tag>,
+        newJsonMetadata: DiscussionCreateMetadata
     ): CommunPair<TransactionCommitted<UpdatemssgComnGalleryStruct>, UpdatemssgComnGalleryStruct>
 
-    fun deletePostOrComment(postOrCommentPermlink: String): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+    fun deletePostOrComment(postOrCommentPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
 
 }

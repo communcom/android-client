@@ -1,4 +1,5 @@
 package io.golos.data.api.discussions
+
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.MssgidComnGalleryStruct
@@ -11,13 +12,11 @@ import io.golos.commun4j.services.model.CyberCommunity
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.domain.commun_entities.Community
-import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import java.util.*
 import io.golos.commun4j.utils.Pair as CommunPair
 
 internal object StubDataFactory {
-    private var permlinkCounter = 0
-
     fun <T>createCommitedTransaction(struct: T): CommunPair<TransactionCommitted<T>, T> {
         return CommunPair(
             TransactionCommitted(
@@ -44,10 +43,10 @@ internal object StubDataFactory {
             0
         )
 
-    fun getEmptyUpdatemssgComnGalleryStruct(): UpdatemssgComnGalleryStruct =
+    fun getEmptyUpdatemssgComnGalleryStruct(userId: String, permlink: Permlink): UpdatemssgComnGalleryStruct =
         UpdatemssgComnGalleryStruct(
             CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(""), ""),
+            MssgidComnGalleryStruct(CyberName(userId), permlink.value),
             "",
             "",
             listOf(),
@@ -61,7 +60,7 @@ internal object StubDataFactory {
             body,
             DiscussionVotes(0, 0),
             DiscussionMetadata(Date()),
-            DiscussionId(userId, "pl${permlinkCounter++}"),
+            DiscussionId(userId, Permlink.generate().value),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
             CyberCommunity(community.id.id, community.name, community.logoUrl)
         )

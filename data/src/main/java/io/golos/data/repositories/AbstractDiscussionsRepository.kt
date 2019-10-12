@@ -1,5 +1,6 @@
 package io.golos.data.repositories
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.model.CyberDiscussionRaw
@@ -88,6 +89,8 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             .flatten()
             .findLast { it.contentId == discussionIdEntity }
 
+        Log.d("UPDATE_POST", "AbstractDiscussionsRepository::getDiscussionAsLiveData content: ${(discussionLiveData.value as? PostEntity)?.content?.body?.postBlock?.content}")
+
         if (discussionLiveData.value == null) {
             requestDiscussionUpdate(discussionIdEntity)
         }
@@ -120,7 +123,11 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                 else throw e
             }
 
+            Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate content: ${updatedPost.content}")
+
             val updatedPostEntity = discussionMapper.convertOnBackground(updatedPost)
+
+            Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate mapped: ${(updatedPostEntity as? PostEntity)?.content?.body?.postBlock}")
 
             var mergedEntity: D? = null
 
@@ -142,6 +149,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                     }
                 }
 
+            Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate merged: ${mergedEntity?.javaClass?.simpleName}; $mergedEntity")
 
             if (discussionLiveData.value?.contentId == updatedPostEntity.contentId ||
                 activeUpdatingPost == updatingDiscussionId

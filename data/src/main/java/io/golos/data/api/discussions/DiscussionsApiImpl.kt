@@ -15,6 +15,7 @@ import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -33,7 +34,7 @@ constructor(
     override fun createComment(
         body: String,
         parentAccount: CyberName,
-        parentPermlink: String,
+        parentPermlink: Permlink,
         category: List<Tag>,
         metadata: DiscussionCreateMetadata,
         beneficiaries: List<Beneficiary>,
@@ -104,8 +105,8 @@ constructor(
 //        .run { this to this.extractResult() }
     }
 
-    override fun updatePost(
-        postPermlink: String,
+    override suspend fun updatePost(
+        postPermlink: Permlink,
         newTitle: String,
         newBody: String,
         newTags: List<Tag>,
@@ -114,13 +115,22 @@ constructor(
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
-        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyUpdatemssgComnGalleryStruct())
+        return withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+
+            val postIndex = DataStorage.posts.indexOfFirst { it.contentId.permlink == postPermlink.value }
+            val post = DataStorage.posts[postIndex]
+            DataStorage.posts[postIndex] = post.copy(content = newBody)
+
+            StubDataFactory.createCommitedTransaction(
+                StubDataFactory.getEmptyUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
+        }
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun deletePostOrComment(postOrCommentPermlink: String):
+    override fun deletePostOrComment(postOrCommentPermlink: Permlink):
             CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
@@ -146,13 +156,14 @@ constructor(
         return GetDiscussionsResultRaw(listOf())
     }
 
-    override suspend fun getPost(user: CyberName, permlink: String): CyberDiscussionRaw {
-        return withContext(dispatchersProvider.ioDispatcher) {
-            Log.d("CREATE_POST", "getPost() UserId: ${user.name}; permlink: $permlink")
+    override suspend fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw {
+            return withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
-            DataStorage.posts.first {
-                it.contentId.userId == user.name && it.contentId.permlink == permlink
+            val post = DataStorage.posts.first {
+                it.contentId.userId == user.name && it.contentId.permlink == permlink.value
             }
+            Log.d("UPDATE_POST", "getPost() content: ${post.content}")
+            post
         }
 
         // return commun4j.getPostRaw(user, "", permlink).getOrThrow()
@@ -177,13 +188,14 @@ constructor(
         sequenceKey: String?
     ): GetDiscussionsResultRaw {
         // note[AS] it'll be "getPosts" method in a future. So far we use a stub
+        Log.d("UPDATE_POST", "DiscussionsApiImpl::getUserPost()")
         return GetDiscussionsResultRaw(listOf())
         //return commun4j.getUserPosts(CyberName(userId), null, ContentParsingType.MOBILE, limit, sort, sequenceKey).getOrThrow()
     }
 
     override fun getCommentsOfPost(
         user: CyberName,
-        permlink: String,
+        permlink: Permlink,
         limit: Int,
         sort: FeedSort,
         sequenceKey: String?
@@ -201,7 +213,7 @@ constructor(
 //        ).getOrThrow()
     }
 
-    override fun getComment(user: CyberName, permlink: String): CyberDiscussionRaw {
+    override fun getComment(user: CyberName, permlink: Permlink): CyberDiscussionRaw {
         // note[AS] it'll be "getComment" method in a future. So far we use a stub
         return CyberDiscussionRaw(
             "",

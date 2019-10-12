@@ -1,4 +1,4 @@
-package io.golos.shared_core
+package io.golos.domain.utils
 
 import java.nio.ByteBuffer
 import java.util.*

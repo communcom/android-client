@@ -1,4 +1,4 @@
-package io.golos.data.repositories.discussion_creation
+package io.golos.data.repositories.discussion
 
 import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
@@ -44,8 +44,11 @@ abstract class DiscussionCreationRepositoryBase(
                     request.tokenProp
                 )
                 is UpdatePostRequest -> discussionsCreationApi.updatePost(
-                    request.postPermlink, request.title, request.body,
-                    request.tags, request.metadata
+                    request.postPermlink,
+                    request.title,
+                    request.body,
+                    request.tags,
+                    request.metadata
                 )
                 is DeleteDiscussionRequest -> discussionsCreationApi.deletePostOrComment(request.permlink)
             }

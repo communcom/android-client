@@ -1,4 +1,4 @@
-package io.golos.shared_core;
+package io.golos.domain.utils;
 
 /** Murmur hash 2.0.
  *

@@ -6,7 +6,7 @@ import io.golos.cyber_android.application.App
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FileSystemHelper
-import io.golos.shared_core.IdUtil
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject

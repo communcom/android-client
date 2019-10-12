@@ -7,8 +7,10 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.interactors.model.DiscussionCreationResultModel
+import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.post.editor_output.ControlMetadata
 
 interface EditorPageModel : ModelBase {
@@ -30,7 +32,7 @@ interface EditorPageModel : ModelBase {
 
     suspend fun updatePost(
         content: List<ControlMetadata>,
-        permlink: String,
+        permlink: Permlink,
         adultOnly: Boolean,
         localImagesUri: List<String> = emptyList()
     ): DiscussionCreationResultModel
@@ -38,4 +40,6 @@ interface EditorPageModel : ModelBase {
     suspend fun getLastUsedCommunity(): Community?
 
     suspend fun saveLastUsedCommunity(community: Community)
+
+    suspend fun getPostToEdit(permlink: Permlink): PostModel
 }

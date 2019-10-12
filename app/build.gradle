@@ -110,9 +110,7 @@ dependencies {
     /*Modules*/
     implementation project(':domain')
     implementation project(':data')
-    implementation project(':shared_core')
     implementation project(':posts_editor')
-    implementation project(':posts_parsing_rendering')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

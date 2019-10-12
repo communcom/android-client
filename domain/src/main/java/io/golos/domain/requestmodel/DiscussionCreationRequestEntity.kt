@@ -2,6 +2,7 @@ package io.golos.domain.requestmodel
 
 import io.golos.domain.Entity
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.interactors.model.DiscussionIdModel
 
 /**
@@ -86,7 +87,7 @@ data class CommentCreationRequestEntity(
 }
 
 
-data class DeleteDiscussionRequestEntity(val discussionPermlink: String): DiscussionCreationRequestEntity() {
+data class DeleteDiscussionRequestEntity(val discussionPermlink: Permlink): DiscussionCreationRequestEntity() {
     override val id = Id()
 
     inner class Id : Identifiable.Id() {
@@ -111,7 +112,7 @@ data class DeleteDiscussionRequestEntity(val discussionPermlink: String): Discus
 }
 
 data class PostUpdateRequestEntity(
-    val postPermlink: String,
+    val postPermlink: Permlink,
     val title: String,
     val body: String,
     val originalBody: CharSequence,

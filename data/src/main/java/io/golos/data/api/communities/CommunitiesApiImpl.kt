@@ -10,7 +10,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
-import io.golos.shared_core.MurmurHash
+import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.util.*

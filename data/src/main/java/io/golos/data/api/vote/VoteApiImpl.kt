@@ -10,6 +10,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.commun_entities.Permlink
 import javax.inject.Inject
 
 class VoteApiImpl
@@ -21,7 +22,7 @@ constructor(
 
     override fun vote(
         postOrCommentAuthor: CyberName,
-        postOrCommentPermlink: String,
+        postOrCommentPermlink: Permlink,
         voteStrength: Short
     ): TransactionCommitted<VoteComnGalleryStruct> {
         // It's the BC method

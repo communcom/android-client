@@ -8,6 +8,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Logger
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.model.FeedTimeFrameOption
@@ -182,7 +183,7 @@ constructor(
     }
 
     override val allDataRequest: CommentFeedUpdateRequest =
-        CommentsOfApPostUpdateRequest("stub", "stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
+        CommentsOfApPostUpdateRequest("stub", Permlink("stub"), 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
 }
 
 internal fun DiscussionsSort.toDiscussionSort() = when (this) {

@@ -330,7 +330,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 //                setupCommunity(it)
 //        })
 //
-        viewModel.getPostToEditLiveData.observe(this, Observer {
+        viewModel.editingPost.observe(this, Observer {
             it?.let {
                 val parsedPost = it.content.body.postBlock
 //                if(parsedPost != null) {

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -157,9 +158,9 @@ constructor(
      */
     val getNsfwLiveData = nsfwLiveData as LiveData<Boolean>
 
-    private val postToEditLiveData = MutableLiveData<PostModel?>()
+    val editingPost = MutableLiveData<PostModel?>()
 
-    val getPostToEditLiveData: LiveData<PostModel?> = postToEditLiveData
+//    val getEditingPost: LiveData<PostModel?> = editingPost
 
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { result ->
@@ -172,18 +173,21 @@ constructor(
 //        }
     }
 
-    private val postToEditObserver = Observer<PostModel> { postToEditLiveData.postValue(it) }
+//    private val postToEditObserver = Observer<PostModel> {
+//        Log.d("UPDATE_POST", "EditorPageViewModel content: ${it.content.body.postBlock}")
+//        editingPost.postValue(it)
+//    }
 
     val isInEditMode = postToEdit != null
 
     init {
         embedsUseCase.subscribe()
         posterUseCase.subscribe()
-        postUseCase?.subscribe()
+
         imageUploadUseCase.subscribe()
 
         getFileUploadingStateLiveData.observeForever(imageUploadObserver)
-        postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
+        //postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
 
         setUp()
 
@@ -297,7 +301,7 @@ constructor(
         postUseCase?.unsubscribe()
         imageUploadUseCase.unsubscribe()
         getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
-        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+        //postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
         urlParserJob?.cancel()
     }
 
@@ -326,8 +330,8 @@ constructor(
      * on activity recreations.
      */
     fun consumePostToEdit() {
-        postToEditLiveData.postValue(null)
-        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
+//        editingPost.postValue(null)
+//        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
     }
 
     fun addExternalLink(uri: String) = processUri(uri) { linkInfo ->
@@ -424,6 +428,11 @@ constructor(
                     community.value = it
                     isPostEnabled.value = it != null
                     isSelectCommunityEnabled.value = !isInEditMode
+
+                    postToEdit?.let { post ->
+                        val postToEdit = model.getPostToEdit(post.permlink)
+                        editingPost.value = postToEdit
+                    }
                 }
             } catch (ex: Exception) {
                 App.logger.log(ex)
@@ -433,3 +442,13 @@ constructor(
         }
     }
 }
+
+// Try (in coroutines)
+// +[1] do nothing - comment the code
+// In model
+// +Api: get post
+// +Map the post from Api to an entity post (see AbstractDiscussionsRepository::line 128)
+// +Map to model - see PostWithCommentUseCaseImpl::line 66
+// Load parallel community and a post
+// Try to use Loading indicator
+//postUseCase?.subscribe()

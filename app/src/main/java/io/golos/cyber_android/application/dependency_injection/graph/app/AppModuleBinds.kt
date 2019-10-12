@@ -67,9 +67,9 @@ import io.golos.data.repositories.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
-import io.golos.data.repositories.discussion_creation.DiscussionCreationRepository
-import io.golos.data.repositories.discussion_creation.DiscussionCreationRepositoryImpl
-import io.golos.data.repositories.discussion_creation.DiscussionCreationRepositoryLiveData
+import io.golos.data.repositories.discussion.DiscussionRepository
+import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
+import io.golos.data.repositories.discussion.live_data.DiscussionCreationRepositoryLiveData
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
@@ -284,7 +284,7 @@ abstract class AppModuleBinds {
     abstract fun provideDiscussionCreationRepositoryLiveData(repository: DiscussionCreationRepositoryLiveData): Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
 
     @Binds
-    abstract fun provideDiscussionCreationRepository(repository: DiscussionCreationRepositoryImpl): DiscussionCreationRepository
+    abstract fun provideDiscussionCreationRepository(repository: DiscussionRepositoryImpl): DiscussionRepository
 
     @Binds
     @ApplicationScope

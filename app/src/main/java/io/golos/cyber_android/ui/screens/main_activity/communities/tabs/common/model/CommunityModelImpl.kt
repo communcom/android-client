@@ -13,8 +13,8 @@ import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.mapSuccess
-import io.golos.shared_core.IdUtil
-import io.golos.shared_core.MurmurHash
+import io.golos.domain.utils.IdUtil
+import io.golos.domain.utils.MurmurHash
 import javax.inject.Inject
 
 class CommunityModelImpl

@@ -2,6 +2,7 @@ package io.golos.domain.interactors.model
 
 import android.os.Parcelable
 import io.golos.domain.Model
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.post.post_dto.PostBlock
 import kotlinx.android.parcel.Parcelize
 import java.math.BigInteger
@@ -51,7 +52,7 @@ sealed class DiscussionModel(
 @Parcelize
 data class DiscussionIdModel(
     val userId: String,
-    val permlink: String
+    val permlink: Permlink
 ) : Model, Parcelable
 
 data class DiscussionCommentsCountModel(val count: Long) : Model
