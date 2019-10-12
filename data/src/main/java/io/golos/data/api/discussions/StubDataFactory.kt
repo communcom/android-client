@@ -30,7 +30,7 @@ internal object StubDataFactory {
             struct)
     }
 
-    fun getEmptyCreatemssgComnGalleryStruct(userId: String, permlink: String): CreatemssgComnGalleryStruct =
+    fun getCreatemssgComnGalleryStruct(userId: String, permlink: String): CreatemssgComnGalleryStruct =
         CreatemssgComnGalleryStruct(
             CyberSymbolCode(""),
             MssgidComnGalleryStruct(CyberName(userId), permlink),
@@ -43,7 +43,7 @@ internal object StubDataFactory {
             0
         )
 
-    fun getEmptyUpdatemssgComnGalleryStruct(userId: String, permlink: Permlink): UpdatemssgComnGalleryStruct =
+    fun getUpdatemssgComnGalleryStruct(userId: String, permlink: Permlink): UpdatemssgComnGalleryStruct =
         UpdatemssgComnGalleryStruct(
             CyberSymbolCode(""),
             MssgidComnGalleryStruct(CyberName(userId), permlink.value),
@@ -52,8 +52,8 @@ internal object StubDataFactory {
             listOf(),
             "")
 
-    fun getEmptyDeletemssgComnGalleryStruct(): DeletemssgComnGalleryStruct =
-        DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(""), ""))
+    fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): DeletemssgComnGalleryStruct =
+        DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(userId), permlink.value))
 
     fun createPost(body: String, community: Community, userId: String): CyberDiscussionRaw =
         CyberDiscussionRaw(

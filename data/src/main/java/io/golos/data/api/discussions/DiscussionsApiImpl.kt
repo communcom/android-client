@@ -45,7 +45,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyCreatemssgComnGalleryStruct("", ""))
+        return StubDataFactory.createCommitedTransaction(StubDataFactory.getCreatemssgComnGalleryStruct("", ""))
 
 //        return commun4j.createComment(
 //            body,
@@ -86,7 +86,7 @@ constructor(
             DataStorage.posts.add(post)
 
             StubDataFactory.createCommitedTransaction(
-                StubDataFactory.getEmptyCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
+                StubDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
         }
 
 //        return commun4j.createPost(
@@ -123,7 +123,7 @@ constructor(
             DataStorage.posts[postIndex] = post.copy(content = newBody)
 
             StubDataFactory.createCommitedTransaction(
-                StubDataFactory.getEmptyUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
+                StubDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
         }
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
@@ -136,7 +136,11 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        return StubDataFactory.createCommitedTransaction(StubDataFactory.getEmptyDeletemssgComnGalleryStruct())
+        val postToRemove = DataStorage.posts.single { it.contentId.permlink == postOrCommentPermlink.value }
+        DataStorage.posts.remove(postToRemove)
+
+        return StubDataFactory.createCommitedTransaction(
+            StubDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postOrCommentPermlink))
 
 //        return commun4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run {
