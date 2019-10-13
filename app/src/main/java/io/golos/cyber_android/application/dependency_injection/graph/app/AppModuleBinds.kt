@@ -23,7 +23,6 @@ import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemory
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
-import io.golos.cyber_android.core.logger.LoggerImpl
 import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
@@ -260,10 +259,6 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideEmptyCommentFeedProducer(merger: EmptyCommentFeedProducer): EmptyEntityProducer<FeedEntity<CommentEntity>>
     // endregion
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideLogger(logger: LoggerImpl): Logger
 
     @Binds
     abstract fun provideFingerprintAuthManager(manager: FingerprintAuthManagerImpl): FingerprintAuthManager

@@ -1,11 +1,10 @@
 package io.golos.cyber_android.core.keys_backup.storage
 
 import android.content.Context
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.core.keys_backup.raw_data.BackupKeysDataWrapper
 import io.golos.domain.Encryptor
+import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 
 /**
  * File storage for backup data
@@ -18,7 +17,7 @@ class BackupKeysDataStorage(private val context: Context, private val encryptor:
                 .let { encryptor.encrypt(it) }
                 ?.let { getFile().writeBytes(it) }
         } catch (ex: Exception) {
-            App.logger.log(ex)
+            Timber.e(ex)
         }
     }
 
@@ -34,7 +33,7 @@ class BackupKeysDataStorage(private val context: Context, private val encryptor:
                     ?.let { BackupKeysDataWrapper(it) } ?: BackupKeysDataWrapper()
             }
         } catch (ex: Exception) {
-            App.logger.log(ex)
+            Timber.e(ex)
             BackupKeysDataWrapper()
         }
 

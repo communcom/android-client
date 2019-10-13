@@ -7,7 +7,6 @@ import io.golos.data.api.Commun4jApiBase
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.CommunityDomain
@@ -15,6 +14,7 @@ import io.golos.domain.entities.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.random.Random
@@ -26,8 +26,7 @@ constructor(
     currentUserRepository: CurrentUserRepositoryRead,
     private val appResources: AppResourcesProvider,
     private val moshi: Moshi,
-    private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger
+    private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
 
     private val communities: List<Community> by lazy { loadCommunities() }
@@ -58,7 +57,7 @@ constructor(
                     .toList()
 
             } catch(ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 throw ex
             }
         }
@@ -87,7 +86,7 @@ constructor(
                     .filter { it.name.toLowerCase().contains(queryLower) }
                     .toList()
             } catch(ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 throw ex
             }
         }

@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
@@ -23,6 +22,7 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -77,7 +77,7 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
 
     override fun onResume() {
         super.onResume()
-        App.logger.log(LogTags.NAVIGATION, "${javaClass.simpleName} fragment is active")
+        Timber.tag(LogTags.NAVIGATION).d("${javaClass.simpleName} fragment is active")
     }
 
     override fun onDestroyView() {

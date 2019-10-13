@@ -6,6 +6,7 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import io.golos.cyber_android.application.App
 import io.golos.domain.BitmapsUtils
+import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,7 +44,7 @@ constructor(): BitmapsUtils {
         try {
             ExifInterface(bitmapFile.absolutePath).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
         } catch (e: IOException) {
-            App.logger.log(e)
+            Timber.e(e)
             ExifInterface.ORIENTATION_UNDEFINED
         }
 

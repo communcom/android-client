@@ -12,17 +12,16 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.cyber_android.utils.EMPTY
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class SubscriptionsViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: SubscriptionsModel,
     private val paginatorSubscriptions: Paginator.Store<Community>,
-    private val paginatorRecommendedCommunities: Paginator.Store<Community>,
-    private val logger: Logger
+    private val paginatorRecommendedCommunities: Paginator.Store<Community>
 ) :
 
     ViewModelBase<SubscriptionsModel>(dispatchersProvider, model) {
@@ -100,7 +99,7 @@ class SubscriptionsViewModel @Inject constructor(
                     )
                 )
             } catch (e: java.lang.Exception) {
-                logger.log(e)
+                Timber.e(e)
                 paginatorSubscriptions.proceed(Paginator.Action.PageError(e))
             }
         }
@@ -117,7 +116,7 @@ class SubscriptionsViewModel @Inject constructor(
                     )
                 )
             } catch (e: java.lang.Exception) {
-                logger.log(e)
+                Timber.e(e)
                 paginatorRecommendedCommunities.proceed(Paginator.Action.PageError(e))
             }
         }
@@ -153,7 +152,7 @@ class SubscriptionsViewModel @Inject constructor(
                     }
                     _generalLoadingProgressVisibilityLiveData.value = false
                 } catch (e: Exception) {
-                    logger.log(e)
+                    Timber.e(e)
                     _subscriptionsState.value = SubscriptionsState.ERROR
                     _generalLoadingProgressVisibilityLiveData.value = false
                     _generalErrorVisibilityLiveData.value = true
@@ -207,7 +206,7 @@ class SubscriptionsViewModel @Inject constructor(
                 }
                 command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 command.value = ShowMessageCommand(R.string.loading_error)
                 command.value = SetLoadingVisibilityCommand(false)
             }

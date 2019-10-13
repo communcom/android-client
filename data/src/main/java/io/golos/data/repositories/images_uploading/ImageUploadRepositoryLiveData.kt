@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.UploadedImageEntity
 import io.golos.domain.entities.UploadedImagesEntity
@@ -15,6 +14,7 @@ import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -26,8 +26,7 @@ class ImageUploadRepositoryLiveData
 constructor(
     api: ImageUploadApi,
     dispatchersProvider: DispatchersProvider,
-    compressor: ImageCompressor,
-    private val logger: Logger
+    compressor: ImageCompressor
 ) : ImageUploadRepositoryBase(dispatchersProvider, api, compressor),
     Repository<UploadedImagesEntity, ImageUploadRequest> {
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -63,7 +62,7 @@ constructor(
                     uploadedUpdateStates.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 uploadedUpdateStates.value =
                     uploadedUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(e, params))
             }

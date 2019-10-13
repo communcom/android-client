@@ -11,7 +11,6 @@ import io.golos.data.replaceByProducer
 import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
-import io.golos.domain.Logger
 import io.golos.domain.entities.*
 import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.requestmodel.FeedUpdateRequest
@@ -22,6 +21,7 @@ import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.FeedUpdateRequestsWithResult
 import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -36,8 +36,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
     private val discussionsFeedMerger: EntityMerger<FeedRelatedData<D>>,
     private val requestApprover: RequestApprover<Q>,
     private val emptyFeedProducer: EmptyEntityProducer<FeedEntity<D>>,
-    private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger
+    private val dispatchersProvider: DispatchersProvider
 ) : DiscussionsFeedRepository<D, Q> {
 
     protected val discussionsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<FeedEntity<D>>> = hashMapOf()
@@ -111,7 +110,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                 //try to get updated post
                 getOnBackground { getDiscussionItem(updatingDiscussionId) }
             } catch (e: CyberServicesError) {
-                logger.log(e)
+                Timber.e(e)
                 //if post with this id is not found then we should
                 //delete it from all the LiveData's
                 if (e.message?.contains("404") == true) {
@@ -245,7 +244,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             block()
         } catch (e: java.lang.Exception) {
             exceptionCallback(e)
-            logger.log(e)
+            Timber.e(e)
         }
     }
 

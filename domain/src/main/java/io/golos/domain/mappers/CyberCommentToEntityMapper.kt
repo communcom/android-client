@@ -1,7 +1,6 @@
 package io.golos.domain.mappers
 
 import io.golos.commun4j.model.CyberDiscussionRaw
-import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.entities.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
@@ -11,9 +10,9 @@ interface CyberCommentToEntityMapper : CommunToEntityMapper<CyberDiscussionRaw, 
 
 class CyberCommentToEntityMapperImpl
 @Inject
-constructor(logger: Logger) : CyberCommentToEntityMapper {
+constructor() : CyberCommentToEntityMapper {
 
-    private val jsonMapper = JsonToDtoMapper(logger)
+    private val jsonMapper = JsonToDtoMapper()
 
     override suspend fun map(communObject: CyberDiscussionRaw): CommentEntity {
         return CommentEntity(

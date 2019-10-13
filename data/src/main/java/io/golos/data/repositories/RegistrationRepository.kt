@@ -7,7 +7,6 @@ import io.golos.commun4j.services.model.UserRegistrationStateResult
 import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserRegistrationStateEntity
@@ -15,6 +14,7 @@ import io.golos.domain.mappers.UserRegistrationStateEntityMapper
 import io.golos.domain.mappers.UserRegistrationStateRelatedData
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -27,7 +27,6 @@ class RegistrationRepository
 constructor(
     private val registrationApi: RegistrationApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserRegistrationStateEntity, RegistrationStepRequest> {
 
@@ -102,7 +101,7 @@ constructor(
                     registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 registrationRequestsLiveData.value =
                     registrationRequestsLiveData.value.orEmpty() + (params.id to QueryResult.Error(
                         toAppErrorMapper.mapIfNeeded(e),

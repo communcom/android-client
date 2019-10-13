@@ -4,6 +4,7 @@ import android.content.Context
 import android.telephony.TelephonyManager
 import io.golos.cyber_android.application.App
 import io.golos.domain.DeviceInfoProvider
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ constructor(
                 }
             }
         } catch (ex: Exception) {
-            App.logger.log(ex)
+            Timber.e(ex)
         }
 
         return null

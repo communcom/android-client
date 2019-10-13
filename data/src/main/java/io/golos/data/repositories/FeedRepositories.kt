@@ -7,7 +7,6 @@ import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
@@ -36,8 +35,7 @@ constructor(
     feedMerger: EntityMerger<FeedRelatedData<PostEntity>>,
     feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
-    dispatchersProvider: DispatchersProvider,
-    logger: Logger
+    dispatchersProvider: DispatchersProvider
 ) : AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
         feedMapper,
         postMapper,
@@ -45,8 +43,7 @@ constructor(
         feedMerger,
         feedUpdateApprover,
         emptyFeedProducer,
-        dispatchersProvider,
-        logger
+        dispatchersProvider
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
@@ -97,8 +94,7 @@ constructor(
     feedMerger: EntityMerger<FeedRelatedData<CommentEntity>>,
     approver: RequestApprover<CommentFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<CommentEntity>>,
-    dispatchersProvider: DispatchersProvider,
-    logger: Logger
+    dispatchersProvider: DispatchersProvider
 ) :
     AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
@@ -107,8 +103,7 @@ constructor(
         feedMerger,
         approver,
         emptyFeedProducer,
-        dispatchersProvider,
-        logger
+        dispatchersProvider
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {

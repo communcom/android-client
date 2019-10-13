@@ -39,6 +39,7 @@ import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -234,7 +235,7 @@ constructor(
                 try {
                     uploadResult = model.uploadLocalImage(content)
                 } catch (ex: Exception) {
-                    App.logger.log(ex)
+                    Timber.e(ex)
                     command.value = ShowMessageCommand(R.string.error_upload_file)
                     return@launch
                 }
@@ -251,12 +252,12 @@ constructor(
                     }
                     command.value = PostCreatedViewCommand(callResult)
                 } catch (ex: Exception) {
-                    App.logger.log(ex)
+                    Timber.e(ex)
                     command.value = PostErrorViewCommand(ex)
                 }
 
             } catch(ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 command.value = PostErrorViewCommand(ex)
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
@@ -435,7 +436,7 @@ constructor(
                     }
                 }
             } catch (ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)
                 command.value = NavigateToMainScreenCommand()
             }

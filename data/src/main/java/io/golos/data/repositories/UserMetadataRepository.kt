@@ -7,7 +7,6 @@ import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserMetadataCollectionEntity
@@ -15,6 +14,7 @@ import io.golos.domain.entities.UserMetadataEntity
 import io.golos.domain.requestmodel.*
 import io.golos.domain.mappers.UserMetadataToEntityMapper
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -29,7 +29,6 @@ constructor(
     private val metadataApi: UserMetadataApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserMetadataCollectionEntity, UserMetadataRequest> {
 
@@ -141,7 +140,7 @@ constructor(
                     metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Success(params))
 
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 metadataUpdateStates.value =
                     metadataUpdateStates.value.orEmpty() + (params.id to QueryResult.Error(
                         toAppErrorMapper.mapIfNeeded(e),

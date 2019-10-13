@@ -1,11 +1,11 @@
 package io.golos.cyber_android.ui.common.search
 
 import io.golos.commun4j.sharedmodel.Either
-import io.golos.cyber_android.application.App
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.consumeEach
+import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -75,7 +75,7 @@ abstract class SearchEngineBase<TR>(
                     searchResultListener?.invoke(Either.Success<List<TR>?, Throwable>(searchResult))
                 }
                 catch (ex: Exception) {
-                    App.logger.log(ex)
+                    Timber.e(ex)
                     searchResultListener?.invoke(Either.Failure<List<TR>?, Throwable>(ex))
                 }
             }

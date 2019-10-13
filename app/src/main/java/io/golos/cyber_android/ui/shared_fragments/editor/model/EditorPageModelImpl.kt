@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.shared_fragments.editor.model
 import android.net.Uri
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.Either
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
@@ -33,6 +32,7 @@ import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.domain.requestmodel.PostUpdateRequestEntity
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.net.URI
 import javax.inject.Inject
@@ -59,11 +59,11 @@ constructor(
                     Either.Success<ExternalLinkInfo, ExternalLinkError>(linkInfo)
                 }
             } catch (ex: CyberServicesError) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.INVALID_URL)
             }
             catch (ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.GENERAL_ERROR)
             }
         }
@@ -158,7 +158,7 @@ constructor(
             "photo" -> ExternalLinkType.IMAGE
             "video" -> ExternalLinkType.VIDEO
             else -> {
-                App.logger.log(UnsupportedOperationException("This resource type is not supported: ${serverLinkInfo.type}"))
+                Timber.e(UnsupportedOperationException("This resource type is not supported: ${serverLinkInfo.type}"))
                 null
             }
         }

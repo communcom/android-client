@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.main_activity.communities.select_commu
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
@@ -14,7 +13,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import timber.log.Timber
 import javax.inject.Inject
 
 class SelectCommunityDialogViewModel
@@ -84,7 +83,7 @@ constructor(
                 }
 
             } catch(ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
 
                 command.value = ShowMessageCommand(R.string.common_general_error)
                 isScrollEnabled.value = true

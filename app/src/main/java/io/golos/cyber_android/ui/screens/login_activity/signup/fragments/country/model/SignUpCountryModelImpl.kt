@@ -1,11 +1,11 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.model
 
 import io.golos.commun4j.sharedmodel.Either
-import io.golos.cyber_android.application.App
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CountryEntity
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class SignUpCountryModelImpl
@@ -20,7 +20,7 @@ constructor(
             try {
                 Either.Success<List<CountryEntity>, Exception>(countriesRepository.getCountries())
             } catch (ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 Either.Failure<List<CountryEntity>, Exception>(ex)
             }
         }
@@ -30,7 +30,7 @@ constructor(
             try {
                 countriesRepository.search(query)
             } catch(ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 countriesRepository.getCountries()
             }
         }

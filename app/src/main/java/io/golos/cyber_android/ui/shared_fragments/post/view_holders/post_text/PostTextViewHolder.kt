@@ -10,13 +10,13 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.*
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.post.post_dto.*
 import kotlinx.android.synthetic.main.item_content_text.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -37,9 +37,6 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
 
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider
-
-    @Inject
-    internal lateinit var logger: Logger
 
     init {
         App.injections.get<PostPageFragmentComponent>().inject(this)
@@ -63,7 +60,7 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
 
                 post.attachments?.let { view.postWidgetContainer.addView(createWidget(it) as View) }
             } catch (ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 showError(R.string.common_general_error)
             } finally {
                 view.loadingIndicator.visibility = View.INVISIBLE

@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_ext
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
@@ -11,6 +10,7 @@ import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import io.golos.domain.requestmodel.AuthRequestModel
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -20,8 +20,7 @@ class QrCodeKeysExtractorImpl
 @Inject
 constructor (
     private val userKeyStore: UserKeyStore,
-    private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger
+    private val dispatchersProvider: DispatchersProvider
 ) : QrCodeKeysExtractor {
 
     override suspend fun process(qrCodeData: QrCodeDecrypted): Either<AuthRequestModel, Exception> =
@@ -39,7 +38,7 @@ constructor (
                 val model = AuthRequestModel(qrCodeData.userName, CyberUser(""), qrCodeData.activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 Either.Failure<AuthRequestModel, Exception>(ex)
             }
         }

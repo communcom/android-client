@@ -41,6 +41,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    /* Timber */
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
     /* Dagger */
     implementation "com.google.dagger:dagger:$dagger_version"
 

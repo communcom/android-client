@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.common.base
 
 import androidx.fragment.app.Fragment
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.DispatchersProvider
@@ -9,6 +8,7 @@ import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -38,7 +38,7 @@ abstract class FragmentBase: Fragment(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        App.logger.log(LogTags.NAVIGATION, "${javaClass.simpleName} fragment is active")
+        Timber.tag(LogTags.NAVIGATION).d("${javaClass.simpleName} fragment is active")
     }
 
     protected fun setLoadingVisibility(isVisible: Boolean) =

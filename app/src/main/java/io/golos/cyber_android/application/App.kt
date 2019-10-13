@@ -8,7 +8,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.AppComp
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.services.fcm.CommunFirebaseMessagingService
 import io.golos.domain.LogTags
-import io.golos.domain.Logger
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -20,7 +20,7 @@ class App : Application() {
 
     @Suppress("PropertyName")
     @Inject
-    internal lateinit var _logger: Logger
+    internal lateinit var timberTree: Timber.Tree
 
     @Inject
     internal lateinit var uiMonitor: UIMonitor
@@ -28,9 +28,6 @@ class App : Application() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var injections : DependencyInjectionStorage
-            private set
-
-        lateinit var logger: Logger
             private set
     }
 
@@ -40,9 +37,8 @@ class App : Application() {
         injections = DependencyInjectionStorage(applicationContext)
         injections.get<AppComponent>().inject(this)
 
-        logger = _logger
-
-        logger.log(LogTags.NAVIGATION, "The app is started")
+        Timber.plant(timberTree)
+        Timber.tag(LogTags.NAVIGATION).d("The app is started")
 
         appCore.initialize()
 

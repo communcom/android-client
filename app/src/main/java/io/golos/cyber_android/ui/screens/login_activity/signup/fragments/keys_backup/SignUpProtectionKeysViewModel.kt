@@ -15,11 +15,11 @@ import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
-import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -30,7 +30,6 @@ constructor(
     private val keyValueStorage: KeyValueStorageFacade,
     private val dispatchersProvider: DispatchersProvider,
     private val metadadataApi: UserMetadataApi,
-    private val logger: Logger,
     private val backupKeysFacade: BackupKeysFacade
 ) : ViewModel(), CoroutineScope {
 
@@ -71,7 +70,7 @@ constructor(
                     keys
                 )
             } catch (ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = ShowMessageCommand(R.string.common_general_error)
             }

@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import com.obsez.android.lib.filechooser.ChooserDialog
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.domain.entities.UserKey
+import timber.log.Timber
 import java.io.File
 
 class PdfKeysExporter(private val fragment: FragmentBase) {
@@ -115,7 +115,7 @@ class PdfKeysExporter(private val fragment: FragmentBase) {
             try {
                 fragment.startActivityForResult(intent, VIEW_PDF_REQUEST)
             } catch (e: ActivityNotFoundException) {
-                App.logger.log(e)
+                Timber.e(e)
                 onExportCompletedListener?.invoke()
             }
         }

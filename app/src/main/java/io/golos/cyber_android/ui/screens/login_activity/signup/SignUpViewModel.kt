@@ -3,17 +3,17 @@ package io.golos.cyber_android.ui.screens.login_activity.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.UserNameValidator
 import io.golos.cyber_android.utils.asEvent
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.entities.CountryEntity
+import io.golos.domain.extensions.map
 import io.golos.domain.interactors.model.*
 import io.golos.domain.interactors.reg.SignUpUseCase
-import io.golos.domain.extensions.map
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -184,7 +184,7 @@ constructor(
                 try {
                     countriesRepository.getCurrentCountry()
                 } catch (ex: Exception) {
-                    App.logger.log(ex)
+                    Timber.e(ex)
                     null
                 }
             }

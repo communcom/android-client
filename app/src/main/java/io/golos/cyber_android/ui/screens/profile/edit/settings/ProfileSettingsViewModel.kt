@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -22,13 +21,14 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.entities.UserKey
 import io.golos.domain.entities.UserKeyType
+import io.golos.domain.extensions.map
 import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.ChangeBasicSettingsRequestModel
 import io.golos.domain.requestmodel.ChangeNotificationSettingRequestModel
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -140,7 +140,7 @@ constructor(
                     keys
                 )
             } catch (ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = ShowMessageCommand(R.string.common_general_error)
             }

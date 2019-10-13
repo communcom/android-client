@@ -11,7 +11,7 @@ import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.Barcode.QR_CODE
 import com.google.android.gms.vision.barcode.BarcodeDetector
-import io.golos.cyber_android.application.App
+import timber.log.Timber
 
 class QrCodeDetector(private val appContext: Context) {
 
@@ -67,7 +67,7 @@ class QrCodeDetector(private val appContext: Context) {
                 .setRequestedFps(DEFAULT_CAMERA_FPS)
                 .build()
         } catch (ex: Exception) {
-            App.logger.log(ex)
+            Timber.e(ex)
             onDetectionErrorListener?.invoke(QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL)
             return
         }

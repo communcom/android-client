@@ -7,7 +7,6 @@ import io.golos.data.api.vote.VoteApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
@@ -16,6 +15,7 @@ import io.golos.domain.entities.VoteRequestEntity
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -30,8 +30,7 @@ constructor(
     private val voteApi: VoteApi,
     private val transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val toAppErrorMapper: CyberToAppErrorMapper,
-    private val logger: Logger
+    private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<VoteRequestEntity, VoteRequestEntity> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -69,7 +68,7 @@ constructor(
 
             } catch (e: Exception) {
                 votingStates.value = getCurrentValue() + (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params))
-                logger.log(e)
+                Timber.e(e)
             }
 
         }.let { job ->

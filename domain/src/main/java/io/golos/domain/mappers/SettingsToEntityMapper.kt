@@ -3,11 +3,11 @@ package io.golos.domain.mappers
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.services.model.UserSettings
-import io.golos.domain.Logger
 import io.golos.domain.entities.GeneralSettingEntity
 import io.golos.domain.entities.NSFWSettingsEntity
 import io.golos.domain.entities.NotificationSettingsEntity
 import io.golos.domain.entities.UserSettingEntity
+import timber.log.Timber
 import javax.inject.Inject
 
 interface SettingsToEntityMapper: CommunToEntityMapper<UserSettings, UserSettingEntity>
@@ -15,8 +15,7 @@ interface SettingsToEntityMapper: CommunToEntityMapper<UserSettings, UserSetting
 class SettingsToEntityMapperImpl
 @Inject
 constructor (
-    private val moshi: Moshi,
-    private val logger: Logger
+    private val moshi: Moshi
 ) : SettingsToEntityMapper {
     override suspend fun map(communObject: UserSettings): UserSettingEntity {
         val push = communObject.push?.show
@@ -28,7 +27,7 @@ constructor (
                         try {
                             NSFWSettingsEntity.valueOf(this)
                         } catch (e: Exception) {
-                            logger.log(e)
+                            Timber.e(e)
                             NSFWSettingsEntity.ALERT_WARN
                         }
                     } ?: NSFWSettingsEntity.ALERT_WARN,

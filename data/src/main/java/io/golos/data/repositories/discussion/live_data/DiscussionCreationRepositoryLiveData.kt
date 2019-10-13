@@ -7,7 +7,6 @@ import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.repositories.discussion.DiscussionCreationRepositoryBase
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
@@ -15,6 +14,7 @@ import io.golos.domain.entities.DiscussionCreationResultEntity
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -29,7 +29,6 @@ constructor(
     discussionsCreationApi: DiscussionsApi,
     transactionsApi: TransactionsApi,
     dispatchersProvider: DispatchersProvider,
-    private val logger: Logger,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,
@@ -73,7 +72,7 @@ constructor(
                 lastCreatedDiscussion.value = discussionCreationResult
 
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() +
                             (params.id to QueryResult.Error(

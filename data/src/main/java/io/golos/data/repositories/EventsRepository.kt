@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.EventType
 import io.golos.data.api.events.EventsApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.repositories.Repository
 import io.golos.domain.entities.EventTypeEntity
 import io.golos.domain.entities.EventsListDataWithQuery
@@ -17,6 +16,7 @@ import io.golos.domain.mappers.EventsToEntityMapper
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -30,8 +30,7 @@ constructor(
     private val eventsFeedMapper: EventsToEntityMapper,
     private val eventsFeeMerger: EntityMerger<EventsListEntity>,
     private val requestAproover: RequestApprover<EventsFeedUpdateRequest>,
-    private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger
+    private val dispatchersProvider: DispatchersProvider
 ) : Repository<EventsListEntity, EventsFeedUpdateRequest> {
 
     private val eventsFeedMap: MutableMap<Identifiable.Id, MutableLiveData<EventsListEntity>> = hashMapOf()
@@ -81,7 +80,7 @@ constructor(
                 eventsUpdatingStatesMap.value =
                     eventsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Success(params))
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 eventsUpdatingStatesMap.value =
                     eventsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Error(e, params))
             }

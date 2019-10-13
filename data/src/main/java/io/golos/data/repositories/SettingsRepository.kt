@@ -10,6 +10,7 @@ import io.golos.domain.mappers.SettingsToEntityMapper
 import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -24,8 +25,7 @@ constructor(
     private val toEntityMapper: SettingsToEntityMapper,
     private val dispatchersProvider: DispatchersProvider,
     private val deviceIdProvider: DeviceIdProvider,
-    defaultUserSettingsProvider: DefaultSettingProvider,
-    private val logger: Logger
+    defaultUserSettingsProvider: DefaultSettingProvider
 ) : Repository<UserSettingEntity, SettingChangeRequest> {
 
     private val userSettings = MutableLiveData(defaultUserSettingsProvider.provide())
@@ -64,7 +64,7 @@ constructor(
                 updatingStates.value = updatingStates.value.orEmpty() + (params.id to QueryResult.Success(params))
             } catch (e: Exception) {
                 updatingStates.value = updatingStates.value.orEmpty() + (params.id to QueryResult.Error(e, params))
-                logger.log(e)
+                Timber.e(e)
             }
         }.let { job ->
             jobsMap[params.id]?.cancel()

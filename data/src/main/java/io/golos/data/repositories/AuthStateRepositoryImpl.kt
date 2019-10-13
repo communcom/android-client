@@ -23,6 +23,7 @@ import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -37,7 +38,6 @@ constructor(
     private val authApi: AuthApi,
     private val metadataApi: UserMetadataApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger,
     private val keyValueStorage: KeyValueStorageFacade,
     private val userKeyStore: UserKeyStore,
     private val crashlytics: CrashlyticsFacade,
@@ -100,7 +100,7 @@ constructor(
                     AuthUtils.checkPrivateWiF(newParams.activeKey)
                 }
             } catch (e: IllegalArgumentException) {
-                logger.log(e)
+                Timber.e(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
                         java.lang.IllegalArgumentException(
@@ -170,7 +170,7 @@ constructor(
 
 
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
                         e, newParams
@@ -187,7 +187,7 @@ constructor(
 
                 onAuthSuccess(newParams.userName, authResult.user, newParams.user, newParams.type)
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(e, newParams))
             }
@@ -226,7 +226,7 @@ constructor(
             }
 
     private suspend fun auth(userName: String, cyberName: CyberName, key: String, authType: AuthType): AuthResult? {
-        logger.log(LogTags.LOGIN, "Start auth. User: $userName, authType: $authType")
+        Timber.tag(LogTags.LOGIN).d("Start auth. User: $userName, authType: $authType")
 
         return withContext(dispatchersProvider.ioDispatcher) {
             try {
@@ -238,7 +238,7 @@ constructor(
                     StringSigner.signString(secret.secret, key)
                 )
             } catch (e: Exception) {
-                logger.log(e)
+                Timber.e(e)
                 onAuthFail(e, authType)
                 null
             }
@@ -246,13 +246,13 @@ constructor(
     }
 
     private suspend fun onAuthSuccess(userName: String, resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
-        logger.log(LogTags.LOGIN, "Auth success")
+        Timber.tag(LogTags.LOGIN).d("Auth success")
 
         val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 metadataApi.getUserMetadata(resolvedName)
             } catch(ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 null
             }
         }
@@ -297,7 +297,7 @@ constructor(
     }
 
     private fun onAuthFail(e: Exception, authType: AuthType) {
-        logger.log(LogTags.LOGIN, "Auth fail")
+        Timber.tag(LogTags.LOGIN).d("Auth fail")
 
         repositoryScope.launch {
             authState.value = AuthState("", "".toCyberName(), false, false, false, false, authType)

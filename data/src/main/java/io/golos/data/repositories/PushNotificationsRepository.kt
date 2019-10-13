@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class PushNotificationsRepository
@@ -22,7 +23,6 @@ constructor(
     private val deviceIdProvider: DeviceIdProvider,
     private val fcmTokenProvider: FcmTokenProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper,
-    private val logger: Logger,
     dispatchersProvider: DispatchersProvider
 ) : Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest> {
 
@@ -53,7 +53,7 @@ constructor(
             } catch (e: Exception) {
                 updatingStates.postValue(updatingStates.value.orEmpty() +
                         (params.id to QueryResult.Error(toAppErrorMapper.mapIfNeeded(e), params)))
-                logger.log(e)
+                Timber.e(e)
             }
         }.let {
             lastUpdateJob?.cancel()

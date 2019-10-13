@@ -1,7 +1,6 @@
 package io.golos.data
 
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executor

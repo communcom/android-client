@@ -2,17 +2,16 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.finger
 
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
-import io.golos.domain.Logger
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthType
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class FingerprintModelImpl
 @Inject
 constructor(
     private val keyValueStorage: KeyValueStorageFacade,
-    private val logger: Logger,
     private val dispatchersProvider: DispatchersProvider): FingerprintModel {
 
     /**
@@ -28,7 +27,7 @@ constructor(
 
                 true
             } catch(ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 false
             }
         }

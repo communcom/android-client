@@ -1,6 +1,5 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto
 
-import io.golos.domain.Logger
 import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.post.post_dto.PostMetadata
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
@@ -8,8 +7,9 @@ import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostM
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMetadataMapper
 import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 
-class JsonToDtoMapper(private val logger: Logger?) {
+class JsonToDtoMapper() {
     private val mappersFactory = MappersFactory()
 
     @Suppress("RemoveExplicitTypeArguments")
@@ -17,14 +17,14 @@ class JsonToDtoMapper(private val logger: Logger?) {
         try {
             mappersFactory.getMapper<PostMapper>(PostMapper::class).map(JSONObject(rawJson))
         } catch (ex: IncompatibleVersionsException) {
-            logger?.log(ex)
+            Timber.e(ex)
             throw PostParsingException(PostParsingErrorCode.INCOMPATIBLE_VERSIONS)
         } catch (ex: JSONException) {
-            logger?.log(ex)
+            Timber.e(ex)
             throw PostParsingException(PostParsingErrorCode.JSON)
         }
         catch (ex: Exception) {
-            logger?.log(ex)
+            Timber.e(ex)
             throw PostParsingException(PostParsingErrorCode.GENERAL)
         }
 

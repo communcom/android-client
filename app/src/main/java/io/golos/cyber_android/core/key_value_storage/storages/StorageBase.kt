@@ -1,6 +1,7 @@
 package io.golos.cyber_android.core.key_value_storage.storages
 
 import io.golos.cyber_android.application.App
+import timber.log.Timber
 
 /** Base class for storage */
 abstract class StorageBase: Storage, StorageOperationsInstance {
@@ -14,7 +15,7 @@ abstract class StorageBase: Storage, StorageOperationsInstance {
             updateAction(operationsInstance)
             operationsInstance.commit()
         } catch(ex: Exception) {
-            App.logger.log(ex)
+            Timber.e(ex)
             throw ex
         }
     }

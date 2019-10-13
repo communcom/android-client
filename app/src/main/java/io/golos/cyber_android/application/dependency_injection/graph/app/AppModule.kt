@@ -11,6 +11,8 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.cyber_android.core.encryption.aes.EncryptorAES
 import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
+import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeDebug
+import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.core.logger.Cyber4JLogger
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.data.repositories.countries.CountriesRepositoryImpl
@@ -18,6 +20,7 @@ import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import timber.log.Timber
 import javax.inject.Named
 
 /** Application level module - global objects are created here   */
@@ -63,11 +66,11 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun provideConfig(logger: Logger): Commun4jConfig =
+    internal fun provideConfig(): Commun4jConfig =
         (cyber4jConfigs[BuildConfig.FLAVOR])!!
             .copy(
-                httpLogger = Cyber4JLogger(logger, Cyber4JLogger.HTTP),
-                socketLogger = Cyber4JLogger(logger, Cyber4JLogger.SOCKET)
+                httpLogger = Cyber4JLogger(Cyber4JLogger.HTTP),
+                socketLogger = Cyber4JLogger(Cyber4JLogger.SOCKET)
             )
 
     @Provides
@@ -92,4 +95,12 @@ class AppModule(private val appContext: Context) {
         appResourcesProvider: AppResourcesProvider,
         deviceInfoProvider: DeviceInfoProvider
     ): CountriesRepository = CountriesRepositoryImpl(appResourcesProvider, moshi, deviceInfoProvider)
+
+    @Provides
+    internal fun provideTimberTree(crashlytics: CrashlyticsFacade): Timber.Tree =
+        if(BuildConfig.DEBUG) {
+            CrashlyticsTimberTreeDebug()
+        } else {
+            CrashlyticsTimberTreeRelease(crashlytics)
+        }
 }

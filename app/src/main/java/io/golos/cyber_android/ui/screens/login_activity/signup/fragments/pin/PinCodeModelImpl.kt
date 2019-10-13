@@ -5,11 +5,11 @@ import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.entities.AppUnlockWay
 import io.golos.domain.entities.AuthType
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -20,7 +20,6 @@ constructor(
     private val stringsConverter: StringsConverter,
     @Named(Clarification.AES) private val encryptor: Encryptor,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val logger: Logger,
     private val fingerprintAuthManager: FingerprintAuthManager
 ) : PinCodeModel {
 
@@ -65,7 +64,7 @@ constructor(
                 keyValueStorage.saveAuthState(newAuthState)
                 true
             } catch (ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 false
             }
         }

@@ -8,6 +8,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ constructor(
 
                 Uri.fromFile(target)
             } catch (ex: Exception) {
-                App.logger.log(ex)
+                Timber.e(ex)
                 null
             }
         }

@@ -2,13 +2,13 @@ package io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_e
 
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.Logger
 import io.golos.domain.UserKeyStore
 import io.golos.domain.api.AuthApi
 import io.golos.domain.entities.AuthType
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.requestmodel.AuthRequestModel
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -19,7 +19,6 @@ class MasterPassKeysExtractorImpl
 constructor (
     private val userKeyStore: UserKeyStore,
     private val dispatchersProvider: DispatchersProvider,
-    private val logger: Logger,
     private val authApi: AuthApi
 ) : MasterPassKeysExtractor {
 
@@ -31,7 +30,7 @@ constructor (
                 val model = AuthRequestModel(userName, CyberUser(""), activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {
-                logger.log(ex)
+                Timber.e(ex)
                 Either.Failure<AuthRequestModel, Exception>(ex)
             }
         }
