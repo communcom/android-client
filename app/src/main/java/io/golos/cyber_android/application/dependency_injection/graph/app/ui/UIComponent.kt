@@ -12,6 +12,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
 import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.widgets.AttachmentsWidget
@@ -43,6 +44,7 @@ interface UIComponent {
     val feedbackActivity: FeedbackActivityComponent.Builder
     val selectCommunityDialog: SelectCommunityDialogComponent.Builder
     val subscriptionsFragment: SubscriptionsFragmentComponent.Builder
+    val followersFragment: FollowersFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
 
