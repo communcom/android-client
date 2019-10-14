@@ -85,7 +85,14 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
 
     private fun createWidget(block: Block): PostBlockWidget<*> =
         when(block) {
-            is AttachmentsBlock -> AttachmentsWidget(this.view.context).apply { render(block) }
+            is AttachmentsBlock -> {
+                if(block.content.size == 1) {
+                    createWidget(block.content.single()) // A single attachment is shown as embed block
+                } else {
+                    AttachmentsWidget(this.view.context).apply { render(block) }
+                }
+            }
+
             is ImageBlock -> EmbedImageWidget(this.view.context).apply { render(block) }
             is VideoBlock -> EmbedVideoWidget(this.view.context).apply { render(block) }
             is WebsiteBlock -> EmbedWebsiteWidget(this.view.context).apply { render(block) }
