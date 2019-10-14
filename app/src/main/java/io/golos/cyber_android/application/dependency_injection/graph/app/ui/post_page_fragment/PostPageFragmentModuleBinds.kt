@@ -7,8 +7,11 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.shared_fragments.post.PostPageViewModel
-import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
+import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModelImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
+import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 
@@ -24,4 +27,8 @@ abstract class PostPageFragmentModuleBinds {
     @IntoMap
     @ViewModelKey(PostPageViewModel::class)
     internal abstract fun providePostPageViewModel(viewModel: PostPageViewModel): ViewModel
+
+    @Binds
+    abstract fun bindModel(model: PostPageModelImpl): PostPageModel
+
 }

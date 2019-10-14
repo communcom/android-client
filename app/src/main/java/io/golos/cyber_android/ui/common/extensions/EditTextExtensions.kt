@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.common.extensions
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import io.golos.cyber_android.views.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 
 fun EditText.moveCursorToTheEnd() {
     if (this.isFocused) {

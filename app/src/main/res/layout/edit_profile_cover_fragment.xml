@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <io.golos.cyber_android.views.TouchImageView
+        <io.golos.cyber_android.ui.common.widgets.TouchImageView
                 android:id="@+id/coverImage"
                 app:srcCompat="@color/blue"
                 tools:src="@drawable/img_example_media"

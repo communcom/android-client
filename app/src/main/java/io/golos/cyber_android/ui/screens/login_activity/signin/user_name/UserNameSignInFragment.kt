@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.SignInArgs
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInChildFragment
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInParentFragment
 import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
-import io.golos.cyber_android.views.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_sign_in_user_name.*
 import javax.inject.Inject
 

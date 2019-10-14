@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.views.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_bio_fragment.*

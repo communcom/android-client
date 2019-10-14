@@ -9,7 +9,7 @@
               android:layout_height="match_parent"
               tools:context=".ui.screens.login_activity.welcome.WelcomeFragment">
 
-    <io.golos.cyber_android.views.WelcomePagerIndicatorView
+    <io.golos.cyber_android.ui.common.widgets.WelcomePagerIndicatorView
             android:id="@+id/slidesIndicator"
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"

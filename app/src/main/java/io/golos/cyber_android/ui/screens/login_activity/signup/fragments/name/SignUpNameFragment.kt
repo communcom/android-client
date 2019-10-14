@@ -15,8 +15,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
 import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.views.utils.AllLowersInputFilter
-import io.golos.cyber_android.views.utils.ViewUtils
+import io.golos.cyber_android.ui.common.utils.AllLowersInputFilter
+import io.golos.cyber_android.ui.common.utils.ViewUtils
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.requestmodel.QueryResult

@@ -15,8 +15,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
-import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.domain.requestmodel.*

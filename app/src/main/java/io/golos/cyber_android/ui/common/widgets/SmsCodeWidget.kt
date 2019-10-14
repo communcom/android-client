@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.views.utils.ViewUtils
+import io.golos.cyber_android.ui.common.utils.ViewUtils
 import kotlinx.android.synthetic.main.view_sms_code.view.*
 
 /**

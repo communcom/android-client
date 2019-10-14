@@ -19,8 +19,8 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeParent
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.discover.view.DiscoverFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.my_community.view.MyCommunityFragment
-import io.golos.cyber_android.views.utils.TabLayoutMediator
-import io.golos.cyber_android.views.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_communities.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 import javax.inject.Inject

@@ -12,9 +12,9 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
-import io.golos.cyber_android.views.utils.CustomLinkMovementMethod
-import io.golos.cyber_android.views.utils.colorizeLinks
-import io.golos.cyber_android.views.utils.colorizeUsernames
+import io.golos.cyber_android.ui.common.utils.CustomLinkMovementMethod
+import io.golos.cyber_android.ui.common.utils.colorizeLinks
+import io.golos.cyber_android.ui.common.utils.colorizeUsernames
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.ContentBodyModel

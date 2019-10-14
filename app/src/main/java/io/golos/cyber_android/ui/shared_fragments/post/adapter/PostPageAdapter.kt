@@ -7,8 +7,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.*
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
-import io.golos.cyber_android.ui.shared_fragments.post.view_holders.*
-import io.golos.cyber_android.ui.shared_fragments.post.view_holders.post_text.PostTextViewHolder
+import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.*
+import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.PostTextViewHolder
 import io.golos.domain.interactors.model.*
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 

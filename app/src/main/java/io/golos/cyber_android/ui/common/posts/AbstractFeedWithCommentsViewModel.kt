@@ -22,8 +22,7 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
     voteUseCase: VoteUseCase,
     protected val posterUseCase: DiscussionPosterUseCase,
     signInUseCase: SignInUseCase
-) :
-    AbstractFeedViewModel<R, E, M>(feedUseCase, voteUseCase, signInUseCase, posterUseCase) {
+) : AbstractFeedViewModel<R, E, M>(feedUseCase, voteUseCase, signInUseCase, posterUseCase) {
 
     /**
      * Sends comment to discussion

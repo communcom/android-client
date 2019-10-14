@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
@@ -103,6 +104,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
         posterUseCase.subscribe()
     }
 
+    @CallSuper
     override fun onCleared() {
         super.onCleared()
         feedUseCase.unsubscribe()

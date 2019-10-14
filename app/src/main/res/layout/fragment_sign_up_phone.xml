@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <io.golos.cyber_android.views.PrefixTextInputEditText
+            <io.golos.cyber_android.ui.common.widgets.PrefixTextInputEditText
                     android:paddingTop="@dimen/padding_top_sign_in_edit_text"
                     android:maxLines="1"
                     android:imeOptions="actionDone"

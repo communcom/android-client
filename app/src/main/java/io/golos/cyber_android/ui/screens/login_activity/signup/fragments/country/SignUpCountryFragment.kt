@@ -21,7 +21,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
-import io.golos.cyber_android.views.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import io.golos.domain.entities.CountryEntity
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
 import kotlinx.android.synthetic.main.view_search_bar.*

@@ -1,14 +1,12 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.view_model
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -24,7 +22,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostError
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.combinedWith
-import io.golos.cyber_android.views.utils.Patterns
+import io.golos.cyber_android.ui.common.utils.Patterns
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.entities.UploadedImageEntity
@@ -37,6 +35,7 @@ import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -425,31 +424,36 @@ constructor(
     private fun setUp() {
         launch {
             try {
-                model.getLastUsedCommunity().let {
-                    community.value = it
-                    isPostEnabled.value = it != null
+                command.value = SetLoadingVisibilityCommand(true)
+
+                if(postToEdit == null) {
+                    // New post
+                    val lastUsedCommunity = model.getLastUsedCommunity()
+
+                    community.value = lastUsedCommunity
+                    isPostEnabled.value = lastUsedCommunity != null
+                    isSelectCommunityEnabled.value = !isInEditMode
+                } else {
+                    // Updated post
+                    val lastUsedCommunityCall = async { model.getLastUsedCommunity() }
+                    val postToEditCall = async { model.getPostToEdit(postToEdit.permlink) }
+
+                    val lastUsedCommunity = lastUsedCommunityCall.await()
+                    val postToEdit = postToEditCall.await()
+
+                    community.value = lastUsedCommunity
+                    isPostEnabled.value = lastUsedCommunity != null
                     isSelectCommunityEnabled.value = !isInEditMode
 
-                    postToEdit?.let { post ->
-                        val postToEdit = model.getPostToEdit(post.permlink)
-                        editingPost.value = postToEdit
-                    }
+                    editingPost.value = postToEdit
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)
                 command.value = NavigateToMainScreenCommand()
+            }  finally {
+                command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
 }
-
-// Try (in coroutines)
-// +[1] do nothing - comment the code
-// In model
-// +Api: get post
-// +Map the post from Api to an entity post (see AbstractDiscussionsRepository::line 128)
-// +Map to model - see PostWithCommentUseCaseImpl::line 66
-// Load parallel community and a post
-// Try to use Loading indicator
-//postUseCase?.subscribe()

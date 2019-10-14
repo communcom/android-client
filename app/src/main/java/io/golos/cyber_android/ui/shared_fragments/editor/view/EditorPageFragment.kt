@@ -36,10 +36,10 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreat
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
-import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.cyber_android.views.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.post.TextStyle

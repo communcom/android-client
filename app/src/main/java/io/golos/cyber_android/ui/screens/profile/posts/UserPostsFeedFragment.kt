@@ -16,11 +16,11 @@ import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.main_activity.feed.*
-import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.views.utils.TopDividerItemDecoration
+import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter

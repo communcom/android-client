@@ -21,11 +21,11 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.PostPageFragment
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.views.utils.TopDividerItemDecoration
+import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget

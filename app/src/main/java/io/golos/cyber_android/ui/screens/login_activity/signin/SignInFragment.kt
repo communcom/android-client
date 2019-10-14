@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.QrCodeSignInFragment
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.UserNameSignInFragment
-import io.golos.cyber_android.views.utils.TabLayoutMediator
+import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 

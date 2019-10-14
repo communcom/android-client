@@ -13,8 +13,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
-import io.golos.cyber_android.views.utils.TextWatcherBase
-import io.golos.cyber_android.views.utils.TabLayoutMediator
+import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 

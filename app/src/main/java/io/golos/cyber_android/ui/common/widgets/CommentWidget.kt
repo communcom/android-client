@@ -12,7 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.cyber_android.views.utils.*
+import io.golos.cyber_android.ui.common.utils.*
 import kotlinx.android.synthetic.main.view_comment_widget.view.*
 
 
