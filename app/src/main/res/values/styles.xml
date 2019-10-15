@@ -82,6 +82,7 @@
     <style name="PostCardAuthorTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_10_sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="PostCardPreviewTextStyle" parent="StandardText16spStyle" />
@@ -185,6 +186,8 @@
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="EditorPostTitleTextStyle" parent="SearchBarTextStyle">
@@ -354,10 +357,10 @@
     </style>
 
     <style name="CommunityJoinButton" parent="Common.Base.TextStyle">
-        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/tint_community_join_button_text</item>
-        <item name="android:background">@drawable/bg_community_join_button</item>
+        <item name="android:background">@drawable/bcg_blue_round_corners_button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingStart">@dimen/btn_join_horizontal_padding</item>

@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.view.view_holders
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared_fragments.post.adapter.PostPageAdapter
+import io.golos.cyber_android.ui.shared_fragments.post.view.adapter.PostPageAdapter
 import io.golos.domain.interactors.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.item_post_header.view.*

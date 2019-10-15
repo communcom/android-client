@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.adapter
+package io.golos.cyber_android.ui.shared_fragments.post.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View

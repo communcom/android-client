@@ -10,7 +10,7 @@ import io.golos.domain.commun_entities.Community
 import kotlinx.android.synthetic.main.view_post_editor_community_container.view.*
 
 /**
- * "Button" with some primary text, a secondary text and an icon
+ * Header with community info
  */
 class CommunityContainer
 @JvmOverloads

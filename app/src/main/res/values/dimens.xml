@@ -3,6 +3,9 @@
 
     <dimen name="padding_global">8dp</dimen>
 
+    <dimen name="tool_button_size">35dp</dimen>
+    <dimen name="tool_button_icon_size">18dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="padding_vertical_editor_widget">12dp</dimen>
     <dimen name="padding_horizontal_editor_widget">16dp</dimen>
@@ -114,6 +117,18 @@
     <dimen name="margin_vertical_post_page_comment_edit_text">12dp</dimen>
     <dimen name="margin_bottom_post_page_content_row">8dp</dimen>
 
+    <dimen name="post_viewer_header_height">56dp</dimen>
+    <dimen name="post_viewer_header_tool_button_size">@dimen/tool_button_size</dimen>
+    <dimen name="post_viewer_header_tool_button_icon_size">@dimen/tool_button_icon_size</dimen>
+    <dimen name="post_viewer_header_community_icon_size">40dp</dimen>
+    <dimen name="post_viewer_header_horizontal_margin">6dp</dimen>
+    <dimen name="post_viewer_header_horizontal_margin_large">10dp</dimen>
+    <dimen name="post_viewer_header_vertical_margin">8dp</dimen>
+
+    <dimen name="post_viewer_header_community_join_button_height">30dp</dimen>
+    <dimen name="post_viewer_header_community_join_button_width">53dp</dimen>
+
+
     <!--Comment-->
     <dimen name="margin_top_comment_vote_buttons">10dp</dimen>
     <dimen name="margin_vertical_comment_reply">24dp</dimen>
@@ -177,8 +192,8 @@
 
     <!--Editor Page-->
     <dimen name="height_editor_toolbar">55dp</dimen>
-    <dimen name="size_editor_tool_button">35dp</dimen>
-    <dimen name="size_editor_tool_button_icon">18dp</dimen>
+    <dimen name="size_editor_tool_button">@dimen/tool_button_size</dimen>
+    <dimen name="size_editor_tool_button_icon">@dimen/tool_button_icon_size</dimen>
     <dimen name="margin_size_editor_common">15dp</dimen>
     <dimen name="margin_size_editor_small">10dp</dimen>
     <dimen name="margin_size_editor_tool_button">5dp</dimen>

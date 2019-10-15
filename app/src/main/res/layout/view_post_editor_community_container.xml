@@ -38,7 +38,6 @@
 
         android:layout_marginStart="@dimen/margin_size_editor_small"
         android:layout_marginTop="@dimen/vertical_margin_text_community_area"
-
         />
 
     <TextView
@@ -50,9 +49,6 @@
 
         android:layout_marginBottom="@dimen/vertical_margin_text_community_area"
         android:layout_marginEnd="@dimen/margin_size_editor_tool_button_side_small"
-
-        android:ellipsize="end"
-        android:maxLines="1"
 
         tools:text="Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch"
 

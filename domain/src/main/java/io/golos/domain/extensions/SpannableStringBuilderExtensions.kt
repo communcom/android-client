@@ -1,4 +1,4 @@
-package io.golos.posts_editor.utilities.post.spans
+package io.golos.domain.extensions
 
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,4 +13,9 @@ fun SpannableStringBuilder.appendText(text: String): IntRange {
     this.append(text)
 
     return start..this.length
+}
+
+fun SpannableStringBuilder.appendSpannedText(text: String, span: CharacterStyle) {
+    val interval = this.appendText(text)
+    this.setSpan(span, interval)
 }
