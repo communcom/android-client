@@ -56,8 +56,8 @@ import io.golos.data.api.settings.SettingsApi
 import io.golos.data.api.settings.SettingsApiImpl
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.transactions.TransactionsApiImpl
-import io.golos.data.api.user.UserApi
-import io.golos.data.api.user.UserApiImpl
+import io.golos.data.api.user.UsersApi
+import io.golos.data.api.user.UsersApiImpl
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.api.user_metadata.UserMetadataApiImpl
 import io.golos.data.api.vote.VoteApi
@@ -80,7 +80,7 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.*
 import io.golos.domain.interactors.community.CommunitiesRepository
-import io.golos.domain.interactors.user.UserRepository
+import io.golos.domain.interactors.user.UsersRepository
 import io.golos.domain.mappers.*
 import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.repositories.DiscussionsFeedRepository
@@ -221,7 +221,7 @@ abstract class AppModuleBinds {
     abstract fun provideUserMetadataApi(api: UserMetadataApiImpl): UserMetadataApi
 
     @Binds
-    abstract fun provideUserApi(api: UserApiImpl): UserApi
+    abstract fun provideUserApi(api: UsersApiImpl): UsersApi
     // endregion
 
     // region Transformers
@@ -330,7 +330,7 @@ abstract class AppModuleBinds {
     abstract fun provideCommunitiesRepository(repository: CommunitiesRepositoryImpl): CommunitiesRepository
 
     @Binds
-    abstract fun provideUserRepository(repository: UserRepositoryImpl): UserRepository
+    abstract fun provideUserRepository(repository: UsersRepositoryImpl): UsersRepository
 
     // endregion
 

@@ -2,7 +2,7 @@ package io.golos.domain.interactors.user
 
 import io.golos.domain.entities.FollowersPageDomain
 
-interface UserRepository {
+interface UsersRepository {
 
     /**
      * Get followers in size [pageSizeLimit] as next page with [sequenceKey]

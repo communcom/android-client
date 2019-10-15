@@ -26,8 +26,6 @@ class CommunitiesAdapter : PaginalAdapter<Community>() {
         }
     }
 
-    override fun getItemCount(): Int = items.size
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         when (holder.itemViewType) {

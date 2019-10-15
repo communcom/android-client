@@ -10,7 +10,8 @@ class FollowerDomainToFollowerMapper : Function1<FollowerDomain, Follower> {
             follower.userId,
             follower.firstName,
             follower.lastName,
-            follower.avatarUrl
+            follower.avatarUrl,
+            follower.isFollowing
         )
     }
 }

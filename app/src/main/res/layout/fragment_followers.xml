@@ -26,17 +26,14 @@
             android:layout_marginStart="@dimen/margin_feed_search_bar"
             android:layout_marginTop="@dimen/margin_feed_search_bar"
             android:layout_marginEnd="@dimen/margin_feed_search_bar"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/actionBar"
-            tools:visibility="visible"/>
+            app:layout_constraintTop_toBottomOf="@+id/actionBar"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSubscriptions"
+            android:id="@+id/rvFollowers"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="invisible"
             android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +46,7 @@
             layout="@layout/item_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
