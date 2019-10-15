@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view.widgets
 
 import android.content.Context
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
@@ -32,6 +31,9 @@ constructor(
     private var onBackButtonClickListener: (() -> Unit)? = null
     private var onJoinToCommunityButtonClickListener: (() -> Unit)? = null
     private var onMenuButtonClickListener: (() -> Unit)? = null
+    private var onUserClickListener: ((String) -> Unit)? = null   // UserId as param
+
+    private lateinit var userId: String
 
     @Inject
     internal lateinit var appResources: AppResourcesProvider
@@ -47,14 +49,26 @@ constructor(
     }
 
     fun setHeader(postHeader: PostHeader) {
-        communityTitle.text = postHeader.community.name
+        userId = postHeader.userId
+
+        communityTitle.text = postHeader.communityName
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
-        Glide.with(this)
-            .load(postHeader.community.logoUrl)
-            .apply(RequestOptions.circleCropTransform())
-            .into(communityAvatar)
+        joinToCommunityButton.isEnabled = postHeader.canJoinToCommunity
+        menuButton.isEnabled = postHeader.canEdit
+
+        postHeader.communityAvatarUrl
+            ?.let {
+                Glide.with(this)
+                    .load(it)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(communityAvatar)
+            }
+
+        communityAvatar.setOnClickListener { onUserClickListener?.invoke(userId) }
+        communityTitle.setOnClickListener { onUserClickListener?.invoke(userId) }
+        authorAndTime.setOnClickListener { onUserClickListener?.invoke(userId) }
     }
 
     fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
@@ -69,13 +83,20 @@ constructor(
         onMenuButtonClickListener = listener
     }
 
+    /**
+     * @param listener - userId as param
+     */
+    fun setOnUserClickListener(listener: ((String) -> Unit)?) {
+        onUserClickListener = listener
+    }
+
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         val time = TimeEstimationFormatter(appResources).format(postHeader.actionDateTime)
         result.append(time)
 
-        result.append("\u8226")
+        result.append(" \u2022 ")
 
         result.appendSpannedText(postHeader.userName, ForegroundColorSpan(appResources.getColor(R.color.blue)))
 

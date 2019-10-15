@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.spans
+package io.golos.cyber_android.ui.common.spans
 
 import android.net.Uri
 import android.text.TextPaint
@@ -19,5 +19,11 @@ open class LinkClickableSpan(spanData: Uri, @ColorInt private val textColor: Int
     override fun updateDrawState(ds: TextPaint) {
         ds.color = textColor
         ds.isUnderlineText = true
+    }
+}
+
+open class TextClickableSpan(spanData: String, @ColorInt private val textColor: Int): ClickableSpanEx<String>(spanData) {
+    override fun updateDrawState(ds: TextPaint) {
+        ds.color = textColor
     }
 }

@@ -93,9 +93,6 @@
 
         style="@style/CommunityJoinButton"
 
-        android:visibility="gone"
-        tools:visibility="visible"
-
         app:layout_constraintEnd_toStartOf="@+id/menuButton"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -16,12 +16,12 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
 import io.golos.cyber_android.ui.common.extensions.openLinkExternal
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.spans.LinkClickableSpan
+import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.domain.AppResourcesProvider
+import io.golos.domain.extensions.appendText
+import io.golos.domain.extensions.setSpan
 import io.golos.domain.post.post_dto.*
 import io.golos.domain.post.toTypeface
-import io.golos.posts_editor.utilities.post.spans.appendText
-import io.golos.posts_editor.utilities.post.spans.setSpan
 import javax.inject.Inject
 
 

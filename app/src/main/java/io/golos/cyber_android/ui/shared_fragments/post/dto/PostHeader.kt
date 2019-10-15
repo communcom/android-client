@@ -1,12 +1,15 @@
 package io.golos.cyber_android.ui.shared_fragments.post.dto
 
-import io.golos.domain.commun_entities.Community
 import java.util.*
 
 data class PostHeader(
-    val community: Community,
-    val userName: String,
+    val communityName: String,
+    val communityAvatarUrl: String?,
+
     val actionDateTime: Date,
+
+    val userName: String,
+    val userId: String,
 
     val canJoinToCommunity: Boolean,
     val canEdit: Boolean

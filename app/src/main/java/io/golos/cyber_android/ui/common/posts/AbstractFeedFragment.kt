@@ -178,7 +178,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     /**
      * Allows fragment to setup view model into [viewModel]
      */
-    abstract fun setupViewModel()
+    open fun setupViewModel() {}
 
     /**
      * Called when adapter of [feedList] receives some new data

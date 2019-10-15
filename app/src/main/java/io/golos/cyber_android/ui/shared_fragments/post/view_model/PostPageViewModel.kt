@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
+import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
@@ -78,12 +79,12 @@ constructor(
      */
     val isMyPostLiveData: LiveData<Boolean> = MutableLiveData<Boolean>(currentUserRepository.authState!!.user.name == postToProcess.userId )
 
-    /**
-     * [LiveData] for post content
-     */
     private val _post = MutableLiveData<PostModel>()
     val post: LiveData<PostModel> = _post
     //val postLiveData //= postWithCommentUseCase.getPostAsLiveData
+
+    private val _postHeader = MutableLiveData<PostHeader>()
+    val postHeader: LiveData<PostHeader> = _postHeader
 
     private val discussionToReplyLiveData = MutableLiveData<DiscussionIdModel?>(null)
 
@@ -131,7 +132,11 @@ constructor(
         launch {
             try {
                 command.value = SetLoadingVisibilityCommand(true)
-                _post.value = model.getPost()
+
+                val postModel = model.getPost()
+
+                _post.value = postModel
+                _postHeader.value = model.getPostHeader(postModel)
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)

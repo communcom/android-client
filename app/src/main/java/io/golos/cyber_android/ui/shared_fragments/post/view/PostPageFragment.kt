@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -10,15 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
+import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
@@ -28,6 +27,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.common.utils.ViewUtils
 import io.golos.cyber_android.ui.common.widgets.CommentWidget
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
@@ -35,8 +35,6 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.adapter.PostPageAdapter
-import io.golos.cyber_android.utils.DateUtils
-import io.golos.cyber_android.ui.common.utils.ViewUtils
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
@@ -44,8 +42,6 @@ import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_post.*
-import kotlinx.android.synthetic.main.header_post_card.*
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -58,6 +54,8 @@ const val POST_MENU_REQUEST = 102
  * Fragment for single [PostModel] presentation
  */
 class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
+
+    private lateinit var binding: FragmentPostBinding
 
     @Parcelize
     data class Args(
@@ -75,6 +73,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         super.onCreate(savedInstanceState)
 
         App.injections.get<PostPageFragmentComponent>(getArgs().id).inject(this)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PostPageViewModel::class.java)
     }
 
     override fun onDestroy() {
@@ -82,20 +82,36 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         App.injections.release<PostPageFragmentComponent>()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_post, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post, container, false)
+        binding.lifecycleOwner = this
+
+        binding.viewModel = viewModel
+        return binding.root
+
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setupViewModel()
         setupCommentWidget()
         observeViewModel()
 
         postView.reduceDragSensitivity()
 
-        postMenu.setColorFilter(Color.BLACK)
-        ivBack.setOnClickListener { activity?.finish() }
+        postHeader.setOnBackButtonClickListener { activity?.finish() }
+
+        postHeader.setOnMenuButtonClickListener {
+            val postMetadata = viewModel.post.value!!.content.body.postBlock.metadata
+
+            PostPageMenuDialog.newInstance(viewModel.isMyPostLiveData.value == true, postMetadata.type, postMetadata.version).apply {
+                setTargetFragment(this@PostPageFragment,
+                    POST_MENU_REQUEST
+                )
+            }.show(requireFragmentManager(), "menu")
+        }
+
+        postHeader.setOnUserClickListener { moveToUserProfile(it) }
 
         feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -112,8 +128,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
     private fun observeViewModel() {
         viewModel.post.observe(this, Observer {
-            Timber.tag("POST_PAGE_FRAGMENT").d("viewModel.postLiveData")
-            bindPostModel(it)
+            (feedList.adapter as PostPageAdapter).postModel = it
         })
 
         viewModel.command.observe(this, Observer { command ->
@@ -178,19 +193,19 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
             setCommentInputVisibility(it)
         })
 
-        viewModel.isMyPostLiveData.observe(this, Observer { isMyPost ->
-            postMenu.visibility = if (isMyPost) View.VISIBLE else View.GONE
-
-            postMenu.setOnClickListener {
-                val postMetadata = viewModel.post.value!!.content.body.postBlock.metadata
-
-                PostPageMenuDialog.newInstance(isMyPost, postMetadata.type, postMetadata.version).apply {
-                    setTargetFragment(this@PostPageFragment,
-                        POST_MENU_REQUEST
-                    )
-                }.show(requireFragmentManager(), "menu")
-            }
-        })
+//        viewModel.isMyPostLiveData.observe(this, Observer { isMyPost ->
+//            postMenu.visibility = if (isMyPost) View.VISIBLE else View.GONE
+//
+//            postMenu.setOnClickListener {
+//                val postMetadata = viewModel.post.value!!.content.body.postBlock.metadata
+//
+//                PostPageMenuDialog.newInstance(isMyPost, postMetadata.type, postMetadata.version).apply {
+//                    setTargetFragment(this@PostPageFragment,
+//                        POST_MENU_REQUEST
+//                    )
+//                }.show(requireFragmentManager(), "menu")
+//            }
+//        })
     }
 
     private var scrolled = false
@@ -307,43 +322,43 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 //
 //    }
 
-    private fun bindPostModel(postModel: PostModel) {
-        (feedList.adapter as PostPageAdapter).postModel = postModel
-        bindToolbar(postModel)
-    }
+//    private fun bindPostModel(postModel: PostModel) {
+//        (feedList.adapter as PostPageAdapter).postModel = postModel
+//        bindToolbar(postModel)
+//    }
 
-    private fun bindToolbar(postModel: PostModel) {
-        if (postModel.author.avatarUrl.isNotBlank()) {
-            Glide.with(requireContext())
-                .load(postModel.author.avatarUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(postAvatar)
-            postAvatarName.text = ""
-        }
-        else {
-            Glide.with(requireContext())
-                .load(0)
-                .into(postAvatar)
-            postAvatarName.text = postModel.author.username
-        }
-
-        postAuthorName.text = postModel.community.name
-        postAuthor.text = String.format(
-            resources.getString(R.string.post_time_and_author_format),
-            DateUtils.createTimeLabel(
-                postModel.meta.time.time,
-                postModel.meta.elapsedFormCreation.elapsedMinutes,
-                postModel.meta.elapsedFormCreation.elapsedHours,
-                postModel.meta.elapsedFormCreation.elapsedDays,
-                requireContext()
-            ),
-            postModel.author.username
-        )
-
-        postHeaderLayout.setOnClickListener {
-            startActivity(ProfileActivity.getIntent(requireContext(), postModel.author.userId.userId))
-        }
-    }
+//    private fun bindToolbar(postModel: PostModel) {
+//        if (postModel.author.avatarUrl.isNotBlank()) {
+//            Glide.with(requireContext())
+//                .load(postModel.author.avatarUrl)
+//                .apply(RequestOptions.circleCropTransform())
+//                .into(postAvatar)
+//            postAvatarName.text = ""
+//        }
+//        else {
+//            Glide.with(requireContext())
+//                .load(0)
+//                .into(postAvatar)
+//            postAvatarName.text = postModel.author.username
+//        }
+//
+//        postAuthorName.text = postModel.community.name
+//        postAuthor.text = String.format(
+//            resources.getString(R.string.post_time_and_author_format),
+//            DateUtils.createTimeLabel(
+//                postModel.meta.time.time,
+//                postModel.meta.elapsedFormCreation.elapsedMinutes,
+//                postModel.meta.elapsedFormCreation.elapsedHours,
+//                postModel.meta.elapsedFormCreation.elapsedDays,
+//                requireContext()
+//            ),
+//            postModel.author.username
+//        )
+//
+//        postHeaderLayout.setOnClickListener {
+//            startActivity(ProfileActivity.getIntent(requireContext(), postModel.author.userId.userId))
+//        }
+//    }
 
     override fun setupEventsProvider() {
     }
@@ -402,9 +417,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     override fun setupWidgetsLiveData() {
     }
 
-    override fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PostPageViewModel::class.java)
-    }
-
     private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)
+
+    private fun moveToUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
 }
