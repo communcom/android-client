@@ -14,5 +14,5 @@ data class Follower(
     val firstName: String,
     val lastName: String,
     val avatarUrl: String,
-    val isFollowing: Boolean
+    var isFollowing: Boolean
 )

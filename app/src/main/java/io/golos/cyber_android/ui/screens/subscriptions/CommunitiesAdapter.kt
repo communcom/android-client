@@ -18,6 +18,8 @@ class CommunitiesAdapter : PaginalAdapter<Community>() {
 
     override var items: MutableList<Community> = mutableListOf()
 
+    var onJoinClickedCallback: ((Community) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             PROGRESS_ERROR -> getProgressErrorViewHolder(parent)

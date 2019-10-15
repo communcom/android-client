@@ -25,8 +25,6 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
 
     var nextPageCallback: (() -> Unit)? = null
 
-    var onJoinClickedCallback: ((ITEM) -> Unit)? = null
-
     var onPageRetryLoadingCallback: (() -> Unit)? = null
 
     var isPageError by Delegates.observable(false) { _, isPageErrorOld, isPageErrorNew ->

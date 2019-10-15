@@ -42,7 +42,7 @@ class UsersApiImpl @Inject constructor() : UsersApi {
 
         for (i in 0..30) {
             val firstName = followerFirstNamesList[rand.nextInt(followerFirstNamesList.size - 1)]
-            val lastName = followerFirstNamesList[rand.nextInt(followerFirstNamesList.size - 1)]
+            val lastName = followerLastNamesList[rand.nextInt(followerLastNamesList.size - 1)]
             val avatar: String = avatarArray[rand.nextInt(avatarArray.size - 1)]
 
             val followerDomain = FollowerDomain(UUID.randomUUID().toString(), firstName, lastName, avatar, rand.nextBoolean())
@@ -59,10 +59,12 @@ class UsersApiImpl @Inject constructor() : UsersApi {
     }
 
     override suspend fun subscribeToFollower(userId: String) {
-
+        delay(2000)
+        randomException()
     }
 
     override suspend fun unsubscribeToFollower(userId: String) {
-
+        delay(2000)
+        randomException()
     }
 }

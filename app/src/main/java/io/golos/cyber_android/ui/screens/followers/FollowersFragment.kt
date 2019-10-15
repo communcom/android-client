@@ -11,6 +11,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.databinding.FragmentFollowersBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.utils.debounce
 import kotlinx.android.synthetic.main.fragment_followers.*
@@ -43,6 +45,15 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
             viewModel.start()
         }
         viewModel.start()
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        when (command) {
+            is BackCommand -> {
+                fragmentManager?.popBackStack()
+            }
+        }
     }
 
     private fun setupSearch() {
@@ -120,6 +131,10 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
                 }
             }
         })
+
+        viewModel.followingStatusLiveData.observe(this, Observer {
+            adapter.updateFollowingStatus(it)
+        })
     }
 
     private fun setupFollowersList() {
@@ -131,7 +146,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
         adapter.onPageRetryLoadingCallback = {
             viewModel.loadMoreFollowers()
         }
-        adapter.onJoinClickedCallback = {
+        adapter.onFollowClickedCallback = {
             viewModel.changeFollowingStatus(it)
         }
     }

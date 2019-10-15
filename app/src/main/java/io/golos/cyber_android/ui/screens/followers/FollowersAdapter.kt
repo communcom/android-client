@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_followers.view.*
 
 class FollowersAdapter : PaginalAdapter<Follower>() {
 
+    var onFollowClickedCallback: ((Follower) -> Unit)? = null
 
     override var items: MutableList<Follower> = mutableListOf()
 
@@ -48,6 +49,13 @@ class FollowersAdapter : PaginalAdapter<Follower>() {
         calculateDiff.dispatchUpdatesTo(this)
     }
 
+    fun updateFollowingStatus(follower: Follower) {
+        val position = items.indexOf(follower)
+        if (position != -1) {
+            notifyItemChanged(position)
+        }
+    }
+
     inner class FollowerViewHolder(parent: ViewGroup) :
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_followers, parent, false)) {
 
@@ -56,6 +64,13 @@ class FollowersAdapter : PaginalAdapter<Follower>() {
             setLogo(follower.avatarUrl)
             setFollowerName(follower.firstName, follower.lastName)
             setFollowingStatus(follower.isFollowing)
+            setFollowingStatusClickListener()
+        }
+
+        private fun setFollowingStatusClickListener() {
+            itemView.btnFollow.setOnClickListener {
+                onFollowClickedCallback?.invoke(items[adapterPosition])
+            }
         }
 
         private fun setFollowingStatus(following: Boolean) {
@@ -63,9 +78,9 @@ class FollowersAdapter : PaginalAdapter<Follower>() {
             btnJoin.isChecked = following
             val context = btnJoin.context
             if (following) {
-                btnJoin.text = context.getString(R.string.joined_to_community)
+                btnJoin.text = context.getString(R.string.following)
             } else {
-                btnJoin.text = context.getString(R.string.join_to_community)
+                btnJoin.text = context.getString(R.string.follow)
             }
         }
 
