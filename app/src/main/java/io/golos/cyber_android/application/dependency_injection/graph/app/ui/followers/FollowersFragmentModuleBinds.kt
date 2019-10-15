@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsModelImpl
 import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.interactors.community.*
+import io.golos.domain.interactors.user.*
 import javax.inject.Named
 
 @Module
@@ -37,4 +38,13 @@ interface FollowersFragmentModuleBinds {
 
     @Binds
     fun bindPaginator(impl: Paginator.Store<Follower>): Paginator.Store<Follower>
+
+    @Binds
+    fun bindGetFollowersUseCase(useCase: GetFollowersUseCaseImpl): GetFollowersUseCase
+
+    @Binds
+    fun bindSubscribeToFollowerUseCase(useCase: SubscribeToFollowerUseCaseImpl): SubscribeToFollowerUseCase
+
+    @Binds
+    fun bindUnsubscribeToFollowerUseCase(useCase: UnsubscribeToFollowerUseCaseImpl): UnsubscribeToFollowerUseCase
 }
