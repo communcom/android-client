@@ -13,9 +13,9 @@ import kotlin.properties.Delegates
 /**
  * Adapter for realization base pagination functional
  */
-abstract class PaginalAdapter<ITEMS> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    abstract var items: MutableList<ITEMS>
+    abstract var items: MutableList<ITEM>
 
     var isFullData by Delegates.observable(false) { _, isFullDataOld, isFullDataNew ->
         if (isFullDataOld != isFullDataNew) {
@@ -44,6 +44,8 @@ abstract class PaginalAdapter<ITEMS> : RecyclerView.Adapter<RecyclerView.ViewHol
             notifyItemChanged(lastPositionItem)
         }
     }
+
+    override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
         return if (position == items.size - 1 && !isFullData) {

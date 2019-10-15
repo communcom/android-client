@@ -1,13 +1,13 @@
 package io.golos.domain.interactors.user
 
-import io.golos.domain.entities.FollowersDomain
+import io.golos.domain.entities.FollowersPageDomain
 
 interface UserRepository {
 
     /**
      * Get followers in size [pageSizeLimit] as next page with [sequenceKey]
      */
-    suspend fun getFollowers(query: String?, sequenceKey: String?, pageSizeLimit: Int): List<FollowersDomain>
+    suspend fun getFollowers(query: String?, sequenceKey: String?, pageSizeLimit: Int): FollowersPageDomain
 
     /**
      * Subscribe to follower

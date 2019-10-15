@@ -2,7 +2,7 @@ package io.golos.data.repositories
 
 import io.golos.data.api.user.UserApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.FollowersDomain
+import io.golos.domain.entities.FollowersPageDomain
 import io.golos.domain.interactors.user.UserRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,7 +12,7 @@ class UserRepositoryImpl @Inject constructor(
     private val dispatchersProvider: DispatchersProvider
 ) : UserRepository {
 
-    override suspend fun getFollowers(query: String?, sequenceKey: String?, pageSizeLimit: Int): List<FollowersDomain> {
+    override suspend fun getFollowers(query: String?, sequenceKey: String?, pageSizeLimit: Int): FollowersPageDomain {
         return withContext(dispatchersProvider.ioDispatcher){
             userApi.getFollowers(query, sequenceKey, pageSizeLimit)
         }

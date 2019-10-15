@@ -230,7 +230,7 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
     }
 
     /**
-     * Updates profile stats like count of the followers and following (including both users and communities)
+     * Updates profile stats like count of the followers and following (including both users and followers)
      */
     private fun updateStats(profile: UserMetadataModel) {
         followersCount.text = (profile.subscribers.usersCount + profile.subscribers.communitiesCount).toString()
