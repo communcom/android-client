@@ -41,7 +41,7 @@ class SubscriptionsViewModel @Inject constructor(
 
     private val _subscriptionStatusLiveData: MutableLiveData<Community> = MutableLiveData()
 
-    private val _searchErrorVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _searchProgressVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val subscriptionsListStateLiveData = _subscriptionsListStateLiveData as LiveData<Paginator.State>
 
@@ -57,7 +57,7 @@ class SubscriptionsViewModel @Inject constructor(
 
     val generalErrorVisibilityLiveData = _generalErrorVisibilityLiveData as LiveData<Boolean>
 
-    val searchErrorVisibilityLiveData = _searchErrorVisibilityLiveData as LiveData<Boolean>
+    val searchProgressVisibilityLiveData = _searchProgressVisibilityLiveData as LiveData<Boolean>
 
     private var communitySearchQuery: String = EMPTY
 
@@ -68,13 +68,13 @@ class SubscriptionsViewModel @Inject constructor(
             when (it) {
                 is Paginator.SideEffect.LoadPage -> getCommunities(it.sequenceKey)
                 is Paginator.SideEffect.ErrorEvent -> {
-                    _searchErrorVisibilityLiveData.value = false
+                    _searchProgressVisibilityLiveData.value = false
                 }
             }
         }
         paginatorSubscriptions.render = {
             _subscriptionsListStateLiveData.value = it
-            _searchErrorVisibilityLiveData.value = it is Paginator.State.SearchProgress<*>
+            _searchProgressVisibilityLiveData.value = it is Paginator.State.SearchProgress<*>
         }
 
         paginatorRecommendedCommunities.sideEffectListener = {
@@ -163,7 +163,7 @@ class SubscriptionsViewModel @Inject constructor(
 
     fun onCommunitySearchQueryChanged(query: String) {
         if(communitySearchQuery == query){
-            _searchErrorVisibilityLiveData.value = false
+            _searchProgressVisibilityLiveData.value = false
         } else{
             communitySearchQuery = query
             getCommunitiesJob?.cancel()

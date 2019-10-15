@@ -155,7 +155,7 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
                 btnRetry.visibility = View.INVISIBLE
             }
         })
-        viewModel.searchErrorVisibilityLiveData.observe(this, Observer {
+        viewModel.searchProgressVisibilityLiveData.observe(this, Observer {
             if (it) {
                 pbLoading.visibility = View.VISIBLE
             } else {

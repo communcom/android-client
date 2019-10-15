@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.followers.mappers.FollowersDomainListToFollowersListMapper
 import io.golos.cyber_android.ui.screens.subscriptions.Community
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,11 +18,13 @@ class FollowersViewModel @Inject constructor(
     private val paginator: Paginator.Store<Community>
 ) : ViewModelBase<FollowersModel>(dispatchersProvider, model) {
 
-    private var query: String? = null
+    private var followersSearchQuery: String? = null
 
     private val _followersListStateLiveData: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
 
     private val _searchErrorVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    private var followersLoadJob: Job? = null
 
     val followersListStateLiveData = _followersListStateLiveData as LiveData<Paginator.State>
 
@@ -46,9 +49,9 @@ class FollowersViewModel @Inject constructor(
     }
 
     private fun loadMoreFollowers(sequenceKey: String?) {
-        launch {
+        followersLoadJob = launch {
             try {
-                val followersPage = model.getFollowers(query, sequenceKey, PAGE_SIZE_LIMIT)
+                val followersPage = model.getFollowers(followersSearchQuery, sequenceKey, PAGE_SIZE_LIMIT)
                 paginator.proceed(
                     Paginator.Action.NewPage(
                         followersPage.sequenceKey,
@@ -75,6 +78,16 @@ class FollowersViewModel @Inject constructor(
 
     fun changeFollowingStatus(follower: Follower) {
 
+    }
+
+    fun onFollowersSearchQueryChanged(query: String) {
+        if(followersSearchQuery == query){
+            _searchErrorVisibilityLiveData.value = false
+        } else{
+            followersSearchQuery = query
+            followersLoadJob?.cancel()
+            paginator.proceed(Paginator.Action.Search)
+        }
     }
 
     private companion object {

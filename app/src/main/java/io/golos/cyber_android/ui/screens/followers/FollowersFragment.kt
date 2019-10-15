@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.followers
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +12,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.foll
 import io.golos.cyber_android.databinding.FragmentFollowersBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.utils.debounce
 import kotlinx.android.synthetic.main.fragment_followers.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -35,10 +38,35 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
         setupToolbar()
         setupFollowersList()
         observeViewModel()
+        setupSearch()
         btnRetry.setOnClickListener {
             viewModel.start()
         }
         viewModel.start()
+    }
+
+    private fun setupSearch() {
+
+
+        searchBar.addTextChangedListener(object : TextWatcher {
+
+            private val querySearchListener: (String) -> Unit = debounce({
+                viewModel.onFollowersSearchQueryChanged(it)
+            })
+
+            override fun afterTextChanged(s: Editable?) {
+                //implement if need
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //implement if need
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                querySearchListener(s.toString())
+            }
+
+        })
     }
 
     private fun observeViewModel() {
@@ -50,6 +78,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
                     adapter.isPageError = false
                     adapter.isSearchProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
+                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
@@ -57,6 +86,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
                     adapter.isPageError = false
                     adapter.isSearchProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
+                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
@@ -69,11 +99,13 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
                 is Paginator.State.SearchProgress<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isSearchProgress = true
+                    pbLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isSearchProgress = false
                     uiHelper.showMessage(R.string.loading_error)
+                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
                     generalProgressLoading.visibility = View.VISIBLE
@@ -86,14 +118,6 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
                     generalProgressLoading.visibility = View.INVISIBLE
                     btnRetry.visibility = View.VISIBLE
                 }
-            }
-        })
-
-        viewModel.searchErrorVisibilityLiveData.observe(this, Observer {
-            if (it) {
-                pbLoading.visibility = View.VISIBLE
-            } else {
-                pbLoading.visibility = View.INVISIBLE
             }
         })
     }
