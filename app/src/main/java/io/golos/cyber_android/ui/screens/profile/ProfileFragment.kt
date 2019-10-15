@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.edit_profile_bio_activity.EditProfileBioActivity
+import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageLiveDataProvider
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
@@ -131,6 +132,15 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
             requireFragmentManager()
                 .beginTransaction()
                 .add(R.id.rootContainer, SubscriptionsFragment.newInstance(), tag)
+                .addToBackStack(tag)
+                .commit()
+        }
+
+        followers.setOnClickListener {
+            val tag = FollowersFragment::javaClass.name
+            requireFragmentManager()
+                .beginTransaction()
+                .add(R.id.rootContainer, FollowersFragment.newInstance(), tag)
                 .addToBackStack(tag)
                 .commit()
         }

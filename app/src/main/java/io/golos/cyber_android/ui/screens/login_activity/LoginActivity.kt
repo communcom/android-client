@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatio
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimator
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatorTarget
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
+import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -46,7 +47,7 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
 
         setContentView(R.layout.activity_login)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.testLayout, FollowersFragment())
+            .replace(R.id.testLayout, ProfileFragment.newInstance("dsds"))
             .commit()
     }
 

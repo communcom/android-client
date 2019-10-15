@@ -157,4 +157,9 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersMo
             viewModel.back()
         }
     }
+
+    companion object{
+
+        fun newInstance(): FollowersFragment = FollowersFragment()
+    }
 }
