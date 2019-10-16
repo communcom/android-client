@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleObserver
 import androidx.recyclerview.widget.RecyclerView
@@ -23,15 +25,15 @@ import kotlin.coroutines.CoroutineContext
 
 
 class PostTextViewHolder(
-    val view: View,
+    parent: ViewGroup,
     private val onClicksProcessor: PostPageViewModelItemsClickProcessor
-) : RecyclerView.ViewHolder(view), CoroutineScope, LifecycleObserver {
+) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_content_text, parent, false)),
+    CoroutineScope,
+    LifecycleObserver {
 
     private var scopeJob: Job = SupervisorJob()
 
     private var renderJob: Job? = null
-
-    private lateinit var recyclerView: RecyclerView
 
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
@@ -46,12 +48,10 @@ class PostTextViewHolder(
         App.injections.get<PostPageFragmentComponent>().inject(this)
     }
 
-    fun bind(post: PostBlock, recyclerView: RecyclerView) {
+    fun bind(view: View, post: PostBlock) {
         view.loadingIndicator.visibility = View.VISIBLE
         view.postWidgetContainer.visibility = View.INVISIBLE
         view.errorHolder.visibility = View.INVISIBLE
-
-        this.recyclerView = recyclerView
 
         renderJob = launch {
             try {
@@ -65,20 +65,20 @@ class PostTextViewHolder(
                 }
 
                 post.content.forEach { block ->
-                    view.postWidgetContainer.addView(createWidget(block) as View)
+                    view.postWidgetContainer.addView(createWidget(view, block) as View)
                 }
 
-                post.attachments?.let { view.postWidgetContainer.addView(createWidget(it) as View) }
+                post.attachments?.let { view.postWidgetContainer.addView(createWidget(view, it) as View) }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                showError(R.string.common_general_error)
+                showError(view, R.string.common_general_error)
             } finally {
                 view.loadingIndicator.visibility = View.INVISIBLE
             }
         }
     }
 
-    fun cleanUp() {
+    fun cleanUp(view: View) {
         renderJob?.takeIf { it.isActive }?.cancel()
 
         with(view.postWidgetContainer) {
@@ -88,34 +88,35 @@ class PostTextViewHolder(
         }
     }
 
-    private fun showError(@StringRes errorText: Int) {
+    @Suppress("SameParameterValue")
+    private fun showError(view: View, @StringRes errorText: Int) {
         view.errorHolder.text = appResourcesProvider.getString(errorText)
         view.errorHolder.visibility = View.VISIBLE
     }
 
-    private fun createWidget(block: Block): PostBlockWidget<*> =
+    private fun createWidget(view: View, block: Block): PostBlockWidget<*> =
         when(block) {
             is AttachmentsBlock -> {
                 if(block.content.size == 1) {
-                    createWidget(block.content.single()) // A single attachment is shown as embed block
+                    createWidget(view, block.content.single()) // A single attachment is shown as embed block
                 } else {
-                    AttachmentsWidget(this.view.context).apply { render(block) }
+                    AttachmentsWidget(view.context).apply { render(block) }
                 }
             }
 
-            is ImageBlock -> EmbedImageWidget(this.view.context).apply {
+            is ImageBlock -> EmbedImageWidget(view.context).apply {
                 render(block)
                 setOnClickProcessor(onClicksProcessor)
             }
 
-            is VideoBlock -> EmbedVideoWidget(this.view.context).apply { render(block) }
+            is VideoBlock -> EmbedVideoWidget(view.context).apply { render(block) }
 
-            is WebsiteBlock -> EmbedWebsiteWidget(this.view.context).apply {
+            is WebsiteBlock -> EmbedWebsiteWidget(view.context).apply {
                 render(block)
                 setOnClickProcessor(onClicksProcessor)
             }
 
-            is ParagraphBlock -> ParagraphWidget(this.view.context).apply {
+            is ParagraphBlock -> ParagraphWidget(view.context).apply {
                 render(block)
                 setOnClickProcessor(onClicksProcessor)
             }

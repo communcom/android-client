@@ -65,7 +65,7 @@ constructor(
 
         setTextSize(TypedValue.COMPLEX_UNIT_PX, appResourcesProvider.getDimens(R.dimen.text_size_post_normal))
 
-        appResourcesProvider.getDimens(R.dimen.padding_post_paragraph).toInt().also {
+        appResourcesProvider.getDimens(R.dimen.post_content_border_horizontal).toInt().also {
             setPadding(it, 0, it, 0)
         }
 

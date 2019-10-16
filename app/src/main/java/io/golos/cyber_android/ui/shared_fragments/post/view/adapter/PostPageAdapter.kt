@@ -13,27 +13,17 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewMo
 import io.golos.domain.interactors.model.*
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 
-private const val POST_CONTROLS_TYPE = 0
-private const val COMMENT_TYPE = 1
-private const val LOADING_TYPE = 2
-
-
-private const val CONTENT_TEXT_TYPE = 3
-private const val CONTENT_IMAGE_TYPE = 4
-private const val CONTENT_EMBED_TYPE = 5
-
-private const val COMMENT_TITLE_TYPE = 6
-
-/**
- * Position of the post header
- */
-
 class PostPageAdapter(
     private val lifecycleOwner: LifecycleOwner,
     commentListener: CommentsAdapter.Listener,
     val listener: Listener,
     private val clicksProcessor: PostPageViewModelItemsClickProcessor
 ) : CommentsAdapter(emptyList(), commentListener) {
+
+    interface Listener {
+        fun onPostUpvote(postModel: PostModel)
+        fun onPostDownvote(postModel: PostModel)
+    }
 
     private lateinit var recyclerView: RecyclerView
 
@@ -54,50 +44,17 @@ class PostPageAdapter(
                 notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            POST_CONTROLS_TYPE -> PostControlsViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_post_header, parent,
-                    false
-                ).apply {
-                    postComment.visibility = View.GONE
-                }
-            )
-            COMMENT_TITLE_TYPE -> CommentsTitleViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_post_comments_title,
-                    parent,
-                    false
-                )
-            )
-            COMMENT_TYPE -> super.onCreateViewHolder(parent, viewType)
-            LOADING_TYPE -> LoadingViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_loading,
-                    parent,
-                    false
-                )
-            )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when (viewType) {
+            PostPageViewType.POST_CONTROLS_TYPE -> PostControlsViewHolder(parent)
+            PostPageViewType.COMMENT_TITLE_TYPE -> CommentsTitleViewHolder(parent)
+            PostPageViewType.LOADING_TYPE -> LoadingViewHolder(parent)
+            PostPageViewType.CONTENT_TEXT_TYPE -> PostTextViewHolder(parent, clicksProcessor)        // Post and title
 
-            CONTENT_TEXT_TYPE -> PostTextViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_content_text, parent, false),
-                clicksProcessor
-            )
-
-//            CONTENT_IMAGE_TYPE -> PostImageViewHolder(
-//                LayoutInflater.from(parent.context).inflate(
-//                    R.layout.item_content_image,
-//                    parent,
-//                    false
-//                )
-//            )
-
-            CONTENT_EMBED_TYPE -> EmptyViewHolder(parent.context)
+            PostPageViewType.COMMENT_TYPE -> super.onCreateViewHolder(parent, viewType)
 
             else -> throw RuntimeException("Unsupported view type")
         }
-    }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -106,28 +63,19 @@ class PostPageAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            POST_CONTROLS_TYPE -> {
-                holder as PostControlsViewHolder
-                postModel?.let {
-                    holder.bind(it, listener)
-                }
-            }
-            COMMENT_TITLE_TYPE -> {
-                holder as CommentsTitleViewHolder
-                holder.bind(postModel?.comments?.count ?: 0)
-            }
-//            COMMENT_TYPE -> super.onBindViewHolder(holder, position - getItemsOffset())
-            LOADING_TYPE -> {
-                holder as LoadingViewHolder
-                holder.bind(isLoading)
-            }
+            PostPageViewType.POST_CONTROLS_TYPE ->
+                postModel?.let { (holder as PostControlsViewHolder).bind(holder.itemView, it, listener) }
 
-            CONTENT_TEXT_TYPE -> {
-                holder as PostTextViewHolder
-                postModel?.let { holder.bind(it.content.body.postBlock, recyclerView) }
-            }
-            CONTENT_EMBED_TYPE -> {     // do nothing
-            }
+            PostPageViewType.COMMENT_TITLE_TYPE ->
+                (holder as CommentsTitleViewHolder).bind(holder.itemView, postModel?.comments?.count ?: 0)
+
+            PostPageViewType.LOADING_TYPE ->
+                (holder as LoadingViewHolder).bind(holder.itemView, isLoading)
+
+            PostPageViewType.CONTENT_TEXT_TYPE ->
+                postModel?.let { (holder as PostTextViewHolder).bind(holder.itemView, it.content.body.postBlock) }
+
+//            PostPageViewType.COMMENT_TYPE -> super.onBindViewHolder(holder, position - getItemsOffset())
         }
     }
 
@@ -135,7 +83,7 @@ class PostPageAdapter(
         super.onViewRecycled(holder)
 
         when (holder) {
-            is PostTextViewHolder -> holder.cleanUp()
+            is PostTextViewHolder -> holder.cleanUp(holder.itemView)
             else -> {}
         }
     }
@@ -143,26 +91,31 @@ class PostPageAdapter(
 //    override fun getItemViewType(position: Int): Int = CONTENT_TEXT_TYPE
 
     override fun getItemViewType(position: Int): Int {
-        if (postModel != null) {
-            with(postModel!!.content.body.postBlock) {
-                if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
-                    if (content.isNotEmpty() || attachments?.content?.isNotEmpty() == true)
-                        return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
-                        is TextRowModel -> CONTENT_TEXT_TYPE
-                        is ImageRowModel -> CONTENT_IMAGE_TYPE
-                    }*/
-                }
-            }
-            //display only first embed on position 0 for now
-            if (getEmbedsCount() > 0 && position == 0)
-                return CONTENT_EMBED_TYPE
+        return when(position) {
+            0 -> PostPageViewType.CONTENT_TEXT_TYPE
+            1 -> PostPageViewType.POST_CONTROLS_TYPE
+            2 -> PostPageViewType.COMMENT_TITLE_TYPE
+            else -> PostPageViewType.COMMENT_TYPE
+
         }
-        return when (position) {
-            getPostControlsPosition() -> POST_CONTROLS_TYPE
-            getCommentsTitlePosition() -> COMMENT_TITLE_TYPE
-            getLoadingViewHolderPosition() -> LOADING_TYPE
-            else -> COMMENT_TYPE
-        }
+
+//        if (postModel != null) {
+//            with(postModel!!.content.body.postBlock) {
+//                if (position in getPostContentPositionStart() until (/*postModel!!.content.body.full.size*/ 1 + getPostContentPositionStart())) {
+//                    if (content.isNotEmpty() || attachments?.content?.isNotEmpty() == true)
+//                        return CONTENT_TEXT_TYPE /*when (postModel!!.content.body.full[adapterPositionToContentRowPosition(position)]) {
+//                        is TextRowModel -> CONTENT_TEXT_TYPE
+//                        is ImageRowModel -> CONTENT_IMAGE_TYPE
+//                    }*/
+//                }
+//            }
+//        }
+//        return when (position) {
+//            getPostControlsPosition() -> POST_CONTROLS_TYPE
+//            getCommentsTitlePosition() -> COMMENT_TITLE_TYPE
+//            getLoadingViewHolderPosition() -> LOADING_TYPE
+//            else -> COMMENT_TYPE
+//        }
     }
 
     /**
@@ -224,11 +177,6 @@ class PostPageAdapter(
      * Use only first embed if any
      */
     private fun getEmbedsCount() = 0
-
-    interface Listener {
-        fun onPostUpvote(postModel: PostModel)
-        fun onPostDownvote(postModel: PostModel)
-    }
 
     private val adapterCallback = AdapterListUpdateCallback(this)
     private val updateCallback = object : ListUpdateCallback {

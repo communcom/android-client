@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/post_controls_height"
+
+    android:paddingStart="@dimen/post_content_border_horizontal"
+    android:paddingEnd="@dimen/post_content_border_horizontal">
+
+    <LinearLayout
+        android:id="@+id/votesArea"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/post_controls_vote_area_height"
+
+        android:orientation="horizontal"
+
+        android:background="@drawable/bcg_post_vote_area"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+            android:id="@+id/upvoteButton"
+
+            android:layout_width="@dimen/post_controls_vote_buttons_size"
+            android:layout_height="@dimen/post_controls_vote_buttons_size"
+
+            android:background="@null"
+
+            app:imageButton_icon="@drawable/ic_upvote"
+            app:imageButton_iconInscribeSize="@dimen/post_controls_vote_buttons_icon_size"
+            app:imageButton_tint="@color/tint_post_vote_button"
+
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/votesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            style="@style/PostCardCountersTextStyle"
+
+            android:layout_gravity="center"
+
+            android:layout_marginStart="@dimen/post_controls_vote_text_margin"
+            android:layout_marginEnd="@dimen/post_controls_vote_text_margin"
+
+            android:text=""
+            tools:text="1205"
+            />
+
+        <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+            android:id="@+id/downvoteButton"
+
+            android:layout_width="@dimen/post_controls_vote_buttons_size"
+            android:layout_height="@dimen/post_controls_vote_buttons_size"
+
+            android:background="@null"
+
+            app:imageButton_icon="@drawable/ic_downvote"
+            app:imageButton_iconInscribeSize="@dimen/post_controls_vote_buttons_icon_size"
+            app:imageButton_tint="@color/tint_post_vote_button"
+
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/commentsIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/commentsCountText"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
+
+        app:srcCompat="@drawable/ic_chat_bubble"
+
+
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/commentsCountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/viewsIcon"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginEnd="@dimen/post_controls_view_comments_area_gap"
+
+        style="@style/PostCardCountersTextStyle"
+
+        android:text=""
+        tools:text="1.2k"
+        />
+
+    <ImageView
+        android:id="@+id/viewsIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/viewCountsText"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:srcCompat="@drawable/ic_reply"
+
+        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/viewCountsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        style="@style/PostCardCountersTextStyle"
+
+        android:text=""
+        tools:text="278"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

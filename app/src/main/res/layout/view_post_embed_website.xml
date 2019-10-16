@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/margin_block"
     android:layout_marginBottom="@dimen/margin_block"
-    android:layout_marginStart="@dimen/padding_post_paragraph"
-    android:layout_marginEnd="@dimen/padding_post_paragraph">
+    android:layout_marginStart="@dimen/post_content_border_horizontal"
+    android:layout_marginEnd="@dimen/post_content_border_horizontal">
 
     <ImageView
         android:id="@+id/image"
@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_embed_website_bottom_view"
         android:background="@drawable/bg_post_embed_website_bottom"
-        android:paddingStart="@dimen/padding_post_paragraph"
-        android:paddingEnd="@dimen/padding_post_paragraph">
+        android:paddingStart="@dimen/post_content_border_horizontal"
+        android:paddingEnd="@dimen/post_content_border_horizontal">
 
         <TextView
             android:id="@+id/title"

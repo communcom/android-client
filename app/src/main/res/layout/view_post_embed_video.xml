@@ -36,8 +36,8 @@
         android:text=""
         tools:text = "Some description"
 
-        android:paddingStart="@dimen/padding_post_paragraph"
-        android:paddingEnd="@dimen/padding_post_paragraph"
+        android:paddingStart="@dimen/post_content_border_horizontal"
+        android:paddingEnd="@dimen/post_content_border_horizontal"
 
         style = "@style/Post.Image.Description.TextStyle"
 

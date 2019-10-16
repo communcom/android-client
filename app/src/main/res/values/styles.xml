@@ -88,8 +88,9 @@
     <style name="PostCardPreviewTextStyle" parent="StandardText16spStyle" />
 
     <style name="PostCardCountersTextStyle" parent="Common.Base.TextStyle">
-        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textColor">@color/post_counter_text_color</item>
         <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="SortsTextStyle" parent="StandardText16spStyle">

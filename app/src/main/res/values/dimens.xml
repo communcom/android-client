@@ -94,7 +94,8 @@
     <dimen name="size_post_card_votes_count">16dp</dimen>
     <dimen name="height_max_post_card_media">223dp</dimen>
 
-    <dimen name="padding_post_paragraph">16dp</dimen>
+    <dimen name="post_content_border_horizontal">15dp</dimen>
+
     <dimen name="margin_block">10dp</dimen>
     <dimen name="margin_image_description">5dp</dimen>
     <dimen name="height_embed_video_view">210dp</dimen>
@@ -110,11 +111,7 @@
     <dimen name="text_size_post_small">@dimen/text_size_12_sp</dimen>
     <dimen name="text_size_post_tiny">@dimen/text_size_10_sp</dimen>
 
-    <!--Post Page-->
-    <dimen name="margin_top_post_page_title">16dp</dimen>
-    <dimen name="margin_top_post_page_content">28dp</dimen>
     <dimen name="margin_top_post_page_comments_title">47dp</dimen>
-    <dimen name="margin_top_post_page_comments">15dp</dimen>
     <dimen name="margin_vertical_post_page_comment_edit_text">12dp</dimen>
     <dimen name="margin_bottom_post_page_content_row">8dp</dimen>
 
@@ -125,10 +122,16 @@
     <dimen name="post_viewer_header_horizontal_margin">6dp</dimen>
     <dimen name="post_viewer_header_horizontal_margin_large">10dp</dimen>
     <dimen name="post_viewer_header_vertical_margin">8dp</dimen>
-
     <dimen name="post_viewer_header_community_join_button_height">30dp</dimen>
     <dimen name="post_viewer_header_community_join_button_width">53dp</dimen>
 
+    <dimen name="post_controls_height">45dp</dimen>
+    <dimen name="post_controls_vote_area_height">35dp</dimen>
+    <dimen name="post_controls_vote_buttons_size">35dp</dimen>
+    <dimen name="post_controls_vote_buttons_icon_size">14dp</dimen>
+    <dimen name="post_controls_vote_text_margin">5dp</dimen>
+    <dimen name="post_controls_icons_text_gap">8dp</dimen>
+    <dimen name="post_controls_view_comments_area_gap">23dp</dimen>
 
     <!--Comment-->
     <dimen name="margin_top_comment_vote_buttons">10dp</dimen>

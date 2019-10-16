@@ -35,7 +35,7 @@ constructor(
         maxLines = 3
         ellipsize = TextUtils.TruncateAt.END
 
-        appResProvider.getDimens(R.dimen.padding_post_paragraph).toInt().also {
+        appResProvider.getDimens(R.dimen.post_content_border_horizontal).toInt().also {
             setPadding(it, 0, it, 0)
         }
 
