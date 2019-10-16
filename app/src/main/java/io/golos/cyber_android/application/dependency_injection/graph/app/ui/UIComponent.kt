@@ -47,8 +47,4 @@ interface UIComponent {
     val followersFragment: FollowersFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
-
-    fun inject(widget: ParagraphWidget)
-    fun inject(widget: EmbedWebsiteWidget)
-    fun inject(widget: AttachmentsWidget)
 }

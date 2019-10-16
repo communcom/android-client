@@ -97,8 +97,9 @@
     </style>
 
     <style name="PostTitleTextStyle" parent="Common.Base.TextStyle">
-        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="android:textSize">@dimen/text_size_21_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="PostCardTitleTextStyle" parent="StandardText16spStyle">

@@ -9,8 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
-import io.golos.cyber_android.ui.common.extensions.openLinkExternal
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.common.glide.TopRoundedCorners
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.AppResourcesProvider
@@ -35,7 +34,7 @@ constructor(
     internal lateinit var appResourcesProvider: AppResourcesProvider
 
     init {
-        App.injections.get<UIComponent>().inject(this)
+        App.injections.get<PostPageFragmentComponent>().inject(this)
 
         inflate(context, R.layout.view_post_embed_website, this)
     }

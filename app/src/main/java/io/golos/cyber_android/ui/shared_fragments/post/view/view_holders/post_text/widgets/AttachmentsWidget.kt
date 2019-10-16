@@ -10,8 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.AttachmentsBlock
 import io.golos.domain.post.post_dto.ImageBlock
@@ -19,7 +18,6 @@ import io.golos.domain.post.post_dto.VideoBlock
 import io.golos.domain.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 class AttachmentsWidget
@@ -37,7 +35,7 @@ constructor(
     internal lateinit var appResProvider: AppResourcesProvider
 
     init {
-        App.injections.get<UIComponent>().inject(this)
+        App.injections.get<PostPageFragmentComponent>().inject(this)
 
         inflate(context, R.layout.view_post_attachments, this)
     }

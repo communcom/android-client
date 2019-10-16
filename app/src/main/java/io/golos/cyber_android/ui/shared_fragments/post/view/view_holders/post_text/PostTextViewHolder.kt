@@ -58,6 +58,12 @@ class PostTextViewHolder(
                 view.postWidgetContainer.visibility = View.VISIBLE
 
                 view.postWidgetContainer.removeAllViews()
+
+                if(!post.title.isNullOrBlank()) {
+                    val titleWidget = TitleWidget(view.context).apply { render(post.title!!) }
+                    view.postWidgetContainer.addView(titleWidget)
+                }
+
                 post.content.forEach { block ->
                     view.postWidgetContainer.addView(createWidget(block) as View)
                 }
