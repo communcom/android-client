@@ -1,12 +1,12 @@
 package io.golos.domain.interactors.community
 
-import io.golos.domain.entities.CommunityPageDomain
+import io.golos.domain.entities.CommunityDomain
 
 interface CommunitiesRepository {
 
-    suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain
+    suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain>
 
-    suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain
+    suspend fun getRecommendedCommunities(offset: Int, pageLimitSize: Int): List<CommunityDomain>
 
     suspend fun subscribeToCommunity(communityId: String)
 

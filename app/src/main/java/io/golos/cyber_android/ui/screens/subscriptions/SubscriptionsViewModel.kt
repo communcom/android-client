@@ -66,7 +66,7 @@ class SubscriptionsViewModel @Inject constructor(
     init {
         paginatorSubscriptions.sideEffectListener = {
             when (it) {
-                is Paginator.SideEffect.LoadPage -> getCommunities(it.sequenceKey)
+                is Paginator.SideEffect.LoadPage -> loadCommunities(it.pageCount)
                 is Paginator.SideEffect.ErrorEvent -> {
                     _searchProgressVisibilityLiveData.value = false
                 }
@@ -79,7 +79,7 @@ class SubscriptionsViewModel @Inject constructor(
 
         paginatorRecommendedCommunities.sideEffectListener = {
             when (it) {
-                is Paginator.SideEffect.LoadPage -> getRecommendedCommunities(it.sequenceKey)
+                is Paginator.SideEffect.LoadPage -> loadRecommendedCommunities(it.pageCount)
             }
         }
         paginatorRecommendedCommunities.render = {
@@ -87,15 +87,15 @@ class SubscriptionsViewModel @Inject constructor(
         }
     }
 
-    private fun getCommunities(sequenceKey: String?) {
+    private fun loadCommunities(pageCount: Int) {
         getCommunitiesJob?.cancel()
         getCommunitiesJob = launch {
             try {
-                val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, sequenceKey, PAGE_SIZE_LIMIT)
+                val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, pageCount * PAGE_SIZE_LIMIT, PAGE_SIZE_LIMIT)
                 paginatorSubscriptions.proceed(
                     Paginator.Action.NewPage(
-                        communitiesByQueryPage.sequenceKey,
-                        CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities)
+                        pageCount,
+                        CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage)
                     )
                 )
             } catch (e: java.lang.Exception) {
@@ -105,14 +105,14 @@ class SubscriptionsViewModel @Inject constructor(
         }
     }
 
-    private fun getRecommendedCommunities(sequenceKey: String?) {
+    private fun loadRecommendedCommunities(pageCount: Int) {
         launch {
             try {
-                val recommendedCommunitiesPage = model.getRecommendedCommunities(sequenceKey, PAGE_SIZE_LIMIT)
+                val recommendedCommunitiesPage = model.getRecommendedCommunities(pageCount * PAGE_SIZE_LIMIT, PAGE_SIZE_LIMIT)
                 paginatorRecommendedCommunities.proceed(
                     Paginator.Action.NewPage(
-                        recommendedCommunitiesPage.sequenceKey,
-                        CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
+                        pageCount,
+                        CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage)
                     )
                 )
             } catch (e: java.lang.Exception) {
@@ -133,19 +133,19 @@ class SubscriptionsViewModel @Inject constructor(
                 try {
                     _generalErrorVisibilityLiveData.value = false
                     _generalLoadingProgressVisibilityLiveData.value = true
-                    val recommendedCommunitiesPage = model.getRecommendedCommunities(null, PAGE_SIZE_LIMIT)
-                    val communitiesByQueryPage = model.getCommunitiesByQuery(communitySearchQuery, null, PAGE_SIZE_LIMIT)
-                    if (communitiesByQueryPage.communities.isEmpty()) {
+                    val recommendedCommunitiesPage = model.getRecommendedCommunities(0, PAGE_SIZE_LIMIT)
+                    val communities = model.getCommunitiesByQuery(communitySearchQuery, 0, PAGE_SIZE_LIMIT)
+                    if (communities.isEmpty()) {
                         val recommendedCommunities =
-                            CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage.communities)
-                        val state = Paginator.State.Data(recommendedCommunitiesPage.sequenceKey, recommendedCommunities)
+                            CommunityDomainListToCommunityListMapper().invoke(recommendedCommunitiesPage)
+                        val state = Paginator.State.Data(0, recommendedCommunities)
                         paginatorRecommendedCommunities.initState(state)
                         _subscriptionsState.value = SubscriptionsState.EMPTY
                         _recommendedSubscriptionsListStateLiveData.value = state
                     } else {
                         val recommendedCommunities =
-                            CommunityDomainListToCommunityListMapper().invoke(communitiesByQueryPage.communities)
-                        val state = Paginator.State.Data(communitiesByQueryPage.sequenceKey, recommendedCommunities)
+                            CommunityDomainListToCommunityListMapper().invoke(communities)
+                        val state = Paginator.State.Data(0, recommendedCommunities)
                         paginatorSubscriptions.initState(state)
                         _subscriptionsState.value = SubscriptionsState.EXIST
                         _subscriptionsListStateLiveData.value = state

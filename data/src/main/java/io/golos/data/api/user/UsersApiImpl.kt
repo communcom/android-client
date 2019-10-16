@@ -1,7 +1,6 @@
 package io.golos.data.api.user
 
 import io.golos.domain.entities.FollowerDomain
-import io.golos.domain.entities.FollowersPageDomain
 import kotlinx.coroutines.delay
 import java.util.*
 import javax.inject.Inject
@@ -10,13 +9,13 @@ import kotlin.random.Random
 class UsersApiImpl @Inject constructor() : UsersApi {
 
 
-    override suspend fun getFollowers(query: String?, sequenceKey: String?, pageSizeLimit: Int): FollowersPageDomain {
+    override suspend fun getFollowers(query: String?, offset: Int, pageSizeLimit: Int): List<FollowerDomain> {
         delay(2000)
         randomException()
         return getMockFollowersList()
     }
 
-    private fun getMockFollowersList(): FollowersPageDomain {
+    private fun getMockFollowersList(): List<FollowerDomain> {
         val followerFirstNamesList = mutableListOf<String>()
         followerFirstNamesList.add("Alexey")
         followerFirstNamesList.add("Sam")
@@ -25,11 +24,11 @@ class UsersApiImpl @Inject constructor() : UsersApi {
         followerFirstNamesList.add("Behance")
 
         val followerLastNamesList = mutableListOf<String>()
-        followerFirstNamesList.add("Ivanov")
-        followerFirstNamesList.add("Smith")
-        followerFirstNamesList.add("Marchenko")
-        followerFirstNamesList.add("Vahovskiy")
-        followerFirstNamesList.add("Indigo")
+        followerLastNamesList.add("Ivanov")
+        followerLastNamesList.add("Smith")
+        followerLastNamesList.add("Marchenko")
+        followerLastNamesList.add("Vahovskiy")
+        followerLastNamesList.add("Indigo")
 
         val avatarArray = mutableListOf<String>()
         avatarArray.add("https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg")
@@ -48,7 +47,7 @@ class UsersApiImpl @Inject constructor() : UsersApi {
             val followerDomain = FollowerDomain(UUID.randomUUID().toString(), firstName, lastName, avatar, rand.nextBoolean())
             followersList.add(followerDomain)
         }
-        return FollowersPageDomain(UUID.randomUUID().toString(), followersList)
+        return followersList
     }
 
     private fun randomException() {

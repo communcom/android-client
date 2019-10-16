@@ -2,7 +2,7 @@ package io.golos.data.repositories
 
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CommunityPageDomain
+import io.golos.domain.entities.CommunityDomain
 import io.golos.domain.interactors.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -25,15 +25,15 @@ class CommunitiesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+    override suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain> {
         return withContext(dispatchersProvider.ioDispatcher) {
-            communitiesApi.getCommunitiesByQuery(query, sequenceKey, pageLimitSize)
+            communitiesApi.getCommunitiesByQuery(query, offset, pageLimitSize)
         }
     }
 
-    override suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+    override suspend fun getRecommendedCommunities(offset: Int, pageLimitSize: Int): List<CommunityDomain> {
         return withContext(dispatchersProvider.ioDispatcher) {
-            communitiesApi.getRecommendedCommunities(sequenceKey, pageLimitSize)
+            communitiesApi.getRecommendedCommunities(offset, pageLimitSize)
         }
     }
 }

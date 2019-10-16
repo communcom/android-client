@@ -39,7 +39,7 @@ class FollowersViewModel @Inject constructor(
     init {
         paginator.sideEffectListener = {
             when (it) {
-                is Paginator.SideEffect.LoadPage -> loadMoreFollowers(it.sequenceKey)
+                is Paginator.SideEffect.LoadPage -> loadMoreFollowers(it.pageCount)
                 is Paginator.SideEffect.ErrorEvent -> {
                     _searchErrorVisibilityLiveData.value = false
                 }
@@ -54,14 +54,20 @@ class FollowersViewModel @Inject constructor(
         paginator.proceed(Paginator.Action.LoadMore)
     }
 
-    private fun loadMoreFollowers(sequenceKey: String?) {
+    override fun onCleared() {
+        followersLoadJob?.cancel()
+        super.onCleared()
+    }
+
+    private fun loadMoreFollowers(pageCount: Int) {
         followersLoadJob = launch {
             try {
-                val followersPage = model.getFollowers(followersSearchQuery, sequenceKey, PAGE_SIZE_LIMIT)
+                val offset = pageCount * PAGE_SIZE_LIMIT
+                val followers = model.getFollowers(followersSearchQuery, offset, PAGE_SIZE_LIMIT)
                 paginator.proceed(
                     Paginator.Action.NewPage(
-                        followersPage.sequenceKey,
-                        FollowersDomainListToFollowersListMapper().invoke(followersPage.followers)
+                        pageCount,
+                        FollowersDomainListToFollowersListMapper().invoke(followers)
                     )
                 )
             } catch (e: Exception) {

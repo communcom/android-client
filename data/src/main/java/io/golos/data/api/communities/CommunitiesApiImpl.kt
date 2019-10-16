@@ -10,7 +10,6 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.CommunityDomain
-import io.golos.domain.entities.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -107,14 +106,14 @@ constructor(
         randomException()
     }
 
-    override suspend fun getCommunitiesByQuery(query: String?, sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+    override suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain> {
         delay(2000)
-        if(sequenceKey == null){
+        if(offset == 0){
             val rand = Random
             return if(rand.nextBoolean()){
                 getMockCommunitiesList()
             } else{
-                CommunityPageDomain(UUID.randomUUID().toString(), emptyList())
+                emptyList()
             }
         }
         randomException()
@@ -155,13 +154,13 @@ constructor(
         }
     }
 
-    override suspend fun getRecommendedCommunities(sequenceKey: String?, pageLimitSize: Int): CommunityPageDomain {
+    override suspend fun getRecommendedCommunities(offset: Int, pageLimitSize: Int): List<CommunityDomain> {
         delay(2000)
         randomException()
         return getMockCommunitiesList()
     }
 
-    private fun getMockCommunitiesList(): CommunityPageDomain {
+    private fun getMockCommunitiesList(): List<CommunityDomain> {
         val communityNamesArray = mutableListOf<String>()
         communityNamesArray.add("Overwatch")
         communityNamesArray.add("Commun")
@@ -184,6 +183,6 @@ constructor(
             val communityDomain = CommunityDomain(UUID.randomUUID().toString(), communityName, communityLogo, rand.nextInt(1000000).toLong(), rand.nextBoolean())
             communityList.add(communityDomain)
         }
-        return CommunityPageDomain(UUID.randomUUID().toString(), communityList)
+        return communityList
     }
 }
