@@ -40,15 +40,10 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*App.injections.get<LoginActivityComponent>().inject(this)
+        App.injections.get<LoginActivityComponent>().inject(this)
 
         setContentView(R.layout.activity_login)
-        setupViewModel()*/
-
-        setContentView(R.layout.activity_login)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.testLayout, ProfileFragment.newInstance("dsds"))
-            .commit()
+        setupViewModel()
     }
 
 
