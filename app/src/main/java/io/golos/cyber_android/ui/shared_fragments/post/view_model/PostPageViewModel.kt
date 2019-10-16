@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToUserProfileViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.StartEditPostViewCommand
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommentEntity
@@ -285,14 +286,26 @@ constructor(
         commentInputVisibilityLiveData.postValue(visibility)
     }
 
-
-    private fun MediatorLiveData<Boolean>.postLoadingStatus(feedReady: Boolean, postReady: Boolean) {
-        postValue(feedReady && postReady && loadingStatusLiveData !is QueryResult.Loading<*>)
+    fun editPost() {
+        command.value = StartEditPostViewCommand(_post.value!!.contentId)
     }
 
     fun deletePost() {
-//        postLiveData.value?.let {
-//            posterUseCase.deletePostOrComment(it.contentId)
-//        }
+        launch {
+            try {
+                command.value = SetLoadingVisibilityCommand(true)
+                model.deletePost(_post.value!!.contentId)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                command.value = SetLoadingVisibilityCommand(false)
+                command.value = NavigateToMainScreenCommand()
+            }
+        }
+    }
+
+    private fun MediatorLiveData<Boolean>.postLoadingStatus(feedReady: Boolean, postReady: Boolean) {
+        postValue(feedReady && postReady && loadingStatusLiveData !is QueryResult.Loading<*>)
     }
 }

@@ -22,7 +22,7 @@ interface DiscussionsApi {
         tags: List<String>? = null
     ): GetDiscussionsResultRaw
 
-    suspend fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw
+    fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw
 
     fun getUserSubscriptions(userId: String, limit: Int, sort: FeedSort, sequenceKey: String? = null): GetDiscussionsResultRaw
 
@@ -49,7 +49,7 @@ interface DiscussionsApi {
         tokenProp: Long = 0L
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
-    suspend fun createPost(
+    fun createPost(
         title: String,
         body: String,
         tags: List<Tag>,
@@ -60,7 +60,7 @@ interface DiscussionsApi {
         tokenProp: Long = 0L
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
-    suspend fun updatePost(
+    fun updatePost(
         postPermlink: Permlink,
         newTitle: String,
         newBody: String,

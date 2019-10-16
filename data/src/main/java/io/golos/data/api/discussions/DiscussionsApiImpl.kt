@@ -64,7 +64,7 @@ constructor(
 //        .run { this to this.extractResult() }
     }
 
-    override suspend fun createPost(
+    override fun createPost(
         title: String,
         body: String,
         tags: List<Tag>,
@@ -77,17 +77,14 @@ constructor(
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
-        return withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
 
-            val community = communitiesApi.getCommunityById(communityId)
-            val post = StubDataFactory.createPost(body, community!!, authState.user.name)
-            Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
-            DataStorage.posts.add(post)
+        val community = communitiesApi.getCommunityById(communityId)
+        val post = StubDataFactory.createPost(body, community!!, authState.user.name)
+        Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
+        DataStorage.posts.add(post)
 
-            StubDataFactory.createCommitedTransaction(
-                StubDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
-        }
+        return StubDataFactory.createCommitedTransaction(
+            StubDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
 
 //        return commun4j.createPost(
 //            title,
@@ -105,7 +102,7 @@ constructor(
 //        .run { this to this.extractResult() }
     }
 
-    override suspend fun updatePost(
+    override fun updatePost(
         postPermlink: Permlink,
         newTitle: String,
         newBody: String,
@@ -115,16 +112,12 @@ constructor(
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
-        return withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-
             val postIndex = DataStorage.posts.indexOfFirst { it.contentId.permlink == postPermlink.value }
             val post = DataStorage.posts[postIndex]
             DataStorage.posts[postIndex] = post.copy(content = newBody)
 
-            StubDataFactory.createCommitedTransaction(
+            return StubDataFactory.createCommitedTransaction(
                 StubDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
-        }
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run { this to this.extractResult() }
@@ -136,11 +129,10 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val postToRemove = DataStorage.posts.single { it.contentId.permlink == postOrCommentPermlink.value }
-        DataStorage.posts.remove(postToRemove)
+            val postToRemove = DataStorage.posts.single { it.contentId.permlink == postOrCommentPermlink.value }
+            DataStorage.posts.remove(postToRemove)
 
-        return StubDataFactory.createCommitedTransaction(
-            StubDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postOrCommentPermlink))
+            return StubDataFactory.createCommitedTransaction(StubDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postOrCommentPermlink))
 
 //        return commun4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run {
@@ -160,15 +152,12 @@ constructor(
         return GetDiscussionsResultRaw(listOf())
     }
 
-    override suspend fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw {
-            return withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-            val post = DataStorage.posts.first {
-                it.contentId.userId == user.name && it.contentId.permlink == permlink.value
-            }
-            Log.d("UPDATE_POST", "getPost() content: ${post.content}")
-            post
+    override fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw {
+        val post = DataStorage.posts.first {
+            it.contentId.userId == user.name && it.contentId.permlink == permlink.value
         }
+        Log.d("UPDATE_POST", "getPost() content: ${post.content}")
+        return post
 
         // return commun4j.getPostRaw(user, "", permlink).getOrThrow()
     }

@@ -9,6 +9,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -21,8 +22,12 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val authApi: AuthApi
 ) : ModelBaseImpl(), PostPageModel {
+
     override suspend fun getPost(): PostModel =
-        discussionRepository.getPost(postToProcess.userId.toCyberName(), postToProcess.permlink)
+        withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            discussionRepository.getPost(postToProcess.userId.toCyberName(), postToProcess.permlink)
+        }
 
     override fun getPostHeader(post: PostModel): PostHeader =
         PostHeader(
@@ -40,5 +45,11 @@ constructor(
     override suspend fun getUserId(userName: String): String =
         withContext(dispatchersProvider.ioDispatcher) {
             authApi.resolveCanonicalCyberName(userName).userId.name
+        }
+
+    override suspend fun deletePost(postId: DiscussionIdModel) =
+        withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            discussionRepository.deletePost(postId)
         }
 }

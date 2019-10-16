@@ -12,7 +12,7 @@ class CyberFeedToEntityMapperImpl
 @Inject
 constructor(val postMapper: CyberPostToEntityMapper) : CyberFeedToEntityMapper {
 
-    override suspend fun map(communObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<PostEntity> {
+    override fun map(communObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<PostEntity> {
         return FeedEntity(
             communObject.discussionsResult.items
                 .map { postMapper.map(it) },

@@ -28,10 +28,9 @@ class DiscussionCreationRepositoryLiveData
 constructor(
     discussionsCreationApi: DiscussionsApi,
     transactionsApi: TransactionsApi,
-    dispatchersProvider: DispatchersProvider,
+    private val dispatchersProvider: DispatchersProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
-    dispatchersProvider,
     discussionsCreationApi,
     transactionsApi
 ), Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
@@ -64,7 +63,9 @@ constructor(
                 updateStateLiveData.value =
                     updateStateLiveData.value.orEmpty() + (params.id to QueryResult.Loading(params))
 
-                val discussionCreationResult = createOrUpdateDiscussion(params)
+                val discussionCreationResult = withContext(dispatchersProvider.ioDispatcher) {
+                    createOrUpdateDiscussion(params)
+                }
 
                 (getAsLiveData(params) as MutableLiveData).value = discussionCreationResult
                 updateStateLiveData.value =

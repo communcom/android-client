@@ -14,7 +14,7 @@ constructor() : CyberCommentToEntityMapper {
 
     private val jsonMapper = JsonToDtoMapper()
 
-    override suspend fun map(communObject: CyberDiscussionRaw): CommentEntity {
+    override fun map(communObject: CyberDiscussionRaw): CommentEntity {
         return CommentEntity(
             DiscussionIdEntity(
                 communObject.contentId.userId,

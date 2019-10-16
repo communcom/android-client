@@ -15,7 +15,7 @@ class EventsToEntityMapperImpl
 constructor() : EventsToEntityMapper {
     private val cache = Collections.synchronizedMap(HashMap<Event, EventEntity>())
 
-    override suspend fun map(communObject: EventsListDataWithQuery): EventsListEntity {
+    override fun map(communObject: EventsListDataWithQuery): EventsListEntity {
         return EventsListEntity(
             communObject.data.total,
             communObject.data.fresh,

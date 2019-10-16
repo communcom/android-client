@@ -17,7 +17,7 @@ class SettingsToEntityMapperImpl
 constructor (
     private val moshi: Moshi
 ) : SettingsToEntityMapper {
-    override suspend fun map(communObject: UserSettings): UserSettingEntity {
+    override fun map(communObject: UserSettings): UserSettingEntity {
         val push = communObject.push?.show
         val mapType = Types.newParameterizedType(Map::class.java, String::class.java, String::class.java)
         val setting = moshi.adapter<Map<String, String>>(mapType).fromJsonValue(communObject.basic ?: "{}").orEmpty()

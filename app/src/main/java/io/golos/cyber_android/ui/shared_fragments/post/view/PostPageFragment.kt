@@ -38,6 +38,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.adapter.PostPageAdap
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToUserProfileViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.StartEditPostViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
@@ -147,6 +148,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                 is NavigateToLinkViewCommand -> moveToLinkView(command.link)
 
                 is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
+
+                is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
@@ -314,11 +317,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         }
     }
 
-    private fun editPost() {
-        viewModel.post.value?.let { post ->
-            startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(post.contentId)))
-        }
-    }
+    private fun editPost() = viewModel.editPost()
 
     private fun deletePost() {
         ConfirmationDialog.newInstance(getString(R.string.delete_post_confirmation)).run {
@@ -441,4 +440,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                 }
             }
     }
+
+    private fun moveToEditPost(postId: DiscussionIdModel) =
+        startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
 }

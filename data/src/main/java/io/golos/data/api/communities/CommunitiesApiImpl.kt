@@ -90,11 +90,8 @@ constructor(
             }
         }
 
-    override suspend fun getCommunityById(communityId: CommunityId): Community? =
-        withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
+    override fun getCommunityById(communityId: CommunityId): Community? =
             communities.firstOrNull { it.id == communityId }
-        }
 
     override suspend fun unsubscribeToCommunity(communityId: String) {
         delay(2000)

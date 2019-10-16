@@ -6,7 +6,7 @@ import io.golos.domain.Model
 
 interface CommunToEntityMapper<TC, TE : Entity> {
     @WorkerThread
-    suspend fun map(communObject: TC): TE
+    fun map(communObject: TC): TE
 }
 
 interface EntityToCommunMapper<TE : Entity, TC> {

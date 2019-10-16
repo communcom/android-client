@@ -31,6 +31,7 @@ import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.domain.requestmodel.PostUpdateRequestEntity
 import io.golos.posts_editor.utilities.post.PostStubs
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -115,10 +116,13 @@ constructor(
 
         val postRequest = PostCreationRequestEntity("", postText, postText, tags.toList(), communityId, localImagesUri)
 
-        return (discussionRepository.createOrUpdate(postRequest) as PostCreationResultEntity)
-            .let {
-                PostCreationResultModel(DiscussionIdModel(it.postId.userId, it.postId.permlink))
-            }
+        return withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            (discussionRepository.createOrUpdate(postRequest) as PostCreationResultEntity)
+                .let {
+                    PostCreationResultModel(DiscussionIdModel(it.postId.userId, it.postId.permlink))
+                }
+        }
     }
 
     override suspend fun updatePost(content: List<ControlMetadata>, permlink: Permlink, adultOnly: Boolean, localImagesUri: List<String>)
@@ -129,14 +133,18 @@ constructor(
 
         val postRequest = PostUpdateRequestEntity(permlink, "", postText, postText, tags.toList(), localImagesUri)
 
-        return (discussionRepository.createOrUpdate(postRequest) as UpdatePostResultEntity)
-            .let {
-                UpdatePostResultModel(DiscussionIdModel(it.id.userId, it.id.permlink))
-            }
+        return withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            (discussionRepository.createOrUpdate(postRequest) as UpdatePostResultEntity)
+                .let {
+                    UpdatePostResultModel(DiscussionIdModel(it.id.userId, it.id.permlink))
+                }
+        }
     }
 
     override suspend fun getLastUsedCommunity(): Community? =
         withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
             keyValueStorage.getLastUsedCommunityId()?.let {communityApi.getCommunityById(CommunityId(it))}
         }
 
@@ -147,7 +155,10 @@ constructor(
     }
 
     override suspend fun getPostToEdit(permlink: Permlink): PostModel =
-        discussionRepository.getPost(currentUserRepository.authState!!.user, permlink)
+        withContext(dispatchersProvider.ioDispatcher) {
+            delay(500)
+            discussionRepository.getPost(currentUserRepository.authState!!.user, permlink)
+        }
 
     /**
      * @return null - this type of link is not supported

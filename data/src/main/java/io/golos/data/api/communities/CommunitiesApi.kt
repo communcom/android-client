@@ -17,7 +17,7 @@ interface CommunitiesApi {
      */
     suspend fun searchInCommunities(query: String, isUser: Boolean): List<Community>
 
-    suspend fun getCommunityById(communityId: CommunityId): Community?
+    fun getCommunityById(communityId: CommunityId): Community?
 
     suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain>
 

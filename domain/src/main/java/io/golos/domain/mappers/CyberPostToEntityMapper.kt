@@ -15,7 +15,7 @@ constructor() : CyberPostToEntityMapper {
     private val jsonMapper = JsonToDtoMapper()
 
     @Suppress("CAST_NEVER_SUCCEEDS")
-    override suspend fun map(communObject: CyberDiscussionRaw): PostEntity {
+    override fun map(communObject: CyberDiscussionRaw): PostEntity {
         return PostEntity(
             DiscussionIdEntity(
                 communObject.contentId.userId,

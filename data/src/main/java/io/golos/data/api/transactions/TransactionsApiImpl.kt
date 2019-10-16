@@ -17,12 +17,8 @@ constructor(
     private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), TransactionsApi {
 
-    override suspend fun waitForTransaction(transactionId: String): ResultOk {
+    override fun waitForTransaction(transactionId: String): ResultOk {
         //commun4j.waitForTransaction(transactionId).getOrThrow()
-
-        return withContext(dispatchersProvider.ioDispatcher) {
-            delay(1000)
-            ResultOk("Ok")
-        }
+        return ResultOk("Ok")
     }
 }
