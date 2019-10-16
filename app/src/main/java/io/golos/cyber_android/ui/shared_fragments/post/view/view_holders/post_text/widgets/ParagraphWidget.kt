@@ -15,8 +15,9 @@ import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
-import io.golos.cyber_android.ui.common.extensions.openLinkExternal
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
+import io.golos.cyber_android.ui.common.spans.TextClickableSpan
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
@@ -34,6 +35,8 @@ constructor(
 ) : TextView(context, attrs, defStyleAttr),
     PostBlockWidget<ParagraphBlock> {
 
+    private var onClickProcessor: PostPageViewModelItemsClickProcessor? = null
+
     @ColorInt
     private val spansColor = Color.BLUE
 
@@ -44,11 +47,13 @@ constructor(
         App.injections.get<UIComponent>().inject(this)
     }
 
+    override fun setOnClickProcessor(processor: PostPageViewModelItemsClickProcessor?) {
+        onClickProcessor = processor
+    }
+
     override fun render(block: ParagraphBlock) = setText(block)
 
-    override fun cancel() {
-        // do nothing
-    }
+    override fun cancel() = setOnClickProcessor(null)
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -105,17 +110,22 @@ constructor(
     private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText("@${block.content}")
 
-        builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
+        // Click on the link
+        builder.setSpan(object: TextClickableSpan(block.content, spansColor) {
+            override fun onClick(spanData: String) {
+                onClickProcessor?.onUserInPostClick(spanData)           // User's name
+            }
+        }, textInterval)
     }
 
     private fun addLink(block: LinkBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText(block.content)
 
-        builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
-
-        // Open link in browser
+        // Click on the link
         builder.setSpan(object: LinkClickableSpan(block.url, spansColor) {
-            override fun onClick(spanData: Uri) = this@ParagraphWidget.openLinkExternal(spanData)
+            override fun onClick(spanData: Uri) {
+                onClickProcessor?.onLinkInPostClick(spanData)
+            }
         }, textInterval)
     }
 }

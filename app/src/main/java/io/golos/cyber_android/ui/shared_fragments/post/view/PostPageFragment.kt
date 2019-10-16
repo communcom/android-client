@@ -35,6 +35,9 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.adapter.PostPageAdapter
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
@@ -111,7 +114,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
             }.show(requireFragmentManager(), "menu")
         }
 
-        postHeader.setOnUserClickListener { moveToUserProfile(it) }
+        postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
 
         feedList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -138,6 +141,12 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
 
                 is NavigateToMainScreenCommand -> activity?.finish()
+
+                is NavigateToImageViewCommand -> moveToImageView(command.imageUri)
+
+                is NavigateToLinkViewCommand -> moveToLinkView(command.link)
+
+                is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
 
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
@@ -372,14 +381,14 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                     }
 
                     override fun onImageLinkClick(url: String) {
-                        startActivity(ImageViewerActivity.getIntent(requireContext(), url))
+//                        startActivity(ImageViewerActivity.getIntent(requireContext(), url))
                     }
 
                     override fun onWebLinkClick(url: String) {
-                        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        if (webIntent.resolveActivity(requireActivity().packageManager) != null) {
-                            startActivity(webIntent)
-                        }
+//                        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//                        if (webIntent.resolveActivity(requireActivity().packageManager) != null) {
+//                            startActivity(webIntent)
+//                        }
                     }
 
                     override fun onCommentUpvote(comment: CommentModel) {
@@ -408,7 +417,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                         viewModel.onPostDownvote()
                     }
 
-                })
+                },
+                viewModel)
     }
 
     override fun onNewData(data: List<CommentModel>) {
@@ -420,4 +430,15 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)
 
     private fun moveToUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
+
+    private fun moveToImageView(imageUri: Uri) = startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
+
+    private fun moveToLinkView(link: Uri) {
+        Intent(Intent.ACTION_VIEW, link)
+            .also { intent ->
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+    }
 }

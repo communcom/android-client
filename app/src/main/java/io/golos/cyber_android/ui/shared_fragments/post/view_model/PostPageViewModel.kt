@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,9 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToUserProfileViewCommand
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommentEntity
@@ -41,14 +45,16 @@ constructor(
     signInUseCase: SignInUseCase,
     private val dispatchersProvider: DispatchersProvider,
     private val model: PostPageModel,
-    private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postToProcess: DiscussionIdModel
+    currentUserRepository: CurrentUserRepositoryRead,
+    postToProcess: DiscussionIdModel
 ) : AbstractFeedWithCommentsViewModel<CommentFeedUpdateRequest, CommentEntity, CommentModel>(
     postWithCommentUseCase as AbstractFeedUseCase<out CommentFeedUpdateRequest, CommentEntity, CommentModel>,
     voteUseCase,
     posterUseCase,
     signInUseCase
-), CoroutineScope {
+), CoroutineScope, PostPageViewModelItemsClickProcessor {
+
+    private var wasMovedToChild = false         // We move to child screen from this one
 
     enum class Visibility {
         VISIBLE, GONE
@@ -129,6 +135,11 @@ constructor(
     }
 
     fun setup() {
+        if(wasMovedToChild) {
+            wasMovedToChild = false
+            return
+        }
+
         launch {
             try {
                 command.value = SetLoadingVisibilityCommand(true)
@@ -237,15 +248,45 @@ constructor(
                 || comment.length > discussionToReplyLiveData.value!!.userId.length + 1))
     }
 
+    override fun onImageInPostClick(imageUri: Uri) {
+        wasMovedToChild = true
+        command.value = NavigateToImageViewCommand(imageUri)
+    }
+
+    override fun onLinkInPostClick(link: Uri) {
+        wasMovedToChild = true
+        command.value = NavigateToLinkViewCommand(link)
+    }
+
+    override fun onUserInPostClick(userName: String) {
+        launch {
+            try {
+                command.value = SetLoadingVisibilityCommand(true)
+
+                val userId = model.getUserId(userName)
+
+                wasMovedToChild = true
+                command.value = NavigateToUserProfileViewCommand(userId)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun onUserInHeaderClick(userId: String) {
+        wasMovedToChild = true
+        command.value = NavigateToUserProfileViewCommand(userId)
+    }
+
     fun setCommentInputVisibility(visibility: Visibility) {
         commentInputVisibilityLiveData.postValue(visibility)
     }
 
 
-    private fun MediatorLiveData<Boolean>.postLoadingStatus(
-        feedReady: Boolean,
-        postReady: Boolean
-    ) {
+    private fun MediatorLiveData<Boolean>.postLoadingStatus(feedReady: Boolean, postReady: Boolean) {
         postValue(feedReady && postReady && loadingStatusLiveData !is QueryResult.Loading<*>)
     }
 

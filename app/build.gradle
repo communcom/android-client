@@ -134,6 +134,9 @@ dependencies {
     /* Timber */
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
+    /* Photo view */
+    implementation "com.github.chrisbanes:PhotoView:$photoViewVersion"
+
     /*Firebase*/
     implementation "com.google.firebase:firebase-core:$firebaseCoreSdkVersion"
     implementation "com.google.firebase:firebase-messaging:$fcmVersion"

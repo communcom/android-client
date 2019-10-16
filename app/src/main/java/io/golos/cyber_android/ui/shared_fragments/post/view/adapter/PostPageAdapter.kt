@@ -9,6 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.*
 import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.PostTextViewHolder
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.interactors.model.*
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 
@@ -30,7 +31,8 @@ private const val COMMENT_TITLE_TYPE = 6
 class PostPageAdapter(
     private val lifecycleOwner: LifecycleOwner,
     commentListener: CommentsAdapter.Listener,
-    val listener: Listener
+    val listener: Listener,
+    private val clicksProcessor: PostPageViewModelItemsClickProcessor
 ) : CommentsAdapter(emptyList(), commentListener) {
 
     private lateinit var recyclerView: RecyclerView
@@ -79,11 +81,8 @@ class PostPageAdapter(
             )
 
             CONTENT_TEXT_TYPE -> PostTextViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_content_text,
-                    parent,
-                    false
-                )
+                LayoutInflater.from(parent.context).inflate(R.layout.item_content_text, parent, false),
+                clicksProcessor
             )
 
 //            CONTENT_IMAGE_TYPE -> PostImageViewHolder(

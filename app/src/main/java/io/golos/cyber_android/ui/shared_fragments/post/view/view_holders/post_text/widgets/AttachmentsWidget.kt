@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.AttachmentsBlock
 import io.golos.domain.post.post_dto.ImageBlock

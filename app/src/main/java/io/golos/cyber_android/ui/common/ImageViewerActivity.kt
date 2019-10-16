@@ -21,10 +21,7 @@ import kotlinx.android.synthetic.main.activity_image_viewer.*
 class ImageViewerActivity : AppCompatActivity() {
 
     companion object {
-        fun getIntent(
-            context: Context,
-            imageUrl: String
-        ) =
+        fun getIntent(context: Context, imageUrl: String) =
             Intent(context, ImageViewerActivity::class.java).apply {
                 putExtra(
                     Tags.ARGS,

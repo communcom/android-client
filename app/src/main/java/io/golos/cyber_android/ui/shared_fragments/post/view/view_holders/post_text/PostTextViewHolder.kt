@@ -8,6 +8,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.*
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.post.post_dto.*
@@ -21,7 +22,10 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
-class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), CoroutineScope, LifecycleObserver {
+class PostTextViewHolder(
+    val view: View,
+    private val onClicksProcessor: PostPageViewModelItemsClickProcessor
+) : RecyclerView.ViewHolder(view), CoroutineScope, LifecycleObserver {
 
     private var scopeJob: Job = SupervisorJob()
 
@@ -93,10 +97,23 @@ class PostTextViewHolder(val view: View) : RecyclerView.ViewHolder(view), Corout
                 }
             }
 
-            is ImageBlock -> EmbedImageWidget(this.view.context).apply { render(block) }
+            is ImageBlock -> EmbedImageWidget(this.view.context).apply {
+                render(block)
+                setOnClickProcessor(onClicksProcessor)
+            }
+
             is VideoBlock -> EmbedVideoWidget(this.view.context).apply { render(block) }
-            is WebsiteBlock -> EmbedWebsiteWidget(this.view.context).apply { render(block) }
-            is ParagraphBlock -> ParagraphWidget(this.view.context).apply { render(block) }
+
+            is WebsiteBlock -> EmbedWebsiteWidget(this.view.context).apply {
+                render(block)
+                setOnClickProcessor(onClicksProcessor)
+            }
+
+            is ParagraphBlock -> ParagraphWidget(this.view.context).apply {
+                render(block)
+                setOnClickProcessor(onClicksProcessor)
+            }
+
             else -> throw UnsupportedOperationException("This type of block is not supported: $block")
         }
 }

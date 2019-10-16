@@ -8,4 +8,6 @@ interface PostPageModel : ModelBase {
     suspend fun getPost(): PostModel
 
     fun getPostHeader(post: PostModel): PostHeader
+
+    suspend fun getUserId(userName: String): String
 }
