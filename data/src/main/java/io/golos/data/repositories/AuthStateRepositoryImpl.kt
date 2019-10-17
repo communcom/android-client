@@ -6,12 +6,12 @@ import io.golos.commun4j.services.model.AuthResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.AuthUtils
 import io.golos.commun4j.utils.StringSigner
-import io.golos.domain.api.AuthApi
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
 import io.golos.domain.*
+import io.golos.domain.api.AuthApi
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.AuthState
 import io.golos.domain.entities.AuthType
@@ -68,21 +68,21 @@ constructor(
                 return@launch
             }
 
-            newParams = if(params.isEmpty()) {
+            newParams = if (params.isEmpty()) {
                 loadAuthRequest(params.type)
             } else {
                 params
             }
 
-            if(newParams.isEmpty()) {
-                authState.value = AuthState("", "".toCyberName(), false, false, false, false, newParams.type)   // User is not logged in
+            if (newParams.isEmpty()) {
+                authState.value =
+                    AuthState("", "".toCyberName(), false, false, false, false, newParams.type)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
                 authState.value = AuthState("", "".toCyberName(), false, false, false, false, newParams.type)
-            }
-            else if (authState.value?.isUserLoggedIn == true) {
+            } else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
                         java.lang.IllegalStateException(
@@ -113,9 +113,10 @@ constructor(
             try {
                 val account =
                     withContext(dispatchersProvider.ioDispatcher) {
-                        if(newParams.user.userId.isEmpty()) {
+                        if (newParams.user.userId.isEmpty()) {
                             val userId = authApi.resolveCanonicalCyberName(newParams.userName)
-                            newParams = AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
+                            newParams =
+                                AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
                         }
                         authApi.getUserAccount(newParams.user.userId.toCyberName())
                     }
@@ -180,7 +181,8 @@ constructor(
 
 
             try {
-                val authResult = auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
+                val authResult =
+                    auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
                 withContext(dispatchersProvider.ioDispatcher) {
                     authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
                 }
@@ -222,7 +224,12 @@ constructor(
 
     override val allDataRequest: AuthRequest
             by lazy {
-                AuthRequest("destroyer2k", "destroyer2k@golos".toCyberUser(), "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ", AuthType.SIGN_UP)
+                AuthRequest(
+                    "destroyer2k",
+                    "destroyer2k@golos".toCyberUser(),
+                    "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ",
+                    AuthType.SIGN_UP
+                )
             }
 
     private suspend fun auth(userName: String, cyberName: CyberName, key: String, authType: AuthType): AuthResult? {
@@ -251,7 +258,7 @@ constructor(
         val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 metadataApi.getUserMetadata(resolvedName)
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
                 null
             }
@@ -277,7 +284,7 @@ constructor(
                 true,
                 oldAuthState?.isPinCodeSettingsPassed ?: false,
                 oldAuthState?.isFingerprintSettingsPassed ?: false,
-                if(authType == AuthType.SIGN_IN) true else oldAuthState?.isKeysExported ?: false,
+                if (authType == AuthType.SIGN_IN) true else oldAuthState?.isKeysExported ?: false,
                 authType
             )
 

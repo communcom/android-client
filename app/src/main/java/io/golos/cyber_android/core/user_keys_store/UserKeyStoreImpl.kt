@@ -71,17 +71,16 @@ constructor(
         .substring(0..50)
 
     private fun generateKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
-        val masterKeyTmp = "uiCaodabxotBAwRxADKOFDaQXtUJloZuhSNOmYlbcfuUXOxFxZSk"
 
-        val publicKeys = AuthUtils.generatePublicWiFs(userId,  masterKeyTmp, AuthType.values())
-        val privateKeys = AuthUtils.generatePrivateWiFs(userId, masterKeyTmp, AuthType.values())
+        val publicKeys = AuthUtils.generatePublicWiFs(userId,  masterKey, AuthType.values())
+        val privateKeys = AuthUtils.generatePrivateWiFs(userId, masterKey, AuthType.values())
 
         Log.d("KEYS_GENERATION", "userId: $userId")
         Log.d("KEYS_GENERATION", "userName: $userName")
-        Log.d("KEYS_GENERATION", "masterKey: $masterKeyTmp")
+        Log.d("KEYS_GENERATION", "masterKey: $masterKey")
         return GeneratedUserKeys(
             userName,
-            masterKeyTmp,
+            masterKey,
             publicKeys.getValue(AuthType.OWNER),
             privateKeys.getValue(AuthType.OWNER),
             publicKeys.getValue(AuthType.ACTIVE),

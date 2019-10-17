@@ -27,7 +27,7 @@ constructor (
             try {
                 val userId = authApi.resolveCanonicalCyberName(userName).userId.name
                 val activeKey = userKeyStore.createKeys(userId, userName, masterKey).activePrivateKey
-                val model = AuthRequestModel(userName, CyberUser(""), activeKey, AuthType.SIGN_IN)
+                val model = AuthRequestModel(userName, CyberUser(userName), activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {
                 Timber.e(ex)
