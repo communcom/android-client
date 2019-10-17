@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.list_items.*
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.*
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.PostBodyViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.PostControlsViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.PostTitleViewHolder

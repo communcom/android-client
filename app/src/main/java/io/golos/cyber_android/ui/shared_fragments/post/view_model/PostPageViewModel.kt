@@ -72,15 +72,7 @@ constructor(
      */
     val command: SingleLiveData<ViewCommand> = SingleLiveData()
 
-//    private val isActiveUserPostLiveData =
-//        postWithCommentUseCase.getPostAsLiveData.combinedWith(signInUseCase.getAsLiveData) { post, authState ->
-//            post != null && authState != null &&
-//                    (post.contentId.userId.toCyberName() == authState.userName)
-//        }
-
-    private val _post = MutableLiveData<List<VersionedListItem>>()
-    val post: LiveData<List<VersionedListItem>> = _post
-    //val postLiveData //= postWithCommentUseCase.getPostAsLiveData
+    val post: LiveData<List<VersionedListItem>> = model.post
 
     private val _postHeader = MutableLiveData<PostHeader>()
     val postHeader: LiveData<PostHeader> = _postHeader
@@ -137,7 +129,8 @@ constructor(
             try {
                 command.value = SetLoadingVisibilityCommand(true)
 
-                _post.value = model.getPost()
+                model.loadPost()
+
                 _postHeader.value = model.getPostHeader()
             } catch (ex: Exception) {
                 Timber.e(ex)

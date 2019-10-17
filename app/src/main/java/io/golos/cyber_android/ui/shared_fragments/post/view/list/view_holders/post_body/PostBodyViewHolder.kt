@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.list_items.PostBodyListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.post.post_dto.*

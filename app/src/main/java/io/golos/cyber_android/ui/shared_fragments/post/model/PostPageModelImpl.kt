@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model
 
+import androidx.lifecycle.LiveData
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
@@ -29,20 +30,20 @@ constructor(
 
     private lateinit var postModel: PostModel
 
+    override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
+
     override val postId: DiscussionIdModel
         get() = postModel.contentId
 
     override val postMetadata: PostMetadata
         get() = postModel.content.body.postBlock.metadata
 
-    override suspend fun getPost(): List<VersionedListItem> =
+    override suspend fun loadPost() =
         withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
             postModel = discussionRepository.getPost(postToProcess.userId.toCyberName(), postToProcess.permlink)
 
-            withContext(dispatchersProvider.calculationsDispatcher) {
-                postListDataSource.init(postModel)
-            }
+            postListDataSource.createOrUpdatePostData(postModel)
         }
 
     override fun getPostHeader(): PostHeader =

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model
 
+import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
@@ -12,7 +13,9 @@ interface PostPageModel : ModelBase {
 
     val postMetadata: PostMetadata
 
-    suspend fun getPost(): List<VersionedListItem>
+    val post: LiveData<List<VersionedListItem>>
+
+    suspend fun loadPost()
 
     fun getPostHeader(): PostHeader
 
