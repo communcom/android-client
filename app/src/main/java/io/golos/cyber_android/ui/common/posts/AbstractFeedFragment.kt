@@ -66,10 +66,10 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         (feedList.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         @Suppress("UNCHECKED_CAST")
-        viewModel.feedLiveData.observe(this, Observer { data ->
-            (feedList.adapter as AbstractDiscussionModelAdapter<M>).submit(data)
-            onNewData(data)
-        })
+//        viewModel.feedLiveData.observe(this, Observer { data ->
+//            (feedList.adapter as AbstractDiscussionModelAdapter<M>).submit(data)
+//            onNewData(data)
+//        })
 
         viewModel.voteReadinessLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let { ready ->
@@ -111,11 +111,11 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
             }
         })
 
-        @Suppress("UNCHECKED_CAST")
-        viewModel.lastPageLiveData.observe(this, Observer { isLastPage ->
-            paginationScrollListener.isLastPage = isLastPage
-            (feedList.adapter as AbstractDiscussionModelAdapter<M>).isLoading = !isLastPage
-        })
+//        @Suppress("UNCHECKED_CAST")
+//        viewModel.lastPageLiveData.observe(this, Observer { isLastPage ->
+//            paginationScrollListener.isLastPage = isLastPage
+//            (feedList.adapter as AbstractDiscussionModelAdapter<M>).isLoading = !isLastPage
+//        })
     }
 
     fun showDiscussionMenu(postModel: PostModel) {

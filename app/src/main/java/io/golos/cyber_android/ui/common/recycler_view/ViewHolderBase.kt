@@ -1,9 +1,16 @@
 package io.golos.cyber_android.ui.common.recycler_view
 
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class ViewHolderBase<TListItemEventsProcessor, TItem: ListItem>(itemView: View): RecyclerView.ViewHolder(itemView) {
+abstract class ViewHolderBase<TListItemEventsProcessor, TItem: ListItem>(
+    parentView: ViewGroup,
+    @LayoutRes layoutResId: Int
+) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parentView.context).inflate(layoutResId, parentView, false)
+) {
     /**
      * UI elements must be initialized here
      */
@@ -12,5 +19,5 @@ abstract class ViewHolderBase<TListItemEventsProcessor, TItem: ListItem>(itemVie
     /**
      * Used resources of UI elements must be released here (called in ListAdapterBase::onViewRecycled)
      */
-    abstract fun release()
+    open fun release() {}
 }

@@ -93,6 +93,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="PostVoteCountersTextStyle" parent="PostCardCountersTextStyle">
+        <item name="android:textColor">@color/text_color_vote_counter</item>
+    </style>
+
     <style name="SortsTextStyle" parent="StandardText16spStyle">
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>

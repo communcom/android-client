@@ -128,7 +128,7 @@
     <dimen name="post_controls_height">45dp</dimen>
     <dimen name="post_controls_vote_area_height">35dp</dimen>
     <dimen name="post_controls_vote_buttons_size">35dp</dimen>
-    <dimen name="post_controls_vote_buttons_icon_size">14dp</dimen>
+    <dimen name="post_controls_vote_buttons_icon_size">22dp</dimen>
     <dimen name="post_controls_vote_text_margin">5dp</dimen>
     <dimen name="post_controls_icons_text_gap">8dp</dimen>
     <dimen name="post_controls_view_comments_area_gap">23dp</dimen>

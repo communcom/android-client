@@ -20,7 +20,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
-import io.golos.cyber_android.ui.common.comments.CommentsAdapter
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
@@ -34,14 +33,13 @@ import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.view.adapter.PostPageAdapter
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.StartEditPostViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.entities.CommentEntity
 import io.golos.domain.interactors.model.*
+import io.golos.domain.post.post_dto.PostFormatVersion
+import io.golos.domain.post.post_dto.PostType
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize
@@ -105,15 +103,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
         postHeader.setOnBackButtonClickListener { activity?.finish() }
 
-        postHeader.setOnMenuButtonClickListener {
-            val postMetadata = viewModel.post.value!!.content.body.postBlock.metadata
-
-            PostPageMenuDialog.newInstance(viewModel.isMyPostLiveData.value == true, postMetadata.type, postMetadata.version).apply {
-                setTargetFragment(this@PostPageFragment,
-                    POST_MENU_REQUEST
-                )
-            }.show(requireFragmentManager(), "menu")
-        }
+        postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
 
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
 
@@ -132,7 +122,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
     private fun observeViewModel() {
         viewModel.post.observe(this, Observer {
-            (feedList.adapter as PostPageAdapter).postModel = it
+            (feedList.adapter as PostPageAdapter).update(it)
         })
 
         viewModel.command.observe(this, Observer { command ->
@@ -150,6 +140,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                 is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
 
                 is StartEditPostViewCommand -> moveToEditPost(command.postId)
+
+                is ShowPostMenuViewCommand -> showPostMenu(command.isMyPost, command.version, command.type)
 
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
@@ -223,6 +215,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     private var scrolled = false
 
     private fun scrollToCommentsIfNeeded() {
+/*
         if (getArgs().scrollToComments
             && !scrolled
         ) {
@@ -235,6 +228,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
             }, 700)
             scrolled = true
         }
+*/
     }
 
     private fun setupCommentWidget() {
@@ -270,11 +264,13 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     }
 
     private fun adjustInputVisibility(lastVisibleItem: Int) {
+/*
         if (lastVisibleItem >= (feedList.adapter as PostPageAdapter).getCommentsTitlePosition()) {
             viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.VISIBLE)
         } else {
             viewModel.setCommentInputVisibility(PostPageViewModel.Visibility.GONE)
         }
+*/
     }
 
     private fun setCommentInputVisibility(visibility: PostPageViewModel.Visibility) {
@@ -372,8 +368,12 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     }
 
     override fun setupFeedAdapter() {
+        feedList.adapter = PostPageAdapter(viewModel)
+
+/*
         feedList.adapter =
-            PostPageAdapter(viewLifecycleOwner,
+            PostPageAdapter(
+                viewLifecycleOwner,
                 object : CommentsAdapter.Listener {
                     override fun onUsernameClick(userId: String) {
                         startActivity(ProfileActivity.getIntent(requireContext(), userId))
@@ -407,17 +407,9 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                     }
 
                 },
-                object : PostPageAdapter.Listener {
-                    override fun onPostUpvote(postModel: PostModel) {
-                        viewModel.onPostUpvote()
-                    }
-
-                    override fun onPostDownvote(postModel: PostModel) {
-                        viewModel.onPostDownvote()
-                    }
-
-                },
-                viewModel)
+                viewModel
+            )
+*/
     }
 
     override fun onNewData(data: List<CommentModel>) {
@@ -443,4 +435,12 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
     private fun moveToEditPost(postId: DiscussionIdModel) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
+
+    private fun showPostMenu(isMyPost: Boolean, version: PostFormatVersion, type: PostType) {
+        PostPageMenuDialog.newInstance(isMyPost, type, version).apply {
+            setTargetFragment(this@PostPageFragment,
+                POST_MENU_REQUEST
+            )
+        }.show(requireFragmentManager(), "menu")
+    }
 }

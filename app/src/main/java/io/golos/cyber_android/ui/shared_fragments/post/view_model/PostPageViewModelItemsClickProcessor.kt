@@ -11,4 +11,8 @@ interface PostPageViewModelItemsClickProcessor {
     fun onLinkInPostClick(link: Uri)
 
     fun onUserInPostClick(userName: String)
+
+    fun onUpVoteClick()
+
+    fun onDownVoteClick()
 }

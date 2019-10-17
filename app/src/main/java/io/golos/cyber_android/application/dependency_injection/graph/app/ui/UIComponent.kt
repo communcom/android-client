@@ -15,9 +15,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.AttachmentsWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.EmbedWebsiteWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.ParagraphWidget
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [

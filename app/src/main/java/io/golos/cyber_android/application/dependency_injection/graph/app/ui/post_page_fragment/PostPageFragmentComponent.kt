@@ -2,11 +2,9 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.pos
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.PostTextViewHolder
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.AttachmentsWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.EmbedWebsiteWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.ParagraphWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets.TitleWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.AttachmentsWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.EmbedWebsiteWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.ParagraphWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeader
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
@@ -23,11 +21,9 @@ interface PostPageFragmentComponent {
     }
 
     fun inject(fragment: PostPageFragment)
-    fun inject(viewHolder: PostTextViewHolder)
     fun inject(header: PostPageHeader)
 
     fun inject(widget: ParagraphWidget)
     fun inject(widget: EmbedWebsiteWidget)
     fun inject(widget: AttachmentsWidget)
-    fun inject(widget: TitleWidget)
 }

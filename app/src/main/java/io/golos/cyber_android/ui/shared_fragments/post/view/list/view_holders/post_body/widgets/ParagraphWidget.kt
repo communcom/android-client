@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.view.view_holders.post_text.widgets
+package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets
 
 import android.content.Context
 import android.graphics.Color
@@ -24,7 +24,6 @@ import io.golos.domain.extensions.setSpan
 import io.golos.domain.post.post_dto.*
 import io.golos.domain.post.toTypeface
 import javax.inject.Inject
-
 
 class ParagraphWidget
 @JvmOverloads

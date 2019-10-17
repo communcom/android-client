@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -18,7 +17,8 @@ import javax.inject.Inject
 class CommunityListItemViewHolder(
     parentView: ViewGroup
 ) : ViewHolderBase<CommunityListItemEventsProcessor, ListItem>(
-    LayoutInflater.from(parentView.context).inflate(R.layout.view_communities_community_list_item, parentView, false)
+    parentView,
+    R.layout.view_communities_community_list_item
 ) {
     @Inject
     internal lateinit var followersFormatter: SizeFormatter

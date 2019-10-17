@@ -11,12 +11,10 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.shared_fragments.post.view_commands.StartEditPostViewCommand
+import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommentEntity
@@ -46,8 +44,8 @@ constructor(
     signInUseCase: SignInUseCase,
     private val dispatchersProvider: DispatchersProvider,
     private val model: PostPageModel,
-    currentUserRepository: CurrentUserRepositoryRead,
-    postToProcess: DiscussionIdModel
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    private val postToProcess: DiscussionIdModel
 ) : AbstractFeedWithCommentsViewModel<CommentFeedUpdateRequest, CommentEntity, CommentModel>(
     postWithCommentUseCase as AbstractFeedUseCase<out CommentFeedUpdateRequest, CommentEntity, CommentModel>,
     voteUseCase,
@@ -80,14 +78,8 @@ constructor(
 //                    (post.contentId.userId.toCyberName() == authState.userName)
 //        }
 
-    /**
-     * [LiveData] that indicates if [PostModel] associated with this ViewModel was created
-     * by current app user
-     */
-    val isMyPostLiveData: LiveData<Boolean> = MutableLiveData<Boolean>(currentUserRepository.authState!!.user.name == postToProcess.userId )
-
-    private val _post = MutableLiveData<PostModel>()
-    val post: LiveData<PostModel> = _post
+    private val _post = MutableLiveData<List<VersionedListItem>>()
+    val post: LiveData<List<VersionedListItem>> = _post
     //val postLiveData //= postWithCommentUseCase.getPostAsLiveData
 
     private val _postHeader = MutableLiveData<PostHeader>()
@@ -145,10 +137,8 @@ constructor(
             try {
                 command.value = SetLoadingVisibilityCommand(true)
 
-                val postModel = model.getPost()
-
-                _post.value = postModel
-                _postHeader.value = model.getPostHeader(postModel)
+                _post.value = model.getPost()
+                _postHeader.value = model.getPostHeader()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)
@@ -277,6 +267,14 @@ constructor(
         }
     }
 
+    override fun onUpVoteClick() {
+        // See onPostUpvote
+    }
+
+    override fun onDownVoteClick() {
+        // See onPostUpvote
+    }
+
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true
         command.value = NavigateToUserProfileViewCommand(userId)
@@ -287,14 +285,22 @@ constructor(
     }
 
     fun editPost() {
-        command.value = StartEditPostViewCommand(_post.value!!.contentId)
+        command.value = StartEditPostViewCommand(model.postId)
+    }
+
+    fun onPostMenuClick() {
+        val metadata = model.postMetadata
+        command.value = ShowPostMenuViewCommand(
+            currentUserRepository.authState!!.user.name == postToProcess.userId,
+            metadata.version,
+            metadata.type)
     }
 
     fun deletePost() {
         launch {
             try {
                 command.value = SetLoadingVisibilityCommand(true)
-                model.deletePost(_post.value!!.contentId)
+                model.deletePost()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)
