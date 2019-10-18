@@ -360,6 +360,10 @@
         <item name="android:background">@drawable/bg_community_join_button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
+        <item name="android:paddingStart">@dimen/btn_join_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/btn_join_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/btn_join_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/btn_join_vertical_padding</item>
     </style>
 
     <style name="SelectCommunityDialog" parent="Theme.Design.Light.BottomSheetDialog">

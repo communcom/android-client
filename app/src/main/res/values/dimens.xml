@@ -309,4 +309,9 @@
     <dimen name="select_community_dialog_search_margin">15dp</dimen>
     <dimen name="select_community_dialog_search_margin_small">10dp</dimen>
     <dimen name="select_community_dialog_list_header_height">7dp</dimen>
+
+    <!-- Button Join -->
+    <dimen name="btn_join_horizontal_padding">12dp</dimen>
+    <dimen name="btn_join_vertical_padding">6dp</dimen>
+
 </resources>
