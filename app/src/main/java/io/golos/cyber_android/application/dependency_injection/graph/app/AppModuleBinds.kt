@@ -74,6 +74,9 @@ import io.golos.data.repositories.discussion.live_data.DiscussionCreationReposit
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
+import io.golos.data.repositories.vote.VoteRepository
+import io.golos.data.repositories.vote.VoteRepositoryImpl
+import io.golos.data.repositories.vote.live_data.VoteRepositoryLiveData
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
@@ -298,7 +301,10 @@ abstract class AppModuleBinds {
 
     @Binds
     @ApplicationScope
-    abstract fun provideVoteRepository(repository: VoteRepository): Repository<VoteRequestEntity, VoteRequestEntity>
+    abstract fun provideVoteRepositoryLiveData(repository: VoteRepositoryLiveData): Repository<VoteRequestEntity, VoteRequestEntity>
+
+    @Binds
+    abstract fun provideVoteRepository(repository: VoteRepositoryImpl): VoteRepository
 
     @Binds
     @ApplicationScope

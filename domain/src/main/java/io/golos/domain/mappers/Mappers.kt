@@ -21,5 +21,5 @@ interface EntityToModelMapper<TE : Entity, TM : Model> {
 
 interface ModelToEntityMapper<TM : Model, TE : Entity> {
     @WorkerThread
-    suspend fun map(model: TM): TE
+    fun map(model: TM): TE
 }

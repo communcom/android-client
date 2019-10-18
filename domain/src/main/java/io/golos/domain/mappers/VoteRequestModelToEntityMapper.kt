@@ -13,7 +13,7 @@ class VoteRequestModelToEntityMapperImpl
 constructor() : VoteRequestModelToEntityMapper {
     private val cash = Collections.synchronizedMap(HashMap<VoteRequestModel, VoteRequestEntity>())
 
-    override suspend fun map(model: VoteRequestModel): VoteRequestEntity {
+    override fun map(model: VoteRequestModel): VoteRequestEntity {
         return cash.getOrPut(model) {
             return when (model) {
                 is VoteRequestModel.VoteForPostRequest -> VoteRequestEntity.VoteForAPostRequestEntity(

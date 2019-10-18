@@ -1,13 +1,18 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model
 
 import androidx.lifecycle.LiveData
+import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.data.repositories.discussion.DiscussionRepository
+import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -24,13 +29,18 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val discussionRepository: DiscussionRepository,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val authApi: AuthApi,
-    private val postListDataSource: PostListDataSource
+    private val authApi: Lazy<AuthApi>,
+    private val postListDataSource: PostListDataSource,
+    private val voteRepository: Lazy<VoteRepository>
 ) : ModelBaseImpl(), PostPageModel {
 
     private lateinit var postModel: PostModel
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
+
+    private val postVoting: VotingMachine by lazy {
+        VotingMachineImpl(dispatchersProvider, voteRepository.get(), postListDataSource, postToProcess )
+    }
 
     override val postId: DiscussionIdModel
         get() = postModel.contentId
@@ -61,7 +71,7 @@ constructor(
 
     override suspend fun getUserId(userName: String): String =
         withContext(dispatchersProvider.ioDispatcher) {
-            authApi.resolveCanonicalCyberName(userName).userId.name
+            authApi.get().resolveCanonicalCyberName(userName).userId.name
         }
 
     override suspend fun deletePost() =
@@ -69,4 +79,9 @@ constructor(
             delay(500)
             discussionRepository.deletePost(postId)
         }
+
+    override suspend fun voteForPost(isUpVote: Boolean) {
+        val newVotesModel = postVoting.processEvent(if(isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, postModel.votes)
+        postModel = postModel.copy(votes = newVotesModel)
+    }
 }

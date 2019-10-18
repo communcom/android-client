@@ -22,11 +22,9 @@ import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
-import io.golos.domain.requestmodel.VoteRequestModel
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -106,59 +104,6 @@ constructor(
         scopeJob.cancel()
     }
 
-    fun sendComment(text: CharSequence) {
-//        if (discussionToReplyLiveData.value == null) {
-//            postLiveData.value?.let {
-//                sendComment(it, text)
-//            }
-//        } else {
-//            discussionToReplyLiveData.value?.let {
-//                sendComment(it, text)
-//            }
-//        }
-    }
-
-    fun onPostDownvote() {
-//        postLiveData.value?.let {
-//            val power = if (!it.votes.hasDownVote) (-10_000).toShort() else 0.toShort()
-//            voteForPost(power, it)
-//        }
-    }
-
-    fun onPostUpvote() {
-//        postLiveData.value?.let {
-//            val power = if (!it.votes.hasUpVote) 10_000.toShort() else 0.toShort()
-//            voteForPost(power, it)
-//        }
-    }
-
-    override fun vote(power: Short, discussionModel: CommentModel) {
-        if (!discussionModel.votes.hasUpVoteProgress
-            && !discussionModel.votes.hasDownVotingProgress
-            && !discussionModel.votes.hasVoteCancelProgress
-        ) {
-            val request = VoteRequestModel.VoteForComentRequest(power, discussionModel.contentId)
-            vote(request, discussionModel.contentId)
-        }
-    }
-
-
-    private fun voteForPost(power: Short, discussionModel: PostModel) {
-        if (!discussionModel.votes.hasUpVoteProgress
-            && !discussionModel.votes.hasDownVotingProgress
-            && !discussionModel.votes.hasVoteCancelProgress
-        ) {
-            val request = VoteRequestModel.VoteForPostRequest(power, discussionModel.contentId)
-            vote(request, discussionModel.contentId)
-        }
-    }
-
-//    override fun validateComment(comment: CharSequence): Boolean {
-//        return (super.validateComment(comment)
-//                && (discussionToReplyLiveData.value == null
-//                || comment.length > discussionToReplyLiveData.value!!.userId.length + 1))
-//    }
-
     override fun onImageInPostClick(imageUri: Uri) {
         wasMovedToChild = true
         command.value = NavigateToImageViewCommand(imageUri)
@@ -187,13 +132,9 @@ constructor(
         }
     }
 
-    override fun onUpVoteClick() {
-        // See onPostUpvote
-    }
+    override fun onUpVoteClick() = voteForPost(true)
 
-    override fun onDownVoteClick() {
-        // See onPostUpvote
-    }
+    override fun onDownVoteClick() = voteForPost(false)
 
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true
@@ -223,6 +164,17 @@ constructor(
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = NavigateToMainScreenCommand()
+            }
+        }
+    }
+
+    private fun voteForPost(isUpVote: Boolean) {
+        launch {
+            try {
+                model.voteForPost(isUpVote)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
     }

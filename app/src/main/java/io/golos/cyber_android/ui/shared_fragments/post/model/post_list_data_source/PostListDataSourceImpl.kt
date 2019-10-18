@@ -32,15 +32,36 @@ constructor(
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
     override suspend fun createOrUpdatePostData(postModel: PostModel) =
-        withContext(singleThreadDispatcher) {
+        updateSafe {
             createOrUpdateTitle(postModel)
             createOrUpdateBody(postModel)
             createOrUpdatePostControls(postModel)
+        }
+
+    override suspend fun updatePostVoteStatus(isUpVoteActive: Boolean?, isDownVoteActive: Boolean?, voteBalanceDelta: Long) =
+        updatePostControls { oldControls ->
+            oldControls.copy(
+                isUpVoteActive = isUpVoteActive ?: oldControls.isUpVoteActive,
+                isDownVoteActive = isDownVoteActive ?: oldControls.isDownVoteActive,
+                voteBalance = oldControls.voteBalance + voteBalanceDelta )
+        }
+
+    private suspend fun updateSafe(action: () -> Unit) =
+        withContext(singleThreadDispatcher) {
+            action()
 
             withContext(dispatchersProvider.uiDispatcher) {
                 _post.value = postList
             }
         }
+
+    private suspend fun updatePostControls(updateAction: (PostControlsListItem) -> PostControlsListItem) {
+        updateSafe {
+            val controlsIndex = postList.indexOfFirst { it is PostControlsListItem }
+            val controls = postList[controlsIndex] as PostControlsListItem
+            postList[controlsIndex] = updateAction(controls.copy(version = controls.version + 1))
+        }
+    }
 
     private fun createOrUpdateTitle(postModel: PostModel) {
         val oldTitle = postList.singleOrNull { it is PostTitleListItem }

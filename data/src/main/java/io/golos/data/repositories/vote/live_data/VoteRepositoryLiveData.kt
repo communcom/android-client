@@ -1,10 +1,11 @@
-package io.golos.data.repositories
+package io.golos.data.repositories.vote.live_data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.vote.VoteApi
 import io.golos.data.errors.CyberToAppErrorMapper
+import io.golos.data.repositories.vote.VoteRepositoryBase
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -24,14 +25,17 @@ import kotlin.collections.HashMap
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.
  */
 @ApplicationScope
-class VoteRepository
+class VoteRepositoryLiveData
 @Inject
 constructor(
-    private val voteApi: VoteApi,
-    private val transactionsApi: TransactionsApi,
-    private val dispatchersProvider: DispatchersProvider,
+    voteApi: VoteApi,
+    transactionsApi: TransactionsApi,
+    dispatchersProvider: DispatchersProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper
-) : Repository<VoteRequestEntity, VoteRequestEntity> {
+) : VoteRepositoryBase(
+    voteApi,
+    transactionsApi),
+    Repository<VoteRequestEntity, VoteRequestEntity> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
     private val votingStates = MutableLiveData<Map<Identifiable.Id, QueryResult<VoteRequestEntity>>>()
@@ -54,14 +58,8 @@ constructor(
 
                 votingStates.value = oldVotingStates + loadingPair
 
-                withContext(dispatchersProvider.calculationsDispatcher) {
-                    val transactionResult = voteApi.vote(
-                        params.discussionIdEntity.userId.toCyberName(),
-                        params.discussionIdEntity.permlink,
-                        params.power
-                    )
-                    transactionsApi.waitForTransaction(transactionResult.transaction_id)
-                }
+                vote(params)
+
                 votingStates.value = getCurrentValue() + (params.id to QueryResult.Success(params))
                 lastSuccessFullyVotedItem.value = params
 

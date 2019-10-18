@@ -7,4 +7,6 @@ import io.golos.domain.commun_entities.Permlink
 
 interface VoteApi {
     fun vote(postOrCommentAuthor: CyberName, postOrCommentPermlink: Permlink, voteStrength: Short): TransactionCommitted<VoteComnGalleryStruct>
+
+    fun unVote()
 }

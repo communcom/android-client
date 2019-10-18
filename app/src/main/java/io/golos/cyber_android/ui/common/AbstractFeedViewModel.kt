@@ -139,7 +139,7 @@ abstract class AbstractFeedViewModel<out R : FeedUpdateRequest, E : DiscussionEn
      * Make vote. This needs to be overriden to provide correct [VoteRequestModel].
      * After that this request can be used in [vote] function
      */
-    abstract fun vote(power: Short, discussionModel: M)
+    open fun vote(power: Short, discussionModel: M) {}
 
     /**
      * Make vote

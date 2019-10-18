@@ -28,6 +28,7 @@ constructor(
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
+
         return TransactionCommitted<VoteComnGalleryStruct>(
             "",
             TransactionProcessed("", TransactionParentReceipt("", 0, 0), 0, 0, true, listOf(), null, null),
@@ -35,5 +36,9 @@ constructor(
         )
 //        return commun4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow()
+    }
+
+    override fun unVote() {
+            // do nothing in a stub
     }
 }

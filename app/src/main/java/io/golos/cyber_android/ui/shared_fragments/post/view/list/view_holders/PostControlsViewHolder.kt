@@ -14,15 +14,20 @@ class PostControlsViewHolder(
     R.layout.item_post_controls
 ) {
     override fun init(listItem: PostControlsListItem, listItemEventsProcessor: PostPageViewModelItemsClickProcessor) {
-        itemView.votesText.text = listItem.voteBalance.toString()
+        with(itemView) {
+            votesText.text = listItem.voteBalance.toString()
 
-        val countersFormatter = io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter()
+            val countersFormatter = io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter()
 
-        itemView.viewCountsText.text = countersFormatter.format(listItem.totalViews)
-        itemView.commentsCountText.text = countersFormatter.format(listItem.totalComments)
+            viewCountsText.text = countersFormatter.format(listItem.totalViews)
+            commentsCountText.text = countersFormatter.format(listItem.totalComments)
 
-        itemView.upvoteButton.setOnClickListener { listItemEventsProcessor.onUpVoteClick() }
-        itemView.downvoteButton.setOnClickListener { listItemEventsProcessor.onDownVoteClick() }
+            upvoteButton.isSelected = listItem.isUpVoteActive
+            downvoteButton.isSelected = listItem.isDownVoteActive
+
+            upvoteButton.setOnClickListener { listItemEventsProcessor.onUpVoteClick() }
+            downvoteButton.setOnClickListener { listItemEventsProcessor.onDownVoteClick() }
+        }
     }
 
     override fun release() {
