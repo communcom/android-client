@@ -168,7 +168,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     /**
      * Allows fragment to setup event listener from parent fragments
      */
-    abstract fun setupEventsProvider()
+    open fun setupEventsProvider() {}
 
     /**
      * Allows fragment to setup feed adapter to [feedList]
@@ -183,12 +183,12 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     /**
      * Called when adapter of [feedList] receives some new data
      */
-    abstract fun onNewData(data: List<M>)
+    open fun onNewData(data: List<M>) {}
 
     /**
      * Allows fragment to setup live data for its widgets (like EditorWidget or SortingWidgt)
      */
-    abstract fun setupWidgetsLiveData()
+    open fun setupWidgetsLiveData() {}
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

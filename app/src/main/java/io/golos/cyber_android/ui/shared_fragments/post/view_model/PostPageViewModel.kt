@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
@@ -18,7 +17,6 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommentEntity
-import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
@@ -28,7 +26,6 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
-import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.VoteRequestModel
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -55,10 +52,6 @@ constructor(
 
     private var wasMovedToChild = false         // We move to child screen from this one
 
-    enum class Visibility {
-        VISIBLE, GONE
-    }
-
     private val scopeJob: Job = SupervisorJob()
 
     /**
@@ -72,52 +65,16 @@ constructor(
      */
     val command: SingleLiveData<ViewCommand> = SingleLiveData()
 
+    /**
+     * All data in post list (post title, body, controls, commeents etc.)
+     */
     val post: LiveData<List<VersionedListItem>> = model.post
 
+    /**
+     * Screen header
+     */
     private val _postHeader = MutableLiveData<PostHeader>()
-    val postHeader: LiveData<PostHeader> = _postHeader
-
-    private val discussionToReplyLiveData = MutableLiveData<DiscussionIdModel?>(null)
-
-    /**
-     * [LiveData] currently selected discussion to reply
-     */
-    val getDiscussionToReplyLiveData = discussionToReplyLiveData as LiveData<DiscussionIdModel?>
-
-
-    private val commentValidnessLiveData = MutableLiveData(false)
-
-    /**
-     * [LiveData] that indicates validness of the user comment
-     */
-    val getCommentValidnessLiveData = commentValidnessLiveData as LiveData<Boolean>
-
-
-    private val commentInputVisibilityLiveData = MutableLiveData(Visibility.GONE)
-
-    /**
-     * [LiveData] that indicates visibility of the comment input widget
-     */
-    val getCommentInputVisibilityLiveData = commentInputVisibilityLiveData as LiveData<Visibility>
-
-
-    private val fullyLoadedLiveData = MediatorLiveData<Boolean>().apply {
-        var feedReady = false
-        var postReady = false
-        addSource(feedLiveData) {
-            feedReady = true
-            postLoadingStatus(feedReady, postReady)
-        }
-
-//        addSource(postLiveData) {
-//            postReady = true
-//            postLoadingStatus(feedReady, postReady)
-//        }
-
-        addSource(loadingStatusLiveData) {
-            postLoadingStatus(feedReady, postReady)
-        }
-    }
+    val postHeader = _postHeader as LiveData<PostHeader>
 
     fun setup() {
         if(wasMovedToChild) {
@@ -142,25 +99,6 @@ constructor(
         }
     }
 
-    /**
-     * [LiveData] that post is fully loaded (including post itself and first page of comments)
-     */
-    val getFullyLoadedLiveData = fullyLoadedLiveData.distinctUntilChanged() as LiveData<Boolean>
-
-    /**
-     * Sets [DiscussionIdModel] which should be used as a parent of a new comment (created via [sendComment])
-     */
-    fun setDiscussionToReply(id: DiscussionIdModel) {
-        discussionToReplyLiveData.postValue(id)
-    }
-
-    /**
-     * Clears currently selected [DiscussionIdModel] to reply
-     */
-    fun clearDiscussionToReply() {
-        discussionToReplyLiveData.postValue(null)
-    }
-
     override fun onCleared() {
         super.onCleared()
 
@@ -168,10 +106,6 @@ constructor(
         scopeJob.cancel()
     }
 
-    /**
-     * Sends comment to post associated with this view model. Method checks if there is selected [DiscussionIdModel] to reply
-     * and send it there or send it as a top level comment
-     */
     fun sendComment(text: CharSequence) {
 //        if (discussionToReplyLiveData.value == null) {
 //            postLiveData.value?.let {
@@ -219,18 +153,11 @@ constructor(
         }
     }
 
-    private var currentCommentText: CharSequence = ""
-
-    fun onCommentChanged(text: CharSequence) {
-        currentCommentText = text
-        commentValidnessLiveData.postValue(validateComment(text))
-    }
-
-    override fun validateComment(comment: CharSequence): Boolean {
-        return (super.validateComment(comment)
-                && (discussionToReplyLiveData.value == null
-                || comment.length > discussionToReplyLiveData.value!!.userId.length + 1))
-    }
+//    override fun validateComment(comment: CharSequence): Boolean {
+//        return (super.validateComment(comment)
+//                && (discussionToReplyLiveData.value == null
+//                || comment.length > discussionToReplyLiveData.value!!.userId.length + 1))
+//    }
 
     override fun onImageInPostClick(imageUri: Uri) {
         wasMovedToChild = true
@@ -273,20 +200,16 @@ constructor(
         command.value = NavigateToUserProfileViewCommand(userId)
     }
 
-    fun setCommentInputVisibility(visibility: Visibility) {
-        commentInputVisibilityLiveData.postValue(visibility)
-    }
-
-    fun editPost() {
-        command.value = StartEditPostViewCommand(model.postId)
-    }
-
     fun onPostMenuClick() {
         val metadata = model.postMetadata
         command.value = ShowPostMenuViewCommand(
             currentUserRepository.authState!!.user.name == postToProcess.userId,
             metadata.version,
             metadata.type)
+    }
+
+    fun editPost() {
+        command.value = StartEditPostViewCommand(model.postId)
     }
 
     fun deletePost() {
@@ -302,9 +225,5 @@ constructor(
                 command.value = NavigateToMainScreenCommand()
             }
         }
-    }
-
-    private fun MediatorLiveData<Boolean>.postLoadingStatus(feedReady: Boolean, postReady: Boolean) {
-        postValue(feedReady && postReady && loadingStatusLiveData !is QueryResult.Loading<*>)
     }
 }
