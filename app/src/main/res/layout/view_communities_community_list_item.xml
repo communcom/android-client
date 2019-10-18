@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:background="@color/communities_select_dialog_list_item"
+        android:background="@color/window_background"
         android:layout_height="@dimen/height_community_list_item">
 
     <ImageView
