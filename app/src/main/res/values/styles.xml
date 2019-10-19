@@ -68,9 +68,8 @@
 
     <style name="SortingWidgetTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/clickable_text_color</item>
-        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:textSize">@dimen/text_size_13_sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
-        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="SortingWidgetCaptionTextStyle" parent="SortingWidgetTextStyle">
@@ -375,7 +374,7 @@
         <item name="android:paddingBottom">@dimen/btn_join_vertical_padding</item>
     </style>
 
-    <style name="SelectCommunityDialog" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogFragment.RoundCorners" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>

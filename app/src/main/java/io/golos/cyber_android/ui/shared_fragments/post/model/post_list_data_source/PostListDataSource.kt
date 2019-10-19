@@ -2,10 +2,13 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sou
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.domain.interactors.model.PostModel
 
 interface PostListDataSource : PostListDataSourcePostControls {
     val post: LiveData<List<VersionedListItem>>
 
     suspend fun createOrUpdatePostData(postModel: PostModel)
+
+    suspend fun updateCommentsSorting(sortingType: SortingType)
 }

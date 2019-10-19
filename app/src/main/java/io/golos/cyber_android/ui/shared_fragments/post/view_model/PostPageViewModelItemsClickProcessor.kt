@@ -15,4 +15,6 @@ interface PostPageViewModelItemsClickProcessor {
     fun onUpVoteClick()
 
     fun onDownVoteClick()
+
+    fun onCommentsTitleMenuClick()
 }

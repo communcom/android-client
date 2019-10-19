@@ -1,10 +1,8 @@
 package io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items
 
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 
-data class CommentsTitleListItem(
+data class MyCommentListItem(
     override val id: Long,
-    override val version: Long,
-    val soring: SortingType
+    override val version: Long
 ) : VersionedListItem

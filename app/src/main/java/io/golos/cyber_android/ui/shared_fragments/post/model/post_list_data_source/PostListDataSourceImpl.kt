@@ -3,6 +3,8 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sou
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentsTitleListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostTitleListItem
@@ -28,14 +30,18 @@ constructor(
     private val _post = MutableLiveData<List<VersionedListItem>>()
     override val post: LiveData<List<VersionedListItem>> = _post
 
+    private val hasPostTitle: Boolean
+        get() = postList.indexOfFirst { it is PostTitleListItem } != -1
+
     // For thread-safety
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
     override suspend fun createOrUpdatePostData(postModel: PostModel) =
         updateSafe {
-            createOrUpdateTitle(postModel)
-            createOrUpdateBody(postModel)
+            createOrUpdatePostTitle(postModel)
+            createOrUpdatePostBody(postModel)
             createOrUpdatePostControls(postModel)
+            createOrUpdateCommentsTitle(postModel)
         }
 
     override suspend fun updatePostVoteStatus(isUpVoteActive: Boolean?, isDownVoteActive: Boolean?, voteBalanceDelta: Long) =
@@ -44,6 +50,16 @@ constructor(
                 isUpVoteActive = isUpVoteActive ?: oldControls.isUpVoteActive,
                 isDownVoteActive = isDownVoteActive ?: oldControls.isDownVoteActive,
                 voteBalance = oldControls.voteBalance + voteBalanceDelta )
+        }
+
+    override suspend fun updateCommentsSorting(sortingType: SortingType) =
+        updateSafe {
+            val commentsTitleIndex = postList.indexOfFirst { it is CommentsTitleListItem }
+            val commentsTitle = postList[commentsTitleIndex] as CommentsTitleListItem
+
+            if(sortingType != commentsTitle.soring) {
+                postList[commentsTitleIndex] = commentsTitle.copy(version = commentsTitle.version + 1, soring = sortingType)
+            }
         }
 
     private suspend fun updateSafe(action: () -> Unit) =
@@ -63,7 +79,7 @@ constructor(
         }
     }
 
-    private fun createOrUpdateTitle(postModel: PostModel) {
+    private fun createOrUpdatePostTitle(postModel: PostModel) {
         val oldTitle = postList.singleOrNull { it is PostTitleListItem }
 
         val newTitle = postModel.content.body.postBlock.title?.let {
@@ -79,7 +95,7 @@ constructor(
         }
     }
 
-    private fun createOrUpdateBody(postModel: PostModel) {
+    private fun createOrUpdatePostBody(postModel: PostModel) {
         val oldBodyIndex = postList.indexOfFirst { it is PostBodyListItem }
 
         if(oldBodyIndex == -1) {
@@ -108,6 +124,26 @@ constructor(
         } else {
             val oldControls = postList[oldControlsIndex]
             postList[oldControlsIndex] = controls.copy(id = oldControls.id, version = oldControls.version + 1)
+        }
+    }
+
+    private fun createOrUpdateCommentsTitle(postModel: PostModel) {
+        val oldTitle = postList.singleOrNull { it is CommentsTitleListItem }
+
+        val newTitle = if(postModel.comments.count != 0L) {
+            CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST) }
+        else  {
+            null
+        }
+
+        val commentsTitleIndex = if(hasPostTitle) 3 else 2
+
+        when {
+            oldTitle == null && newTitle == null -> {}
+            oldTitle == null && newTitle != null -> postList.add(commentsTitleIndex, newTitle)
+            oldTitle != null && newTitle == null -> postList.remove(oldTitle)
+            oldTitle != null && newTitle != null ->
+                postList[commentsTitleIndex] = newTitle.copy(id = oldTitle.id, version = oldTitle.version + 1)
         }
     }
 }

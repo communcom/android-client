@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialogViewModel"/>
+            type="io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,14 +17,14 @@
         android:id="@+id/root"
         android:animateLayoutChanges="true"
 
-        android:background="@drawable/bcg_communities_select_dialog_bcg"
+        android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
 
         android:paddingStart="@dimen/select_community_dialog_padding_small"
         android:paddingEnd="@dimen/select_community_dialog_padding_small"
         android:paddingTop="@dimen/select_community_dialog_padding_large"
         android:paddingBottom="@dimen/select_community_dialog_padding_small"
 
-        tools:context="io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialog">
+        tools:context=".ui.dialogs.select_community_dialog.SelectCommunityDialog">
 
         <EditText
             android:id="@+id/searchField"
@@ -55,7 +55,7 @@
 
             tools:ignore="Autofill,LabelFor" />
 
-        <io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialogList
+        <io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogList
             android:id="@+id/communitiesList"
 
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toBottomOf="@id/searchField"
             />
 
-        <io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog.SelectCommunityDialogList
+        <io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogList
             android:id="@+id/communitiesSearchList"
 
             android:layout_width="match_parent"

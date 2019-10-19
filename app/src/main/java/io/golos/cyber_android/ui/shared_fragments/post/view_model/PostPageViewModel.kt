@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
+import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
@@ -149,6 +150,10 @@ constructor(
             metadata.type)
     }
 
+    override fun onCommentsTitleMenuClick() {
+        command.value = ShowCommentsSortingMenuViewCommand()
+    }
+
     fun editPost() {
         command.value = StartEditPostViewCommand(model.postId)
     }
@@ -164,6 +169,17 @@ constructor(
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
                 command.value = NavigateToMainScreenCommand()
+            }
+        }
+    }
+
+    fun updateCommentsSorting(sortingType: SortingType) {
+        launch {
+            try {
+                model.updateCommentsSorting(sortingType)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
     }

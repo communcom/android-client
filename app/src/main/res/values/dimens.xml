@@ -133,6 +133,12 @@
     <dimen name="post_controls_icons_text_gap">8dp</dimen>
     <dimen name="post_controls_view_comments_area_gap">23dp</dimen>
 
+    <dimen name="post_comments_title_height">28dp</dimen>
+    <dimen name="post_comments_title_menu_gap">10dp</dimen>
+    <dimen name="post_comments_title_menu_icon_height">8dp</dimen>
+    <dimen name="post_comments_title_menu_icon_width">11dp</dimen>
+    <dimen name="post_comments_title_top_margin">10dp</dimen>
+
     <!--Comment-->
     <dimen name="margin_top_comment_vote_buttons">10dp</dimen>
     <dimen name="margin_vertical_comment_reply">24dp</dimen>

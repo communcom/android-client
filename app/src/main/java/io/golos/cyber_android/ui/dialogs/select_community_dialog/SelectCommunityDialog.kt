@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.select_community_dialog
+package io.golos.cyber_android.ui.dialogs.select_community_dialog
 
 import android.app.Dialog
 import android.os.Bundle
@@ -56,7 +56,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.SelectCommunityDialog)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogFragment_RoundCorners)
 
         App.injections.get<SelectCommunityDialogComponent>().inject(this)
 
