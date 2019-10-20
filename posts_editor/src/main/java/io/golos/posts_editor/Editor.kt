@@ -17,17 +17,6 @@ import io.golos.posts_editor.utilities.MaterialColor
 
 @Suppress("KDocUnresolvedReference")
 class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs), EditorDataLoader {
-
-    /**
-     * @param the value is true if some text is selected, otherwise it's false
-     */
-    private var onSelectionTextChangeListener: ((Boolean) -> Unit)? = null
-
-    /**
-     * @param the value is true if some text is selected, otherwise it's false
-     */
-    private var onEmbedAddedOrRemovedListener: ((Boolean) -> Unit)? = null
-
     override var editorListener: EditorListener?
         get() = super.editorListener
         set(_listener) {
@@ -67,11 +56,6 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.updateTextColor(color, null)
     }
 
-    @Suppress("unused")
-    fun insertLink(link: String) {
-        inputExtensions!!.insertLink(link)
-    }
-
     fun insertTag(tag: String) {
         inputExtensions!!.insertTag(tag)
     }
@@ -81,6 +65,8 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     }
 
     fun insertLinkInText(linkInfo: LinkInfo) = inputExtensions!!.insertLinkInText(linkInfo)
+
+    fun pastedLinkIsValid(uri: Uri) = inputExtensions!!.lastPastedLinkWasValidated(uri)
 
     fun editTag(tag: String) {
         inputExtensions!!.editTag(tag)
@@ -136,6 +122,10 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     fun setOnEmbedAddedOrRemovedListener(listener: ((Boolean) -> Unit)?) {
         embedExtensions?.setOnEmbedAddedOrRemovedListener(listener)
+    }
+
+    fun setOnLinkWasPastedListener(listener: ((Uri) -> Unit)?) {
+        _onLinkWasPastedListener = listener
     }
 
     fun getMetadata(): List<ControlMetadata> {

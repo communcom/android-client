@@ -9,6 +9,5 @@ enum class EditorAction {
     MENTION,
     LINK,
 
-    LOCAL_IMAGE,
-    EXTERNAL_LINK
+    LOCAL_IMAGE
 }

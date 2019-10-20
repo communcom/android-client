@@ -11,18 +11,11 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreatedViewCommand
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
-import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.utils.combinedWith
-import io.golos.cyber_android.ui.common.utils.Patterns
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.entities.UploadedImageEntity
@@ -30,13 +23,11 @@ import io.golos.domain.extensions.map
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.interactors.model.*
-import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -95,13 +86,6 @@ constructor(
     val isPostEnabled = MutableLiveData<Boolean>(false)
     val isSelectCommunityEnabled = MutableLiveData<Boolean>(false)
 
-    private val validationResultLiveData = MutableLiveData(false)
-
-    /**
-     * [LiveData] that indicates validness of the post content
-     */
-    val getValidationResultLiveData = validationResultLiveData as LiveData<Boolean>
-
     val isEmbedButtonsEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
 
     /**
@@ -130,26 +114,8 @@ constructor(
         }
     }
 
-    /**
-     * [LiveData] for result of fetching the embedded content
-     */
-    val getEmbedLiveDate = embedLiveDate as LiveData<QueryResult<LinkEmbedModel>>
-
 
     private val emptyEmbedLiveData = MutableLiveData(true)
-
-    /**
-     * [LiveData] that indicates if there is no embedded content on page
-     */
-    val getEmptyEmbedLiveData = emptyEmbedLiveData.combinedWith(getAttachedImageLiveData) { embedsEmpty, pickedImage ->
-        embedsEmpty == true && pickedImage == null
-    } as LiveData<Boolean>
-
-    /**
-     * [LiveData] for post creation process
-     */
-    val discussionCreationLiveData = posterUseCase.getAsLiveData.asEvent()
-
 
     private val nsfwLiveData = MutableLiveData(false)
 
@@ -160,23 +126,7 @@ constructor(
 
     val editingPost = MutableLiveData<PostModel?>()
 
-//    val getEditingPost: LiveData<PostModel?> = editingPost
-
-
-    private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { result ->
-//        if (result is QueryResult.Success) {
-//            if (postToEdit == null) {
-//                createPost(listOf(result.originalQuery.url))
-//            } else {
-//                editPost(listOf(result.originalQuery.url))
-//            }
-//        }
-    }
-
-//    private val postToEditObserver = Observer<PostModel> {
-//        Log.d("UPDATE_POST", "EditorPageViewModel content: ${it.content.body.postBlock}")
-//        editingPost.postValue(it)
-//    }
+    private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { }
 
     val isInEditMode = postToEdit != null
 
@@ -187,11 +137,8 @@ constructor(
         imageUploadUseCase.subscribe()
 
         getFileUploadingStateLiveData.observeForever(imageUploadObserver)
-        //postUseCase?.getPostAsLiveData?.observeForever(postToEditObserver)
 
         setUp()
-
-        //communityLiveData.postValue(CommunityModel(CommunityId("Overwatch"), "Overwatch", ""))
     }
 
     fun switchNSFW() {
@@ -200,11 +147,6 @@ constructor(
 
     fun onTitleChanged(title: String) {
         this.title = title
-    }
-
-    fun onContentChanged(content: CharSequence) {
-        this.content = content
-        parseUrl(content)
     }
 
     fun setCommunity(community: Community) {
@@ -271,29 +213,6 @@ constructor(
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
-
-//    Move to model like model.createPost
-//    Call result must be the same[?]
-//    private fun editPost(images: List<String> = emptyList()) {
-//        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else emptyList()
-//
-//        (posterUseCase as DiscussionPosterUseCase).updatePost(
-//            UpdatePostRequestModel(
-//                postToEdit!!.permlink, title, content,
-//                tags,
-//                images
-//            )
-//
-//        )
-//    }
-
-//    private fun createPost(images: List<String> = emptyList()) {
-//        Log.d("", "")
-//        val tags = if (nsfwLiveData.value == true) listOf("nsfw") else listOf()
-//        val postRequest = PostCreationRequestModel(title, content, tags, images)
-//        (posterUseCase as DiscussionPosterUseCase).createPostOrComment(postRequest)
-//    }
-
     override fun onCleared() {
         super.onCleared()
         embedsUseCase.unsubscribe()
@@ -305,41 +224,20 @@ constructor(
         urlParserJob?.cancel()
     }
 
-    fun onLocalImagePicked(uri: Uri) {
-        attachementImageLiveData.postValue(
-            UserPickedImageModel(
-                localUri = uri
-            )
-        )
-    }
-
-    fun clearPickedImage() {
-        attachementImageLiveData.postValue(UserPickedImageModel.EMPTY)
-    }
-
-    fun onRemoteImagePicked(url: String) {
-        attachementImageLiveData.postValue(
-            UserPickedImageModel(
-                remoteUrl = url
-            )
-        )
-    }
-
-    /** Stops to listen to updates of a [postToEdit]. Thus needs to be called when
-     * post that is currently editing is displayed in fragment to prevent reseting screen to original state
-     * on activity recreations.
-     */
-    fun consumePostToEdit() {
-//        editingPost.postValue(null)
-//        postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
-    }
-
-    fun addExternalLink(uri: String) = processUri(uri) { linkInfo ->
-        InsertExternalLinkViewCommand(linkInfo)
-    }
-
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
+        command.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
+
+        if(!isEdit && embedCount == 0) {
+            command.value = InsertExternalLinkViewCommand(linkInfo)
+        }
+    }
+
+    fun validatePastedLink(uri: Uri) = processUri(uri.toString()) {
+        command.value = PastedLinkIsValidViewCommand(uri)
+
+        if(embedCount == 0) {
+            command.value = InsertExternalLinkViewCommand(it)
+        }
     }
 
     fun setEmbedCount(count: Int) {
@@ -356,36 +254,13 @@ constructor(
         isEmbedButtonsEnabled.value = embedCount == 0
     }
 
-    /**
-     * @return null in case of error
-     */
-//    fun parsePostContent(content: CharSequence): PostBlock? {
-//        val parsedPost = JsonToDtoMapper(App.logger).map(content.toString())
-//
-//        return when(parsedPost) {
-//            is Either.Failure -> {
-//                when(parsedPost.value) {
-//                    PostParsingErrorCode.GENERAL -> command.value = ShowMessageCommand(R.string.common_general_error)
-//                    PostParsingErrorCode.JSON -> command.value = ShowMessageCommand(R.string.invalid_post_format)
-//                    PostParsingErrorCode.INCOMPATIBLE_VERSIONS -> command.value = ShowMessageCommand(R.string.post_processor_is_too_format)
-//                }
-//                null
-//            }
-//
-//            is Either.Success -> {
-//                parsedPost.value
-//            }
-//        }
-//    }
-
-    private fun processUri(uri: String, getSuccessViewCommand: (ExternalLinkInfo) -> ViewCommand) {
+    private fun processUri(uri: String, processSuccessViewCommand: (ExternalLinkInfo) -> Unit) {
         launch {
             command.value = SetLoadingVisibilityCommand(true)
 
-            val linkInfo = model.getExternalLinkInfo(uri)
-            when(linkInfo) {
+            when(val linkInfo = model.getExternalLinkInfo(uri)) {
                 is Either.Success -> {
-                    command.value = getSuccessViewCommand(linkInfo.value)
+                    processSuccessViewCommand(linkInfo.value)
                 }
 
                 is Either.Failure -> {
@@ -398,26 +273,6 @@ constructor(
             }
 
             command.value = SetLoadingVisibilityCommand(false)
-        }
-    }
-
-    private fun parseUrl(content: CharSequence) {
-        urlParserJob?.cancel()
-        urlParserJob = launch {
-            delay(1_000)
-            Patterns.WEB_URL.matcher(content).apply {
-                if (find()) {
-                    emptyEmbedLiveData.postValue(false)
-                    val link = group()
-                    if (currentEmbeddedLink.compareTo(link) != 0) {
-                        currentEmbeddedLink = link
-                        (embedsUseCase as EmbedsUseCase).requestLinkEmbedData(currentEmbeddedLink)
-                    }
-                } else {
-                    emptyEmbedLiveData.postValue(true)
-                    currentEmbeddedLink = ""
-                }
-            }
         }
     }
 

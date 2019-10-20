@@ -2,18 +2,21 @@ package io.golos.posts_editor.components.input
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.os.Handler
 import android.text.*
 import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.util.Linkify
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.webkit.URLUtil
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -58,6 +61,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     private val editor: CustomEditText
         get() = editorCore.activeView as CustomEditText
+
+    private var lastPastedLinkRange: IntRange? = null
 
     /**
      * @param the value is true if some text is selected, otherwise it's false
@@ -157,6 +162,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     fun insertMention(userName: String) = insertMention(userName, true, false)
 
     fun insertLinkInText(linkInfo: LinkInfo) = insertLinkInText(linkInfo, true, false)
+
+    fun lastPastedLinkWasValidated(uri: Uri) {
+        setSpanToLastPastedLink(PostSpansFactory.createLink(LinkInfo(uri.toString(), uri)))
+    }
 
     fun editTag(tagText: String) {
         if(removeSpecialSpan(TagSpan::class)) {
@@ -273,10 +282,28 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         editText.addTextChangedListener(object : TextWatcher {
             private var updateRange: IntRange? = null
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            private lateinit var tagSpanToRemove: List<TagSpan>
+            private lateinit var mentionSpanToRemove: List<MentionSpan>
+            private lateinit var linkSpanToRemove: List<LinkSpan>
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                val pastedText = s.substring(start until start+count)
+
+                if(URLUtil.isValidUrl(pastedText)) {
+                    lastPastedLinkRange = start..start+count
+                    editorCore.linkWasPasted(Uri.parse(pastedText))
+                }
+            }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 updateRange = start..start+count
+
+                val spansWorker = SpansWorkerImpl(s)
+
+                // Collect spans in edited interval
+                tagSpanToRemove = spansWorker.getSpans(TagSpan::class, updateRange!!)
+                mentionSpanToRemove = spansWorker.getSpans(MentionSpan::class, updateRange!!)
+                linkSpanToRemove = spansWorker.getSpans(LinkSpan::class, updateRange!!)
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -308,14 +335,9 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                         val spansWorker = SpansWorkerImpl(s)
 
                         // If a span is edited by user we should remove it
-                        val tagsSpans = spansWorker.getSpans<TagSpan>(TagSpan::class, updateRange!!)
-                        tagsSpans.forEach { spansWorker.removeSpan(it) }
-
-                        val mentionsSpans = spansWorker.getSpans<MentionSpan>(MentionSpan::class, updateRange!!)
-                        mentionsSpans.forEach { spansWorker.removeSpan(it) }
-
-                        val linksSpans = spansWorker.getSpans<LinkSpan>(LinkSpan::class, updateRange!!)
-                        linksSpans.forEach { spansWorker.removeSpan(it) }
+                        tagSpanToRemove.forEach { spansWorker.removeSpan(it) }
+                        mentionSpanToRemove.forEach { spansWorker.removeSpan(it) }
+                        linkSpanToRemove.forEach { spansWorker.removeSpan(it) }
                     }
                 }
                 editorCore.editorListener?.onTextChanged(editText, s)
@@ -420,48 +442,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
         } catch (e: Exception) {
             e.printStackTrace()
-        }
-    }
-
-    fun insertLink() {
-        val inputAlert = AlertDialog.Builder(this.editorCore.context)
-        inputAlert.setTitle("Add a Link")
-        val userInput = EditText(this.editorCore.context)
-
-        //don't forget to add some margins on the left and right to match the title
-        userInput.hint = "type the URL here"
-        userInput.inputType = InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
-        inputAlert.setView(userInput)
-
-        inputAlert.setPositiveButton("INSERT") { _, _ ->
-            val userInputValue = userInput.text.toString()
-            insertLink(userInputValue)
-        }
-        inputAlert.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-        val alertDialog = inputAlert.create()
-        alertDialog.show()
-    }
-
-    fun insertLink(uri: String) {
-        val editorType = editorCore.getControlType(editorCore.activeView)
-        val editText = editorCore.activeView as EditText?
-
-        if (editorType === EditorType.INPUT || editorType === EditorType.UL_LI) {
-            var text = editText!!.text.toHtml()
-
-            if (TextUtils.isEmpty(text)) {
-                text = "<p dir=\"ltr\"></p>"
-            }
-
-            text = trimLineEnding(text)
-            val doc = Jsoup.parse(text)
-            val x = doc.select("p")
-            val existing = x[0].html()
-            x[0].html("$existing <a href='$uri'>$uri</a>")
-            val toTrim = x.toString().fromHtml()
-            val trimmed = noTrailingWhiteLines(toTrim)
-            editText.setText(trimmed)   //
-            editText.setSelection(editText.text.length)
         }
     }
 
@@ -608,6 +588,24 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                         editor.setCursorPosition(endPosition+1)
                     }
                 }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    /**
+     * Mark last pasted span as link
+     */
+    private fun setSpanToLastPastedLink(span: CharacterStyle) {
+        try {
+            editor.text?.let { textArea ->
+                lastPastedLinkRange?.let { linkRange ->
+                    textArea.insert(linkRange.last, " ")
+
+                    SpansWorkerImpl(textArea).appendSpan(span, linkRange)
+                }
+                lastPastedLinkRange = null
             }
         } catch (ex: Exception) {
             ex.printStackTrace()

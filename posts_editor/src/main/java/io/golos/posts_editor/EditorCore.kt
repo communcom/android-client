@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
+import android.net.Uri
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -40,6 +41,8 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         private set
 
     open var editorListener: EditorListener? = null
+
+    protected var _onLinkWasPastedListener: ((Uri) -> Unit)? = null
 
     /*
      * Getters and setters for  extensions
@@ -199,8 +202,8 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     fun getPossibleActions(): List<EditorAction> =
-        if(isTextStylesSupported) {
-            listOf(EditorAction.TAG, EditorAction.MENTION, EditorAction.LINK, EditorAction.LOCAL_IMAGE, EditorAction.EXTERNAL_LINK)
+        if(!isTextStylesSupported) {
+            listOf(EditorAction.TAG, EditorAction.MENTION, EditorAction.LINK, EditorAction.LOCAL_IMAGE)
         } else {
             EditorAction.values().toList()
         }
@@ -379,13 +382,11 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         removeParent(view)
     }
 
-    fun getStateFromString(content: String?): EditorContent {
-        var strContent = content
-
-        if (strContent == null) {
-            strContent = getValue("editorState", "")
-        }
-        return editorSettings.moshi.adapter(EditorContent::class.java).fromJson(strContent!!)!!
+    /**
+     * Link was pasted (via Paste operation)
+     */
+    fun linkWasPasted(uri: Uri) {
+        _onLinkWasPastedListener?.invoke(uri)
     }
 
     @Suppress("SameParameterValue")

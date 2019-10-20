@@ -31,15 +31,12 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.post_to_editor_loader.PostToEditorLoader
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.InsertExternalLinkViewCommand
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostCreatedViewCommand
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.PostErrorViewCommand
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.utils.PostConstants
 import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.data.errors.AppError
 import io.golos.domain.interactors.model.*
 import io.golos.domain.post.TextStyle
@@ -210,19 +207,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                         .show(requireFragmentManager(), "cover")
                     }
                 }
-                EditorAction.EXTERNAL_LINK -> {
-                    linkExternalButton.visibility = View.VISIBLE
-                    linkExternalButton.setOnClickListener {
-                        OneTextLineDialog(requireContext(), "", R.string.enter_link) { url ->
-                            url?.let { viewModel.addExternalLink(it) }
-                        }
-                        .show()
-                    }
-                }
             }
         }
 
-        if(possibleEditorActions.contains(EditorAction.LOCAL_IMAGE) || possibleEditorActions.contains(EditorAction.EXTERNAL_LINK)) {
+        if(possibleEditorActions.contains(EditorAction.LOCAL_IMAGE)) {
             viewModel.setEmbedCount(editorWidget.getEmbedCount())
             editorWidget.setOnEmbedAddedOrRemovedListener { isAdded -> viewModel.processEmbedAddedOrRemoved(isAdded)  }
         }
@@ -241,20 +229,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             linkInTextButton.isEnabled = !isSomeTextSelected
 
             photoButton.isEnabled = !isSomeTextSelected
-            linkExternalButton.isEnabled = !isSomeTextSelected
         }
-    }
 
-    private fun setupPostToEdit(post: PostModel) {
-        // todo [AS] see it later
-//        toolbarTitle.setText(R.string.edit_post)
-//        title.setText(post.content.title)
-//        content.setText(post.content.body.toContent())
-//        nsfw.isActivated = post.content.tags.contains(TagModel("nsfw"))
-//        post.content.body.embeds.find { it.type == "photo" || it.html.isEmpty() }?.run {
-//            viewModel.onRemoteImagePicked(this.url)
-//        }
-//        viewModel.consumePostToEdit()
+        editorWidget.setOnLinkWasPastedListener { viewModel.validatePastedLink(it) }
     }
 
     private fun observeViewModel() {
@@ -283,88 +260,31 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 is PostErrorViewCommand -> onPostError(command.result)
                 is PostCreatedViewCommand -> onPostResult(command.result)
 
+                is PastedLinkIsValidViewCommand -> editorWidget.pastedLinkIsValid(command.uri)
+
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
 
         viewModel.isEmbedButtonsEnabled.observe(this, Observer {
             photoButton.isEnabled = it
-            linkExternalButton.isEnabled = it
         })
 
-        // todo [AS] see it later
-//        viewModel.getValidationResultLiveData.observe(this, Observer {
-//            post.isEnabled = it
-//            post.alpha = if (it) 1f else 0.3f
-//        })
-//
-//        viewModel.getEmbedLiveDate.observe(this, Observer { result ->
-//            when (result) {
-//                is QueryResult.Loading -> onEmbedLoading()
-//                is QueryResult.Success -> onEmbedResult(result.originalQuery)
-//                is QueryResult.Error -> onEmbedError()
-//            }
-//        })
-//
-//        viewModel.getEmptyEmbedLiveData.observe(this, Observer { isEmpty ->
-//            if (isEmpty)
-//                hidePreviewLayout()
-//        })
-//
-//        viewModel.discussionCreationLiveData.observe(this, Observer { event ->
-//            event.getIfNotHandled()?.let { result ->
-//                when (result) {
-//                    is QueryResult.Loading -> onPostLoading()
-//                    is QueryResult.Success -> onPostResult(result.originalQuery)
-//                    is QueryResult.Error -> onPostError(result.error)
-//                }
-//            }
-//        })
-//
         viewModel.getNsfwLiveData.observe(this, Observer {
             nsfwButton.isActivated = it
         })
-//
-//        viewModel.getCommunityLiveData.observe(this, Observer {
-//            if (it != null)
-//                setupCommunity(it)
-//        })
-//
+
         viewModel.editingPost.observe(this, Observer {
             it?.let {
                 val parsedPost = it.content.body.postBlock
-//                if(parsedPost != null) {
+
                     toolbarTitle.setText(R.string.edit_post)
                     title.setText(parsedPost.title)
                     PostToEditorLoader.load(editorWidget, parsedPost)
 
                     nsfwButton.isActivated = it.content.tags.contains(TagModel("nsfw"))
-                    viewModel.consumePostToEdit()
-
-//                } else {
-//                    activity?.finish()
-//                }
             }
-//            if (it != null)
-//                setupPostToEdit(it)
         })
-//
-//        viewModel.getAttachedImageLiveData.observe(this, Observer {
-//            when {
-//                it.localUri != null -> loadLocalAttachmentImage(it.localUri)
-//                it.remoteUrl != null -> loadRemoteAttachmentImage(it.remoteUrl)
-//                else -> clearUserPickedImage()
-//            }
-//        })
-//
-//        viewModel.getFileUploadingStateLiveData.asEvent().observe(this, Observer { event ->
-//            event.getIfNotHandled()?.let { result ->
-//                when (result) {
-//                    is QueryResult.Loading -> onPostLoading()
-//                    is QueryResult.Error -> onPostError(result.error)
-//                }
-//            }
-//        })
     }
 
     private fun onPostError(error: Throwable) {
@@ -392,31 +312,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
     }
 
-    private fun onPostLoading() {
-        showLoading()
-    }
-
-//    private fun onEmbedResult(model: LinkEmbedModel) {
-    // todo [AS] see it later
-
-//        previewSummary.text = model.summary
-//        previewProvider.text = model.provider
-//        previewSummary.visibility = if (model.summary.isBlank()) View.GONE else View.VISIBLE
-//        previewProvider.visibility = if (model.provider.isBlank()) View.GONE else View.VISIBLE
-//        previewDescriptionLayout.visibility =
-//            if (model.summary.isBlank() && model.provider.isBlank()) View.GONE else View.VISIBLE
-//        linkPreviewImageClear.visibility = View.GONE
-//
-//        if (model.embedHtml.isNotBlank()) {
-//            loadEmbeddedHtml(model)
-//        } else {
-//            if (model.thumbnailImageUrl.isNotBlank()) {
-//                loadThumbnail(model)
-//            }
-//        }
-//    }
-
     override fun getInitialImageSource() = getArgs().initialImageSource
+
+    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
 
     override fun onImagePicked(uri: Uri) = editorWidget.insertEmbed(EmbedType.LOCAL_IMAGE, uri, uri, null)
 
@@ -430,118 +328,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
     }
 
-//    private fun loadLocalAttachmentImage(uri: Uri) {
-    // todo [AS] see it later
-
-//        linkPreviewWebView.visibility = View.GONE
-//        linkPreviewImageViewLayout.visibility = View.VISIBLE
-//        linkPreviewImageClear.visibility = View.VISIBLE
-//        previewDescriptionLayout.visibility = View.GONE
-//        showPreviewLayout()
-//
-//
-//        Glide.with(requireContext())
-//            .load(uri)
-//            .fitCenter()
-//            .into(linkPreviewImageView)
-//    }
-
-//    private fun loadRemoteAttachmentImage(url: String) {
-    // todo [AS] see it later
-
-//        linkPreviewWebView.visibility = View.GONE
-//        linkPreviewImageViewLayout.visibility = View.VISIBLE
-//        linkPreviewImageClear.visibility = View.VISIBLE
-//        previewDescriptionLayout.visibility = View.GONE
-//        showPreviewLayout()
-//
-//
-//        Glide.with(requireContext())
-//            .load(url)
-//            .fitCenter()
-//            .into(linkPreviewImageView)
-//    }
-
-//    private fun clearUserPickedImage() {
-    // todo [AS] see it later
-
-//        hidePreviewLayout()
-//
-//        Glide.with(requireContext())
-//            .load(0)
-//            .fitCenter()
-//            .into(linkPreviewImageView)
-//    }
-
-//    private fun loadThumbnail(model: LinkEmbedModel) {
-    // todo [AS] see it later
-
-//        linkPreviewWebView.visibility = View.GONE
-//        linkPreviewImageViewLayout.visibility = View.VISIBLE
-//        showPreviewLayout()
-//
-//        Glide.with(requireContext())
-//            .load(model.thumbnailImageUrl)
-//            .fitCenter()
-//            .into(linkPreviewImageView)
-//    }
-
-//    private fun loadEmbeddedHtml(model: LinkEmbedModel) {
-    // todo [AS] see it later
-
-//        showPreviewLayout()
-//        linkPreviewWebView.visibility = View.VISIBLE
-//        linkPreviewImageViewLayout.visibility = View.GONE
-//        linkPreviewWebView.loadDataWithBaseURL(model.url, model.embedHtml, "text/html", "UTF-8", null)
-//    }
-
-//    private fun onEmbedError() {
-    // todo [AS] see it later
-
-//        hidePreviewLayout()
-//        linkPreviewProgress.visibility = View.GONE
-//        Toast.makeText(requireContext(), "Embedded content error", Toast.LENGTH_SHORT).show()
-//    }
-
-//    private fun onEmbedLoading() {
-    // todo [AS] see it later
-
-//        linkPreviewProgress.visibility = View.VISIBLE
-//        linkPreviewWebView.visibility = View.GONE
-//        linkPreviewImageViewLayout.visibility = View.GONE
-//    }
-
-//    private fun hidePreviewLayout() {
-    // todo [AS] see it later
-
-//        linkPreviewLayout.visibility = View.GONE
-//    }
-
-//    private fun showPreviewLayout() {
-    // todo [AS] see it later
-
-//        linkPreviewLayout.visibility = View.VISIBLE
-//        linkPreviewProgress.visibility = View.GONE
-//    }
-
-    private fun getArgs() = arguments!!.getParcelable<Args>(Tags.ARGS)!!
-
-//    override fun onPause() {
-    // todo [AS] see it later
-
-//        linkPreviewWebView.onPause()
-//        super.onPause()
-//    }
-
-//    override fun onResume() {
-    // todo [AS] see it later
-
-//        linkPreviewWebView.onResume()
-//        super.onResume()
-//    }
-
     override fun onImagePickingCancel() {
-        //noop
+        // do nothing
     }
 
     private fun ExternalLinkType.mapToEmbedType(): EmbedType =
