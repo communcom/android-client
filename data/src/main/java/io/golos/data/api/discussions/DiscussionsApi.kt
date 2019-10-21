@@ -74,6 +74,7 @@ interface DiscussionsApi {
 
     /**
      * Returns list of comments
+     * @param parentId - id of a post or a parent comment
      */
     fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionId): List<CommentDiscussionRaw>
 }

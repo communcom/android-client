@@ -113,12 +113,19 @@ constructor(
             try {
                 val account =
                     withContext(dispatchersProvider.ioDispatcher) {
-                        if (newParams.user.userId.isEmpty()) {
+                        try {
+                            authApi.getUserAccount(newParams.user.userId.toCyberName())
+                        } catch (ex: Exception) {
                             val userId = authApi.resolveCanonicalCyberName(newParams.userName)
-                            newParams =
-                                AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
+                            newParams = AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
+                            authApi.getUserAccount(newParams.user.userId.toCyberName())
                         }
-                        authApi.getUserAccount(newParams.user.userId.toCyberName())
+//                        if (newParams.user.userId.isEmpty()) {
+//                            val userId = authApi.resolveCanonicalCyberName(newParams.userName)
+//                            newParams =
+//                                AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
+//                        }
+//                        authApi.getUserAccount(newParams.user.userId.toCyberName())
                     }
 
                 if (account.account_name.isEmpty()) {

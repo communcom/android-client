@@ -25,7 +25,9 @@ constructor() : CommentToModelMapper {
             DiscussionPayoutModel(),
             entity.parentContentId?.map(),
             entity.meta.map(),
-            DiscussionStatsModel(0.toBigInteger(), 0L)
+            DiscussionStatsModel(0.toBigInteger(), 0L),
+            entity.childTotal,
+            entity.child.map { this.map(it) }
         )
     }
 }

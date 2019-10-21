@@ -55,7 +55,9 @@ constructor(
                 DiscussionMetadataModel(
                     comment.meta.time, comment.meta.time.asElapsedTime()
                 ),
-                DiscussionStatsModel(comment.stats.rShares, comment.stats.viewsCount)
+                DiscussionStatsModel(comment.stats.rShares, comment.stats.viewsCount),
+                0L,
+                listOf()
             )
         }
         return out

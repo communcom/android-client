@@ -6,7 +6,6 @@ import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGallerySt
 import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.commun4j.model.*
-import io.golos.commun4j.services.model.CyberCommunity
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
@@ -18,8 +17,6 @@ import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct as UpdatemssgComnGalleryStruct1
@@ -85,6 +82,9 @@ constructor(
         val post = StubDataFactory.createPost(body, community!!, authState.user.name)
         Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
         DataStorage.posts.add(post)
+
+        val comments = CommentsDataFactory.createComments()
+        DataStorage.comments[post.contentId.permlink] = comments
 
         return StubDataFactory.createCommitedTransaction(
             StubDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
@@ -218,13 +218,18 @@ constructor(
             DiscussionId("", ""),
             DiscussionId("", ""),
             DiscussionAuthor(CyberName(""), "", ""),
-            0L
+            0L,
+            listOf()
         )
 
         // return DiscussionsResult(listOf(), "")
         // return commun4j.getComment(user, null, permlink, ContentParsingType.MOBILE).getOrThrow()
     }
 
+    /**
+     * Returns list of comments
+     * @param parentId - id of a post or a parent comment
+     */
     override fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionId): List<CommentDiscussionRaw> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

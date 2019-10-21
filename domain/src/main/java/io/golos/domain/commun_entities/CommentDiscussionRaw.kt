@@ -18,5 +18,7 @@ data class CommentDiscussionRaw(
 
     val author: DiscussionAuthor,
 
-    val childCount: Long
+    val childTotal: Long,
+
+    val child: List<CommentDiscussionRaw>
 )
