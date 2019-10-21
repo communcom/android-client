@@ -331,4 +331,7 @@
         <item quantity="other">followers</item>
     </plurals>
 
+    <!--CommunityPage-->
+    <string name="get_points">Get points</string>
+
 </resources>

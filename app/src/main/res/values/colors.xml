@@ -21,6 +21,8 @@
     <color name="middle_gray_3">#F5F5F5</color>
     <color name="dark_gray">#9B9FA2</color>
     <color name="blue_40">#666A80F5</color>
+    <color name="grey">#A5A7BD</color>
+    <color name="blue_light">#d2d9fc</color>
 
     <color name="pale_black">#8A000000</color>
     <color name="transparent">#00000000</color>
@@ -41,6 +43,6 @@
     <color name="select_community_dialog_list_bcg">@color/white</color>
     <color name="select_community_dialog_list_pressed_bcg">@color/select_community_dialog_bcg</color>
 
-    <color name="post_counter_text_color">#A5A7BD</color>
+    <color name="post_counter_text_color">@color/grey</color>
     <color name="post_vote_button_color">#9B9FA2</color>
 </resources>

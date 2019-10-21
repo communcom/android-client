@@ -11,6 +11,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManager
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManagerTarget
@@ -40,10 +41,15 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.injections.get<LoginActivityComponent>().inject(this)
+        /*App.injections.get<LoginActivityComponent>().inject(this)
 
         setContentView(R.layout.activity_login)
-        setupViewModel()
+        setupViewModel()*/
+
+        setContentView(R.layout.activity_login)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.testLayout, CommunityPageFragment.newInstance())
+            .commit()
     }
 
 

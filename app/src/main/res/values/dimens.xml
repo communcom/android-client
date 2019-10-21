@@ -339,4 +339,15 @@
     <dimen name="btn_join_horizontal_padding">12dp</dimen>
     <dimen name="btn_join_vertical_padding">6dp</dimen>
 
+    <!-- CardView -->
+    <dimen name="card_view_corner_radius">10dp</dimen>
+    <dimen name="card_view_elevation">8dp</dimen>
+
+    <!--CommunityPage-->
+    <dimen name="community_page_margin_top">150dp</dimen>
+    <dimen name="community_page_background_height">180dp</dimen>
+    <dimen name="community_page_top_round_corners_radius">30dp</dimen>
+    <dimen name="community_page_logo">50dp</dimen>
+    <dimen name="community_page_header_members_height">60dp</dimen>
+    <dimen name="community_page_balance_description_height">70dp</dimen>
 </resources>
