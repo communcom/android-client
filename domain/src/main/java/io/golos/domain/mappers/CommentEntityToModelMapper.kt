@@ -23,7 +23,7 @@ constructor(
     private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<CommentEntity>, CommentModel>())
     private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
-    override suspend fun map(entity: DiscussionRelatedEntities<CommentEntity>): CommentModel {
+    override fun map(entity: DiscussionRelatedEntities<CommentEntity>): CommentModel {
         val comment = entity.discussionEntity
 
         val voteEntity = entity.voteStateEntity
@@ -46,10 +46,7 @@ constructor(
                     comment.votes.hasUpVote,
                     comment.votes.hasDownVote,
                     comment.votes.upCount,
-                    comment.votes.downCount,
-                    (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power > 0),
-                    (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power < 0),
-                    (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power == 0.toShort())
+                    comment.votes.downCount
                 ),
                 DiscussionPayoutModel(),
                 comment.parentCommentId?.let {

@@ -15,7 +15,7 @@ constructor(
     private val postMapper: PostEntitiesToModelMapper
 ) : PostFeedEntityToModelMapper {
 
-    override suspend fun map(entity: FeedRelatedEntities<PostEntity>): DiscussionsFeed<PostModel> {
+    override fun map(entity: FeedRelatedEntities<PostEntity>): DiscussionsFeed<PostModel> {
         val posts = entity.feed.discussions
         val votes = entity.votes.values.associateBy { it.originalQuery.discussionIdEntity }
 

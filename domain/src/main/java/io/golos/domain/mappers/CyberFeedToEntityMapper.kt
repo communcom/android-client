@@ -13,12 +13,15 @@ class CyberFeedToEntityMapperImpl
 constructor(val postMapper: CyberPostToEntityMapper) : CyberFeedToEntityMapper {
 
     override fun map(communObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<PostEntity> {
+        throw UnsupportedOperationException("")
+/*
         return FeedEntity(
             communObject.discussionsResult.items
                 .map { postMapper.map(it) },
             communObject.feedRequest.pageKey,
             "" //communObject.discussionsResult.sequenceKey ?: feedEndMark  - for DiscussionResult. For now - no idea
         )
+*/
     }
 
     companion object {

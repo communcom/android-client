@@ -4,6 +4,7 @@ import io.golos.domain.entities.CommentEntity
 import io.golos.domain.entities.FeedEntity
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.rules.FeedUpdateRequestsWithResult
+import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 interface CyberCommentsToEntityMapper : CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>
@@ -13,12 +14,13 @@ class CyberCommentsToEntityMapperImpl
 constructor(val postMapper: CyberCommentToEntityMapper) : CyberCommentsToEntityMapper {
 
     override fun map(communObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<CommentEntity> {
-        return FeedEntity(
-            communObject.discussionsResult.items
-                .map { postMapper.map(it) },
-            communObject.feedRequest.pageKey,
-            ""  // [AS] communObject.discussionsResult.sequenceKey ?: feedEndMark - for DiscussionResult. For now - no idea
-        )
+        throw UnsupportedOperationException("")
+//        return FeedEntity(
+//            communObject.discussionsResult.items
+//                .map { postMapper.map(it) },
+//            communObject.feedRequest.pageKey,
+//            ""  // [AS] communObject.discussionsResult.sequenceKey ?: feedEndMark - for DiscussionResult. For now - no idea
+//        )
     }
 
     companion object {

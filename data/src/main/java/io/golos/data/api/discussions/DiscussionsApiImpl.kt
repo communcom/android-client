@@ -14,8 +14,10 @@ import io.golos.data.api.Commun4jApiBase
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.commun_entities.PostDiscussionRaw
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -31,6 +33,7 @@ constructor(
     private val communitiesApi: CommunitiesApi,
     private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), DiscussionsApi {
+
     override fun createComment(
         body: String,
         parentAccount: CyberName,
@@ -152,7 +155,7 @@ constructor(
         return GetDiscussionsResultRaw(listOf())
     }
 
-    override fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw {
+    override fun getPost(user: CyberName, permlink: Permlink): PostDiscussionRaw {
         val post = DataStorage.posts.first {
             it.contentId.userId == user.name && it.contentId.permlink == permlink.value
         }
@@ -206,18 +209,23 @@ constructor(
 //        ).getOrThrow()
     }
 
-    override fun getComment(user: CyberName, permlink: Permlink): CyberDiscussionRaw {
+    override fun getComment(user: CyberName, permlink: Permlink): CommentDiscussionRaw {
         // note[AS] it'll be "getComment" method in a future. So far we use a stub
-        return CyberDiscussionRaw(
+        return CommentDiscussionRaw(
             "",
             DiscussionVotes(0L, 0L),
             DiscussionMetadata(Date()),
             DiscussionId("", ""),
+            DiscussionId("", ""),
             DiscussionAuthor(CyberName(""), "", ""),
-            CyberCommunity("", "", "")
+            0L
         )
 
         // return DiscussionsResult(listOf(), "")
         // return commun4j.getComment(user, null, permlink, ContentParsingType.MOBILE).getOrThrow()
+    }
+
+    override fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionId): List<CommentDiscussionRaw> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

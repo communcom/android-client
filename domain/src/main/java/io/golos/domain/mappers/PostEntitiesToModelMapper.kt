@@ -8,7 +8,6 @@ import io.golos.domain.entities.PostEntity
 import io.golos.domain.entities.TagEntity
 import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.interactors.model.*
-import io.golos.domain.requestmodel.QueryResult
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -27,7 +26,7 @@ constructor(
     private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
     private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
-    override suspend fun map(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
+    override fun map(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
         val post = entity.discussionEntity
 
         val voteEntity = entity.voteStateEntity
@@ -55,10 +54,7 @@ constructor(
                     post.votes.hasUpVote,
                     post.votes.hasDownVote,
                     post.votes.upCount,
-                    post.votes.downCount,
-                    (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power > 0),
-                    (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power < 0),
-                    (voteEntity is QueryResult.Loading && voteEntity.originalQuery.power == 0.toShort())
+                    post.votes.downCount
                 ),
                 DiscussionCommentsCountModel(post.comments.count),
                 DiscussionPayoutModel(),
@@ -92,10 +88,7 @@ constructor(
                 post.votes.hasUpVote,
                 post.votes.hasDownVote,
                 post.votes.upCount,
-                post.votes.downCount,
-                false,
-                false,
-                false
+                post.votes.downCount
             ),
             DiscussionCommentsCountModel(post.comments.count),
             DiscussionPayoutModel(),

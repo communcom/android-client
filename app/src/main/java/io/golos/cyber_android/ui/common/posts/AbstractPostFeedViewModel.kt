@@ -31,15 +31,13 @@ abstract class AbstractPostFeedViewModel<out T : PostFeedUpdateRequest>(
     }
 
     override fun vote(power: Short, discussionModel: PostModel) {
-        if (!discussionModel.votes.hasUpVoteProgress
-            && !discussionModel.votes.hasDownVotingProgress
-            && !discussionModel.votes.hasVoteCancelProgress
-        ) {
-            val request = VoteRequestModel.VoteForPostRequest(power, discussionModel.contentId)
-            voteUseCase.vote(request)
-            pendingVotes.add(discussionModel.contentId)
-        }
+//        if (!discussionModel.votes.hasUpVoteProgress
+//            && !discussionModel.votes.hasDownVotingProgress
+//            && !discussionModel.votes.hasVoteCancelProgress
+//        ) {
+//            val request = VoteRequestModel.VoteForPostRequest(power, discussionModel.contentId)
+//            voteUseCase.vote(request)
+//            pendingVotes.add(discussionModel.contentId)
+//        }
     }
 }
-
-

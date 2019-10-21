@@ -47,7 +47,8 @@ constructor(
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
-        return apiService.getPost(CyberName(params.userId), params.permlink)
+        throw UnsupportedOperationException("")
+        //return apiService.getPost(CyberName(params.userId), params.permlink)
     }
 
     override fun fixOnPositionDiscussion(discussion: PostEntity, parent: DiscussionIdEntity) {
@@ -98,7 +99,7 @@ constructor(
 ) :
     AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
-        postMapper,
+        null/*postMapper*/,
         postMerger,
         feedMerger,
         approver,
@@ -107,7 +108,8 @@ constructor(
     ) {
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
-        return apiService.getComment(CyberName(params.userId), params.permlink)
+        throw UnsupportedOperationException("")
+        //return apiService.getComment(CyberName(params.userId), params.permlink)
     }
 
     override fun fixOnPositionDiscussion(discussion: CommentEntity, parent: DiscussionIdEntity) {

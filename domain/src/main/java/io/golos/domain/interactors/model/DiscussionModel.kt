@@ -64,7 +64,7 @@ data class PostContentModel(
 
 data class CommentContentModel(
     val body: ContentBodyModel,
-    val commentLevel: Int
+    val commentLevel: Int               // 0 or 1
 ) : Model
 
 data class EmbedModel(
@@ -91,10 +91,7 @@ data class DiscussionVotesModel(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
     val upCount: Long,
-    val downCount: Long,
-    val hasUpVoteProgress: Boolean,
-    val hasDownVotingProgress: Boolean,
-    val hasVoteCancelProgress: Boolean
+    val downCount: Long
 ) : Model
 
 data class ElapsedTime(val elapsedMinutes: Int, val elapsedHours: Int, val elapsedDays: Int)

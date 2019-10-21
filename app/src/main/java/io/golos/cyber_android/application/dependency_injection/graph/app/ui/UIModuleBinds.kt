@@ -33,6 +33,8 @@ import io.golos.domain.requestmodel.VoteRequestModel
 import io.golos.domain.mappers.EntityToModelMapper
 import io.golos.domain.mappers.EventEntityToModelMapper
 import io.golos.domain.mappers.EventEntityToModelMapperImpl
+import io.golos.domain.mappers.new_mappers.CommentToModelMapper
+import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
 
 @Module
 abstract class UIModuleBinds {
@@ -72,6 +74,10 @@ abstract class UIModuleBinds {
     @UIScope
     @Binds
     abstract fun provideEventEntityToModelMapper(mapper: EventEntityToModelMapperImpl): EventEntityToModelMapper
+
+    @UIScope
+    @Binds
+    abstract fun provideCommentToModelMapper(mapper: CommentToModelMapperImpl): CommentToModelMapper
 
     @Binds
     abstract fun provideEventsUseCase(useCase: EventsUseCase): UseCase<EventsListModel>

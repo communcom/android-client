@@ -8,8 +8,10 @@ import io.golos.commun4j.model.*
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.commun_entities.PostDiscussionRaw
 import io.golos.commun4j.utils.Pair as CommunPair
 
 interface DiscussionsApi {
@@ -22,7 +24,7 @@ interface DiscussionsApi {
         tags: List<String>? = null
     ): GetDiscussionsResultRaw
 
-    fun getPost(user: CyberName, permlink: Permlink): CyberDiscussionRaw
+    fun getPost(user: CyberName, permlink: Permlink): PostDiscussionRaw
 
     fun getUserSubscriptions(userId: String, limit: Int, sort: FeedSort, sequenceKey: String? = null): GetDiscussionsResultRaw
 
@@ -36,7 +38,7 @@ interface DiscussionsApi {
         sequenceKey: String? = null
     ): GetDiscussionsResultRaw
 
-    fun getComment(user: CyberName, permlink: Permlink): CyberDiscussionRaw
+    fun getComment(user: CyberName, permlink: Permlink): CommentDiscussionRaw
 
     fun createComment(
         body: String,
@@ -70,4 +72,8 @@ interface DiscussionsApi {
 
     fun deletePostOrComment(postOrCommentPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
 
+    /**
+     * Returns list of comments
+     */
+    fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionId): List<CommentDiscussionRaw>
 }

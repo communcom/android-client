@@ -1,12 +1,13 @@
 package io.golos.domain.mappers
 
 import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.entities.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import javax.inject.Inject
 
-interface CyberCommentToEntityMapper : CommunToEntityMapper<CyberDiscussionRaw, CommentEntity>
+interface CyberCommentToEntityMapper : CommunToEntityMapper<CommentDiscussionRaw, CommentEntity>
 
 class CyberCommentToEntityMapperImpl
 @Inject
@@ -14,7 +15,7 @@ constructor() : CyberCommentToEntityMapper {
 
     private val jsonMapper = JsonToDtoMapper()
 
-    override fun map(communObject: CyberDiscussionRaw): CommentEntity {
+    override fun map(communObject: CommentDiscussionRaw): CommentEntity {
         return CommentEntity(
             DiscussionIdEntity(
                 communObject.contentId.userId,

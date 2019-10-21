@@ -79,7 +79,7 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         ) {
             this.model = commentModel
             with(itemView) {
-                if (commentModel.author.avatarUrl.isNotBlank()) {
+                if (!commentModel.author.avatarUrl.isNullOrBlank()) {
                     Glide.with(itemView.context)
                         .load(commentModel.author.avatarUrl)
                         .apply(RequestOptions.circleCropTransform())
@@ -139,15 +139,9 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
                 commentUpvote.isActivated = commentModel.votes.hasUpVote
                 commentDownvote.isActivated = commentModel.votes.hasDownVote
 
-                commentDownvoteProgress.visibility =
-                    if (commentModel.votes.hasDownVotingProgress || commentModel.votes.hasVoteCancelProgress && commentModel.votes.hasDownVote)
-                        View.VISIBLE
-                    else View.GONE
+                commentDownvoteProgress.visibility = View.GONE
 
-                commentUpvoteProgress.visibility =
-                    if (commentModel.votes.hasUpVoteProgress || commentModel.votes.hasVoteCancelProgress && commentModel.votes.hasUpVote)
-                        View.VISIBLE
-                    else View.GONE
+                commentUpvoteProgress.visibility = View.GONE
             }
         }
 

@@ -13,6 +13,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.commun_entities.PostDiscussionRaw
 import java.util.*
 import io.golos.commun4j.utils.Pair as CommunPair
 
@@ -55,13 +56,14 @@ internal object StubDataFactory {
     fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): DeletemssgComnGalleryStruct =
         DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(userId), permlink.value))
 
-    fun createPost(body: String, community: Community, userId: String): CyberDiscussionRaw =
-        CyberDiscussionRaw(
+    fun createPost(body: String, community: Community, userId: String): PostDiscussionRaw =
+        PostDiscussionRaw(
             body,
             DiscussionVotes(0, 0),
             DiscussionMetadata(Date()),
             DiscussionId(userId, Permlink.generate().value),
+            CyberCommunity(community.id.id, community.name, community.logoUrl),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
-            CyberCommunity(community.id.id, community.name, community.logoUrl)
+            0L
         )
 }

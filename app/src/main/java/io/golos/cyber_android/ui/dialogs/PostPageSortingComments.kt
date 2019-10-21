@@ -28,7 +28,6 @@ class PostPageSortingComments : BottomSheetDialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogFragment_RoundCorners)
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.dialog_comments_sorting_menu, container, false)
 

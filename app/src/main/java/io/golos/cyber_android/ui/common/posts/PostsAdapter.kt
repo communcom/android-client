@@ -86,7 +86,7 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
         ) {
             with(itemView) {
 
-                if (postModel.author.avatarUrl.isNotBlank()) {
+                if (!postModel.author.avatarUrl.isNullOrBlank()) {
                     Glide.with(itemView.context)
                         .load(postModel.author.avatarUrl)
                         .apply(RequestOptions.circleCropTransform())
@@ -171,15 +171,9 @@ abstract class PostsAdapter(private var values: List<PostModel>, private val lis
                 postUpvote.isActivated = postModel.votes.hasUpVote
                 postDownvote.isActivated = postModel.votes.hasDownVote
 
-                postDownvoteProgress.visibility =
-                    if (postModel.votes.hasDownVotingProgress || postModel.votes.hasVoteCancelProgress && postModel.votes.hasDownVote)
-                        View.VISIBLE
-                    else View.GONE
+                postDownvoteProgress.visibility = View.GONE
 
-                postUpvoteProgress.visibility =
-                    if (postModel.votes.hasUpVoteProgress || postModel.votes.hasVoteCancelProgress && postModel.votes.hasUpVote)
-                        View.VISIBLE
-                    else View.GONE
+                postUpvoteProgress.visibility = View.GONE
             }
         }
     }

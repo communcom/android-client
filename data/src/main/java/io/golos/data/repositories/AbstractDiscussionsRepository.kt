@@ -11,6 +11,7 @@ import io.golos.data.replaceByProducer
 import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
+import io.golos.domain.commun_entities.PostDiscussionRaw
 import io.golos.domain.entities.*
 import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.requestmodel.FeedUpdateRequest
@@ -31,7 +32,7 @@ import kotlin.collections.HashMap
 
 abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdateRequest>(
     private val feedMapper: CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<D>>,
-    private val discussionMapper: CommunToEntityMapper<CyberDiscussionRaw, D>,
+    private val discussionMapper: CommunToEntityMapper<PostDiscussionRaw, D>?,
     private val discussionMerger: EntityMerger<D>,
     private val discussionsFeedMerger: EntityMerger<FeedRelatedData<D>>,
     private val requestApprover: RequestApprover<Q>,
@@ -124,7 +125,12 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
 
             Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate content: ${updatedPost.content}")
 
-            val updatedPostEntity = discussionMapper.convertOnBackground(updatedPost)
+            throw UnsupportedOperationException("")
+
+
+
+/*
+            val updatedPostEntity =   discussionMapper.convertOnBackground(updatedPost)
 
             Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate mapped: ${(updatedPostEntity as? PostEntity)?.content?.body?.postBlock}")
 
@@ -155,6 +161,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
             ) discussionLiveData.value = mergedEntity ?: updatedPostEntity
 
             activeUpdatingPost = null
+*/
 
         }.let { job -> postJobMap[updatingDiscussionId] = job }
     }

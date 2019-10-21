@@ -1,7 +1,7 @@
 package io.golos.data.api.discussions
 
-import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.domain.commun_entities.PostDiscussionRaw
 
 object DataStorage {
-    val posts = mutableListOf<CyberDiscussionRaw>()
+    val posts = mutableListOf<PostDiscussionRaw>()
 }

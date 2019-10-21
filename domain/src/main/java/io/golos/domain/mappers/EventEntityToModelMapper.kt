@@ -18,7 +18,7 @@ class EventEntityToModelMapperImpl
 constructor() : EventEntityToModelMapper {
     private val cache = Collections.synchronizedMap(HashMap<EventEntity, EventModel>())
 
-    override suspend fun map(entity: EventsListEntity): EventsListModel {
+    override fun map(entity: EventsListEntity): EventsListModel {
         return EventsListModel(entity.data.map { event ->
             cache.getOrPut(event) {
                 when (event) {
