@@ -41,6 +41,8 @@
     <dimen name="text_size_12_sp">12sp</dimen>
     <dimen name="text_size_10_sp">10sp</dimen>
 
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -351,6 +353,9 @@
     <dimen name="community_page_header_members_height">60dp</dimen>
     <dimen name="community_page_balance_description_height">70dp</dimen>
     <dimen name="community_page_get_points_height">36dp</dimen>
+    <dimen name="community_header_follower_size">30dp</dimen>
+    <dimen name="community_header_follower_award_size">12dp</dimen>
+    <dimen name="community_header_follower_award_padding_size">1dp</dimen>
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>
