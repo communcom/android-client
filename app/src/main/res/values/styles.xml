@@ -417,5 +417,7 @@
         <item name="tabTextColor">@color/tab_text_color_selector</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="android:background">@color/window_background</item>
+        <item name="tabIndicatorColor">@color/blue</item>
+
     </style>
 </resources>

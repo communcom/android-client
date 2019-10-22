@@ -10,6 +10,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import kotlinx.android.synthetic.main.fragment_community_page.*
 
@@ -57,7 +58,8 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun initTablayout() {
         tabLayout.apply {
             setupWithViewPager(vpContent)
-            //setSelectedTabIndicator(R.drawable.)
+            setSelectedTabIndicator(TabLineDrawable(requireContext()))
+            setSelectedTabIndicatorColor(ContextCompat.getColor(requireContext(), R.color.blue))
         }
     }
 

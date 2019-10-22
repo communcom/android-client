@@ -354,5 +354,7 @@
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>
+    <dimen name="tab_line_width">16dp</dimen>
+    <dimen name="tab_line_height">2dp</dimen>
 
 </resources>
