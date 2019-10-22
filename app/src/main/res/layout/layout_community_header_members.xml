@@ -98,6 +98,7 @@
         android:id="@+id/subscribersPhotosView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/gap"
         app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
         app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
         app:layout_constraintEnd_toStartOf="@+id/tvFriendsCountLabel"/>
