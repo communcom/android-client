@@ -26,4 +26,10 @@
         <item quantity="zero">%s hour</item>
         <item quantity="other">%s hours</item>
     </plurals>
+
+    <plurals name="reply">
+        <item quantity="zero">replies</item>
+        <item quantity="one">reply</item>
+        <item quantity="other">replies</item>
+    </plurals>
 </resources>

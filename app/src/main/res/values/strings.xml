@@ -87,6 +87,8 @@
     <!--Comment-->
     <string name="reply">Reply</string>
     <string name="comments_title_format">%1$s Comments</string>
+    <string name="comments_more">More</string>
+    <string name="comment_answer">Answer</string>
 
     <!--License-->
     <string name="accept">Accept</string>

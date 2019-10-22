@@ -45,4 +45,6 @@
 
     <color name="post_counter_text_color">@color/grey</color>
     <color name="post_vote_button_color">#9B9FA2</color>
+
+    <color name="default_clickable_span_color">@color/blue</color>
 </resources>

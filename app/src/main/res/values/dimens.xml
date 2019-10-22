@@ -147,7 +147,6 @@
 
     <dimen name="post_comments_horizontal_padding">@dimen/post_content_border_horizontal</dimen>
     <dimen name="post_comments_vertical_padding">5dp</dimen>
-    <dimen name="post_comments_second_level_margin">45dp</dimen>
     <dimen name="post_comments_user_icon_size">35dp</dimen>
     <dimen name="post_comments_text_padding">10dp</dimen>
     <dimen name="post_comments_text_margin">10dp</dimen>
@@ -161,6 +160,8 @@
 
     <dimen name="post_comments_collapsed_height">40dp</dimen>
     <dimen name="post_comments_collapsed_avatar_size">20dp</dimen>
+
+    <dimen name="post_comments_second_level_margin">45dp</dimen>
 
     <!--Comment-->
     <dimen name="margin_top_comment_vote_buttons">10dp</dimen>

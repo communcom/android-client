@@ -16,6 +16,7 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 import javax.inject.Inject
+import io.golos.cyber_android.ui.common.characters.SpecialChars
 
 /**
  * Header with post info
@@ -96,7 +97,7 @@ constructor(
         val time = TimeEstimationFormatter(appResources).format(postHeader.actionDateTime)
         result.append(time)
 
-        result.append(" \u2022 ")
+        result.append(" ${SpecialChars.bullet} ")
 
         result.appendSpannedText(postHeader.userName, ForegroundColorSpan(appResources.getColor(R.color.blue)))
 

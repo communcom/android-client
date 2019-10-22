@@ -8,9 +8,11 @@ object PostPageViewType {
     const val COMMENTS_TITLE = 3
 
     const val FIRST_LEVEL_COMMENT = 4
-    const val SECOND_LEVEL_COMMENT = 5
-    const val SECOND_LEVEL_COMMENT_COLLAPSED = 6
+    const val FIRST_LEVEL_COMMENTS_LOADING = 5
+    const val FIRST_LEVEL_COMMENTS_RETRY = 6
 
-    const val COMMENTS_LOADING = 7
-    const val COMMENTS_LOADING_ERROR = 8
+    const val SECOND_LEVEL_COMMENT = 7
+    const val SECOND_LEVEL_COMMENT_COLLAPSED = 8
+    const val SECOND_LEVEL_COMMENTS_LOADING = 9
+    const val SECOND_LEVEL_COMMENTS_RETRY = 10
 }

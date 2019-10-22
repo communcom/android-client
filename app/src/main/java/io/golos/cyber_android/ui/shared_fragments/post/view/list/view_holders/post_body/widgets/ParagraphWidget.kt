@@ -16,7 +16,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
-import io.golos.cyber_android.ui.common.spans.TextClickableSpan
+import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendText
@@ -37,13 +37,14 @@ constructor(
     private var onClickProcessor: PostPageViewModelItemsClickProcessor? = null
 
     @ColorInt
-    private val spansColor = Color.BLUE
+    private val spansColor: Int
 
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider
 
     init {
         App.injections.get<PostPageFragmentComponent>().inject(this)
+        spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
     }
 
     override fun setOnClickProcessor(processor: PostPageViewModelItemsClickProcessor?) {
@@ -110,7 +111,7 @@ constructor(
         val textInterval = builder.appendText("@${block.content}")
 
         // Click on the link
-        builder.setSpan(object: TextClickableSpan(block.content, spansColor) {
+        builder.setSpan(object: ColorTextClickableSpan(block.content, spansColor) {
             override fun onClick(spanData: String) {
                 onClickProcessor?.onUserInPostClick(spanData)           // User's name
             }

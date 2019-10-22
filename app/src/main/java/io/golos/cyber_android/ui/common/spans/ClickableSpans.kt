@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.spans
 
+import android.graphics.Typeface
 import android.net.Uri
 import android.text.TextPaint
 import android.text.style.ClickableSpan
@@ -22,8 +23,26 @@ open class LinkClickableSpan(spanData: Uri, @ColorInt private val textColor: Int
     }
 }
 
-open class TextClickableSpan(spanData: String, @ColorInt private val textColor: Int): ClickableSpanEx<String>(spanData) {
+open class ColorTextClickableSpan(spanData: String, @ColorInt private val textColor: Int): ClickableSpanEx<String>(spanData) {
     override fun updateDrawState(ds: TextPaint) {
+        ds.color = textColor
+    }
+}
+
+open class StyledTextClickableSpan(spanData: String, private val typeface: Typeface): ClickableSpanEx<String>(spanData) {
+    override fun updateDrawState(ds: TextPaint) {
+        ds.typeface = typeface
+    }
+}
+
+open class StyledColorTextClickableSpan(
+    spanData: String,
+    private val typeface: Typeface,
+    @ColorInt private val textColor: Int
+) : ClickableSpanEx<String>(spanData) {
+
+    override fun updateDrawState(ds: TextPaint) {
+        ds.typeface = typeface
         ds.color = textColor
     }
 }

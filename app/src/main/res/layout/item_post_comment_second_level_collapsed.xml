@@ -22,6 +22,8 @@
 
         app:srcCompat="@drawable/ic_empty_user"
 
+        android:layout_marginStart="@dimen/post_comments_second_level_margin"
+
         tools:ignore="ContentDescription,InefficientWeight" />
 
     <TextView

@@ -6,6 +6,8 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAda
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.*
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.*
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments.FirstLevelCommentViewHolder
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments.SecondLevelCommentViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.PostBodyViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 
@@ -28,11 +30,26 @@ class PostPageAdapter(
             PostPageViewType.COMMENTS_TITLE ->
                 CommentsTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
 
-            PostPageViewType.COMMENTS_LOADING ->
-                CommentsLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+            PostPageViewType.FIRST_LEVEL_COMMENT ->
+                FirstLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
 
-            PostPageViewType.COMMENTS_LOADING_ERROR ->
-                CommentsLoadingErrorViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+            PostPageViewType.FIRST_LEVEL_COMMENTS_LOADING ->
+                FirstLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
+            PostPageViewType.FIRST_LEVEL_COMMENTS_RETRY ->
+                FirstLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
+            PostPageViewType.SECOND_LEVEL_COMMENT ->
+                SecondLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
+            PostPageViewType.SECOND_LEVEL_COMMENTS_LOADING ->
+                SecondLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
+            PostPageViewType.SECOND_LEVEL_COMMENTS_RETRY ->
+                SecondLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
+            PostPageViewType.SECOND_LEVEL_COMMENT_COLLAPSED ->
+                SecondLevelCommentCollapsedViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
 
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
@@ -47,11 +64,13 @@ class PostPageAdapter(
             is CommentsTitleListItem -> PostPageViewType.COMMENTS_TITLE
 
             is FirstLevelCommentListItem -> PostPageViewType.FIRST_LEVEL_COMMENT
+            is FirstLevelCommentLoadingListItem -> PostPageViewType.FIRST_LEVEL_COMMENTS_LOADING
+            is FirstLevelCommentRetryListItem -> PostPageViewType.FIRST_LEVEL_COMMENTS_RETRY
+
             is SecondLevelCommentListItem -> PostPageViewType.SECOND_LEVEL_COMMENT
             is SecondLevelCommentCollapsedListItem -> PostPageViewType.SECOND_LEVEL_COMMENT_COLLAPSED
-
-            is CommentsLoadingListItem -> PostPageViewType.COMMENTS_LOADING
-            is CommentsLoadingErrorListItem -> PostPageViewType.COMMENTS_LOADING_ERROR
+            is SecondLevelCommentLoadingListItem -> PostPageViewType.SECOND_LEVEL_COMMENTS_LOADING
+            is SecondLevelCommentRetryListItem -> PostPageViewType.SECOND_LEVEL_COMMENTS_RETRY
 
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
