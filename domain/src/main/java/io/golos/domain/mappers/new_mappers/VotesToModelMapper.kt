@@ -5,7 +5,7 @@ import io.golos.domain.interactors.model.DiscussionVotesModel
 
 fun DiscussionVotes.map(): DiscussionVotesModel =
     DiscussionVotesModel(
-        hasUpVote = this.upCount > 0,
-        hasDownVote = this.downCount > 0,
+        hasUpVote = false,
+        hasDownVote = false,
         upCount = this.upCount,
         downCount = this.downCount)

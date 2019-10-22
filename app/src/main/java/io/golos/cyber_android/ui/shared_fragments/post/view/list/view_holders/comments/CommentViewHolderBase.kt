@@ -118,7 +118,7 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
         // Cut long text if we need it
         if (cutIfNeeded && result.length > maxStringLenToCutNeeded) {
             val cutResult = SpannableStringBuilder()
-            cutResult.append(result.substring(0 until maxStringLenToCutNeeded))
+            cutResult.append(result.subSequence(0 until maxStringLenToCutNeeded))
 
             cutResult.append("${SpecialChars.ellipsis} ")
 

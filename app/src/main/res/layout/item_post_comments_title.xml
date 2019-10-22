@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/post_comments_title_height"
 
-    android:layout_marginTop="@dimen/post_comments_title_top_margin">
+    android:layout_marginTop="@dimen/post_comments_title_top_margin"
+    android:layout_marginBottom="@dimen/post_comments_title_top_margin">
 
     <TextView
         android:id="@+id/commentsTitle"

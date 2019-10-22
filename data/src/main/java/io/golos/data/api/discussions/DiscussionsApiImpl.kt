@@ -46,7 +46,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        return StubDataFactory.createCommitedTransaction(StubDataFactory.getCreatemssgComnGalleryStruct("", ""))
+        return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getCreatemssgComnGalleryStruct("", ""))
 
 //        return commun4j.createComment(
 //            body,
@@ -80,15 +80,17 @@ constructor(
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
         val community = communitiesApi.getCommunityById(communityId)
-        val post = StubDataFactory.createPost(body, community!!, authState.user.name)
+
+        val comments = CommentsDataFactory.createComments()
+
+        val post = PostsDataFactory.createPost(body, community!!, authState.user.name, comments.size.toLong())
         Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
         DataStorage.posts.add(post)
 
-        val comments = CommentsDataFactory.createComments()
         DataStorage.comments[post.contentId.permlink] = comments
 
-        return StubDataFactory.createCommitedTransaction(
-            StubDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
+        return PostsDataFactory.createCommitedTransaction(
+            PostsDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
 
 //        return commun4j.createPost(
 //            title,
@@ -120,8 +122,8 @@ constructor(
             val post = DataStorage.posts[postIndex]
             DataStorage.posts[postIndex] = post.copy(content = newBody)
 
-            return StubDataFactory.createCommitedTransaction(
-                StubDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
+            return PostsDataFactory.createCommitedTransaction(
+                PostsDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run { this to this.extractResult() }
@@ -136,7 +138,7 @@ constructor(
             val postToRemove = DataStorage.posts.single { it.contentId.permlink == postOrCommentPermlink.value }
             DataStorage.posts.remove(postToRemove)
 
-            return StubDataFactory.createCommitedTransaction(StubDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postOrCommentPermlink))
+            return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postOrCommentPermlink))
 
 //        return commun4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run {

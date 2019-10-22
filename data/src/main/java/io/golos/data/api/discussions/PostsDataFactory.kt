@@ -17,7 +17,7 @@ import io.golos.domain.commun_entities.PostDiscussionRaw
 import java.util.*
 import io.golos.commun4j.utils.Pair as CommunPair
 
-internal object StubDataFactory {
+internal object PostsDataFactory {
     fun <T>createCommitedTransaction(struct: T): CommunPair<TransactionCommitted<T>, T> {
         return CommunPair(
             TransactionCommitted(
@@ -56,7 +56,7 @@ internal object StubDataFactory {
     fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): DeletemssgComnGalleryStruct =
         DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(userId), permlink.value))
 
-    fun createPost(body: String, community: Community, userId: String): PostDiscussionRaw =
+    fun createPost(body: String, community: Community, userId: String, commentsCount: Long): PostDiscussionRaw =
         PostDiscussionRaw(
             body,
             DiscussionVotes(0, 0),
@@ -64,6 +64,6 @@ internal object StubDataFactory {
             DiscussionId(userId, Permlink.generate().value),
             CyberCommunity(community.id.id, community.name, community.logoUrl),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
-            0L
+            commentsCount
         )
 }
