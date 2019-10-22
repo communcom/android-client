@@ -7,7 +7,9 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoader
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
+import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourcePostControls
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
@@ -32,16 +34,13 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val authApi: Lazy<AuthApi>,
     private val postListDataSource: PostListDataSource,
-    private val voteRepository: Lazy<VoteRepository>
+    private val postVoting: Lazy<VotingMachine>,
+    private val commentsLoader: CommentsLoader
 ) : ModelBaseImpl(), PostPageModel {
 
     private lateinit var postModel: PostModel
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
-
-    private val postVoting: VotingMachine by lazy {
-        VotingMachineImpl(dispatchersProvider, voteRepository.get(), postListDataSource, postToProcess )
-    }
 
     override val postId: DiscussionIdModel
         get() = postModel.contentId
@@ -82,9 +81,11 @@ constructor(
         }
 
     override suspend fun voteForPost(isUpVote: Boolean) {
-        val newVotesModel = postVoting.processEvent(if(isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, postModel.votes)
+        val newVotesModel = postVoting.get().processEvent(if(isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, postModel.votes)
         postModel = postModel.copy(votes = newVotesModel)
     }
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
+
+    override suspend fun loadFirstCommentsPage() = commentsLoader.loadFirstLevelPage()
 }

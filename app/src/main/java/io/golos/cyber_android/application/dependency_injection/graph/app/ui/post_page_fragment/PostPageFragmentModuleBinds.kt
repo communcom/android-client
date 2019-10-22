@@ -11,9 +11,16 @@ import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModelImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoader
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoaderImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
+import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourcePostControls
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
+import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.interactors.feed.PostWithCommentUseCase
 import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
 
@@ -34,5 +41,22 @@ abstract class PostPageFragmentModuleBinds {
     abstract fun bindModel(model: PostPageModelImpl): PostPageModel
 
     @Binds
+    @FragmentScope
     abstract fun bindPostListDataSource(dataSource: PostListDataSourceImpl): PostListDataSource
+
+    @Binds
+    @FragmentScope
+    abstract fun bindPostListDataSourceForPostControls(dataSource: PostListDataSourceImpl): PostListDataSourcePostControls
+
+    @Binds
+    @FragmentScope
+    abstract fun bindPostListDataSourceForComments(dataSource: PostListDataSourceImpl): PostListDataSourceComments
+
+    @Binds
+    @FragmentScope
+    abstract fun bindVotingMachine(machine: VotingMachineImpl): VotingMachine
+
+    @Binds
+    @FragmentScope
+    abstract fun bindCommentsLoader(loader: CommentsLoaderImpl): CommentsLoader
 }

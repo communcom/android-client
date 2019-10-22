@@ -86,6 +86,7 @@ constructor(
                 command.value = SetLoadingVisibilityCommand(true)
 
                 model.loadPost()
+                model.loadFirstCommentsPage()
 
                 _postHeader.value = model.getPostHeader()
             } catch (ex: Exception) {

@@ -7,8 +7,10 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.DiscussionVotesModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class VotingMachineImpl
+@Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val voteRepository: VoteRepository,

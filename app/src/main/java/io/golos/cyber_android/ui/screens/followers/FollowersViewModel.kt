@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.followers
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -60,6 +61,7 @@ class FollowersViewModel @Inject constructor(
     }
 
     private fun loadMoreFollowers(pageCount: Int) {
+        Log.d("PAGING", pageCount.toString())
         followersLoadJob = launch {
             try {
                 val offset = pageCount * PAGE_SIZE_LIMIT

@@ -7,7 +7,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.ColorInt
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -25,13 +24,13 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewMo
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.extensions.appendText
+import io.golos.domain.extensions.setSpan
+import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionMetadataModel
 import io.golos.domain.interactors.model.DiscussionVotesModel
 import io.golos.domain.post.post_dto.*
 import io.golos.domain.post.toTypeface
 import javax.inject.Inject
-import io.golos.domain.extensions.setSpan
-import io.golos.domain.interactors.model.DiscussionAuthorModel
 
 @Suppress("PropertyName")
 abstract class CommentViewHolderBase<T: VersionedListItem>(

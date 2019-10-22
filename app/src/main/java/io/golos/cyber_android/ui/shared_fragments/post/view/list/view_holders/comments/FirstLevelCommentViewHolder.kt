@@ -24,7 +24,7 @@ class FirstLevelCommentViewHolder(
     override fun init(listItem: FirstLevelCommentListItem, listItemEventsProcessor: PostPageViewModelItemsClickProcessor) {
         loadAvatarIcon(listItem.author.avatarUrl)
 
-        itemView.mainCommentText.text = getCommentText(listItem.author, listItem.parentAuthor, listItem.currentUserId, listItem.content, true)
+        itemView.mainCommentText.text = getCommentText(listItem.author, null, listItem.currentUserId, listItem.content, true)
         itemView.replyAndTimeText.text = getReplyAndTimeText(listItem.metadata)
 
         setVoting(listItem.votes)

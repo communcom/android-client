@@ -32,7 +32,7 @@ data class CommentModel(
     val content: CommentContentModel,
     override val votes: DiscussionVotesModel,
     override val payout: DiscussionPayoutModel,
-    val parentCommentId: DiscussionIdModel?,
+    val parentId: DiscussionIdModel?,               // Comment of post
     override val meta: DiscussionMetadataModel,
     override val stats: DiscussionStatsModel,
     val childTotal: Long,

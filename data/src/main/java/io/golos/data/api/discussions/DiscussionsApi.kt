@@ -12,6 +12,7 @@ import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.commun4j.utils.Pair as CommunPair
 
 interface DiscussionsApi {
@@ -76,5 +77,5 @@ interface DiscussionsApi {
      * Returns list of comments
      * @param parentId - id of a post or a parent comment
      */
-    fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionId): List<CommentDiscussionRaw>
+    fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionIdModel): List<CommentDiscussionRaw>
 }

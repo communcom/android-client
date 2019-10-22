@@ -11,7 +11,6 @@ data class FirstLevelCommentListItem(
     val externalId: DiscussionIdModel,          // Id of an entity on the backend
 
     val author: DiscussionAuthorModel,
-    val parentAuthor: DiscussionAuthorModel,
     val currentUserId: String,
 
     val content: PostBlock,

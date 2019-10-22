@@ -8,7 +8,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.Comme
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostTitleListItem
+import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -19,11 +22,15 @@ import javax.inject.Inject
 /**
  * Contains list with post data
  */
+@FragmentScope
 class PostListDataSourceImpl
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider
-) : PostListDataSource {
+    private val dispatchersProvider: DispatchersProvider,
+    private val currentUserRepository: CurrentUserRepositoryRead
+) : PostListDataSource,
+    PostListDataSourcePostControls,
+    PostListDataSourceComments {
 
     private val postList = mutableListOf<VersionedListItem>()
 
@@ -60,6 +67,13 @@ constructor(
             if(sortingType != commentsTitle.soring) {
                 postList[commentsTitleIndex] = commentsTitle.copy(version = commentsTitle.version + 1, soring = sortingType)
             }
+        }
+
+    override suspend fun addFirstLevelComments(comments: List<CommentModel>) =
+        updateSafe {
+            comments
+                .map { CommentsMapper.mapToFirstLevel(it, currentUserRepository.authState!!.user.name) }
+                .let {postList.addAll(it)}
         }
 
     private suspend fun updateSafe(action: () -> Unit) =
