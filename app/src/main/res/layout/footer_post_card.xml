@@ -147,7 +147,7 @@
             android:scrollbarStyle="insideInset"
             android:hint="@string/hint_add_comment"
             android:layout_marginTop="@dimen/margin_top_post_card_comment"
-            android:background="@drawable/bg_post_card_comment"
+            android:background="@drawable/bcg_post_card_comment"
             android:gravity="center_vertical"
             android:maxLines="5"
             app:layout_constraintHorizontal_weight="1"

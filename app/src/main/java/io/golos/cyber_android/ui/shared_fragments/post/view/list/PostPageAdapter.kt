@@ -5,10 +5,8 @@ import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.*
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.CommentsTitleViewHolder
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.*
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.PostBodyViewHolder
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.PostControlsViewHolder
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.PostTitleViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 
 class PostPageAdapter(
@@ -30,6 +28,12 @@ class PostPageAdapter(
             PostPageViewType.COMMENTS_TITLE ->
                 CommentsTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
 
+            PostPageViewType.COMMENTS_LOADING ->
+                CommentsLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
+            PostPageViewType.COMMENTS_LOADING_ERROR ->
+                CommentsLoadingErrorViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
     }
@@ -41,8 +45,10 @@ class PostPageAdapter(
             is PostControlsListItem -> PostPageViewType.POST_CONTROLS
 
             is CommentsTitleListItem -> PostPageViewType.COMMENTS_TITLE
-            is MyCommentListItem -> PostPageViewType.MY_COMMENT
-            is InterlocutorCommentListItem -> PostPageViewType.INTERLOCUTOR_COMMENT
+
+            is FirstLevelCommentListItem -> PostPageViewType.FIRST_LEVEL_COMMENT
+            is SecondLevelCommentListItem -> PostPageViewType.SECOND_LEVEL_COMMENT
+            is SecondLevelCommentCollapsedListItem -> PostPageViewType.SECOND_LEVEL_COMMENT_COLLAPSED
 
             is CommentsLoadingListItem -> PostPageViewType.COMMENTS_LOADING
             is CommentsLoadingErrorListItem -> PostPageViewType.COMMENTS_LOADING_ERROR

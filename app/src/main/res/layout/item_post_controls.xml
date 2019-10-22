@@ -8,65 +8,16 @@
     android:paddingStart="@dimen/post_content_border_horizontal"
     android:paddingEnd="@dimen/post_content_border_horizontal">
 
-    <LinearLayout
+    <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
         android:id="@+id/votesArea"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"
-
-        android:orientation="horizontal"
 
         android:background="@drawable/bcg_post_vote_area"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
-            android:id="@+id/upvoteButton"
-
-            android:layout_width="@dimen/post_controls_vote_buttons_size"
-            android:layout_height="@dimen/post_controls_vote_buttons_size"
-
-            android:background="@null"
-
-            app:imageButton_icon="@drawable/ic_upvote"
-            app:imageButton_iconInscribeSize="@dimen/post_controls_vote_buttons_icon_size"
-            app:imageButton_tint="@color/tint_post_vote_button"
-
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/votesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            style="@style/PostVoteCountersTextStyle"
-
-            android:layout_gravity="center"
-
-            android:layout_marginStart="@dimen/post_controls_vote_text_margin"
-            android:layout_marginEnd="@dimen/post_controls_vote_text_margin"
-
-            android:text=""
-            tools:text="1205"
-            />
-
-        <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
-            android:id="@+id/downvoteButton"
-
-            android:layout_width="@dimen/post_controls_vote_buttons_size"
-            android:layout_height="@dimen/post_controls_vote_buttons_size"
-
-            android:background="@null"
-
-            app:imageButton_icon="@drawable/ic_downvote"
-            app:imageButton_iconInscribeSize="@dimen/post_controls_vote_buttons_icon_size"
-            app:imageButton_tint="@color/tint_post_vote_button"
-
-            android:layout_weight="1"
-            />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/commentsIcon"

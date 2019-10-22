@@ -9,14 +9,14 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentsTitleListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
 import io.golos.domain.AppResourcesProvider
-import kotlinx.android.synthetic.main.items_post_comments_title.view.*
+import kotlinx.android.synthetic.main.item_post_comments_title.view.*
 import javax.inject.Inject
 
 class CommentsTitleViewHolder(
     parentView: ViewGroup
 ) : ViewHolderBase<PostPageViewModelItemsClickProcessor, CommentsTitleListItem>(
     parentView,
-    R.layout.items_post_comments_title
+    R.layout.item_post_comments_title
 ) {
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider

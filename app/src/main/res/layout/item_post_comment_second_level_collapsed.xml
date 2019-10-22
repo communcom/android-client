@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/post_comments_collapsed_height"
+
+    android:paddingStart="@dimen/post_comments_horizontal_padding"
+    android:paddingTop="@dimen/post_comments_vertical_padding"
+    android:paddingEnd="@dimen/post_comments_horizontal_padding"
+    android:paddingBottom="@dimen/post_comments_vertical_padding">
+
+    <ImageView
+        android:id="@+id/userAvatar"
+
+        android:layout_width="@dimen/post_comments_collapsed_avatar_size"
+        android:layout_height="@dimen/post_comments_collapsed_avatar_size"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:srcCompat="@drawable/ic_empty_user"
+
+        tools:ignore="ContentDescription,InefficientWeight" />
+
+    <TextView
+        android:id="@+id/replyText"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+
+        android:text=""
+        tools:text="Andrey Ivanov Answer &#8226; 3 replies"
+
+        android:layout_marginStart="@dimen/post_comments_reply_margin"
+
+        style="@style/CommentsReplyInCollapsed"
+
+        android:gravity="center_vertical"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userAvatar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
