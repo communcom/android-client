@@ -400,6 +400,7 @@
     </style>
 
     <style name="GetPointsButton" parent="Common.Base.TextStyle">
+        <item name="android:layout_height">@dimen/community_page_get_points_height</item>
         <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/blue</item>
@@ -410,5 +411,11 @@
         <item name="android:paddingEnd">@dimen/margin_default</item>
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextColor">@color/tab_text_color_selector</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="android:background">@color/window_background</item>
     </style>
 </resources>

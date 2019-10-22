@@ -159,8 +159,8 @@
                         app:layout_constraintStart_toStartOf="@+id/tvCurrentPriceToCommun" />
 
                     <Button
+                        android:id="@+id/btnGetPoints"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/get_points"
                         android:layout_marginEnd="@dimen/margin_default"
                         app:layout_constraintTop_toTopOf="parent"
@@ -176,10 +176,11 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/tab_layout_height_default"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription"/>
+                app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription"
+                style="@style/TabLayout"/>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/vpContent"

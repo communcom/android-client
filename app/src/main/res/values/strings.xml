@@ -334,4 +334,11 @@
     <!--CommunityPage-->
     <string name="get_points">Get points</string>
 
+    <string-array name="community_page_tab_titles">
+        <item>Posts</item>
+        <item>Leads</item>
+        <item>About</item>
+        <item>Rules</item>
+    </string-array>
+
 </resources>
