@@ -155,7 +155,7 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     }
 
     override fun setupFeedAdapter() {
-        val adapter = PostPageAdapter(viewModel)
+        val adapter = PostPageAdapter(viewModel, viewModel.commentsPageSize)
         adapter.setHasStableIds(true)
         feedList.adapter = adapter
     }

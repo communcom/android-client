@@ -11,14 +11,14 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.SecondLevelCommentCollapsedListItem
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.item_post_comment_second_level_collapsed.view.*
 import javax.inject.Inject
 
 class SecondLevelCommentCollapsedViewHolder(
     parentView: ViewGroup
-) : ViewHolderBase<PostPageViewModelItemsClickProcessor, SecondLevelCommentCollapsedListItem>(
+) : ViewHolderBase<PostPageViewModelListEventsProcessor, SecondLevelCommentCollapsedListItem>(
     parentView,
     R.layout.item_post_comment_second_level_collapsed
 ) {
@@ -34,7 +34,7 @@ class SecondLevelCommentCollapsedViewHolder(
         spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
     }
 
-    override fun init(listItem: SecondLevelCommentCollapsedListItem, listItemEventsProcessor: PostPageViewModelItemsClickProcessor) {
+    override fun init(listItem: SecondLevelCommentCollapsedListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         loadAvatarIcon(listItem.topCommentAuthor.avatarUrl)
         itemView.replyText.text = getReplyText(listItem)
     }

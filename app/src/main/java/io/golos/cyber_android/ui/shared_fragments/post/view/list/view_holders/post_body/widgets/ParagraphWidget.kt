@@ -17,7 +17,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
@@ -34,7 +34,7 @@ constructor(
 ) : TextView(context, attrs, defStyleAttr),
     PostBlockWidget<ParagraphBlock> {
 
-    private var onClickProcessor: PostPageViewModelItemsClickProcessor? = null
+    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
 
     @ColorInt
     private val spansColor: Int
@@ -47,7 +47,7 @@ constructor(
         spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
     }
 
-    override fun setOnClickProcessor(processor: PostPageViewModelItemsClickProcessor?) {
+    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
         onClickProcessor = processor
     }
 

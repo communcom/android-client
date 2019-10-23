@@ -6,7 +6,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.FirstLevelCommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 
 class FirstLevelCommentViewHolder(
@@ -21,7 +21,7 @@ class FirstLevelCommentViewHolder(
 
     override fun inject() = App.injections.get<PostPageFragmentComponent>().inject(this)
 
-    override fun init(listItem: FirstLevelCommentListItem, listItemEventsProcessor: PostPageViewModelItemsClickProcessor) {
+    override fun init(listItem: FirstLevelCommentListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         loadAvatarIcon(listItem.author.avatarUrl)
 
         itemView.mainCommentText.text = getCommentText(listItem.author, null, listItem.currentUserId, listItem.content, true)

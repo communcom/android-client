@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 
@@ -20,14 +20,14 @@ constructor(
 ) : LinearLayout(context, attrs, defStyleAttr),
     PostBlockWidget<ImageBlock> {
 
-    private var onClickProcessor: PostPageViewModelItemsClickProcessor? = null
+    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
     private var imageUri: Uri? = null
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
-    override fun setOnClickProcessor(processor: PostPageViewModelItemsClickProcessor?) {
+    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
         if(processor != null) {
             setOnClickListener {
                 imageUri?.let {

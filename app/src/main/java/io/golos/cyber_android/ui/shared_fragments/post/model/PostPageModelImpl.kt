@@ -9,13 +9,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoader
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
-import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourcePostControls
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
-import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.data.repositories.discussion.DiscussionRepository
-import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -47,6 +44,9 @@ constructor(
 
     override val postMetadata: PostMetadata
         get() = postModel.content.body.postBlock.metadata
+
+    override val commentsPageSize: Int
+        get() = commentsLoader.pageSize
 
     override suspend fun loadPost() =
         withContext(dispatchersProvider.ioDispatcher) {
@@ -87,5 +87,9 @@ constructor(
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
 
-    override suspend fun loadFirstCommentsPage() = commentsLoader.loadFirstLevelPage()
+    override suspend fun loadStartFirstLevelCommentsPage() = commentsLoader.loadStartFirstLevelPage()
+
+    override suspend fun loadNextFirstLevelCommentsPage() = commentsLoader.loadNextFirstLevelPageByScroll()
+
+    override suspend fun retryToLoadFirstLevelsCommentsPage() = commentsLoader.retryLoadFirstLevelPage()
 }

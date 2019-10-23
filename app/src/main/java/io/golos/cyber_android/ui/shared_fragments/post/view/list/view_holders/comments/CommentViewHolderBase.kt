@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.common.spans.StyledColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.extensions.appendText
@@ -35,7 +35,7 @@ import javax.inject.Inject
 @Suppress("PropertyName")
 abstract class CommentViewHolderBase<T: VersionedListItem>(
     parentView: ViewGroup
-) : ViewHolderBase<PostPageViewModelItemsClickProcessor, T>(
+) : ViewHolderBase<PostPageViewModelListEventsProcessor, T>(
     parentView,
     R.layout.item_post_comment
 ) {

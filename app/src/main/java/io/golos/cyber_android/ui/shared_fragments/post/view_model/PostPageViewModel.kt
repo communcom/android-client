@@ -47,7 +47,7 @@ constructor(
     voteUseCase,
     posterUseCase,
     signInUseCase
-), CoroutineScope, PostPageViewModelItemsClickProcessor {
+), CoroutineScope, PostPageViewModelListEventsProcessor {
 
     private var wasMovedToChild = false         // We move to child screen from this one
 
@@ -58,6 +58,9 @@ constructor(
      */
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
+
+    val commentsPageSize: Int
+        get() = model.commentsPageSize
 
     /**
      * Direct command for view
@@ -84,11 +87,11 @@ constructor(
         launch {
             try {
                 command.value = SetLoadingVisibilityCommand(true)
-
                 model.loadPost()
-                model.loadFirstCommentsPage()
-
                 _postHeader.value = model.getPostHeader()
+                command.value = SetLoadingVisibilityCommand(false)
+
+                model.loadStartFirstLevelCommentsPage()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)
@@ -185,10 +188,16 @@ constructor(
         }
     }
 
-    private fun voteForPost(isUpVote: Boolean) {
+    override fun onNextCommentsPageReached() = processSimple { model.loadNextFirstLevelCommentsPage() }
+
+    override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryToLoadFirstLevelsCommentsPage() }
+
+    private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
+
+    private fun processSimple(action: suspend () -> Unit) {
         launch {
             try {
-                model.voteForPost(isUpVote)
+                action()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)

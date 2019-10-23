@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
-import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentsTitleListItem
-import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostBodyListItem
-import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostControlsListItem
-import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostTitleListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
@@ -71,10 +68,50 @@ constructor(
 
     override suspend fun addFirstLevelComments(comments: List<CommentModel>) =
         updateSafe {
+            postList.removeAt(postList.lastIndex)       // Removing Loading indicator
+
             comments
                 .map { CommentsMapper.mapToFirstLevel(it, currentUserRepository.authState!!.user.name) }
                 .let {postList.addAll(it)}
         }
+
+    override suspend fun addLoadingCommentsIndicator(isFirstLevel: Boolean) {
+        updateSafe {
+            // Remove Retry button if needed
+            val lastItem = postList.last()
+            if(lastItem is FirstLevelCommentRetryListItem || lastItem is SecondLevelCommentRetryListItem) {
+                postList.removeAt(postList.lastIndex)
+            }
+
+            // Add Loading indicator
+            val indicator = if(isFirstLevel) {
+                FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
+            }
+            else {
+                SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
+            }
+            postList.add(indicator)
+        }
+    }
+
+    override suspend fun addRetryLoadingComments(isFirstLevel: Boolean) {
+        updateSafe {
+            // Remove Loading indicator if needed
+            val lastItem = postList.last()
+            if(lastItem is FirstLevelCommentLoadingListItem || lastItem is SecondLevelCommentLoadingListItem) {
+                postList.removeAt(postList.lastIndex)
+            }
+
+            // Add Retry button
+            val indicator = if(isFirstLevel) {
+                FirstLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
+            }
+            else {
+                SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
+            }
+            postList.add(indicator)
+        }
+    }
 
     private suspend fun updateSafe(action: () -> Unit) =
         withContext(singleThreadDispatcher) {

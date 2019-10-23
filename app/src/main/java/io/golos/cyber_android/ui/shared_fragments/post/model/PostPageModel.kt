@@ -15,6 +15,8 @@ interface PostPageModel : ModelBase {
 
     val post: LiveData<List<VersionedListItem>>
 
+    val commentsPageSize: Int
+
     suspend fun loadPost()
 
     fun getPostHeader(): PostHeader
@@ -27,5 +29,9 @@ interface PostPageModel : ModelBase {
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
 
-    suspend fun loadFirstCommentsPage()
+    suspend fun loadStartFirstLevelCommentsPage()
+
+    suspend fun loadNextFirstLevelCommentsPage()
+
+    suspend fun retryToLoadFirstLevelsCommentsPage()
 }

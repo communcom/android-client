@@ -203,29 +203,30 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
         launch(exceptionCallback = {
             feedsUpdatingStatesMap.value = feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Error(it, params))
         }) {
-            if (!requestApprover.approve(params)) return@launch
-
-            discussionsFeedMap.putIfAbsentAndGet(params.id)
-
-            feedsUpdatingStatesMap.value =
-                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Loading(params))
-
-            val feed = getOnBackground { getFeedOnBackground(params) }
-
-            val feedEntity = feedMapper.map(FeedUpdateRequestsWithResult(params, feed))
-
-            val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
-
-            val fixedEntities = fixedDiscussions[params.id] ?: hashSetOf()
-
-            val resultingFeed =
-                discussionsFeedMerger(FeedRelatedData(feedEntity, fixedEntities), FeedRelatedData(oldFeed, hashSetOf()))
-
-            fixedDiscussions[params.id] = resultingFeed.fixedPositionEntities
-            discussionsFeedMap[params.id]?.value = resultingFeed.feed
-
-            feedsUpdatingStatesMap.value =
-                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Success(params))
+            return@launch
+//            if (!requestApprover.approve(params)) return@launch
+//
+//            discussionsFeedMap.putIfAbsentAndGet(params.id)
+//
+//            feedsUpdatingStatesMap.value =
+//                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Loading(params))
+//
+//            val feed = getOnBackground { getFeedOnBackground(params) }
+//
+//            val feedEntity = feedMapper.map(FeedUpdateRequestsWithResult(params, feed))
+//
+//            val oldFeed = discussionsFeedMap[params.id]?.value ?: emptyFeedProducer()
+//
+//            val fixedEntities = fixedDiscussions[params.id] ?: hashSetOf()
+//
+//            val resultingFeed =
+//                discussionsFeedMerger(FeedRelatedData(feedEntity, fixedEntities), FeedRelatedData(oldFeed, hashSetOf()))
+//
+//            fixedDiscussions[params.id] = resultingFeed.fixedPositionEntities
+//            discussionsFeedMap[params.id]?.value = resultingFeed.feed
+//
+//            feedsUpdatingStatesMap.value =
+//                feedsUpdatingStatesMap.value.orEmpty() + (params.id to QueryResult.Success(params))
 
         }.let { job ->
             feedJobMap[params.id]?.cancel()

@@ -5,7 +5,7 @@ import android.net.Uri
 /**
  * Processing post items clicks
  */
-interface PostPageViewModelItemsClickProcessor {
+interface PostPageViewModelListEventsProcessor {
     fun onImageInPostClick(imageUri: Uri)
 
     fun onLinkInPostClick(link: Uri)
@@ -17,4 +17,8 @@ interface PostPageViewModelItemsClickProcessor {
     fun onDownVoteClick()
 
     fun onCommentsTitleMenuClick()
+
+    fun onNextCommentsPageReached()
+
+    fun onRetryLoadingFirstLevelCommentButtonClick()
 }

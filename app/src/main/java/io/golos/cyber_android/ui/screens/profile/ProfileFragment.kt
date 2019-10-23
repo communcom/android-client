@@ -186,7 +186,7 @@ class ProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
     }
 
     private fun onLoading() {
-        Toast.makeText(requireContext(), "loading profile", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireContext(), "loading profile", Toast.LENGTH_SHORT).show()
     }
 
     private fun onError(result: QueryResult.Error<ProfileViewModel.Profile>? = null) {

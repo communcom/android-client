@@ -11,7 +11,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.common.glide.TopRoundedCorners
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
@@ -27,7 +27,7 @@ constructor(
 ) : LinearLayout(context, attrs, defStyleAttr),
     PostBlockWidget<WebsiteBlock> {
 
-    private var onClickProcessor: PostPageViewModelItemsClickProcessor? = null
+    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
     private var siteUri: Uri? = null
 
     @Inject
@@ -39,7 +39,7 @@ constructor(
         inflate(context, R.layout.view_post_embed_website, this)
     }
 
-    override fun setOnClickProcessor(processor: PostPageViewModelItemsClickProcessor?) {
+    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
         if(processor != null) {
             setOnClickListener {
                 siteUri?.let {

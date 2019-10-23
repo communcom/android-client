@@ -9,47 +9,48 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.*
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments.FirstLevelCommentViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments.SecondLevelCommentViewHolder
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.PostBodyViewHolder
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelItemsClickProcessor
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 
 class PostPageAdapter(
-    listItemEventsProcessor: PostPageViewModelItemsClickProcessor
-) : VersionedListAdapterBase<PostPageViewModelItemsClickProcessor>(listItemEventsProcessor) {
+    private val listEventsProcessor: PostPageViewModelListEventsProcessor,
+    private val pageSize: Int
+) : VersionedListAdapterBase<PostPageViewModelListEventsProcessor>(listEventsProcessor) {
 
     @Suppress("UNCHECKED_CAST")
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem> {
         return when(viewType) {
             PostPageViewType.POST_TITLE ->
-                PostTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                PostTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.POST_BODY ->
-                PostBodyViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                PostBodyViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.POST_CONTROLS ->
-                PostControlsViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                PostControlsViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.COMMENTS_TITLE ->
-                CommentsTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                CommentsTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.FIRST_LEVEL_COMMENT ->
-                FirstLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                FirstLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.FIRST_LEVEL_COMMENTS_LOADING ->
-                FirstLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                FirstLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.FIRST_LEVEL_COMMENTS_RETRY ->
-                FirstLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                FirstLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.SECOND_LEVEL_COMMENT ->
-                SecondLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                SecondLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.SECOND_LEVEL_COMMENTS_LOADING ->
-                SecondLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                SecondLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.SECOND_LEVEL_COMMENTS_RETRY ->
-                SecondLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                SecondLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.SECOND_LEVEL_COMMENT_COLLAPSED ->
-                SecondLevelCommentCollapsedViewHolder(parent) as ViewHolderBase<PostPageViewModelItemsClickProcessor, VersionedListItem>
+                SecondLevelCommentCollapsedViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
@@ -74,4 +75,11 @@ class PostPageAdapter(
 
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
+
+    override fun onBindViewHolder(holder: ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>, position: Int) {
+        super.onBindViewHolder(holder, position)
+        if(position > items.size - pageSize/2) {
+            listEventsProcessor.onNextCommentsPageReached()
+        }
+    }
 }
