@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.community_page.CommunityPage
 import kotlinx.android.synthetic.main.view_community_followers.view.*
 
 class CommunityFollowersView @JvmOverloads constructor(
@@ -22,11 +23,11 @@ class CommunityFollowersView @JvmOverloads constructor(
         inflate(context, R.layout.view_community_followers, this)
     }
 
-    fun setFollowers(followers: List<CommunityFollower>) {
+    fun setFollowers(followers: List<CommunityPage.CommunityFriend>) {
         //load new ones
         for ((index, follower) in followers.take(3).withIndex()) {
             Glide.with(this)
-                .load(follower.avatar)
+                .load(follower.avatarUrl)
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivFollowers[index])
             val ivAward = ivFollowersAwards[index]
@@ -37,6 +38,4 @@ class CommunityFollowersView @JvmOverloads constructor(
             }
         }
     }
-
-    data class CommunityFollower(val id: String, val avatar: String, val hasAward: Boolean)
 }

@@ -1,8 +1,8 @@
-package io.golos.domain.entities
+package io.golos.cyber_android.ui.screens.community_page
 
 import java.util.*
 
-data class CommunityPageDomain(
+data class CommunityPage(
     val communityId: String,
     val name: String,
     val avatarUrl: String?,
@@ -12,19 +12,19 @@ data class CommunityPageDomain(
     val isSubscribed: Boolean,
     val isBlocked: Boolean,
     val friendsCount: Long,
-    val friends: List<CommunityFriendDomain>,
+    val friends: List<CommunityFriend>,
     val membersCount: Long,
     val leadsCount: Long,
-    val communityCurrency: CommunityPageCurrencyDomain,
+    val communityCurrency: CommunityPageCurrency,
     val joinDate: Date
 ) {
 
-    data class CommunityFriendDomain(
+    data class CommunityFriend(
         val userId: String,
         val userName: String,
         val avatarUrl: String,
         val hasAward: Boolean
     )
 
-    data class CommunityPageCurrencyDomain(val currencyName: String, val exchangeRate: Float)
+    data class CommunityPageCurrency(val currencyName: String, val exchangeRate: Float)
 }

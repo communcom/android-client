@@ -95,7 +95,7 @@
         tools:text="+47"/>
 
     <io.golos.cyber_android.ui.common.widgets.CommunityFollowersView
-        android:id="@+id/subscribersPhotosView"
+        android:id="@+id/communityFollowersView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/gap"

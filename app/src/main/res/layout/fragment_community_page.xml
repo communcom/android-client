@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -36,6 +37,7 @@
                     app:layout_collapseMode="pin">
 
                     <ImageView
+                        android:id="@+id/ivCommunityCover"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/community_page_background_height"
                         tools:background="@tools:sample/backgrounds/scenic" />
@@ -90,7 +92,8 @@
                             app:layout_constraintTop_toBottomOf="@+id/tvCommunityName"
                             tools:text="Joined April 12, 2018" />
 
-                        <Button
+                        <CheckedTextView
+                            android:id="@+id/ctvJoin"
                             style="@style/CommunityJoinButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -152,40 +155,40 @@
                                     tools:layout_width="40dp" />
 
                                 <TextView
-                                    android:id="@+id/tvCurrentPriceToCommun"
+                                    android:id="@+id/tvCurrentCommunRate"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/margin_default"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_size_20_sp"
-                                    app:layout_constraintBottom_toTopOf="@+id/tvInCommun"
+                                    app:layout_constraintBottom_toTopOf="@+id/tvCommunCurrencyLabel"
                                     app:layout_constraintStart_toEndOf="@+id/ivBalance"
                                     app:layout_constraintTop_toTopOf="@+id/ivBalance"
                                     tools:text="1000" />
 
 
                                 <TextView
-                                    android:id="@+id/currentCurrency"
+                                    android:id="@+id/tvCurrentCurrency"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/gap"
                                     android:textColor="@color/blue_light"
                                     android:textSize="@dimen/text_size_12_sp"
-                                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentPriceToCommun"
-                                    app:layout_constraintBottom_toBottomOf="@+id/tvCurrentPriceToCommun"
-                                    app:layout_constraintStart_toEndOf="@+id/tvCurrentPriceToCommun"
-                                    app:layout_constraintTop_toTopOf="@+id/tvCurrentPriceToCommun"
+                                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentCommunRate"
+                                    app:layout_constraintBottom_toBottomOf="@+id/tvCurrentCommunRate"
+                                    app:layout_constraintStart_toEndOf="@+id/tvCurrentCommunRate"
+                                    app:layout_constraintTop_toTopOf="@+id/tvCurrentCommunRate"
                                     tools:text="Binance" />
 
                                 <TextView
-                                    android:id="@+id/tvInCommun"
+                                    android:id="@+id/tvCommunCurrencyLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="= 1 Commun"
+                                    android:text="@string/commun_description"
                                     android:textColor="@color/blue_light"
                                     android:textSize="@dimen/text_size_12_sp"
-                                    app:layout_constraintStart_toStartOf="@+id/tvCurrentPriceToCommun"
-                                    app:layout_constraintTop_toBottomOf="@+id/tvCurrentPriceToCommun" />
+                                    app:layout_constraintStart_toStartOf="@+id/tvCurrentCommunRate"
+                                    app:layout_constraintTop_toBottomOf="@+id/tvCurrentCommunRate" />
 
                                 <Button
                                     android:id="@+id/btnGetPoints"
@@ -249,7 +252,7 @@
             android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
             android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
-            android:onClick="@{() -> viewModel.start()}"
+            android:onClick="@{() -> viewModel.loadCommunityPage()}"
             android:text="@string/retry"
             android:visibility="invisible"
             android:layout_gravity="center"/>

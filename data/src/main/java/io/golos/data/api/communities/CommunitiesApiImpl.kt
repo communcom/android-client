@@ -30,7 +30,27 @@ constructor(
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
 
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
-        return CommunityPageDomain(communityId)
+        //randomException()
+        val friends: MutableList<CommunityPageDomain.CommunityFriendDomain> = mutableListOf()
+        friends.add(CommunityPageDomain.CommunityFriendDomain(UUID.randomUUID().toString(), "test", "https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg", true))
+        friends.add(CommunityPageDomain.CommunityFriendDomain(UUID.randomUUID().toString(), "test", "https://brandmark.io/logo-rank/random/beats.png", false))
+
+        friends.add(CommunityPageDomain.CommunityFriendDomain(UUID.randomUUID().toString(), "test", "https://brandmark.io/logo-rank/random/pepsi.png", false))
+
+        return CommunityPageDomain(communityId,
+            "Binance",
+            "https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg",
+            "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg",
+            "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
+            "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
+            true,
+            false,
+            121,
+            friends,
+            121000,
+            1000,
+            CommunityPageDomain.CommunityPageCurrencyDomain("Binance", 1000f),
+            Date(System.currentTimeMillis()))
     }
 
     private val communities: List<Community> by lazy { loadCommunities() }
