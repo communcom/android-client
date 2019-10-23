@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,210 +14,245 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="false">
+            android:visibility="invisible"
+            app:elevation="0dp"
+            tools:visibility="visible">
 
-            <FrameLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_collapseMode="pin">
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:titleEnabled="false">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/community_page_background_height"
-                    tools:background="@tools:sample/backgrounds/scenic"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_community_page"
-                    android:layout_marginTop="@dimen/community_page_margin_top"
-                    android:clipToPadding="false"
-                    android:paddingBottom="@dimen/margin_default">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="pin">
 
                     <ImageView
-                        android:id="@+id/ivCommunityLogo"
-                        android:layout_width="@dimen/community_page_logo"
-                        android:layout_height="@dimen/community_page_logo"
-                        android:layout_marginStart="@dimen/margin_default"
-                        android:layout_marginTop="@dimen/margin_default"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:background="@tools:sample/avatars"/>
-
-                    <TextView
-                        android:id="@+id/tvCommunityName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:textSize="@dimen/text_size_20_sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/roboto_bold"
-                        app:layout_constraintStart_toEndOf="@+id/ivCommunityLogo"
-                        app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
-                        app:layout_constraintVertical_chainStyle="packed"
-                        app:layout_constraintBottom_toTopOf="@+id/tvJoinTime"
-                        tools:text="Binance"/>
-
-                    <TextView
-                        android:id="@+id/tvJoinTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/grey"
-                        app:layout_constraintTop_toBottomOf="@+id/tvCommunityName"
-                        app:layout_constraintStart_toStartOf="@+id/tvCommunityName"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
-                        tools:text="Joined April 12, 2018"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_default"
-                        app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        style="@style/CommunityJoinButton"
-                        tools:text="@string/join_to_community"/>
-
-                    <TextView
-                        android:id="@+id/tvDescription"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:layout_marginStart="@dimen/margin_default"
-                        android:layout_marginEnd="@dimen/margin_default"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivCommunityLogo"
-                        tools:text="Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts"/>
-
-                    <include
-                        android:id="@+id/clHeaderMembers"
-                        layout="@layout/layout_community_header_members"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/community_page_header_members_height"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+                        android:layout_height="@dimen/community_page_background_height"
+                        tools:background="@tools:sample/backgrounds/scenic" />
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cvBalanceDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/community_page_balance_description_height"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/white"
                         android:layout_marginStart="@dimen/margin_default"
-                        android:layout_marginEnd="@dimen/margin_default"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        style="@style/CommunityPageBalance">
+                        android:layout_marginTop="@dimen/margin_55"/>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/community_page_margin_top"
+                        android:background="@drawable/bg_community_page"
+                        android:clipToPadding="false"
+                        android:paddingBottom="@dimen/margin_default">
+
+                        <ImageView
+                            android:id="@+id/ivCommunityLogo"
+                            android:layout_width="@dimen/community_page_logo"
+                            android:layout_height="@dimen/community_page_logo"
+                            android:layout_marginStart="@dimen/margin_default"
+                            android:layout_marginTop="@dimen/margin_default"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:background="@tools:sample/avatars" />
+
+                        <TextView
+                            android:id="@+id/tvCommunityName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_20_sp"
+                            app:layout_constraintBottom_toTopOf="@+id/tvJoinTime"
+                            app:layout_constraintStart_toEndOf="@+id/ivCommunityLogo"
+                            app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            tools:text="Binance" />
+
+                        <TextView
+                            android:id="@+id/tvJoinTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
+                            app:layout_constraintStart_toStartOf="@+id/tvCommunityName"
+                            app:layout_constraintTop_toBottomOf="@+id/tvCommunityName"
+                            tools:text="Joined April 12, 2018" />
+
+                        <Button
+                            style="@style/CommunityJoinButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
+                            tools:text="@string/join_to_community" />
+
+                        <TextView
+                            android:id="@+id/tvDescription"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_default"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            android:textColor="@color/black"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivCommunityLogo"
+                            tools:text="Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts" />
+
+                        <include
+                            android:id="@+id/clHeaderMembers"
+                            layout="@layout/layout_community_header_members"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="@dimen/community_page_header_members_height"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
-                            <ImageView
-                                android:id="@+id/ivBalance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_default"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                android:background="@drawable/ic_community_wallet"
-                                tools:layout_height="40dp"
-                                tools:layout_width="40dp"/>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cvBalanceDescription"
+                            style="@style/CommunityPageBalance"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/community_page_balance_description_height"
+                            android:layout_marginStart="@dimen/margin_default"
+                            android:layout_marginEnd="@dimen/margin_default"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers">
 
-                            <TextView
-                                android:id="@+id/tvCurrentPriceToCommun"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_default"
-                                android:textSize="@dimen/text_size_20_sp"
-                                android:textColor="@color/white"
-                                app:layout_constraintBottom_toTopOf="@+id/tvInCommun"
-                                app:layout_constraintTop_toTopOf="@+id/ivBalance"
-                                app:layout_constraintStart_toEndOf="@+id/ivBalance"
-                                tools:text="1000"/>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
+                                <ImageView
+                                    android:id="@+id/ivBalance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_default"
+                                    android:background="@drawable/ic_community_wallet"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:layout_height="40dp"
+                                    tools:layout_width="40dp" />
 
-                            <TextView
-                                android:id="@+id/currentCurrency"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/gap"
-                                android:textSize="@dimen/text_size_12_sp"
-                                android:textColor="@color/blue_light"
-                                app:layout_constraintStart_toEndOf="@+id/tvCurrentPriceToCommun"
-                                app:layout_constraintBottom_toBottomOf="@+id/tvCurrentPriceToCommun"
-                                app:layout_constraintTop_toTopOf="@+id/tvCurrentPriceToCommun"
-                                app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentPriceToCommun"
-                                tools:text="Binance"/>
-
-                            <TextView
-                                android:id="@+id/tvInCommun"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="= 1 Commun"
-                                android:textSize="@dimen/text_size_12_sp"
-                                android:textColor="@color/blue_light"
-                                app:layout_constraintTop_toBottomOf="@+id/tvCurrentPriceToCommun"
-                                app:layout_constraintStart_toStartOf="@+id/tvCurrentPriceToCommun" />
-
-                            <Button
-                                android:id="@+id/btnGetPoints"
-                                android:layout_width="wrap_content"
-                                android:text="@string/get_points"
-                                android:layout_marginEnd="@dimen/margin_default"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                style="@style/GetPointsButton"/>
+                                <TextView
+                                    android:id="@+id/tvCurrentPriceToCommun"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_default"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_size_20_sp"
+                                    app:layout_constraintBottom_toTopOf="@+id/tvInCommun"
+                                    app:layout_constraintStart_toEndOf="@+id/ivBalance"
+                                    app:layout_constraintTop_toTopOf="@+id/ivBalance"
+                                    tools:text="1000" />
 
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/currentCurrency"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/gap"
+                                    android:textColor="@color/blue_light"
+                                    android:textSize="@dimen/text_size_12_sp"
+                                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentPriceToCommun"
+                                    app:layout_constraintBottom_toBottomOf="@+id/tvCurrentPriceToCommun"
+                                    app:layout_constraintStart_toEndOf="@+id/tvCurrentPriceToCommun"
+                                    app:layout_constraintTop_toTopOf="@+id/tvCurrentPriceToCommun"
+                                    tools:text="Binance" />
 
-                    </androidx.cardview.widget.CardView>
+                                <TextView
+                                    android:id="@+id/tvInCommun"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="= 1 Commun"
+                                    android:textColor="@color/blue_light"
+                                    android:textSize="@dimen/text_size_12_sp"
+                                    app:layout_constraintStart_toStartOf="@+id/tvCurrentPriceToCommun"
+                                    app:layout_constraintTop_toBottomOf="@+id/tvCurrentPriceToCommun" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                                <Button
+                                    android:id="@+id/btnGetPoints"
+                                    style="@style/GetPointsButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_marginEnd="@dimen/margin_default"
+                                    android:text="@string/get_points"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-            </FrameLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </FrameLayout>
 
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                style="@style/TabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_layout_height_default"
+                android:layout_gravity="bottom"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpContent"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_layout_height_default"
-            android:layout_gravity="bottom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            style="@style/TabLayout"/>
-    </com.google.android.material.appbar.AppBarLayout>
+            tools:visibility="visible"/>
 
 
+        <include
+            android:id="@+id/generalProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vpContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:onClick="@{() -> viewModel.start()}"
+            android:text="@string/retry"
+            android:visibility="invisible"
+            android:layout_gravity="center"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

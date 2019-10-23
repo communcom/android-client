@@ -3,6 +3,7 @@ package io.golos.data.repositories
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.entities.CommunityDomain
+import io.golos.domain.entities.CommunityPageDomain
 import io.golos.domain.interactors.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,6 +13,12 @@ class CommunitiesRepositoryImpl @Inject constructor(
     private val dispatchersProvider: DispatchersProvider
 ) :
     CommunitiesRepository {
+
+    override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
+        return withContext(dispatchersProvider.ioDispatcher){
+            communitiesApi.getCommunityPageById(communityId)
+        }
+    }
 
     override suspend fun subscribeToCommunity(communityId: String) {
         return withContext(dispatchersProvider.ioDispatcher) {

@@ -7,4 +7,8 @@ import javax.inject.Inject
 class CommunityPageViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: CommunityPageModel): ViewModelBase<CommunityPageModel>(dispatchersProvider, model) {
+
+    fun start(){
+
+    }
 }

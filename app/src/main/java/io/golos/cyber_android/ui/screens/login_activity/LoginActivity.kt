@@ -48,7 +48,7 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
 
         setContentView(R.layout.activity_login)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.testLayout, CommunityPageFragment.newInstance())
+            .replace(R.id.testLayout, CommunityPageFragment.newInstance(""))
             .commit()
     }
 

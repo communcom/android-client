@@ -10,6 +10,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.CommunityDomain
+import io.golos.domain.entities.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -27,6 +28,10 @@ constructor(
     private val moshi: Moshi,
     private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
+
+    override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
+        return CommunityPageDomain(communityId)
+    }
 
     private val communities: List<Community> by lazy { loadCommunities() }
 

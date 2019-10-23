@@ -33,4 +33,7 @@ interface CommunityPageFragmentModuleBinds {
 
     @Binds
     fun bindModel(model: CommunityPageModelImpl): CommunityPageModel
+
+    @Binds
+    fun bindGetCommunityPageByIdUseCase(getCommunityPageByIdUseCase: GetCommunityPageByIdUseCaseImpl): GetCommunityPageByIdUseCase
 }

@@ -79,6 +79,15 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     companion object {
 
-        fun newInstance(): CommunityPageFragment = CommunityPageFragment()
+        private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
+
+        fun newInstance(communityId: String): CommunityPageFragment{
+
+            val communityPageFragment = CommunityPageFragment()
+            val bundle = Bundle()
+            bundle.putString(ARG_COMMUNITY_ID, communityId)
+            communityPageFragment.arguments = bundle
+            return communityPageFragment
+        }
     }
 }
