@@ -7,6 +7,9 @@ object DataStorage {
     // Posts...
     val posts = mutableListOf<PostDiscussionRaw>()
 
-    // ... and their comments (value of permlink as a key)
-    val comments = mutableMapOf<String, List<CommentDiscussionRaw>>()
+    // ... and their comments (value of a post permlink as a key)
+    val commentsForPost = mutableMapOf<String, List<CommentDiscussionRaw>>()
+
+    // list of first-level comments (key is permlink of comment)
+    val comments = mutableMapOf<String, CommentDiscussionRaw>()
 }

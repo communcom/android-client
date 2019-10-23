@@ -12,4 +12,7 @@ class CurrentUserRepositoryImpl
 @Inject
 constructor() : CurrentUserRepository, CurrentUserRepositoryRead {
     override var authState: AuthState? = null
+
+    override val userId: String
+        get() = authState!!.user.name
 }

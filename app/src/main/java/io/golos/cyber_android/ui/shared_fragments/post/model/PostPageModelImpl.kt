@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoader
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoadingFacade
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
@@ -32,7 +32,7 @@ constructor(
     private val authApi: Lazy<AuthApi>,
     private val postListDataSource: PostListDataSource,
     private val postVoting: Lazy<VotingMachine>,
-    private val commentsLoader: CommentsLoader
+    private val commentsLoader: CommentsLoadingFacade
 ) : ModelBaseImpl(), PostPageModel {
 
     private lateinit var postModel: PostModel
@@ -66,7 +66,7 @@ constructor(
             postModel.author.userId.userId,
 
             false,
-            postModel.author.userId.userId == currentUserRepository.authState!!.user.name
+            postModel.author.userId.userId == currentUserRepository.userId
         )
 
     override suspend fun getUserId(userName: String): String =
@@ -91,5 +91,11 @@ constructor(
 
     override suspend fun loadNextFirstLevelCommentsPage() = commentsLoader.loadNextFirstLevelPageByScroll()
 
-    override suspend fun retryToLoadFirstLevelsCommentsPage() = commentsLoader.retryLoadFirstLevelPage()
+    override suspend fun retryLoadingFirstLevelCommentsPage() = commentsLoader.retryLoadFirstLevelPage()
+
+    override suspend fun loadNextSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
+        commentsLoader.loadNextSecondLevelPage(parentCommentId)
+
+    override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
+        commentsLoader.retryLoadSecondLevelPage(parentCommentId)
 }

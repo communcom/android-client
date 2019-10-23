@@ -51,12 +51,6 @@ sealed class DiscussionModel(
     var isActiveUserDiscussion: Boolean = false
 ) : Model
 
-@Parcelize
-data class DiscussionIdModel(
-    val userId: String,
-    val permlink: Permlink
-) : Model, Parcelable
-
 data class DiscussionCommentsCountModel(val count: Long) : Model
 
 data class PostContentModel(

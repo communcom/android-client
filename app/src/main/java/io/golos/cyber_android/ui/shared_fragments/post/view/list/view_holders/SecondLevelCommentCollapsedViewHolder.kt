@@ -37,6 +37,12 @@ class SecondLevelCommentCollapsedViewHolder(
     override fun init(listItem: SecondLevelCommentCollapsedListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         loadAvatarIcon(listItem.topCommentAuthor.avatarUrl)
         itemView.replyText.text = getReplyText(listItem)
+
+        itemView.setOnClickListener { listItemEventsProcessor.onCollapsedCommentsClick(listItem.parentCommentId) }
+    }
+
+    override fun release() {
+        itemView.setOnClickListener(null)
     }
 
     private fun loadAvatarIcon(avatarUrl: String?) {
@@ -62,6 +68,7 @@ class SecondLevelCommentCollapsedViewHolder(
             result.append(" ${SpecialChars.bullet} ")
 
             result.append(totalChild.toString())
+            result.append(" ")
             result.append(appResourcesProvider.getQuantityString(R.plurals.reply, totalChild.toInt()))
         }
 

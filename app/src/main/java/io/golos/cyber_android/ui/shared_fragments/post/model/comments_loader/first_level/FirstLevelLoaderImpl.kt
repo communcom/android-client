@@ -1,67 +1,70 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.first_level
 
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.lang.Exception
-import javax.inject.Inject
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentNavigableMap
 import kotlin.random.Random
 
-class CommentsLoaderImpl
-@Inject
+class FirstLevelLoaderImpl
 constructor(
     private val postToProcess: DiscussionIdModel,
     private val postListDataSource: PostListDataSourceComments,
     private val discussionsApi: DiscussionsApi,
     private val dispatchersProvider: DispatchersProvider,
-    private val commentToModelMapper: CommentToModelMapper
-) : CommentsLoader {
+    private val commentToModelMapper: CommentToModelMapper,
+    private val pageSize: Int
+) : FirstLevelLoader {
 
-    override val pageSize
-        get() = 20
-
-    private var firstLevelPageOffset = 0
-    private var firstLevelEndOfDataReached = false
+    private var pageOffset = 0
+    private var endOfDataReached = false
 
     private var loadingInProgress = false
     private var isInErrorState = false
 
+    private val loadedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
+
     /**
      * Loads the very first first-levels comments page
      */
-    override suspend fun loadStartFirstLevelPage() =
+    override suspend fun loadStartPage() =
         loading {
-            if(firstLevelPageOffset > 0) {          // already loaded
+            if(pageOffset > 0) {          // already loaded
                 return@loading
             }
 
-            loadFirstLevelPage()
+            loadPage()
         }
 
     /**
      * Loads a next first-levels comments page
      */
-    override suspend fun loadNextFirstLevelPageByScroll() =
+    override suspend fun loadNextPageByScroll() =
         loading {
-            if(firstLevelEndOfDataReached) {
+            if(endOfDataReached) {
                 return@loading
             }
 
-            loadFirstLevelPage()
+            loadPage()
         }
+
+    override fun getLoadedComment(commentId: DiscussionIdModel): CommentModel = loadedComments[commentId]!!
 
     /**
      * Try to reload
      */
-    override suspend fun retryLoadFirstLevelPage() {
+    override suspend fun retryLoadPage() {
         isInErrorState = false
         loading {
-            loadFirstLevelPage()
+            loadPage()
         }
     }
 
@@ -82,9 +85,9 @@ constructor(
         }
     }
 
-    private suspend fun loadFirstLevelPage() {
+    private suspend fun loadPage() {
         try {
-            postListDataSource.addLoadingCommentsIndicator(true)
+            postListDataSource.addLoadingCommentsIndicator()
 
             delay(1000)
 
@@ -93,21 +96,27 @@ constructor(
                 throw Exception("")
             }
 
-            val comments = discussionsApi.getCommentsList(firstLevelPageOffset, pageSize, postToProcess)
+            val comments = discussionsApi.getCommentsListForPost(pageOffset, pageSize, postToProcess)
 
             if(comments.size < pageSize) {
-                firstLevelEndOfDataReached = true
+                endOfDataReached = true
             }
 
+            @Suppress("NestedLambdaShadowedImplicitParameter")
             val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
-                comments.map { commentToModelMapper.map(it) }
+                comments.map {
+                    commentToModelMapper.map(it)
+                        .also {
+                            loadedComments[it.contentId] = it
+                        }
+                }
             }
 
             postListDataSource.addFirstLevelComments(mapperComments)
 
-            firstLevelPageOffset+=pageSize
+            pageOffset+=pageSize
         } catch (ex: Exception) {
-            postListDataSource.addRetryLoadingComments(true)
+            postListDataSource.addRetryLoadingComments()
             isInErrorState = true
 
             throw ex

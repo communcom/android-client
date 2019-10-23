@@ -9,6 +9,8 @@ import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryR
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.interactors.model.DiscussionAuthorModel
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -70,48 +72,120 @@ constructor(
         updateSafe {
             postList.removeAt(postList.lastIndex)       // Removing Loading indicator
 
+            comments.forEach { rawComment ->
+                // Add comment
+                val commentListItem = CommentsMapper.mapToFirstLevel(rawComment, currentUserRepository.userId)
+                postList.add(commentListItem)
+
+                // Add collapsed comments list item
+                if(rawComment.childTotal > 0) {
+                    postList.add(
+                        SecondLevelCommentCollapsedListItem(
+                            id = IdUtil.generateLongId(),
+                            version = 0,
+                            topCommentAuthor = rawComment.child[0].author,
+                            currentUserId = currentUserRepository.userId,
+                            totalChild = rawComment.childTotal,
+                            parentCommentId = commentListItem.externalId
+                        )
+                    )
+                }
+            }
+        }
+
+    override suspend fun addLoadingCommentsIndicator() =
+        updateSafe {
+            FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
+                .let { loadingIndicator ->
+                    if(postList.last() is FirstLevelCommentRetryListItem) {
+                        postList[postList.lastIndex] = loadingIndicator // Replace Retry button if needed
+                    } else {
+                        postList.add(loadingIndicator)
+                    }
+                }
+        }
+
+    override suspend fun addRetryLoadingComments() =
+        updateSafe {
+            FirstLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
+                .let { retryItem ->
+                    if(postList.last() is FirstLevelCommentLoadingListItem) {
+                        postList[postList.lastIndex] = retryItem // Replace Loading indicator if needed
+                    } else {
+                        postList.add(retryItem)
+                    }
+                }
+        }
+
+    /**
+     * Adds second-level Loading indicator
+     */
+    override suspend fun addLoadingCommentsIndicator(parentCommentId: DiscussionIdModel, commentsAdded: Int) =
+        updateSafe {
+            val parentCommentIndex = postList.indexOfFirst { it is FirstLevelCommentListItem && it.externalId == parentCommentId }
+            if(parentCommentIndex == -1) {
+                return@updateSafe
+            }
+
+            // Simply replace Collapse item or Retry button
+            postList[parentCommentIndex + commentsAdded + 1] = SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
+        }
+
+    /**
+     * Adds second-level Retry button
+     */
+    override suspend fun addRetryLoadingComments(parentCommentId: DiscussionIdModel, commentsAdded: Int) =
+        updateSafe {
+            val parentCommentIndex = postList.indexOfFirst { it is FirstLevelCommentListItem && it.externalId == parentCommentId }
+            if(parentCommentIndex == -1) {
+                return@updateSafe
+            }
+
+            postList[parentCommentIndex + commentsAdded + 1] =
+                SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0, parentCommentId)
+        }
+
+    /**
+     * [authors] - id of all loaded comments and their authors
+     */
+    override suspend fun addSecondLevelComments(
+        parentCommentId: DiscussionIdModel,
+        comments: List<CommentModel>,
+        authors: Map<DiscussionIdModel, DiscussionAuthorModel>,
+        commentsAdded: Int,
+        totalComments: Int,
+        isEndOfDataReached: Boolean,
+        nextTopCommentAuthor: DiscussionAuthorModel?) =
+
+        updateSafe {
+            val parentCommentIndex = postList.indexOfFirst { it is FirstLevelCommentListItem && it.externalId == parentCommentId }
+            if(parentCommentIndex == -1) {
+                return@updateSafe
+            }
+
+            val indexToNewData = parentCommentIndex + commentsAdded + 1
+
+            // Removing collapsing control, loading indicator or retry button
+            postList.removeAt(indexToNewData)
+
+            // Add comments
             comments
-                .map { CommentsMapper.mapToFirstLevel(it, currentUserRepository.authState!!.user.name) }
-                .let {postList.addAll(it)}
+                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId, authors) }
+                .union(
+                    if(isEndOfDataReached) {
+                        listOf()
+                    } else {
+                        listOf(SecondLevelCommentCollapsedListItem(     // Collapsed comments
+                            IdUtil.generateLongId(),
+                            0,
+                            nextTopCommentAuthor!!,
+                            currentUserRepository.userId,
+                            (totalComments - commentsAdded - comments.size).toLong(),
+                            parentCommentId))
+                    }
+                )
+                .let { postList.addAll(indexToNewData, it) }
         }
-
-    override suspend fun addLoadingCommentsIndicator(isFirstLevel: Boolean) {
-        updateSafe {
-            // Remove Retry button if needed
-            val lastItem = postList.last()
-            if(lastItem is FirstLevelCommentRetryListItem || lastItem is SecondLevelCommentRetryListItem) {
-                postList.removeAt(postList.lastIndex)
-            }
-
-            // Add Loading indicator
-            val indicator = if(isFirstLevel) {
-                FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
-            }
-            else {
-                SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
-            }
-            postList.add(indicator)
-        }
-    }
-
-    override suspend fun addRetryLoadingComments(isFirstLevel: Boolean) {
-        updateSafe {
-            // Remove Loading indicator if needed
-            val lastItem = postList.last()
-            if(lastItem is FirstLevelCommentLoadingListItem || lastItem is SecondLevelCommentLoadingListItem) {
-                postList.removeAt(postList.lastIndex)
-            }
-
-            // Add Retry button
-            val indicator = if(isFirstLevel) {
-                FirstLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
-            }
-            else {
-                SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
-            }
-            postList.add(indicator)
-        }
-    }
 
     private suspend fun updateSafe(action: () -> Unit) =
         withContext(singleThreadDispatcher) {

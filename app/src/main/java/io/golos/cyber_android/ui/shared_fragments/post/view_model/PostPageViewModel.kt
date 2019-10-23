@@ -149,7 +149,7 @@ constructor(
     fun onPostMenuClick() {
         val metadata = model.postMetadata
         command.value = ShowPostMenuViewCommand(
-            currentUserRepository.authState!!.user.name == postToProcess.userId,
+            currentUserRepository.userId == postToProcess.userId,
             metadata.version,
             metadata.type)
     }
@@ -190,7 +190,17 @@ constructor(
 
     override fun onNextCommentsPageReached() = processSimple { model.loadNextFirstLevelCommentsPage() }
 
-    override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryToLoadFirstLevelsCommentsPage() }
+    override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryLoadingFirstLevelCommentsPage() }
+
+    override fun onCollapsedCommentsClick(parentCommentId: DiscussionIdModel) =
+        processSimple {
+            model.loadNextSecondLevelCommentsPage(parentCommentId)
+        }
+
+    override fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel) =
+        processSimple {
+            model.retryLoadingSecondLevelCommentsPage(parentCommentId)
+        }
 
     private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
 

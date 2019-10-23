@@ -87,7 +87,11 @@ constructor(
         Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
         DataStorage.posts.add(post)
 
-        DataStorage.comments[post.contentId.permlink] = comments
+        DataStorage.commentsForPost[post.contentId.permlink] = comments
+
+        comments.forEach {
+            DataStorage.comments[it.contentId.permlink] = it
+        }
 
         return PostsDataFactory.createCommitedTransaction(
             PostsDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
@@ -231,10 +235,20 @@ constructor(
 
     /**
      * Returns list of comments
-     * @param parentId - id of a post or a parent comment
+     * @param postId - id of a post
      */
-    override fun getCommentsList(offset: Int, pageSize: Int, parentId: DiscussionIdModel): List<CommentDiscussionRaw> =
-        DataStorage.comments[parentId.permlink.value]!!
+    override fun getCommentsListForPost(offset: Int, pageSize: Int, postId: DiscussionIdModel): List<CommentDiscussionRaw> =
+        DataStorage.commentsForPost[postId.permlink.value]!!
+            .drop(offset)
+            .take(pageSize)
+
+    /**
+     * Returns child comments for comment
+     * @param parentCommentId - id of a parent comment
+     */
+    override fun getCommentsListForComment(offset: Int, pageSize: Int, parentCommentId: DiscussionIdModel): List<CommentDiscussionRaw> =
+        DataStorage.comments[parentCommentId.permlink.value]!!
+            .child
             .drop(offset)
             .take(pageSize)
 }

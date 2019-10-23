@@ -53,22 +53,25 @@ object CommentsDataFactory {
         for(i in 0 until firstLevelsCount) {
             val firstLevelComment = createRandomComment(null)
 
-            val secondLevelsCount = Random.nextInt(30, 50)
             val secondLevelList = mutableListOf<CommentDiscussionRaw>()
 
-            var parentSecondLevelId: DiscussionId? = null
-            for(j in 0 until secondLevelsCount) {
-                val parentId = if(j > 0 && j % 5 == 0) {
-                    parentSecondLevelId!!
-                } else {
-                    firstLevelComment.contentId
-                }
+            if(Random.nextInt() % 3 == 0) {         // Second level comments
+                val secondLevelsCount = Random.nextInt(3, 50)
 
-                val secondLevelComment = createRandomComment(parentId)
-                secondLevelList.add(secondLevelComment)
+                var parentSecondLevelId: DiscussionId? = null
+                for (j in 0 until secondLevelsCount) {
+                    val parentId = if (j > 0 && j % 5 == 0) {
+                        parentSecondLevelId!!
+                    } else {
+                        firstLevelComment.contentId
+                    }
 
-                if(j==0) {
-                    parentSecondLevelId = secondLevelComment.contentId
+                    val secondLevelComment = createRandomComment(parentId)
+                    secondLevelList.add(secondLevelComment)
+
+                    if (j == 0) {
+                        parentSecondLevelId = secondLevelComment.contentId
+                    }
                 }
             }
 

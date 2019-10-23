@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
 import android.net.Uri
+import io.golos.domain.interactors.model.DiscussionIdModel
 
 /**
  * Processing post items clicks
@@ -21,4 +22,8 @@ interface PostPageViewModelListEventsProcessor {
     fun onNextCommentsPageReached()
 
     fun onRetryLoadingFirstLevelCommentButtonClick()
+
+    fun onCollapsedCommentsClick(parentCommentId: DiscussionIdModel)
+
+    fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel)
 }

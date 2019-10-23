@@ -9,7 +9,7 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.utils.IdUtil
 
 object CommentsMapper {
-    fun mapToFirstLevel(model: CommentModel, currentUserId: String): VersionedListItem {
+    fun mapToFirstLevel(model: CommentModel, currentUserId: String): FirstLevelCommentListItem {
         if(model.content.commentLevel != 0) {
             throw UnsupportedOperationException("This level of comment is not supported: ${model.content.commentLevel}")
         }
@@ -29,7 +29,7 @@ object CommentsMapper {
     fun mapToSecondLevel(
         model: CommentModel,
         currentUserId: String,
-        parentAuthors: Map<DiscussionIdModel, DiscussionAuthorModel>): VersionedListItem {
+        parentAuthors: Map<DiscussionIdModel, DiscussionAuthorModel>): SecondLevelCommentListItem {
         if(model.content.commentLevel != 1) {
             throw UnsupportedOperationException("This level of comment is not supported: ${model.content.commentLevel}")
         }

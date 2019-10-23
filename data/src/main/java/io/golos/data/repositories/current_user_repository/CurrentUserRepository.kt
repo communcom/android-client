@@ -4,6 +4,8 @@ import io.golos.domain.entities.AuthState
 
 interface CurrentUserRepositoryRead {
     val authState: AuthState?
+
+    val userId: String
 }
 
 interface CurrentUserRepository : CurrentUserRepositoryRead {

@@ -33,5 +33,9 @@ interface PostPageModel : ModelBase {
 
     suspend fun loadNextFirstLevelCommentsPage()
 
-    suspend fun retryToLoadFirstLevelsCommentsPage()
+    suspend fun retryLoadingFirstLevelCommentsPage()
+
+    suspend fun loadNextSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
+
+    suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
 }

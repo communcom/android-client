@@ -7,12 +7,10 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
-import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModelImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoader
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoaderImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoadingFacade
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoadingFacadeImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
@@ -57,6 +55,5 @@ abstract class PostPageFragmentModuleBinds {
     abstract fun bindVotingMachine(machine: VotingMachineImpl): VotingMachine
 
     @Binds
-    @FragmentScope
-    abstract fun bindCommentsLoader(loader: CommentsLoaderImpl): CommentsLoader
+    abstract fun bindCommentsLoadingFacade(facade: CommentsLoadingFacadeImpl): CommentsLoadingFacade
 }
