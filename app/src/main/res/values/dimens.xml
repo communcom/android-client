@@ -42,6 +42,7 @@
     <dimen name="text_size_10_sp">10sp</dimen>
 
     <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
     <dimen name="margin_48">48dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
