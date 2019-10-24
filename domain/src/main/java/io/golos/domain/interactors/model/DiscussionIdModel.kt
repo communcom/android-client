@@ -34,8 +34,7 @@ data class DiscussionIdModel(
     }
 
     override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + userId.hashCode()
+        var result = userId.hashCode()
         result = 31 * result + permlink.hashCode()
         return result
     }

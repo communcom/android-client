@@ -153,7 +153,7 @@
     <dimen name="post_comments_voting_margin">5dp</dimen>
     <dimen name="post_comments_reply_margin">10dp</dimen>
 
-    <dimen name="post_comments_loading_height">35dp</dimen>
+    <dimen name="post_comments_loading_height">@dimen/post_comments_reloading_height</dimen>
 
     <dimen name="post_comments_reloading_height">50dp</dimen>
     <dimen name="post_comments_reloading_button_height">40dp</dimen>

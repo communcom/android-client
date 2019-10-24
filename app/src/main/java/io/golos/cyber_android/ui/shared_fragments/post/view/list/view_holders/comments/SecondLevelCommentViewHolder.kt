@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments
 
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
