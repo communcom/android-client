@@ -24,7 +24,14 @@ class CommunityFollowersView @JvmOverloads constructor(
     }
 
     fun setFollowers(followers: List<CommunityPage.CommunityFriend>) {
-        //load new ones
+        val users = followers.take(MAX_USERS_COUNT)
+        when(users.size){
+            2 -> clFollower2.visibility = View.GONE
+            1 -> {
+                clFollower2.visibility = View.GONE
+                clFollower1.visibility = View.GONE
+            }
+        }
         for ((index, follower) in followers.take(3).withIndex()) {
             Glide.with(this)
                 .load(follower.avatarUrl)
@@ -37,5 +44,10 @@ class CommunityFollowersView @JvmOverloads constructor(
                 ivAward.visibility = View.GONE
             }
         }
+    }
+
+    private companion object{
+
+        private const val MAX_USERS_COUNT = 3
     }
 }

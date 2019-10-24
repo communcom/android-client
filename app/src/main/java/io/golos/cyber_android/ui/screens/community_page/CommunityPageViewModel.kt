@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.community_page
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.utils.EMPTY
 import io.golos.domain.DispatchersProvider
@@ -52,5 +53,9 @@ class CommunityPageViewModel @Inject constructor(
             }
 
         }
+    }
+
+    fun onBackPressed() {
+        command.value = BackCommand()
     }
 }

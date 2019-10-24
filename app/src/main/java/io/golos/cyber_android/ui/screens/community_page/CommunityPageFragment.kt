@@ -15,13 +15,15 @@ import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.utils.EMPTY
 import io.golos.cyber_android.utils.toMM_DD_YYYY_Format
+import io.golos.cyber_android.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.fragment_community_page.tabLayout
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageModel, CommunityPageViewModel>() {
@@ -59,18 +61,32 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         binding.viewModel = viewModel
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setFullScreenMode()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFullScreenMode()
-        initTablayout()
+        initTabLayout()
         initViewPager()
         observeViewModel()
         viewModel.start(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
+        ivBack.setOnClickListener {
+            viewModel.onBackPressed()
+        }
     }
 
-    override fun onDestroyView() {
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is BackCommand){
+
+        }
+    }
+
+    override fun onDestroy() {
         clearFullScreenMode()
-        super.onDestroyView()
+        super.onDestroy()
     }
 
     private fun observeViewModel() {
@@ -102,14 +118,11 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             val communityCurrency = it.communityCurrency
             tvCurrentCurrency.text = communityCurrency.currencyName
             tvCurrentCommunRate.text = communityCurrency.exchangeRate.toString()
-            val pluralMembersCount: Int = if (membersCount > 10) 10 else membersCount.toInt()
-            val pluralLeadsCount: Int = if (leadsCount > 10) 10 else leadsCount.toInt()
-            val pluralFriendsCount: Int = if (friendsCount > 10) 10 else friendsCount.toInt()
-            tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, pluralMembersCount)
-            tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, pluralLeadsCount)
-            tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, pluralFriendsCount)
+            tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, membersCount.toPluralInt())
+            tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, leadsCount.toPluralInt())
+            tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, friendsCount.toPluralInt())
             tvJoinTime.text = it.joinDate.toMM_DD_YYYY_Format()
-            communityFollowersView.setFollowers(it.friends.take(3))
+            communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
         })
 
         viewModel.communityPageIsErrorLiveData.observe(this, Observer {
@@ -129,7 +142,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         })
     }
 
-    private fun initTablayout() {
+    private fun initTabLayout() {
         tabLayout.apply {
             setupWithViewPager(vpContent)
             setSelectedTabIndicator(TabLineDrawable(requireContext()))
@@ -163,5 +176,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             communityPageFragment.arguments = bundle
             return communityPageFragment
         }
+
+        private const val FRIENDS_COUNT_MAX = 3
     }
 }
