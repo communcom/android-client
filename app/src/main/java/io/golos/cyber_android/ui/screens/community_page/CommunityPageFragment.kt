@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -79,7 +78,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         if (command is BackCommand) {
-
+            requireFragmentManager().popBackStack()
         }
     }
 
@@ -92,22 +91,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         viewModel.communityPageLiveData.observe(this, Observer {
             tvCommunityName.text = it.name
             tvDescription.text = it.description
-            Glide.with(ivCommunityLogo)
-                .load(it.avatarUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(ivCommunityLogo)
-            Glide.with(ivCommunityCover)
-                .load(it.coverUrl)
-                .apply(RequestOptions.centerCropTransform())
-                .into(ivCommunityCover)
-            ctvJoin.isChecked = it.isSubscribed
-            if (it.isSubscribed) {
-                ctvJoin.text = getString(R.string.joined_to_community)
-                ivNotificationCommunityControl.visibility = View.VISIBLE
-            } else {
-                ctvJoin.text = getString(R.string.join_to_community)
-                ivNotificationCommunityControl.visibility = View.INVISIBLE
-            }
+            setCommunityLogo(it.avatarUrl)
+            setCommunityCover(it.coverUrl)
+            setSubscriptionStatus(it.isSubscribed)
             appbar.visibility = View.VISIBLE
             vpContent.visibility = View.VISIBLE
             val leadsCount = it.leadsCount
@@ -147,6 +133,31 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
                 generalProgressLoading.visibility = View.INVISIBLE
             }
         })
+    }
+
+    private fun setCommunityCover(coverUrl: String?) {
+        Glide.with(ivCommunityCover)
+            .load(coverUrl)
+            .apply(RequestOptions.centerCropTransform())
+            .into(ivCommunityCover)
+    }
+
+    private fun setCommunityLogo(communityLogo: String?){
+        Glide.with(ivCommunityLogo)
+            .load(communityLogo)
+            .apply(RequestOptions.circleCropTransform())
+            .into(ivCommunityLogo)
+    }
+
+    private fun setSubscriptionStatus(isSubscribed: Boolean){
+        ctvJoin.isChecked = isSubscribed
+        if (isSubscribed) {
+            ctvJoin.text = getString(R.string.joined_to_community)
+            ivNotificationCommunityControl.visibility = View.VISIBLE
+        } else {
+            ctvJoin.text = getString(R.string.join_to_community)
+            ivNotificationCommunityControl.visibility = View.INVISIBLE
+        }
     }
 
     private fun initTabLayout() {

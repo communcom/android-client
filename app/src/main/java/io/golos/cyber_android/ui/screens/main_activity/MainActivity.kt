@@ -129,4 +129,17 @@ class MainActivity : ActivityBase() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
+        val tag = fragment::class::java.name
+        val beginTransaction = supportFragmentManager
+            .beginTransaction()
+        if (isAddToBackStack) {
+            beginTransaction
+                .addToBackStack(tag)
+        }
+        beginTransaction
+            .add(R.id.rootContainer, fragment, tag)
+            .commit()
+    }
 }
