@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
+import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
@@ -60,10 +61,16 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setFullScreenMode()
         initTablayout()
         initViewPager()
         observeViewModel()
         viewModel.start(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
+    }
+
+    override fun onDestroyView() {
+        clearFullScreenMode()
+        super.onDestroyView()
     }
 
     private fun observeViewModel() {
@@ -76,7 +83,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
                 .into(ivCommunityLogo)
             Glide.with(ivCommunityCover)
                 .load(it.coverUrl)
-                .apply(RequestOptions.centerInsideTransform())
+                .apply(RequestOptions.centerCropTransform())
                 .into(ivCommunityCover)
             ctvJoin.isChecked = it.isSubscribed
             if(it.isSubscribed){
