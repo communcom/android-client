@@ -1,7 +1,7 @@
 package io.golos.cyber_android.utils
 
 import android.content.Context
-import io.golos.cyber_android.utils.DateUtils.MM_DD_YYYY_FORMAT
+import io.golos.cyber_android.utils.DateUtils.MMMM_DD_YYYY_FORMAT
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,10 +46,10 @@ object DateUtils {
         }
     }
 
-    const val MM_DD_YYYY_FORMAT = "MM dd, yyyy"
+    const val MMMM_DD_YYYY_FORMAT = "MMMM dd, yyyy"
 
 }
 
-fun Date.toMM_DD_YYYY_Format(): String {
-    return SimpleDateFormat(MM_DD_YYYY_FORMAT, Locale.US).format(this)
+fun Date.toMMMM_DD_YYYY_Format(): String {
+    return SimpleDateFormat(MMMM_DD_YYYY_FORMAT, Locale.US).format(this)
 }

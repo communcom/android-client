@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.utils.EMPTY
-import io.golos.cyber_android.utils.toMM_DD_YYYY_Format
+import io.golos.cyber_android.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
@@ -108,13 +108,16 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, membersCount.toPluralInt())
             tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, leadsCount.toPluralInt())
             tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, friendsCount.toPluralInt())
-            tvJoinTime.text = it.joinDate.toMM_DD_YYYY_Format()
+            tvJoinTime.text = it.joinDate.toMMMM_DD_YYYY_Format()
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
             ivNotificationCommunityControl.setOnClickListener {
                 viewModel.onNotificationCommunityControlClicked()
             }
             ctvJoin.setOnClickListener {
                 viewModel.changeJoinStatus()
+            }
+            btnRetry.setOnClickListener {
+                viewModel.loadCommunityPage()
             }
         })
 

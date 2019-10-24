@@ -22,9 +22,9 @@ class CommunityPageViewModel @Inject constructor(
 
     private val communityPageMutableLiveData = MutableLiveData<CommunityPage>()
 
-    private val communityPageIsLoadProgressMutableLiveData = MutableLiveData<Boolean>()
+    private val communityPageIsLoadProgressMutableLiveData = MutableLiveData<Boolean>(false)
 
-    private val communityPageIsErrorMutableLiveData = MutableLiveData<Boolean>()
+    private val communityPageIsErrorMutableLiveData = MutableLiveData<Boolean>(false)
 
     val communityPageLiveData = communityPageMutableLiveData as LiveData<CommunityPage>
 
@@ -42,6 +42,7 @@ class CommunityPageViewModel @Inject constructor(
     fun loadCommunityPage(){
         launch {
             try{
+                communityPageIsErrorMutableLiveData.value = false
                 communityPageIsLoadProgressMutableLiveData.value = true
                 val communityPageDomain = model.getCommunityPageById(communityId)
                 val communityPage = CommunityPageDomainToCommunityPageMapper().invoke(communityPageDomain)
@@ -79,8 +80,10 @@ class CommunityPageViewModel @Inject constructor(
                 }
                 communityPage?.isSubscribed = !isSubscribed
                 communityPageMutableLiveData.value = communityPage
+                communityPageIsErrorMutableLiveData.value = false
             } catch (e: Exception){
                 command.value = ShowMessageCommand(R.string.loading_error)
+                communityPageIsErrorMutableLiveData.value = true
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
             }
