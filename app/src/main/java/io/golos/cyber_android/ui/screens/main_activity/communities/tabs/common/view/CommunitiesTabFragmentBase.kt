@@ -9,8 +9,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
+import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.followers.FollowersFragment
+import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeChild
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
@@ -58,6 +64,16 @@ abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVV
         super.onResume()
         viewModel.onActive(root.height)
         searchBridge.getParent().setSearchString(viewModel.searchString)
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is NavigateToCommunityPageCommand){
+            val requireActivity = requireActivity()
+            if(requireActivity is MainActivity){
+                requireActivity.showFragment(CommunityPageFragment.newInstance(command.communityId))
+            }
+        }
     }
 
     override fun onSearchStringUpdate(searchString: String) {

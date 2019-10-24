@@ -2,6 +2,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui
 
 import dagger.Subcomponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dialogs.select_community_dialog.SelectCommunityDialogComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
@@ -42,6 +43,7 @@ interface UIComponent {
     val selectCommunityDialog: SelectCommunityDialogComponent.Builder
     val subscriptionsFragment: SubscriptionsFragmentComponent.Builder
     val followersFragment: FollowersFragmentComponent.Builder
+    val communityPageFragment: CommunityPageFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
 }

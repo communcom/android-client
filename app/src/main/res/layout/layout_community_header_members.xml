@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/community_page_header_members_height">
+
+    <TextView
+        android:id="@+id/tvMemberCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:textSize="@dimen/text_size_16_sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="1232"/>
+
+    <TextView
+        android:id="@+id/tvMembersLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap"
+        android:textSize="@dimen/text_size_12_sp"
+        android:textColor="@color/grey"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintStart_toEndOf="@+id/tvMemberCount"
+        tools:text="Members"/>
+
+    <TextView
+        android:id="@+id/tvPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_16_sp"
+        android:textColor="@color/grey"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintStart_toEndOf="@+id/tvMembersLabel"
+        android:layout_marginStart="@dimen/gap"
+        android:layout_marginEnd="@dimen/gap"
+        android:text="@string/point"/>
+
+    <TextView
+        android:id="@+id/tvLeadsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap"
+        android:textSize="@dimen/text_size_16_sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintStart_toEndOf="@+id/tvPoint"
+        tools:text="7"/>
+
+    <TextView
+        android:id="@+id/tvLeadsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/gap"
+        android:textSize="@dimen/text_size_12_sp"
+        android:textColor="@color/grey"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintStart_toEndOf="@+id/tvLeadsCount"
+        tools:text="Leads"/>
+
+    <TextView
+        android:id="@+id/tvFriendsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:textSize="@dimen/text_size_12_sp"
+        android:textColor="@color/grey"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Friends"/>
+
+    <TextView
+        android:id="@+id/tvFriendsCountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_16_sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"
+        android:layout_marginEnd="@dimen/gap"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintEnd_toStartOf="@+id/tvFriendsLabel"
+        tools:text="+47"/>
+
+    <io.golos.cyber_android.ui.common.widgets.CommunityFollowersView
+        android:id="@+id/communityFollowersView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/gap"
+        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
+        app:layout_constraintEnd_toStartOf="@+id/tvFriendsCountLabel"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

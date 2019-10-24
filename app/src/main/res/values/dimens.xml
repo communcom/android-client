@@ -41,6 +41,12 @@
     <dimen name="text_size_12_sp">12sp</dimen>
     <dimen name="text_size_10_sp">10sp</dimen>
 
+    <dimen name="dimen_12">12dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="dimen_24">24dp</dimen>
+    <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_48">48dp</dimen>
+    <dimen name="dimen_55">40dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -338,5 +344,28 @@
     <!-- Button Join -->
     <dimen name="btn_join_horizontal_padding">12dp</dimen>
     <dimen name="btn_join_vertical_padding">6dp</dimen>
+
+    <!-- CardView -->
+    <dimen name="card_view_corner_radius">10dp</dimen>
+    <dimen name="card_view_elevation">8dp</dimen>
+
+    <!--CommunityPage-->
+    <dimen name="community_page_margin_top">150dp</dimen>
+    <dimen name="community_page_background_height">180dp</dimen>
+    <dimen name="community_page_top_round_corners_radius">30dp</dimen>
+    <dimen name="community_page_logo">50dp</dimen>
+    <dimen name="community_page_header_members_height">60dp</dimen>
+    <dimen name="community_page_balance_description_height">70dp</dimen>
+    <dimen name="community_page_get_points_height">36dp</dimen>
+    <dimen name="community_header_follower_size">30dp</dimen>
+    <dimen name="community_header_follower_award_size">12dp</dimen>
+    <dimen name="community_header_follower_award_padding_size">1dp</dimen>
+    <dimen name="community_notification_control_size">36dp</dimen>
+    <dimen name="community_btn_join_min_width">70dp</dimen>
+
+    <!--TabLayout-->
+    <dimen name="tab_layout_height_default">46dp</dimen>
+    <dimen name="tab_line_width">16dp</dimen>
+    <dimen name="tab_line_height">2dp</dimen>
 
 </resources>

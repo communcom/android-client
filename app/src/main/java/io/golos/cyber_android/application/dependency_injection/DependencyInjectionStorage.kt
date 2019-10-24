@@ -8,6 +8,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.DaggerA
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dialogs.select_community_dialog.SelectCommunityDialogComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityModule
@@ -170,6 +171,8 @@ class DependencyInjectionStorage(private val appContext: Context) {
             SubscriptionsFragmentComponent::class -> get<UIComponent>().subscriptionsFragment.build()
 
             FollowersFragmentComponent::class -> get<UIComponent>().followersFragment.build()
+
+            CommunityPageFragmentComponent::class -> get<UIComponent>().communityPageFragment.build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
         } as T

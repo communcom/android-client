@@ -3,6 +3,7 @@ package io.golos.data.api.communities
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.CommunityDomain
+import io.golos.domain.entities.CommunityPageDomain
 
 interface CommunitiesApi {
     /**
@@ -26,4 +27,6 @@ interface CommunitiesApi {
     suspend fun subscribeToCommunity(communityId: String)
 
     suspend fun unsubscribeToCommunity(communityId: String)
+
+    suspend fun getCommunityPageById(communityId: String): CommunityPageDomain
 }

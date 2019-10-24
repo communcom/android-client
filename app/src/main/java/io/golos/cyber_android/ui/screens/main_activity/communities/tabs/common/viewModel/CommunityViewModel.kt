@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
@@ -75,7 +76,7 @@ constructor(
     }
 
     override fun onItemClick(community: Community) {
-        // do nothing
+        command.value = NavigateToCommunityPageCommand(community.id.id)
     }
 
     private fun loadPage(lastVisibleItemPosition: Int) {

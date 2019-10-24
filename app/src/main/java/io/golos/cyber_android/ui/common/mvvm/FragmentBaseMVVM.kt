@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
@@ -129,6 +130,20 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
                 loadingDialog.dismiss()
                 wasAdded = false
             }
+        }
+    }
+
+    protected fun setFullScreenMode(){
+        val requireActivity = requireActivity()
+        if(requireActivity is ActivityBase){
+            requireActivity.setFullScreenMode()
+        }
+    }
+
+    protected fun clearFullScreenMode(){
+        val requireActivity = requireActivity()
+        if(requireActivity is ActivityBase){
+            requireActivity.clearFullScreenMode()
         }
     }
 }

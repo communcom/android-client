@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFollower2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_48">
+
+        <ImageView
+            android:id="@+id/ivFollower2"
+            android:padding="@dimen/padding_profile_follower_photo"
+            tools:src="@drawable/img_example_avatar"
+            android:background="@drawable/img_white_circle"
+            android:layout_width="@dimen/community_header_follower_size"
+            android:layout_height="@dimen/community_header_follower_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivFollower2Award"
+            android:padding="@dimen/community_header_follower_award_padding_size"
+            android:background="@drawable/ic_award"
+            android:layout_width="@dimen/community_header_follower_award_size"
+            android:layout_height="@dimen/community_header_follower_award_size"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFollower1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_24">
+
+        <ImageView
+            android:id="@+id/ivFollower1"
+            android:padding="@dimen/padding_profile_follower_photo"
+            tools:src="@drawable/img_example_avatar"
+            android:background="@drawable/img_white_circle"
+            android:layout_width="@dimen/community_header_follower_size"
+            android:layout_height="@dimen/community_header_follower_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivFollower1Award"
+            android:padding="@dimen/community_header_follower_award_padding_size"
+            android:background="@drawable/ic_award"
+            android:layout_width="@dimen/community_header_follower_award_size"
+            android:layout_height="@dimen/community_header_follower_award_size"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clFollower0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivFollower0"
+            android:padding="@dimen/padding_profile_follower_photo"
+            tools:src="@drawable/img_example_avatar"
+            android:background="@drawable/img_white_circle"
+            android:layout_width="@dimen/community_header_follower_size"
+            android:layout_height="@dimen/community_header_follower_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivFollower0Award"
+            android:padding="@dimen/community_header_follower_award_padding_size"
+            android:background="@drawable/ic_award"
+            android:layout_width="@dimen/community_header_follower_award_size"
+            android:layout_height="@dimen/community_header_follower_award_size"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
