@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.first_level
 
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoaderBase
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
@@ -22,13 +23,8 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int
-) : FirstLevelLoader {
-
-    private var pageOffset = 0
-    private var endOfDataReached = false
-
-    private var loadingInProgress = false
-    private var isInErrorState = false
+) : CommentsLoaderBase(dispatchersProvider),
+    FirstLevelLoader {
 
     private val loadedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
 
@@ -47,45 +43,16 @@ constructor(
     /**
      * Loads a next first-levels comments page
      */
-    override suspend fun loadNextPageByScroll() =
-        loading {
-            if(endOfDataReached) {
-                return@loading
-            }
-
-            loadPage()
-        }
+    override suspend fun loadNextPageByScroll() = loadNext()
 
     override fun getLoadedComment(commentId: DiscussionIdModel): CommentModel = loadedComments[commentId]!!
 
     /**
      * Try to reload
      */
-    override suspend fun retryLoadPage() {
-        isInErrorState = false
-        loading {
-            loadPage()
-        }
-    }
+    override suspend fun retryLoadPage() = retry()
 
-    private suspend fun loading(loadingAction: suspend () -> Unit) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            if(loadingInProgress || isInErrorState) {
-                return@withContext
-            }
-            loadingInProgress = true
-
-            try {
-                loadingAction()
-            } catch (ex: Exception) {
-                Timber.e(ex)
-            } finally {
-                loadingInProgress = false
-            }
-        }
-    }
-
-    private suspend fun loadPage() {
+    override suspend fun loadPage() {
         try {
             postListDataSource.addLoadingCommentsIndicator()
 
