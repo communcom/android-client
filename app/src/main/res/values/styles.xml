@@ -366,7 +366,7 @@
         <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/tint_community_join_button_text</item>
-        <item name="android:background">@drawable/bg_blue_round_corners_button</item>
+        <item name="android:background">@drawable/bg_community_join_button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingStart">@dimen/btn_join_horizontal_padding</item>
