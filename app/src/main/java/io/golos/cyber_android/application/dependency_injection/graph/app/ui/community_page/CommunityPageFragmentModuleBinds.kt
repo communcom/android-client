@@ -11,8 +11,7 @@ import io.golos.cyber_android.ui.screens.community_page.CommunityPageModel
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageModelImpl
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.community.GetCommunityPageByIdUseCase
-import io.golos.domain.interactors.community.GetCommunityPageByIdUseCaseImpl
+import io.golos.domain.interactors.community.*
 
 @Module
 interface CommunityPageFragmentModuleBinds {
@@ -31,4 +30,10 @@ interface CommunityPageFragmentModuleBinds {
 
     @Binds
     fun bindGetCommunityPageByIdUseCase(getCommunityPageByIdUseCase: GetCommunityPageByIdUseCaseImpl): GetCommunityPageByIdUseCase
+
+    @Binds
+    fun bindSubscribeToCommunityUseCase(model: SubscribeToCommunityUseCaseImpl): SubscribeToCommunityUseCase
+
+    @Binds
+    fun bindUnsubscribeToCommunityUseCase(model: UnsubscribeToCommunityUseCaseImpl): UnsubscribeToCommunityUseCase
 }

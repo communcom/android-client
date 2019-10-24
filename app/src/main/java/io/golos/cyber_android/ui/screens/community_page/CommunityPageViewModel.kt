@@ -2,8 +2,11 @@ package io.golos.cyber_android.ui.screens.community_page
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.utils.EMPTY
 import io.golos.domain.DispatchersProvider
@@ -57,5 +60,30 @@ class CommunityPageViewModel @Inject constructor(
 
     fun onBackPressed() {
         command.value = BackCommand()
+    }
+
+    fun onNotificationCommunityControlClicked() {
+
+    }
+
+    fun changeJoinStatus() {
+        launch {
+            try {
+                command.value = SetLoadingVisibilityCommand(true)
+                val communityPage = communityPageMutableLiveData.value
+                val isSubscribed = communityPage?.isSubscribed ?: false
+                if(isSubscribed){
+                    model.unsubscribeToCommunity(communityId)
+                } else{
+                    model.subscribeToCommunity(communityId)
+                }
+                communityPage?.isSubscribed = !isSubscribed
+                communityPageMutableLiveData.value = communityPage
+            } catch (e: Exception){
+                command.value = ShowMessageCommand(R.string.loading_error)
+            } finally {
+                command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 }

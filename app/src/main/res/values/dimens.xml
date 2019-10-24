@@ -41,10 +41,12 @@
     <dimen name="text_size_12_sp">12sp</dimen>
     <dimen name="text_size_10_sp">10sp</dimen>
 
-    <dimen name="margin_24">24dp</dimen>
-    <dimen name="margin_30">30dp</dimen>
-    <dimen name="margin_48">48dp</dimen>
-    <dimen name="margin_55">40dp</dimen>
+    <dimen name="dimen_12">12dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="dimen_24">24dp</dimen>
+    <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_48">48dp</dimen>
+    <dimen name="dimen_55">40dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -358,6 +360,8 @@
     <dimen name="community_header_follower_size">30dp</dimen>
     <dimen name="community_header_follower_award_size">12dp</dimen>
     <dimen name="community_header_follower_award_padding_size">1dp</dimen>
+    <dimen name="community_notification_control_size">36dp</dimen>
+    <dimen name="community_btn_join_min_width">70dp</dimen>
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>

@@ -43,7 +43,7 @@ constructor(
             "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg",
             "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
             "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
-            true,
+            false,
             false,
             121,
             friends,

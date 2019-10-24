@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_page
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -12,7 +13,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
-import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
@@ -23,7 +23,6 @@ import io.golos.cyber_android.utils.EMPTY
 import io.golos.cyber_android.utils.toMM_DD_YYYY_Format
 import io.golos.cyber_android.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
-import kotlinx.android.synthetic.main.fragment_community_page.tabLayout
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageModel, CommunityPageViewModel>() {
@@ -79,7 +78,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
-        if(command is BackCommand){
+        if (command is BackCommand) {
 
         }
     }
@@ -102,10 +101,12 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
                 .apply(RequestOptions.centerCropTransform())
                 .into(ivCommunityCover)
             ctvJoin.isChecked = it.isSubscribed
-            if(it.isSubscribed){
+            if (it.isSubscribed) {
                 ctvJoin.text = getString(R.string.joined_to_community)
-            } else{
+                ivNotificationCommunityControl.visibility = View.VISIBLE
+            } else {
                 ctvJoin.text = getString(R.string.join_to_community)
+                ivNotificationCommunityControl.visibility = View.INVISIBLE
             }
             appbar.visibility = View.VISIBLE
             vpContent.visibility = View.VISIBLE
@@ -123,20 +124,26 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, friendsCount.toPluralInt())
             tvJoinTime.text = it.joinDate.toMM_DD_YYYY_Format()
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
+            ivNotificationCommunityControl.setOnClickListener {
+                viewModel.onNotificationCommunityControlClicked()
+            }
+            ctvJoin.setOnClickListener {
+                viewModel.changeJoinStatus()
+            }
         })
 
         viewModel.communityPageIsErrorLiveData.observe(this, Observer {
-            if(it){
+            if (it) {
                 btnRetry.visibility = View.VISIBLE
-            } else{
+            } else {
                 btnRetry.visibility = View.INVISIBLE
             }
         })
 
         viewModel.communityPageIsLoadProgressLiveData.observe(this, Observer {
-            if(it){
+            if (it) {
                 generalProgressLoading.visibility = View.VISIBLE
-            } else{
+            } else {
                 generalProgressLoading.visibility = View.INVISIBLE
             }
         })

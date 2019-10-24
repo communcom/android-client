@@ -373,6 +373,7 @@
         <item name="android:paddingEnd">@dimen/btn_join_horizontal_padding</item>
         <item name="android:paddingTop">@dimen/btn_join_vertical_padding</item>
         <item name="android:paddingBottom">@dimen/btn_join_vertical_padding</item>
+        <item name="android:textAlignment">gravity</item>
     </style>
 
     <style name="BottomSheetDialogFragment.RoundCorners" parent="Theme.Design.Light.BottomSheetDialog">

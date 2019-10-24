@@ -49,7 +49,7 @@
                         android:src="@drawable/ic_back"
                         android:tint="@color/white"
                         android:padding="@dimen/margin_default"
-                        android:layout_marginTop="@dimen/margin_55"
+                        android:layout_marginTop="@dimen/dimen_55"
                         android:background="?selectableItemBackgroundBorderless"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,12 +94,29 @@
                             app:layout_constraintTop_toBottomOf="@+id/tvCommunityName"
                             tools:text="Joined April 12, 2018" />
 
+                        <ImageView
+                            android:id="@+id/ivNotificationCommunityControl"
+                            android:layout_width="@dimen/community_notification_control_size"
+                            android:layout_height="@dimen/community_notification_control_size"
+                            android:background="@drawable/bg_grey_circle"
+                            android:foreground="?selectableItemBackgroundBorderless"
+                            android:layout_marginEnd="@dimen/gap"
+                            android:src="@drawable/ic_notification"
+                            android:scaleType="center"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toTopOf="@+id/ctvJoin"
+                            app:layout_constraintBottom_toBottomOf="@+id/ctvJoin"
+                            app:layout_constraintEnd_toStartOf="@+id/ctvJoin"
+                            tools:visibility="visible"/>
+
                         <CheckedTextView
                             android:id="@+id/ctvJoin"
                             style="@style/CommunityJoinButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/margin_default"
+                            android:minWidth="@dimen/community_btn_join_min_width"
+                            android:gravity="center_vertical|center_horizontal"
                             app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"

@@ -9,7 +9,7 @@ data class CommunityPage(
     val coverUrl: String?,
     val description: String?,
     val rules: String?,
-    val isSubscribed: Boolean,
+    var isSubscribed: Boolean,
     val isBlocked: Boolean,
     val friendsCount: Long,
     val friends: List<CommunityFriend>,
