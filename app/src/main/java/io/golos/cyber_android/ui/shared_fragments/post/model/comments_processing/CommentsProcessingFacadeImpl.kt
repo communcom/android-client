@@ -85,6 +85,7 @@ constructor(
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
+            throw ex
         }
     }
 }

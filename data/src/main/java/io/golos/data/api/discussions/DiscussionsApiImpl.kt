@@ -253,7 +253,7 @@ constructor(
      * @param postId - id of a post
      */
     override fun getCommentsListForPost(offset: Int, pageSize: Int, postId: DiscussionIdModel): List<CommentDiscussionRaw> =
-        DataStorage.commentsForPost[postId.permlink.value]!!
+        DataStorage.commentsForPost[postId.permlink.value] ?: mutableListOf<CommentDiscussionRaw>()
             .drop(offset)
             .take(pageSize)
 
