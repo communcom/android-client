@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
+import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.utils.EMPTY
 import io.golos.cyber_android.utils.toMMMM_DD_YYYY_Format
@@ -180,7 +181,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         val fragmentPagesList = ArrayList<Fragment>()
         fragmentPagesList.add(FollowersFragment.newInstance())
         fragmentPagesList.add(FollowersFragment.newInstance())
-        fragmentPagesList.add(FollowersFragment.newInstance())
+        fragmentPagesList.add(CommunityPageAboutFragment.newInstance())
         fragmentPagesList.add(FollowersFragment.newInstance())
         return fragmentPagesList
     }
