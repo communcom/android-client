@@ -11,6 +11,9 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacadeImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollection
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
@@ -56,4 +59,10 @@ abstract class PostPageFragmentModuleBinds {
 
     @Binds
     abstract fun bindCommentsLoadingFacade(facade: CommentsProcessingFacadeImpl): CommentsProcessingFacade
+
+    @Binds
+    abstract fun bindPostedCommentsCollection(collection: PostedCommentsCollectionImpl): PostedCommentsCollection
+
+    @Binds
+    abstract fun bindPostedCommentsCollectionRead(collection: PostedCommentsCollectionImpl): PostedCommentsCollectionRead
 }

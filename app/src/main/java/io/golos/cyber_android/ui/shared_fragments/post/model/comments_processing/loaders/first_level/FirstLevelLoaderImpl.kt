@@ -1,6 +1,7 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.first_level_loader
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level
 
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsLoaderBase
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.CommentsLoaderBase
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
@@ -9,7 +10,6 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.random.Random
 
@@ -20,8 +20,11 @@ constructor(
     private val discussionsApi: DiscussionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
-    private val pageSize: Int
-) : CommentsLoaderBase(dispatchersProvider),
+    private val pageSize: Int,
+    postedCommentsCollection: PostedCommentsCollectionRead
+) : CommentsLoaderBase(
+    dispatchersProvider,
+    postedCommentsCollection),
     FirstLevelLoader {
 
     private val loadedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
@@ -57,9 +60,9 @@ constructor(
             delay(1000)
 
             // To error simulation
-            if(Random.nextInt () % 2 == 0) {
-                throw Exception("")
-            }
+//            if(Random.nextInt () % 2 == 0) {
+//                throw Exception("")
+//            }
 
             val comments = discussionsApi.getCommentsListForPost(pageOffset, pageSize, postToProcess)
 
@@ -69,12 +72,14 @@ constructor(
 
             @Suppress("NestedLambdaShadowedImplicitParameter")
             val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
-                comments.map {
-                    commentToModelMapper.map(it)
-                        .also {
-                            loadedComments[it.contentId] = it
-                        }
-                }
+                comments
+                    .map {
+                        commentToModelMapper.map(it)
+                            .also {
+                                loadedComments[it.contentId] = it
+                            }
+                    }
+                    .filter { !wasCommentPosted(it.contentId)  }
             }
 
             postListDataSource.addFirstLevelComments(mapperComments)

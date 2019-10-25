@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.second_level_loader
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level
 
 interface SecondLevelLoader {
     /**

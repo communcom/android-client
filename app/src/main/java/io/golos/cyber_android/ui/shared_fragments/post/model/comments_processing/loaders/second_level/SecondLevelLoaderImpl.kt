@@ -1,6 +1,7 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.second_level_loader
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level
 
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsLoaderBase
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.CommentsLoaderBase
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
@@ -19,8 +20,11 @@ constructor(
     private val discussionsApi: DiscussionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
-    private val pageSize: Int
-) : CommentsLoaderBase(dispatchersProvider),
+    private val pageSize: Int,
+    postedCommentsCollection: PostedCommentsCollectionRead
+) : CommentsLoaderBase(
+    dispatchersProvider,
+    postedCommentsCollection),
     SecondLevelLoader {
 
     // Loaded comments and their author
@@ -55,12 +59,14 @@ constructor(
 
             @Suppress("NestedLambdaShadowedImplicitParameter")
             val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
-                comments.map {
-                    commentToModelMapper.map(it)
-                        .also {
-                            authors[it.contentId] = it.author
-                        }
-                }
+                comments
+                    .map {
+                        commentToModelMapper.map(it)
+                            .also {
+                                authors[it.contentId] = it.author
+                            }
+                    }
+                    .filter { !wasCommentPosted(it.contentId) }
             }
 
             postListDataSource.addSecondLevelComments(

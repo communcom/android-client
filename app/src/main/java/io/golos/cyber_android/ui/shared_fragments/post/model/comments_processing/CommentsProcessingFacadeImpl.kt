@@ -1,12 +1,13 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.first_level_loader.FirstLevelLoader
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.first_level_loader.FirstLevelLoaderImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.second_level_loader.SecondLevelLoader
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.second_level_loader.SecondLevelLoaderImpl
+import dagger.Lazy
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoader
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoader
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoaderImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollection
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.data.repositories.discussion.DiscussionRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -24,7 +25,8 @@ constructor(
     private val discussionsApi: DiscussionsApi,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val commentToModelMapper: CommentToModelMapper
+    private val commentToModelMapper: CommentToModelMapper,
+    private val postedCommentsCollection: Lazy<PostedCommentsCollection>
 ): CommentsProcessingFacade {
 
     override val pageSize: Int
@@ -39,7 +41,8 @@ constructor(
             discussionsApi,
             dispatchersProvider,
             commentToModelMapper,
-            pageSize
+            pageSize,
+            postedCommentsCollection.get()
         )
     }
 
@@ -64,7 +67,8 @@ constructor(
                 postListDataSource,
                 discussionsApi,
                 dispatchersProvider, commentToModelMapper,
-                pageSize
+                pageSize,
+                postedCommentsCollection.get()
             ).also {
                 secondLevelLoaders[parentCommentId] = it
             }
@@ -82,6 +86,7 @@ constructor(
                 discussionRepository.createCommentForPost(commentText, postToProcess)
             }
             postListDataSource.addNewComment(commentModel)
+            postedCommentsCollection.get().addEntity(commentModel.contentId)
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()

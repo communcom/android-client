@@ -1,13 +1,15 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders
 
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.lang.Exception
 
 abstract class CommentsLoaderBase
 constructor(
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val postedCommentsCollection: PostedCommentsCollectionRead
 ) {
     protected var pageOffset = 0
     protected var endOfDataReached = false
@@ -50,4 +52,9 @@ constructor(
     }
 
     protected abstract suspend fun loadPage()
+
+    /**
+     * Was the comment with such id have been posted in this post viewing/editing session
+     */
+    protected fun wasCommentPosted(id: DiscussionIdModel) = postedCommentsCollection.isEntityExists(id)
 }
