@@ -11,6 +11,7 @@ import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.commun_entities.GetProfileResultExt
 import javax.inject.Inject
 import io.golos.commun4j.utils.Pair as CommunPair
 
@@ -50,9 +51,10 @@ constructor(
 //        ).getOrThrow()
     }
 
-    override fun getUserMetadata(user: CyberName): GetProfileResult {
-        return commun4j.getUserProfile(user, null).getOrThrow()
-    }
+    override fun getUserMetadata(user: CyberName): GetProfileResultExt =
+        GetProfileResultExt(
+            commun4j.getUserProfile(user, null).getOrThrow(),
+            "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png")       // Fake
 
     override fun pin(user: CyberName): CommunPair<TransactionCommitted<PinComnSocialStruct>, PinComnSocialStruct> {
         // It's the BC method

@@ -53,10 +53,13 @@
                     />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <io.golos.cyber_android.ui.common.widgets.CommentWidget
-                android:id="@+id/postCommentBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        <io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
+            android:id="@+id/postComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:enabled="@{viewModel.commentFieldEnabled}"
+        />
 
     </LinearLayout>
 </layout>

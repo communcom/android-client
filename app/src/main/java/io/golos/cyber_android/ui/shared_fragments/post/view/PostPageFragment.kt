@@ -98,6 +98,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         postHeader.setOnBackButtonClickListener { activity?.finish() }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
+
+        postComment.setOnSendClickListener { viewModel.onSendCommentClick(it) }
     }
 
     override fun onResume() {
@@ -129,6 +131,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                 is ShowPostMenuViewCommand -> showPostMenu(command.isMyPost, command.version, command.type)
 
                 is ShowCommentsSortingMenuViewCommand -> showCommentsSortingMenu()
+
+                is ClearCommentTextViewCommand -> postComment.clearText()
 
                 else -> throw UnsupportedOperationException("This command is not supported")
             }

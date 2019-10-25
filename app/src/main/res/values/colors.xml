@@ -47,4 +47,10 @@
     <color name="post_vote_button_color">#9B9FA2</color>
 
     <color name="default_clickable_span_color">@color/blue</color>
+
+    <color name="bottom_area_border">#FFEBEBF1</color>
+
+    <color name="blue_button">@color/blue</color>
+    <color name="blue_button_pressed">@color/blue_40</color>
+    <color name="blue_button_disabled">#A5A7BD</color>
 </resources>

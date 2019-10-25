@@ -12,7 +12,7 @@ object CommentToJsonMapper {
     /**
      * Text only
      */
-    fun mapText(text: String):String {
+    fun mapTextToJson(text: String): String {
         val builder = JsonBuilderImpl.create()
 
         builder.putBlock(
@@ -27,16 +27,22 @@ object CommentToJsonMapper {
                 PostTypeJson.COMMENT
             )
         ) {
+            val paragraphs = text
+                .split("\n")
+                .filter {it.isNotBlank()}
+                .map { it.trim() }
 
-            builder.putBlock(BlockType.PARAGRAPH, true) {
-                val splittedText = CommentTagsExtractor.extract(text)
+                for(i in paragraphs.indices) {
+                    builder.putBlock(BlockType.PARAGRAPH, i == paragraphs.lastIndex) {
+                        val splittedText = CommentTagsExtractor.extract(paragraphs[i])
 
-                for(i in splittedText.indices) {
-                    val type = if(splittedText[i].isTag) BlockType.TAG else BlockType.TEXT
+                        for(j in splittedText.indices) {
+                            val type = if(splittedText[j].isTag) BlockType.TAG else BlockType.TEXT
 
-                    builder.putBlock(type, i == splittedText.lastIndex, splittedText[i].text)
+                            builder.putBlock(type, j == splittedText.lastIndex, splittedText[j].text)
+                        }
+                    }
                 }
-            }
         }
 
         return builder.build()

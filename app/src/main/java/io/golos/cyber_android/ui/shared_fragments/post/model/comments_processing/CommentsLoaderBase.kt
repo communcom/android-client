@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.withContext

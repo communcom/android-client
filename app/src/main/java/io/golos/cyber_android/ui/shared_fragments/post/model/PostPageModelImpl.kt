@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoadingFacade
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
@@ -32,7 +32,7 @@ constructor(
     private val authApi: Lazy<AuthApi>,
     private val postListDataSource: PostListDataSource,
     private val postVoting: Lazy<VotingMachine>,
-    private val commentsLoader: CommentsLoadingFacade
+    private val commentsProcessing: CommentsProcessingFacade
 ) : ModelBaseImpl(), PostPageModel {
 
     private lateinit var postModel: PostModel
@@ -46,7 +46,7 @@ constructor(
         get() = postModel.content.body.postBlock.metadata
 
     override val commentsPageSize: Int
-        get() = commentsLoader.pageSize
+        get() = commentsProcessing.pageSize
 
     override suspend fun loadPost() =
         withContext(dispatchersProvider.ioDispatcher) {
@@ -87,15 +87,22 @@ constructor(
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
 
-    override suspend fun loadStartFirstLevelCommentsPage() = commentsLoader.loadStartFirstLevelPage()
+    override suspend fun loadStartFirstLevelCommentsPage() = commentsProcessing.loadStartFirstLevelPage()
 
-    override suspend fun loadNextFirstLevelCommentsPage() = commentsLoader.loadNextFirstLevelPageByScroll()
+    override suspend fun loadNextFirstLevelCommentsPage() = commentsProcessing.loadNextFirstLevelPageByScroll()
 
-    override suspend fun retryLoadingFirstLevelCommentsPage() = commentsLoader.retryLoadFirstLevelPage()
+    override suspend fun retryLoadingFirstLevelCommentsPage() = commentsProcessing.retryLoadFirstLevelPage()
 
     override suspend fun loadNextSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
-        commentsLoader.loadNextSecondLevelPage(parentCommentId)
+        commentsProcessing.loadNextSecondLevelPage(parentCommentId)
 
     override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
-        commentsLoader.retryLoadSecondLevelPage(parentCommentId)
+        commentsProcessing.retryLoadSecondLevelPage(parentCommentId)
+
+    override suspend fun sendComment(commentText: String) {
+        val totalComments = postModel.comments.count
+
+        commentsProcessing.sendComment(commentText, totalComments > 0)
+        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments + 1))
+    }
 }

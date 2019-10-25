@@ -39,6 +39,9 @@ constructor(
     private val hasPostTitle: Boolean
         get() = postList.indexOfFirst { it is PostTitleListItem } != -1
 
+    private val newCommentPosition: Int
+        get() = if(hasPostTitle) 4 else 3
+
     // For thread-safety
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
@@ -187,6 +190,35 @@ constructor(
                 .let { postList.addAll(indexToNewData, it) }
         }
 
+    /**
+     * Adds first-level Loading indicator for a new comment
+     */
+    override suspend fun addLoadingForNewComment() =
+        updateSafe {            // Add to a fixed position - just after comments title
+            postList.add(newCommentPosition, FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+        }
+
+    /**
+     * Remove first-level Loading indicator for a new comment
+     */
+    override suspend fun removeLoadingForNewComment() =
+        updateSafe {            // Remove item from a fixed position - just after comments title
+            postList.removeAt(newCommentPosition)
+        }
+
+    override suspend fun addCommentsHeader() =
+        updateSafe {
+            postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST))
+        }
+
+    /**
+     * Adds new first-level comment (the loader'll be replaced)
+     */
+    override suspend fun addNewComment(comment: CommentModel) =
+        updateSafe {
+            postList[newCommentPosition] = CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId)
+        }
+
     private suspend fun updateSafe(action: () -> Unit) =
         withContext(singleThreadDispatcher) {
             action()
@@ -256,8 +288,8 @@ constructor(
         val oldTitle = postList.singleOrNull { it is CommentsTitleListItem }
 
         val newTitle = if(postModel.comments.count != 0L) {
-            CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST) }
-        else  {
+            CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST)
+        } else  {
             null
         }
 

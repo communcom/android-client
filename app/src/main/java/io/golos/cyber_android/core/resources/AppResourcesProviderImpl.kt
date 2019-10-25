@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.IntegerRes
 import io.golos.cyber_android.R
 import io.golos.domain.AppResourcesProvider
 import java.io.InputStream
@@ -32,6 +33,8 @@ constructor(
     override fun getQuantityString(resId: Int, quantity: Int): String = appContext.resources.getQuantityString(resId, quantity)
 
     override fun getDimens(@DimenRes resId: Int): Float = appContext.resources.getDimension(resId)
+
+    override fun getInteger(@IntegerRes resId: Int): Int = appContext.resources.getInteger(resId)
 
     @Suppress("DEPRECATION")
     @ColorInt

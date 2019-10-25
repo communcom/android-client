@@ -1,6 +1,6 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.first_level
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.first_level_loader
 
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoaderBase
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsLoaderBase
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
@@ -9,10 +9,8 @@ import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.lang.Exception
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentNavigableMap
 import kotlin.random.Random
 
 class FirstLevelLoaderImpl

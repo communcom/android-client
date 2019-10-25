@@ -9,8 +9,8 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoadingFacade
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoadingFacadeImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacadeImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
@@ -55,5 +55,5 @@ abstract class PostPageFragmentModuleBinds {
     abstract fun bindVotingMachine(machine: VotingMachineImpl): VotingMachine
 
     @Binds
-    abstract fun bindCommentsLoadingFacade(facade: CommentsLoadingFacadeImpl): CommentsLoadingFacade
+    abstract fun bindCommentsLoadingFacade(facade: CommentsProcessingFacadeImpl): CommentsProcessingFacade
 }

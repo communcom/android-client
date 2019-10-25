@@ -7,29 +7,32 @@ import io.golos.commun4j.model.DiscussionVotes
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.interactors.model.DiscussionAuthorModel
+import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 import java.util.*
 import kotlin.random.Random
 
 object CommentsDataFactory {
     private val texts = listOf(
-        "Far over the misty mountains cold",
-        "To dungeons deep and caverns old",
-        "We must away, ere break of day,",
-        "To find our long-forgotten gold.",
-        "The dwarves of yore made mighty spells,",
-        "While hammers fell like ringing bells",
-        "In places deep, where dark things sleep,",
-        "In hollow halls beneath the fells.",
-        "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort.",
-        "It had a perfectly round door like a porthole, painted green, with a shiny yellow brass knob in the exact middle.",
-        "The door opened on to a tube-shaped hall like a tunnel: a very comfortable tunnel without smoke, with panelled walls, and floors tiled and carpeted, provided with polished chairs,",
-        "This hobbit was a very well-to-do hobbit, and his name was Baggins.",
-        "The Bagginses had lived in the neighbourhood of The Hill for time out of mind, and people considered them very respectable, not only because most of them were rich, but also because they never had any adventures or did anything unexpected: you could tell what a Baggins would say",
-        "The mother of our particular hobbit... what is a hobbit? I suppose hobbits need some description nowadays, since they have become rare and shy of the Big People, as they call us. They are (or were) a little people, about half our height, and smaller than the bearded Dwarves. Hobbits have no beards. There is little or no magic about them, except the ordinary",
-        "everyday sort which helps them to disappear quietly and quickly when large stupid folk like you and me come blundering along, making a noise like elephants which they can hear a mile off. They are inclined to be at in the stomach; they dress in bright colours (chiefly green and yellow); wear no shoes, because their feet grow natural leathery soles and thick",
-        "warm brown hair like the stuff on their heads (which is curly); have long clever brown fingers, good-natured faces, and laugh deep fruity laughs (especially after dinner, which they have twice a day when they can get it). Now you know enough to go on with. As I was saying, the mother of this hobbit - of Bilbo Baggins, that is - was the fabulous Belladonna Took,",
-        "one of the three remarkable daughters of the Old Took, head of the hobbits who lived across The Water, the small river that ran at the foot of The Hill. It was often said (in other families) that long ago one of the Took ancestors must have taken a fairy wife. That was, of course, absurd, but certainly there was still something not entirely hobbit-like about them"
+//        "Far over the misty mountains cold",
+//        "To dungeons deep and caverns old",
+//        "We must away, ere break of day,",
+//        "To find our long-forgotten gold.",
+//        "The dwarves of yore made mighty spells,",
+//        "While hammers fell like ringing bells",
+//        "In places deep, where dark things sleep,",
+//        "In hollow halls beneath the fells.",
+//        "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort.",
+//        "It had a perfectly round door like a porthole, painted green, with a shiny yellow brass knob in the exact middle.",
+//        "The door opened on to a tube-shaped hall like a tunnel: a very comfortable tunnel without smoke, with panelled walls, and floors tiled and carpeted, provided with polished chairs,",
+//        "This hobbit was a very well-to-do hobbit, and his name was Baggins.",
+//        "The Bagginses had lived in the neighbourhood of The Hill for time out of mind, and people considered them very respectable, not only because most of them were rich, but also because they never had any adventures or did anything unexpected: you could tell what a Baggins would say",
+        "The mother of our particular hobbit... what is a hobbit? I suppose hobbits need some description nowadays, since they have become rare and shy of the Big People, as they call us. \nThey are (or were) a little people, about half our height, and smaller than the bearded Dwarves. \nHobbits have no beards. There is little or no magic about them, except the ordinary",
+        "everyday sort which helps them to disappear quietly and quickly when large stupid folk like you and me come blundering along, making a noise like elephants which they can hear a mile off. \nThey are inclined to be at in the stomach; they dress in bright colours (chiefly green and yellow); wear no shoes, because their feet grow natural leathery soles and thick",
+        "warm brown hair like the stuff on their heads (which is curly); have long clever brown fingers, good-natured faces, and laugh deep fruity laughs (especially after dinner, which they have twice a day when they can get it). \nNow you know enough to go on with. As I was saying, the mother of this hobbit - of Bilbo Baggins, that is - was the fabulous Belladonna Took,",
+        "one of the three remarkable daughters of the Old Took, head of the hobbits who lived across The Water, the small river that ran at the foot of The Hill. \nIt was often said (in other families) that long ago one of the Took ancestors must have taken a fairy wife. That was, of course, absurd, but certainly there was still something not entirely hobbit-like about them"
     )
 
     private val users = listOf(
@@ -46,7 +49,7 @@ object CommentsDataFactory {
         DiscussionAuthor(CyberName("tst3xxiihfzq"), "berty", null)
     )
 
-    fun createComments(): List<CommentDiscussionRaw> {
+    fun createComments(): MutableList<CommentDiscussionRaw> {
         val firstLevelsCount = Random.nextInt(30, 50)
         val firstLevelList = mutableListOf<CommentDiscussionRaw>()
 
@@ -81,8 +84,26 @@ object CommentsDataFactory {
         return firstLevelList
     }
 
+    fun createComment(
+        contentAsJson: String,
+        post: DiscussionIdModel,
+        author: DiscussionAuthorModel,
+        permlink: Permlink): CommentDiscussionRaw {
+
+        return CommentDiscussionRaw(
+            content = contentAsJson,
+            votes = DiscussionVotes(Random.nextLong(-1000, 1000), Random.nextLong(-1000, 1000)),
+            meta = DiscussionMetadata(Date()),
+            contentId = DiscussionId(author.userId.userId, permlink.value),
+            author = DiscussionAuthor(CyberName(author.userId.userId), author.username, author.avatarUrl),
+            parentContentId = DiscussionId(post.userId, post.permlink.value),
+            childTotal = 0L,
+            child = listOf()
+        )
+    }
+
     private fun createRandomComment(parentId: DiscussionId?): CommentDiscussionRaw {
-        val content = CommentToJsonMapper.mapText(texts[Random.nextInt(texts.size)])
+        val content = CommentToJsonMapper.mapTextToJson(texts[Random.nextInt(texts.size)])
         val votes = DiscussionVotes(Random.nextLong(-1000, 1000), Random.nextLong(-1000, 1000))
         val meta = DiscussionMetadata(Random.nextDate())
         val author = users[Random.nextInt(users.size)]

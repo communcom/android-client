@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.first_level
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.first_level_loader
 
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel

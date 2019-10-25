@@ -1,6 +1,6 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.second_level
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.second_level_loader
 
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader.CommentsLoaderBase
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsLoaderBase
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider

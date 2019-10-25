@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
+import io.golos.cyber_android.ui.common.extensions.loadAvatar
 import io.golos.cyber_android.ui.common.formatters.time_estimation.TimeEstimationFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
@@ -39,7 +40,7 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
     parentView,
     R.layout.item_post_comment
 ) {
-    private val maxStringLenToCutNeeded = 330
+    private val maxStringLenToCutNeeded = 285
 
     @ColorInt
     private val spansColor: Int
@@ -63,16 +64,7 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
 
     abstract fun inject()
 
-    protected fun loadAvatarIcon(avatarUrl: String?) {
-        if (avatarUrl != null) {
-            Glide.with(itemView).load(avatarUrl)
-        } else {
-            Glide.with(itemView).load(R.drawable.ic_empty_user)
-        }.apply {
-            apply(RequestOptions.circleCropTransform())
-            into(_userAvatar)
-        }
-    }
+    protected fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
 
     protected fun getCommentText(
         author: DiscussionAuthorModel,
@@ -109,8 +101,13 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
         }
 
         // Paragraphs
+        var isFirstParagraph = true
         content.content.forEach {
             if (it is ParagraphBlock) {
+                if(!isFirstParagraph) {
+                    result.append("\n")
+                }
+                isFirstParagraph = false
                 result.append(getParagraphText(it))
             }
         }

@@ -78,6 +78,9 @@ constructor(
     private val _postHeader = MutableLiveData<PostHeader>()
     val postHeader = _postHeader as LiveData<PostHeader>
 
+    private val _commentFieldEnabled = MutableLiveData<Boolean>(false)
+    val commentFieldEnabled = _commentFieldEnabled as LiveData<Boolean>
+
     fun setup() {
         if(wasMovedToChild) {
             wasMovedToChild = false
@@ -98,6 +101,7 @@ constructor(
                 command.value = NavigateToMainScreenCommand()
             } finally {
                 command.value = SetLoadingVisibilityCommand(false)
+                _commentFieldEnabled.value = true
             }
         }
     }
@@ -201,6 +205,20 @@ constructor(
         processSimple {
             model.retryLoadingSecondLevelCommentsPage(parentCommentId)
         }
+
+    fun onSendCommentClick(commentText: String) {
+        launch {
+            try {
+                _commentFieldEnabled.value = false
+                model.sendComment(commentText)
+                command.value = ClearCommentTextViewCommand()
+            } catch(ex: Exception) {
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _commentFieldEnabled.value = true
+            }
+        }
+    }
 
     private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
 

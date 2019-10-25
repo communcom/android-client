@@ -270,7 +270,7 @@ constructor(
                 null
             }
         }
-        crashlytics.registerUser(userMetadata?.username ?: resolvedName.name, userMetadata?.userId?.name ?: originalName.userId)
+        crashlytics.registerUser(userMetadata?.profile?.username ?: resolvedName.name, userMetadata?.profile?.userId?.name ?: originalName.userId)
 
         val loadingQuery = withContext(dispatchersProvider.calculationsDispatcher) {
             authRequestsLiveData.value?.entries?.find {
@@ -297,6 +297,7 @@ constructor(
 
             authState.value = finalAuthState
             currentUserRepository.authState = finalAuthState
+            currentUserRepository.userAvatarUrl = userMetadata?.avatarUrl
 
             val originalLoadingQuery = loadingQuery.value as QueryResult.Loading
             authRequestsLiveData.value =

@@ -15,6 +15,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
 import io.golos.domain.dependency_injection.scopes.UIScope
 
@@ -46,4 +47,5 @@ interface UIComponent {
     val communityPageFragment: CommunityPageFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
+    fun inject(widget: CommentWidgetNew)
 }

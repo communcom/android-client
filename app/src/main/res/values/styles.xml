@@ -73,13 +73,20 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="CommentsTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="CommentsBaseTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+    </style>
+
+    <style name="CommentsTextStyle" parent="CommentsBaseTextStyle">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_13_sp</item>
         <item name="android:lineSpacingExtra">3dp</item>
     </style>
 
-    <style name="CommentsReplyAndTimeTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="CommentsEnterTextStyle" parent="CommentsBaseTextStyle">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="CommentsReplyAndTimeTextStyle" parent="CommentsBaseTextStyle">
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_size_13_sp</item>
         <item name="android:textStyle">bold</item>

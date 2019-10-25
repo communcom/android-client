@@ -12,6 +12,8 @@ import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
+import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.commun4j.utils.Pair as CommunPair
 
@@ -50,6 +52,13 @@ interface DiscussionsApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
+    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
+
+    fun createComment(
+        commentContentAsJson: String,
+        postId: DiscussionIdModel,
+        commentAuthor: DiscussionAuthorModel,
+        commentPermlink: Permlink
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
 
     fun createPost(

@@ -20,6 +20,8 @@ interface AppResourcesProvider {
 
     fun getDimens(@DimenRes resId: Int): Float
 
+    fun getInteger(@IntegerRes resId: Int): Int
+
     @ColorInt
     fun getColor(@ColorRes resId: Int): Int
 

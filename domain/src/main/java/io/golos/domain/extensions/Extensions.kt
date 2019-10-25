@@ -22,7 +22,7 @@ fun <Q, T> QueryResult<Q>.map(param: T) =
     }
 
 
-internal fun Date.asElapsedTime(): ElapsedTime {
+fun Date.asElapsedTime(): ElapsedTime {
     val fromTimeStamp = this.time
 
     return fromTimeStamp.minutesElapsedFromTimeStamp().let { elapsedMinutesFromPostCreation ->

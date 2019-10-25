@@ -173,6 +173,6 @@ constructor(
 
     private suspend fun getUserMetadata(): GetProfileResult =
         withContext(dispatchersProvider.ioDispatcher) {
-            metadadataApi.getUserMetadata(keyValueStorage.getAuthState()!!.user)
+            metadadataApi.getUserMetadata(keyValueStorage.getAuthState()!!.user).profile
         }
 }

@@ -6,8 +6,12 @@ interface CurrentUserRepositoryRead {
     val authState: AuthState?
 
     val userId: String
+
+    val userAvatarUrl: String?
 }
 
 interface CurrentUserRepository : CurrentUserRepositoryRead {
     override var authState: AuthState?
+
+    override var userAvatarUrl: String?
 }

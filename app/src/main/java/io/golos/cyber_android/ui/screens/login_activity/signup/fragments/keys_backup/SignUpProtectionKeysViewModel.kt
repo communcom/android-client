@@ -116,6 +116,6 @@ constructor(
 
     private suspend fun getUserMetadata(user: CyberName): GetProfileResult =
         withContext(dispatchersProvider.ioDispatcher) {
-            metadadataApi.getUserMetadata(user)
+            metadadataApi.getUserMetadata(user).profile
         }
 }

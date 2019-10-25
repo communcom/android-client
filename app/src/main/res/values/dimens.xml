@@ -93,7 +93,7 @@
     <dimen name="margin_top_post_card_comment">22dp</dimen>
     <dimen name="margin_bottom_post_card_comment">18dp</dimen>
     <dimen name="margin_horizontal_post_card_downvote">12dp</dimen>
-    <dimen name="corners_post_card_comment">10dp</dimen>
+    <dimen name="corners_post_card_comment">17dp</dimen>
     <dimen name="size_post_card_comment_buttons">36dp</dimen>
     <dimen name="divider_post_card_height">8dp</dimen>
     <dimen name="margin_top_post_card_media">16dp</dimen>

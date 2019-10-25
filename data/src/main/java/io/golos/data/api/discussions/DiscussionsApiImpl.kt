@@ -12,11 +12,11 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
-import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
+import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import java.util.*
 import javax.inject.Inject
@@ -28,9 +28,9 @@ class DiscussionsApiImpl
 constructor(
     commun4j: Commun4j,
     currentUserRepository: CurrentUserRepositoryRead,
-    private val communitiesApi: CommunitiesApi,
-    private val dispatchersProvider: DispatchersProvider
-) : Commun4jApiBase(commun4j, currentUserRepository), DiscussionsApi {
+    private val communitiesApi: CommunitiesApi
+) : Commun4jApiBase(commun4j, currentUserRepository),
+    DiscussionsApi {
 
     override fun createComment(
         body: String,
@@ -64,6 +64,21 @@ constructor(
 //        .getOrThrow()
 //        .run { this to this.extractResult() }
     }
+
+    override fun createComment(
+        commentContentAsJson: String,
+        postId: DiscussionIdModel,
+        commentAuthor: DiscussionAuthorModel,
+        commentPermlink: Permlink
+    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct> {
+        val comment = CommentsDataFactory.createComment(commentContentAsJson, postId, commentAuthor, commentPermlink)
+
+        DataStorage.commentsForPost[postId.permlink.value]!!.add(comment)
+        DataStorage.comments[commentPermlink.value] = comment
+
+        return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getCreatemssgComnGalleryStruct("", ""))
+    }
+
 
     override fun createPost(
         title: String,

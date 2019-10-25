@@ -40,7 +40,7 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
      */
     fun sendComment(id: DiscussionIdModel, comment: CharSequence) {
         if (validateComment(comment)) {
-            val jsonComment = CommentToJsonMapper.mapText(comment.toString())
+            val jsonComment = CommentToJsonMapper.mapTextToJson(comment.toString())
 
             val postRequest = CommentCreationRequestModel(jsonComment, id, emptyList())
             posterUseCase.createPostOrComment(postRequest)

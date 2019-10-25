@@ -1,8 +1,8 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_loader
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 
 import io.golos.domain.interactors.model.DiscussionIdModel
 
-interface CommentsLoadingFacade {
+interface CommentsProcessingFacade {
     val pageSize: Int
 
     suspend fun loadStartFirstLevelPage()
@@ -14,4 +14,6 @@ interface CommentsLoadingFacade {
     suspend fun loadNextSecondLevelPage(parentCommentId: DiscussionIdModel)
 
     suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel)
+
+    suspend fun sendComment(commentText: String, postHasComments: Boolean)
 }

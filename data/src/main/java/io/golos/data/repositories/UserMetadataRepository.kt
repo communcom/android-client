@@ -98,7 +98,7 @@ constructor(
                     is UserMetadataFetchRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
                             metadataApi.getUserMetadata(params.user)
-                                .run { UserMetadataToEntityMapper.map(this) }
+                                .run { UserMetadataToEntityMapper.map(this.profile) }
                         }
                         savedMetadata.value =
                             UserMetadataCollectionEntity(savedMetadata.value?.map.orEmpty() + (params.user to updatedMeta))
@@ -114,7 +114,7 @@ constructor(
                             if (params.shouldWaitForTransaction) {
                                 transactionsApi.waitForTransaction(transactionResult.transaction_id)
                                 metadataApi.getUserMetadata(params.user)
-                                    .run { UserMetadataToEntityMapper.map(this) }
+                                    .run { UserMetadataToEntityMapper.map(this.profile) }
                             } else {
                                 //if we should not wait for transaction to complete, then we need to provide
                                 //to user some response for his request. So we try to obtain previously saved

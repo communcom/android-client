@@ -39,4 +39,21 @@ interface PostListDataSourceComments {
         isEndOfDataReached: Boolean,
         nextTopCommentAuthor: DiscussionAuthorModel?
     )
+
+    /**
+     * Adds first-level Loading indicator for a new comment
+     */
+    suspend fun addLoadingForNewComment()
+
+    /**
+     * Remove first-level Loading indicator for a new comment
+     */
+    suspend fun removeLoadingForNewComment()
+
+    suspend fun addCommentsHeader()
+
+    /**
+     * Adds new first-level comment (the loader'll be replaced)
+     */
+    suspend fun addNewComment(comment: CommentModel)
 }
