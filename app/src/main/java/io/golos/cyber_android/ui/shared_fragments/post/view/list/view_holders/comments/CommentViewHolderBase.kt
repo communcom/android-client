@@ -5,21 +5,24 @@ import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.common.extensions.loadAvatar
 import io.golos.cyber_android.ui.common.formatters.time_estimation.TimeEstimationFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.common.spans.StyledColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.StyledTextClickableSpan
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.AppResourcesProvider
@@ -34,7 +37,7 @@ import io.golos.domain.post.toTypeface
 import javax.inject.Inject
 
 @Suppress("PropertyName")
-abstract class CommentViewHolderBase<T: VersionedListItem>(
+abstract class CommentViewHolderBase<T: CommentListItem>(
     parentView: ViewGroup
 ) : ViewHolderBase<PostPageViewModelListEventsProcessor, T>(
     parentView,
@@ -52,7 +55,18 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
     internal lateinit var appResourcesProvider: AppResourcesProvider
 
     abstract val _userAvatar: ImageView
+
     abstract val _voting: VotingWidget
+
+    abstract val _mainCommentText: TextView
+
+    abstract val _replyAndTimeText: TextView
+
+    abstract val _processingProgress: ProgressBar
+
+    abstract val _warning: ImageView
+
+    abstract val _rootView: View
 
     init {
         @Suppress("LeakingThis")
@@ -62,11 +76,47 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
         moreLabelColor = appResourcesProvider.getColor(R.color.dark_gray)
     }
 
+    @CallSuper
+    override fun init(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
+        loadAvatarIcon(listItem.author.avatarUrl)
+
+        _mainCommentText.text = getCommentText(
+            listItem.author,
+            getParentAuthor(listItem),
+            listItem.currentUserId,
+            listItem.content,
+            true)
+
+        _replyAndTimeText.text = getReplyAndTimeText(listItem.metadata)
+
+        setVoting(listItem.votes)
+
+        setProcessingState(listItem.state)
+
+        if(listItem.author.userId.userId == listItem.currentUserId) {
+            _rootView.setOnLongClickListener {
+                if(listItem.state != CommentListItemState.PROCESSING) {
+                    listItemEventsProcessor.onCommentLongClick(listItem.externalId)
+                }
+                true
+            }
+        }
+    }
+
+    @CallSuper
+    override fun release() {
+        _rootView.setOnLongClickListener {
+            false
+        }
+    }
+
     abstract fun inject()
 
-    protected fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
+    abstract fun getParentAuthor(listItem: T): DiscussionAuthorModel?
 
-    protected fun getCommentText(
+    private fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
+
+    private fun getCommentText(
         author: DiscussionAuthorModel,
         parentAuthor: DiscussionAuthorModel?,
         currentUserId: String,
@@ -132,13 +182,13 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
         return result
     }
 
-    protected fun setVoting(votes: DiscussionVotesModel) {
+    private fun setVoting(votes: DiscussionVotesModel) {
         _voting.setVoteBalance(votes.upCount - votes.downCount)
         _voting.setUpVoteButtonSelected(votes.hasUpVote)
         _voting.setDownVoteButtonSelected(votes.hasDownVote)
     }
 
-    protected fun getReplyAndTimeText(metadata: DiscussionMetadataModel): SpannableStringBuilder {
+    private fun getReplyAndTimeText(metadata: DiscussionMetadataModel): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         // Reply label
@@ -205,5 +255,10 @@ abstract class CommentViewHolderBase<T: VersionedListItem>(
                 // onClickProcessor?.onLinkInPostClick(spanData)
             }
         }, textInterval)
+    }
+
+    private fun setProcessingState(state: CommentListItemState) {
+        _processingProgress.visibility = if(state == CommentListItemState.PROCESSING) View.VISIBLE else View.INVISIBLE
+        _warning.visibility = if(state == CommentListItemState.ERROR) View.VISIBLE else View.INVISIBLE
     }
 }

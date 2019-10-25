@@ -23,6 +23,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
@@ -50,9 +51,6 @@ import javax.inject.Inject
 class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
 
     private lateinit var binding: FragmentPostBinding
-
-    private val POST_MENU_REQUEST = 102
-    private val COMMENTS_SORTING_MENU_REQUEST = 103
 
     @Parcelize
     data class Args(
@@ -134,6 +132,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
                 is ClearCommentTextViewCommand -> postComment.clearText()
 
+                is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
+
                 else -> throw UnsupportedOperationException("This command is not supported")
             }
         })
@@ -143,16 +143,23 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
-            POST_MENU_REQUEST -> {
+            PostPageMenuDialog.REQUEST -> {
                 when (resultCode) {
                     PostPageMenuDialog.RESULT_EDIT -> viewModel.editPost()
                     PostPageMenuDialog.RESULT_DELETE -> deletePost()
                 }
             }
-            COMMENTS_SORTING_MENU_REQUEST -> {
+            PostPageSortingComments.REQUEST -> {
                 when (resultCode) {
                     PostPageSortingComments.RESULT_INTERESTING_FIRST -> viewModel.updateCommentsSorting(SortingType.INTERESTING_FIRST)
                     PostPageSortingComments.RESULT_BY_TIME -> viewModel.updateCommentsSorting(SortingType.BY_TIME)
+                }
+            }
+            CommentsActionsDialog.REQUEST -> {
+                when (resultCode) {
+                    CommentsActionsDialog.RESULT_EDIT -> {}
+                    CommentsActionsDialog.RESULT_DELETE ->
+                        viewModel.deleteComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
                 }
             }
         }
@@ -189,13 +196,19 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
     private fun showPostMenu(isMyPost: Boolean, version: PostFormatVersion, type: PostType) {
         PostPageMenuDialog.newInstance(isMyPost, type, version).apply {
-            setTargetFragment(this@PostPageFragment, POST_MENU_REQUEST)
+            setTargetFragment(this@PostPageFragment, PostPageMenuDialog.REQUEST)
         }.show(requireFragmentManager(), "menu")
     }
 
     private fun showCommentsSortingMenu() {
         PostPageSortingComments.newInstance().apply {
-            setTargetFragment(this@PostPageFragment, COMMENTS_SORTING_MENU_REQUEST)
+            setTargetFragment(this@PostPageFragment, PostPageSortingComments.REQUEST)
+        }.show(requireFragmentManager(), "menu")
+    }
+
+    private fun showCommentMenu(commentId: DiscussionIdModel) {
+        CommentsActionsDialog.newInstance(commentId).apply {
+            setTargetFragment(this@PostPageFragment, CommentsActionsDialog.REQUEST)
         }.show(requireFragmentManager(), "menu")
     }
 }

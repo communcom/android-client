@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 
 import dagger.Lazy
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoader
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoader
@@ -16,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.random.Random
 
 class CommentsProcessingFacadeImpl
 @Inject
@@ -90,6 +92,28 @@ constructor(
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
+            throw ex
+        }
+    }
+
+    override suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean) {
+        postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
+
+        try {
+            withContext(dispatchersProvider.ioDispatcher) {
+                delay(1000)
+
+                discussionRepository.deleteComment(commentId)
+            }
+
+            postListDataSource.deleteComment(commentId)
+
+            if(isSingleComment) {
+                postListDataSource.deleteCommentsHeader()
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
             throw ex
         }
     }

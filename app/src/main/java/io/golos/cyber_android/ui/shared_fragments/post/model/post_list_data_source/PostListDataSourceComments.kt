@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source
 
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -52,8 +53,11 @@ interface PostListDataSourceComments {
 
     suspend fun addCommentsHeader()
 
-    /**
-     * Adds new first-level comment (the loader'll be replaced)
-     */
     suspend fun addNewComment(comment: CommentModel)
+
+    suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState)
+
+    suspend fun deleteComment(commentId: DiscussionIdModel)
+
+    suspend fun deleteCommentsHeader()
 }

@@ -46,7 +46,7 @@ abstract class DiscussionCreationRepositoryBase(
                     request.tags,
                     request.metadata
                 )
-                is DeleteDiscussionRequest -> discussionsCreationApi.deletePostOrComment(request.permlink)
+                is DeleteDiscussionRequest -> discussionsCreationApi.deletePost(request.permlink)
             }
 
             transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)

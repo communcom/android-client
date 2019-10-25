@@ -206,6 +206,10 @@ constructor(
             model.retryLoadingSecondLevelCommentsPage(parentCommentId)
         }
 
+    override fun onCommentLongClick(commentId: DiscussionIdModel) {
+        command.value = ShowCommentMenuViewCommand(commentId)
+    }
+
     fun onSendCommentClick(commentText: String) {
         launch {
             try {
@@ -219,6 +223,11 @@ constructor(
             }
         }
     }
+
+    fun deleteComment(commentId: DiscussionIdModel) =
+        processSimple {
+            model.deleteComment(commentId)
+        }
 
     private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
 

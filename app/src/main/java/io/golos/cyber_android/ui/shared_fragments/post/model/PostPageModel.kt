@@ -40,4 +40,6 @@ interface PostPageModel : ModelBase {
     suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
 
     suspend fun sendComment(commentText: String)
+
+    suspend fun deleteComment(commentId: DiscussionIdModel)
 }

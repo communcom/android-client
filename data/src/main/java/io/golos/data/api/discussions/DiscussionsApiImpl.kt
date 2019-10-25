@@ -148,22 +148,29 @@ constructor(
 //            .getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun deletePostOrComment(postOrCommentPermlink: Permlink):
+    override fun deletePost(postPermlink: Permlink):
             CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-            val postToRemove = DataStorage.posts.single { it.contentId.permlink == postOrCommentPermlink.value }
+            val postToRemove = DataStorage.posts.single { it.contentId.permlink == postPermlink.value }
             DataStorage.posts.remove(postToRemove)
 
-            return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postOrCommentPermlink))
+            return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postPermlink))
 
 //        return commun4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run {
 //                this to this.extractResult()
 //            }
     }
+
+    override fun deleteComment(commentPermlink: Permlink):
+            CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct> {
+
+        return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, commentPermlink))
+    }
+
 
     override fun getCommunityPosts(
         communityId: String,

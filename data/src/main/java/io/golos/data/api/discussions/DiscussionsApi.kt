@@ -80,7 +80,9 @@ interface DiscussionsApi {
         newJsonMetadata: DiscussionCreateMetadata
     ): CommunPair<TransactionCommitted<UpdatemssgComnGalleryStruct>, UpdatemssgComnGalleryStruct>
 
-    fun deletePostOrComment(postOrCommentPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+    fun deletePost(postPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+
+    fun deleteComment(commentPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
 
     /**
      * Returns list of comments

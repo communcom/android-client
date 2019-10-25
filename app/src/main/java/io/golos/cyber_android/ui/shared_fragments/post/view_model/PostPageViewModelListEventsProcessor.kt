@@ -26,4 +26,6 @@ interface PostPageViewModelListEventsProcessor {
     fun onCollapsedCommentsClick(parentCommentId: DiscussionIdModel)
 
     fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel)
+
+    fun onCommentLongClick(commentId: DiscussionIdModel)
 }

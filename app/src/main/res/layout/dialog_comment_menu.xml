@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
 
     android:layout_width="match_parent"
@@ -12,24 +13,28 @@
     android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/interestingFirst"
+        android:id="@+id/edit"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         style="@style/BottomSheetMenuItem"
 
-        android:text="@string/post_comments_interesting_first_sort"
+        android:text="@string/edit_comment"
+
+        app:drawableEndCompat="@drawable/ic_edit"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/byTime"
+        android:id="@+id/delete"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        style="@style/BottomSheetMenuItem"
+        style="@style/BottomSheetMenuItem.Dangerous"
 
-        android:text="@string/post_comments_by_time_sort"
+        android:text="@string/delete_comment"
+
+        app:drawableEndCompat="@drawable/ic_delete"
         />
 </LinearLayout>

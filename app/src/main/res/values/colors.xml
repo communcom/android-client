@@ -53,4 +53,7 @@
     <color name="blue_button">@color/blue</color>
     <color name="blue_button_pressed">@color/blue_40</color>
     <color name="blue_button_disabled">#A5A7BD</color>
+
+    <color name="bottom_sheet_dialog_bcg">#F7F7F9</color>
+    <color name="bottom_sheet_dialog_dangerous">#ED2C5B</color>
 </resources>

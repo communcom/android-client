@@ -60,6 +60,11 @@ constructor(
         return createCommentModel(contentAsJson, postId, author, permlink)
     }
 
+    override fun deleteComment(commentId: DiscussionIdModel) {
+        val apiAnswer = discussionsApi.deleteComment(commentId.permlink)
+        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
+    }
+
     private fun createCommentModel(contentAsJson: String, postId: DiscussionIdModel, author: DiscussionAuthorModel, permlink: Permlink) =
         CommentModel(
             contentId = DiscussionIdModel(currentUserRepository.userId, permlink),

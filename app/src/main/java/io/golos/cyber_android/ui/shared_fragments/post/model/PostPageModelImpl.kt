@@ -105,4 +105,11 @@ constructor(
         commentsProcessing.sendComment(commentText, totalComments > 0)
         postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments + 1))
     }
+
+    override suspend fun deleteComment(commentId: DiscussionIdModel) {
+        val totalComments = postModel.comments.count
+
+        commentsProcessing.deleteComment(commentId, totalComments == 1L)
+        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments - 1))
+    }
 }

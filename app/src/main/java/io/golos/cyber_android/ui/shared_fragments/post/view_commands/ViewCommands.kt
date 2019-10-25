@@ -16,6 +16,8 @@ class StartEditPostViewCommand(val postId: DiscussionIdModel): ViewCommand
 
 class ShowPostMenuViewCommand(val isMyPost: Boolean, val version: PostFormatVersion, val type: PostType): ViewCommand
 
-class ShowCommentsSortingMenuViewCommand(): ViewCommand
+class ShowCommentsSortingMenuViewCommand : ViewCommand
 
-class ClearCommentTextViewCommand(): ViewCommand
+class ClearCommentTextViewCommand : ViewCommand
+
+class ShowCommentMenuViewCommand(val commentId: DiscussionIdModel): ViewCommand

@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source
 
-import android.util.Log
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.FirstLevelCommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.SecondLevelCommentListItem
 import io.golos.domain.interactors.model.CommentModel
@@ -23,7 +22,8 @@ object CommentsMapper {
             currentUserId = currentUserId,
             content = model.content.body.postBlock,
             votes = model.votes,
-            metadata = model.meta
+            metadata = model.meta,
+            state = CommentListItemState.NORMAL
         )
     }
 
@@ -44,7 +44,8 @@ object CommentsMapper {
             currentUserId = currentUserId,
             content = model.content.body.postBlock,
             votes = model.votes,
-            metadata = model.meta
+            metadata = model.meta,
+            state = CommentListItemState.NORMAL
         )
     }
 }

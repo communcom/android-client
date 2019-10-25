@@ -152,6 +152,7 @@
     <dimen name="post_comments_text_margin">10dp</dimen>
     <dimen name="post_comments_voting_margin">5dp</dimen>
     <dimen name="post_comments_reply_margin">10dp</dimen>
+    <dimen name="post_comments_state_icon_size">15dp</dimen>
 
     <dimen name="post_comments_loading_height">@dimen/post_comments_reloading_height</dimen>
 
@@ -385,5 +386,13 @@
     <dimen name="tab_layout_height_default">46dp</dimen>
     <dimen name="tab_line_width">16dp</dimen>
     <dimen name="tab_line_height">2dp</dimen>
+    <!--Bottom sheet dialog-->
+    <dimen name="bottom_sheet_dialog_padding_top">5dp</dimen>
+    <dimen name="bottom_sheet_dialog_padding_bottom">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_margin_horizontal">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_margin_vertical">10dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_icon">30dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_horizontal">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_vertical">16dp</dimen>
 
 </resources>

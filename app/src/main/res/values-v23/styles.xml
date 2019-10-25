@@ -5,4 +5,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem">
+        <item name="android:textColor">@color/bottom_sheet_dialog_dangerous</item>
+        <item name="android:drawableTint">@color/bottom_sheet_dialog_dangerous</item>
+    </style>
 </resources>

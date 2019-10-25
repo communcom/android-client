@@ -15,6 +15,7 @@ import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.lang.UnsupportedOperationException
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -219,6 +220,31 @@ constructor(
             postList[newCommentPosition] = CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId)
         }
 
+    override suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState) =
+        updateComment(commentId) {
+            when(it) {
+                is FirstLevelCommentListItem -> it.copy(version = it.version+1, state = state)
+                is SecondLevelCommentListItem -> it.copy(version = it.version+1, state = state)
+                else -> throw UnsupportedOperationException("This comment type is not supported")
+            }
+        }
+
+    override suspend fun deleteComment(commentId: DiscussionIdModel) =
+        updateSafe {
+            val commentIndex = postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
+            if(commentIndex != -1) {
+                postList.removeAt(commentIndex)
+            }
+        }
+
+    override suspend fun deleteCommentsHeader() =
+        updateSafe {
+            val headerIndex = postList.indexOfFirst { it is CommentsTitleListItem }
+            if(headerIndex != -1) {
+                postList.removeAt(headerIndex)
+            }
+        }
+
     private suspend fun updateSafe(action: () -> Unit) =
         withContext(singleThreadDispatcher) {
             action()
@@ -301,6 +327,15 @@ constructor(
             oldTitle != null && newTitle == null -> postList.remove(oldTitle)
             oldTitle != null && newTitle != null ->
                 postList[commentsTitleIndex] = newTitle.copy(id = oldTitle.id, version = oldTitle.version + 1)
+        }
+    }
+
+    private suspend fun updateComment(commentId: DiscussionIdModel, updateAction: (CommentListItem) -> CommentListItem) {
+        updateSafe {
+            val controlsIndex = postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
+            if(controlsIndex != -1) {
+                postList[controlsIndex] = updateAction(postList[controlsIndex] as CommentListItem)
+            }
         }
     }
 }

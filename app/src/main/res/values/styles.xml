@@ -24,6 +24,27 @@
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
+    <!--Bottom sheet dialog-->
+    <style name="BottomSheetMenuItem" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+
+        <item name="android:background">@drawable/bcg_bottom_sheet_dialog_round_corners_button</item>
+
+        <item name="android:layout_marginStart">@dimen/bottom_sheet_dialog_item_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/bottom_sheet_dialog_item_margin_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/bottom_sheet_dialog_item_margin_vertical</item>
+
+        <item name="android:drawablePadding">@dimen/bottom_sheet_dialog_item_padding_icon</item>
+
+        <item name="android:paddingTop">@dimen/bottom_sheet_dialog_item_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/bottom_sheet_dialog_item_padding_vertical</item>
+        <item name="android:paddingStart">@dimen/bottom_sheet_dialog_item_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/bottom_sheet_dialog_item_padding_horizontal</item>
+    </style>
+
+    <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem">
+    </style>
+
     <style name="Post.Image.Description.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
