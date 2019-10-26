@@ -7,13 +7,14 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRenderer
+import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRendererImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacadeImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollection
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OutCommentsCollectionImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
@@ -61,8 +62,8 @@ abstract class PostPageFragmentModuleBinds {
     abstract fun bindCommentsLoadingFacade(facade: CommentsProcessingFacadeImpl): CommentsProcessingFacade
 
     @Binds
-    abstract fun bindPostedCommentsCollection(collection: PostedCommentsCollectionImpl): PostedCommentsCollection
+    abstract fun bindPostedCommentsCollection(collection: OutCommentsCollectionImpl): OurCommentsCollection
 
     @Binds
-    abstract fun bindPostedCommentsCollectionRead(collection: PostedCommentsCollectionImpl): PostedCommentsCollectionRead
+    abstract fun bindCommentTextRenderer(renderer: CommentTextRendererImpl): CommentTextRenderer
 }

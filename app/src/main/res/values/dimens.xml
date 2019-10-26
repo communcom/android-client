@@ -172,6 +172,17 @@
     <dimen name="margin_vertical_comment_timestamp">8dp</dimen>
     <dimen name="margin_end_comment_author">100dp</dimen>
 
+    <!-- Send comment -->
+    <dimen name="send_comment_avatar_icon_size">35dp</dimen>
+    <dimen name="send_comment_side_margin">15dp</dimen>
+    <dimen name="send_comment_button_size">35dp</dimen>
+    <dimen name="send_comment_vertical_margin">10dp</dimen>
+    <dimen name="send_comment_horizontal_margin">5dp</dimen>
+    <dimen name="send_comment_text_field_horizontal_padding">10dp</dimen>
+    <dimen name="send_comment_text_field_vertical_padding">8dp</dimen>
+    <dimen name="send_comment_text_gap">5dp</dimen>
+    <dimen name="send_comment_old_text_start_margin">10dp</dimen>
+
     <!--Login - general -->
     <dimen name="margin_horizontal_login_next_button">16dp</dimen>
     <dimen name="margin_bottom_login_next_button">16dp</dimen>
@@ -394,5 +405,4 @@
     <dimen name="bottom_sheet_dialog_item_padding_icon">30dp</dimen>
     <dimen name="bottom_sheet_dialog_item_padding_horizontal">15dp</dimen>
     <dimen name="bottom_sheet_dialog_item_padding_vertical">16dp</dimen>
-
 </resources>

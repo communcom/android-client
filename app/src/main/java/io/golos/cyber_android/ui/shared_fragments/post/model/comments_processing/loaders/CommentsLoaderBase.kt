@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders
 
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
+import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -9,7 +11,8 @@ import timber.log.Timber
 abstract class CommentsLoaderBase
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val postedCommentsCollection: PostedCommentsCollectionRead
+    private val ourCommentsCollection: OurCommentsCollection,
+    private val currentUserRepository: CurrentUserRepository
 ) {
     protected var pageOffset = 0
     protected var endOfDataReached = false
@@ -56,5 +59,11 @@ constructor(
     /**
      * Was the comment with such id have been posted in this post viewing/editing session
      */
-    protected fun wasCommentPosted(id: DiscussionIdModel) = postedCommentsCollection.isEntityExists(id)
+    protected fun wasCommentPosted(id: DiscussionIdModel) = ourCommentsCollection.isCommentPosted(id)
+
+    protected fun storeCommentIfNeeded(comment: CommentModel) {
+        if(comment.author.userId.userId == currentUserRepository.userId) {
+            ourCommentsCollection.addComment(comment)
+        }
+    }
 }

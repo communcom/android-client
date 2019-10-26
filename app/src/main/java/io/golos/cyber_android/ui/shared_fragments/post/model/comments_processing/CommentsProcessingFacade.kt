@@ -18,4 +18,8 @@ interface CommentsProcessingFacade {
     suspend fun sendComment(commentText: String, postHasComments: Boolean)
 
     suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean)
+
+    fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
+
+    suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 }

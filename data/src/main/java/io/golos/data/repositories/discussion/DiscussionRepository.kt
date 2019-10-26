@@ -18,4 +18,6 @@ interface DiscussionRepository {
     fun createCommentForPost(commentText: String, postId: DiscussionIdModel): CommentModel
 
     fun deleteComment(commentId: DiscussionIdModel)
+
+    fun updateCommentText(comment: CommentModel, newCommentText: String): CommentModel
 }

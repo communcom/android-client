@@ -60,4 +60,6 @@ interface PostListDataSourceComments {
     suspend fun deleteComment(commentId: DiscussionIdModel)
 
     suspend fun deleteCommentsHeader()
+
+    suspend fun updateCommentText(newComment: CommentModel)
 }

@@ -245,6 +245,19 @@ constructor(
             }
         }
 
+    override suspend fun updateCommentText(newComment: CommentModel) =
+        updateComment(newComment.contentId) {
+            when(it) {
+                is FirstLevelCommentListItem ->
+                    it.copy(version = it.version+1, state = CommentListItemState.NORMAL, content = newComment.content.body.postBlock)
+
+                is SecondLevelCommentListItem ->
+                    it.copy(version = it.version+1, state = CommentListItemState.NORMAL, content = newComment.content.body.postBlock)
+
+                else -> throw UnsupportedOperationException("This comment type is not supported")
+            }
+        }
+
     private suspend fun updateSafe(action: () -> Unit) =
         withContext(singleThreadDispatcher) {
             action()

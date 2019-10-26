@@ -1,9 +1,10 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level
 
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.CommentsLoaderBase
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
+import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -21,10 +22,12 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int,
-    postedCommentsCollection: PostedCommentsCollectionRead
+    ourCommentsCollection: OurCommentsCollection,
+    currentUserRepository: CurrentUserRepository
 ) : CommentsLoaderBase(
     dispatchersProvider,
-    postedCommentsCollection),
+    ourCommentsCollection,
+    currentUserRepository),
     SecondLevelLoader {
 
     // Loaded comments and their author
@@ -64,6 +67,7 @@ constructor(
                         commentToModelMapper.map(it)
                             .also {
                                 authors[it.contentId] = it.author
+                                storeCommentIfNeeded(it)
                             }
                     }
                     .filter { !wasCommentPosted(it.contentId) }

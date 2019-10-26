@@ -65,6 +65,17 @@ constructor(
         transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
     }
 
+    override fun updateCommentText(comment: CommentModel, newCommentText: String): CommentModel {
+        val contentAsJson = CommentToJsonMapper.mapTextToJson(newCommentText)
+
+        val newComment = comment.copy(content = CommentContentModel(
+            body = ContentBodyModel(jsonToDtoMapper.map(contentAsJson)),
+            commentLevel = comment.content.commentLevel
+        ))
+
+        return newComment
+    }
+
     private fun createCommentModel(contentAsJson: String, postId: DiscussionIdModel, author: DiscussionAuthorModel, permlink: Permlink) =
         CommentModel(
             contentId = DiscussionIdModel(currentUserRepository.userId, permlink),

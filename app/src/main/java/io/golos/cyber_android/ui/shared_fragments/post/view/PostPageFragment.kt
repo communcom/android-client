@@ -98,6 +98,9 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
 
         postComment.setOnSendClickListener { viewModel.onSendCommentClick(it) }
+
+        postCommentEdit.setOnCloseClickListener { viewModel.cancelEditComment() }
+        postCommentEdit.setOnSendClickListener { viewModel.completeEditComment(it) }
     }
 
     override fun onResume() {
@@ -157,7 +160,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
             }
             CommentsActionsDialog.REQUEST -> {
                 when (resultCode) {
-                    CommentsActionsDialog.RESULT_EDIT -> {}
+                    CommentsActionsDialog.RESULT_EDIT ->
+                        viewModel.startEditComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
                     CommentsActionsDialog.RESULT_DELETE ->
                         viewModel.deleteComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
                 }

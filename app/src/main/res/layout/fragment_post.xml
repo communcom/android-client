@@ -59,6 +59,21 @@
             android:layout_height="wrap_content"
 
             app:enabled="@{viewModel.commentFieldEnabled}"
+
+            android:visibility="@{viewModel.commentFieldVisibility}"
+            tools:visibility="visible"
+        />
+
+        <io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
+            android:id="@+id/postCommentEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:visibility="@{viewModel.commentEditFieldVisibility}"
+            tools:visibility="gone"
+
+            app:enabled="@{viewModel.commentEditFieldEnabled}"
+            app:text= "@{viewModel.commentEditFieldText}"
         />
 
     </LinearLayout>

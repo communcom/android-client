@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
 import android.net.Uri
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -51,6 +52,8 @@ constructor(
 
     private var wasMovedToChild = false         // We move to child screen from this one
 
+    private var editedCommentId: DiscussionIdModel? = null
+
     private val scopeJob: Job = SupervisorJob()
 
     /**
@@ -80,6 +83,18 @@ constructor(
 
     private val _commentFieldEnabled = MutableLiveData<Boolean>(false)
     val commentFieldEnabled = _commentFieldEnabled as LiveData<Boolean>
+
+    private val _commentEditFieldEnabled = MutableLiveData<Boolean>(true)
+    val commentEditFieldEnabled = _commentFieldEnabled as LiveData<Boolean>
+
+    private val _commentFieldVisibility = MutableLiveData<Int>(View.VISIBLE)
+    val commentFieldVisibility = _commentFieldVisibility as LiveData<Int>
+
+    private val _commentEditFieldVisibility = MutableLiveData<Int>(View.GONE)
+    val commentEditFieldVisibility = _commentEditFieldVisibility as LiveData<Int>
+
+    private val _commentEditFieldText = MutableLiveData<List<CharSequence>>(listOf())
+    val commentEditFieldText = _commentEditFieldText as LiveData<List<CharSequence>>
 
     fun setup() {
         if(wasMovedToChild) {
@@ -228,6 +243,48 @@ constructor(
         processSimple {
             model.deleteComment(commentId)
         }
+
+    fun startEditComment(commentId: DiscussionIdModel) {
+        try {
+            _commentEditFieldText.value = model.getCommentText(commentId)
+
+            _commentFieldVisibility.value = View.GONE
+            _commentEditFieldVisibility.value = View.VISIBLE
+
+            editedCommentId = commentId
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            command.value = ShowMessageCommand(R.string.common_general_error)
+
+            _commentFieldVisibility.value = View.VISIBLE
+            _commentEditFieldVisibility.value = View.GONE
+        }
+    }
+
+    fun cancelEditComment() {
+        _commentEditFieldText.value = listOf()
+
+        _commentFieldVisibility.value = View.VISIBLE
+        _commentEditFieldVisibility.value = View.GONE
+
+        editedCommentId = null
+    }
+
+    fun completeEditComment(newCommentText: String) {
+        launch {
+            try {
+                _commentEditFieldEnabled.value = false
+
+                model.updateCommentText(editedCommentId!!, newCommentText)
+
+                cancelEditComment()
+            } catch(ex: Exception) {
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _commentEditFieldEnabled.value = true
+            }
+        }
+    }
 
     private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
 

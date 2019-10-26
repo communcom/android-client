@@ -1,9 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments
 
 import android.graphics.Typeface
-import android.net.Uri
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.view.ViewGroup
@@ -18,22 +16,19 @@ import io.golos.cyber_android.ui.common.extensions.loadAvatar
 import io.golos.cyber_android.ui.common.formatters.time_estimation.TimeEstimationFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.common.spans.StyledColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
+import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
 import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionMetadataModel
 import io.golos.domain.interactors.model.DiscussionVotesModel
-import io.golos.domain.post.post_dto.*
-import io.golos.domain.post.toTypeface
+import io.golos.domain.post.post_dto.PostBlock
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -53,6 +48,9 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     @Inject
     internal lateinit var appResourcesProvider: AppResourcesProvider
+
+    @Inject
+    internal lateinit var commentTextRenderer: CommentTextRenderer
 
     abstract val _userAvatar: ImageView
 
@@ -152,14 +150,14 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         // Paragraphs
         var isFirstParagraph = true
-        content.content.forEach {
-            if (it is ParagraphBlock) {
-                if(!isFirstParagraph) {
-                    result.append("\n")
-                }
-                isFirstParagraph = false
-                result.append(getParagraphText(it))
+        val paragraphs = commentTextRenderer.render(content.content)
+
+        paragraphs.forEach {
+            if(!isFirstParagraph) {
+                result.append("\n")
             }
+            isFirstParagraph = false
+            result.append(it)
         }
 
         // Cut long text if we need it
@@ -205,56 +203,6 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         result.append(time)
 
         return result
-    }
-
-    private fun getParagraphText(block: ParagraphBlock): CharSequence {
-        val builder = SpannableStringBuilder()
-
-        block.content.forEach { blockItem ->
-            when (blockItem) {
-                is TextBlock -> addText(blockItem, builder)
-                is TagBlock -> addTag(blockItem, builder)
-                is MentionBlock -> addMention(blockItem, builder)
-                is LinkBlock -> addLink(blockItem, builder)
-            }
-        }
-
-        return builder
-    }
-
-    private fun addText(block: TextBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText(block.content)
-
-        block.textColor?.let { builder.setSpan(ForegroundColorSpan(it), textInterval) }
-        block.style?.let { builder.setSpan(StyleSpan(it.toTypeface()), textInterval) }
-    }
-
-    private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText("#${block.content}")
-
-        builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
-    }
-
-    private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText("@${block.content}")
-
-        // Click on the link
-        builder.setSpan(object : ColorTextClickableSpan(block.content, spansColor) {
-            override fun onClick(spanData: String) {
-                // User's name
-            }
-        }, textInterval)
-    }
-
-    private fun addLink(block: LinkBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText(block.content)
-
-        // Click on the link
-        builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
-            override fun onClick(spanData: Uri) {
-                // onClickProcessor?.onLinkInPostClick(spanData)
-            }
-        }, textInterval)
     }
 
     private fun setProcessingState(state: CommentListItemState) {

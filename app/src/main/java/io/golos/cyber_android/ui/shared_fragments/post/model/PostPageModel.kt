@@ -42,4 +42,8 @@ interface PostPageModel : ModelBase {
     suspend fun sendComment(commentText: String)
 
     suspend fun deleteComment(commentId: DiscussionIdModel)
+
+    fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
+
+    suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 }

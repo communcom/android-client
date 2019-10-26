@@ -1,9 +1,10 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level
 
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.CommentsLoaderBase
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollectionRead
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
+import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -21,10 +22,12 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int,
-    postedCommentsCollection: PostedCommentsCollectionRead
+    ourCommentsCollection: OurCommentsCollection,
+    currentUserRepository: CurrentUserRepository
 ) : CommentsLoaderBase(
     dispatchersProvider,
-    postedCommentsCollection),
+    ourCommentsCollection,
+    currentUserRepository),
     FirstLevelLoader {
 
     private val loadedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
@@ -60,9 +63,9 @@ constructor(
             delay(1000)
 
             // To error simulation
-//            if(Random.nextInt () % 2 == 0) {
-//                throw Exception("")
-//            }
+            if(Random.nextInt () % 2 == 0) {
+                throw Exception("")
+            }
 
             val comments = discussionsApi.getCommentsListForPost(pageOffset, pageSize, postToProcess)
 
@@ -77,6 +80,7 @@ constructor(
                         commentToModelMapper.map(it)
                             .also {
                                 loadedComments[it.contentId] = it
+                                storeCommentIfNeeded(it)
                             }
                     }
                     .filter { !wasCommentPosted(it.contentId)  }

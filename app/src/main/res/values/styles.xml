@@ -1,5 +1,4 @@
-<resources>
-
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -44,6 +43,7 @@
 
     <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem">
     </style>
+    <!--Bottom sheet dialog END-->
 
     <style name="Post.Image.Description.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:ellipsize">end</item>
@@ -94,6 +94,8 @@
         <item name="fontFamily">@font/roboto_medium</item>
     </style>
 
+
+    <!--Comment-->
     <style name="CommentsBaseTextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">@dimen/text_size_15_sp</item>
     </style>
@@ -116,6 +118,38 @@
     <style name="CommentsReplyInCollapsed" parent="CommentsReplyAndTimeTextStyle">
         <item name="android:textColor">@color/clickable_text_color</item>
     </style>
+    <!--Comment END-->
+
+    <!--Comment Input-->
+    <style name="CommentsInputField" parent="CommentsBaseTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/bcg_post_card_comment</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:inputType">none</item>
+        <item name="android:maxLines">5</item>
+        <item name="android:imeOptions">normal</item>
+        <item name="android:maxLength">500</item>
+        <item name="android:paddingStart">@dimen/send_comment_text_field_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/send_comment_text_field_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/send_comment_text_field_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/send_comment_text_field_vertical_padding</item>
+    </style>
+
+    <style name="CommentInput.Edit" parent="Common.Base.TextStyle">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CommentInput.Edit.OldText" parent="Common.Base.TextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_13_sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <!--Comment Input END-->
 
     <style name="SortingWidgetCaptionTextStyle" parent="SortingWidgetTextStyle">
         <item name="android:textColor">@color/dark_gray</item>

@@ -2,13 +2,15 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processin
 
 import dagger.Lazy
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
+import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoader
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoader
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoaderImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.posted_comments_collection.PostedCommentsCollection
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
+import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.data.repositories.discussion.DiscussionRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -28,7 +30,9 @@ constructor(
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
-    private val postedCommentsCollection: Lazy<PostedCommentsCollection>
+    private val ourCommentsCollection: Lazy<OurCommentsCollection>,
+    private val currentUserRepository: CurrentUserRepository,
+    private val commentTextRenderer: CommentTextRenderer
 ): CommentsProcessingFacade {
 
     override val pageSize: Int
@@ -44,7 +48,8 @@ constructor(
             dispatchersProvider,
             commentToModelMapper,
             pageSize,
-            postedCommentsCollection.get()
+            ourCommentsCollection.get(),
+            currentUserRepository
         )
     }
 
@@ -70,7 +75,8 @@ constructor(
                 discussionsApi,
                 dispatchersProvider, commentToModelMapper,
                 pageSize,
-                postedCommentsCollection.get()
+                ourCommentsCollection.get(),
+                currentUserRepository
             ).also {
                 secondLevelLoaders[parentCommentId] = it
             }
@@ -88,7 +94,7 @@ constructor(
                 discussionRepository.createCommentForPost(commentText, postToProcess)
             }
             postListDataSource.addNewComment(commentModel)
-            postedCommentsCollection.get().addEntity(commentModel.contentId)
+            ourCommentsCollection.get().addCommentPosted(commentModel)
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
@@ -112,6 +118,29 @@ constructor(
                 postListDataSource.deleteCommentsHeader()
             }
         } catch (ex: Exception) {
+            Timber.e(ex)
+            postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
+            throw ex
+        }
+    }
+
+    override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
+        commentTextRenderer.render(ourCommentsCollection.get().getComment(commentId)!!.content.body.postBlock.content)
+
+    override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) {
+        postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
+
+        val oldComment = ourCommentsCollection.get().getComment(commentId)!!
+
+        try {
+            val newComment = withContext(dispatchersProvider.ioDispatcher) {
+                delay(1000)
+
+                discussionRepository.updateCommentText(oldComment, newCommentText)
+            }
+            postListDataSource.updateCommentText(newComment)
+            ourCommentsCollection.get().updateComment(newComment)
+        } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
             throw ex

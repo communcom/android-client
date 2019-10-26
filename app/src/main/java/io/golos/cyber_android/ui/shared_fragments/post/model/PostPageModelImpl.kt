@@ -112,4 +112,10 @@ constructor(
         commentsProcessing.deleteComment(commentId, totalComments == 1L)
         postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments - 1))
     }
+
+    override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
+        commentsProcessing.getCommentText(commentId)
+
+    override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) =
+        commentsProcessing.updateCommentText(commentId, newCommentText)
 }

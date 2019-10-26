@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:id="@+id/root"
+
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bcg_editor_toolbar">
+
+    <TextView
+        android:id="@+id/editCommentLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="@string/edit_comment_send"
+
+        android:layout_marginTop="@dimen/send_comment_vertical_margin"
+        android:layout_marginBottom="@dimen/send_comment_text_gap"
+        android:layout_marginStart="@dimen/send_comment_old_text_start_margin"
+
+        style="@style/CommentInput.Edit"
+
+        app:layout_constraintBottom_toTopOf="@+id/oldText"
+        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+        app:layout_constraintStart_toEndOf="@+id/blueLine"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/oldText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text=""
+
+        android:layout_marginTop="@dimen/send_comment_text_gap"
+
+        style="@style/CommentInput.Edit.OldText"
+
+        app:layout_constraintBottom_toTopOf="@+id/newText"
+        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+        app:layout_constraintStart_toStartOf="@+id/editCommentLabel"
+        app:layout_constraintTop_toBottomOf="@+id/editCommentLabel"
+        tools:text="Some old text" />
+
+    <EditText
+        android:id="@+id/newText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        style="@style/CommentsInputField"
+
+        android:layout_marginStart="@dimen/send_comment_side_margin"
+        android:layout_marginEnd="@dimen/send_comment_horizontal_margin"
+        android:layout_marginTop="@dimen/send_comment_vertical_margin"
+        android:layout_marginBottom="@dimen/send_comment_vertical_margin"
+        app:layout_goneMarginEnd="@dimen/send_comment_side_margin"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oldText"
+        tools:ignore="Autofill,LabelFor" />
+
+    <View
+        android:id="@+id/blueLine"
+        android:layout_width="@dimen/stroke_normal"
+        android:layout_height="0dp"
+
+        android:background="@color/blue"
+
+        android:layout_marginStart="11dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/oldText"
+        app:layout_constraintStart_toStartOf="@+id/newText"
+        app:layout_constraintTop_toTopOf="@+id/editCommentLabel" />
+
+    <ImageButton
+        android:id="@+id/sendButton"
+        android:layout_width="@dimen/send_comment_button_size"
+        android:layout_height="@dimen/send_comment_button_size"
+
+        android:layout_marginEnd="@dimen/send_comment_side_margin"
+        android:background="@drawable/bcg_blue_round_corners_button"
+        android:tint="@color/white"
+
+        app:layout_constraintBottom_toBottomOf="@+id/newText"
+
+        android:visibility="gone"
+        tools:visibility="visible"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_upvote"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/closeButton"
+
+        android:layout_width="@dimen/send_comment_button_size"
+        android:layout_height="@dimen/send_comment_button_size"
+
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/oldText"
+
+        app:layout_constraintEnd_toEndOf="@+id/newText"
+        app:layout_constraintTop_toTopOf="@+id/editCommentLabel"
+
+        app:srcCompat="@drawable/ic_close"
+        tools:ignore="ContentDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>
