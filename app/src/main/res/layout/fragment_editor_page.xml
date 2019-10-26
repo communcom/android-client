@@ -345,7 +345,7 @@
                 android:layout_marginStart="@dimen/margin_size_editor_tool_button"
                 android:layout_marginEnd="@dimen/margin_size_editor_common"
 
-                android:background="@drawable/bg_blue_round_corners_button"
+                android:background="@drawable/bcg_blue_round_corners_button"
                 android:textColor="@color/tint_editor_post_button"
 
                 android:text="@string/post_button"
