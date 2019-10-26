@@ -68,7 +68,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
-        initViewPager()
         observeViewModel()
         viewModel.start(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
         ivBack.setOnClickListener {
@@ -120,6 +119,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             btnRetry.setOnClickListener {
                 viewModel.loadCommunityPage()
             }
+            initViewPager(it)
         })
 
         viewModel.communityPageIsErrorLiveData.observe(this, Observer {
@@ -146,14 +146,14 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             .into(ivCommunityCover)
     }
 
-    private fun setCommunityLogo(communityLogo: String?){
+    private fun setCommunityLogo(communityLogo: String?) {
         Glide.with(ivCommunityLogo)
             .load(communityLogo)
             .apply(RequestOptions.circleCropTransform())
             .into(ivCommunityLogo)
     }
 
-    private fun setSubscriptionStatus(isSubscribed: Boolean){
+    private fun setSubscriptionStatus(isSubscribed: Boolean) {
         ctvJoin.isChecked = isSubscribed
         if (isSubscribed) {
             ctvJoin.text = getString(R.string.joined_to_community)
@@ -172,16 +172,16 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         }
     }
 
-    private fun initViewPager() {
-        fragmentPagesList = createPageFragmentsList()
+    private fun initViewPager(communityPage: CommunityPage) {
+        fragmentPagesList = createPageFragmentsList(communityPage)
         vpContent.adapter = communityPagerTabAdapter
     }
 
-    private fun createPageFragmentsList(): MutableList<Fragment> {
+    private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
         fragmentPagesList.add(FollowersFragment.newInstance())
         fragmentPagesList.add(FollowersFragment.newInstance())
-        fragmentPagesList.add(CommunityPageAboutFragment.newInstance())
+        fragmentPagesList.add(CommunityPageAboutFragment.newInstance(communityPage.description))
         fragmentPagesList.add(FollowersFragment.newInstance())
         return fragmentPagesList
     }
