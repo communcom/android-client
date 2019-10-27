@@ -46,4 +46,6 @@ interface PostPageModel : ModelBase {
     fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
 
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
+
+    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
 }

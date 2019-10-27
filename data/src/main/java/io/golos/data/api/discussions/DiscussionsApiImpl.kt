@@ -67,13 +67,19 @@ constructor(
 
     override fun createComment(
         commentContentAsJson: String,
-        postId: DiscussionIdModel,
+        parentId: DiscussionIdModel,
         commentAuthor: DiscussionAuthorModel,
         commentPermlink: Permlink
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct> {
-        val comment = CommentsDataFactory.createComment(commentContentAsJson, postId, commentAuthor, commentPermlink)
+        val comment = CommentsDataFactory.createComment(commentContentAsJson, parentId, commentAuthor, commentPermlink)
 
-        DataStorage.commentsForPost[postId.permlink.value]!!.add(comment)
+        val parentPostPermlink = if(DataStorage.commentsForPost[parentId.permlink.value] != null) {  // Parent entity is a post
+            parentId.permlink.value
+        } else {                // Parent entity is a comment
+            DataStorage.comments[parentId.permlink.value]!!.parentContentId!!.permlink
+        }
+
+        DataStorage.commentsForPost[parentPostPermlink]?.add(comment)
         DataStorage.comments[commentPermlink.value] = comment
 
         return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getCreatemssgComnGalleryStruct("", ""))
@@ -96,9 +102,11 @@ constructor(
 
         val community = communitiesApi.getCommunityById(communityId)
 
-        val comments = CommentsDataFactory.createComments()
+        val postPermlink = Permlink.generate()
 
-        val post = PostsDataFactory.createPost(body, community!!, authState.user.name, comments.size.toLong())
+        val comments = CommentsDataFactory.createComments(postPermlink, authState.user.name)
+
+        val post = PostsDataFactory.createPost(body, community!!, authState.user.name, comments.size.toLong(), postPermlink)
         Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
         DataStorage.posts.add(post)
 
@@ -106,6 +114,10 @@ constructor(
 
         comments.forEach {
             DataStorage.comments[it.contentId.permlink] = it
+
+            it.child.forEach {
+                DataStorage.comments[it.contentId.permlink] = it
+            }
         }
 
         return PostsDataFactory.createCommitedTransaction(

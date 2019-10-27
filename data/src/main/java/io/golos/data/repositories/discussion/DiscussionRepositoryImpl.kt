@@ -46,19 +46,8 @@ constructor(
         createOrUpdate(request)
     }
 
-    override fun createCommentForPost(commentText: String, postId: DiscussionIdModel): CommentModel {
-        val contentAsJson = CommentToJsonMapper.mapTextToJson(commentText)
-        val author = DiscussionAuthorModel(
-            CyberUser(currentUserRepository.userId),
-            currentUserRepository.authState!!.userName,
-            currentUserRepository.userAvatarUrl)
-        val permlink = Permlink.generate()
-
-        val apiAnswer = discussionsApi.createComment(contentAsJson, postId, author, permlink)
-        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
-
-        return createCommentModel(contentAsJson, postId, author, permlink)
-    }
+    override fun createCommentForPost(postId: DiscussionIdModel, commentText: String): CommentModel =
+        createComment(postId, commentText, 0)
 
     override fun deleteComment(commentId: DiscussionIdModel) {
         val apiAnswer = discussionsApi.deleteComment(commentId.permlink)
@@ -76,20 +65,42 @@ constructor(
         return newComment
     }
 
-    private fun createCommentModel(contentAsJson: String, postId: DiscussionIdModel, author: DiscussionAuthorModel, permlink: Permlink) =
+    override fun createReplyComment(repliedCommentId: DiscussionIdModel, newCommentText: String): CommentModel =
+        createComment(repliedCommentId, newCommentText, 1)
+
+    private fun createCommentModel(
+        contentAsJson: String,
+        parentId: DiscussionIdModel,
+        author: DiscussionAuthorModel,
+        permlink: Permlink,
+        commentLevel: Int) =
         CommentModel(
             contentId = DiscussionIdModel(currentUserRepository.userId, permlink),
             author = author,
             content = CommentContentModel(
                 body = ContentBodyModel(jsonToDtoMapper.map(contentAsJson)),
-                commentLevel = 0
+                commentLevel = commentLevel
             ),
             votes = DiscussionVotesModel(hasUpVote = false, hasDownVote = false, upCount = 0, downCount = 0),
             payout = DiscussionPayoutModel(),
-            parentId = postId,
+            parentId = parentId,
             meta = DiscussionMetadataModel(Date(), Date().asElapsedTime()),
             stats = DiscussionStatsModel(0.toBigInteger(), 0),
             childTotal = 0,
             child = listOf()
         )
+
+    private fun createComment(parentId: DiscussionIdModel, commentText: String, commentLevel: Int): CommentModel {
+        val contentAsJson = CommentToJsonMapper.mapTextToJson(commentText)
+        val author = DiscussionAuthorModel(
+            CyberUser(currentUserRepository.userId),
+            currentUserRepository.authState!!.userName,
+            currentUserRepository.userAvatarUrl)
+        val permlink = Permlink.generate()
+
+        val apiAnswer = discussionsApi.createComment(contentAsJson, parentId, author, permlink)
+        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
+
+        return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
+    }
 }

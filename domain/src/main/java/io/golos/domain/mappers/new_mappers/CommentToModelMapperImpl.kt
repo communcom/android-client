@@ -6,7 +6,7 @@ import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapp
 import javax.inject.Inject
 
 interface CommentToModelMapper {
-    fun map(entity: CommentDiscussionRaw): CommentModel
+    fun map(entity: CommentDiscussionRaw, commentLevel: Int): CommentModel
 }
 
 class CommentToModelMapperImpl
@@ -14,9 +14,7 @@ class CommentToModelMapperImpl
 constructor() : CommentToModelMapper {
     private val jsonMapper = JsonToDtoMapper()          // Interface and injection!!!
 
-    override fun map(entity: CommentDiscussionRaw): CommentModel {
-        val commentLevel = if(entity.parentContentId == null) 0 else 1
-
+    override fun map(entity: CommentDiscussionRaw, commentLevel: Int): CommentModel {
         return CommentModel(
             entity.contentId.map(),
             entity.author.map(),
@@ -27,7 +25,7 @@ constructor() : CommentToModelMapper {
             entity.meta.map(),
             DiscussionStatsModel(0.toBigInteger(), 0L),
             entity.childTotal,
-            entity.child.map { this.map(it) }
+            entity.child.map { this.map(it, commentLevel+1) }
         )
     }
 }

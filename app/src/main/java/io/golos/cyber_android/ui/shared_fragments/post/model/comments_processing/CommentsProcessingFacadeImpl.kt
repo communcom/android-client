@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoader
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoaderImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
@@ -19,7 +19,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.random.Random
 
 class CommentsProcessingFacadeImpl
 @Inject
@@ -30,7 +29,7 @@ constructor(
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
-    private val ourCommentsCollection: Lazy<OurCommentsCollection>,
+    private val commentsStorage: Lazy<CommentsStorage>,
     private val currentUserRepository: CurrentUserRepository,
     private val commentTextRenderer: CommentTextRenderer
 ): CommentsProcessingFacade {
@@ -48,7 +47,7 @@ constructor(
             dispatchersProvider,
             commentToModelMapper,
             pageSize,
-            ourCommentsCollection.get(),
+            commentsStorage.get(),
             currentUserRepository
         )
     }
@@ -75,7 +74,7 @@ constructor(
                 discussionsApi,
                 dispatchersProvider, commentToModelMapper,
                 pageSize,
-                ourCommentsCollection.get(),
+                commentsStorage.get(),
                 currentUserRepository
             ).also {
                 secondLevelLoaders[parentCommentId] = it
@@ -91,10 +90,10 @@ constructor(
         try {
             val commentModel = withContext(dispatchersProvider.ioDispatcher) {
                 delay(1000)
-                discussionRepository.createCommentForPost(commentText, postToProcess)
+                discussionRepository.createCommentForPost(postToProcess, commentText)
             }
             postListDataSource.addNewComment(commentModel)
-            ourCommentsCollection.get().addCommentPosted(commentModel)
+            commentsStorage.get().addPostedComment(commentModel)
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
@@ -125,12 +124,12 @@ constructor(
     }
 
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
-        commentTextRenderer.render(ourCommentsCollection.get().getComment(commentId)!!.content.body.postBlock.content)
+        commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.content.body.postBlock.content)
 
     override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
-        val oldComment = ourCommentsCollection.get().getComment(commentId)!!
+        val oldComment = commentsStorage.get().getComment(commentId)!!
 
         try {
             val newComment = withContext(dispatchersProvider.ioDispatcher) {
@@ -139,10 +138,35 @@ constructor(
                 discussionRepository.updateCommentText(oldComment, newCommentText)
             }
             postListDataSource.updateCommentText(newComment)
-            ourCommentsCollection.get().updateComment(newComment)
+            commentsStorage.get().updateComment(newComment)
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
+            throw ex
+        }
+    }
+
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) {
+        postListDataSource.addLoadingForRepliedComment(repliedCommentId)
+
+        try {
+            val commentModel = withContext(dispatchersProvider.ioDispatcher) {
+                delay(1000)
+                discussionRepository.createReplyComment(repliedCommentId, newCommentText)
+            }
+
+            val repliedComment = commentsStorage.get().getComment(repliedCommentId)!!
+
+            postListDataSource.addReplyComment(
+                repliedCommentId,
+                repliedComment.author,
+                repliedComment.content.commentLevel,
+                commentModel)
+
+            commentsStorage.get().addPostedComment(commentModel)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            postListDataSource.removeLoadingForRepliedComment(repliedCommentId)
             throw ex
         }
     }

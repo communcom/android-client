@@ -56,12 +56,12 @@ internal object PostsDataFactory {
     fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): DeletemssgComnGalleryStruct =
         DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(userId), permlink.value))
 
-    fun createPost(body: String, community: Community, userId: String, commentsCount: Long): PostDiscussionRaw =
+    fun createPost(body: String, community: Community, userId: String, commentsCount: Long, permlink: Permlink): PostDiscussionRaw =
         PostDiscussionRaw(
             body,
             DiscussionVotes(0, 0),
             DiscussionMetadata(Date()),
-            DiscussionId(userId, Permlink.generate().value),
+            DiscussionId(userId, permlink.value),
             CyberCommunity(community.id.id, community.name, community.logoUrl),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
             commentsCount

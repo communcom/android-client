@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.first_level
 
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.CommentsLoaderBase
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
@@ -22,11 +22,11 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int,
-    ourCommentsCollection: OurCommentsCollection,
+    commentsStorage: CommentsStorage,
     currentUserRepository: CurrentUserRepository
 ) : CommentsLoaderBase(
     dispatchersProvider,
-    ourCommentsCollection,
+    commentsStorage,
     currentUserRepository),
     FirstLevelLoader {
 
@@ -77,10 +77,10 @@ constructor(
             val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
                 comments
                     .map {
-                        commentToModelMapper.map(it)
+                        commentToModelMapper.map(it, 0)
                             .also {
                                 loadedComments[it.contentId] = it
-                                storeCommentIfNeeded(it)
+                                storeComment(it)
                             }
                     }
                     .filter { !wasCommentPosted(it.contentId)  }

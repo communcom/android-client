@@ -56,7 +56,7 @@ interface DiscussionsApi {
 
     fun createComment(
         commentContentAsJson: String,
-        postId: DiscussionIdModel,
+        parentId: DiscussionIdModel,
         commentAuthor: DiscussionAuthorModel,
         commentPermlink: Permlink
     ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>

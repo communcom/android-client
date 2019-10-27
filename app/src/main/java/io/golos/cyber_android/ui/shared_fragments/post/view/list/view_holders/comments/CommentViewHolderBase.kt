@@ -86,6 +86,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             true)
 
         _replyAndTimeText.text = getReplyAndTimeText(listItem.metadata)
+        _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
 
         setVoting(listItem.votes)
 

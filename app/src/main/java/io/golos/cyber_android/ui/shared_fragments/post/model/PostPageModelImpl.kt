@@ -118,4 +118,7 @@ constructor(
 
     override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) =
         commentsProcessing.updateCommentText(commentId, newCommentText)
+
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) =
+        commentsProcessing.replyToComment(repliedCommentId, newCommentText)
 }

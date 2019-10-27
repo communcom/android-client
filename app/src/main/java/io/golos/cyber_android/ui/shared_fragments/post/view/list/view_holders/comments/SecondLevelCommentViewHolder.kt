@@ -52,5 +52,6 @@ class SecondLevelCommentViewHolder(
         super.init(listItem, listItemEventsProcessor)
     }
 
-    override fun getParentAuthor(listItem: SecondLevelCommentListItem): DiscussionAuthorModel? = listItem.parentAuthor
+    override fun getParentAuthor(listItem: SecondLevelCommentListItem): DiscussionAuthorModel? =
+        if(listItem.repliedCommentLevel == 0) null else listItem.repliedAuthor
 }

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage
 
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
@@ -8,14 +8,14 @@ import javax.inject.Inject
 /**
  * It's a storage of loaded and posted comments of current user
  */
-class OutCommentsCollectionImpl
+class CommentsStorageImpl
 @Inject
-constructor(): OurCommentsCollection {
+constructor(): CommentsStorage {
     private val postedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
 
     private val allComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
 
-    override fun addCommentPosted(comment: CommentModel) {
+    override fun addPostedComment(comment: CommentModel) {
         postedComments[comment.contentId] = comment
         addComment(comment)
     }

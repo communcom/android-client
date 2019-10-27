@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
@@ -53,6 +54,7 @@ constructor(
     private var wasMovedToChild = false         // We move to child screen from this one
 
     private var editedCommentId: DiscussionIdModel? = null
+    private var repliedCommentId: DiscussionIdModel? = null
 
     private val scopeJob: Job = SupervisorJob()
 
@@ -93,8 +95,8 @@ constructor(
     private val _commentEditFieldVisibility = MutableLiveData<Int>(View.GONE)
     val commentEditFieldVisibility = _commentEditFieldVisibility as LiveData<Int>
 
-    private val _commentEditFieldText = MutableLiveData<List<CharSequence>>(listOf())
-    val commentEditFieldText = _commentEditFieldText as LiveData<List<CharSequence>>
+    private val _commentEditFieldSettings = MutableLiveData<EditReplyCommentSettings>(EditReplyCommentSettings(listOf(), listOf(), true))
+    val commentEditFieldSettings = _commentEditFieldSettings as LiveData<EditReplyCommentSettings>
 
     fun setup() {
         if(wasMovedToChild) {
@@ -244,47 +246,33 @@ constructor(
             model.deleteComment(commentId)
         }
 
-    fun startEditComment(commentId: DiscussionIdModel) {
-        try {
-            _commentEditFieldText.value = model.getCommentText(commentId)
-
-            _commentFieldVisibility.value = View.GONE
-            _commentEditFieldVisibility.value = View.VISIBLE
-
-            editedCommentId = commentId
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            command.value = ShowMessageCommand(R.string.common_general_error)
-
-            _commentFieldVisibility.value = View.VISIBLE
-            _commentEditFieldVisibility.value = View.GONE
-        }
+    fun startEditComment(commentId: DiscussionIdModel) = startReplyOrEditComment {
+        _commentEditFieldSettings.value = model.getCommentText(commentId).let { EditReplyCommentSettings(it, it, true) }
+        editedCommentId = commentId
     }
 
-    fun cancelEditComment() {
-        _commentEditFieldText.value = listOf()
+    override fun startReplyToComment(commentToReplyId: DiscussionIdModel)  = startReplyOrEditComment {
+        _commentEditFieldSettings.value = EditReplyCommentSettings(model.getCommentText(commentToReplyId), listOf(), false)
+        repliedCommentId = commentToReplyId
+    }
+
+    fun cancelReplyOrEditComment() {
+        _commentEditFieldSettings.value = EditReplyCommentSettings(listOf(), listOf(), true)
 
         _commentFieldVisibility.value = View.VISIBLE
         _commentEditFieldVisibility.value = View.GONE
 
         editedCommentId = null
+        repliedCommentId = null
     }
 
-    fun completeEditComment(newCommentText: String) {
-        launch {
-            try {
-                _commentEditFieldEnabled.value = false
-
-                model.updateCommentText(editedCommentId!!, newCommentText)
-
-                cancelEditComment()
-            } catch(ex: Exception) {
-                command.value = ShowMessageCommand(R.string.common_general_error)
-            } finally {
-                _commentEditFieldEnabled.value = true
+    fun completeReplyOrEditComment(newCommentText: String) =
+        completeReplyOrEditComment {
+            when {
+                editedCommentId != null -> model.updateCommentText(editedCommentId!!, newCommentText)
+                repliedCommentId != null -> model.replyToComment(repliedCommentId!!, newCommentText)
             }
         }
-    }
 
     private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
 
@@ -295,6 +283,35 @@ constructor(
             } catch (ex: Exception) {
                 Timber.e(ex)
                 command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
+    }
+
+    private fun startReplyOrEditComment(commentAction: () -> Unit) {
+        try {
+            commentAction()
+
+            _commentFieldVisibility.value = View.GONE
+            _commentEditFieldVisibility.value = View.VISIBLE
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            command.value = ShowMessageCommand(R.string.common_general_error)
+
+            _commentFieldVisibility.value = View.VISIBLE
+            _commentEditFieldVisibility.value = View.GONE
+        }
+    }
+
+    private fun completeReplyOrEditComment(commentAction: suspend () -> Unit) {
+        launch {
+            try {
+                _commentEditFieldEnabled.value = false
+                commentAction()
+                cancelReplyOrEditComment()
+            } catch(ex: Exception) {
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _commentEditFieldEnabled.value = true
             }
         }
     }

@@ -126,7 +126,7 @@ constructor(
      */
     override suspend fun addLoadingCommentsIndicator(parentCommentId: DiscussionIdModel, commentsAdded: Int) =
         updateSafe {
-            val parentCommentIndex = postList.indexOfFirst { it is FirstLevelCommentListItem && it.externalId == parentCommentId }
+            val parentCommentIndex = getCommentIndex(parentCommentId)
             if(parentCommentIndex == -1) {
                 return@updateSafe
             }
@@ -140,7 +140,7 @@ constructor(
      */
     override suspend fun addRetryLoadingComments(parentCommentId: DiscussionIdModel, commentsAdded: Int) =
         updateSafe {
-            val parentCommentIndex = postList.indexOfFirst { it is FirstLevelCommentListItem && it.externalId == parentCommentId }
+            val parentCommentIndex = getCommentIndex(parentCommentId)
             if(parentCommentIndex == -1) {
                 return@updateSafe
             }
@@ -150,19 +150,19 @@ constructor(
         }
 
     /**
-     * [authors] - id of all loaded comments and their authors
+     * [repliedAuthors] - id of all loaded comments and their repliedAuthors
      */
     override suspend fun addSecondLevelComments(
         parentCommentId: DiscussionIdModel,
         comments: List<CommentModel>,
-        authors: Map<DiscussionIdModel, DiscussionAuthorModel>,
+        repliedAuthors: Map<DiscussionIdModel, DiscussionAuthorModel>,
         commentsAdded: Int,
         totalComments: Int,
         isEndOfDataReached: Boolean,
         nextTopCommentAuthor: DiscussionAuthorModel?) =
 
         updateSafe {
-            val parentCommentIndex = postList.indexOfFirst { it is FirstLevelCommentListItem && it.externalId == parentCommentId }
+            val parentCommentIndex = getCommentIndex(parentCommentId)
             if(parentCommentIndex == -1) {
                 return@updateSafe
             }
@@ -174,7 +174,7 @@ constructor(
 
             // Add comments
             comments
-                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId, authors) }
+                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId, repliedAuthors) }
                 .union(
                     if(isEndOfDataReached) {
                         listOf()
@@ -231,18 +231,13 @@ constructor(
 
     override suspend fun deleteComment(commentId: DiscussionIdModel) =
         updateSafe {
-            val commentIndex = postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
-            if(commentIndex != -1) {
-                postList.removeAt(commentIndex)
-            }
+            postList.removeAt(getCommentIndex(commentId))
         }
 
     override suspend fun deleteCommentsHeader() =
         updateSafe {
             val headerIndex = postList.indexOfFirst { it is CommentsTitleListItem }
-            if(headerIndex != -1) {
-                postList.removeAt(headerIndex)
-            }
+            postList.removeAt(headerIndex)
         }
 
     override suspend fun updateCommentText(newComment: CommentModel) =
@@ -256,6 +251,30 @@ constructor(
 
                 else -> throw UnsupportedOperationException("This comment type is not supported")
             }
+        }
+
+    override suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
+        updateSafe {
+            postList.add(getCommentIndex(repliedCommentId)+1, SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+        }
+
+    override suspend fun addReplyComment(
+        repliedCommentId: DiscussionIdModel,
+        repliedCommentAuthor: DiscussionAuthorModel,
+        repliedCommentLevel: Int,
+        commentModel: CommentModel) =
+        updateSafe {
+            postList[getCommentIndex(repliedCommentId)+1]=
+                CommentsMapper.mapToSecondLevel(
+                    commentModel,
+                    currentUserRepository.userId,
+                    repliedCommentAuthor,
+                    repliedCommentLevel)
+        }
+
+    override suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
+        updateSafe {
+            postList.removeAt(getCommentIndex(repliedCommentId)+1)
         }
 
     private suspend fun updateSafe(action: () -> Unit) =
@@ -345,10 +364,11 @@ constructor(
 
     private suspend fun updateComment(commentId: DiscussionIdModel, updateAction: (CommentListItem) -> CommentListItem) {
         updateSafe {
-            val controlsIndex = postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
-            if(controlsIndex != -1) {
-                postList[controlsIndex] = updateAction(postList[controlsIndex] as CommentListItem)
-            }
+            val commentIndex = getCommentIndex(commentId)
+            postList[commentIndex] = updateAction(postList[commentIndex] as CommentListItem)
         }
     }
+
+    private fun getCommentIndex(commentId: DiscussionIdModel) =
+        postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
 }

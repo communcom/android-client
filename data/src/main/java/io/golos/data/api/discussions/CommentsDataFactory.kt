@@ -49,12 +49,12 @@ object CommentsDataFactory {
         DiscussionAuthor(CyberName("tst3xxiihfzq"), "berty", null)
     )
 
-    fun createComments(): MutableList<CommentDiscussionRaw> {
+    fun createComments(postPermlink: Permlink, currentUserId: String): MutableList<CommentDiscussionRaw> {
         val firstLevelsCount = Random.nextInt(30, 50)
         val firstLevelList = mutableListOf<CommentDiscussionRaw>()
 
         for(i in 0 until firstLevelsCount) {
-            val firstLevelComment = createRandomComment(null)
+            val firstLevelComment = createRandomComment(DiscussionId(currentUserId, postPermlink.value))
 
             val secondLevelList = mutableListOf<CommentDiscussionRaw>()
 

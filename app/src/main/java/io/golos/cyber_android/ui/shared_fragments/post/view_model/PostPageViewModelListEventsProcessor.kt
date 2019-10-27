@@ -28,4 +28,6 @@ interface PostPageViewModelListEventsProcessor {
     fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel)
 
     fun onCommentLongClick(commentId: DiscussionIdModel)
+
+    fun startReplyToComment(commentToReplyId: DiscussionIdModel)
 }

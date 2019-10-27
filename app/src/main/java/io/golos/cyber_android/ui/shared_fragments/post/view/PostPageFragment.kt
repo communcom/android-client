@@ -99,8 +99,8 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
         postComment.setOnSendClickListener { viewModel.onSendCommentClick(it) }
 
-        postCommentEdit.setOnCloseClickListener { viewModel.cancelEditComment() }
-        postCommentEdit.setOnSendClickListener { viewModel.completeEditComment(it) }
+        postCommentEdit.setOnCloseClickListener { viewModel.cancelReplyOrEditComment() }
+        postCommentEdit.setOnSendClickListener { viewModel.completeReplyOrEditComment(it) }
     }
 
     override fun onResume() {
