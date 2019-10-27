@@ -31,7 +31,7 @@ constructor(
 
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
         delay(1000)
-        randomException()
+        //randomException()
         val friends: MutableList<CommunityPageDomain.CommunityFriendDomain> = mutableListOf()
         friends.add(CommunityPageDomain.CommunityFriendDomain(UUID.randomUUID().toString(), "test", "https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg", true))
         friends.add(CommunityPageDomain.CommunityFriendDomain(UUID.randomUUID().toString(), "test", "https://brandmark.io/logo-rank/random/beats.png", false))

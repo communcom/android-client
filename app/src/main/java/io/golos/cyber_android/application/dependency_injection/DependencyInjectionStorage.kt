@@ -9,6 +9,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UICo
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dialogs.select_community_dialog.SelectCommunityDialogComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityModule
@@ -17,6 +19,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.fingerprint_auth_fragment.FingerprintAuthFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.fingerprint_auth_fragment.FingerprintAuthFragmentModule
@@ -41,7 +44,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.CyberUser
@@ -173,6 +175,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
             FollowersFragmentComponent::class -> get<UIComponent>().followersFragment.build()
 
             CommunityPageFragmentComponent::class -> get<UIComponent>().communityPageFragment.build()
+
+            CommunityPageAboutFragmentComponent::class -> get<UIComponent>()
+                .communityPageAboutFragment
+                .init(CommunityPageAboutFragmentModule(args[0] as String))
+                .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
         } as T
