@@ -24,7 +24,7 @@ class CommunityPageAboutFragment :
         .inject(this)
 
     override fun linkViewModel(binding: FragmentCommunityPageAboutBinding, viewModel: CommunityPageAboutViewModel) {
-        binding.viewModel = viewModel
+            binding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
