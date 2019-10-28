@@ -43,7 +43,7 @@ constructor(
             "https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg",
             "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg",
             "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
-            "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
+            "Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts. Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts",
             false,
             false,
             121,

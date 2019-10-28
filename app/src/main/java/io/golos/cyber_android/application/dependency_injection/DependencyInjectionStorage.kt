@@ -11,6 +11,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_rules.CommunityPageRulesFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_rules.CommunityPageRulesFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dialogs.select_community_dialog.SelectCommunityDialogComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityModule
@@ -179,6 +181,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunityPageAboutFragmentComponent::class -> get<UIComponent>()
                 .communityPageAboutFragment
                 .init(CommunityPageAboutFragmentModule(args[0] as String))
+                .build()
+
+            CommunityPageRulesFragmentComponent::class -> get<UIComponent>()
+                .communityPageRulesFragment
+                .init(CommunityPageRulesFragmentModule(args[0] as String))
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
