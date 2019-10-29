@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sour
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourcePostControls
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.PostVotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
@@ -56,7 +57,7 @@ abstract class PostPageFragmentModuleBinds {
 
     @Binds
     @FragmentScope
-    abstract fun bindVotingMachine(machine: VotingMachineImpl): VotingMachine
+    abstract fun bindVotingMachine(machine: PostVotingMachineImpl): VotingMachine
 
     @Binds
     abstract fun bindCommentsLoadingFacade(facade: CommentsProcessingFacadeImpl): CommentsProcessingFacade

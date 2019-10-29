@@ -19,7 +19,10 @@ data class SecondLevelCommentListItem(
 
     override val content: PostBlock,
 
-    override val votes: DiscussionVotesModel,
+    override val voteBalance: Long,
+    override val isUpVoteActive: Boolean,
+    override val isDownVoteActive: Boolean,
+
     override val metadata: DiscussionMetadataModel,
 
     override val state: CommentListItemState

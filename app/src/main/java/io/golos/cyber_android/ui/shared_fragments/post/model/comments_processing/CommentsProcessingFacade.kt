@@ -24,4 +24,6 @@ interface CommentsProcessingFacade {
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
+
+    suspend fun vote(commentId: DiscussionIdModel, isUpVote: Boolean)
 }

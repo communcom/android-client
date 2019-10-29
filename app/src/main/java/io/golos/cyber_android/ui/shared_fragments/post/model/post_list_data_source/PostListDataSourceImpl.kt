@@ -277,6 +277,29 @@ constructor(
             postList.removeAt(getCommentIndex(repliedCommentId)+1)
         }
 
+    override suspend fun updateCommentVoteStatus(
+        commentId: DiscussionIdModel,
+        isUpVoteActive: Boolean?,
+        isDownVoteActive: Boolean?,
+        voteBalanceDelta: Long
+    ) = updateComment(commentId) { commentListItem ->
+        when(commentListItem) {
+            is FirstLevelCommentListItem ->
+                commentListItem.copy(
+                    version = commentListItem.version + 1,
+                    isUpVoteActive = isUpVoteActive ?: commentListItem.isUpVoteActive,
+                    isDownVoteActive = isDownVoteActive ?: commentListItem.isDownVoteActive,
+                    voteBalance = commentListItem.voteBalance + voteBalanceDelta )
+            is SecondLevelCommentListItem ->
+                commentListItem.copy(
+                    version = commentListItem.version + 1,
+                    isUpVoteActive = isUpVoteActive ?: commentListItem.isUpVoteActive,
+                    isDownVoteActive = isDownVoteActive ?: commentListItem.isDownVoteActive,
+                    voteBalance = commentListItem.voteBalance + voteBalanceDelta )
+            else -> throw UnsupportedOperationException("This comment list item is not supported")
+        }
+    }
+
     private suspend fun updateSafe(action: () -> Unit) =
         withContext(singleThreadDispatcher) {
             action()

@@ -162,6 +162,10 @@ constructor(
 
     override fun onDownVoteClick() = voteForPost(false)
 
+    override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)
+
+    override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
+
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true
         command.value = NavigateToUserProfileViewCommand(userId)
@@ -275,6 +279,9 @@ constructor(
         }
 
     private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
+
+    private fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
+        processSimple { model.voteForComment(commentId, isUpVote) }
 
     private fun processSimple(action: suspend () -> Unit) {
         launch {

@@ -21,7 +21,9 @@ object CommentsMapper {
             author = model.author,
             currentUserId = currentUserId,
             content = model.content.body.postBlock,
-            votes = model.votes,
+            voteBalance = model.votes.upCount - model.votes.downCount,
+            isUpVoteActive = model.votes.hasUpVote,
+            isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
             state = CommentListItemState.NORMAL
         )
@@ -59,7 +61,9 @@ object CommentsMapper {
             repliedCommentLevel = repliedCommentLevel,
             currentUserId = currentUserId,
             content = model.content.body.postBlock,
-            votes = model.votes,
+            voteBalance = model.votes.upCount - model.votes.downCount,
+            isUpVoteActive = model.votes.hasUpVote,
+            isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
             state = CommentListItemState.NORMAL
         )

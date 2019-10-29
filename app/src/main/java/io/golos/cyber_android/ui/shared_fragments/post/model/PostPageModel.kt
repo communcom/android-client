@@ -27,6 +27,8 @@ interface PostPageModel : ModelBase {
 
     suspend fun voteForPost(isUpVote: Boolean)
 
+    suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean)
+
     suspend fun updateCommentsSorting(sortingType: SortingType)
 
     suspend fun loadStartFirstLevelCommentsPage()

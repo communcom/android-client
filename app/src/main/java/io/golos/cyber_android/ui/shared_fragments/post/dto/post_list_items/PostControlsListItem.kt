@@ -10,7 +10,6 @@ data class PostControlsListItem(
     override val version: Long,
 
     val voteBalance: Long,
-
     val isUpVoteActive: Boolean,
     val isDownVoteActive: Boolean,
 

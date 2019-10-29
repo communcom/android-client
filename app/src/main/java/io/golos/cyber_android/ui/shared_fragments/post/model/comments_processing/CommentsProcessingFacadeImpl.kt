@@ -9,9 +9,13 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.loaders.second_level.SecondLevelLoaderImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.CommentVotingMachineImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.data.repositories.discussion.DiscussionRepository
+import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
@@ -31,7 +35,8 @@ constructor(
     private val commentToModelMapper: CommentToModelMapper,
     private val commentsStorage: Lazy<CommentsStorage>,
     private val currentUserRepository: CurrentUserRepository,
-    private val commentTextRenderer: CommentTextRenderer
+    private val commentTextRenderer: CommentTextRenderer,
+    private val voteRepository: VoteRepository
 ): CommentsProcessingFacade {
 
     override val pageSize: Int
@@ -52,6 +57,8 @@ constructor(
         )
     }
 
+    private val voteMachines = mutableMapOf<DiscussionIdModel, VotingMachine>()
+
     override suspend fun loadStartFirstLevelPage() = firstLevelCommentsLoader.loadStartPage()
 
     override suspend fun loadNextFirstLevelPageByScroll() = firstLevelCommentsLoader.loadNextPageByScroll()
@@ -64,22 +71,6 @@ constructor(
 
     override suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel) =
         getSecondLevelLoader(parentCommentId).retryLoadPage()
-
-    private fun getSecondLevelLoader(parentCommentId: DiscussionIdModel): SecondLevelLoader {
-        return secondLevelLoaders[parentCommentId]
-            ?: SecondLevelLoaderImpl(
-                parentCommentId,
-                firstLevelCommentsLoader.getLoadedComment(parentCommentId).childTotal.toInt(),
-                postListDataSource,
-                discussionsApi,
-                dispatchersProvider, commentToModelMapper,
-                pageSize,
-                commentsStorage.get(),
-                currentUserRepository
-            ).also {
-                secondLevelLoaders[parentCommentId] = it
-            }
-    }
 
     override suspend fun sendComment(commentText: String, postHasComments: Boolean) {
         if(!postHasComments) {
@@ -169,5 +160,37 @@ constructor(
             postListDataSource.removeLoadingForRepliedComment(repliedCommentId)
             throw ex
         }
+    }
+
+    override suspend fun vote(commentId: DiscussionIdModel, isUpVote: Boolean) {
+        val comment = commentsStorage.get().getComment(commentId)!!
+        val oldVotes = comment.votes
+        val newVotes = getVoteMachine(commentId).processEvent(if(isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, oldVotes)
+        commentsStorage.get().updateComment(comment.copy(votes = newVotes))
+    }
+
+    private fun getSecondLevelLoader(parentCommentId: DiscussionIdModel): SecondLevelLoader {
+        return secondLevelLoaders[parentCommentId]
+            ?: SecondLevelLoaderImpl(
+                parentCommentId,
+                firstLevelCommentsLoader.getLoadedComment(parentCommentId).childTotal.toInt(),
+                postListDataSource,
+                discussionsApi,
+                dispatchersProvider, commentToModelMapper,
+                pageSize,
+                commentsStorage.get(),
+                currentUserRepository
+            ).also {
+                secondLevelLoaders[parentCommentId] = it
+            }
+    }
+
+    private fun getVoteMachine(commentId: DiscussionIdModel) : VotingMachine {
+        return voteMachines[commentId]
+            ?: CommentVotingMachineImpl(
+                dispatchersProvider,
+                voteRepository,
+                postListDataSource,
+                commentId)
     }
 }

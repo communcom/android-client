@@ -3,9 +3,18 @@ package io.golos.data.repositories.vote
 import io.golos.domain.interactors.model.DiscussionIdModel
 
 interface VoteRepository {
-    fun upVote(postId: DiscussionIdModel)
+    /**
+     * [entityId] post or comment
+     */
+    fun upVote(entityId: DiscussionIdModel)
 
-    fun downVote(postId: DiscussionIdModel)
+    /**
+     * [entityId] post or comment
+     */
+    fun downVote(entityId: DiscussionIdModel)
 
-    fun unVote(postId: DiscussionIdModel)
+    /**
+     * [entityId] post or comment
+     */
+    fun unVote(entityId: DiscussionIdModel)
 }

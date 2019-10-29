@@ -15,7 +15,10 @@ interface CommentListItem : VersionedListItem {
 
     val content: PostBlock
 
-    val votes: DiscussionVotesModel
+    val voteBalance: Long
+    val isUpVoteActive: Boolean
+    val isDownVoteActive: Boolean
+
     val metadata: DiscussionMetadataModel
 
     val state: CommentListItemState

@@ -72,4 +72,10 @@ interface PostListDataSourceComments {
         commentModel: CommentModel)
 
     suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel)
+
+    suspend fun updateCommentVoteStatus(
+        commentId: DiscussionIdModel,
+        isUpVoteActive: Boolean?,
+        isDownVoteActive: Boolean?,
+        voteBalanceDelta: Long)
 }
