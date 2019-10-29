@@ -14,6 +14,6 @@ data class DiscussionIdEntity(
     companion object {
         fun fromModel(model: DiscussionIdModel) = DiscussionIdEntity(model.userId, model.permlink)
         fun fromCyber(cyberObject: DiscussionId) =
-            DiscussionIdEntity(cyberObject.userId, Permlink(cyberObject.permlink))
+            DiscussionIdEntity(cyberObject.userId.name, Permlink(cyberObject.permlink))
     }
 }

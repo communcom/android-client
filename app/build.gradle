@@ -49,6 +49,7 @@ android {
         stable {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun"
+            applicationIdSuffix ".stable"
         }
         dev {
             dimension "cyber4j-config-type"
@@ -149,6 +150,8 @@ dependencies {
 
     /*Protobuf*/
     implementation "com.google.protobuf:protobuf-java:$protobufVersion"
+
+    implementation "com.google.android.gms:play-services-safetynet:$captcha"
 
     /*Tests*/
     testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"

@@ -18,7 +18,7 @@ constructor() : CyberCommentToEntityMapper {
     override fun map(communObject: CommentDiscussionRaw): CommentEntity {
         return CommentEntity(
             DiscussionIdEntity(
-                communObject.contentId.userId,
+                communObject.contentId.userId.name,
                 Permlink(communObject.contentId.permlink)
             ),
             DiscussionAuthorEntity(

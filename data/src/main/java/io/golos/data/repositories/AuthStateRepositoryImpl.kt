@@ -191,10 +191,10 @@ constructor(
                 val authResult =
                     auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
                 withContext(dispatchersProvider.ioDispatcher) {
-                    authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
+                    authApi.setActiveUserCreds(authResult.userId, newParams.activeKey)
                 }
 
-                onAuthSuccess(newParams.userName, authResult.user, newParams.user, newParams.type)
+                onAuthSuccess(newParams.userName, authResult.userId, newParams.user, newParams.type)
             } catch (e: Exception) {
                 Timber.e(e)
                 authRequestsLiveData.value =

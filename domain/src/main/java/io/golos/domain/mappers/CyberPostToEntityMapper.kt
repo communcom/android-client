@@ -19,7 +19,7 @@ constructor() : CyberPostToEntityMapper {
     override fun map(communObject: PostDiscussionRaw): PostEntity {
         return PostEntity(
             DiscussionIdEntity(
-                communObject.contentId.userId,
+                communObject.contentId.userId.name,
                 Permlink(communObject.contentId.permlink)
             ),
             DiscussionAuthorEntity(
@@ -28,7 +28,7 @@ constructor() : CyberPostToEntityMapper {
                 communObject.author.avatarUrl ?: ""
             ),
             CommunityEntity(
-                communObject.community.id,
+                communObject.community.communityId,
                 communObject.community.name!!,
                 communObject.community.avatarUrl
             ),

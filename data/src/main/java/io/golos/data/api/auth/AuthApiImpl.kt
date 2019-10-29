@@ -29,7 +29,7 @@ constructor(
             commun4j.authWithSecret(user, secret, signedSecret).getOrThrow()
         } catch (ex: Exception) {
             // It's a dirty fix for 0.8.7 library
-            AuthResult(cyberName, user, Array(0) {""}, "")
+            AuthResult(cyberName.name, user, cyberName, "")
         }
     }
 

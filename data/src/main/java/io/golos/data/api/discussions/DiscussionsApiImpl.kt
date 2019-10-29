@@ -109,7 +109,7 @@ constructor(
         }
 
         return PostsDataFactory.createCommitedTransaction(
-            PostsDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
+            PostsDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId.name, post.contentId.permlink))
 
 //        return commun4j.createPost(
 //            title,
@@ -186,7 +186,7 @@ constructor(
 
     override fun getPost(user: CyberName, permlink: Permlink): PostDiscussionRaw {
         val post = DataStorage.posts.first {
-            it.contentId.userId == user.name && it.contentId.permlink == permlink.value
+            it.contentId.userId.name == user.name && it.contentId.permlink == permlink.value
         }
         Log.d("UPDATE_POST", "getPost() content: ${post.content}")
         return post
@@ -244,8 +244,8 @@ constructor(
             "",
             DiscussionVotes(0L, 0L),
             DiscussionMetadata(Date()),
-            DiscussionId("", ""),
-            DiscussionId("", ""),
+            DiscussionId(CyberName(""), "", ""),
+            DiscussionId(CyberName(""), "", ""),
             DiscussionAuthor(CyberName(""), "", ""),
             0L,
             listOf()
