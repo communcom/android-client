@@ -17,7 +17,7 @@ data class SendVerificationCodeRequestModel(override val phone: String, val code
 data class SetUserNameRequestModel(override val phone: String, val userName: String) :
     NextRegistrationStepRequestModel(phone)
 
-data class WriteUserToBlockChainRequestModel(override val phone: String, val userName: String) :
+data class WriteUserToBlockChainRequestModel(override val phone: String, val userName: String, val userId: String) :
     NextRegistrationStepRequestModel(phone)
 
 data class ResendSmsVerificationCodeModel(override val phone: String) : NextRegistrationStepRequestModel(phone)

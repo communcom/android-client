@@ -13,17 +13,22 @@ object UserRegistrationStateEntityMapper {
         val requestResult = communObject.requestResult
         val stateRequest = communObject.request
 
-        return when (communObject.stateRequestResult.state
-            ?: throw IllegalArgumentException("server didn't returned reg state of user")) {
+        return when (communObject.stateRequestResult.currentState) {
 
             UserRegistrationState.REGISTERED -> RegisteredUser(
-                stateRequestResult.user ?: throw IllegalStateException(
+                stateRequestResult.data?.username ?: throw IllegalStateException(
                     "server" +
                             "didn't returned user name for some reason"
                 ),
                 (stateRequest as? SetUserKeysRequest)?.masterKey
             )
-            UserRegistrationState.TO_BLOCK_CHAIN -> UnWrittenToBlockChainUser(communObject.request.phone)
+            UserRegistrationState.TO_BLOCK_CHAIN -> {
+                val userData = communObject.stateRequestResult.data
+                    ?: throw IllegalStateException(
+                        "server didn't returned user data for some reason"
+                    )
+                return UnWrittenToBlockChainUser(userData.username, userData.userId.name)
+            }
             UserRegistrationState.VERIFY -> {
                 val firstStepResult = requestResult as? FirstRegistrationStepResult
                 return if (firstStepResult == null) UnverifiedUser(Date(Long.MIN_VALUE))

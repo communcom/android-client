@@ -71,7 +71,7 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(SignUpN
                             signUpViewModel.sendName(name)
                         }
                     }
-                    is UnWrittenToBlockChainUserModel -> signUpViewModel.writeToBlockchain()
+                    is UnWrittenToBlockChainUserModel -> signUpViewModel.writeToBlockchain(it.userName, it.userId)
                     else -> { /*noop*/}
 
                 }

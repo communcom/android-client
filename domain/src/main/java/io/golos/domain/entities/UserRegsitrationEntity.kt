@@ -14,7 +14,7 @@ data class UnverifiedUser(val nextSmsVerification: Date, val smsCode: Int? = nul
 
 data class VerifiedUserWithoutUserName(private val type: String = "v_s") : UserRegistrationStateEntity()
 
-data class UnWrittenToBlockChainUser(val userName: String) : UserRegistrationStateEntity()
+data class UnWrittenToBlockChainUser(val userName: String, val userId: String) : UserRegistrationStateEntity()
 
 data class RegisteredUser(
     val userName: String,

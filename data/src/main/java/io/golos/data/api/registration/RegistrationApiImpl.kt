@@ -14,7 +14,7 @@ constructor(
 ) : Commun4jApiBase(commun4j, currentUserRepository), RegistrationApi {
 
     override fun getRegistrationState(phone: String): UserRegistrationStateResult =
-        commun4j.getRegistrationState(null, phone).getOrThrow()
+        commun4j.getRegistrationState(phone).getOrThrow()
 
     override fun firstUserRegistrationStep(phone: String, testingPass: String?): FirstRegistrationStepResult =
         commun4j.firstUserRegistrationStep("", phone, testingPass).getOrThrow()

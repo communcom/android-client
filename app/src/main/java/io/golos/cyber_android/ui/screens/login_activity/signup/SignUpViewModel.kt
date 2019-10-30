@@ -126,10 +126,10 @@ constructor(
     /**
      * Writes user into blockchain
      */
-    fun writeToBlockchain() {
+    fun writeToBlockchain(userName: String, userId: String) {
         launch {
             signUpUseCase.makeRegistrationStep(
-                WriteUserToBlockChainRequestModel(currentPhone, currentName)
+                WriteUserToBlockChainRequestModel(currentPhone, currentName, userId)
             )
         }
     }

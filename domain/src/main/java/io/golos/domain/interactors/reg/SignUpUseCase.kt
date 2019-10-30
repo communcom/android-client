@@ -83,7 +83,7 @@ constructor(
                 }
                 RegisteredUserModel(it.userName)
             }
-            is UnWrittenToBlockChainUser -> UnWrittenToBlockChainUserModel()
+            is UnWrittenToBlockChainUser -> UnWrittenToBlockChainUserModel(it.userName, it.userId)
         }
     }
 
@@ -118,7 +118,8 @@ constructor(
                                 )
                                 is SetUserKeysRequest -> WriteUserToBlockChainRequestModel(
                                     originalQuery.phone,
-                                    originalQuery.userName
+                                    originalQuery.userName,
+                                    originalQuery.userId
                                 )
                                 is ResendSmsVerificationCode -> ResendSmsVerificationCodeModel(originalQuery.phone)
                             }
@@ -177,6 +178,7 @@ constructor(
                     // Keys are generated and sent to server (public parts only)
                     val userKeys = userKeyStore.createKeys(userId, param.userName)
                     SetUserKeysRequest(
+                        "userId",
                         param.phone,
                         userKeys.userName,
                         userKeys.masterPassword,
