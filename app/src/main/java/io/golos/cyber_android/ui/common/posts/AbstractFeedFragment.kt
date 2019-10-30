@@ -33,7 +33,7 @@ const val POST_MENU_REQUEST = 301
 /**
  * Class represents Fragment that contains some [DiscussionModel] feed (which for now can only be comments or posts).
  * Inheritor should override several fields and methods:
- * 1) [viewModel] and [setupViewModel]. ViewModel should be derived from [AbstractFeedViewModel]. This ViewModel already
+ * 1) [viewModel] and [setupViewModel]. VieuwModel should be derived from [AbstractFeedViewModel]. This ViewModel already
  * implements many necessary functions - like voting, discussion creation (for deleting), loading, last page and errors
  * indication etc. @see [AbstractFeedViewModel].
  * 2) [feedList] - this field should return [RecyclerView] on which feed should be displayed.

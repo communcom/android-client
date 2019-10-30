@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.mvvm.viewModel
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
@@ -37,6 +38,7 @@ constructor(
      */
     val dialogCommands: MutableLiveData<ViewCommand> = MutableLiveData()
 
+    @CallSuper
     override fun onCleared() {
         super.onCleared()
 

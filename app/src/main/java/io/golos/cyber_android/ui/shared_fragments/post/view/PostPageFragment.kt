@@ -4,13 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
@@ -18,11 +16,9 @@ import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
-import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
-import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
@@ -31,65 +27,48 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
+import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.post.post_dto.PostFormatVersion
 import io.golos.domain.post.post_dto.PostType
-import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_post.*
-import javax.inject.Inject
 
 /**
  * Fragment for single [PostModel] presentation
  */
-class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentEntity, CommentModel, PostPageViewModel>() {
-
-    private lateinit var binding: FragmentPostBinding
-
+class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageModel, PostPageViewModel>() {
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
         val scrollToComments: Boolean = false
     ): Parcelable
 
-    override val feedList: RecyclerView
-        get() = postView
+    override fun provideViewModelType(): Class<PostPageViewModel> = PostPageViewModel::class.java
 
-    @Inject
-    internal lateinit var viewModelFactory: FragmentViewModelFactory
+    override fun provideLayout(): Int = R.layout.fragment_post
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun inject() =
         App.injections.get<PostPageFragmentComponent>(arguments!!.getParcelable<Args>(Tags.ARGS)!!.id).inject(this)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PostPageViewModel::class.java)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        App.injections.release<PostPageFragmentComponent>()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_post, container, false)
-        binding.lifecycleOwner = this
-
+    override fun linkViewModel(binding: FragmentPostBinding, viewModel: PostPageViewModel) {
         binding.viewModel = viewModel
-        return binding.root
+    }
 
+    override fun releaseInjection() {
+        App.injections.release<PostPageFragmentComponent>()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeViewModel()
+        viewModel.post.observe(this, Observer {
+            (postView.adapter as PostPageAdapter).update(it)
+        })
 
         postView.reduceDragSensitivity()
 
@@ -101,6 +80,15 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
 
         postCommentEdit.setOnCloseClickListener { viewModel.cancelReplyOrEditComment() }
         postCommentEdit.setOnSendClickListener { viewModel.completeReplyOrEditComment(it) }
+
+        // Setup the list
+        val adapter = PostPageAdapter(viewModel, viewModel.commentsPageSize)
+        adapter.setHasStableIds(true)
+        postView.adapter = adapter
+
+        val postListLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        postView.layoutManager = postListLayoutManager
+        (postView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     override fun onResume() {
@@ -108,40 +96,29 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
         viewModel.setup()
     }
 
-    private fun observeViewModel() {
-        viewModel.post.observe(this, Observer {
-            (feedList.adapter as PostPageAdapter).update(it)
-        })
+    override fun processViewCommand(command: ViewCommand) {
+        when(command) {
+            is NavigateToMainScreenCommand -> activity?.finish()
 
-        viewModel.command.observe(this, Observer { command ->
-            when(command) {
-                is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+            is NavigateToImageViewCommand -> moveToImageView(command.imageUri)
 
-                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+            is NavigateToLinkViewCommand -> moveToLinkView(command.link)
 
-                is NavigateToMainScreenCommand -> activity?.finish()
+            is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
 
-                is NavigateToImageViewCommand -> moveToImageView(command.imageUri)
+            is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
-                is NavigateToLinkViewCommand -> moveToLinkView(command.link)
+            is ShowPostMenuViewCommand -> showPostMenu(command.isMyPost, command.version, command.type)
 
-                is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
+            is ShowCommentsSortingMenuViewCommand -> showCommentsSortingMenu()
 
-                is StartEditPostViewCommand -> moveToEditPost(command.postId)
+            is ClearCommentTextViewCommand -> postComment.clearText()
 
-                is ShowPostMenuViewCommand -> showPostMenu(command.isMyPost, command.version, command.type)
+            is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
 
-                is ShowCommentsSortingMenuViewCommand -> showCommentsSortingMenu()
-
-                is ClearCommentTextViewCommand -> postComment.clearText()
-
-                is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
-
-                else -> throw UnsupportedOperationException("This command is not supported")
-            }
-        })
+            else -> throw UnsupportedOperationException("This command is not supported")
+        }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -167,12 +144,6 @@ class PostPageFragment : AbstractFeedFragment<CommentFeedUpdateRequest, CommentE
                 }
             }
         }
-    }
-
-    override fun setupFeedAdapter() {
-        val adapter = PostPageAdapter(viewModel, viewModel.commentsPageSize)
-        adapter.setHasStableIds(true)
-        feedList.adapter = adapter
     }
 
     private fun deletePost() {

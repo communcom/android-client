@@ -38,7 +38,7 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
     protected val viewModel: TVM
         get() = _viewModel
 
-    protected var activeDialog: AlertDialog? = null
+    private var activeDialog: AlertDialog? = null
 
     private val loadingDialog = LoadingDialog()
     private var wasAdded = false
@@ -111,13 +111,18 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
      * Process input command
      * @return true if the command has been processed
      */
-    private fun processViewCommandGeneral(command: ViewCommand): Boolean {
+    private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when(command) {
-            is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
-            is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
+            is ShowMessageCommand -> {
+                uiHelper.showMessage(command.textResId)
+                true
+            }
+            is SetLoadingVisibilityCommand -> {
+                setLoadingVisibility(command.isVisible)
+                true
+            }
+            else -> false
         }
-        return false
-    }
 
     private fun setLoadingVisibility(isVisible: Boolean) {
         if (isVisible) {
