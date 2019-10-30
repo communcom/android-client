@@ -20,6 +20,8 @@ constructor(
     currentUserRepository: CurrentUserRepositoryRead
 ) : Commun4jApiBase(commun4j, currentUserRepository), AuthApi {
 
+    override fun getUserProfile(userName: String, user: CyberName?) = commun4j.getUserProfile(user, userName).getOrThrow()
+
     override fun getUserAccount(user: CyberName): UserProfile = commun4j.getUserAccount(user).getOrThrow()
 
     override fun getAuthSecret(): AuthSecret = commun4j.getAuthSecret().getOrThrow()

@@ -11,7 +11,7 @@ import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserRegistrationStateEntity
 import io.golos.domain.mappers.UserRegistrationStateEntityMapper
-import io.golos.domain.mappers.UserRegistrationStateRelatedData
+import io.golos.domain.commun_entities.UserRegistrationStateRelatedData
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import timber.log.Timber

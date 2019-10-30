@@ -32,7 +32,7 @@ class AppModule(private val appContext: Context) {
             servicesUrl = "wss://cyber-gate.golos.io"
         ),
         "dev" to Commun4jConfig(
-            blockChainHttpApiUrl = "http://116.202.4.46:8888/",
+            blockChainHttpApiUrl = "http://116.203.232.109:3000/",
             servicesUrl = "wss://dev-gate.commun.com"
         ),
         "unstable" to Commun4jConfig(

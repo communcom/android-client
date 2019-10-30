@@ -51,6 +51,7 @@ constructor(
 
     val getLastRegisteredUser: LiveData<String> = lastRegisteredUser
 
+    var userName: String = ""
 
     private var lastRequest: NextRegistrationStepRequestModel? = null
 
@@ -171,7 +172,7 @@ constructor(
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
                     val userId = withContext(dispatchersProvider.ioDispatcher) {
-                        authApi.resolveCanonicalCyberName(param.userName).userId.name
+                        authApi.getUserProfile(userName).userId.name
                     }
                     // Keys are generated and sent to server (public parts only)
                     val userKeys = userKeyStore.createKeys(userId, param.userName)
