@@ -172,13 +172,11 @@ constructor(
                 is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.code)
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
-                    val userId = withContext(dispatchersProvider.ioDispatcher) {
-                        authApi.getUserProfile(userName).userId.name
-                    }
+                    val userId = param.userId
                     // Keys are generated and sent to server (public parts only)
                     val userKeys = userKeyStore.createKeys(userId, param.userName)
                     SetUserKeysRequest(
-                        "userId",
+                        userId,
                         param.phone,
                         userKeys.userName,
                         userKeys.masterPassword,
