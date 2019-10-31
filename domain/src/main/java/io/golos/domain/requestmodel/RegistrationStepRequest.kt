@@ -110,6 +110,7 @@ class SetUserNameRequest(phone: String, val userName: String) : RegistrationStep
 
 class SetUserKeysRequest(
     phone: String,
+    val userId: String,
     val userName: String,
     val masterKey: String,
     val ownerPublicKey: String,
@@ -128,6 +129,7 @@ class SetUserKeysRequest(
 
         other as SetUserKeysRequest
 
+        if (userId != other.userId) return false
         if (userName != other.userName) return false
         if (masterKey != other.masterKey) return false
         if (ownerPublicKey != other.ownerPublicKey) return false

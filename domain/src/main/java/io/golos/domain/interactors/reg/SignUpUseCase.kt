@@ -51,6 +51,7 @@ constructor(
 
     val getLastRegisteredUser: LiveData<String> = lastRegisteredUser
 
+    var userName: String = ""
 
     private var lastRequest: NextRegistrationStepRequestModel? = null
 
@@ -82,7 +83,7 @@ constructor(
                 }
                 RegisteredUserModel(it.userName)
             }
-            is UnWrittenToBlockChainUser -> UnWrittenToBlockChainUserModel()
+            is UnWrittenToBlockChainUser -> UnWrittenToBlockChainUserModel(it.userName, it.userId)
         }
     }
 
@@ -117,7 +118,8 @@ constructor(
                                 )
                                 is SetUserKeysRequest -> WriteUserToBlockChainRequestModel(
                                     originalQuery.phone,
-                                    originalQuery.userName
+                                    originalQuery.userName,
+                                    originalQuery.userId
                                 )
                                 is ResendSmsVerificationCode -> ResendSmsVerificationCodeModel(originalQuery.phone)
                             }
@@ -170,13 +172,12 @@ constructor(
                 is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.code)
                 is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
-                    val userId = withContext(dispatchersProvider.ioDispatcher) {
-                        authApi.resolveCanonicalCyberName(param.userName).userId.name
-                    }
+                    val userId = param.userId
                     // Keys are generated and sent to server (public parts only)
                     val userKeys = userKeyStore.createKeys(userId, param.userName)
                     SetUserKeysRequest(
                         param.phone,
+                        userId,
                         userKeys.userName,
                         userKeys.masterPassword,
                         userKeys.ownerPublicKey,

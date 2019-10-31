@@ -2,8 +2,9 @@ package io.golos.data.api.discussions
 
 import android.util.Log
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.CreateCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.commun4j.model.*
 import io.golos.commun4j.services.model.FeedSort
@@ -20,7 +21,6 @@ import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import java.util.*
 import javax.inject.Inject
-import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct as UpdatemssgComnGalleryStruct1
 import io.golos.commun4j.utils.Pair as CommunPair
 
 class DiscussionsApiImpl
@@ -41,7 +41,7 @@ constructor(
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct> {
+    ): CommunPair<TransactionCommitted<CreateCGalleryStruct>, CreateCGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
@@ -70,7 +70,7 @@ constructor(
         parentId: DiscussionIdModel,
         commentAuthor: DiscussionAuthorModel,
         commentPermlink: Permlink
-    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct> {
+    ): CommunPair<TransactionCommitted<CreateCGalleryStruct>, CreateCGalleryStruct> {
         val comment = CommentsDataFactory.createComment(commentContentAsJson, parentId, commentAuthor, commentPermlink)
 
         val parentPostPermlink = if(DataStorage.commentsForPost[parentId.permlink.value] != null) {  // Parent entity is a post
@@ -95,7 +95,7 @@ constructor(
         beneficiaries: List<Beneficiary>,
         vestPayment: Boolean,
         tokenProp: Long
-    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct> {
+    ): CommunPair<TransactionCommitted<CreateCGalleryStruct>, CreateCGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
@@ -121,7 +121,8 @@ constructor(
         }
 
         return PostsDataFactory.createCommitedTransaction(
-            PostsDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId, post.contentId.permlink))
+            PostsDataFactory.getCreatemssgComnGalleryStruct(post.contentId.userId.name, post.contentId.permlink)
+        )
 
 //        return commun4j.createPost(
 //            title,
@@ -145,31 +146,37 @@ constructor(
         newBody: String,
         newTags: List<Tag>,
         newJsonMetadata: DiscussionCreateMetadata
-    ): CommunPair<TransactionCommitted<UpdatemssgComnGalleryStruct1>, UpdatemssgComnGalleryStruct1> {
+    ): CommunPair<TransactionCommitted<UpdateCGalleryStruct>, UpdateCGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
-            val postIndex = DataStorage.posts.indexOfFirst { it.contentId.permlink == postPermlink.value }
-            val post = DataStorage.posts[postIndex]
-            DataStorage.posts[postIndex] = post.copy(content = newBody)
+        val postIndex = DataStorage.posts.indexOfFirst { it.contentId.permlink == postPermlink.value }
+        val post = DataStorage.posts[postIndex]
+        DataStorage.posts[postIndex] = post.copy(content = newBody)
 
-            return PostsDataFactory.createCommitedTransaction(
-                PostsDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink))
+        return PostsDataFactory.createCommitedTransaction(
+            PostsDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink)
+        )
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run { this to this.extractResult() }
     }
 
     override fun deletePost(postPermlink: Permlink):
-            CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct> {
+            CommunPair<TransactionCommitted<RemoveCGalleryStruct>, RemoveCGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-            val postToRemove = DataStorage.posts.single { it.contentId.permlink == postPermlink.value }
-            DataStorage.posts.remove(postToRemove)
+        val postToRemove = DataStorage.posts.single { it.contentId.permlink == postPermlink.value }
+        DataStorage.posts.remove(postToRemove)
 
-            return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, postPermlink))
+        return PostsDataFactory.createCommitedTransaction(
+            PostsDataFactory.getDeletemssgComnGalleryStruct(
+                authState.user.name,
+                postPermlink
+            )
+        )
 
 //        return commun4j.deletePostOrComment(postOrCommentPermlink, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow().run {
@@ -178,9 +185,14 @@ constructor(
     }
 
     override fun deleteComment(commentPermlink: Permlink):
-            CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct> {
+            CommunPair<TransactionCommitted<RemoveCGalleryStruct>, RemoveCGalleryStruct> {
 
-        return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getDeletemssgComnGalleryStruct(authState.user.name, commentPermlink))
+        return PostsDataFactory.createCommitedTransaction(
+            PostsDataFactory.getDeletemssgComnGalleryStruct(
+                authState.user.name,
+                commentPermlink
+            )
+        )
     }
 
 
@@ -198,7 +210,7 @@ constructor(
 
     override fun getPost(user: CyberName, permlink: Permlink): PostDiscussionRaw {
         val post = DataStorage.posts.first {
-            it.contentId.userId == user.name && it.contentId.permlink == permlink.value
+            it.contentId.userId.name == user.name && it.contentId.permlink == permlink.value
         }
         Log.d("UPDATE_POST", "getPost() content: ${post.content}")
         return post
@@ -256,8 +268,8 @@ constructor(
             "",
             DiscussionVotes(0L, 0L),
             DiscussionMetadata(Date()),
-            DiscussionId("", ""),
-            DiscussionId("", ""),
+            DiscussionId(CyberName(""), "", ""),
+            DiscussionId(CyberName(""), "", ""),
             DiscussionAuthor(CyberName(""), "", ""),
             0L,
             listOf()
@@ -280,7 +292,11 @@ constructor(
      * Returns child comments for comment
      * @param parentCommentId - id of a parent comment
      */
-    override fun getCommentsListForComment(offset: Int, pageSize: Int, parentCommentId: DiscussionIdModel): List<CommentDiscussionRaw> =
+    override fun getCommentsListForComment(
+        offset: Int,
+        pageSize: Int,
+        parentCommentId: DiscussionIdModel
+    ): List<CommentDiscussionRaw> =
         DataStorage.comments[parentCommentId.permlink.value]!!
             .child
             .drop(offset)

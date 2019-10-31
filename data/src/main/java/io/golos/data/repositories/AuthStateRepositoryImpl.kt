@@ -116,16 +116,11 @@ constructor(
                         try {
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (ex: Exception) {
-                            val userId = authApi.resolveCanonicalCyberName(newParams.userName)
+                            Timber.e(ex)
+                            val userId = authApi.getUserProfile(newParams.userName)
                             newParams = AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         }
-//                        if (newParams.user.userId.isEmpty()) {
-//                            val userId = authApi.resolveCanonicalCyberName(newParams.userName)
-//                            newParams =
-//                                AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
-//                        }
-//                        authApi.getUserAccount(newParams.user.userId.toCyberName())
                     }
 
                 if (account.account_name.isEmpty()) {
@@ -191,10 +186,10 @@ constructor(
                 val authResult =
                     auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
                 withContext(dispatchersProvider.ioDispatcher) {
-                    authApi.setActiveUserCreds(authResult.user, newParams.activeKey)
+                    authApi.setActiveUserCreds(authResult.userId, newParams.activeKey)
                 }
 
-                onAuthSuccess(newParams.userName, authResult.user, newParams.user, newParams.type)
+                onAuthSuccess(newParams.userName, authResult.userId, newParams.user, newParams.type)
             } catch (e: Exception) {
                 Timber.e(e)
                 authRequestsLiveData.value =

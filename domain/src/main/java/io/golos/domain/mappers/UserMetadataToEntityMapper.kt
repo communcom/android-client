@@ -19,7 +19,7 @@ object UserMetadataToEntityMapper {
             UserStatsEntity(communObject.stats.postsCount, communObject.stats.commentsCount),
             CyberName(""),
             communObject.username!!,
-            SubscribersEntity(communObject.subscribers.usersCount, communObject.subscribers.communitiesCount),
+            SubscribersEntity(communObject.subscribers.usersCount, communObject.subscribers.communitiesCount ?: 0),
             communObject.registration.time,
             false
         )

@@ -34,16 +34,6 @@ class VerifiedUserWithoutUserNameModel : UserRegistrationStateModel() {
     }
 }
 
- class UnWrittenToBlockChainUserModel : UserRegistrationStateModel(){
-     override fun equals(other: Any?): Boolean {
-         if (this === other) return true
-         if (javaClass != other?.javaClass) return false
-         return true
-     }
-
-     override fun hashCode(): Int {
-         return javaClass.hashCode()
-     }
- }
+data class UnWrittenToBlockChainUserModel(val userName: String, val userId: String) : UserRegistrationStateModel()
 
 data class RegisteredUserModel(val userName: String) : UserRegistrationStateModel()

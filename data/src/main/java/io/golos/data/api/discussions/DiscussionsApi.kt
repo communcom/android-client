@@ -1,10 +1,13 @@
 package io.golos.data.api.discussions
 
-import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.CreateCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
-import io.golos.commun4j.model.*
+import io.golos.commun4j.model.Beneficiary
+import io.golos.commun4j.model.DiscussionCreateMetadata
+import io.golos.commun4j.model.GetDiscussionsResultRaw
+import io.golos.commun4j.model.Tag
 import io.golos.commun4j.services.model.FeedSort
 import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
@@ -12,7 +15,6 @@ import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
-import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 import io.golos.commun4j.utils.Pair as CommunPair
@@ -52,14 +54,14 @@ interface DiscussionsApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
+    ): CommunPair<TransactionCommitted<CreateCGalleryStruct>, CreateCGalleryStruct>
 
     fun createComment(
         commentContentAsJson: String,
         parentId: DiscussionIdModel,
         commentAuthor: DiscussionAuthorModel,
         commentPermlink: Permlink
-    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
+    ): CommunPair<TransactionCommitted<CreateCGalleryStruct>, CreateCGalleryStruct>
 
     fun createPost(
         title: String,
@@ -70,7 +72,7 @@ interface DiscussionsApi {
         beneficiaries: List<Beneficiary> = emptyList(),
         vestPayment: Boolean = true,
         tokenProp: Long = 0L
-    ): CommunPair<TransactionCommitted<CreatemssgComnGalleryStruct>, CreatemssgComnGalleryStruct>
+    ): CommunPair<TransactionCommitted<CreateCGalleryStruct>, CreateCGalleryStruct>
 
     fun updatePost(
         postPermlink: Permlink,
@@ -78,11 +80,11 @@ interface DiscussionsApi {
         newBody: String,
         newTags: List<Tag>,
         newJsonMetadata: DiscussionCreateMetadata
-    ): CommunPair<TransactionCommitted<UpdatemssgComnGalleryStruct>, UpdatemssgComnGalleryStruct>
+    ): CommunPair<TransactionCommitted<UpdateCGalleryStruct>, UpdateCGalleryStruct>
 
-    fun deletePost(postPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+    fun deletePost(postPermlink: Permlink): CommunPair<TransactionCommitted<RemoveCGalleryStruct>, RemoveCGalleryStruct>
 
-    fun deleteComment(commentPermlink: Permlink): CommunPair<TransactionCommitted<DeletemssgComnGalleryStruct>, DeletemssgComnGalleryStruct>
+    fun deleteComment(commentPermlink: Permlink): CommunPair<TransactionCommitted<RemoveCGalleryStruct>, RemoveCGalleryStruct>
 
     /**
      * Returns list of comments

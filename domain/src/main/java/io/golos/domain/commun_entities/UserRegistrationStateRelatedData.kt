@@ -1,4 +1,4 @@
-package io.golos.domain.mappers
+package io.golos.domain.commun_entities
 
 import io.golos.commun4j.services.model.UserRegistrationStateResult
 import io.golos.domain.requestmodel.RegistrationStepRequest

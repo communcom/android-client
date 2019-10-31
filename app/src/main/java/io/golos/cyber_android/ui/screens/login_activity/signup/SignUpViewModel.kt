@@ -126,10 +126,10 @@ constructor(
     /**
      * Writes user into blockchain
      */
-    fun writeToBlockchain() {
+    fun writeToBlockchain(userName: String, userId: String) {
         launch {
             signUpUseCase.makeRegistrationStep(
-                WriteUserToBlockChainRequestModel(currentPhone, currentName)
+                WriteUserToBlockChainRequestModel(currentPhone, currentName, userId)
             )
         }
     }
@@ -153,6 +153,7 @@ constructor(
 
         currentPhone = getNormalizedPhone(phone)
         launch {
+            signUpUseCase.userName = currentName
             signUpUseCase.makeRegistrationStep(
                 GetUserRegistrationStepRequestModel(currentPhone)
             )
@@ -168,7 +169,8 @@ constructor(
     fun validateUserName(userName: String) {
         val userNameValidator = UserNameValidator()
         if(userNameValidator.isValid(userName)){
-            validateUserNameSuccessLiveData.postValue(Any())
+            currentName = userName
+            validateUserNameSuccessLiveData.postValue(userName)
         } else{
             validateUserNameErrorLiveData.postValue(userNameValidator.getValidateErrorMessage())
         }

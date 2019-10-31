@@ -123,7 +123,7 @@ abstract class AbstractDiscussionsRepository<D : DiscussionEntity, Q : FeedUpdat
                 else throw e
             }
 
-            Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate content: ${updatedPost.content}")
+            Log.d("UPDATE_POST", "AbstractDiscussionsRepository::requestDiscussionUpdate content: ${updatedPost.document}")
 
             throw UnsupportedOperationException("")
 

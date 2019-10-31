@@ -1,8 +1,8 @@
 package io.golos.data.api.vote
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.abi.implementation.comn.gallery.MssgidComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.VoteComnGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.VoteCGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionParentReceipt
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcessed
@@ -24,15 +24,15 @@ constructor(
         postOrCommentAuthor: CyberName,
         postOrCommentPermlink: Permlink,
         voteStrength: Short
-    ): TransactionCommitted<VoteComnGalleryStruct> {
+    ): TransactionCommitted<VoteCGalleryStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        return TransactionCommitted<VoteComnGalleryStruct>(
+        return TransactionCommitted<VoteCGalleryStruct>(
             "",
             TransactionProcessed("", TransactionParentReceipt("", 0, 0), 0, 0, true, listOf(), null, null),
-            VoteComnGalleryStruct(CyberSymbolCode(""), CyberName(""), MssgidComnGalleryStruct(CyberName(""), ""), 0)
+            VoteCGalleryStruct(CyberSymbolCode(""), CyberName(""), MssgidCGalleryStruct(CyberName(""), ""), 0)
         )
 //        return commun4j.vote(postOrCommentAuthor, postOrCommentPermlink, voteStrength, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
 //            .getOrThrow()

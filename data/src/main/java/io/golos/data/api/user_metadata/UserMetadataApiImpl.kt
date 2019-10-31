@@ -1,13 +1,12 @@
 package io.golos.data.api.user_metadata
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.abi.implementation.comn.social.AccountmetaComnSocialStruct
-import io.golos.commun4j.abi.implementation.comn.social.PinComnSocialStruct
-import io.golos.commun4j.abi.implementation.comn.social.UpdatemetaComnSocialStruct
+import io.golos.commun4j.abi.implementation.c.social.AccountmetaCSocialStruct
+import io.golos.commun4j.abi.implementation.c.social.PinCSocialStruct
+import io.golos.commun4j.abi.implementation.c.social.UpdatemetaCSocialStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionParentReceipt
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcessed
-import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
@@ -25,15 +24,15 @@ constructor(
         about: String?,
         coverImage: String?,
         profileImage: String?
-    ): TransactionCommitted<UpdatemetaComnSocialStruct> {
+    ): TransactionCommitted<UpdatemetaCSocialStruct> {
 
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val struct = UpdatemetaComnSocialStruct(
+        val struct = UpdatemetaCSocialStruct(
             CyberName(""),
-            AccountmetaComnSocialStruct("", "", "", "", "", "", "")
+            AccountmetaCSocialStruct("", "", "", "", "", "", "")
         )
 
         return TransactionCommitted(
@@ -56,12 +55,12 @@ constructor(
             commun4j.getUserProfile(user, null).getOrThrow(),
             "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png")       // Fake
 
-    override fun pin(user: CyberName): CommunPair<TransactionCommitted<PinComnSocialStruct>, PinComnSocialStruct> {
+    override fun pin(user: CyberName): CommunPair<TransactionCommitted<PinCSocialStruct>, PinCSocialStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val struct = PinComnSocialStruct(CyberName(""), CyberName(""))
+        val struct = PinCSocialStruct(CyberName(""), CyberName(""))
 
         return CommunPair(
             TransactionCommitted(
@@ -75,12 +74,12 @@ constructor(
         //return commun4j.pin(user, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES)).getOrThrow().run { this to this.extractResult() }
     }
 
-    override fun unPin(user: CyberName): CommunPair<TransactionCommitted<PinComnSocialStruct>, PinComnSocialStruct> {
+    override fun unPin(user: CyberName): CommunPair<TransactionCommitted<PinCSocialStruct>, PinCSocialStruct> {
         // It's the BC method
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val struct = PinComnSocialStruct(CyberName(""), CyberName(""))
+        val struct = PinCSocialStruct(CyberName(""), CyberName(""))
 
         return CommunPair(
             TransactionCommitted(

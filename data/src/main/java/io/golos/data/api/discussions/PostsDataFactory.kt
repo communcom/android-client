@@ -1,9 +1,9 @@
 package io.golos.data.api.discussions
 
-import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.MssgidComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.CreateCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionParentReceipt
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcessed
@@ -31,38 +31,37 @@ internal object PostsDataFactory {
             struct)
     }
 
-    fun getCreatemssgComnGalleryStruct(userId: String, permlink: String): CreatemssgComnGalleryStruct =
-        CreatemssgComnGalleryStruct(
+    fun getCreatemssgComnGalleryStruct(userId: String, permlink: String): CreateCGalleryStruct =
+        CreateCGalleryStruct(
             CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(userId), permlink),
-            MssgidComnGalleryStruct(CyberName(""), ""),
+            MssgidCGalleryStruct(CyberName(userId), permlink),
+            MssgidCGalleryStruct(CyberName(""), ""),
             "",
             "",
             listOf(),
             "",
-            0,
             0
         )
 
-    fun getUpdatemssgComnGalleryStruct(userId: String, permlink: Permlink): UpdatemssgComnGalleryStruct =
-        UpdatemssgComnGalleryStruct(
+    fun getUpdatemssgComnGalleryStruct(userId: String, permlink: Permlink): UpdateCGalleryStruct =
+        UpdateCGalleryStruct(
             CyberSymbolCode(""),
-            MssgidComnGalleryStruct(CyberName(userId), permlink.value),
+            MssgidCGalleryStruct(CyberName(userId), permlink.value),
             "",
             "",
             listOf(),
             "")
 
-    fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): DeletemssgComnGalleryStruct =
-        DeletemssgComnGalleryStruct(CyberSymbolCode(""), MssgidComnGalleryStruct(CyberName(userId), permlink.value))
+    fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): RemoveCGalleryStruct =
+        RemoveCGalleryStruct(CyberSymbolCode(""), MssgidCGalleryStruct(CyberName(userId), permlink.value))
 
     fun createPost(body: String, community: Community, userId: String, commentsCount: Long, permlink: Permlink): PostDiscussionRaw =
         PostDiscussionRaw(
             body,
             DiscussionVotes(0, 0),
             DiscussionMetadata(Date()),
-            DiscussionId(userId, permlink.value),
-            CyberCommunity(community.id.id, community.name, community.logoUrl),
+            DiscussionId(CyberName(userId), community.id.id, Permlink.generate().value),
+            CyberCommunity(community.id.id, community.name, community.logoUrl, "alias"),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
             commentsCount
         )

@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.common.helper.UIHelperImpl
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.dependency_injection.scopes.UIScope
-import io.golos.domain.entities.EventsListEntity
 import io.golos.domain.interactors.UseCase
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.images.ImageUploadUseCase
@@ -26,15 +25,14 @@ import io.golos.domain.interactors.publish.EmbedsUseCase
 import io.golos.domain.interactors.reg.SignUpUseCase
 import io.golos.domain.interactors.settings.SettingsUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.requestmodel.EventsListModel
-import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.UserSettingModel
-import io.golos.domain.requestmodel.VoteRequestModel
-import io.golos.domain.mappers.EntityToModelMapper
 import io.golos.domain.mappers.EventEntityToModelMapper
 import io.golos.domain.mappers.EventEntityToModelMapperImpl
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
+import io.golos.domain.requestmodel.EventsListModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.UserSettingModel
+import io.golos.domain.requestmodel.VoteRequestModel
 
 @Module
 abstract class UIModuleBinds {

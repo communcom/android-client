@@ -1,9 +1,6 @@
 package io.golos.data.api.registration
 
-import io.golos.commun4j.services.model.FirstRegistrationStepResult
-import io.golos.commun4j.services.model.RegisterResult
-import io.golos.commun4j.services.model.ResultOk
-import io.golos.commun4j.services.model.UserRegistrationStateResult
+import io.golos.commun4j.services.model.*
 
 interface RegistrationApi {
     fun getRegistrationState(phone: String): UserRegistrationStateResult
@@ -13,17 +10,17 @@ interface RegistrationApi {
         testingPass: String?
     ): FirstRegistrationStepResult
 
-    fun verifyPhoneForUserRegistration(phone: String, code: Int): ResultOk
+    fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult
 
-    fun setVerifiedUserName(user: String, phone: String): ResultOk
+    fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult
 
     fun writeUserToBlockChain(
+        phone: String,
+        userId: String,
         userName: String,
         owner: String,
-        active: String,
-        posting: String,
-        memo: String
-    ): RegisterResult
+        active: String
+    ): WriteToBlockChainStepResult
 
     fun resendSmsCode(phone: String): ResultOk
 }

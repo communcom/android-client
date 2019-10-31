@@ -6,12 +6,13 @@ import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.commun4j.services.model.UserRegistrationStateResult
 import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.errors.CyberToAppErrorMapper
+import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.entities.UserRegistrationStateEntity
 import io.golos.domain.mappers.UserRegistrationStateEntityMapper
-import io.golos.domain.mappers.UserRegistrationStateRelatedData
+import io.golos.domain.commun_entities.UserRegistrationStateRelatedData
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import timber.log.Timber
@@ -74,11 +75,11 @@ constructor(
 
                                 is SetUserKeysRequest -> {
                                     registrationApi.writeUserToBlockChain(
-                                        params.userName,
-                                        params.ownerPublicKey,
-                                        params.activePublicKey,
-                                        params.postingPublicKey,
-                                        params.memoPublicKey
+                                            params.phone,
+                                    params.userId,
+                                    params.userName,
+                                    params.ownerPublicKey,
+                                    params.activePublicKey
                                     )
                                 }
                                 is ResendSmsVerificationCode ->
@@ -87,7 +88,7 @@ constructor(
 
                         val regState =
                             if (params !is SetUserKeysRequest) registrationApi.getRegistrationState(params.phone)
-                            else UserRegistrationStateResult(UserRegistrationState.REGISTERED, params.userName)
+                            else UserRegistrationStateResult(UserRegistrationState.REGISTERED, UserRegistrationStateResult.UserData(params.userId.toCyberName(), params.userName))
 
                         UserRegistrationStateEntityMapper.map(
                             UserRegistrationStateRelatedData(

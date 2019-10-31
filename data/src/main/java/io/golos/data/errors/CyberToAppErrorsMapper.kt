@@ -23,10 +23,10 @@ constructor() : CyberToAppErrorMapper {
             NotFoundMapper(),
             ForbiddenMapper(),
             NameIsAlreadyInUseMapper(),
+            UserNameIsAlreadyTakenMapper(),
             NotPinnedMapper(),
             AlreadyPinnedMapper(),
             CashoutWindowMapper(),
-
             UnknownErrorMapper(),
             SocketTimeoutExceptionMapper(),
             TransparentMapper())

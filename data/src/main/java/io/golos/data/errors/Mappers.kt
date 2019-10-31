@@ -50,6 +50,8 @@ class ForbiddenMapper: MessageTextMapper("code=403", AppError.ForbiddenError)
 
 class NameIsAlreadyInUseMapper : MessageTextMapper("Name is already in use", AppError.NameIsAlreadyInUseError)
 
+class UserNameIsAlreadyTakenMapper : MessageTextMapper("This username is already taken", AppError.NameIsAlreadyInUseError)
+
 class NotPinnedMapper: MessageTextMapper("You have not pinned this account", AppError.NotPinnedError)
 
 class AlreadyPinnedMapper: MessageTextMapper("You already have pinned this account", AppError.AlreadyPinnedError)

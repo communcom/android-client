@@ -1,8 +1,8 @@
 package io.golos.data.repositories.discussion
 
-import io.golos.commun4j.abi.implementation.comn.gallery.CreatemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.DeletemssgComnGalleryStruct
-import io.golos.commun4j.abi.implementation.comn.gallery.UpdatemssgComnGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.CreateCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
+import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.domain.entities.DiscussionCreationResultEntity
@@ -52,9 +52,9 @@ abstract class DiscussionCreationRepositoryBase(
             transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
 
             return when (request) {
-                is UpdatePostRequest -> DiscussionUpdateResultToEntityMapper.map(apiAnswer.second as UpdatemssgComnGalleryStruct)
-                is DeleteDiscussionRequest -> DiscussionDeleteResultToEntityMapper.map(apiAnswer.second as DeletemssgComnGalleryStruct)
-                else -> DiscussionCreateResultToEntityMapper.map(apiAnswer.second as CreatemssgComnGalleryStruct)
+                is UpdatePostRequest -> DiscussionUpdateResultToEntityMapper.map(apiAnswer.second as UpdateCGalleryStruct)
+                is DeleteDiscussionRequest -> DiscussionDeleteResultToEntityMapper.map(apiAnswer.second as RemoveCGalleryStruct)
+                else -> DiscussionCreateResultToEntityMapper.map(apiAnswer.second as CreateCGalleryStruct)
             }
     }
 }

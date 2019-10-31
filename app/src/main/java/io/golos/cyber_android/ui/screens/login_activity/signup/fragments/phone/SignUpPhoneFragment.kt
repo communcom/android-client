@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.safetynet.SafetyNetClient
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
@@ -30,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import timber.log.Timber
 
 
 class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignUpPhoneViewModel::class.java) {
@@ -54,12 +57,24 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
             findNavController().navigateUp()
         }
 
+        //TODO kv 29.10/2019 раскоментировать блок когда понадобиться капча в приложении
         signUp.setOnClickListener {
             viewModel.getFieldIfValid()?.let {
+                /*val captchaClient: SafetyNetClient = SafetyNet.getClient(requireActivity())
+                captchaClient
+                    .verifyWithRecaptcha("6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S")
+                    .addOnSuccessListener { successEvent ->
+                        val tokenCaptcha: String = successEvent.tokenResult
+                        signUpViewModel.updateRegisterState(it)
+
+                        // More code here
+                    }
+                    .addOnFailureListener {
+                        Timber.e(it)
+                    }*/
                 signUpViewModel.updateRegisterState(it)
             }
         }
-
         listOf(countryInputLayout, country).forEach {
             it.setOnClickListener {
                 ViewUtils.hideKeyboard(requireActivity())

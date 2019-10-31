@@ -13,7 +13,7 @@ data class CommunityEntity(
 ) : Entity {
     companion object {
         fun fromCyber(cyberObject: CyberCommunity) =
-            CommunityEntity(cyberObject.id, cyberObject.name!!, cyberObject.avatarUrl)
+            CommunityEntity(cyberObject.communityId, cyberObject.name!!, cyberObject.avatarUrl)
     }
 }
 
