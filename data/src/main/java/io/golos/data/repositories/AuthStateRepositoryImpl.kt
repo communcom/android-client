@@ -116,7 +116,8 @@ constructor(
                         try {
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (ex: Exception) {
-                            val userId = authApi.resolveCanonicalCyberName(newParams.userName)
+                            Timber.e(ex)
+                            val userId = authApi.getUserProfile(newParams.userName)
                             newParams = AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         }

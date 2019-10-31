@@ -25,7 +25,7 @@ constructor (
     override suspend fun process(userName: String, masterKey: String): Either<AuthRequestModel, Exception> =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
-                val userId = authApi.resolveCanonicalCyberName(userName).userId.name
+                val userId = authApi.getUserProfile(userName).userId.name
                 val activeKey = userKeyStore.createKeys(userId, userName, masterKey).activePrivateKey
                 val model = AuthRequestModel(userName, CyberUser(userName), activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
