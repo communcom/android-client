@@ -13,12 +13,16 @@ data class SecondLevelCommentListItem(
     override val externalId: DiscussionIdModel,          // Id of an entity on the backend
 
     override val author: DiscussionAuthorModel,
-    val parentAuthor: DiscussionAuthorModel?,
+    val repliedAuthor: DiscussionAuthorModel?,
     override val currentUserId: String,
+    val repliedCommentLevel: Int,
 
     override val content: PostBlock,
 
-    override val votes: DiscussionVotesModel,
+    override val voteBalance: Long,
+    override val isUpVoteActive: Boolean,
+    override val isDownVoteActive: Boolean,
+
     override val metadata: DiscussionMetadataModel,
 
     override val state: CommentListItemState

@@ -27,7 +27,6 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.interactors.model.DiscussionAuthorModel
 import io.golos.domain.interactors.model.DiscussionMetadataModel
-import io.golos.domain.interactors.model.DiscussionVotesModel
 import io.golos.domain.post.post_dto.PostBlock
 import javax.inject.Inject
 
@@ -86,8 +85,9 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             true)
 
         _replyAndTimeText.text = getReplyAndTimeText(listItem.metadata)
+        _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
 
-        setVoting(listItem.votes)
+        setupVoting(listItem, listItemEventsProcessor)
 
         setProcessingState(listItem.state)
 
@@ -180,10 +180,13 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         return result
     }
 
-    private fun setVoting(votes: DiscussionVotesModel) {
-        _voting.setVoteBalance(votes.upCount - votes.downCount)
-        _voting.setUpVoteButtonSelected(votes.hasUpVote)
-        _voting.setDownVoteButtonSelected(votes.hasDownVote)
+    private fun setupVoting(listItem: T, eventsProcessor: PostPageViewModelListEventsProcessor) {
+        _voting.setVoteBalance(listItem.voteBalance)
+        _voting.setUpVoteButtonSelected(listItem.isUpVoteActive)
+        _voting.setDownVoteButtonSelected(listItem.isDownVoteActive)
+
+        _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
+        _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
     }
 
     private fun getReplyAndTimeText(metadata: DiscussionMetadataModel): SpannableStringBuilder {

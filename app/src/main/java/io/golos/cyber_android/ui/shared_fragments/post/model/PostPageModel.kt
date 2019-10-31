@@ -27,6 +27,8 @@ interface PostPageModel : ModelBase {
 
     suspend fun voteForPost(isUpVote: Boolean)
 
+    suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean)
+
     suspend fun updateCommentsSorting(sortingType: SortingType)
 
     suspend fun loadStartFirstLevelCommentsPage()
@@ -46,4 +48,6 @@ interface PostPageModel : ModelBase {
     fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
 
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
+
+    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
 }

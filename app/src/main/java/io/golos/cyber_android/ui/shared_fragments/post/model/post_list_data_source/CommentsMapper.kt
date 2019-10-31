@@ -21,7 +21,9 @@ object CommentsMapper {
             author = model.author,
             currentUserId = currentUserId,
             content = model.content.body.postBlock,
-            votes = model.votes,
+            voteBalance = model.votes.upCount - model.votes.downCount,
+            isUpVoteActive = model.votes.hasUpVote,
+            isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
             state = CommentListItemState.NORMAL
         )
@@ -35,15 +37,33 @@ object CommentsMapper {
             throw UnsupportedOperationException("This level of comment is not supported: ${model.content.commentLevel}")
         }
 
+        val repliedAuthor = model.parentId?.let { parentAuthors[it] }
+        val repliedCommentLevel = if(repliedAuthor == null) 0 else 1
+
+        return mapToSecondLevel(model, currentUserId, repliedAuthor, repliedCommentLevel)
+    }
+
+    fun mapToSecondLevel(
+        model: CommentModel,
+        currentUserId: String,
+        repliedAuthor: DiscussionAuthorModel?,
+        repliedCommentLevel: Int): SecondLevelCommentListItem {
+        if(model.content.commentLevel != 1) {
+            throw UnsupportedOperationException("This level of comment is not supported: ${model.content.commentLevel}")
+        }
+
         return SecondLevelCommentListItem(
             id = IdUtil.generateLongId(),
             version = 0,
             externalId = model.contentId,
             author = model.author,
-            parentAuthor = model.parentId?.let { parentAuthors[it] },
+            repliedAuthor = repliedAuthor,
+            repliedCommentLevel = repliedCommentLevel,
             currentUserId = currentUserId,
             content = model.content.body.postBlock,
-            votes = model.votes,
+            voteBalance = model.votes.upCount - model.votes.downCount,
+            isUpVoteActive = model.votes.hasUpVote,
+            isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
             state = CommentListItemState.NORMAL
         )

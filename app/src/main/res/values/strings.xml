@@ -248,6 +248,7 @@
     <string name="delete_comment">Delete comment</string>
 
     <string name="edit_comment_send">Edit Comment</string>
+    <string name="edit_comment_reply">Reply to comment</string>
 
     <string name="delete_post_confirmation">Are you sure you want to delete this post?</string>
     <string name="invalid_post_format">Invalid format of the post</string>

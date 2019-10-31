@@ -5,6 +5,7 @@ import io.golos.commun4j.model.DiscussionId
 import io.golos.commun4j.model.DiscussionMetadata
 import io.golos.commun4j.model.DiscussionVotes
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.data.toCyberName
 import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.interactors.model.CommentModel
@@ -49,12 +50,12 @@ object CommentsDataFactory {
         DiscussionAuthor(CyberName("tst3xxiihfzq"), "berty", null)
     )
 
-    fun createComments(): MutableList<CommentDiscussionRaw> {
+    fun createComments(postPermlink: Permlink, currentUserId: String): MutableList<CommentDiscussionRaw> {
         val firstLevelsCount = Random.nextInt(30, 50)
         val firstLevelList = mutableListOf<CommentDiscussionRaw>()
 
         for(i in 0 until firstLevelsCount) {
-            val firstLevelComment = createRandomComment(null)
+            val firstLevelComment = createRandomComment(DiscussionId(currentUserId.toCyberName(), "communityId", postPermlink.value))
 
             val secondLevelList = mutableListOf<CommentDiscussionRaw>()
 

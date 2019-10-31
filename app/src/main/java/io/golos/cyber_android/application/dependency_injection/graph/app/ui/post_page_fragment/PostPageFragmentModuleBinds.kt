@@ -13,12 +13,13 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModelImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacadeImpl
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OurCommentsCollection
-import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection.OutCommentsCollectionImpl
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorage
+import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorageImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourcePostControls
+import io.golos.cyber_android.ui.shared_fragments.post.model.voting.PostVotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
@@ -56,13 +57,13 @@ abstract class PostPageFragmentModuleBinds {
 
     @Binds
     @FragmentScope
-    abstract fun bindVotingMachine(machine: VotingMachineImpl): VotingMachine
+    abstract fun bindVotingMachine(machine: PostVotingMachineImpl): VotingMachine
 
     @Binds
     abstract fun bindCommentsLoadingFacade(facade: CommentsProcessingFacadeImpl): CommentsProcessingFacade
 
     @Binds
-    abstract fun bindPostedCommentsCollection(collection: OutCommentsCollectionImpl): OurCommentsCollection
+    abstract fun bindPostedCommentsCollection(collection: CommentsStorageImpl): CommentsStorage
 
     @Binds
     abstract fun bindCommentTextRenderer(renderer: CommentTextRendererImpl): CommentTextRenderer

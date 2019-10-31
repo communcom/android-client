@@ -18,11 +18,11 @@ constructor(
     transactionsApi
 ),  VoteRepository {
 
-    override fun upVote(postId: DiscussionIdModel) = vote(postId, 10_000)
+    override fun upVote(entityId: DiscussionIdModel) = vote(entityId, 10_000)
 
-    override fun downVote(postId: DiscussionIdModel) = vote(postId, -10_000)
+    override fun downVote(entityId: DiscussionIdModel) = vote(entityId, -10_000)
 
-    override fun unVote(postId: DiscussionIdModel) {
+    override fun unVote(entityId: DiscussionIdModel) {
         unVote()    // It's a stub
     }
 

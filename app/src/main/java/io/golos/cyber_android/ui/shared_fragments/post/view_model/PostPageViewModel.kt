@@ -5,70 +5,40 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.common.posts.AbstractFeedWithCommentsViewModel
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.AbstractFeedUseCase
-import io.golos.domain.interactors.feed.PostWithCommentUseCase
-import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.publish.DiscussionPosterUseCase
-import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.requestmodel.CommentFeedUpdateRequest
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class PostPageViewModel
 @Inject
 constructor(
-    postWithCommentUseCase: PostWithCommentUseCase,
-    voteUseCase: VoteUseCase,
-    posterUseCase: DiscussionPosterUseCase,
-    signInUseCase: SignInUseCase,
-    private val dispatchersProvider: DispatchersProvider,
-    private val model: PostPageModel,
+    dispatchersProvider: DispatchersProvider,
+    model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val postToProcess: DiscussionIdModel
-) : AbstractFeedWithCommentsViewModel<CommentFeedUpdateRequest, CommentEntity, CommentModel>(
-    postWithCommentUseCase as AbstractFeedUseCase<out CommentFeedUpdateRequest, CommentEntity, CommentModel>,
-    voteUseCase,
-    posterUseCase,
-    signInUseCase
-), CoroutineScope, PostPageViewModelListEventsProcessor {
+) : ViewModelBase<PostPageModel>(dispatchersProvider, model),
+    PostPageViewModelListEventsProcessor {
 
     private var wasMovedToChild = false         // We move to child screen from this one
 
     private var editedCommentId: DiscussionIdModel? = null
-
-    private val scopeJob: Job = SupervisorJob()
-
-    /**
-     * Context of this scope.
-     */
-    override val coroutineContext: CoroutineContext
-        get() = scopeJob + dispatchersProvider.uiDispatcher
-
+    private var repliedCommentId: DiscussionIdModel? = null
+    
     val commentsPageSize: Int
         get() = model.commentsPageSize
-
-    /**
-     * Direct command for view
-     */
-    val command: SingleLiveData<ViewCommand> = SingleLiveData()
 
     /**
      * All data in post list (post title, body, controls, commeents etc.)
@@ -93,8 +63,8 @@ constructor(
     private val _commentEditFieldVisibility = MutableLiveData<Int>(View.GONE)
     val commentEditFieldVisibility = _commentEditFieldVisibility as LiveData<Int>
 
-    private val _commentEditFieldText = MutableLiveData<List<CharSequence>>(listOf())
-    val commentEditFieldText = _commentEditFieldText as LiveData<List<CharSequence>>
+    private val _commentEditFieldSettings = MutableLiveData<EditReplyCommentSettings>(EditReplyCommentSettings(listOf(), listOf(), true))
+    val commentEditFieldSettings = _commentEditFieldSettings as LiveData<EditReplyCommentSettings>
 
     fun setup() {
         if(wasMovedToChild) {
@@ -119,13 +89,6 @@ constructor(
                 _commentFieldEnabled.value = true
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        scopeJob.cancelChildren()
-        scopeJob.cancel()
     }
 
     override fun onImageInPostClick(imageUri: Uri) {
@@ -159,6 +122,10 @@ constructor(
     override fun onUpVoteClick() = voteForPost(true)
 
     override fun onDownVoteClick() = voteForPost(false)
+
+    override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)
+
+    override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
 
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true
@@ -244,14 +211,56 @@ constructor(
             model.deleteComment(commentId)
         }
 
-    fun startEditComment(commentId: DiscussionIdModel) {
+    fun startEditComment(commentId: DiscussionIdModel) = startReplyOrEditComment {
+        _commentEditFieldSettings.value = model.getCommentText(commentId).let { EditReplyCommentSettings(it, it, true) }
+        editedCommentId = commentId
+    }
+
+    override fun startReplyToComment(commentToReplyId: DiscussionIdModel)  = startReplyOrEditComment {
+        _commentEditFieldSettings.value = EditReplyCommentSettings(model.getCommentText(commentToReplyId), listOf(), false)
+        repliedCommentId = commentToReplyId
+    }
+
+    fun cancelReplyOrEditComment() {
+        _commentEditFieldSettings.value = EditReplyCommentSettings(listOf(), listOf(), true)
+
+        _commentFieldVisibility.value = View.VISIBLE
+        _commentEditFieldVisibility.value = View.GONE
+
+        editedCommentId = null
+        repliedCommentId = null
+    }
+
+    fun completeReplyOrEditComment(newCommentText: String) =
+        completeReplyOrEditComment {
+            when {
+                editedCommentId != null -> model.updateCommentText(editedCommentId!!, newCommentText)
+                repliedCommentId != null -> model.replyToComment(repliedCommentId!!, newCommentText)
+            }
+        }
+
+    private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
+
+    private fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
+        processSimple { model.voteForComment(commentId, isUpVote) }
+
+    private fun processSimple(action: suspend () -> Unit) {
+        launch {
+            try {
+                action()
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
+    }
+
+    private fun startReplyOrEditComment(commentAction: () -> Unit) {
         try {
-            _commentEditFieldText.value = model.getCommentText(commentId)
+            commentAction()
 
             _commentFieldVisibility.value = View.GONE
             _commentEditFieldVisibility.value = View.VISIBLE
-
-            editedCommentId = commentId
         } catch (ex: Exception) {
             Timber.e(ex)
             command.value = ShowMessageCommand(R.string.common_general_error)
@@ -261,40 +270,16 @@ constructor(
         }
     }
 
-    fun cancelEditComment() {
-        _commentEditFieldText.value = listOf()
-
-        _commentFieldVisibility.value = View.VISIBLE
-        _commentEditFieldVisibility.value = View.GONE
-
-        editedCommentId = null
-    }
-
-    fun completeEditComment(newCommentText: String) {
+    private fun completeReplyOrEditComment(commentAction: suspend () -> Unit) {
         launch {
             try {
                 _commentEditFieldEnabled.value = false
-
-                model.updateCommentText(editedCommentId!!, newCommentText)
-
-                cancelEditComment()
+                commentAction()
+                cancelReplyOrEditComment()
             } catch(ex: Exception) {
                 command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true
-            }
-        }
-    }
-
-    private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
-
-    private fun processSimple(action: suspend () -> Unit) {
-        launch {
-            try {
-                action()
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
     }

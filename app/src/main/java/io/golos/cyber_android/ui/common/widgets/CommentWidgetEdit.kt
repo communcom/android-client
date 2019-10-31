@@ -10,6 +10,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
 import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.view_comment_widget_edit.view.*
 import javax.inject.Inject
@@ -63,11 +64,11 @@ constructor(
         closeButton.isEnabled = enabled
     }
 
-    fun setText(text: List<CharSequence>) {
+    fun updateSettings(settings: EditReplyCommentSettings) {
         val builder = SpannableStringBuilder()
 
         var isFirstParagraph = true
-        text.forEach {
+        settings.newText.forEach {
             if(!isFirstParagraph) {
                 builder.append("\n")
             }
@@ -76,6 +77,12 @@ constructor(
         }
 
         newText.text = builder
-        oldText.text = text.firstOrNull()
+        oldText.text = settings.oldText.firstOrNull()
+
+        editCommentLabel.text = if(settings.isInEditMode) {
+            appResourcesProvider.getString(R.string.edit_comment_send)
+        } else {
+            appResourcesProvider.getString(R.string.edit_comment_reply)
+        }
     }
 }

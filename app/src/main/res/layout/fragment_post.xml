@@ -73,7 +73,7 @@
             tools:visibility="gone"
 
             app:enabled="@{viewModel.commentEditFieldEnabled}"
-            app:text= "@{viewModel.commentEditFieldText}"
+            app:settings= "@{viewModel.commentEditFieldSettings}"
         />
 
     </LinearLayout>

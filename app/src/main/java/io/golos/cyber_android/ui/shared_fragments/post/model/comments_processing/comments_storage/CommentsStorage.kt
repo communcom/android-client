@@ -1,10 +1,10 @@
-package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.our_comments_collection
+package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage
 
 import io.golos.domain.interactors.model.CommentModel
 import io.golos.domain.interactors.model.DiscussionIdModel
 
-interface OurCommentsCollection {
-    fun addCommentPosted(comment: CommentModel)
+interface CommentsStorage {
+    fun addPostedComment(comment: CommentModel)
 
     fun addComment(comment: CommentModel)
 

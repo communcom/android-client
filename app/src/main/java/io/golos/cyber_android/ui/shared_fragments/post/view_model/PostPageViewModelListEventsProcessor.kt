@@ -17,6 +17,10 @@ interface PostPageViewModelListEventsProcessor {
 
     fun onDownVoteClick()
 
+    fun onCommentUpVoteClick(commentId: DiscussionIdModel)
+
+    fun onCommentDownVoteClick(commentId: DiscussionIdModel)
+
     fun onCommentsTitleMenuClick()
 
     fun onNextCommentsPageReached()
@@ -28,4 +32,6 @@ interface PostPageViewModelListEventsProcessor {
     fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel)
 
     fun onCommentLongClick(commentId: DiscussionIdModel)
+
+    fun startReplyToComment(commentToReplyId: DiscussionIdModel)
 }

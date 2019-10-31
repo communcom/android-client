@@ -55,7 +55,7 @@ internal object PostsDataFactory {
     fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): RemoveCGalleryStruct =
         RemoveCGalleryStruct(CyberSymbolCode(""), MssgidCGalleryStruct(CyberName(userId), permlink.value))
 
-    fun createPost(body: String, community: Community, userId: String, commentsCount: Long): PostDiscussionRaw =
+    fun createPost(body: String, community: Community, userId: String, commentsCount: Long, permlink: Permlink): PostDiscussionRaw =
         PostDiscussionRaw(
             body,
             DiscussionVotes(0, 0),

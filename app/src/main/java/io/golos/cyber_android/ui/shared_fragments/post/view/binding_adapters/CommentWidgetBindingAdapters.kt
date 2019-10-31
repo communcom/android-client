@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import io.golos.cyber_android.ui.common.extensions.parentActivity
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
+import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 
 /**
  * One-way binding adapter for comment field
@@ -32,12 +33,12 @@ fun setCommentEditEnableState(view: CommentWidgetEdit, valueToBind: LiveData<Boo
     }
 }
 
-@BindingAdapter("text")
-fun setCommentEditText(view: CommentWidgetEdit, valueToBind: LiveData<List<CharSequence>>?) {
+@BindingAdapter("settings")
+fun setCommentEditText(view: CommentWidgetEdit, valueToBind: LiveData<EditReplyCommentSettings>?) {
     valueToBind?.let { value ->
         view.parentActivity?.let { activity ->
-            value.observe(activity, Observer { text ->
-                view.setText(text)
+            value.observe(activity, Observer { texts ->
+                view.updateSettings(texts)
             })
         }
     }

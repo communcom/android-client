@@ -29,12 +29,12 @@ interface PostListDataSourceComments {
     suspend fun addRetryLoadingComments(parentCommentId: DiscussionIdModel, commentsAdded: Int)
 
     /**
-     * [authors] - id of all loaded comments and their authors
+     * [repliedAuthors] - id of all loaded comments and their authors
      */
     suspend fun addSecondLevelComments(
         parentCommentId: DiscussionIdModel,
         comments: List<CommentModel>,
-        authors: Map<DiscussionIdModel, DiscussionAuthorModel>,
+        repliedAuthors: Map<DiscussionIdModel, DiscussionAuthorModel>,
         commentsAdded: Int,
         totalComments: Int,
         isEndOfDataReached: Boolean,
@@ -62,4 +62,20 @@ interface PostListDataSourceComments {
     suspend fun deleteCommentsHeader()
 
     suspend fun updateCommentText(newComment: CommentModel)
+
+    suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel)
+
+    suspend fun addReplyComment(
+        repliedCommentId: DiscussionIdModel,
+        repliedCommentAuthor: DiscussionAuthorModel,
+        repliedCommentLevel: Int,
+        commentModel: CommentModel)
+
+    suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel)
+
+    suspend fun updateCommentVoteStatus(
+        commentId: DiscussionIdModel,
+        isUpVoteActive: Boolean?,
+        isDownVoteActive: Boolean?,
+        voteBalanceDelta: Long)
 }

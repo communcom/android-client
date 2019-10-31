@@ -85,6 +85,9 @@ constructor(
         postModel = postModel.copy(votes = newVotesModel)
     }
 
+    override suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
+        commentsProcessing.vote(commentId, isUpVote)
+
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
 
     override suspend fun loadStartFirstLevelCommentsPage() = commentsProcessing.loadStartFirstLevelPage()
@@ -118,4 +121,7 @@ constructor(
 
     override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) =
         commentsProcessing.updateCommentText(commentId, newCommentText)
+
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) =
+        commentsProcessing.replyToComment(repliedCommentId, newCommentText)
 }
