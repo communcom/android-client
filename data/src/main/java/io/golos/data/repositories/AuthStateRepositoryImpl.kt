@@ -120,12 +120,6 @@ constructor(
                             newParams = AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         }
-//                        if (newParams.user.userId.isEmpty()) {
-//                            val userId = authApi.resolveCanonicalCyberName(newParams.userName)
-//                            newParams =
-//                                AuthRequest(newParams.userName, userId.userId.toCyberUser(), newParams.activeKey, newParams.type)
-//                        }
-//                        authApi.getUserAccount(newParams.user.userId.toCyberName())
                     }
 
                 if (account.account_name.isEmpty()) {

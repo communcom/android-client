@@ -25,13 +25,16 @@ constructor(
     override fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult = commun4j.setVerifiedUserName(user, phone).getOrThrow()
 
     override fun writeUserToBlockChain(
+        phone: String,
+        userId: String,
         userName: String,
         owner: String,
-        active: String,
-        posting: String,
-        memo: String
-    ): WriteToBlockChainStepResult =
-        commun4j.writeUserToBlockChain(userName, owner, active, posting, memo).getOrThrow()
+        active: String
+    ): WriteToBlockChainStepResult {
+
+        return commun4j.writeUserToBlockChain(phone, userId, userName, owner, active).getOrThrow()
+    }
+
 
     override fun resendSmsCode(phone: String): ResultOk = commun4j.resendSmsCode(phone).getOrThrow()
 }

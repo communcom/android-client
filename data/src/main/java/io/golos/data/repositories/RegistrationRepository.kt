@@ -75,11 +75,11 @@ constructor(
 
                                 is SetUserKeysRequest -> {
                                     registrationApi.writeUserToBlockChain(
+                                        params.phone,
+                                        params.userId,
                                         params.userName,
                                         params.ownerPublicKey,
-                                        params.activePublicKey,
-                                        params.postingPublicKey,
-                                        params.memoPublicKey
+                                        params.activePublicKey
                                     )
                                 }
                                 is ResendSmsVerificationCode ->

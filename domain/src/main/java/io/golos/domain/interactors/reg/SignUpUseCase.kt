@@ -176,8 +176,8 @@ constructor(
                     // Keys are generated and sent to server (public parts only)
                     val userKeys = userKeyStore.createKeys(userId, param.userName)
                     SetUserKeysRequest(
-                        userId,
                         param.phone,
+                        userId,
                         userKeys.userName,
                         userKeys.masterPassword,
                         userKeys.ownerPublicKey,

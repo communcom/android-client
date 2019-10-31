@@ -15,11 +15,11 @@ interface RegistrationApi {
     fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult
 
     fun writeUserToBlockChain(
+        phone: String,
+        userId: String,
         userName: String,
         owner: String,
-        active: String,
-        posting: String,
-        memo: String
+        active: String
     ): WriteToBlockChainStepResult
 
     fun resendSmsCode(phone: String): ResultOk
