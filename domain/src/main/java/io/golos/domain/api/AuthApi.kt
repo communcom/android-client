@@ -17,6 +17,4 @@ interface AuthApi {
     fun getAuthSecret(): AuthSecret
 
     fun authWithSecret(user: String, cyberName: CyberName, secret: String, signedSecret: String): AuthResult
-
-    fun resolveCanonicalCyberName(name: String): ResolvedProfile
 }

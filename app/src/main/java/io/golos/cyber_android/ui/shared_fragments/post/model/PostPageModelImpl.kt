@@ -71,7 +71,7 @@ constructor(
 
     override suspend fun getUserId(userName: String): String =
         withContext(dispatchersProvider.ioDispatcher) {
-            authApi.get().resolveCanonicalCyberName(userName).userId.name
+            authApi.get().getUserProfile(userName).userId.name
         }
 
     override suspend fun deletePost() =

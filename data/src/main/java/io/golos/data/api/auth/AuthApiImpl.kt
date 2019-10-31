@@ -4,7 +4,6 @@ import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.AuthType
 import io.golos.commun4j.model.UserProfile
 import io.golos.commun4j.services.model.AuthResult
-import io.golos.commun4j.services.model.ResolvedProfile
 import io.golos.commun4j.sharedmodel.AuthSecret
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.Pair
@@ -31,11 +30,9 @@ constructor(
             commun4j.authWithSecret(user, secret, signedSecret).getOrThrow()
         } catch (ex: Exception) {
             // It's a dirty fix for 0.8.7 library
-            AuthResult(cyberName.name, user, cyberName, "")
+            AuthResult(user, user, cyberName, "")
         }
     }
-
-    override fun resolveCanonicalCyberName(name: String): ResolvedProfile = commun4j.resolveCanonicalCyberName(name).getOrThrow()
 
     override fun setActiveUserCreds(user: CyberName, activeKey: String) =
         commun4j.keyStorage.addAccountKeys(user, setOf(Pair(AuthType.ACTIVE, activeKey)))
