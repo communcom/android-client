@@ -15,9 +15,13 @@ constructor(
     currentUserRepository: CurrentUserRepositoryRead
 ) : Commun4jApiBase(commun4j, currentUserRepository), PushNotificationsApi {
 
-    override fun subscribeOnMobilePushNotifications(deviceId: String, fcmToken: String): ResultOk =
-        commun4j.subscribeOnMobilePushNotifications(deviceId, fcmToken, AppName.GLS).getOrThrow()
+    override fun subscribeOnMobilePushNotifications(deviceId: String, fcmToken: String): ResultOk {
+        //commun4j.subscribeOnMobilePushNotifications(deviceId, fcmToken, AppName.GLS).getOrThrow()
+        return ResultOk("")
+    }
 
-    override fun unSubscribeOnNotifications(userId: CyberName, deviceId: String): ResultOk =
-        commun4j.unSubscribeOnNotifications(userId, deviceId, AppName.GLS).getOrThrow()
+    override fun unSubscribeOnNotifications(userId: CyberName, deviceId: String): ResultOk {
+        //commun4j.unSubscribeOnNotifications(userId, deviceId, AppName.GLS).getOrThrow()
+        return ResultOk("")
+    }
 }

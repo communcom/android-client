@@ -23,11 +23,23 @@ constructor(
         markAsViewed: Boolean?,
         freshOnly: Boolean?,
         types: List<EventType>
-    ): EventsData = commun4j.getEvents(userProfile, afterId, limit, markAsViewed, freshOnly, types).getOrThrow()
+    ): EventsData?{
+        //commun4j.getEvents(userProfile, afterId, limit, markAsViewed, freshOnly, types).getOrThrow()
+        return null
+    }
 
-    override fun markEventsAsNotFresh(ids: List<String>): ResultOk = commun4j.markEventsAsNotFresh(ids).getOrThrow()
+    override fun markEventsAsNotFresh(ids: List<String>): ResultOk {
+        //commun4j.markEventsAsNotFresh(ids).getOrThrow()
+        return ResultOk("")
+    }
 
-    override fun markAllEventsAsNotFresh(): ResultOk = commun4j.markAllEventsAsNotFresh().getOrThrow()
+    override fun markAllEventsAsNotFresh(): ResultOk {
+        //commun4j.markAllEventsAsNotFresh().getOrThrow()
+        return ResultOk("")
+    }
 
-    override fun getFreshNotifsCount(profileId: String): FreshResult = commun4j.getFreshNotificationCount(profileId).getOrThrow()
+    override fun getFreshNotifsCount(profileId: String): FreshResult {
+        //commun4j.getFreshNotificationCount(profileId).getOrThrow()
+        return FreshResult(0)
+    }
 }

@@ -17,7 +17,7 @@ data class UserMetadataEntity   (
     val userId: CyberName,
     val username: String,
     val subscribers: SubscribersEntity,
-    val createdAt: Date,
+    val createdAt: Date?,
     val isSubscribed: Boolean
 ) : Entity {
     companion object {
@@ -25,7 +25,7 @@ data class UserMetadataEntity   (
             get() = UserMetadataEntity(
                 UserPersonalDataEntity("", "", "", ContactsEntity("", "", "", "")),
                 UserSubscriptionsEntity(0, 0),
-                UserStatsEntity(0L, 0L),
+                UserStatsEntity(0, 0L),
                 CyberName(""),
                 "",
                 SubscribersEntity(0, 0),
@@ -52,7 +52,7 @@ data class UserPersonalDataEntity(
 data class ContactsEntity(val facebook: String?, val telegram: String?, val whatsApp: String?, val weChat: String?) :
     Entity
 
-data class UserStatsEntity(val postsCount: Long, val commentsCount: Long) : Entity
+data class UserStatsEntity(val postsCount: Int, val commentsCount: Long) : Entity
 
 data class UserSubscriptionsEntity(
     val usersCount: Int,

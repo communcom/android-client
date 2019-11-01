@@ -6,5 +6,5 @@ import io.golos.commun4j.services.model.OEmbedResult
 interface EmbedApi {
     fun getIframelyEmbed(url: String): IFramelyEmbedResult
 
-    fun getOEmbedEmbed(url: String): OEmbedResult
+    fun getOEmbedEmbed(url: String): OEmbedResult?
 }

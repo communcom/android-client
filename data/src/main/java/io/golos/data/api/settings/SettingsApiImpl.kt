@@ -15,11 +15,18 @@ constructor(
     currentUserRepository: CurrentUserRepositoryRead
 ) : Commun4jApiBase(commun4j, currentUserRepository), SettingsApi {
 
-    override fun setBasicSettings(deviceId: String, basic: Map<String, String>): ResultOk =
-        commun4j.setUserSettings(deviceId, basic, null, null).getOrThrow()
+    override fun setBasicSettings(deviceId: String, basic: Map<String, String>): ResultOk {
+        //commun4j.setUserSettings(deviceId, basic, null, null).getOrThrow()
+        return ResultOk("")
+    }
 
-    override fun setNotificationSettings(deviceId: String, notifSettings: MobileShowSettings): ResultOk =
-        commun4j.setUserSettings(deviceId, null, null, notifSettings).getOrThrow()
+    override fun setNotificationSettings(deviceId: String, notifSettings: MobileShowSettings): ResultOk {
+        //commun4j.setUserSettings(deviceId, null, null, notifSettings).getOrThrow()
+        return ResultOk("")
+    }
 
-    override fun getSettings(deviceId: String): UserSettings = commun4j.getUserSettings(deviceId).getOrThrow()
+    override fun getSettings(deviceId: String): UserSettings{
+        //commun4j.getUserSettings(deviceId).getOrThrow()
+        return UserSettings(null, null, null, null, null)
+    }
 }

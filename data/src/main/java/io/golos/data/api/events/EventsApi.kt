@@ -11,7 +11,7 @@ interface EventsApi {
         afterId: String?,
         limit: Int?, markAsViewed: Boolean?,
         freshOnly: Boolean?, types: List<EventType>
-    ): EventsData
+    ): EventsData?
 
     fun markEventsAsNotFresh(ids: List<String>): ResultOk
 

@@ -68,7 +68,7 @@ constructor(
                         false,
                         params.types.map { it.toEventType() }
                     ).let { eventsData ->
-                        eventsFeedMapper.map(EventsListDataWithQuery(eventsData, params))
+                        eventsFeedMapper.map(EventsListDataWithQuery(eventsData!!, params))
                     }
                 }
                 val oldEvents = getAsLiveData(params).value ?: EventsListEntity(0, 0, null, emptyList())

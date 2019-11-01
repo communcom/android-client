@@ -14,7 +14,7 @@ data class UserMetadataModel(
     val userId: CyberName,
     val username: String,
     val subscribers: SubscribersModel,
-    val createdAt: Date,
+    val createdAt: Date?,
     val isSubscribed: Boolean
 ) : Model {
     companion object {
@@ -46,7 +46,7 @@ data class UserPersonalDataModel(
 data class ContactsModel(val facebook: String?, val telegram: String?, val whatsApp: String?, val weChat: String?) :
     Model
 
-data class UserStatsModel(val postsCount: Long, val commentsCount: Long) : Model
+data class UserStatsModel(val postsCount: Int, val commentsCount: Long) : Model
 
 data class UserSubscriptionsModel(
     val usersCount: Int,
