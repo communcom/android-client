@@ -53,7 +53,7 @@ constructor(
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
-                val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(uri), uri)
+                val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(uri)!!, uri)
                 if(linkInfo == null) {
                     Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.TYPE_IS_NOT_SUPPORTED)
                 } else {

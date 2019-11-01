@@ -16,11 +16,11 @@ object UserMetadataToEntityMapper {
                     "", "", "", "")
             ),
             UserSubscriptionsEntity(0, 0),
-            UserStatsEntity(communObject.stats.postsCount, communObject.stats.commentsCount),
+            UserStatsEntity(communObject.stats?.postsCount ?: 0, communObject.stats?.commentsCount ?: 0),
             CyberName(""),
             communObject.username!!,
-            SubscribersEntity(communObject.subscribers.usersCount, communObject.subscribers.communitiesCount ?: 0),
-            communObject.registration.time,
+            SubscribersEntity(communObject.subscribers?.usersCount ?: 0, communObject.subscribers?.communitiesCount ?: 0),
+            communObject.registration?.time,
             false
         )
     }
