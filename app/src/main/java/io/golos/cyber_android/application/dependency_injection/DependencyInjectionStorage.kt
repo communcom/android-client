@@ -20,6 +20,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feed.FeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
@@ -186,6 +187,10 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunityPageRulesFragmentComponent::class -> get<UIComponent>()
                 .communityPageRulesFragment
                 .init(CommunityPageRulesFragmentModule(args[0] as String))
+                .build()
+
+            FeedFragmentComponent::class -> get<UIComponent>()
+                .feedFragment
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

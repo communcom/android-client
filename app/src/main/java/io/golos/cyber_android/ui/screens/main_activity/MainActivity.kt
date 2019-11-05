@@ -16,9 +16,10 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.main_activity.communities.CommunitiesFragment
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
+import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 import javax.inject.Inject
@@ -92,11 +93,20 @@ class MainActivity : ActivityBase() {
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
                 return when (Tab.values().find { it.index == position }) {
-                    Tab.FEED -> FeedFragment.newInstance("gls", user.name)
-                    Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
+                    Tab.FEED -> {
+                        setStatusBarColor(R.color.feed_status_bar_color)
+                        FeedFragment.newInstance("gls", user.name)
+                    }
+                    Tab.COMMUNITIES ->{
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        CommunitiesFragment.newInstance()
+                    }
                     //Tab.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     //Tab.WALLET -> WalletFragment.newInstance()
-                    Tab.PROFILE -> ProfileFragment.newInstance(user.name)
+                    Tab.PROFILE -> {
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        ProfileFragment.newInstance(user.name)
+                    }
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
             }

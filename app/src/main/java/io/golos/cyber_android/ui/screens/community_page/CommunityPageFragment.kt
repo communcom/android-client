@@ -26,7 +26,15 @@ import io.golos.cyber_android.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
-class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageModel, CommunityPageViewModel>() {
+class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections
+            .get<CommunityPageFragmentComponent>()
+            .inject(this)
+    }
+
+    override fun layoutResId(): Int = R.layout.fragment_community_page
 
     private var fragmentPagesList: List<Fragment> = ArrayList()
 
@@ -50,8 +58,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
-
-    override fun provideLayout(): Int = R.layout.fragment_community_page
 
     override fun inject() = App.injections
         .get<CommunityPageFragmentComponent>()

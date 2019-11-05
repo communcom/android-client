@@ -3,7 +3,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/window_status_bar_background</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -501,6 +501,17 @@
         <item name="tabIndicatorFullWidth">false</item>
         <item name="android:background">@color/window_background</item>
         <item name="tabIndicatorColor">@color/blue</item>
+    </style>
 
+    <style name="FeedTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="android:background">@color/blue</item>
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+        <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/text_color_feed_tabs</item>
+    </style>
+
+    <style name="FeedTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/feed_tab_text_color_selector</item>
     </style>
 </resources>

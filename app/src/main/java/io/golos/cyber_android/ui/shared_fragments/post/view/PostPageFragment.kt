@@ -27,7 +27,6 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
-import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
@@ -41,16 +40,16 @@ import kotlinx.android.synthetic.main.fragment_post.*
 /**
  * Fragment for single [PostModel] presentation
  */
-class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageModel, PostPageViewModel>() {
+class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel>() {
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
         val scrollToComments: Boolean = false
-    ): Parcelable
+    ) : Parcelable
 
     override fun provideViewModelType(): Class<PostPageViewModel> = PostPageViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_post
+    override fun layoutResId(): Int = R.layout.fragment_post
 
     override fun inject() =
         App.injections.get<PostPageFragmentComponent>(arguments!!.getParcelable<Args>(Tags.ARGS)!!.id).inject(this)
@@ -97,7 +96,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageModel, Po
     }
 
     override fun processViewCommand(command: ViewCommand) {
-        when(command) {
+        when (command) {
             is NavigateToMainScreenCommand -> activity?.finish()
 
             is NavigateToImageViewCommand -> moveToImageView(command.imageUri)
@@ -122,7 +121,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageModel, Po
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode) {
+        when (requestCode) {
             PostPageMenuDialog.REQUEST -> {
                 when (resultCode) {
                     PostPageMenuDialog.RESULT_EDIT -> viewModel.editPost()
@@ -155,7 +154,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageModel, Po
 
     private fun moveToUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
 
-    private fun moveToImageView(imageUri: Uri) = startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
+    private fun moveToImageView(imageUri: Uri) =
+        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
 
     private fun moveToLinkView(link: Uri) {
         Intent(Intent.ACTION_VIEW, link)

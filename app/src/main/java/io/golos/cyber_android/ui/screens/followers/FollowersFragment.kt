@@ -19,13 +19,17 @@ import kotlinx.android.synthetic.main.fragment_followers.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
-class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersModel, FollowersViewModel>() {
+class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections.release<FollowersFragmentComponent>()
+    }
+
+    override fun layoutResId(): Int  = R.layout.fragment_followers
 
     private val adapter by lazy { FollowersAdapter() }
 
     override fun provideViewModelType(): Class<FollowersViewModel> = FollowersViewModel::class.java
-
-    override fun provideLayout(): Int = R.layout.fragment_followers
 
     override fun inject() = App.injections
         .get<FollowersFragmentComponent>()

@@ -27,7 +27,7 @@ class MyCommunityFragment : CommunitiesTabFragmentBase<FragmentCommunitiesMyBind
     override val mainList: RecyclerView
         get() = mainListView
 
-    override fun provideLayout(): Int = R.layout.fragment_communities_my
+    override fun layoutResId(): Int = R.layout.fragment_communities_my
 
     override fun inject() = App.injections.get<MyCommunityFragmentComponent>().inject(this)
 

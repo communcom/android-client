@@ -23,6 +23,7 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -30,17 +31,19 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Base class for all fragments
  */
-abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewModelBase<TM>> : Fragment(), CoroutineScope {
+abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out ModelBase>> : Fragment(), CoroutineScope {
 
-    private lateinit var binding: TB
+    private lateinit var binding: VDB
 
-    private lateinit var _viewModel: TVM
-    protected val viewModel: TVM
+    private lateinit var _viewModel: VM
+
+    protected val viewModel: VM
         get() = _viewModel
 
     private var activeDialog: AlertDialog? = null
 
     private val loadingDialog = LoadingDialog()
+
     private var wasAdded = false
 
     @Inject
@@ -56,9 +59,7 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         inject()
-
         _viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
     }
 
@@ -69,7 +70,7 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
             }
         }
 
-        binding = DataBindingUtil.inflate(inflater, provideLayout(), container, false)
+        binding = DataBindingUtil.inflate(inflater, this.layoutResId(), container, false)
         binding.lifecycleOwner = this
 
         linkViewModel(binding, _viewModel)
@@ -83,27 +84,27 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         // Close a dialog to avoid leak of view
         activeDialog?.takeIf { it.isShowing }?.dismiss()
         activeDialog = null
+        coroutineContext.cancelChildren()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         releaseInjection()
+        super.onDestroy()
     }
 
-    abstract fun provideViewModelType(): Class<TVM>
+    abstract fun provideViewModelType(): Class<VM>
 
     @LayoutRes
-    protected abstract fun provideLayout(): Int
+    protected abstract fun layoutResId(): Int
 
     protected abstract fun inject()
 
-    protected open fun releaseInjection() {}
+    protected abstract fun releaseInjection()
 
-    protected abstract fun linkViewModel(binding: TB, viewModel: TVM)
+    protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
 
     protected open fun processViewCommand(command: ViewCommand) {}
 

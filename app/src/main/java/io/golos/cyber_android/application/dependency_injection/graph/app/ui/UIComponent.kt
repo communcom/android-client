@@ -9,6 +9,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dial
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feed.FeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
@@ -50,6 +51,7 @@ interface UIComponent {
     val communityPageFragment: CommunityPageFragmentComponent.Builder
     val communityPageAboutFragment: CommunityPageAboutFragmentComponent.Builder
     val communityPageRulesFragment: CommunityPageRulesFragmentComponent.Builder
+    val feedFragment: FeedFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)

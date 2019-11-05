@@ -23,6 +23,7 @@
     <color name="blue_40">#666A80F5</color>
     <color name="grey">#A5A7BD</color>
     <color name="blue_light">#d2d9fc</color>
+    <color name="white_opacity_50">#80FFFFFF</color>
 
     <color name="pale_black">#8A000000</color>
     <color name="transparent">#00000000</color>
@@ -38,6 +39,7 @@
 
     <!--Window-->
     <color name="window_background">@color/white</color>
+    <color name="window_status_bar_background">@color/white</color>
 
     <color name="select_community_dialog_bcg">@color/light_gray</color>
     <color name="select_community_dialog_list_bcg">@color/white</color>
@@ -56,4 +58,7 @@
 
     <color name="bottom_sheet_dialog_bcg">#F7F7F9</color>
     <color name="bottom_sheet_dialog_dangerous">#ED2C5B</color>
+
+    <!--Feed-->
+    <color name="feed_status_bar_color">@color/blue</color>
 </resources>

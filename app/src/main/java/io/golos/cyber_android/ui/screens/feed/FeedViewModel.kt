@@ -1,10 +1,16 @@
-package io.golos.cyber_android.ui.screens.main_activity.feed
+package io.golos.cyber_android.ui.screens.feed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.domain.DispatchersProvider
+import javax.inject.Inject
 
-class FeedPageViewModel: ViewModel() {
+class FeedViewModel @Inject constructor(
+    dispatchersProvider: DispatchersProvider,
+    model: FeedModel
+): ViewModelBase<ModelBase>(dispatchersProvider, model) {
 
     sealed class Event {
         data class SearchEvent(val query: String): Event()

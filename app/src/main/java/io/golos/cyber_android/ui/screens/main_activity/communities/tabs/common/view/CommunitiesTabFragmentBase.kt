@@ -25,7 +25,7 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.v
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
 import javax.inject.Inject
 
-abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityModel, CommunityViewModel>(), ChildSearchFragment {
+abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityViewModel>(), ChildSearchFragment {
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
     private var communitiesScrollListener: CommunityListScrollListener? = null

@@ -22,13 +22,17 @@ import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
 
-class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, SubscriptionsModel, SubscriptionsViewModel>() {
+class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, SubscriptionsViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections.release<SubscriptionsFragmentComponent>()
+    }
 
     private val subscriptionsAdapter: CommunitiesAdapter = CommunitiesAdapter()
 
     override fun provideViewModelType(): Class<SubscriptionsViewModel> = SubscriptionsViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_subscriptions
+    override fun layoutResId(): Int = R.layout.fragment_subscriptions
 
     override fun inject() = App.injections
         .get<SubscriptionsFragmentComponent>()

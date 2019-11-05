@@ -14,11 +14,15 @@ import kotlinx.android.synthetic.main.fragment_community_page_about.*
 import kotlinx.android.synthetic.main.fragment_community_page_rules.*
 
 class CommunityPageRulesFragment :
-    FragmentBaseMVVM<FragmentCommunityPageRulesBinding, CommunityPageRulesModel, CommunityPageRulesViewModel>() {
+    FragmentBaseMVVM<FragmentCommunityPageRulesBinding, CommunityPageRulesViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections.release<CommunityPageRulesFragmentComponent>()
+    }
 
     override fun provideViewModelType(): Class<CommunityPageRulesViewModel> = CommunityPageRulesViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_community_page_rules
+    override fun layoutResId(): Int = R.layout.fragment_community_page_rules
 
     override fun inject() = App.injections
         .get<CommunityPageRulesFragmentComponent>(getRules())

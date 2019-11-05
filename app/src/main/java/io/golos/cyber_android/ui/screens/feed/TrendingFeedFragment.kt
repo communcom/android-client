@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.feed
+package io.golos.cyber_android.ui.screens.feed
 
 import android.app.Activity
 import android.content.Intent
@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.screens.feed.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
@@ -31,7 +32,7 @@ import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
 import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
-import io.golos.domain.entities.CyberUser
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
@@ -40,10 +41,11 @@ import kotlinx.android.synthetic.main.fragment_feed_list.*
 import javax.inject.Inject
 
 /**
- * Fragment that represents MY FEED tab of the Feed Page
+ * Fragment that represents TRENDING tab of the Feed Page.
  */
 
-open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
+class TrendingFeedFragment :
+    AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
 
@@ -56,15 +58,11 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.injections.get<MyFeedFragmentComponent>(
-            CyberUser(arguments?.getString(Tags.USER_ID)!!),
-            arguments?.getString(Tags.USER_ID)!!.toCyberName())
+        App.injections
+            .get<TrendingFeedFragmentComponent>(
+                CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!),
+                arguments?.getString(Tags.USER_ID)!!.toCyberName())
             .inject(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        App.injections.release<MyFeedFragmentComponent>()
     }
 
     override fun onCreateView(
@@ -74,13 +72,14 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
         return inflater.inflate(R.layout.fragment_feed_list, container, false)
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         swipeRefresh.setOnRefreshListener {
             viewModel.requestRefresh()
         }
-        setupEditorWidget()
         setupSortingWidget()
+        setupEditorWidget()
     }
 
     override fun onNewData(data: List<PostModel>) {
@@ -137,7 +136,7 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
         (targetFragment as? FeedPageLiveDataProvider)
             ?.provideEventsLiveData()?.observe(this, Observer {
                 when (it) {
-                    is FeedPageViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
+                    is FeedViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
                 }
             })
 
@@ -162,11 +161,29 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
         })
     }
 
+    override fun setupWidgetsLiveData() {
+        viewModel.getSortingWidgetStateLiveData.observe(this, Observer { state ->
+            (feedList.adapter as HeadersPostsAdapter).apply {
+                sortingWidgetState = state
+            }
+        })
+
+        viewModel.getEditorWidgetStateLiveData.observe(this, Observer { state ->
+            (feedList.adapter as HeadersPostsAdapter).apply {
+                editorWidgetState = state
+            }
+        })
+    }
+
+    override fun setupViewModel() {
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CommunityFeedViewModel::class.java)
+    }
+
     private fun setupEditorWidget() {
         (feedList.adapter as HeadersPostsAdapter).editorWidgetListener = object : EditorWidget.Listener {
             override fun onGalleryClick() {
                 ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
-                    setTargetFragment(this@MyFeedFragment, EDITOR_WIDGET_PHOTO_REQUEST_CODE)
+                    setTargetFragment(this@TrendingFeedFragment, EDITOR_WIDGET_PHOTO_REQUEST_CODE)
                 }.show(requireFragmentManager(), "cover")
             }
 
@@ -179,6 +196,7 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
             }
         }
     }
+
 
     private fun setupSortingWidget() {
         (feedList.adapter as HeadersPostsAdapter).sortingWidgetListener = object : SortingWidget.Listener {
@@ -204,7 +222,7 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
         SortingTypeDialogFragment
             .newInstance(values)
             .apply {
-                setTargetFragment(this@MyFeedFragment, SORT_REQUEST_CODE)
+                setTargetFragment(this@TrendingFeedFragment, SORT_REQUEST_CODE)
             }
             .show(requireFragmentManager(), null)
     }
@@ -248,28 +266,11 @@ open class MyFeedFragment : AbstractFeedFragment<PostFeedUpdateRequest, PostEnti
         }
     }
 
-    override fun setupWidgetsLiveData() {
-        viewModel.getSortingWidgetStateLiveData.observe(this, Observer { state ->
-            (feedList.adapter as HeadersPostsAdapter).apply {
-                sortingWidgetState = state
-            }
-        })
-
-        viewModel.getEditorWidgetStateLiveData.observe(this, Observer { state ->
-            (feedList.adapter as HeadersPostsAdapter).apply {
-                editorWidgetState = state
-            }
-        })
-    }
-
-    override fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserSubscriptionsFeedViewModel::class.java)
-    }
-
     companion object {
-        fun newInstance(userId: String) =
-            MyFeedFragment().apply {
+        fun newInstance(communityName: String, userId: String) =
+            TrendingFeedFragment().apply {
                 arguments = Bundle().apply {
+                    putString(Tags.COMMUNITY_NAME, communityName)
                     putString(Tags.USER_ID, userId)
                 }
             }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageViewModel
+import io.golos.cyber_android.ui.screens.feed.FeedViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.data.errors.AppError
 import io.golos.domain.extensions.map
@@ -68,9 +68,9 @@ constructor(
         userMetadataUseCase.updateMetadata(newProfileImageUrl = "")
     }
 
-    private val eventsLiveData = MutableLiveData<FeedPageViewModel.Event>()
+    private val eventsLiveData = MutableLiveData<FeedViewModel.Event>()
 
-    val getEventsLiveData = eventsLiveData as LiveData<FeedPageViewModel.Event>
+    val getEventsLiveData = eventsLiveData as LiveData<FeedViewModel.Event>
 
     init {
         signInUseCase.subscribe()
@@ -83,7 +83,7 @@ constructor(
 
     fun requestRefresh() {
         userMetadataUseCase.requestRefresh()
-        eventsLiveData.postValue(FeedPageViewModel.Event.RefreshRequestEvent)
+        eventsLiveData.postValue(FeedViewModel.Event.RefreshRequestEvent)
     }
 
     fun switchFollowingStatus() {

@@ -40,9 +40,7 @@ constructor(
 
     @CallSuper
     override fun onCleared() {
-        super.onCleared()
-
-        scopeJob.cancelChildren()
         scopeJob.cancel()
+        super.onCleared()
     }
 }

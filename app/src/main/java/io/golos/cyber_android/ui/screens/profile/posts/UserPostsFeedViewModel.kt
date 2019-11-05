@@ -1,11 +1,10 @@
 package io.golos.cyber_android.ui.screens.profile.posts
 
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageTabViewModel
+import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
 import io.golos.domain.entities.DiscussionsSort
 import io.golos.domain.entities.PostEntity
 import io.golos.domain.interactors.action.VoteUseCase
 import io.golos.domain.interactors.feed.AbstractFeedUseCase
-import io.golos.domain.interactors.feed.UserPostFeedUseCase
 import io.golos.domain.interactors.model.PostModel
 import io.golos.domain.interactors.publish.DiscussionPosterUseCase
 import io.golos.domain.interactors.sign.SignInUseCase
