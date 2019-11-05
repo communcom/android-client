@@ -17,7 +17,6 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
-import io.golos.cyber_android.utils.setStatusBarColor
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 
@@ -29,6 +28,7 @@ const val REQUEST_POST_CREATION = 205
 
 class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     FeedPageLiveDataProvider {
+
     override fun releaseInjection() {
         App.injections.release<FeedFragmentComponent>()
     }
@@ -48,17 +48,16 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     }
 
     private enum class FeedTabs(@StringRes val title: Int, val index: Int) {
-        MY_FEED(R.string.tab_my_feed, 0), TRENDING(R.string.tab_all, 1)
+        MY_FEED(R.string.my_feed, 0), TRENDING(R.string.trending, 1)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupViewPager()
         setupTabLayout()
-    }
+        ivFilters.setOnClickListener {
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+        }
     }
 
     private fun setupViewPager() {
@@ -89,7 +88,6 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
                 LayoutInflater.from(requireContext()).inflate(R.layout.layout_feed_tab, null) as TextView
             tab.customView?.findViewById<TextView>(R.id.tvTabText)
                 ?.setText(FeedTabs.values()[position].title)
-            setupTab(tab)
         }.attach()
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -106,11 +104,20 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
             }
 
         })
+        setupTabsText()
     }
 
-    private fun setupTab(tab: TabLayout.Tab) {
+    private fun setupTabsText(){
+        for (tabPage in FeedTabs.values()) {
+            tabLayout.getTabAt(tabPage.index)?.let {
+                setupTab(it)
+            }
+        }
+    }
+
+    private fun setupTab(tab: TabLayout.Tab, forceSelected: Boolean = false) {
         val tvTabText = tab.customView?.findViewById<TextView>(R.id.tvTabText)
-        if (tab.isSelected) {
+        if (tab.isSelected || forceSelected) {
             tvTabText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.feed_tab_text_selected))
         } else {
             tvTabText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.feed_tab_text_normal))

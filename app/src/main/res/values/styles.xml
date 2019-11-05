@@ -508,7 +508,7 @@
         <item name="android:background">@color/blue</item>
         <item name="tabIndicatorColor">@android:color/transparent</item>
         <item name="tabMode">scrollable</item>
-        <item name="tabTextColor">@color/text_color_feed_tabs</item>
+        <item name="tabTextAppearance">@style/FeedTabTextAppearance</item>
     </style>
 
     <style name="FeedTabTextAppearance" parent="TextAppearance.Design.Tab">

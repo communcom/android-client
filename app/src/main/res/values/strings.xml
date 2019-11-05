@@ -61,8 +61,8 @@
     <string name="editor_widget_caption">What’s new?</string>
 
     <!--Feed Page-->
-    <string name="tab_all">Trending</string>
-    <string name="tab_my_feed">My feed</string>
+    <string name="trending">Trending</string>
+    <string name="my_feed">My feed</string>
 
     <!--Sorting Widget-->
     <string name="sort">Sort:</string>
