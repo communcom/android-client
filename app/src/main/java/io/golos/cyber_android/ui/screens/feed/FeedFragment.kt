@@ -19,8 +19,12 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowPostFiltersCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
+import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersBottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_feed.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import ru.ldralighieri.corbind.view.clicks
 
 
 const val SORT_REQUEST_CODE = 100
@@ -58,9 +62,14 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
         setupTabLayout()
-        ivFilters.setOnClickListener {
-            viewModel.onFiltersCLicked()
+        launch {
+            ivFilters
+                .clicks()
+                .collect {
+                    viewModel.onFiltersCLicked()
+                }
         }
+        attachPostFiltersListener()
     }
 
     private fun setupViewPager() {
@@ -110,7 +119,7 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
         setupTabsText()
     }
 
-    private fun setupTabsText(){
+    private fun setupTabsText() {
         for (tabPage in FeedTabs.values()) {
             tabLayout.getTabAt(tabPage.index)?.let {
                 setupTab(it)
@@ -131,9 +140,40 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
 
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
-        if(command is ShowPostFiltersCommand){
-            PostFiltersBottomSheetDialog().show(childFragmentManager, PostFiltersBottomSheetDialog::class.java.name)
+        if (command is ShowPostFiltersCommand) {
+            val tag = PostFiltersBottomSheetDialog::class.java.name
+            if (childFragmentManager.findFragmentByTag(tag) == null) {
+                val postFiltersBottomSheetDialog = PostFiltersBottomSheetDialog()
+                postFiltersBottomSheetDialog.show(childFragmentManager, tag)
+                postFiltersBottomSheetDialog.setFiltersApplyListener(PostFiltersListener)
+            }
         }
+    }
+
+    private fun attachPostFiltersListener(){
+        val tag = PostFiltersBottomSheetDialog::class.java.name
+        childFragmentManager.findFragmentByTag(tag)?.let {
+            (it as PostFiltersBottomSheetDialog).setFiltersApplyListener(PostFiltersListener)
+        }
+    }
+
+    private object PostFiltersListener: PostFiltersBottomSheetDialog.FilterChangeListener{
+        override fun onFiltersChanged(filters: PostFilters) {
+
+        }
+
+    }
+
+    private fun removePostFiltersListener(){
+        val tag = PostFiltersBottomSheetDialog::class.java.name
+        childFragmentManager.findFragmentByTag(tag)?.let {
+            (it as PostFiltersBottomSheetDialog).setFiltersApplyListener(null)
+        }
+    }
+
+    override fun onDestroyView() {
+        removePostFiltersListener()
+        super.onDestroyView()
     }
 
     companion object {

@@ -68,6 +68,7 @@
     <string name="sort">Sort:</string>
     <string name="sort_top">Top</string>
     <string name="sort_new">New</string>
+    <string name="sort_old">Old</string>
     <string name="filter_time_24hr">Past 24 hours</string>
     <string name="filter_time_week">Past week</string>
     <string name="filter_time_month">Past month</string>

@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
@@ -45,7 +46,11 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
     @Inject
     internal lateinit var viewModelFactory: FragmentViewModelFactory
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
+    private val errorHandler = CoroutineExceptionHandler { _, exception ->
+        Timber.e(exception)
+    }
+
+    override val coroutineContext: CoroutineContext = Dispatchers.Main + errorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

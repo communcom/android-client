@@ -42,7 +42,7 @@ buildscript {
         constraintLayoutVersion = "1.1.3"
         pagingVersion = "2.1.0"
         legacyVersion = "1.0.0"
-        materialVersion = "1.1.0-alpha08"
+        materialVersion = "1.0.0"
         moshiVersion = "1.8.0"
         advancedWebViewVersion = "v3.0.0"
         decoroVersion = "1.3.5"
@@ -68,6 +68,8 @@ buildscript {
         espresso_runner_version = '3.1.1'
 
         captcha = "17.0.0"
+
+        corbind = "1.2.0"
     }
 
     dependencies {

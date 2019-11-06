@@ -440,7 +440,11 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="CommunityJoinButton" parent="Common.Base.TextStyle">
+    <style name="CommunityJoinButton" parent="BaseButton">
+        <item name="android:background">@drawable/bg_community_join_button</item>
+    </style>
+
+    <style name="BaseButton" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/tint_community_join_button_text</item>
@@ -514,4 +518,18 @@
     <style name="FeedTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textColor">@color/feed_tab_text_color_selector</item>
     </style>
+
+    <style name="PostFiltersBottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BaseBottomSheetModalDialog</item>
+    </style>
+
+    <style name="BaseBottomSheetModalDialog" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_top_round_corners</item>
+    </style>
+
+    <style name="BaseCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:buttonTint">@color/blue</item>
+        <item name="buttonTint">@color/blue</item>
+    </style>
+
 </resources>

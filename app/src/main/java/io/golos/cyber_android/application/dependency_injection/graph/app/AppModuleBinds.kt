@@ -33,6 +33,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extr
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
+import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.ImageCompressorImpl
