@@ -16,7 +16,10 @@ import io.golos.cyber_android.databinding.FragmentFeedBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowPostFiltersCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersBottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 
@@ -56,7 +59,7 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
         setupViewPager()
         setupTabLayout()
         ivFilters.setOnClickListener {
-
+            viewModel.onFiltersCLicked()
         }
     }
 
@@ -125,6 +128,13 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     }
 
     override fun provideEventsLiveData() = viewModel.getEventsLiveData
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is ShowPostFiltersCommand){
+            PostFiltersBottomSheetDialog().show(childFragmentManager, PostFiltersBottomSheetDialog::class.java.name)
+        }
+    }
 
     companion object {
         fun newInstance(communityName: String, userId: String) =
