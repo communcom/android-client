@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.followers
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
@@ -11,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.followers.mappers.FollowersDomainListToFollowersListMapper
 import io.golos.cyber_android.ui.screens.subscriptions.Community
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -33,9 +33,9 @@ class FollowersViewModel @Inject constructor(
 
     private val _followingStatusLiveData: MutableLiveData<Follower> = MutableLiveData()
 
-    val followersListStateLiveData = _followersListStateLiveData as LiveData<Paginator.State>
+    val followersListStateLiveData = _followersListStateLiveData.toLiveData()
 
-    val followingStatusLiveData = _followingStatusLiveData as LiveData<Follower>
+    val followingStatusLiveData = _followingStatusLiveData.toLiveData()
 
     init {
         paginator.sideEffectListener = {

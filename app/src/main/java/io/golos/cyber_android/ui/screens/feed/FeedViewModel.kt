@@ -8,9 +8,8 @@ import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 
 class FeedViewModel @Inject constructor(
-    dispatchersProvider: DispatchersProvider,
-    model: FeedModel
-): ViewModelBase<ModelBase>(dispatchersProvider, model) {
+    dispatchersProvider: DispatchersProvider
+): ViewModelBase<ModelBase>(dispatchersProvider) {
 
     sealed class Event {
         data class SearchEvent(val query: String): Event()
