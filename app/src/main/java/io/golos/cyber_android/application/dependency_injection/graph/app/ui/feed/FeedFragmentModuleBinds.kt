@@ -7,8 +7,6 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.feed.FeedModel
-import io.golos.cyber_android.ui.screens.feed.FeedModelImpl
 import io.golos.cyber_android.ui.screens.feed.FeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
@@ -23,8 +21,4 @@ interface FeedFragmentModuleBinds {
     @Binds
     @FragmentScope
     fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
-
-    @Binds
-    @FragmentScope
-    fun bindModel(model: FeedModelImpl): FeedModel
 }

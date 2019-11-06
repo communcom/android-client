@@ -3,9 +3,11 @@ package io.golos.cyber_android.ui.common.mvvm.viewModel
 import androidx.annotation.CallSuper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -52,5 +54,6 @@ constructor(
 
     protected fun handleError(error: Throwable){
         Timber.e(error)
+        command.value = ShowMessageCommand(R.string.loading_error)
     }
 }
