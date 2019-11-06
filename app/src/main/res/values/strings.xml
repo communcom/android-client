@@ -346,6 +346,8 @@
     <string name="friends_label">+ %1$s</string>
     <string name="commun_description">= 1 Commun</string>
 
+    <string name="sort_by">Sort by</string>
+
     <plurals name="plural_members">
         <item quantity="zero">Members</item>
         <item quantity="one">Member</item>

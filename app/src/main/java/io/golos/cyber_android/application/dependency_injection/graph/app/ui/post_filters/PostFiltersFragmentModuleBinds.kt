@@ -10,19 +10,18 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersModel
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersModelImpl
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersViewModel
-import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsViewModel
-import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.domain.dependency_injection.scopes.DialogScope
 
 @Module
 interface PostFiltersFragmentModuleBinds {
 
     @Binds
-    @ViewModelKey(SubscriptionsViewModel::class)
+    @ViewModelKey(PostFiltersViewModel::class)
     @IntoMap
     fun bindViewModel(viewModel: PostFiltersViewModel): ViewModel
 
     @Binds
-    @FragmentScope
+    @DialogScope
     fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
 
     @Binds

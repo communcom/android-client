@@ -2,10 +2,10 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.pos
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersBottomSheetDialog
-import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.domain.dependency_injection.scopes.DialogScope
 
 @Subcomponent(modules = [PostFiltersFragmentModuleBinds::class])
-@FragmentScope
+@DialogScope
 interface PostFiltersFragmentComponent {
     @Subcomponent.Builder
     interface Builder {

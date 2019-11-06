@@ -33,7 +33,8 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
 
     private lateinit var _viewModel: VM
 
-    protected val viewModel: VM = _viewModel
+    protected val viewModel: VM
+        get() = _viewModel
 
     @Inject
     internal lateinit var resourcesProvider: AppResourcesProvider
