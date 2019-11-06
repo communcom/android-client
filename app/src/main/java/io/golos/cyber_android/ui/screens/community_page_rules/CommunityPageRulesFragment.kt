@@ -10,7 +10,6 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_rules.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageRulesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import kotlinx.android.synthetic.main.fragment_community_page_about.*
 import kotlinx.android.synthetic.main.fragment_community_page_rules.*
 
 class CommunityPageRulesFragment :

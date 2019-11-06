@@ -1,0 +1,3 @@
+package io.golos.cyber_android.ui.screens.post_filters
+
+class PostFiltersBottomSheetDialog

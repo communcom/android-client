@@ -5,19 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineScope
@@ -28,18 +25,15 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Base class for all fragments
+ * Base class for [DialogFragment] which support MVVM
  */
-abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out ModelBase>> : Fragment(), CoroutineScope {
+abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out ModelBase>> : DialogFragment(), CoroutineScope {
 
     private lateinit var binding: VDB
 
     private lateinit var _viewModel: VM
 
-    protected val viewModel: VM
-        get() = _viewModel
-
-    private var loadingDialog: LoadingDialog? = null
+    protected val viewModel: VM = _viewModel
 
     @Inject
     internal lateinit var resourcesProvider: AppResourcesProvider
@@ -59,8 +53,8 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _viewModel.command.observe({viewLifecycleOwner.lifecycle}) {
-            if(!processViewCommandGeneral(it)) {
+        _viewModel.command.observe({ viewLifecycleOwner.lifecycle }) {
+            if (!processViewCommandGeneral(it)) {
                 processViewCommand(it)
             }
         }
@@ -105,29 +99,11 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
      * @return true if the commandMutableLiveData has been processed
      */
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
-        when(command) {
+        when (command) {
             is ShowMessageCommand -> {
                 uiHelper.showMessage(command.textResId)
                 true
             }
-            is SetLoadingVisibilityCommand -> {
-                setBlockingLoadingProgressVisibility(command.isVisible)
-                true
-            }
             else -> false
         }
-
-    private fun setBlockingLoadingProgressVisibility(isVisible: Boolean) {
-        if (isVisible) {
-            if (loadingDialog == null) {
-                loadingDialog = LoadingDialog()
-                loadingDialog?.show(requireFragmentManager(), LoadingDialog::class.java.name)
-            }
-        } else {
-            if(loadingDialog != null){
-                loadingDialog?.dismiss()
-                loadingDialog = null
-            }
-        }
-    }
 }
