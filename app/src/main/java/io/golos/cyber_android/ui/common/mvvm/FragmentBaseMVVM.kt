@@ -108,8 +108,8 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     protected open fun processViewCommand(command: ViewCommand) {}
 
     /**
-     * Process input command
-     * @return true if the command has been processed
+     * Process input commandMutableLiveData
+     * @return true if the commandMutableLiveData has been processed
      */
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when(command) {

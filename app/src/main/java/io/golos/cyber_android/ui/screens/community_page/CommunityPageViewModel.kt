@@ -59,7 +59,7 @@ class CommunityPageViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        command.value = BackCommand()
+        commandMutableLiveData.value = BackCommand()
     }
 
     fun onNotificationCommunityControlClicked() {
@@ -69,7 +69,7 @@ class CommunityPageViewModel @Inject constructor(
     fun changeJoinStatus() {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 val communityPage = communityPageMutableLiveData.value
                 val isSubscribed = communityPage?.isSubscribed ?: false
                 if(isSubscribed){
@@ -81,10 +81,10 @@ class CommunityPageViewModel @Inject constructor(
                 communityPageMutableLiveData.value = communityPage
                 communityPageIsErrorMutableLiveData.value = false
             } catch (e: Exception){
-                command.value = ShowMessageCommand(R.string.loading_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
                 communityPageIsErrorMutableLiveData.value = true
             } finally {
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

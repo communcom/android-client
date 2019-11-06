@@ -168,7 +168,7 @@ constructor(
 
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
 
                 model.saveLastUsedCommunity(community.value!!)
 
@@ -177,7 +177,7 @@ constructor(
                     uploadResult = model.uploadLocalImage(content)
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    command.value = ShowMessageCommand(R.string.error_upload_file)
+                    commandMutableLiveData.value = ShowMessageCommand(R.string.error_upload_file)
                     return@launch
                 }
 
@@ -191,25 +191,25 @@ constructor(
                     } else {
                         model.updatePost(content, postToEdit.permlink, adultOnly, images)
                     }
-                    command.value = PostCreatedViewCommand(callResult)
+                    commandMutableLiveData.value = PostCreatedViewCommand(callResult)
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    command.value = PostErrorViewCommand(ex)
+                    commandMutableLiveData.value = PostErrorViewCommand(ex)
                 }
 
             } catch(ex: Exception) {
                 Timber.e(ex)
-                command.value = PostErrorViewCommand(ex)
+                commandMutableLiveData.value = PostErrorViewCommand(ex)
             } finally {
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
 
     private fun showValidationResult(validationResult: ValidationResult) =
         when(validationResult) {
-            ValidationResult.ERROR_POST_IS_TOO_LONG -> command.value = ShowMessageCommand(R.string.error_post_too_long)
-            ValidationResult.ERROR_POST_IS_EMPTY -> command.value = ShowMessageCommand(R.string.error_post_empty)
+            ValidationResult.ERROR_POST_IS_TOO_LONG -> commandMutableLiveData.value = ShowMessageCommand(R.string.error_post_too_long)
+            ValidationResult.ERROR_POST_IS_EMPTY -> commandMutableLiveData.value = ShowMessageCommand(R.string.error_post_empty)
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
@@ -225,18 +225,18 @@ constructor(
     }
 
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        command.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
+        commandMutableLiveData.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
 
         if(!isEdit && embedCount == 0) {
-            command.value = InsertExternalLinkViewCommand(linkInfo)
+            commandMutableLiveData.value = InsertExternalLinkViewCommand(linkInfo)
         }
     }
 
     fun validatePastedLink(uri: Uri) = processUri(uri.toString()) {
-        command.value = PastedLinkIsValidViewCommand(uri)
+        commandMutableLiveData.value = PastedLinkIsValidViewCommand(uri)
 
         if(embedCount == 0) {
-            command.value = InsertExternalLinkViewCommand(it)
+            commandMutableLiveData.value = InsertExternalLinkViewCommand(it)
         }
     }
 
@@ -256,7 +256,7 @@ constructor(
 
     private fun processUri(uri: String, processSuccessViewCommand: (ExternalLinkInfo) -> Unit) {
         launch {
-            command.value = SetLoadingVisibilityCommand(true)
+            commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
 
             when(val linkInfo = model.getExternalLinkInfo(uri)) {
                 is Either.Success -> {
@@ -265,21 +265,21 @@ constructor(
 
                 is Either.Failure -> {
                     when(linkInfo.value) {
-                        ExternalLinkError.GENERAL_ERROR -> command.value = ShowMessageCommand(R.string.common_general_error)
-                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> command.value = ShowMessageCommand(R.string.post_edit_invalid_resource_type)
-                        ExternalLinkError.INVALID_URL -> command.value = ShowMessageCommand(R.string.post_edit_invalid_url)
+                        ExternalLinkError.GENERAL_ERROR -> commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
+                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> commandMutableLiveData.value = ShowMessageCommand(R.string.post_edit_invalid_resource_type)
+                        ExternalLinkError.INVALID_URL -> commandMutableLiveData.value = ShowMessageCommand(R.string.post_edit_invalid_url)
                     }
                 }
             }
 
-            command.value = SetLoadingVisibilityCommand(false)
+            commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
         }
     }
 
     private fun setUp() {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
 
                 if(postToEdit == null) {
                     // New post
@@ -304,10 +304,10 @@ constructor(
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
-                command.value = NavigateToMainScreenCommand()
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = NavigateToMainScreenCommand()
             }  finally {
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

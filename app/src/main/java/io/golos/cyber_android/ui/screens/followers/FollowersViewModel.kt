@@ -87,13 +87,13 @@ class FollowersViewModel @Inject constructor(
     }
 
     fun back() {
-        command.value = BackCommand()
+        commandMutableLiveData.value = BackCommand()
     }
 
     fun changeFollowingStatus(follower: Follower) {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 val followerId = follower.userId
                 if (follower.isFollowing) {
                     model.unsubscribeToFollower(followerId)
@@ -105,11 +105,11 @@ class FollowersViewModel @Inject constructor(
                 val updatedState = updateFollowerSubscriptionStatusInState(state, follower)
                 _followersListStateLiveData.value = updatedState
                 _followingStatusLiveData.value = follower
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                command.value = ShowMessageCommand(R.string.loading_error)
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
