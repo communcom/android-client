@@ -13,11 +13,15 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import kotlinx.android.synthetic.main.fragment_community_page_about.*
 
 class CommunityPageAboutFragment :
-    FragmentBaseMVVM<FragmentCommunityPageAboutBinding, CommunityPageAboutModel, CommunityPageAboutViewModel>() {
+    FragmentBaseMVVM<FragmentCommunityPageAboutBinding, CommunityPageAboutViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections.release<CommunityPageAboutFragmentComponent>()
+    }
 
     override fun provideViewModelType(): Class<CommunityPageAboutViewModel> = CommunityPageAboutViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_community_page_about
+    override fun layoutResId(): Int = R.layout.fragment_community_page_about
 
     override fun inject() = App.injections
         .get<CommunityPageAboutFragmentComponent>(getDescription())

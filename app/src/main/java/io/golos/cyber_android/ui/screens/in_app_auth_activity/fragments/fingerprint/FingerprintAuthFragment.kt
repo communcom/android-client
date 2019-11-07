@@ -9,7 +9,6 @@ import io.golos.cyber_android.databinding.FragmentFingerprintAuthBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToPinCodeCommand
@@ -19,14 +18,18 @@ import javax.inject.Inject
 /**
  * Fragment for authentication via fingerprint
  */
-class FingerprintAuthFragment : FragmentBaseMVVM<FragmentFingerprintAuthBinding, FingerprintAuthModel, FingerprintAuthViewModel>() {
+class FingerprintAuthFragment : FragmentBaseMVVM<FragmentFingerprintAuthBinding, FingerprintAuthViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections.release<FingerprintAuthFragmentComponent>()
+    }
 
     @Inject
     internal lateinit var navigator: Navigator
 
     override fun provideViewModelType(): Class<FingerprintAuthViewModel> = FingerprintAuthViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_fingerprint_auth
+    override fun layoutResId(): Int = R.layout.fragment_fingerprint_auth
 
     override fun inject() = App.injections
         .get<FingerprintAuthFragmentComponent>(arguments!!.getInt(InAppAuthActivity.FINGERPRINT_HEADER_ID))

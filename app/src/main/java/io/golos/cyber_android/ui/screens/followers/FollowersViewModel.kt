@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.followers
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
@@ -11,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.followers.mappers.FollowersDomainListToFollowersListMapper
 import io.golos.cyber_android.ui.screens.subscriptions.Community
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -33,9 +33,9 @@ class FollowersViewModel @Inject constructor(
 
     private val _followingStatusLiveData: MutableLiveData<Follower> = MutableLiveData()
 
-    val followersListStateLiveData = _followersListStateLiveData as LiveData<Paginator.State>
+    val followersListStateLiveData = _followersListStateLiveData.toLiveData()
 
-    val followingStatusLiveData = _followingStatusLiveData as LiveData<Follower>
+    val followingStatusLiveData = _followingStatusLiveData.toLiveData()
 
     init {
         paginator.sideEffectListener = {
@@ -87,13 +87,13 @@ class FollowersViewModel @Inject constructor(
     }
 
     fun back() {
-        command.value = BackCommand()
+        commandMutableLiveData.value = BackCommand()
     }
 
     fun changeFollowingStatus(follower: Follower) {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 val followerId = follower.userId
                 if (follower.isFollowing) {
                     model.unsubscribeToFollower(followerId)
@@ -105,11 +105,11 @@ class FollowersViewModel @Inject constructor(
                 val updatedState = updateFollowerSubscriptionStatusInState(state, follower)
                 _followersListStateLiveData.value = updatedState
                 _followingStatusLiveData.value = follower
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                command.value = ShowMessageCommand(R.string.loading_error)
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

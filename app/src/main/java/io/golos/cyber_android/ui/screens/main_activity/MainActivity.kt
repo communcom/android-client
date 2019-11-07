@@ -9,16 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.CommunitiesFragment
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.utils.setStatusBarColor
+import io.golos.cyber_android.utils.tintStatusBarIcons
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 import javax.inject.Inject
@@ -103,6 +106,19 @@ class MainActivity : ActivityBase() {
 
             override fun getItemCount() = Tab.values().size
         }
+        mainPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if(position == Tab.FEED.index){
+                    setStatusBarColor(R.color.feed_status_bar_color)
+                    tintStatusBarIcons(true)
+                } else{
+                    setStatusBarColor(R.color.window_status_bar_background)
+                    tintStatusBarIcons(false)
+                }
+            }
+        })
     }
 
     private fun setupNavigationView() {

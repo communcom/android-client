@@ -9,7 +9,6 @@ import io.golos.cyber_android.databinding.FragmentPinCodeAuthBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.model.PinCodeAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.ResetPinCommand
@@ -21,13 +20,18 @@ import javax.inject.Inject
 /**
  * Fragment for authentication via PIN code
  */
-class PinCodeAuthFragment : FragmentBaseMVVM<FragmentPinCodeAuthBinding, PinCodeAuthModel, PinCodeAuthViewModel>() {
+class PinCodeAuthFragment : FragmentBaseMVVM<FragmentPinCodeAuthBinding, PinCodeAuthViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections.release<PinCodeAuthFragmentComponent>()
+    }
+
     @Inject
     internal lateinit var navigator: Navigator
 
     override fun provideViewModelType(): Class<PinCodeAuthViewModel> = PinCodeAuthViewModel::class.java
 
-    override fun provideLayout(): Int = R.layout.fragment_pin_code_auth
+    override fun layoutResId(): Int = R.layout.fragment_pin_code_auth
 
     override fun inject() = App.injections
         .get<PinCodeAuthFragmentComponent>(arguments!!.getInt(InAppAuthActivity.PIN_CODE_HEADER_ID))

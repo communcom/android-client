@@ -76,7 +76,7 @@ constructor(
     }
 
     override fun onItemClick(community: Community) {
-        command.value = NavigateToCommunityPageCommand(community.id.id)
+        commandMutableLiveData.value = NavigateToCommunityPageCommand(community.id.id)
     }
 
     private fun loadPage(lastVisibleItemPosition: Int) {
@@ -92,7 +92,7 @@ constructor(
                     isScrollEnabled.value = true
                 }
             } catch (ex: Exception) {
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
                 isScrollEnabled.value = true
             }
         }
@@ -108,7 +108,7 @@ constructor(
                 searchResultVisibility.value = false
             }                                               // Fail
         }, {
-            command.value = ShowMessageCommand(R.string.common_general_error)
+            commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             searchResultItems.value = listOf()
             searchResultVisibility.value = false
         })

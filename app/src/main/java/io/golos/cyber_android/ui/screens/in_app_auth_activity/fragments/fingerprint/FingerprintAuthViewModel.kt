@@ -43,12 +43,12 @@ constructor(
     }
 
     fun onSwitchToPinCodeClick() {
-        command.value = SwitchToPinCodeCommand()
+        commandMutableLiveData.value = SwitchToPinCodeCommand()
     }
 
     private fun processAuthEvents(event: FingerprintAuthEvent) {
         when (event) {
-            is FingerprintAuthSuccessEvent -> command.value = AuthSuccessCommand()
+            is FingerprintAuthSuccessEvent -> commandMutableLiveData.value = AuthSuccessCommand()
 
             is FingerprintAuthFailEvent -> {
                 messageText.value = appResourcesProvider.getString(R.string.authFingerprintAuthFail)

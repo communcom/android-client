@@ -41,13 +41,16 @@
     <dimen name="text_size_12_sp">12sp</dimen>
     <dimen name="text_size_10_sp">10sp</dimen>
 
+    <dimen name="dimen_2">2dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_26">26dp</dimen>
     <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_45">45dp</dimen>
     <dimen name="dimen_48">48dp</dimen>
-    <dimen name="dimen_55">40dp</dimen>
+    <dimen name="dimen_40">40dp</dimen>
+    <dimen name="dimen_50">50dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -406,4 +409,9 @@
     <dimen name="bottom_sheet_dialog_item_padding_icon">30dp</dimen>
     <dimen name="bottom_sheet_dialog_item_padding_horizontal">15dp</dimen>
     <dimen name="bottom_sheet_dialog_item_padding_vertical">16dp</dimen>
+
+    <!--PostFilters-->
+    <dimen name="post_filters_header_height">58dp</dimen>
+    <dimen name="post_filters_section_height">58dp</dimen>
+
 </resources>

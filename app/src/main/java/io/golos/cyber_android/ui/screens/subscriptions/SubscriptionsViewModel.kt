@@ -1,16 +1,16 @@
 package io.golos.cyber_android.ui.screens.subscriptions
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.cyber_android.utils.EMPTY
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -43,21 +43,21 @@ class SubscriptionsViewModel @Inject constructor(
 
     private val _searchProgressVisibilityLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    val subscriptionsListStateLiveData = _subscriptionsListStateLiveData as LiveData<Paginator.State>
+    val subscriptionsListStateLiveData = _subscriptionsListStateLiveData.toLiveData()
 
-    val recommendedSubscriptionsListStateLiveData = _recommendedSubscriptionsListStateLiveData as LiveData<Paginator.State>
+    val recommendedSubscriptionsListStateLiveData = _recommendedSubscriptionsListStateLiveData.toLiveData()
 
-    val subscriptionsStateLiveData: LiveData<SubscriptionsState> = _subscriptionsState
+    val subscriptionsStateLiveData = _subscriptionsState.toLiveData()
 
-    val generalLoadingProgressVisibilityLiveData = _generalLoadingProgressVisibilityLiveData as LiveData<Boolean>
+    val generalLoadingProgressVisibilityLiveData = _generalLoadingProgressVisibilityLiveData.toLiveData()
 
-    val recommendedSubscriptionStatusLiveData = _recommendedSubscriptionStatusLiveData as LiveData<Community>
+    val recommendedSubscriptionStatusLiveData = _recommendedSubscriptionStatusLiveData.toLiveData()
 
-    val subscriptionsStatusLiveData = _subscriptionStatusLiveData as LiveData<Community>
+    val subscriptionsStatusLiveData = _subscriptionStatusLiveData.toLiveData()
 
-    val generalErrorVisibilityLiveData = _generalErrorVisibilityLiveData as LiveData<Boolean>
+    val generalErrorVisibilityLiveData = _generalErrorVisibilityLiveData.toLiveData()
 
-    val searchProgressVisibilityLiveData = _searchProgressVisibilityLiveData as LiveData<Boolean>
+    val searchProgressVisibilityLiveData = _searchProgressVisibilityLiveData.toLiveData()
 
     private var communitySearchQuery: String = EMPTY
 
@@ -123,7 +123,7 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun onFindCommunitiesClicked() {
-        command.value = NavigateToSearchCommunitiesCommand()
+        commandMutableLiveData.value = NavigateToSearchCommunitiesCommand()
     }
 
     fun start() {
@@ -182,7 +182,7 @@ class SubscriptionsViewModel @Inject constructor(
     fun changeCommunitySubscriptionStatus(community: Community) {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 val communityId = community.communityId
                 if (community.isSubscribed) {
                     model.unsubscribeToCommunity(communityId)
@@ -204,11 +204,11 @@ class SubscriptionsViewModel @Inject constructor(
                     _subscriptionsListStateLiveData.value = updatedState
                     _subscriptionStatusLiveData.value = community
                 }
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                command.value = ShowMessageCommand(R.string.loading_error)
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
 
@@ -237,7 +237,7 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun back() {
-        command.value = BackCommand()
+        commandMutableLiveData.value = BackCommand()
     }
 
     enum class SubscriptionsState {

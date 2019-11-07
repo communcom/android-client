@@ -35,4 +35,9 @@
     <dimen name="image_height_fingerprint_fragment">200dp</dimen>
     <dimen name="margin_top_image_fingerprint_fragment">66dp</dimen>
     <dimen name="margin_top_image_text_fingerprint_fragment">32dp</dimen>
+
+    <!--Feed-->
+    <dimen name="feed_tab_height">96dp</dimen>
+    <dimen name="feed_tab_text_normal">21sp</dimen>
+    <dimen name="feed_tab_text_selected">30sp</dimen>
 </resources>

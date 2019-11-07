@@ -50,14 +50,14 @@
                         android:src="@drawable/ic_back"
                         android:tint="@color/white"
                         android:padding="@dimen/margin_default"
-                        android:layout_marginTop="@dimen/dimen_55"
+                        android:layout_marginTop="@dimen/dimen_40"
                         android:background="?selectableItemBackgroundBorderless"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/community_page_margin_top"
-                        android:background="@drawable/bg_community_page"
+                        android:background="@drawable/bg_top_round_corners"
                         android:clipToPadding="false"
                         android:paddingBottom="@dimen/margin_default">
 

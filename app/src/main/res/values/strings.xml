@@ -61,13 +61,14 @@
     <string name="editor_widget_caption">What’s new?</string>
 
     <!--Feed Page-->
-    <string name="tab_all">Trending</string>
-    <string name="tab_my_feed">My feed</string>
+    <string name="trending">Trending</string>
+    <string name="my_feed">My feed</string>
 
     <!--Sorting Widget-->
     <string name="sort">Sort:</string>
     <string name="sort_top">Top</string>
     <string name="sort_new">New</string>
+    <string name="sort_old">Old</string>
     <string name="filter_time_24hr">Past 24 hours</string>
     <string name="filter_time_week">Past week</string>
     <string name="filter_time_month">Past month</string>
@@ -345,6 +346,8 @@
     <string name="get_points">Get points</string>
     <string name="friends_label">+ %1$s</string>
     <string name="commun_description">= 1 Commun</string>
+
+    <string name="sort_by">Sort by</string>
 
     <plurals name="plural_members">
         <item quantity="zero">Members</item>

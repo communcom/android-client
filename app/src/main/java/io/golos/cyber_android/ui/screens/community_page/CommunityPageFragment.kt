@@ -20,13 +20,19 @@ import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
-import io.golos.cyber_android.utils.EMPTY
-import io.golos.cyber_android.utils.toMMMM_DD_YYYY_Format
-import io.golos.cyber_android.utils.toPluralInt
+import io.golos.cyber_android.utils.*
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
-class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageModel, CommunityPageViewModel>() {
+class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
+
+    override fun releaseInjection() {
+        App.injections
+            .get<CommunityPageFragmentComponent>()
+            .inject(this)
+    }
+
+    override fun layoutResId(): Int = R.layout.fragment_community_page
 
     private var fragmentPagesList: List<Fragment> = ArrayList()
 
@@ -50,8 +56,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
-
-    override fun provideLayout(): Int = R.layout.fragment_community_page
 
     override fun inject() = App.injections
         .get<CommunityPageFragmentComponent>()

@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.community_page
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
@@ -9,10 +8,10 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.utils.EMPTY
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 class CommunityPageViewModel @Inject constructor(
@@ -22,15 +21,15 @@ class CommunityPageViewModel @Inject constructor(
 
     private val communityPageMutableLiveData = MutableLiveData<CommunityPage>()
 
-    private val communityPageIsLoadProgressMutableLiveData = MutableLiveData<Boolean>(false)
+    private val communityPageIsLoadProgressMutableLiveData = MutableLiveData(false)
 
-    private val communityPageIsErrorMutableLiveData = MutableLiveData<Boolean>(false)
+    private val communityPageIsErrorMutableLiveData = MutableLiveData(false)
 
-    val communityPageLiveData = communityPageMutableLiveData as LiveData<CommunityPage>
+    val communityPageLiveData = communityPageMutableLiveData.toLiveData()
 
-    val communityPageIsErrorLiveData = communityPageIsErrorMutableLiveData as LiveData<Boolean>
+    val communityPageIsErrorLiveData = communityPageIsErrorMutableLiveData.toLiveData()
 
-    val communityPageIsLoadProgressLiveData = communityPageIsLoadProgressMutableLiveData as LiveData<Boolean>
+    val communityPageIsLoadProgressLiveData = communityPageIsLoadProgressMutableLiveData.toLiveData()
 
     private var communityId: String = EMPTY
 
@@ -60,7 +59,7 @@ class CommunityPageViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        command.value = BackCommand()
+        commandMutableLiveData.value = BackCommand()
     }
 
     fun onNotificationCommunityControlClicked() {
@@ -70,7 +69,7 @@ class CommunityPageViewModel @Inject constructor(
     fun changeJoinStatus() {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 val communityPage = communityPageMutableLiveData.value
                 val isSubscribed = communityPage?.isSubscribed ?: false
                 if(isSubscribed){
@@ -82,10 +81,10 @@ class CommunityPageViewModel @Inject constructor(
                 communityPageMutableLiveData.value = communityPage
                 communityPageIsErrorMutableLiveData.value = false
             } catch (e: Exception){
-                command.value = ShowMessageCommand(R.string.loading_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
                 communityPageIsErrorMutableLiveData.value = true
             } finally {
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

@@ -1,10 +1,10 @@
 package io.golos.cyber_android.ui.common.mvvm
 
 import androidx.annotation.MainThread
+import androidx.collection.ArraySet
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * A lifecycle-aware observable that sends only new updates after subscription, used for events like
@@ -20,31 +20,53 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @note from here: https://github.com/googlesamples/android-architecture/blob/dev-todo-mvvm-live/todoapp/app/src/main/java/com/example/android/architecture/blueprints/todoapp/SingleLiveEvent.java
  */
-class SingleLiveData<T> : MutableLiveData<T>() {
-    private val pending = AtomicBoolean(false)
+class SingleLiveData<T> : MediatorLiveData<T>() {
+
+    private val observers = ArraySet<ObserverWrapper<in T>>()
 
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        // Observe the internal MutableLiveData
-        super.observe(owner, Observer<T> { t ->
-            if (pending.compareAndSet(true, false)) {
-                observer.onChanged(t)
+        val wrapper = ObserverWrapper(observer)
+        observers.add(wrapper)
+        super.observe(owner, wrapper)
+    }
+
+    @MainThread
+    override fun removeObserver(observer: Observer<in T>) {
+        if (observers.remove<Observer<out Any?>?>(observer)) {
+            super.removeObserver(observer)
+            return
+        }
+        val iterator = observers.iterator()
+        while (iterator.hasNext()) {
+            val wrapper = iterator.next()
+            if (wrapper.observer == observer) {
+                iterator.remove()
+                super.removeObserver(wrapper)
+                break
             }
-        })
+        }
     }
 
     @MainThread
     override fun setValue(t: T?) {
-        pending.set(true)
+        observers.forEach { it.newValue() }
         super.setValue(t)
     }
 
-    /**
-     * Used for cases where T is Void, to make calls cleaner.
-     */
-    @Suppress("unused")
-    @MainThread
-    fun call() {
-        value = null
+    private class ObserverWrapper<T>(val observer: Observer<T>) : Observer<T> {
+
+        private var pending = false
+
+        override fun onChanged(t: T?) {
+            if (pending) {
+                pending = false
+                observer.onChanged(t)
+            }
+        }
+
+        fun newValue() {
+            pending = true
+        }
     }
 }

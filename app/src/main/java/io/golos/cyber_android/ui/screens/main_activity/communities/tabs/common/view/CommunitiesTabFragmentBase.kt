@@ -9,23 +9,20 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeChild
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
 import javax.inject.Inject
 
-abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityModel, CommunityViewModel>(), ChildSearchFragment {
+abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityViewModel>(), ChildSearchFragment {
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
     private var communitiesScrollListener: CommunityListScrollListener? = null

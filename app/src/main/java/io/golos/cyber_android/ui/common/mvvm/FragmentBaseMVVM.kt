@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
@@ -21,8 +20,10 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -30,18 +31,16 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Base class for all fragments
  */
-abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewModelBase<TM>> : Fragment(), CoroutineScope {
+abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out ModelBase>> : Fragment(), CoroutineScope {
 
-    private lateinit var binding: TB
+    private lateinit var binding: VDB
 
-    private lateinit var _viewModel: TVM
-    protected val viewModel: TVM
+    private lateinit var _viewModel: VM
+
+    protected val viewModel: VM
         get() = _viewModel
 
-    private var activeDialog: AlertDialog? = null
-
-    private val loadingDialog = LoadingDialog()
-    private var wasAdded = false
+    private var loadingDialog: LoadingDialog? = null
 
     @Inject
     internal lateinit var resourcesProvider: AppResourcesProvider
@@ -52,13 +51,15 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
     @Inject
     internal lateinit var viewModelFactory: FragmentViewModelFactory
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
+    private val errorHandler = CoroutineExceptionHandler { _, exception ->
+        Timber.e(exception)
+    }
+
+    override val coroutineContext: CoroutineContext = Dispatchers.Main + errorHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         inject()
-
         _viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
     }
 
@@ -69,7 +70,7 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
             }
         }
 
-        binding = DataBindingUtil.inflate(inflater, provideLayout(), container, false)
+        binding = DataBindingUtil.inflate(inflater, this.layoutResId(), container, false)
         binding.lifecycleOwner = this
 
         linkViewModel(binding, _viewModel)
@@ -82,34 +83,31 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
     }
 
     override fun onDestroyView() {
+        coroutineContext.cancelChildren()
         super.onDestroyView()
-
-        // Close a dialog to avoid leak of view
-        activeDialog?.takeIf { it.isShowing }?.dismiss()
-        activeDialog = null
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         releaseInjection()
+        super.onDestroy()
     }
 
-    abstract fun provideViewModelType(): Class<TVM>
+    abstract fun provideViewModelType(): Class<VM>
 
     @LayoutRes
-    protected abstract fun provideLayout(): Int
+    protected abstract fun layoutResId(): Int
 
     protected abstract fun inject()
 
-    protected open fun releaseInjection() {}
+    protected abstract fun releaseInjection()
 
-    protected abstract fun linkViewModel(binding: TB, viewModel: TVM)
+    protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
 
     protected open fun processViewCommand(command: ViewCommand) {}
 
     /**
-     * Process input command
-     * @return true if the command has been processed
+     * Process input commandMutableLiveData
+     * @return true if the commandMutableLiveData has been processed
      */
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when(command) {
@@ -118,37 +116,23 @@ abstract class FragmentBaseMVVM<TB: ViewDataBinding, TM: ModelBase, TVM: ViewMod
                 true
             }
             is SetLoadingVisibilityCommand -> {
-                setLoadingVisibility(command.isVisible)
+                setBlockingLoadingProgressVisibility(command.isVisible)
                 true
             }
             else -> false
         }
 
-    private fun setLoadingVisibility(isVisible: Boolean) {
+    private fun setBlockingLoadingProgressVisibility(isVisible: Boolean) {
         if (isVisible) {
-            if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded && !wasAdded) {
-                loadingDialog.show(requireFragmentManager(), "loading")
-                wasAdded = true
+            if (loadingDialog == null) {
+                loadingDialog = LoadingDialog()
+                loadingDialog?.show(requireFragmentManager(), LoadingDialog::class.java.name)
             }
         } else {
-            if (loadingDialog.fragmentManager != null && wasAdded) {
-                loadingDialog.dismiss()
-                wasAdded = false
+            if(loadingDialog != null){
+                loadingDialog?.dismiss()
+                loadingDialog = null
             }
-        }
-    }
-
-    protected fun setFullScreenMode(){
-        val requireActivity = requireActivity()
-        if(requireActivity is ActivityBase){
-            requireActivity.setFullScreenMode()
-        }
-    }
-
-    protected fun clearFullScreenMode(){
-        val requireActivity = requireActivity()
-        if(requireActivity is ActivityBase){
-            requireActivity.clearFullScreenMode()
         }
     }
 }

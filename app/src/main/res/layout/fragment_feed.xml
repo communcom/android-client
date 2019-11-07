@@ -1,46 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.feed.FeedViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.screens.main_activity.MainActivity">
 
 
-    <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"
-            app:elevation="0dp"
-            android:background="@color/white"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:background="@color/blue"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
 
-        <include
-                android:layout_marginTop="@dimen/margin_feed_search_bar"
-                android:layout_marginStart="@dimen/margin_feed_search_bar"
-                android:layout_marginEnd="@dimen/margin_feed_search_bar"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                android:layout_height="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                layout="@layout/view_search_bar"/>
+                android:layout_height="wrap_content">
 
-        <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                app:tabMode="fixed"
-                app:tabTextColor="@color/text_color_feed_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/FeedTabLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/feed_tab_height"
+                    app:layout_constraintEnd_toStartOf="@+id/ivFilters"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
+                <ImageView
+                    android:id="@+id/ivFilters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_filters_36dp"
+                    android:layout_marginBottom="@dimen/dimen_20"
+                    android:layout_marginEnd="@dimen/dimen_12"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/feedPager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:overScrollMode="never"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

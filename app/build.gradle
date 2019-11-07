@@ -131,6 +131,7 @@ dependencies {
     implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
     implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
     implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
+    implementation "ru.ldralighieri.corbind:corbind:$corbind"
 
     /* Timber */
     implementation "com.jakewharton.timber:timber:$timberVersion"

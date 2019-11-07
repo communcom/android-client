@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.community_page_rules
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class CommunityPageRulesViewModel @Inject constructor(
 
     private val communityPageRulesMutableLiveData = MutableLiveData<String>()
 
-    val communityPageRulesLiveData = communityPageRulesMutableLiveData as LiveData<String>
+    val communityPageRulesLiveData = communityPageRulesMutableLiveData.toLiveData()
 
     fun start(){
         communityPageRulesMutableLiveData.value = model.getRules()

@@ -33,7 +33,7 @@ class DiscoverFragment : CommunitiesTabFragmentBase<FragmentCommunitiesDiscoverB
     @Inject
     internal lateinit var appResources: AppResourcesProvider
 
-    override fun provideLayout(): Int = R.layout.fragment_communities_discover
+    override fun layoutResId(): Int = R.layout.fragment_communities_discover
 
     override fun inject() = App.injections.get<DiscoverFragmentComponent>().inject(this)
 

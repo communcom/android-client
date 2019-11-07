@@ -74,18 +74,18 @@ constructor(
 
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 model.loadPost()
                 _postHeader.value = model.getPostHeader()
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
 
                 model.loadStartFirstLevelCommentsPage()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
-                command.value = NavigateToMainScreenCommand()
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = NavigateToMainScreenCommand()
             } finally {
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
                 _commentFieldEnabled.value = true
             }
         }
@@ -93,28 +93,28 @@ constructor(
 
     override fun onImageInPostClick(imageUri: Uri) {
         wasMovedToChild = true
-        command.value = NavigateToImageViewCommand(imageUri)
+        commandMutableLiveData.value = NavigateToImageViewCommand(imageUri)
     }
 
     override fun onLinkInPostClick(link: Uri) {
         wasMovedToChild = true
-        command.value = NavigateToLinkViewCommand(link)
+        commandMutableLiveData.value = NavigateToLinkViewCommand(link)
     }
 
     override fun onUserInPostClick(userName: String) {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
 
                 val userId = model.getUserId(userName)
 
                 wasMovedToChild = true
-                command.value = NavigateToUserProfileViewCommand(userId)
+                commandMutableLiveData.value = NavigateToUserProfileViewCommand(userId)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
-                command.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -129,36 +129,36 @@ constructor(
 
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true
-        command.value = NavigateToUserProfileViewCommand(userId)
+        commandMutableLiveData.value = NavigateToUserProfileViewCommand(userId)
     }
 
     fun onPostMenuClick() {
         val metadata = model.postMetadata
-        command.value = ShowPostMenuViewCommand(
+        commandMutableLiveData.value = ShowPostMenuViewCommand(
             currentUserRepository.userId == postToProcess.userId,
             metadata.version,
             metadata.type)
     }
 
     override fun onCommentsTitleMenuClick() {
-        command.value = ShowCommentsSortingMenuViewCommand()
+        commandMutableLiveData.value = ShowCommentsSortingMenuViewCommand()
     }
 
     fun editPost() {
-        command.value = StartEditPostViewCommand(model.postId)
+        commandMutableLiveData.value = StartEditPostViewCommand(model.postId)
     }
 
     fun deletePost() {
         launch {
             try {
-                command.value = SetLoadingVisibilityCommand(true)
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
                 model.deletePost()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
-                command.value = SetLoadingVisibilityCommand(false)
-                command.value = NavigateToMainScreenCommand()
+                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
+                commandMutableLiveData.value = NavigateToMainScreenCommand()
             }
         }
     }
@@ -169,7 +169,7 @@ constructor(
                 model.updateCommentsSorting(sortingType)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
     }
@@ -189,7 +189,7 @@ constructor(
         }
 
     override fun onCommentLongClick(commentId: DiscussionIdModel) {
-        command.value = ShowCommentMenuViewCommand(commentId)
+        commandMutableLiveData.value = ShowCommentMenuViewCommand(commentId)
     }
 
     fun onSendCommentClick(commentText: String) {
@@ -197,9 +197,9 @@ constructor(
             try {
                 _commentFieldEnabled.value = false
                 model.sendComment(commentText)
-                command.value = ClearCommentTextViewCommand()
+                commandMutableLiveData.value = ClearCommentTextViewCommand()
             } catch(ex: Exception) {
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentFieldEnabled.value = true
             }
@@ -250,7 +250,7 @@ constructor(
                 action()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
     }
@@ -263,7 +263,7 @@ constructor(
             _commentEditFieldVisibility.value = View.VISIBLE
         } catch (ex: Exception) {
             Timber.e(ex)
-            command.value = ShowMessageCommand(R.string.common_general_error)
+            commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
 
             _commentFieldVisibility.value = View.VISIBLE
             _commentEditFieldVisibility.value = View.GONE
@@ -277,7 +277,7 @@ constructor(
                 commentAction()
                 cancelReplyOrEditComment()
             } catch(ex: Exception) {
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true
             }

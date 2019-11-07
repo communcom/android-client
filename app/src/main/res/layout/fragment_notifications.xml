@@ -12,7 +12,6 @@
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"
             app:liftOnScroll="true"
-            app:liftOnScrollTargetViewId="@id/notificationsList"
             android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

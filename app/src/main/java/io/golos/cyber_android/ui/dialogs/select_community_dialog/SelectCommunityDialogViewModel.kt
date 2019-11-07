@@ -65,7 +65,7 @@ constructor(
     }
 
     override fun onItemClick(community: Community) {
-        command.value = CommunitySelected(community)
+        commandMutableLiveData.value = CommunitySelected(community)
     }
 
     private fun loadPage(lastVisibleItemPosition: Int) {
@@ -85,7 +85,7 @@ constructor(
             } catch(ex: Exception) {
                 Timber.e(ex)
 
-                command.value = ShowMessageCommand(R.string.common_general_error)
+                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
                 isScrollEnabled.value = true
             }
         }
@@ -101,7 +101,7 @@ constructor(
                 searchResultVisibility.value = false
             }                                               // Fail
         }, {
-            command.value = ShowMessageCommand(R.string.common_general_error)
+            commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
             searchResultItems.value = listOf()
             searchResultVisibility.value = false
         })

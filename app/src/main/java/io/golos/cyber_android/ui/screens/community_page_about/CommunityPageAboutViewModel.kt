@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.community_page_about
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class CommunityPageAboutViewModel @Inject constructor(
 
     private val communityPageDescriptionMutableLiveData = MutableLiveData<String>()
 
-    val communityPageDescriptionLiveData = communityPageDescriptionMutableLiveData as LiveData<String>
+    val communityPageDescriptionLiveData = communityPageDescriptionMutableLiveData.toLiveData()
 
     fun start(){
         communityPageDescriptionMutableLiveData.value = model.getDescription()
