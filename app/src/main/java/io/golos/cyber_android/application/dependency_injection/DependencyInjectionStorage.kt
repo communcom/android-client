@@ -49,6 +49,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.screens.postslist.GetPostsConfiguration
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.entities.CyberUser
 import io.golos.domain.interactors.model.CommunityModel
@@ -196,6 +197,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostFiltersFragmentComponent::class -> get<UIComponent>()
                 .postFiltersFragment
+                .build()
+
+            io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent::class -> get<UIComponent>()
+                .postsListFragment
+                .postsListFragmentModule(io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentModule(args[0] as GetPostsConfiguration))
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

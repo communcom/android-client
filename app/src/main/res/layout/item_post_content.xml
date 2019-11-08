@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeader
+        android:id="@+id/postHeader"
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/post_viewer_header_height"/>
+
+    <include layout="@layout/item_content_text"/>
+
+    <include layout="@layout/item_post_controls"/>
+
+</LinearLayout>

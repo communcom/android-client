@@ -86,7 +86,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <!-- Community area -->
+                    <!-- CommunityDomain area -->
                     <io.golos.cyber_android.ui.shared_fragments.editor.view.widgets.CommunityContainer
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_community_area"
