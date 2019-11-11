@@ -21,8 +21,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewMo
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
-import io.golos.domain.post.post_dto.*
-import io.golos.domain.post.toTypeface
+import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.use_cases.post.toTypeface
 import javax.inject.Inject
 
 class ParagraphWidget

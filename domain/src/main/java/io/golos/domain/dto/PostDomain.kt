@@ -1,23 +1,25 @@
-package io.golos.domain.entities
+package io.golos.domain.dto
+
+import java.util.*
 
 data class PostDomain(
 
     val author: AuthorDomain,
     val community: CommunityDomain,
     val contentId: ContentIdDomain,
-    val document: DocumentDomain,
+    val document: DocumentDomain?,
     val meta: MetaDomain,
-    val stats: StatsDomain,
-    val type: String,
+    val stats: StatsDomain?,
+    val type: String?,
     val votes: VotesDomain
 ) {
     data class VotesDomain(
-        val downCount: Int,
-        val upCount: Int
+        val downCount: Long,
+        val upCount: Long
     )
 
     data class MetaDomain(
-        val creationTime: String
+        val creationTime: Date
     )
 
     data class DocumentDomain(
@@ -27,11 +29,11 @@ data class PostDomain(
         val type: String
     ) {
         data class ContentDomain(
-            val content: List<ContentDomain>,
+            val contentBodyList: List<ContentBody>,
             val id: Int,
             val type: String
         ) {
-            data class ContentDomain(
+            data class ContentBody(
                 val content: String,
                 val id: Int,
                 val type: String
@@ -45,9 +47,9 @@ data class PostDomain(
     }
 
     data class CommunityDomain(
-        val alias: String,
+        val alias: String?,
         val communityId: String,
-        val name: String
+        val name: String?
     )
 
     data class StatsDomain(
@@ -61,8 +63,8 @@ data class PostDomain(
     )
 
     data class AuthorDomain(
-        val avatarUrl: String,
+        val avatarUrl: String?,
         val userId: String,
-        val username: String
+        val username: String?
     )
 }

@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.common.utils.colorizeUsernames
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.ContentBodyModel
-import io.golos.domain.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.PostBlock
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlin.math.pow
 

@@ -1,4 +1,4 @@
-package io.golos.domain.entities
+package io.golos.domain.dto
 
 data class PostsConfigurationDomain(
     val userId: String,

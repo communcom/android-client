@@ -12,11 +12,9 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.screens.postslist.PostsListModel
 import io.golos.cyber_android.ui.screens.postslist.PostsListModelImpl
 import io.golos.cyber_android.ui.screens.postslist.PostsListViewModel
-import io.golos.data.repositories.PostsRepositoryImpl
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.posts.GetPostsUseCase
-import io.golos.domain.interactors.posts.GetPostsUseCaseImpl
-import io.golos.domain.interactors.posts.PostsRepository
+import io.golos.domain.use_cases.posts.GetPostsUseCase
+import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl
 
 @Module
 interface MyFeedFragmentModuleBinds {
@@ -38,7 +36,4 @@ interface MyFeedFragmentModuleBinds {
 
     @Binds
     fun bindGetPostsUseCase(getPostsUseCaseImpl: GetPostsUseCaseImpl): GetPostsUseCase
-
-    @Binds
-    fun bindPostsRepository(postsRepositoryImpl: PostsRepositoryImpl): PostsRepository
 }

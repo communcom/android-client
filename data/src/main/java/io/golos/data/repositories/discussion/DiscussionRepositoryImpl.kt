@@ -1,18 +1,25 @@
 package io.golos.data.repositories.discussion
 
+import io.golos.commun4j.Commun4j
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.mappers.CyberDiscussionRawToPostDomainMapper
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.data.toCyberName
+import io.golos.data.utils.getOrThrow
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.dto.DiscussionCreationResultEntity
+import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import java.util.*
@@ -25,11 +32,30 @@ constructor(
     private val postToEntityMapper: CyberPostToEntityMapper,
     private val postToModelMapper: PostEntitiesToModelMapper,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val transactionsApi: TransactionsApi
+    private val transactionsApi: TransactionsApi,
+    private val commun4j: Commun4j
 ): DiscussionCreationRepositoryBase(
     discussionsApi,
     transactionsApi
 ), DiscussionRepository {
+
+    override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> {
+        return commun4j.getPostsRaw(
+            postsConfigurationDomain.userId.toCyberName(),
+            postsConfigurationDomain.communityId,
+            postsConfigurationDomain.communityAlias,
+            postsConfigurationDomain.allowNsfw,
+            null,
+            null,
+            null,
+            postsConfigurationDomain.limit,
+            postsConfigurationDomain.offset
+        ).getOrThrow()
+            .items
+            .map {
+                CyberDiscussionRawToPostDomainMapper().invoke(it)
+            }
+    }
 
     private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }
 

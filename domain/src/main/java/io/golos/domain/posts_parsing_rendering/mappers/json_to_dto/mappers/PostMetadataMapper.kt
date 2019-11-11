@@ -1,8 +1,8 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import io.golos.domain.post.post_dto.PostFormatVersion
-import io.golos.domain.post.post_dto.PostMetadata
-import io.golos.domain.post.post_dto.PostType
+import io.golos.domain.use_cases.post.post_dto.PostFormatVersion
+import io.golos.domain.use_cases.post.post_dto.PostMetadata
+import io.golos.domain.use_cases.post.post_dto.PostType
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.PostTypeJson
 import org.json.JSONObject

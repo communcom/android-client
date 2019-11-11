@@ -3,7 +3,7 @@ package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 import android.graphics.Color
 import android.net.Uri
 import android.util.Size
-import io.golos.domain.post.TextStyle
+import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
 import org.json.JSONArray

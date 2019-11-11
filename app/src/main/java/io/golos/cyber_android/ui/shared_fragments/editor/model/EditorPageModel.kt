@@ -11,7 +11,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.use_cases.model.DiscussionCreationResultModel
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.post.editor_output.ControlMetadata
+import io.golos.domain.use_cases.post.editor_output.ControlMetadata
 
 interface EditorPageModel : ModelBase {
     suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError>

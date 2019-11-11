@@ -3,9 +3,9 @@ package io.golos.posts_editor.components.input.spans.calculators
 import android.text.style.StyleSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerRead
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
-import io.golos.domain.post.editor_output.SpanInfo
-import io.golos.domain.post.editor_output.StyleSpanInfo
-import io.golos.domain.post.TextStyle
+import io.golos.domain.use_cases.post.editor_output.SpanInfo
+import io.golos.domain.use_cases.post.editor_output.StyleSpanInfo
+import io.golos.domain.use_cases.post.TextStyle
 import kotlin.reflect.KClass
 
 class StyleSpansCalculator(spansReader: SpansWorkerRead) : SpansCalculator<TextStyle>(spansReader) {

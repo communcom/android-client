@@ -23,8 +23,8 @@ import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.post.editor_output.ControlMetadata
-import io.golos.domain.post.editor_output.LinkInfo
+import io.golos.domain.use_cases.post.editor_output.ControlMetadata
+import io.golos.domain.use_cases.post.editor_output.LinkInfo
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async

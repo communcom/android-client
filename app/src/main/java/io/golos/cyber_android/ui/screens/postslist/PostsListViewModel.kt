@@ -3,19 +3,15 @@ package io.golos.cyber_android.ui.screens.postslist
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.screens.subscriptions.Community
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.PostsConfigurationDomain
-import io.golos.domain.interactors.posts.GetPostsUseCase
+import io.golos.domain.dto.PostsConfigurationDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PostsListViewModel @Inject constructor(
-    userId: String,
     dispatchersProvider: DispatchersProvider,
     model: PostsListModel,
     private val getPostsConfiguration: GetPostsConfiguration,
-    private val getPostsUseCase: GetPostsUseCase,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<PostsListModel>(dispatchersProvider, model) {
 
@@ -36,7 +32,7 @@ class PostsListViewModel @Inject constructor(
             _followersListStateLiveData.value = it
         }
 
-        postsConfigurationDomain = PostsConfigurationDomain(userId,
+        postsConfigurationDomain = PostsConfigurationDomain(getPostsConfiguration.userId,
             null,
             null,
             PostsConfigurationDomain.SortByDomain.TIME,
@@ -49,7 +45,7 @@ class PostsListViewModel @Inject constructor(
     private fun loadMorePosts(pageCount: Int){
         launch {
             postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGE_SIZE)
-            getPostsUseCase.getPosts(postsConfigurationDomain)
+            model.getPosts(postsConfigurationDomain)
         }
     }
 
