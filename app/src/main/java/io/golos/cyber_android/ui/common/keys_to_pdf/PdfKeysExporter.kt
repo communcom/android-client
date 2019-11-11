@@ -13,7 +13,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.domain.entities.UserKey
+import io.golos.domain.dto.UserKey
 import timber.log.Timber
 import java.io.File
 

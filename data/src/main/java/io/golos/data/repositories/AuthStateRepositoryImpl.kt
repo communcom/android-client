@@ -13,10 +13,10 @@ import io.golos.data.toCyberUser
 import io.golos.domain.*
 import io.golos.domain.api.AuthApi
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.AuthType
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.UserKeyType
+import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.AuthType
+import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.UserKeyType
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.AuthRequest

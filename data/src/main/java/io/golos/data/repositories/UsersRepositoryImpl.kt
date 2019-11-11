@@ -2,8 +2,8 @@ package io.golos.data.repositories
 
 import io.golos.data.api.user.UsersApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.FollowerDomain
-import io.golos.domain.interactors.user.UsersRepository
+import io.golos.domain.dto.FollowerDomain
+import io.golos.domain.use_cases.user.UsersRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

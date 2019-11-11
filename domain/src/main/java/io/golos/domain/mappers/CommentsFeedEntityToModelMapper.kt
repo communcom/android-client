@@ -1,10 +1,10 @@
 package io.golos.domain.mappers
 
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.entities.DiscussionRelatedEntities
-import io.golos.domain.entities.FeedRelatedEntities
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionsFeed
+import io.golos.domain.dto.CommentEntity
+import io.golos.domain.dto.DiscussionRelatedEntities
+import io.golos.domain.dto.FeedRelatedEntities
+import io.golos.domain.use_cases.model.CommentModel
+import io.golos.domain.use_cases.model.DiscussionsFeed
 import javax.inject.Inject
 
 interface CommentsFeedEntityToModelMapper : EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>

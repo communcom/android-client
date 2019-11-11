@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.community_page.CommunityPageModel
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageModelImpl
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.community.*
+import io.golos.domain.use_cases.community.*
 
 @Module
 interface CommunityPageFragmentModuleBinds {

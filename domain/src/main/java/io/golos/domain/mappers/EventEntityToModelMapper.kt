@@ -2,9 +2,9 @@ package io.golos.domain.mappers
 
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dependency_injection.scopes.UIScope
-import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.CommunityModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.dto.*
+import io.golos.domain.use_cases.model.CommunityModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
 import java.util.*
 import javax.inject.Inject

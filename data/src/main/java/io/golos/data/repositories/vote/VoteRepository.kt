@@ -1,6 +1,6 @@
 package io.golos.data.repositories.vote
 
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 
 interface VoteRepository {
     /**

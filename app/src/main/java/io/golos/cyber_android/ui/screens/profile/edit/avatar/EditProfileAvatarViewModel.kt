@@ -2,10 +2,10 @@ package io.golos.cyber_android.ui.screens.profile.edit.avatar
 
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.interactors.UseCase
-import io.golos.domain.interactors.images.ImageUploadUseCase
-import io.golos.domain.interactors.model.UploadedImagesModel
-import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.use_cases.UseCase
+import io.golos.domain.use_cases.images.ImageUploadUseCase
+import io.golos.domain.use_cases.model.UploadedImagesModel
+import io.golos.domain.use_cases.user.UserMetadataUseCase
 import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.CompressionParams
 import java.io.File

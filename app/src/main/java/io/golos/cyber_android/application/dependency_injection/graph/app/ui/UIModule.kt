@@ -3,7 +3,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui
 import dagger.Module
 import dagger.Provides
 import io.golos.cyber_android.BuildConfig
-import io.golos.domain.interactors.model.TestPassProvider
+import io.golos.domain.use_cases.model.TestPassProvider
 
 @Module
 class UIModule {

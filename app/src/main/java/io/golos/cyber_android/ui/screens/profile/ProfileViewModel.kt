@@ -8,9 +8,9 @@ import io.golos.cyber_android.ui.screens.feed.FeedViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.data.errors.AppError
 import io.golos.domain.extensions.map
-import io.golos.domain.interactors.model.UserMetadataModel
-import io.golos.domain.interactors.sign.SignInUseCase
-import io.golos.domain.interactors.user.UserMetadataUseCase
+import io.golos.domain.use_cases.model.UserMetadataModel
+import io.golos.domain.use_cases.sign.SignInUseCase
+import io.golos.domain.use_cases.user.UserMetadataUseCase
 import io.golos.domain.requestmodel.QueryResult
 import javax.inject.Inject
 

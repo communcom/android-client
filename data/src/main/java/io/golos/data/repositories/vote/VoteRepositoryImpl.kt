@@ -2,7 +2,7 @@ package io.golos.data.repositories.vote
 
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.vote.VoteApi
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.mappers.VoteRequestModelToEntityMapper
 import io.golos.domain.requestmodel.VoteRequestModel
 import javax.inject.Inject

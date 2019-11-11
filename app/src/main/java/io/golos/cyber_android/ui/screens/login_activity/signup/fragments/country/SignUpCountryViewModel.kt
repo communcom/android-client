@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.model.SignUpCountryModel
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CountryEntity
+import io.golos.domain.dto.CountryEntity
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.*
 import javax.inject.Inject

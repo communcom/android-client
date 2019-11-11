@@ -1,9 +1,9 @@
 package io.golos.domain
 
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.entities.AppUnlockWay
-import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.UserKeyType
+import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 
 interface KeyValueStorageFacade {

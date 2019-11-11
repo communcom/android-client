@@ -6,8 +6,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sour
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.interactors.model.DiscussionAuthorModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

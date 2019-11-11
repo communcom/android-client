@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsModel
 import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsModelImpl
 import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.community.*
+import io.golos.domain.use_cases.community.*
 import javax.inject.Named
 
 @Module

@@ -1,8 +1,8 @@
 package io.golos.domain.requestmodel
 
 import io.golos.domain.Model
-import io.golos.domain.entities.NSFWSettingsEntity
-import io.golos.domain.entities.NotificationSettingsEntity
+import io.golos.domain.dto.NSFWSettingsEntity
+import io.golos.domain.dto.NotificationSettingsEntity
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.

@@ -6,7 +6,7 @@ import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.*
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope

@@ -21,11 +21,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sour
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourcePostControls
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.PostVotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
-import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachineImpl
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.feed.PostWithCommentUseCase
-import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
+import io.golos.domain.use_cases.feed.PostWithCommentUseCase
+import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 
 @Module
 abstract class PostPageFragmentModuleBinds {

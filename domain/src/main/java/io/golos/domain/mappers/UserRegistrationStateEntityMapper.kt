@@ -3,7 +3,7 @@ package io.golos.domain.mappers
 import io.golos.commun4j.services.model.FirstRegistrationStepResult
 import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.domain.commun_entities.UserRegistrationStateRelatedData
-import io.golos.domain.entities.*
+import io.golos.domain.dto.*
 import io.golos.domain.requestmodel.SetUserKeysRequest
 import java.util.*
 

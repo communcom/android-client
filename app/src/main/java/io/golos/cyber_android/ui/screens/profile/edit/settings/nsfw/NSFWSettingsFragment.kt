@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
 import io.golos.cyber_android.utils.asEvent
 import io.golos.data.errors.AppError
-import io.golos.domain.entities.NSFWSettingsEntity
+import io.golos.domain.dto.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_settings_picker.*
 import javax.inject.Inject

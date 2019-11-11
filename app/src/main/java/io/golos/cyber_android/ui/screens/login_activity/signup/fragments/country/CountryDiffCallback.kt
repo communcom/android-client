@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country
 
 import androidx.recyclerview.widget.DiffUtil
-import io.golos.domain.entities.CountryEntity
+import io.golos.domain.dto.CountryEntity
 
 /**
  * [DiffUtil.Callback] impl for [CountryModel] lists

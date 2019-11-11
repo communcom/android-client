@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.vie
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.view_state_dto.CodeState
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.AuthType
+import io.golos.domain.dto.AuthType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob

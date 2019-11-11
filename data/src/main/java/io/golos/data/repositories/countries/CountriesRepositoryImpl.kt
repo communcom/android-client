@@ -4,7 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DeviceInfoProvider
-import io.golos.domain.entities.CountryEntity
+import io.golos.domain.dto.CountryEntity
 import javax.inject.Inject
 
 /**

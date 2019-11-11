@@ -6,8 +6,8 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import io.golos.cyber_android.R
-import io.golos.domain.entities.UserKey
-import io.golos.domain.entities.UserKeyType
+import io.golos.domain.dto.UserKey
+import io.golos.domain.dto.UserKeyType
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream

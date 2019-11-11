@@ -7,12 +7,11 @@ import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.commun4j.model.GetDiscussionsResultRaw
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.putIfAbsentAndGet
-import io.golos.data.replaceByProducer
 import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Entity
 import io.golos.domain.commun_entities.PostDiscussionRaw
-import io.golos.domain.entities.*
+import io.golos.domain.dto.*
 import io.golos.domain.mappers.CommunToEntityMapper
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable

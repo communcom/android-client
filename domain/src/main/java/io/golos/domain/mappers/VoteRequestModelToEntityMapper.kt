@@ -1,7 +1,7 @@
 package io.golos.domain.mappers
 
-import io.golos.domain.entities.DiscussionIdEntity
-import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.dto.DiscussionIdEntity
+import io.golos.domain.dto.VoteRequestEntity
 import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
 import javax.inject.Inject

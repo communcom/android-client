@@ -1,7 +1,7 @@
 package io.golos.domain.requestmodel
 
-import io.golos.domain.entities.GeneralSettingEntity
-import io.golos.domain.entities.NotificationSettingsEntity
+import io.golos.domain.dto.GeneralSettingEntity
+import io.golos.domain.dto.NotificationSettingsEntity
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.

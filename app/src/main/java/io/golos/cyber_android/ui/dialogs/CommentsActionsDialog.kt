@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.dialog_comment_menu.*
 
 /**

@@ -3,7 +3,7 @@ package io.golos.domain.mappers
 import io.golos.commun4j.services.model.MobileShowSettings
 import io.golos.commun4j.services.model.NotificationSettings
 import io.golos.commun4j.services.model.ServiceSettingsLanguage
-import io.golos.domain.entities.NotificationSettingsEntity
+import io.golos.domain.dto.NotificationSettingsEntity
 import java.util.*
 
 object SettingToCyberMapper {

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.domain.entities.NSFWSettingsEntity
+import io.golos.domain.dto.NSFWSettingsEntity
 import kotlinx.android.synthetic.main.item_settings_option.view.*
 
 /**

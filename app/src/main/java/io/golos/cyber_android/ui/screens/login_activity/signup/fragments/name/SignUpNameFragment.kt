@@ -18,7 +18,7 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.ui.common.utils.AllLowersInputFilter
 import io.golos.cyber_android.ui.common.utils.ViewUtils
 import io.golos.data.errors.AppError
-import io.golos.domain.interactors.model.*
+import io.golos.domain.use_cases.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_name.*
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.settings.SettingsApi
 import io.golos.domain.*
-import io.golos.domain.entities.UserSettingEntity
+import io.golos.domain.dto.UserSettingEntity
 import io.golos.domain.mappers.SettingToCyberMapper
 import io.golos.domain.mappers.SettingsToEntityMapper
 import io.golos.domain.repositories.Repository

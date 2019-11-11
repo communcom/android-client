@@ -2,7 +2,7 @@ package io.golos.domain.mappers
 
 import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.entities.*
+import io.golos.domain.dto.*
 
 // todo[AS] temporary stub to compile!!!
 object UserMetadataToEntityMapper {

@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processin
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.data.repositories.current_user_repository.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.CommentModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 

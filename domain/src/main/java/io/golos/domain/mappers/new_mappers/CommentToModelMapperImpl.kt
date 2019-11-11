@@ -1,7 +1,7 @@
 package io.golos.domain.mappers.new_mappers
 
 import io.golos.domain.commun_entities.CommentDiscussionRaw
-import io.golos.domain.interactors.model.*
+import io.golos.domain.use_cases.model.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import javax.inject.Inject
 

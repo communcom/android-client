@@ -12,8 +12,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.dto.CyberUser
+import io.golos.domain.use_cases.sign.SignInUseCase
 import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.AuthRequestModel
 import io.golos.domain.requestmodel.QueryResult

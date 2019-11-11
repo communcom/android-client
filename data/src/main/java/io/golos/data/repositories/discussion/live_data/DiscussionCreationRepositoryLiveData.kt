@@ -10,8 +10,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.dto.DiscussionCreationResultEntity
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import timber.log.Timber

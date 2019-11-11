@@ -8,9 +8,9 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.entities.UploadedImageEntity
-import io.golos.domain.interactors.model.DiscussionCreationResultModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.dto.UploadedImageEntity
+import io.golos.domain.use_cases.model.DiscussionCreationResultModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.post.editor_output.ControlMetadata
 
 interface EditorPageModel : ModelBase {

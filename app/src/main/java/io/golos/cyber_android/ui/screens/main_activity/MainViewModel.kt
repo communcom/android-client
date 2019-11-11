@@ -1,10 +1,10 @@
 package io.golos.cyber_android.ui.screens.main_activity
 
 import androidx.lifecycle.*
-import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.interactors.notifs.events.EventsUseCase
-import io.golos.domain.interactors.notifs.push.PushNotificationsSettingsUseCase
-import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.use_cases.model.UpdateOption
+import io.golos.domain.use_cases.notifs.events.EventsUseCase
+import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCase
+import io.golos.domain.use_cases.sign.SignInUseCase
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.domain.requestmodel.QueryResult
 import javax.inject.Inject

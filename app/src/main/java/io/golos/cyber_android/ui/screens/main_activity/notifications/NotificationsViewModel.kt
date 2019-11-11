@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.main_activity.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.domain.interactors.model.UpdateOption
-import io.golos.domain.interactors.notifs.events.EventsUseCase
+import io.golos.domain.use_cases.model.UpdateOption
+import io.golos.domain.use_cases.notifs.events.EventsUseCase
 import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.EventModel
 import io.golos.domain.requestmodel.QueryResult

@@ -50,9 +50,9 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.interactors.model.CommunityModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.dto.CyberUser
+import io.golos.domain.use_cases.model.CommunityModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */

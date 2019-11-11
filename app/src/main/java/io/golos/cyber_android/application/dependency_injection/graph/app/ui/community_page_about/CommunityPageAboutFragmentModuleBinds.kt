@@ -7,14 +7,10 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.community_page.CommunityPageModel
-import io.golos.cyber_android.ui.screens.community_page.CommunityPageModelImpl
-import io.golos.cyber_android.ui.screens.community_page.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutModelImpl
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.community.*
 
 @Module
 interface CommunityPageAboutFragmentModuleBinds {

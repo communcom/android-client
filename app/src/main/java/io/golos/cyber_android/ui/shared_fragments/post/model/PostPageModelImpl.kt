@@ -15,8 +15,8 @@ import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryR
 import io.golos.data.repositories.discussion.DiscussionRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

@@ -3,8 +3,7 @@ package io.golos.cyber_android.ui.shared_fragments.bio
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
-import io.golos.domain.interactors.user.UserMetadataUseCase
-import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
+import io.golos.domain.use_cases.user.UserMetadataUseCase
 import javax.inject.Inject
 
 class EditProfileBioViewModel

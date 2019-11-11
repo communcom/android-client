@@ -5,10 +5,10 @@ import android.content.Context
 import android.provider.Settings
 import io.golos.domain.DefaultSettingProvider
 import io.golos.domain.DeviceIdProvider
-import io.golos.domain.entities.GeneralSettingEntity
-import io.golos.domain.entities.NSFWSettingsEntity
-import io.golos.domain.entities.NotificationSettingsEntity
-import io.golos.domain.entities.UserSettingEntity
+import io.golos.domain.dto.GeneralSettingEntity
+import io.golos.domain.dto.NSFWSettingsEntity
+import io.golos.domain.dto.NotificationSettingsEntity
+import io.golos.domain.dto.UserSettingEntity
 import java.io.File
 import java.util.*
 import javax.inject.Inject

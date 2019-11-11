@@ -1,8 +1,8 @@
 package io.golos.domain
 
-import io.golos.domain.entities.UserKey
-import io.golos.domain.entities.UserKeyType
-import io.golos.domain.interactors.model.GeneratedUserKeys
+import io.golos.domain.dto.UserKey
+import io.golos.domain.dto.UserKeyType
+import io.golos.domain.use_cases.model.GeneratedUserKeys
 
 interface UserKeyStore {
     /**

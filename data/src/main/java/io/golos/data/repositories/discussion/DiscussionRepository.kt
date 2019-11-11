@@ -2,10 +2,10 @@ package io.golos.data.repositories.discussion
 
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.entities.DiscussionCreationResultEntity
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.dto.DiscussionCreationResultEntity
+import io.golos.domain.use_cases.model.CommentModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 
 interface DiscussionRepository {

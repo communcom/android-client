@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.common.comments
 
 import androidx.recyclerview.widget.DiffUtil
-import io.golos.domain.interactors.model.CommentModel
+import io.golos.domain.use_cases.model.CommentModel
 
 /**
  * [DiffUtil.Callback] impl for [CommentModel] lists

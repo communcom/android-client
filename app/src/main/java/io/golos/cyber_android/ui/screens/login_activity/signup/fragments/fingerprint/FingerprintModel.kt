@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint
 
-import io.golos.domain.entities.AppUnlockWay
-import io.golos.domain.entities.AuthType
+import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.dto.AuthType
 
 interface FingerprintModel {
     /**

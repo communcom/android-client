@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin
 
-import io.golos.domain.entities.AuthType
+import io.golos.domain.dto.AuthType
 
 interface PinCodeModel {
     val isFingerprintAuthenticationPossible: Boolean

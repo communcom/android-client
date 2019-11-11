@@ -9,8 +9,8 @@ import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.*
-import io.golos.domain.interactors.model.FeedTimeFrameOption
+import io.golos.domain.dto.*
+import io.golos.domain.use_cases.model.FeedTimeFrameOption
 import io.golos.domain.mappers.CyberCommentToEntityMapper
 import io.golos.domain.mappers.CyberCommentsToEntityMapper
 import io.golos.domain.mappers.CyberFeedToEntityMapper

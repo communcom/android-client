@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.profile.edit.settings.notifications
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
-import io.golos.domain.entities.NotificationSettingsEntity
+import io.golos.domain.dto.NotificationSettingsEntity
 import io.golos.domain.requestmodel.NotificationSettingsModel
 
 
