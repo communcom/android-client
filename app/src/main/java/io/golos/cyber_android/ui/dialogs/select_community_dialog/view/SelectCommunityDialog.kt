@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.dialogs.select_community_dialog
+package io.golos.cyber_android.ui.dialogs.select_community_dialog.view
 
 import android.app.Dialog
 import android.os.Bundle
@@ -24,22 +24,29 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.domain.commun_entities.Community
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel
+import io.golos.domain.dto.CommunityDomain
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import javax.inject.Inject
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class SelectCommunityDialog : BottomSheetDialogFragment() {
     companion object {
         /**
          * @param closeAction null if a community was not selected
          */
-        fun newInstance(uiHelper: UIHelper, someViewInWindow: View, closeAction: (Community?) -> Unit): SelectCommunityDialog {
+        fun newInstance(uiHelper: UIHelper, someViewInWindow: View, closeAction: (CommunityDomain?) -> Unit): SelectCommunityDialog {
             uiHelper.setSoftKeyboardVisibility(someViewInWindow, false)
-            return SelectCommunityDialog().apply { closeActionListener = closeAction }
+            return SelectCommunityDialog()
+                .apply { closeActionListener = closeAction }
         }
     }
 
-    private lateinit var  closeActionListener: (Community?) -> Unit
+    private lateinit var  closeActionListener: (CommunityDomain?) -> Unit
 
     private var isCommunitySelected = false
 

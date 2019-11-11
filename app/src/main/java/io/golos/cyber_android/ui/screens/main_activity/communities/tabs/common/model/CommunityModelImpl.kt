@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model
 
-import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
@@ -8,11 +7,9 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.data_reposito
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.PageLoadResult
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearch
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.AppResourcesProvider
-import io.golos.domain.commun_entities.Community
-import io.golos.domain.extensions.mapSuccess
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.utils.IdUtil
 import io.golos.domain.utils.MurmurHash
 import javax.inject.Inject
@@ -22,7 +19,6 @@ class CommunityModelImpl
 constructor(
     private val communitiesApi: CommunitiesApi,
     private val appResources: AppResourcesProvider,
-    private val search: CommunitiesSearch,
     private val communityType: CommunityType
 ) : ModelBaseImpl(), CommunityModel {
 
@@ -61,20 +57,6 @@ constructor(
         }
     }
 
-    override fun close() = search.close()
-
-    override fun search(searchTest: String) = search.search(searchTest)
-
-    @Suppress("NestedLambdaShadowedImplicitParameter")
-    override fun setOnSearchResultListener(listener: (Either<List<ListItem>?, Throwable>) -> Unit) {
-        search.setOnSearchResultListener {
-            it.mapSuccess {
-                it?.map { it.map() }
-            }
-            .let { listener(it) }
-        }
-    }
-
     private fun showProgressIndicator(): PageLoadResult {
         val copyItems = loadedItems.toMutableList()
         copyItems.add(LoadingListItem(IdUtil.generateLongId()))     // Loading indicator has been added
@@ -110,9 +92,9 @@ constructor(
         }
     }
 
-    private fun Community.map(): ListItem =
+    private fun CommunityDomain.map(): ListItem =
         CommunityListItem(
-            MurmurHash.hash64(this.id.id),
+            MurmurHash.hash64(this.communityId),
             this,
             false
         )

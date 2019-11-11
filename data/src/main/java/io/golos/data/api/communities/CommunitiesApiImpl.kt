@@ -7,8 +7,6 @@ import io.golos.data.api.Commun4jApiBase
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Community
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
@@ -54,7 +52,7 @@ constructor(
             Date(System.currentTimeMillis()))
     }
 
-    private val communities: List<Community> by lazy { loadCommunities() }
+    private val communities: List<CommunityDomain> by lazy { loadCommunities() }
 
     private data class CommunityRaw (
         val id: String,
@@ -63,7 +61,7 @@ constructor(
         val logoUrl: String
     )
 
-    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<Community> =
+    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> =
         withContext(dispatchersProvider.calculationsDispatcher) {
             delay(500)
 
@@ -92,7 +90,7 @@ constructor(
             delay(500)
         }
 
-    override suspend fun searchInCommunities(query: String, isUser: Boolean): List<Community> =
+    override suspend fun searchInCommunities(query: String, isUser: Boolean): List<CommunityDomain> =
         withContext(dispatchersProvider.calculationsDispatcher) {
             delay(500)
 
@@ -116,8 +114,8 @@ constructor(
             }
         }
 
-    override fun getCommunityById(communityId: CommunityId): Community? =
-            communities.firstOrNull { it.id == communityId }
+    override fun getCommunityById(communityId: String): CommunityDomain? =
+            communities.firstOrNull { it.communityId == communityId }
 
     override suspend fun unsubscribeToCommunity(communityId: String) {
         delay(2000)
@@ -143,7 +141,7 @@ constructor(
         return getMockCommunitiesList()
     }
 
-    private fun loadCommunities(): List<Community> {
+    private fun loadCommunities(): List<CommunityDomain> {
         val random = Random(Date().time)
 
         return String(appResources.getCommunities().readBytes())
@@ -164,11 +162,11 @@ constructor(
                     it.followersQuantity < 100 -> it.followersQuantity * random.nextInt(50)
                     else -> it.followersQuantity * random.nextInt(500)
                 }
-                Community(CommunityId(it.id), it.name, followersQuantity, it.logoUrl)
+                CommunityDomain(it.id, it.name, it.logoUrl, followersQuantity.toLong(), true)
             }
     }
 
-    private fun isUserCommunity(communityExt: Community) = MurmurHash.hash64(communityExt.name) % 2 == 0L
+    private fun isUserCommunity(communityExt: CommunityDomain) = MurmurHash.hash64(communityExt.name) % 2 == 0L
 
     private fun randomException(){
         val rand = Random

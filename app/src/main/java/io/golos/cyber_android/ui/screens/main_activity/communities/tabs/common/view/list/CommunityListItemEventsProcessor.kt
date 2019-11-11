@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
-import io.golos.domain.commun_entities.Community
+import io.golos.domain.dto.CommunityDomain
 
 interface CommunityListItemEventsProcessor {
-    fun onItemClick(community: Community)
+    fun onItemClick(community: CommunityDomain)
 }

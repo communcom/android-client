@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
+<!--
         <include
                 android:layout_marginTop="@dimen/margin_feed_search_bar"
                 android:layout_marginStart="@dimen/margin_feed_search_bar"
@@ -26,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 layout="@layout/view_search_bar"/>
+-->
 
         <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"

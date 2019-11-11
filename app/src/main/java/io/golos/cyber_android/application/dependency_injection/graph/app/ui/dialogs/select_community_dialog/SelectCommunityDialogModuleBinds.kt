@@ -7,11 +7,11 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogViewModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModelImpl
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearch
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearchImpl
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModel
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModelImpl
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.search.CommunitiesSearch
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.search.CommunitiesSearchImpl
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -30,7 +30,7 @@ abstract class SelectCommunityDialogModuleBinds {
     abstract fun provideDiscoverViewModel(viewModel: SelectCommunityDialogViewModel): ViewModel
 
     @Binds
-    abstract fun provideDiscoverModel(model: CommunityModelImpl): CommunityModel
+    abstract fun provideDiscoverModel(model: SelectCommunityDialogModelImpl): SelectCommunityDialogModel
 
     @Binds
     abstract fun provideSearchEngine(engine: CommunitiesSearchImpl): CommunitiesSearch

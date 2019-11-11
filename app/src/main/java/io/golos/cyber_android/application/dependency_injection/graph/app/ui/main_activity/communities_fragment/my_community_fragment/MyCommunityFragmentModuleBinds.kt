@@ -9,15 +9,9 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModelImpl
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearch
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.search.CommunitiesSearchImpl
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
 import io.golos.domain.dependency_injection.scopes.SubFragmentScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 @Module
 abstract class MyCommunityFragmentModuleBinds {
     @Binds
@@ -31,7 +25,4 @@ abstract class MyCommunityFragmentModuleBinds {
 
     @Binds
     abstract fun provideDiscoverModel(model: CommunityModelImpl): CommunityModel
-
-    @Binds
-    abstract fun provideSearchEngine(engine: CommunitiesSearchImpl): CommunitiesSearch
 }

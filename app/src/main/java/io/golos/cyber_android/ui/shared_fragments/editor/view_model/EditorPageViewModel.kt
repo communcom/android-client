@@ -17,7 +17,8 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Community
+import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.UseCase
@@ -82,7 +83,7 @@ constructor(
 
     val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
-    val community = MutableLiveData<Community?>()
+    val community = MutableLiveData<CommunityDomain?>()
     val isPostEnabled = MutableLiveData<Boolean>(false)
     val isSelectCommunityEnabled = MutableLiveData<Boolean>(false)
 
@@ -149,7 +150,7 @@ constructor(
         this.title = title
     }
 
-    fun setCommunity(community: Community) {
+    fun setCommunity(community: CommunityDomain) {
         this.community.value = community
         isPostEnabled.value = true
     }
@@ -187,7 +188,7 @@ constructor(
 
                 try {
                     val callResult = if(postToEdit == null) {
-                        model.createPost(content, adultOnly, community.value!!.id, images)
+                        model.createPost(content, adultOnly, CommunityId(community.value!!.communityId), images)
                     } else {
                         model.updatePost(content, postToEdit.permlink, adultOnly, images)
                     }

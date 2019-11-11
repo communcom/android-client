@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
@@ -10,10 +9,8 @@ import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Community
-import io.golos.domain.extensions.fold
+import io.golos.domain.dto.CommunityDomain
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 class CommunityViewModel
@@ -25,19 +22,12 @@ constructor(
 
     private var isSetup = false
 
-    var searchString = ""
-        private set
-
     val items: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
 
     val isScrollEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val searchResultVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
     val searchResultItems: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
-
-    init {
-        model.setOnSearchResultListener { processSearchResult(it) }
-    }
 
     fun onViewCreated() {
         isSetup = false
@@ -61,22 +51,8 @@ constructor(
         loadPage(lastVisibleItemPosition)
     }
 
-    fun onSearchStringUpdated(searchString: String) {
-        if(searchString == this.searchString) {
-            return
-        }
-
-        this.searchString = searchString
-        model.search(searchString)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        model.close()
-    }
-
-    override fun onItemClick(community: Community) {
-        commandMutableLiveData.value = NavigateToCommunityPageCommand(community.id.id)
+    override fun onItemClick(community: CommunityDomain) {
+        commandMutableLiveData.value = NavigateToCommunityPageCommand(community.communityId)
     }
 
     private fun loadPage(lastVisibleItemPosition: Int) {
@@ -96,21 +72,5 @@ constructor(
                 isScrollEnabled.value = true
             }
         }
-    }
-
-    private fun processSearchResult(searchResult: Either<List<ListItem>?, Throwable>) {
-        searchResult.fold({ resultList ->                   // Success
-            if(resultList != null) {
-                searchResultItems.value = resultList
-                searchResultVisibility.value = true
-            } else {
-                searchResultItems.value = listOf()
-                searchResultVisibility.value = false
-            }                                               // Fail
-        }, {
-            commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
-            searchResultItems.value = listOf()
-            searchResultVisibility.value = false
-        })
     }
 }

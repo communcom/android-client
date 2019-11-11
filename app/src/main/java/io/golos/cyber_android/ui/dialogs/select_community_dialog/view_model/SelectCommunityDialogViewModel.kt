@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.dialogs.select_community_dialog
+package io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.Either
@@ -6,11 +6,12 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Community
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,9 +21,9 @@ class SelectCommunityDialogViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: CommunityModel,
+    model: SelectCommunityDialogModel,
     appResourcesProvider: AppResourcesProvider
-) : ViewModelBase<CommunityModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
+) : ViewModelBase<SelectCommunityDialogModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
     var searchString = ""
         private set
@@ -64,7 +65,7 @@ constructor(
         model.close()
     }
 
-    override fun onItemClick(community: Community) {
+    override fun onItemClick(community: CommunityDomain) {
         commandMutableLiveData.value = CommunitySelected(community)
     }
 

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.dialogs.select_community_dialog
+package io.golos.cyber_android.ui.dialogs.select_community_dialog.view
 
 import android.content.Context
 import android.util.AttributeSet

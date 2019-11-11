@@ -4,7 +4,6 @@ import io.golos.commun4j.model.Beneficiary
 import io.golos.commun4j.model.DiscussionCreateMetadata
 import io.golos.commun4j.model.Tag
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 
 
@@ -28,7 +27,7 @@ data class CreatePostRequest(
     val title: String,
     val body: String,
     val tags: List<Tag>,
-    val communityId: CommunityId,
+    val communityId: String,
     val metadata: DiscussionCreateMetadata,
     val beneficiaries: List<Beneficiary>,
     val vestPayment: Boolean,

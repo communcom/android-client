@@ -1,11 +1,10 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
 
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
+import io.golos.cyber_android.ui.common.extensions.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
@@ -36,7 +35,7 @@ class CommunityListItemViewHolder(
         }
 
         itemView.title.text = listItem.community.name
-        itemView.followersText.text = followersFormatter.format(listItem.community.followersQuantity.toLong())
+        itemView.followersText.text = followersFormatter.format(listItem.community.followersCount)
 
         itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community) }
 
@@ -54,10 +53,7 @@ class CommunityListItemViewHolder(
             itemView.joinButton.setOnClickListener(null)
         }
 
-        Glide.with(itemView)
-            .load(listItem.community.logoUrl)
-            .apply(RequestOptions.circleCropTransform())
-            .into(itemView.ivLogo)
+        itemView.ivLogo.loadCommunity(listItem.community.logo)
     }
 
     override fun release() {

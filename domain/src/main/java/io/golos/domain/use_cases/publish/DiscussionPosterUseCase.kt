@@ -7,12 +7,12 @@ import androidx.lifecycle.Observer
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FromSpannedToHtmlTransformer
 import io.golos.domain.commun_entities.CommunityId
-import io.golos.domain.repositories.Repository
 import io.golos.domain.dto.*
+import io.golos.domain.extensions.map
+import io.golos.domain.repositories.Repository
+import io.golos.domain.requestmodel.*
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.extensions.map
-import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

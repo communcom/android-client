@@ -15,14 +15,11 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.ChildSearchFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeChild
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
 import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
-import javax.inject.Inject
 
-abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityViewModel>(), ChildSearchFragment {
+abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityViewModel>() {
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
     private var communitiesScrollListener: CommunityListScrollListener? = null
@@ -33,9 +30,6 @@ abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVV
     protected abstract val root: ConstraintLayout
     protected abstract val searchResultList: RecyclerView
     protected abstract val mainList: RecyclerView
-
-    @Inject
-    internal lateinit var searchBridge: SearchBridgeChild
 
     override fun provideViewModelType(): Class<CommunityViewModel> = CommunityViewModel::class.java
 
@@ -60,7 +54,6 @@ abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVV
     override fun onResume() {
         super.onResume()
         viewModel.onActive(root.height)
-        searchBridge.getParent().setSearchString(viewModel.searchString)
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -71,10 +64,6 @@ abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVV
                 requireActivity.showFragment(CommunityPageFragment.newInstance(command.communityId))
             }
         }
-    }
-
-    override fun onSearchStringUpdate(searchString: String) {
-        viewModel.onSearchStringUpdated(searchString)
     }
 
     @CallSuper
