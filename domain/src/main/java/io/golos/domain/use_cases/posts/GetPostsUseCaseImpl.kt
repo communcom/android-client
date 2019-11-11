@@ -5,7 +5,7 @@ import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.repositories.DiscussionRepository
 import javax.inject.Inject
 
-class GetPostsUseCaseImpl @Inject constructor(private val postsRepository: DiscussionRepository): GetPostsUseCase {
+class GetPostsUseCaseImpl @Inject constructor(private val discussionRepository: DiscussionRepository): GetPostsUseCase {
 
-    override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> = postsRepository.getPosts(postsConfigurationDomain)
+    override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> = discussionRepository.getPosts(postsConfigurationDomain)
 }

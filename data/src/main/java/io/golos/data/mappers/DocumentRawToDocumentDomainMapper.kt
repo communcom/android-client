@@ -7,12 +7,11 @@ import io.golos.domain.dto.PostDomain
 class DocumentRawToDocumentDomainMapper : Function1<String?, PostDomain.DocumentDomain?> {
 
     override fun invoke(rawDocument: String?): PostDomain.DocumentDomain? {
-
-
         return rawDocument?.let {
-            val moshi = Moshi.Builder().build()
-            val jsonDocumentAdapter = moshi.adapter<DocumentEntity>(DocumentEntity::class.java)
-            return jsonDocumentAdapter.fromJson(it)?.let { documentEntity ->
+            return Moshi.Builder().build()
+                .adapter(DocumentEntity::class.java)
+                .fromJson(it)
+                ?.let { documentEntity ->
                 PostDomain.DocumentDomain(
                     AttributesEntityToAttributesDomainMapper().invoke(documentEntity.attributes),
                     ContentEntityListToContentDomainListMapper().invoke(documentEntity.content),

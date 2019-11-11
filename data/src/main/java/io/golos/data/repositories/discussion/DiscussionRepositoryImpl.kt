@@ -1,6 +1,9 @@
 package io.golos.data.repositories.discussion
 
 import io.golos.commun4j.Commun4j
+import io.golos.commun4j.model.FeedSortByType
+import io.golos.commun4j.model.FeedTimeFrame
+import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
@@ -45,9 +48,9 @@ constructor(
             postsConfigurationDomain.communityId,
             postsConfigurationDomain.communityAlias,
             postsConfigurationDomain.allowNsfw,
-            null,
-            null,
-            null,
+            FeedType.TOP_COMENTS,
+            FeedSortByType.TIME,
+            FeedTimeFrame.ALL,
             postsConfigurationDomain.limit,
             postsConfigurationDomain.offset
         ).getOrThrow()

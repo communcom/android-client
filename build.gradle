@@ -70,6 +70,8 @@ buildscript {
         captcha = "17.0.0"
 
         corbind = "1.2.0"
+
+        moshiCodegen = "1.9.1"
     }
 
     dependencies {

@@ -25,17 +25,17 @@ data class PostDomain(
     data class DocumentDomain(
         val attributes: AttributesDomain,
         val content: List<ContentDomain>,
-        val id: Int,
+        val id: String,
         val type: String
     ) {
         data class ContentDomain(
             val contentBodyList: List<ContentBody>,
-            val id: Int,
+            val id: String,
             val type: String
         ) {
             data class ContentBody(
                 val content: String,
-                val id: Int,
+                val id: String,
                 val type: String
             )
         }

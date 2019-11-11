@@ -34,6 +34,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvPosts.adapter = PostsListAdapter()
+        viewModel.start()
     }
 
     companion object {
