@@ -2,8 +2,8 @@ package io.golos.data.api.communities
 
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
-import io.golos.domain.entities.CommunityDomain
-import io.golos.domain.entities.CommunityPageDomain
+import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityPageDomain
 
 interface CommunitiesApi {
     /**

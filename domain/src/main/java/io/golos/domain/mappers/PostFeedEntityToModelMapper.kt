@@ -1,10 +1,10 @@
 package io.golos.domain.mappers
 
-import io.golos.domain.entities.DiscussionRelatedEntities
-import io.golos.domain.entities.FeedRelatedEntities
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.interactors.model.DiscussionsFeed
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.dto.DiscussionRelatedEntities
+import io.golos.domain.dto.FeedRelatedEntities
+import io.golos.domain.dto.PostEntity
+import io.golos.domain.use_cases.model.DiscussionsFeed
+import io.golos.domain.use_cases.model.PostModel
 import javax.inject.Inject
 
 interface PostFeedEntityToModelMapper : EntityToModelMapper<FeedRelatedEntities<PostEntity>, DiscussionsFeed<PostModel>>

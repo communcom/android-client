@@ -1,8 +1,8 @@
 package io.golos.domain.rules
 
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.PostEntity
+import io.golos.domain.dto.CommentEntity
+import io.golos.domain.dto.FeedEntity
+import io.golos.domain.dto.PostEntity
 import javax.inject.Inject
 
 /**

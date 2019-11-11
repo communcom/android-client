@@ -3,7 +3,7 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.mai
 import dagger.Module
 import dagger.Provides
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.entities.CyberUser
+import io.golos.domain.dto.CyberUser
 
 @Module
 class MyFeedFragmentModule(private val forUser: CyberUser, private val appUser: CyberName) {

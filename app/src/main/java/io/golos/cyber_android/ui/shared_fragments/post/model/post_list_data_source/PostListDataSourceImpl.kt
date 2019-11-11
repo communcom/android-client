@@ -8,10 +8,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionAuthorModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.use_cases.model.CommentModel
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext

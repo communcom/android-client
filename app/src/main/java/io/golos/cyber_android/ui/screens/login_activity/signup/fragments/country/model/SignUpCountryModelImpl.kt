@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.countr
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CountryEntity
+import io.golos.domain.dto.CountryEntity
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

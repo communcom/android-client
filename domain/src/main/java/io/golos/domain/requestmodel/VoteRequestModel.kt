@@ -1,7 +1,7 @@
 package io.golos.domain.requestmodel
 
 import io.golos.domain.Model
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-21.

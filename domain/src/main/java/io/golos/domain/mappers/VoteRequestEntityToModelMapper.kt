@@ -1,8 +1,8 @@
 package io.golos.domain.mappers
 
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.VoteRequestEntity
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.dto.VoteRequestEntity
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.requestmodel.VoteRequestModel
 import java.util.*
 import javax.inject.Inject

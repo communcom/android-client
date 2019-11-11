@@ -1,7 +1,7 @@
 package io.golos.data.repositories.current_user_repository
 
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.AuthState
+import io.golos.domain.dto.AuthState
 import javax.inject.Inject
 
 /**

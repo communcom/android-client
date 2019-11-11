@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_page.mappers
 
 import io.golos.cyber_android.ui.screens.community_page.CommunityPage
-import io.golos.domain.entities.CommunityPageDomain
+import io.golos.domain.dto.CommunityPageDomain
 
 class CommunityFriendDomainListToCommunityFriendList :
     Function1<List<CommunityPageDomain.CommunityFriendDomain>, List<CommunityPage.CommunityFriend>> {

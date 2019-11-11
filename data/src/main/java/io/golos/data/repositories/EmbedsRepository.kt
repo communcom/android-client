@@ -6,8 +6,8 @@ import io.golos.data.api.embed.EmbedApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.LinkEmbedResult
-import io.golos.domain.entities.ProcessedLinksEntity
+import io.golos.domain.dto.LinkEmbedResult
+import io.golos.domain.dto.ProcessedLinksEntity
 import io.golos.domain.mappers.*
 import io.golos.domain.requestmodel.EmbedRequest
 import io.golos.domain.requestmodel.Identifiable

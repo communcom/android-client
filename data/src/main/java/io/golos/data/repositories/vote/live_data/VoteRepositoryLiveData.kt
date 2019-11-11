@@ -6,13 +6,12 @@ import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.vote.VoteApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.repositories.vote.VoteRepositoryBase
-import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.DiscussionIdEntity
-import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.dto.DiscussionIdEntity
+import io.golos.domain.dto.VoteRequestEntity
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*

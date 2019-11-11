@@ -9,8 +9,8 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.UserMetadataCollectionEntity
-import io.golos.domain.entities.UserMetadataEntity
+import io.golos.domain.dto.UserMetadataCollectionEntity
+import io.golos.domain.dto.UserMetadataEntity
 import io.golos.domain.requestmodel.*
 import io.golos.domain.mappers.UserMetadataToEntityMapper
 import kotlinx.coroutines.*

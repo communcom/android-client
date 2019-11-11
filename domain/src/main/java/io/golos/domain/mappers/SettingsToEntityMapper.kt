@@ -3,10 +3,10 @@ package io.golos.domain.mappers
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.services.model.UserSettings
-import io.golos.domain.entities.GeneralSettingEntity
-import io.golos.domain.entities.NSFWSettingsEntity
-import io.golos.domain.entities.NotificationSettingsEntity
-import io.golos.domain.entities.UserSettingEntity
+import io.golos.domain.dto.GeneralSettingEntity
+import io.golos.domain.dto.NSFWSettingsEntity
+import io.golos.domain.dto.NotificationSettingsEntity
+import io.golos.domain.dto.UserSettingEntity
 import timber.log.Timber
 import javax.inject.Inject
 

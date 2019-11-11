@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.common
 
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.domain.interactors.model.DiscussionModel
+import io.golos.domain.use_cases.model.DiscussionModel
 
 abstract class AbstractDiscussionModelAdapter<M: DiscussionModel>
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

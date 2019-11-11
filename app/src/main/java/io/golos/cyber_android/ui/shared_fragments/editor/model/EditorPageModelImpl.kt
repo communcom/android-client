@@ -20,10 +20,10 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.entities.PostCreationResultEntity
-import io.golos.domain.entities.UpdatePostResultEntity
-import io.golos.domain.entities.UploadedImageEntity
-import io.golos.domain.interactors.model.*
+import io.golos.domain.dto.PostCreationResultEntity
+import io.golos.domain.dto.UpdatePostResultEntity
+import io.golos.domain.dto.UploadedImageEntity
+import io.golos.domain.use_cases.model.*
 import io.golos.domain.post.editor_output.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.requestmodel.CompressionParams

@@ -12,14 +12,8 @@ import io.golos.cyber_android.ui.screens.followers.Follower
 import io.golos.cyber_android.ui.screens.followers.FollowersModel
 import io.golos.cyber_android.ui.screens.followers.FollowersModelImpl
 import io.golos.cyber_android.ui.screens.followers.FollowersViewModel
-import io.golos.cyber_android.ui.screens.subscriptions.Community
-import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsModel
-import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsModelImpl
-import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.community.*
-import io.golos.domain.interactors.user.*
-import javax.inject.Named
+import io.golos.domain.use_cases.user.*
 
 @Module
 interface FollowersFragmentModuleBinds {

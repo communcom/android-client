@@ -8,9 +8,8 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.toCyberName
 import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionAuthorModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 import java.util.*
 import kotlin.random.Random

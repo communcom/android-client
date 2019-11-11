@@ -30,8 +30,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.post.post_dto.PostFormatVersion
 import io.golos.domain.post.post_dto.PostType
 import kotlinx.android.parcel.Parcelize

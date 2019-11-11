@@ -1,6 +1,6 @@
 package io.golos.data.repositories.current_user_repository
 
-import io.golos.domain.entities.AuthState
+import io.golos.domain.dto.AuthState
 
 interface CurrentUserRepositoryRead {
     val authState: AuthState?

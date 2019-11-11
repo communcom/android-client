@@ -6,8 +6,8 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.domain.entities.AppUnlockWay
-import io.golos.domain.entities.AuthType
+import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.dto.AuthType
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

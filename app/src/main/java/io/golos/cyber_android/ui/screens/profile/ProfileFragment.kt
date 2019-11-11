@@ -42,7 +42,7 @@ import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
 import io.golos.data.errors.AppError
-import io.golos.domain.interactors.model.UserMetadataModel
+import io.golos.domain.use_cases.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.text.SimpleDateFormat

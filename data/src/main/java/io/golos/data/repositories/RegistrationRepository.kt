@@ -10,7 +10,7 @@ import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.UserRegistrationStateEntity
+import io.golos.domain.dto.UserRegistrationStateEntity
 import io.golos.domain.mappers.UserRegistrationStateEntityMapper
 import io.golos.domain.commun_entities.UserRegistrationStateRelatedData
 import io.golos.domain.requestmodel.*

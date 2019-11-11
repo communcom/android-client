@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.common.posts
 
 import androidx.recyclerview.widget.DiffUtil
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.use_cases.model.PostModel
 
 /**
  * [DiffUtil.Callback] impl for [PostModel] lists

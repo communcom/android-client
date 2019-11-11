@@ -15,7 +15,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
 import io.golos.cyber_android.utils.DateUtils
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.synthetic.main.footer_post_card.view.*
 import kotlinx.android.synthetic.main.header_post_card.view.*
 import kotlinx.android.synthetic.main.item_post.view.*

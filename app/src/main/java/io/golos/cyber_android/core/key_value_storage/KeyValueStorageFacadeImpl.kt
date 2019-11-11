@@ -4,9 +4,9 @@ import com.squareup.moshi.Moshi
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.core.key_value_storage.storages.Storage
 import io.golos.domain.KeyValueStorageFacade
-import io.golos.domain.entities.AppUnlockWay
-import io.golos.domain.entities.AuthState
-import io.golos.domain.entities.UserKeyType
+import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import javax.inject.Inject
 

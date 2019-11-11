@@ -1,9 +1,8 @@
 package io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items
 
-import io.golos.domain.interactors.model.DiscussionAuthorModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.DiscussionMetadataModel
-import io.golos.domain.interactors.model.DiscussionVotesModel
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionMetadataModel
 import io.golos.domain.post.post_dto.PostBlock
 
 data class SecondLevelCommentListItem(

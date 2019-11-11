@@ -1,6 +1,6 @@
 package io.golos.domain.mappers
 
-import io.golos.domain.entities.LinkEmbedResult
+import io.golos.domain.dto.LinkEmbedResult
 
 object OembedMapper {
     fun map(communObject: OembedResultRelatedData?): LinkEmbedResult {

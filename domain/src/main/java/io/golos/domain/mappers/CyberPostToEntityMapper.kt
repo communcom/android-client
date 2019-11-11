@@ -1,9 +1,8 @@
 package io.golos.domain.mappers
 
-import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
-import io.golos.domain.entities.*
+import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import javax.inject.Inject
 

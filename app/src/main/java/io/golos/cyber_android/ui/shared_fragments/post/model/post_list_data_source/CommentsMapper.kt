@@ -3,9 +3,9 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sou
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.FirstLevelCommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.SecondLevelCommentListItem
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionAuthorModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.CommentModel
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.utils.IdUtil
 
 object CommentsMapper {

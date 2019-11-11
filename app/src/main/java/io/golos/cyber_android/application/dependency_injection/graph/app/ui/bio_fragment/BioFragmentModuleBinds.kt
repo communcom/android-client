@@ -8,8 +8,8 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioViewModel
-import io.golos.domain.interactors.user.UserMetadataUseCase
-import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
+import io.golos.domain.use_cases.user.UserMetadataUseCase
+import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl
 
 @Module
 abstract class BioFragmentModuleBinds {

@@ -1,6 +1,6 @@
 package io.golos.data.repositories.countries
 
-import io.golos.domain.entities.CountryEntity
+import io.golos.domain.dto.CountryEntity
 
 interface CountriesRepository {
     fun getCountries(): List<CountryEntity>

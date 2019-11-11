@@ -1,6 +1,6 @@
 package io.golos.data.api.user
 
-import io.golos.domain.entities.FollowerDomain
+import io.golos.domain.dto.FollowerDomain
 
 interface UsersApi {
 

@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage
 
-import io.golos.domain.interactors.model.CommentModel
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.CommentModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 

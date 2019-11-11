@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.voting
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 
 class CommentVotingMachineImpl
 constructor(

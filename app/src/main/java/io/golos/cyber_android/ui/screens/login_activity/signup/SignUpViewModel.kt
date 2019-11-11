@@ -8,10 +8,10 @@ import io.golos.cyber_android.utils.asEvent
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
-import io.golos.domain.entities.CountryEntity
+import io.golos.domain.dto.CountryEntity
 import io.golos.domain.extensions.map
-import io.golos.domain.interactors.model.*
-import io.golos.domain.interactors.reg.SignUpUseCase
+import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.reg.SignUpUseCase
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject

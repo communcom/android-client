@@ -3,7 +3,7 @@ package io.golos.data.repositories.vote
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.vote.VoteApi
 import io.golos.data.toCyberName
-import io.golos.domain.entities.VoteRequestEntity
+import io.golos.domain.dto.VoteRequestEntity
 
 abstract class VoteRepositoryBase
 constructor(

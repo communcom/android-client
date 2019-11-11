@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.use_cases.sign.SignInUseCase
 import javax.inject.Inject
 
 open class AuthViewModel

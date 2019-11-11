@@ -1,8 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage
 
 import androidx.lifecycle.ViewModel
-import io.golos.domain.interactors.user.UserMetadataUseCase
-import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
+import io.golos.domain.use_cases.user.UserMetadataUseCase
 import javax.inject.Inject
 
 class OnboardingUserImageViewModel

@@ -2,7 +2,7 @@ package io.golos.domain.extensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import io.golos.domain.interactors.model.ElapsedTime
+import io.golos.domain.use_cases.model.ElapsedTime
 import io.golos.domain.requestmodel.QueryResult
 import java.util.*
 

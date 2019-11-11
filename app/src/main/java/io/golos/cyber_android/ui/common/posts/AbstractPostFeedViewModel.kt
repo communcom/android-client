@@ -2,14 +2,13 @@ package io.golos.cyber_android.ui.common.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.AbstractFeedUseCase
-import io.golos.domain.interactors.model.PostModel
-import io.golos.domain.interactors.publish.DiscussionPosterUseCase
-import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.dto.PostEntity
+import io.golos.domain.use_cases.action.VoteUseCase
+import io.golos.domain.use_cases.feed.AbstractFeedUseCase
+import io.golos.domain.use_cases.model.PostModel
+import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
+import io.golos.domain.use_cases.sign.SignInUseCase
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.requestmodel.VoteRequestModel
 
 /**
  * Base [ViewModel] for feed provided by some [AbstractFeedUseCase] impl. Data exposed as [LiveData] via [feedLiveData]

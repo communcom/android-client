@@ -33,7 +33,6 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extr
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
-import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.utils.ImageCompressorImpl
@@ -82,9 +81,9 @@ import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.*
-import io.golos.domain.interactors.community.CommunitiesRepository
-import io.golos.domain.interactors.user.UsersRepository
+import io.golos.domain.dto.*
+import io.golos.domain.use_cases.community.CommunitiesRepository
+import io.golos.domain.use_cases.user.UsersRepository
 import io.golos.domain.mappers.*
 import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.repositories.DiscussionsFeedRepository

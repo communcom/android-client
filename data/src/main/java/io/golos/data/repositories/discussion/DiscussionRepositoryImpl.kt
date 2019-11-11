@@ -5,10 +5,10 @@ import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.DiscussionCreationResultEntity
+import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.DiscussionCreationResultEntity
 import io.golos.domain.extensions.asElapsedTime
-import io.golos.domain.interactors.model.*
+import io.golos.domain.use_cases.model.*
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper

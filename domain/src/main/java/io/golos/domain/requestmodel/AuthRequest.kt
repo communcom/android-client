@@ -1,7 +1,7 @@
 package io.golos.domain.requestmodel
 
-import io.golos.domain.entities.AuthType
-import io.golos.domain.entities.CyberUser
+import io.golos.domain.dto.AuthType
+import io.golos.domain.dto.CyberUser
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-20.

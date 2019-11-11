@@ -11,9 +11,9 @@ import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
 import io.golos.cyber_android.utils.asEvent
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.CyberUser
+import io.golos.domain.dto.CyberUser
 import io.golos.domain.extensions.map
-import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.use_cases.sign.SignInUseCase
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.*
 import javax.inject.Inject

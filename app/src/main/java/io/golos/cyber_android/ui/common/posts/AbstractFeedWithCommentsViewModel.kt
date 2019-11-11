@@ -2,14 +2,14 @@ package io.golos.cyber_android.ui.common.posts
 
 import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.utils.PostConstants
-import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.interactors.action.VoteUseCase
-import io.golos.domain.interactors.feed.AbstractFeedUseCase
-import io.golos.domain.interactors.model.CommentCreationRequestModel
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.DiscussionModel
-import io.golos.domain.interactors.publish.DiscussionPosterUseCase
-import io.golos.domain.interactors.sign.SignInUseCase
+import io.golos.domain.dto.DiscussionEntity
+import io.golos.domain.use_cases.action.VoteUseCase
+import io.golos.domain.use_cases.feed.AbstractFeedUseCase
+import io.golos.domain.use_cases.model.CommentCreationRequestModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionModel
+import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
+import io.golos.domain.use_cases.sign.SignInUseCase
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 

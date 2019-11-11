@@ -9,10 +9,10 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.feed.UserSubscriptionsFeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCase
-import io.golos.domain.interactors.feed.UserSubscriptionsFeedUseCaseImpl
-import io.golos.domain.interactors.user.UserMetadataUseCase
-import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
+import io.golos.domain.use_cases.feed.UserSubscriptionsFeedUseCase
+import io.golos.domain.use_cases.feed.UserSubscriptionsFeedUseCaseImpl
+import io.golos.domain.use_cases.user.UserMetadataUseCase
+import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl
 
 @Module
 abstract class MyFeedFragmentModuleBinds {

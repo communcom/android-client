@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.profile.edit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import io.golos.domain.interactors.user.UserMetadataUseCase
-import io.golos.domain.interactors.user.UserMetadataUseCaseImpl
+import io.golos.domain.use_cases.user.UserMetadataUseCase
+import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl
 
 /**
  * Base view model that allows to listen updates in user metadata (via [getMetadataLiveData]) and

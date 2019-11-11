@@ -20,10 +20,10 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.utils.PaginationScrollListener
 import io.golos.data.errors.AppError
-import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.interactors.model.DiscussionIdModel
-import io.golos.domain.interactors.model.DiscussionModel
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.dto.DiscussionEntity
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import javax.inject.Inject

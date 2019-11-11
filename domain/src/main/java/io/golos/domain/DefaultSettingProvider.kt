@@ -1,6 +1,6 @@
 package io.golos.domain
 
-import io.golos.domain.entities.UserSettingEntity
+import io.golos.domain.dto.UserSettingEntity
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-26.

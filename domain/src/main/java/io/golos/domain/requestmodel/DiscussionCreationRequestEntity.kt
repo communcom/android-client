@@ -3,7 +3,7 @@ package io.golos.domain.requestmodel
 import io.golos.domain.Entity
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-02.

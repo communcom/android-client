@@ -12,7 +12,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.SecondLevelCommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.interactors.model.DiscussionAuthorModel
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 
 class SecondLevelCommentViewHolder(

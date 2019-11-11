@@ -31,9 +31,9 @@ import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
 import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.interactors.model.PostModel
+import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.PostEntity
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_feed_list.*

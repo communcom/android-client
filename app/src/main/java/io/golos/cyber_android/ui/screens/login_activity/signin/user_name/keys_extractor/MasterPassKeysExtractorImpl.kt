@@ -4,8 +4,8 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.api.AuthApi
-import io.golos.domain.entities.AuthType
-import io.golos.domain.entities.CyberUser
+import io.golos.domain.dto.AuthType
+import io.golos.domain.dto.CyberUser
 import io.golos.domain.requestmodel.AuthRequestModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber

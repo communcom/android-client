@@ -9,8 +9,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.entities.AppUnlockWay
-import io.golos.domain.entities.AuthType
+import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.dto.AuthType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob

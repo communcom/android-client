@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.followers.mappers
 
 import io.golos.cyber_android.ui.screens.followers.Follower
-import io.golos.domain.entities.FollowerDomain
+import io.golos.domain.dto.FollowerDomain
 
 class FollowersDomainListToFollowersListMapper : Function1<List<FollowerDomain>, List<Follower>> {
 

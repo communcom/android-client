@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.subscriptions.mappers
 
 import io.golos.cyber_android.ui.screens.subscriptions.Community
-import io.golos.domain.entities.CommunityDomain
+import io.golos.domain.dto.CommunityDomain
 
 class CommunityDomainListToCommunityListMapper: Function1<List<CommunityDomain>, List<Community>> {
 

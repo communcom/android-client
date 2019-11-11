@@ -29,7 +29,7 @@ import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.edit.settings.notifications.NotificationSettingsAdapter
 import io.golos.data.errors.AppError
-import io.golos.domain.entities.NSFWSettingsEntity
+import io.golos.domain.dto.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.profile_settings_fragment.*

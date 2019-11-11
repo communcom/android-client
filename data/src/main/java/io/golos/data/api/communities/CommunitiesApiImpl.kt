@@ -9,8 +9,8 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
-import io.golos.domain.entities.CommunityDomain
-import io.golos.domain.entities.CommunityPageDomain
+import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

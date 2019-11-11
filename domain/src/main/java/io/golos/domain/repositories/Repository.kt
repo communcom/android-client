@@ -4,10 +4,10 @@ import androidx.annotation.AnyThread
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import io.golos.domain.Entity
-import io.golos.domain.entities.DiscussionEntity
-import io.golos.domain.entities.DiscussionIdEntity
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.UserMetadataEntity
+import io.golos.domain.dto.DiscussionEntity
+import io.golos.domain.dto.DiscussionIdEntity
+import io.golos.domain.dto.FeedEntity
+import io.golos.domain.dto.UserMetadataEntity
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult

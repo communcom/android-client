@@ -14,9 +14,9 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
 import io.golos.data.errors.AppError
-import io.golos.domain.interactors.model.NextRegistrationStepRequestModel
-import io.golos.domain.interactors.model.ResendSmsVerificationCodeModel
-import io.golos.domain.interactors.model.SendVerificationCodeRequestModel
+import io.golos.domain.use_cases.model.NextRegistrationStepRequestModel
+import io.golos.domain.use_cases.model.ResendSmsVerificationCodeModel
+import io.golos.domain.use_cases.model.SendVerificationCodeRequestModel
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 

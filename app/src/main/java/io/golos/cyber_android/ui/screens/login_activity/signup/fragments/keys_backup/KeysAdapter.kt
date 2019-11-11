@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.domain.entities.UserKey
-import io.golos.domain.entities.UserKeyType
+import io.golos.domain.dto.UserKey
+import io.golos.domain.dto.UserKeyType
 import kotlinx.android.synthetic.main.item_key.view.*
 import java.lang.UnsupportedOperationException
 

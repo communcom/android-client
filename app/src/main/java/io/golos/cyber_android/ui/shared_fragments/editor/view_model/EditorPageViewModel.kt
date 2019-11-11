@@ -18,11 +18,11 @@ import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Community
-import io.golos.domain.entities.UploadedImageEntity
+import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
-import io.golos.domain.interactors.UseCase
-import io.golos.domain.interactors.feed.PostWithCommentUseCaseImpl
-import io.golos.domain.interactors.model.*
+import io.golos.domain.use_cases.UseCase
+import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
+import io.golos.domain.use_cases.model.*
 import io.golos.domain.post.editor_output.ControlMetadata
 import io.golos.domain.post.editor_output.LinkInfo
 import io.golos.domain.requestmodel.QueryResult

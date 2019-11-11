@@ -1,6 +1,6 @@
 package io.golos.data.api.user
 
-import io.golos.domain.entities.FollowerDomain
+import io.golos.domain.dto.FollowerDomain
 import kotlinx.coroutines.delay
 import java.util.*
 import javax.inject.Inject

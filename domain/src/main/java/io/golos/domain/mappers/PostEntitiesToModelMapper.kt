@@ -3,11 +3,11 @@ package io.golos.domain.mappers
 import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.entities.DiscussionRelatedEntities
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.entities.TagEntity
+import io.golos.domain.dto.DiscussionRelatedEntities
+import io.golos.domain.dto.PostEntity
+import io.golos.domain.dto.TagEntity
 import io.golos.domain.extensions.asElapsedTime
-import io.golos.domain.interactors.model.*
+import io.golos.domain.use_cases.model.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap

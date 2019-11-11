@@ -4,10 +4,10 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
-import io.golos.domain.entities.AuthType
-import io.golos.domain.entities.CyberUser
-import io.golos.domain.entities.UserKey
-import io.golos.domain.entities.UserKeyType
+import io.golos.domain.dto.AuthType
+import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.UserKey
+import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.AuthRequestModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber

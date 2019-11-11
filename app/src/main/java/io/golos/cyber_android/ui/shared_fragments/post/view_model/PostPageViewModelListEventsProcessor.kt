@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
 import android.net.Uri
-import io.golos.domain.interactors.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
 
 /**
  * Processing post items clicks

@@ -1,9 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_page.mappers
 
 import io.golos.cyber_android.ui.screens.community_page.CommunityPage
-import io.golos.cyber_android.ui.screens.subscriptions.Community
-import io.golos.domain.entities.CommunityDomain
-import io.golos.domain.entities.CommunityPageDomain
+import io.golos.domain.dto.CommunityPageDomain
 
 class CommunityPageDomainToCommunityPageMapper: Function1<CommunityPageDomain, CommunityPage> {
 
