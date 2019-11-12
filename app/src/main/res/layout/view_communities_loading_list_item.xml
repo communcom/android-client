@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_community_list_item">
 
-    <TextView
-            android:id="@+id/loadingLabel"
+    <ProgressBar
+        android:id="@+id/commentsLoadingProgress"
+        style="?android:attr/progressBarStyle"
 
-            android:text="@string/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 
-            android:layout_gravity="center"
-
-            style="@style/StandardText16spStyle"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 </FrameLayout>

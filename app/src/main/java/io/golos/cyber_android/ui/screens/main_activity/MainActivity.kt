@@ -110,12 +110,19 @@ class MainActivity : ActivityBase() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if(position == Tab.FEED.index){
-                    setStatusBarColor(R.color.feed_status_bar_color)
-                    tintStatusBarIcons(true)
-                } else{
-                    setStatusBarColor(R.color.window_status_bar_background)
-                    tintStatusBarIcons(false)
+                when(position) {
+                    Tab.FEED.index -> {
+                        setStatusBarColor(R.color.feed_status_bar_color)
+                        tintStatusBarIcons(true)
+                    }
+                    Tab.COMMUNITIES.index -> {
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        tintStatusBarIcons(true)
+                    }
+                    else -> {
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        tintStatusBarIcons(false)
+                    }
                 }
             }
         })

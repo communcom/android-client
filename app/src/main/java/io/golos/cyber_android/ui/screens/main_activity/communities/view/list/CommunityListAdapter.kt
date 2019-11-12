@@ -7,6 +7,10 @@ import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.dto.RetryListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.CommunityListItemViewHolder
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.LoadingListItemViewHolder
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.RetryListItemViewHolder
 
 class CommunityListAdapter(
     listItemEventsProcessor: CommunityListItemEventsProcessor
@@ -15,6 +19,7 @@ class CommunityListAdapter(
     private companion object {
         const val COMMUNITY = 0
         const val LOADING = 1
+        const val RETRY = 2
     }
 
     override fun createDiffAlg(oldData: List<ListItem>, newData: List<ListItem>): DiffAlgBase<ListItem> =
@@ -24,6 +29,7 @@ class CommunityListAdapter(
         when(viewType) {
             COMMUNITY -> CommunityListItemViewHolder(parent)
             LOADING -> LoadingListItemViewHolder(parent)
+            RETRY -> RetryListItemViewHolder(parent)
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 
@@ -31,6 +37,7 @@ class CommunityListAdapter(
         when(items[position]) {
             is CommunityListItem -> COMMUNITY
             is LoadingListItem -> LOADING
+            is RetryListItem -> RETRY
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 }

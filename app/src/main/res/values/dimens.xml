@@ -342,6 +342,7 @@
     <dimen name="height_community_list_item">60dp</dimen>
     <dimen name="size_icon_community">40dp</dimen>
     <dimen name="height_community_join_button">30dp</dimen>
+    <dimen name="community_list_item_retry_padding">6dp</dimen>
 
     <!--Subscriptions-->
     <dimen name="subscriptions_community_icon_margin_top">46dp</dimen>
@@ -359,7 +360,6 @@
 
     <!--ProgressBar-->
     <dimen name="search_input_pr_bar_end_padding">36dp</dimen>
-
 
     <dimen name="community_join_button_height">35dp</dimen>
     <dimen name="community_join_button_width">60dp</dimen>
@@ -396,6 +396,11 @@
     <dimen name="community_header_follower_award_padding_size">1dp</dimen>
     <dimen name="community_notification_control_size">36dp</dimen>
     <dimen name="community_btn_join_min_width">70dp</dimen>
+
+    <!--Communities list-->
+    <dimen name="communities_list_padding">10dp</dimen>
+    <dimen name="communities_list_padding_top">20dp</dimen>
+    <dimen name="communities_list_header_height">44dp</dimen>
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>
