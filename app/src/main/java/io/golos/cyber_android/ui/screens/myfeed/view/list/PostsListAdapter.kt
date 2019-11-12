@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.postslist
+package io.golos.cyber_android.ui.screens.myfeed.view.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

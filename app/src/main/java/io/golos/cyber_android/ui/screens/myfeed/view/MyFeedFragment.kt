@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.myfeed
+package io.golos.cyber_android.ui.screens.myfeed.view
 
 import android.os.Bundle
 import android.view.View
@@ -9,9 +9,9 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.screens.postslist.GetPostsConfiguration
-import io.golos.cyber_android.ui.screens.postslist.PostsListAdapter
-import io.golos.cyber_android.ui.screens.postslist.PostsListViewModel
+import io.golos.cyber_android.ui.dto.GetPostsConfiguration
+import io.golos.cyber_android.ui.screens.myfeed.view.list.PostsListAdapter
+import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 
 class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewModel>() {

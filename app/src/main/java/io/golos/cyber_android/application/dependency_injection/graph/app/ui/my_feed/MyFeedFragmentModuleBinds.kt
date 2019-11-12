@@ -9,9 +9,9 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.postslist.PostsListModel
-import io.golos.cyber_android.ui.screens.postslist.PostsListModelImpl
-import io.golos.cyber_android.ui.screens.postslist.PostsListViewModel
+import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModel
+import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModelImpl
+import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.use_cases.posts.GetPostsUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl

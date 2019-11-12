@@ -1,8 +1,11 @@
-package io.golos.cyber_android.ui.screens.postslist
+package io.golos.cyber_android.ui.screens.posts_list.view_model
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.GetPostsConfiguration
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.PostsConfigurationDomain
 import kotlinx.coroutines.launch

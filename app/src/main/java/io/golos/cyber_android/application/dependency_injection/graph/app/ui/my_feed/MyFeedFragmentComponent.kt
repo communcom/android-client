@@ -1,8 +1,7 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed
 
 import dagger.Subcomponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentModuleBinds
-import io.golos.cyber_android.ui.screens.myfeed.MyFeedFragment
+import io.golos.cyber_android.ui.screens.myfeed.view.MyFeedFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [MyFeedFragmentModuleBinds::class, MyFeedFragmentModule::class])
