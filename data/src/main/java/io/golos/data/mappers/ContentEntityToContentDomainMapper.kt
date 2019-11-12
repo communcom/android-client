@@ -7,7 +7,7 @@ class ContentEntityToContentDomainMapper : Function1<DocumentEntity.ContentEntit
 
     override fun invoke(contentEntity: DocumentEntity.ContentEntity): PostDomain.DocumentDomain.ContentDomain {
 
-        return PostDomain.DocumentDomain.ContentDomain(ContentBodyEntityListToContentBodyDomainListMapper().invoke(contentEntity.contentBodyList),
+        return PostDomain.DocumentDomain.ContentDomain(ContentBodyEntityListToContentBodyDomainListMapper().invoke(contentEntity.contentBodyEntityList),
             contentEntity.id,
             contentEntity.type)
     }

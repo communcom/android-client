@@ -14,7 +14,7 @@ data class DocumentEntity(
 ) {
     data class ContentEntity(
         @Json(name = "content")
-        val contentBodyList: List<ContentBodyEntity>,
+        val contentBodyEntityList: List<ContentBodyEntity>,
         @Json(name = "id")
         val id: String,
         @Json(name = "type")

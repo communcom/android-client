@@ -1,6 +1,7 @@
 package io.golos.data.mappers
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.golos.data.dto.DocumentEntity
 import io.golos.domain.dto.PostDomain
 
@@ -8,7 +9,9 @@ class DocumentRawToDocumentDomainMapper : Function1<String?, PostDomain.Document
 
     override fun invoke(rawDocument: String?): PostDomain.DocumentDomain? {
         return rawDocument?.let {
-            return Moshi.Builder().build()
+            return Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
                 .adapter(DocumentEntity::class.java)
                 .fromJson(it)
                 ?.let { documentEntity ->

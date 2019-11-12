@@ -26,7 +26,7 @@ class PostsListViewModel @Inject constructor(
     init {
         paginator.sideEffectListener = {
             when (it) {
-                is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
+                is Paginator.SideEffect.LoadPage -> loadPosts(it.pageCount)
                 is Paginator.SideEffect.ErrorEvent -> {
 
                 }
@@ -46,7 +46,12 @@ class PostsListViewModel @Inject constructor(
             PostsConfigurationDomain.TypeFeedDomain.NEW)
     }
 
-    private fun loadMorePosts(pageCount: Int){
+    fun loadMorePosts(){
+        paginator.proceed(Paginator.Action.LoadMore)
+
+    }
+
+    private fun loadPosts(pageCount: Int){
         launch {
             postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGE_SIZE)
             val postsDomainList = model.getPosts(postsConfigurationDomain)
