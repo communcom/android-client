@@ -105,6 +105,7 @@
     <dimen name="height_max_post_card_media">223dp</dimen>
 
     <dimen name="post_content_border_horizontal">15dp</dimen>
+    <dimen name="margin_bottom_post_control">9dp</dimen>
 
     <dimen name="margin_block">10dp</dimen>
     <dimen name="margin_image_description">5dp</dimen>

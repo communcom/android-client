@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/post_controls_height"
-
+    android:layout_marginBottom="@dimen/margin_bottom_post_control"
     android:paddingStart="@dimen/post_content_border_horizontal"
     android:paddingEnd="@dimen/post_content_border_horizontal">
 
@@ -12,9 +12,7 @@
         android:id="@+id/votesArea"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"
-
         android:background="@drawable/bcg_post_vote_area"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,57 +21,45 @@
         android:id="@+id/commentsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/commentsCountText"
         app:layout_constraintTop_toTopOf="parent"
-
-        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
-
         app:srcCompat="@drawable/ic_chat_bubble"
-
-
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/commentsCountText"
+        style="@style/PostCardCountersTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/post_controls_view_comments_area_gap"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/viewsIcon"
         app:layout_constraintTop_toTopOf="parent"
-
-        android:layout_marginEnd="@dimen/post_controls_view_comments_area_gap"
-
-        style="@style/PostCardCountersTextStyle"
-
-        android:text=""
-        tools:text="1.2k"
-        />
+        tools:text="1.2k" />
 
     <ImageView
         android:id="@+id/viewsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/viewCountsText"
         app:layout_constraintTop_toTopOf="parent"
-
         app:srcCompat="@drawable/ic_reply"
-
-        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/viewCountsText"
+        style="@style/PostCardCountersTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="278" />
 
-        style="@style/PostCardCountersTextStyle"
-
-        android:text=""
-        tools:text="278"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_f
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
@@ -44,7 +45,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
 
     private fun setupPostsList() {
         val myFeedAdapter = MyFeedAdapter()
+        rvPosts.addItemDecoration(TopDividerItemDecoration(requireContext()))
         rvPosts.adapter = myFeedAdapter
+
         myFeedAdapter.nextPageCallback = {
             viewModel.loadMorePosts()
         }

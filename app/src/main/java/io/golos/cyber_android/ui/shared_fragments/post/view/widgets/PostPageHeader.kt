@@ -62,14 +62,14 @@ constructor(
         communityAvatar.setOnClickListener { onUserClickListener?.invoke(userId) }
         communityTitle.setOnClickListener { onUserClickListener?.invoke(userId) }
         authorAndTime.setOnClickListener { onUserClickListener?.invoke(userId) }
-        if(postHeader.isJoinFeatureEnabled){
+        if (postHeader.isJoinFeatureEnabled) {
             joinToCommunityButton.visibility = View.VISIBLE
-        } else{
+        } else {
             joinToCommunityButton.visibility = View.GONE
         }
-        if(postHeader.isBackFeatureEnabled){
+        if (postHeader.isBackFeatureEnabled) {
             backButton.visibility = View.VISIBLE
-        } else{
+        } else {
             backButton.visibility = View.GONE
         }
     }
