@@ -1,12 +1,12 @@
 package io.golos.cyber_android.ui.mappers
 
-import io.golos.commun4j.model.DiscussionMetadata
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
-class MetadataDomainToMetadataMapper : Function1<DiscussionMetadata, PostDomain.MetaDomain> {
+class MetadataDomainToMetadataMapper : Function1<PostDomain.MetaDomain, Post.Meta> {
 
-    override fun invoke(discussionMetadata: DiscussionMetadata): PostDomain.MetaDomain {
-        return PostDomain.MetaDomain(discussionMetadata.creationTime)
+    override fun invoke(metaDomain: PostDomain.MetaDomain): Post.Meta {
+        return Post.Meta(metaDomain.creationTime)
     }
 
 }

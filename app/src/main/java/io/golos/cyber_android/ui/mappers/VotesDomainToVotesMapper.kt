@@ -1,12 +1,14 @@
 package io.golos.cyber_android.ui.mappers
 
-import io.golos.commun4j.model.DiscussionVotes
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
-class VotesDomainToVotesMapper : Function1<DiscussionVotes, PostDomain.VotesDomain> {
+class VotesDomainToVotesMapper : Function1<PostDomain.VotesDomain, Post.Votes> {
 
-    override fun invoke(discussionVotes: DiscussionVotes): PostDomain.VotesDomain {
-        return PostDomain.VotesDomain(discussionVotes.downCount,
-            discussionVotes.upCount)
+    override fun invoke(votesDomain: PostDomain.VotesDomain): Post.Votes {
+        return Post.Votes(
+            votesDomain.downCount,
+            votesDomain.upCount
+        )
     }
 }

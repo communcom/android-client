@@ -1,21 +1,21 @@
 package io.golos.cyber_android.ui.mappers
 
-import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
 
-class PostDomainToPostMapper : Function1<CyberDiscussionRaw, PostDomain> {
+class PostDomainToPostMapper : Function1<PostDomain, Post> {
 
-    override fun invoke(discussionRaw: CyberDiscussionRaw): PostDomain {
-        return PostDomain(
-            DiscussionAuthorToAuthorDomainMapper().invoke(discussionRaw.author),
-            CyberCommunityToCommunityDomainMapper().invoke(discussionRaw.community),
-            ContentIdDomainToContentIdMapper().invoke(discussionRaw.contentId),
-            DocumentDomainToDocumentMapper().invoke(discussionRaw.document),
-            MetadataDomainToMetadataMapper().invoke(discussionRaw.meta),
+    override fun invoke(postDomain: PostDomain): Post {
+        return Post(
+            AuthorDomainToAuthorMapper().invoke(postDomain.author),
+            CommunityDomainToCommunityMapper().invoke(postDomain.community),
+            ContentIdDomainToContentIdMapper().invoke(postDomain.contentId),
+            DocumentDomainToDocumentMapper().invoke(postDomain.document),
+            MetadataDomainToMetadataMapper().invoke(postDomain.meta),
             null,
             null,
-            VotesDomainToVotesMapper().invoke(discussionRaw.votes)
+            VotesDomainToVotesMapper().invoke(postDomain.votes)
         )
     }
 }

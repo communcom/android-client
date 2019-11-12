@@ -1,15 +1,15 @@
 package io.golos.cyber_android.ui.mappers
 
-import io.golos.commun4j.model.DiscussionId
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
-class ContentIdDomainToContentIdMapper : Function1<DiscussionId, PostDomain.ContentIdDomain> {
+class ContentIdDomainToContentIdMapper : Function1<PostDomain.ContentIdDomain, Post.ContentId> {
 
-    override fun invoke(discussionId: DiscussionId): PostDomain.ContentIdDomain {
-        return PostDomain.ContentIdDomain(
-            discussionId.communityId,
-            discussionId.permlink,
-            discussionId.userId.name
+    override fun invoke(contentIdDomain: PostDomain.ContentIdDomain): Post.ContentId {
+        return Post.ContentId(
+            contentIdDomain.communityId,
+            contentIdDomain.permlink,
+            contentIdDomain.userId
         )
     }
 }

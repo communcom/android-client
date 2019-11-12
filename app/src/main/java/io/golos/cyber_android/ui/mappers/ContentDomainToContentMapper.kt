@@ -1,15 +1,16 @@
 package io.golos.cyber_android.ui.mappers
 
-import io.golos.data.dto.DocumentEntity
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
-class ContentDomainToContentMapper : Function1<DocumentEntity.ContentEntity, PostDomain.DocumentDomain.ContentDomain> {
+class ContentDomainToContentMapper : Function1<PostDomain.DocumentDomain.ContentDomain, Post.Document.Content> {
 
-    override fun invoke(contentEntity: DocumentEntity.ContentEntity): PostDomain.DocumentDomain.ContentDomain {
+    override fun invoke(contentDomain: PostDomain.DocumentDomain.ContentDomain): Post.Document.Content {
 
-        return PostDomain.DocumentDomain.ContentDomain(
-            ContentBodyEntityListToContentBodyDomainListMapper().invoke(contentEntity.contentBodyList),
-            contentEntity.id,
-            contentEntity.type)
+        return Post.Document.Content(
+            ContentBodyDomainListToContentBodyListMapper().invoke(contentDomain.contentBodyList),
+            contentDomain.id,
+            contentDomain.type
+        )
     }
 }

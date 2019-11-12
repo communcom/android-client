@@ -5,6 +5,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.mappers.PostDomainListToPostListMapper
 import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.PostsConfigurationDomain
@@ -48,7 +49,8 @@ class PostsListViewModel @Inject constructor(
     private fun loadMorePosts(pageCount: Int){
         launch {
             postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGE_SIZE)
-            model.getPosts(postsConfigurationDomain)
+            val postsDomainList = model.getPosts(postsConfigurationDomain)
+            val postList = PostDomainListToPostListMapper().invoke(postsDomainList)
         }
     }
 

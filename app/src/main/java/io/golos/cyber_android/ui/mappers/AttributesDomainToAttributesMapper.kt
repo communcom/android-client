@@ -1,13 +1,13 @@
 package io.golos.cyber_android.ui.mappers
 
-import io.golos.data.dto.DocumentEntity
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
-class AttributesDomainToAttributesMapper : Function1<DocumentEntity.AttributesEntity, PostDomain.DocumentDomain.AttributesDomain> {
+class AttributesDomainToAttributesMapper : Function1<PostDomain.DocumentDomain.AttributesDomain, Post.Document.Attributes> {
 
-    override fun invoke(attributesEntity: DocumentEntity.AttributesEntity): PostDomain.DocumentDomain.AttributesDomain {
+    override fun invoke(attributesDomain: PostDomain.DocumentDomain.AttributesDomain): Post.Document.Attributes {
 
-        return PostDomain.DocumentDomain.AttributesDomain(attributesEntity.type,
-            attributesEntity.version)
+        return Post.Document.Attributes(attributesDomain.type,
+            attributesDomain.version)
     }
 }

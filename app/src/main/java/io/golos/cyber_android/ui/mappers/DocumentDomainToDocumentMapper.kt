@@ -1,24 +1,18 @@
 package io.golos.cyber_android.ui.mappers
 
-import com.squareup.moshi.Moshi
-import io.golos.data.dto.DocumentEntity
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.PostDomain
 
-class DocumentDomainToDocumentMapper : Function1<String?, PostDomain.DocumentDomain?> {
+class DocumentDomainToDocumentMapper : Function1<PostDomain.DocumentDomain?, Post.Document?> {
 
-    override fun invoke(rawDocument: String?): PostDomain.DocumentDomain? {
-        return rawDocument?.let {
-            return Moshi.Builder().build()
-                .adapter(DocumentEntity::class.java)
-                .fromJson(it)
-                ?.let { documentEntity ->
-                PostDomain.DocumentDomain(
-                    AttributesDomainToAttributesMapper().invoke(documentEntity.attributes),
-                    ContentEntityListToContentDomainListMapper().invoke(documentEntity.content),
-                    documentEntity.id,
-                    documentEntity.type
-                )
-            }
+    override fun invoke(documentDomain: PostDomain.DocumentDomain?): Post.Document? {
+        return documentDomain?.let {
+            Post.Document(
+                AttributesDomainToAttributesMapper().invoke(it.attributes),
+                ContentDomainListToContentListMapper().invoke(it.content),
+                it.id,
+                it.type
+            )
         }
     }
 
