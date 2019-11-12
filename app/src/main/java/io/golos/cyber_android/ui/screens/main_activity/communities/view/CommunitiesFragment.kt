@@ -1,45 +1,51 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view
+package io.golos.cyber_android.ui.screens.main_activity.communities.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
+import io.golos.cyber_android.databinding.FragmentCommunitiesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel.CommunityViewModel
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListAdapter
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListScrollListener
+import io.golos.cyber_android.ui.screens.main_activity.communities.view_model.CommunitiesViewModel
+import kotlinx.android.synthetic.main.fragment_communities.*
 
-abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVVM<TB, CommunityViewModel>() {
+class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesViewModel>() {
+    companion object {
+        fun newInstance() = CommunitiesFragment()
+    }
+
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
     private var communitiesScrollListener: CommunityListScrollListener? = null
 
-    private lateinit var searchListAdapter: CommunityListAdapter
-    private lateinit var searchListLayoutManager: LinearLayoutManager
+    override fun provideViewModelType(): Class<CommunitiesViewModel> = CommunitiesViewModel::class.java
 
-    protected abstract val root: ConstraintLayout
-    protected abstract val searchResultList: RecyclerView
-    protected abstract val mainList: RecyclerView
+    override fun layoutResId(): Int = R.layout.fragment_communities
 
-    override fun provideViewModelType(): Class<CommunityViewModel> = CommunityViewModel::class.java
+    override fun inject() = App.injections.get<CommunitiesFragmentComponent>().inject(this)
+
+    override fun releaseInjection() {
+        App.injections.release<CommunitiesFragmentComponent>()
+    }
+
+    override fun linkViewModel(binding: FragmentCommunitiesBinding, viewModel: CommunitiesViewModel) {
+        binding.viewModel = viewModel
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
-            searchResultVisibility.observe({viewLifecycleOwner.lifecycle}) { updateSearchResultVisibility(it) }
-
             items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
-            searchResultItems.observe({viewLifecycleOwner.lifecycle}) { updateSearchList(it) }
-
             isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
         }
 
@@ -66,11 +72,6 @@ abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVV
         }
     }
 
-    @CallSuper
-    protected open fun updateSearchResultVisibility(isVisible: Boolean) {
-        searchResultList.visibility = if(isVisible) View.VISIBLE else View.GONE
-    }
-
     private fun updateList(data: List<ListItem>) {
         if(!::communitiesListAdapter.isInitialized) {
             communitiesListLayoutManager = LinearLayoutManager(context)
@@ -85,22 +86,6 @@ abstract class CommunitiesTabFragmentBase<TB: ViewDataBinding> : FragmentBaseMVV
         }
 
         communitiesListAdapter.update(data)
-    }
-
-    private fun updateSearchList(data: List<ListItem>) {
-        if(!::searchListAdapter.isInitialized) {
-            searchListLayoutManager = LinearLayoutManager(context)
-
-            searchListAdapter = CommunityListAdapter(viewModel)
-            searchListAdapter.setHasStableIds(true)
-
-            searchResultList.isSaveEnabled = false
-            searchResultList.itemAnimator = null
-            searchResultList.layoutManager = searchListLayoutManager
-            searchResultList.adapter = searchListAdapter
-        }
-
-        searchListAdapter.update(data)
     }
 
     private fun setScrollState(isScrollEnabled: Boolean) {

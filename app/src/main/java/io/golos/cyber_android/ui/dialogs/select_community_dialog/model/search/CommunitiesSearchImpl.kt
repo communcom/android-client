@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.dialogs.select_community_dialog.model.search
 
 import io.golos.cyber_android.ui.common.search.SearchEngineBase
-import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
@@ -15,15 +14,14 @@ class CommunitiesSearchImpl
 @Inject
 constructor(
     private val communitiesApi: CommunitiesApi,
-    dispatchersProvider: DispatchersProvider,
-    private val communityType: CommunityType
+    dispatchersProvider: DispatchersProvider
 ) : SearchEngineBase<CommunityDomain>(dispatchersProvider), CommunitiesSearch {
 
     override suspend fun doSearch(searchString: String): List<CommunityDomain>? {
         return if(searchString.length < 3) {
             return null
         } else {
-            communitiesApi.searchInCommunities(searchString, communityType == CommunityType.USER)
+            communitiesApi.searchInCommunities(searchString, true)
         }
     }
 }

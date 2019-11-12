@@ -6,9 +6,9 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListScrollListener
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListAdapter
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListScrollListener
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog_list.view.*
 
 @Suppress("unused")

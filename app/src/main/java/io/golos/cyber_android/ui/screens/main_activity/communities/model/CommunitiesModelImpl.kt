@@ -1,12 +1,11 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model
+package io.golos.cyber_android.ui.screens.main_activity.communities.model
 
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.data_repository.dto.CommunityType
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.PageLoadResult
+import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.dto.PageLoadResult
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.dto.CommunityDomain
@@ -14,13 +13,12 @@ import io.golos.domain.utils.IdUtil
 import io.golos.domain.utils.MurmurHash
 import javax.inject.Inject
 
-class CommunityModelImpl
+class CommunitiesModelImpl
 @Inject
 constructor(
     private val communitiesApi: CommunitiesApi,
-    private val appResources: AppResourcesProvider,
-    private val communityType: CommunityType
-) : ModelBaseImpl(), CommunityModel {
+    private val appResources: AppResourcesProvider
+) : ModelBaseImpl(), CommunitiesModel {
 
     private var pageSize = 0
 
@@ -28,7 +26,8 @@ constructor(
         SHOWING_PROGRESS,
         LOAD_DATA
     }
-    private var currentStage = LoadingStage.SHOWING_PROGRESS
+    private var currentStage =
+        LoadingStage.SHOWING_PROGRESS
 
     private var loadedItems: List<ListItem> = listOf()
 
@@ -72,7 +71,7 @@ constructor(
         copyItems.removeAt(copyItems.indices.last)          // Loading indicator has been removed
 
         return try {
-            communitiesApi.getCommunitiesList(copyItems.size, pageSize, communityType == CommunityType.USER)
+            communitiesApi.getCommunitiesList(copyItems.size, pageSize, true)
                 .map { rawItem -> rawItem.map() }
                 .let {
                     allDataLoaded = it.size < pageSize
@@ -80,14 +79,16 @@ constructor(
                     copyItems.addAll(it)
                     loadedItems = copyItems
 
-                    currentStage = LoadingStage.SHOWING_PROGRESS
+                    currentStage =
+                        LoadingStage.SHOWING_PROGRESS
 
                     PageLoadResult(false, loadedItems)
                 }
         } catch(ex: Exception) {
             allDataLoaded = true
             loadedItems = copyItems
-            currentStage = LoadingStage.SHOWING_PROGRESS
+            currentStage =
+                LoadingStage.SHOWING_PROGRESS
             PageLoadResult(false, loadedItems)
         }
     }

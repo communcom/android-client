@@ -1,33 +1,35 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.viewModel
+package io.golos.cyber_android.ui.screens.main_activity.communities.view_model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.model.CommunityModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.main_activity.communities.model.CommunitiesModel
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CommunityViewModel
+class CommunitiesViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: CommunityModel
-) : ViewModelBase<CommunityModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
+    model: CommunitiesModel
+) : ViewModelBase<CommunitiesModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
     private var isSetup = false
 
-    val items: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
+    private val _items: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
+    val items: LiveData<List<ListItem>>
+        get()  = _items
 
-    val isScrollEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    val searchResultVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-    val searchResultItems: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
+    private val _isScrollEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isScrollEnabled: LiveData<Boolean>
+        get() = _isScrollEnabled
 
     fun onViewCreated() {
         isSetup = false
@@ -47,7 +49,7 @@ constructor(
             return
         }
 
-        isScrollEnabled.value = false
+        _isScrollEnabled.value = false
         loadPage(lastVisibleItemPosition)
     }
 
@@ -60,16 +62,16 @@ constructor(
             try {
                 val page = model.getPage(lastVisibleItemPosition)
 
-                page.data?.let { list -> items.value = list }
+                page.data?.let { list -> _items.value = list }
 
                 if(page.hasNextData) {
                     loadPage(lastVisibleItemPosition)
                 } else {
-                    isScrollEnabled.value = true
+                    _isScrollEnabled.value = true
                 }
             } catch (ex: Exception) {
                 commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
-                isScrollEnabled.value = true
+                _isScrollEnabled.value = true
             }
         }
     }

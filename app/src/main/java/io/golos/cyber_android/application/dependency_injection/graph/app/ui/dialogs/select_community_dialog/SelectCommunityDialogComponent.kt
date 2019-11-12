@@ -8,10 +8,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-@Subcomponent(modules = [
-    SelectCommunityDialogModule::class,
-    SelectCommunityDialogModuleBinds::class
-])
+@Subcomponent(modules = [SelectCommunityDialogModuleBinds::class])
 @FragmentScope
 interface SelectCommunityDialogComponent {
     @Subcomponent.Builder

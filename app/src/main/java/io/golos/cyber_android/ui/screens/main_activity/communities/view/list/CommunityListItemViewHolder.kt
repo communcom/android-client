@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.view.list
+package io.golos.cyber_android.ui.screens.main_activity.communities.view.list
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.common.extensions.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.screens.main_activity.communities.tabs.common.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
 import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
 import javax.inject.Inject
