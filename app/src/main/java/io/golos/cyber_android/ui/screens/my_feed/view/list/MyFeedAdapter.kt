@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_editor_widget.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 
-class MyFeedAdapter : PaginalAdapter<Post>() {
+open class MyFeedAdapter : PaginalAdapter<Post>() {
 
     override var items: MutableList<Post> = arrayListOf()
 
@@ -34,26 +34,23 @@ class MyFeedAdapter : PaginalAdapter<Post>() {
         super.onBindViewHolder(holder, position)
         when (holder.itemViewType) {
             DATA -> {
-                val post = items[getPostViewHolderPosition(position)]
+                val post = items[position]
                 (holder as PostViewHolder).bind(post)
             }
             CREATE_POST -> {
-                if(items.isNotEmpty()){
-                    //TODO kv 12/11/2019 нужно переделать на биндинг данныз о пользователе
-                    //(holder as CreatePostViewHolder).bind(items[0])
-                }
+                (holder as CreatePostViewHolder).bind(items[position])
             }
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
+    /*override fun getItemViewType(position: Int): Int {
         //TODO kv 12/11/2019 нужно переделать на биндинг данныз о пользователе добавить по моделе в списке а не по позиции
         return if (position == 0) {
             CREATE_POST
         } else {
             super.getItemViewType(position)
         }
-    }
+    }*/
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
@@ -122,11 +119,7 @@ class MyFeedAdapter : PaginalAdapter<Post>() {
         }
     }
 
-    private fun getPostViewHolderPosition(adapterPosition: Int): Int{
-        return adapterPosition - 1
-    }
-
-    protected companion object {
+    private companion object {
         const val CREATE_POST = 2
     }
 }
