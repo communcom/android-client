@@ -2,15 +2,19 @@ package io.golos.cyber_android.ui.screens.my_feed.view.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.IntDef
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
+import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
+import io.golos.cyber_android.utils.EMPTY
 import io.golos.cyber_android.utils.positiveValue
+import kotlinx.android.synthetic.main.item_editor_widget.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 
@@ -30,9 +34,31 @@ class MyFeedAdapter : PaginalAdapter<Post>() {
         super.onBindViewHolder(holder, position)
         when (holder.itemViewType) {
             DATA -> {
-                val post = items[position]
+                val post = items[getPostViewHolderPosition(position)]
                 (holder as PostViewHolder).bind(post)
             }
+            CREATE_POST -> {
+                if(items.isNotEmpty()){
+                    //TODO kv 12/11/2019 нужно переделать на биндинг данныз о пользователе
+                    //(holder as CreatePostViewHolder).bind(items[0])
+                }
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        //TODO kv 12/11/2019 нужно переделать на биндинг данныз о пользователе добавить по моделе в списке а не по позиции
+        return if (position == 0) {
+            CREATE_POST
+        } else {
+            super.getItemViewType(position)
+        }
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder.itemViewType == DATA) {
+            (holder as PostViewHolder).unbind()
         }
     }
 
@@ -51,7 +77,7 @@ class MyFeedAdapter : PaginalAdapter<Post>() {
         fun bind(post: Post) {
             setPostHeader(post)
             setVotesCounter(post.votes)
-            KiloCounterFormatter().format(post.stats?.commentsCount.positiveValue())
+            KiloCounterFormatter().format(post.stats?.commentsCount.positiveValue().toLong())
             setCommentsCounter(post.stats?.commentsCount ?: 0)
         }
 
@@ -88,11 +114,19 @@ class MyFeedAdapter : PaginalAdapter<Post>() {
         }
     }
 
-
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        super.onViewRecycled(holder)
-        if (holder.itemViewType == DATA) {
-            (holder as PostViewHolder).unbind()
+    class CreatePostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
+        inflate(R.layout.item_editor_widget, parent, false)) {
+        fun bind(post: Post) {
+            val author = post.author
+            itemView.editorWidget.loadUserAvatar(author.avatarUrl ?: "", author.username ?: EMPTY)
         }
+    }
+
+    private fun getPostViewHolderPosition(adapterPosition: Int): Int{
+        return adapterPosition - 1
+    }
+
+    protected companion object {
+        const val CREATE_POST = 2
     }
 }

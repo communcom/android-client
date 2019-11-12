@@ -13,13 +13,9 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.followers.Follower
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
-import kotlinx.android.synthetic.main.fragment_followers.*
 import kotlinx.android.synthetic.main.fragment_my_feed.*
-import kotlinx.android.synthetic.main.fragment_my_feed.btnRetry
-import kotlinx.android.synthetic.main.fragment_my_feed.generalProgressLoading
 import kotlinx.android.synthetic.main.view_search_bar.*
 
 class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewModel>() {
@@ -41,12 +37,23 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvPosts.adapter = MyFeedAdapter()
+        setupPostsList()
         observeViewModel()
         viewModel.start()
     }
 
-    private fun observeViewModel(){
+    private fun setupPostsList() {
+        val myFeedAdapter = MyFeedAdapter()
+        rvPosts.adapter = myFeedAdapter
+        myFeedAdapter.nextPageCallback = {
+            viewModel.loadMorePosts()
+        }
+        myFeedAdapter.onPageRetryLoadingCallback = {
+            viewModel.loadMorePosts()
+        }
+    }
+
+    private fun observeViewModel() {
         viewModel.postsListState.observe(viewLifecycleOwner, Observer {
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
             when (it) {

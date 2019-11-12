@@ -43,7 +43,7 @@ const val POST_MENU_REQUEST = 301
  * 5) [setupEventsProvider] - here inheritor should start to parent events
  * 6) [setupWidgetsLiveData] -  allows fragment to setup live data for its widgets (like EditorWidget or SortingWidget)
  *
- * @Deprecated need use [BasePostsListFragment]
+ * @Deprecated need use new Fragment with view model [PostsListViewModel]
  */
 @Deprecated("Need use class MyFeedFragment")
 abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
