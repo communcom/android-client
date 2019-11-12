@@ -15,7 +15,9 @@ data class PostDomain(
 ) {
     data class VotesDomain(
         val downCount: Long,
-        val upCount: Long
+        val upCount: Long,
+        val hasUpVote: Boolean,
+        val hasDownVote: Boolean
     )
 
     data class MetaDomain(
@@ -49,7 +51,8 @@ data class PostDomain(
     data class CommunityDomain(
         val alias: String?,
         val communityId: String,
-        val name: String?
+        val name: String?,
+        val avatarUrl: String?
     )
 
     data class StatsDomain(

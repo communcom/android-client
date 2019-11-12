@@ -9,7 +9,8 @@ class CommunityDomainToCommunityMapper : Function1<PostDomain.CommunityDomain, P
         return Post.Community(
             communityDomain.alias,
             communityDomain.communityId,
-            communityDomain.name
+            communityDomain.name,
+            communityDomain.avatarUrl
         )
     }
 }

@@ -8,7 +8,9 @@ class VotesDomainToVotesMapper : Function1<PostDomain.VotesDomain, Post.Votes> {
     override fun invoke(votesDomain: PostDomain.VotesDomain): Post.Votes {
         return Post.Votes(
             votesDomain.downCount,
-            votesDomain.upCount
+            votesDomain.upCount,
+            votesDomain.hasUpVote,
+            votesDomain.hasDownVote
         )
     }
 }

@@ -15,7 +15,7 @@
         android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
 
         android:background="@null"
-
+        android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
         app:imageButton_icon="@drawable/ic_back"
         app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
         app:imageButton_tint="@color/tint_tool_button_gray"
@@ -32,9 +32,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent"
-
-        android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
-
         app:srcCompat="@drawable/ic_group_temporary"
 
         tools:ignore="ContentDescription" />

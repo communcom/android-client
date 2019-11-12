@@ -9,7 +9,8 @@ class CyberCommunityToCommunityDomainMapper : Function1<CyberCommunity, PostDoma
         return PostDomain.CommunityDomain(
             cyberCommunity.alias,
             cyberCommunity.communityId,
-            cyberCommunity.name
+            cyberCommunity.name,
+            cyberCommunity.avatarUrl
         )
     }
 }

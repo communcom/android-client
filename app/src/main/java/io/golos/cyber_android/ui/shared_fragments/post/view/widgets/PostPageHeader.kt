@@ -4,19 +4,17 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.ui.common.formatters.time_estimation.TimeEstimationFormatter
+import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
-import io.golos.domain.AppResourcesProvider
+import io.golos.cyber_android.utils.toTimeEstimateFormat
 import io.golos.domain.extensions.appendSpannedText
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
-import javax.inject.Inject
-import io.golos.cyber_android.ui.common.characters.SpecialChars
 
 /**
  * Header with post info
@@ -36,14 +34,8 @@ constructor(
 
     private lateinit var userId: String
 
-    @Inject
-    internal lateinit var appResources: AppResourcesProvider
-
     init {
-        App.injections.get<PostPageFragmentComponent>().inject(this)
-
         inflate(getContext(), R.layout.view_post_viewer_header, this)
-
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
         joinToCommunityButton.setOnClickListener { onJoinToCommunityButtonClickListener?.invoke() }
         menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
@@ -70,6 +62,16 @@ constructor(
         communityAvatar.setOnClickListener { onUserClickListener?.invoke(userId) }
         communityTitle.setOnClickListener { onUserClickListener?.invoke(userId) }
         authorAndTime.setOnClickListener { onUserClickListener?.invoke(userId) }
+        if(postHeader.isJoinFeatureEnabled){
+            joinToCommunityButton.visibility = View.VISIBLE
+        } else{
+            joinToCommunityButton.visibility = View.GONE
+        }
+        if(postHeader.isBackFeatureEnabled){
+            backButton.visibility = View.VISIBLE
+        } else{
+            backButton.visibility = View.GONE
+        }
     }
 
     fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
@@ -94,13 +96,13 @@ constructor(
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
-        val time = TimeEstimationFormatter(appResources).format(postHeader.actionDateTime)
+        val time = postHeader.actionDateTime.toTimeEstimateFormat(context)
         result.append(time)
 
         result.append(" ${SpecialChars.bullet} ")
-
-        result.appendSpannedText(postHeader.userName, ForegroundColorSpan(appResources.getColor(R.color.blue)))
-
+        postHeader.userName?.let {
+            result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(context, R.color.blue)))
+        }
         return result
     }
 }

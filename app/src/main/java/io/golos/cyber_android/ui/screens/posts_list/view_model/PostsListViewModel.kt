@@ -7,9 +7,11 @@ import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.PostDomainListToPostListMapper
 import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModel
+import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.PostsConfigurationDomain
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class PostsListViewModel @Inject constructor(
@@ -19,7 +21,9 @@ class PostsListViewModel @Inject constructor(
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<PostsListModel>(dispatchersProvider, model) {
 
-    private val _followersListStateLiveData: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
+    private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
+
+    val postsListState = _postsListState.toLiveData()
 
     private var postsConfigurationDomain: PostsConfigurationDomain
 
@@ -33,7 +37,7 @@ class PostsListViewModel @Inject constructor(
             }
         }
         paginator.render = {
-            _followersListStateLiveData.value = it
+            _postsListState.value = it
         }
 
         postsConfigurationDomain = PostsConfigurationDomain(getPostsConfiguration.userId,
@@ -53,14 +57,24 @@ class PostsListViewModel @Inject constructor(
 
     private fun loadPosts(pageCount: Int){
         launch {
-            postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGE_SIZE)
-            val postsDomainList = model.getPosts(postsConfigurationDomain)
-            val postList = PostDomainListToPostListMapper().invoke(postsDomainList)
+            try {
+                postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGE_SIZE)
+                val postsDomainList = model.getPosts(postsConfigurationDomain)
+                val postList = PostDomainListToPostListMapper().invoke(postsDomainList)
+                paginator.proceed(
+                    Paginator.Action.NewPage(
+                        pageCount,
+                        postList
+                    )
+                )
+            } catch (e: Exception){
+                Timber.e(e)
+            }
         }
     }
 
     fun start() {
-        val followersListState = _followersListStateLiveData.value
+        val followersListState = _postsListState.value
         if (followersListState is Paginator.State.Empty || followersListState is Paginator.State.EmptyError) {
             paginator.proceed(Paginator.Action.Restart)
         }

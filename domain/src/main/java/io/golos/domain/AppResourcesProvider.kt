@@ -3,6 +3,7 @@ package io.golos.domain
 import androidx.annotation.*
 import java.io.InputStream
 
+@Deprecated("Need use extensions or from android resorces")
 interface AppResourcesProvider {
     fun getRaw(@RawRes resId: Int): InputStream
 
