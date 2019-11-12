@@ -338,7 +338,7 @@
     <!--Feedback form-->
     <dimen name="feedback_height">250dp</dimen>
 
-    <!--CommunityDomain page-->
+    <!--Community page-->
     <dimen name="height_community_list_item">60dp</dimen>
     <dimen name="size_icon_community">40dp</dimen>
     <dimen name="height_community_join_button">30dp</dimen>

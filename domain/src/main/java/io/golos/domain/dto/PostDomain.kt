@@ -29,11 +29,11 @@ data class PostDomain(
         val type: String
     ) {
         data class ContentDomain(
-            val contentBodyList: List<ContentBody>,
+            val contentBodyList: List<ContentBodyDomain>,
             val id: String,
             val type: String
         ) {
-            data class ContentBody(
+            data class ContentBodyDomain(
                 val content: String,
                 val id: String,
                 val type: String

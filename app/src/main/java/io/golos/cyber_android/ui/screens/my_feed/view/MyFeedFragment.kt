@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.myfeed.view
+package io.golos.cyber_android.ui.screens.my_feed.view
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_f
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
-import io.golos.cyber_android.ui.screens.myfeed.view.list.PostsListAdapter
+import io.golos.cyber_android.ui.screens.my_feed.view.list.PostsListAdapter
 import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 

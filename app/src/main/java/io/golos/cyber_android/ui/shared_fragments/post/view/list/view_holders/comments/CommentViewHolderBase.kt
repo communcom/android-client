@@ -123,7 +123,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         val result = SpannableStringBuilder()
 
-        // AuthorDomain
+        // Author
         if (author.userId.userId == currentUserId) {
             result.appendSpannedText(author.username, StyleSpan(Typeface.BOLD))
         } else {
