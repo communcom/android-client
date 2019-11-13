@@ -42,6 +42,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
         setupPostsList()
         observeViewModel()
         viewModel.start()
+        btnRetry.setOnClickListener {
+            viewModel.start()
+        }
     }
 
     private fun setupPostsList() {
