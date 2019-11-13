@@ -19,11 +19,12 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class ViewModelBase<TModel: ModelBase>
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
+    dispatchersProvider: DispatchersProvider,
     _model: TModel? = null
 ) : ViewModel(), CoroutineScope {
     private val scopeJob: Job = SupervisorJob()
 
+    @Suppress("UNCHECKED_CAST")
     protected val model: TModel = _model ?: ModelBaseImpl() as TModel
 
     private val errorHandler = CoroutineExceptionHandler { _, exception ->

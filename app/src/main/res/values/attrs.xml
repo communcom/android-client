@@ -29,4 +29,8 @@
 
         <attr name="imageButton_tint" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="SelectCommunityDialogList">
+        <attr name="has_paging" format="boolean" />
+    </declare-styleable>
 </resources>

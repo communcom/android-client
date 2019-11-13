@@ -5,10 +5,9 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListScrollListener
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog_list.view.*
 
 @Suppress("unused")
@@ -20,24 +19,23 @@ constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    private var hasPages = true
+
+    private var pageSize = 25
+
     private lateinit var listAdapter: CommunityListAdapter
     private lateinit var listLayoutManager: LinearLayoutManager
-    private var scrollListener: CommunityListScrollListener? = null
-
-    /**
-     * The argument is position of a last visible item
-     */
-    private var onScrollListener: ((Int) -> Unit)? = null
 
     init {
         inflate(context, R.layout.fragment_communities_select_dialog_list, this)
+        attrs?.let { retrieveAttributes(it) }
     }
 
-    fun updateList(data: List<ListItem>, listItemEventsProcessor: CommunityListItemEventsProcessor) {
+    fun updateList(data: List<VersionedListItem>, listItemEventsProcessor: CommunityListItemEventsProcessor) {
         if(!::listAdapter.isInitialized) {
             listLayoutManager = LinearLayoutManager(context)
 
-            listAdapter = CommunityListAdapter(listItemEventsProcessor)
+            listAdapter = CommunityListAdapter(listItemEventsProcessor, if(hasPages) pageSize else null)
             listAdapter.setHasStableIds(true)
 
             itemsList.isSaveEnabled = false
@@ -49,19 +47,9 @@ constructor(
         listAdapter.update(data)
     }
 
-    fun setScrollState(isScrollEnabled: Boolean) {
-        if(!::listAdapter.isInitialized) {
-            return
-        }
-
-        scrollListener?.let { itemsList.removeOnScrollListener(it) }
-
-        if(isScrollEnabled) {
-            itemsList.addOnScrollListener(CommunityListScrollListener(listLayoutManager) { onScrollListener?.invoke(it) })
-        }
-    }
-
-    fun setOnScrollListener(listener: ((Int) -> Unit)?) {
-        onScrollListener = listener
+    private fun retrieveAttributes(attrs: AttributeSet) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SelectCommunityDialogList)
+        hasPages = typedArray.getBoolean(R.styleable.SelectCommunityDialogList_has_paging, false)
+        typedArray.recycle()
     }
 }

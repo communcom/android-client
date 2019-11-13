@@ -4,4 +4,6 @@ import io.golos.domain.dto.CommunityDomain
 
 interface CommunityListItemEventsProcessor {
     fun onItemClick(community: CommunityDomain)
+
+    fun onNextPageReached()
 }

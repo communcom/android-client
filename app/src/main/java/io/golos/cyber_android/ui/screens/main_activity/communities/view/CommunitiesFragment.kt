@@ -12,22 +12,19 @@ import io.golos.cyber_android.databinding.FragmentCommunitiesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListScrollListener
 import io.golos.cyber_android.ui.screens.main_activity.communities.view_model.CommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_communities.*
 
 class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesViewModel>() {
     companion object {
-        fun newInstance() = CommunitiesFragment()
-    }
+        fun newInstance() = CommunitiesFragment()    }
 
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
-    private var communitiesScrollListener: CommunityListScrollListener? = null
 
     override fun provideViewModelType(): Class<CommunitiesViewModel> = CommunitiesViewModel::class.java
 
@@ -46,7 +43,6 @@ class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, Communi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
             items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
-            isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -55,11 +51,6 @@ class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, Communi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onViewCreated()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onActive(root.height)
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -72,11 +63,11 @@ class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, Communi
         }
     }
 
-    private fun updateList(data: List<ListItem>) {
+    private fun updateList(data: List<VersionedListItem>) {
         if(!::communitiesListAdapter.isInitialized) {
             communitiesListLayoutManager = LinearLayoutManager(context)
 
-            communitiesListAdapter = CommunityListAdapter(viewModel)
+            communitiesListAdapter = CommunityListAdapter(viewModel, viewModel.pageSize)
             communitiesListAdapter.setHasStableIds(true)
 
             mainList.isSaveEnabled = false
@@ -86,17 +77,5 @@ class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, Communi
         }
 
         communitiesListAdapter.update(data)
-    }
-
-    private fun setScrollState(isScrollEnabled: Boolean) {
-        if(!::communitiesListAdapter.isInitialized) {
-            return
-        }
-
-        communitiesScrollListener?.let { mainList.removeOnScrollListener(it) }
-
-        if(isScrollEnabled) {
-            mainList.addOnScrollListener(CommunityListScrollListener(communitiesListLayoutManager) { viewModel.onScroll(it) })
-        }
     }
 }

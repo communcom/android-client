@@ -1,54 +1,50 @@
 package io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.extensions.fold
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class SelectCommunityDialogViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: SelectCommunityDialogModel,
-    appResourcesProvider: AppResourcesProvider
+    model: SelectCommunityDialogModel
 ) : ViewModelBase<SelectCommunityDialogModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
-    var searchString = ""
-        private set
+    val items: LiveData<List<VersionedListItem>>
+        get()  = model.items
 
-    val items: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
+    val pageSize: Int = model.pageSize
 
-    val isScrollEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var searchString = ""
 
-    val searchResultVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-    val searchResultItems: MutableLiveData<List<ListItem>> = MutableLiveData(listOf())
-    val isSearchStringEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _searchResultVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+    val searchResultVisibility: LiveData<Boolean>
+        get() = _searchResultVisibility
+
+    private val _searchResultItems: MutableLiveData<List<VersionedListItem>> = MutableLiveData(listOf())
+    val searchResultItems: LiveData<List<VersionedListItem>>
+        get() = _searchResultItems
+
+    private val _isSearchStringEnabled: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isSearchStringEnabled: LiveData<Boolean>
+        get() = _isSearchStringEnabled
 
     init {
-        model.initModel(appResourcesProvider.getDimens(R.dimen.select_community_dialog_list_height).toInt())
         model.setOnSearchResultListener { processSearchResult(it) }
-        loadPage(0)
-    }
-
-    fun onScroll(lastVisibleItemPosition: Int) {
-        if(!model.canLoad(lastVisibleItemPosition)) {
-            return
-        }
-
-        isScrollEnabled.value = false
-        loadPage(lastVisibleItemPosition)
+        loadPage()
     }
 
     fun onSearchStringUpdated(searchString: String) {
@@ -69,42 +65,27 @@ constructor(
         commandMutableLiveData.value = CommunitySelected(community)
     }
 
-    private fun loadPage(lastVisibleItemPosition: Int) {
+    override fun onNextPageReached() = loadPage()
+
+    private fun loadPage() {
         launch {
-            try {
-                val page = model.getPage(lastVisibleItemPosition)
-
-                page.data?.let { list -> items.value = list }
-                isSearchStringEnabled.value = true
-
-                if(page.hasNextData) {
-                    loadPage(lastVisibleItemPosition)
-                } else {
-                    isScrollEnabled.value = true
-                }
-
-            } catch(ex: Exception) {
-                Timber.e(ex)
-
-                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
-                isScrollEnabled.value = true
-            }
+            model.loadPage()
         }
     }
 
-    private fun processSearchResult(searchResult: Either<List<ListItem>?, Throwable>) {
+    private fun processSearchResult(searchResult: Either<List<VersionedListItem>?, Throwable>) {
         searchResult.fold({ resultList ->                   // Success
             if(resultList != null) {
-                searchResultItems.value = resultList
-                searchResultVisibility.value = true
+                _searchResultItems.value = resultList
+                _searchResultVisibility.value = true
             } else {
-                searchResultItems.value = listOf()
-                searchResultVisibility.value = false
+                _searchResultItems.value = listOf()
+                _searchResultVisibility.value = false
             }                                               // Fail
         }, {
             commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
-            searchResultItems.value = listOf()
-            searchResultVisibility.value = false
+            _searchResultItems.value = listOf()
+            _searchResultVisibility.value = false
         })
     }
 }

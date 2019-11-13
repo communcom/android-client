@@ -6,8 +6,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
 import io.golos.cyber_android.ui.common.extensions.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.AppResourcesProvider
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class CommunityListItemViewHolder(
     parentView: ViewGroup
-) : ViewHolderBase<CommunityListItemEventsProcessor, ListItem>(
+) : ViewHolderBase<CommunityListItemEventsProcessor, VersionedListItem>(
     parentView,
     R.layout.view_communities_community_list_item
 ) {
@@ -30,7 +30,7 @@ class CommunityListItemViewHolder(
         App.injections.get<CommunitiesFragmentComponent>().inject(this)
     }
 
-    override fun init(listItem: ListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {
+    override fun init(listItem: VersionedListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {
         if(listItem !is CommunityListItem) {
             return
         }

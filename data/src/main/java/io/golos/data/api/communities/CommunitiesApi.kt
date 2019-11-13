@@ -7,7 +7,7 @@ interface CommunitiesApi {
     /**
      * @param isUser is user's or discoverer followers
      */
-    suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain>
+    fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain>
 
     suspend fun joinToCommunity(externalId: String)
 

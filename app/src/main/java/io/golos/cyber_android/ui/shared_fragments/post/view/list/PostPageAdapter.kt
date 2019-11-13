@@ -13,8 +13,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewMo
 
 class PostPageAdapter(
     private val listEventsProcessor: PostPageViewModelListEventsProcessor,
-    private val pageSize: Int
-) : VersionedListAdapterBase<PostPageViewModelListEventsProcessor>(listEventsProcessor) {
+    pageSize: Int
+) : VersionedListAdapterBase<PostPageViewModelListEventsProcessor>(listEventsProcessor, pageSize) {
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem> {
@@ -76,10 +76,5 @@ class PostPageAdapter(
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 
-    override fun onBindViewHolder(holder: ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>, position: Int) {
-        super.onBindViewHolder(holder, position)
-        if(position > items.size - pageSize/2) {
-            listEventsProcessor.onNextCommentsPageReached()
-        }
-    }
+    override fun onNextPageReached() = listEventsProcessor.onNextCommentsPageReached()
 }

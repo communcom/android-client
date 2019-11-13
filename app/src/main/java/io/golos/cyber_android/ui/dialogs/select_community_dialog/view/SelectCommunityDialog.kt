@@ -23,7 +23,7 @@ import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel
 import io.golos.domain.dto.CommunityDomain
@@ -84,8 +84,6 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
 
             items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
             searchResultItems.observe({viewLifecycleOwner.lifecycle}) { updateSearchList(it) }
-
-            isScrollEnabled.observe({viewLifecycleOwner.lifecycle}) { setScrollState(it) }
         }
 
         viewModel.command.observe({viewLifecycleOwner.lifecycle}) {
@@ -104,8 +102,6 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         searchField.setTextChangeListener { viewModel.onSearchStringUpdated(it) }
-
-        communitiesList.setOnScrollListener { viewModel.onScroll(it) }
     }
 
     override fun onDestroy() {
@@ -133,11 +129,9 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         }
     }
 
-    private fun updateList(data: List<ListItem>) = communitiesList.updateList(data, viewModel)
+    private fun updateList(data: List<VersionedListItem>) = communitiesList.updateList(data, viewModel)
 
-    private fun updateSearchList(data: List<ListItem>) = communitiesSearchList.updateList(data, viewModel)
-
-    private fun setScrollState(isScrollEnabled: Boolean) = communitiesList.setScrollState(isScrollEnabled)
+    private fun updateSearchList(data: List<VersionedListItem>) = communitiesSearchList.updateList(data, viewModel)
 
     private fun setupDialog(dialog: Dialog) {
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)

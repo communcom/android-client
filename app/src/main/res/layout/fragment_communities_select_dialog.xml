@@ -63,6 +63,8 @@
 
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
 
+            app:has_paging="true"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchField"
@@ -75,6 +77,8 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
+
+            app:has_paging="false"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

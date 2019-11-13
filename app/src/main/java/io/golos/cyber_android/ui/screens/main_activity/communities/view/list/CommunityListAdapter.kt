@@ -1,10 +1,9 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.view.list
 
 import android.view.ViewGroup
-import io.golos.cyber_android.ui.common.recycler_view.DiffAlgBase
-import io.golos.cyber_android.ui.common.recycler_view.ListAdapterBase
-import io.golos.cyber_android.ui.common.recycler_view.ListItem
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.RetryListItem
@@ -13,8 +12,9 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.vie
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.RetryListItemViewHolder
 
 class CommunityListAdapter(
-    listItemEventsProcessor: CommunityListItemEventsProcessor
-) : ListAdapterBase<CommunityListItemEventsProcessor, ListItem>(listItemEventsProcessor) {
+    private val listItemEventsProcessor: CommunityListItemEventsProcessor,
+    pageSize: Int?
+) : VersionedListAdapterBase<CommunityListItemEventsProcessor>(listItemEventsProcessor, pageSize) {
 
     private companion object {
         const val COMMUNITY = 0
@@ -22,10 +22,7 @@ class CommunityListAdapter(
         const val RETRY = 2
     }
 
-    override fun createDiffAlg(oldData: List<ListItem>, newData: List<ListItem>): DiffAlgBase<ListItem> =
-        CommunityListItemDiffAlg(oldData, newData)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<CommunityListItemEventsProcessor, ListItem> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<CommunityListItemEventsProcessor, VersionedListItem> =
         when(viewType) {
             COMMUNITY -> CommunityListItemViewHolder(parent)
             LOADING -> LoadingListItemViewHolder(parent)
@@ -40,4 +37,6 @@ class CommunityListAdapter(
             is RetryListItem -> RETRY
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
+
+    override fun onNextPageReached() = listItemEventsProcessor.onNextPageReached()
 }

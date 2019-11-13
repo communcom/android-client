@@ -61,28 +61,24 @@ constructor(
         val logoUrl: String
     )
 
-    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> =
-        withContext(dispatchersProvider.calculationsDispatcher) {
-            delay(500)
-
-            try {
-                communities
-                    .asSequence()
-                    .filter {
-                        if(isUser) {
-                            isUserCommunity(it)
-                        } else {
-                            !isUserCommunity(it)
-                        }
+    override fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> =
+        try {
+            communities
+                .asSequence()
+                .filter {
+                    if(isUser) {
+                        isUserCommunity(it)
+                    } else {
+                        !isUserCommunity(it)
                     }
-                    .drop(offset)
-                    .take(pageSize)
-                    .toList()
+                }
+                .drop(offset)
+                .take(pageSize)
+                .toList()
 
-            } catch(ex: Exception) {
-                Timber.e(ex)
-                throw ex
-            }
+        } catch(ex: Exception) {
+            Timber.e(ex)
+            throw ex
         }
 
     override suspend fun joinToCommunity(externalId: String) =

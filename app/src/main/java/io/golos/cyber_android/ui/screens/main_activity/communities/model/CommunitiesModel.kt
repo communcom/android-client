@@ -1,12 +1,15 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.model
 
+import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.PageLoadResult
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 
 interface CommunitiesModel: ModelBase {
-    fun initModel(controlHeight: Int)
+    val pageSize: Int
 
-    fun canLoad(lastVisibleItemPosition: Int): Boolean
+    val items: LiveData<List<VersionedListItem>>
 
-    suspend fun getPage(lastVisibleItemPosition: Int): PageLoadResult
+    suspend fun loadPage()
+
+    suspend fun retry()
 }
