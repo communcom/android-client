@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_followers.view.*
 
 class FollowersAdapter : PaginalAdapter<Follower>() {
 
+    override val countItemsFromEndForBeginUploadNewPage: Int = 10
     var onFollowClickedCallback: ((Follower) -> Unit)? = null
 
     override var items: MutableList<Follower> = mutableListOf()
