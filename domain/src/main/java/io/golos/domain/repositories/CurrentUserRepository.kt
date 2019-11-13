@@ -1,4 +1,4 @@
-package io.golos.data.repositories.current_user_repository
+package io.golos.domain.repositories
 
 import io.golos.domain.dto.AuthState
 

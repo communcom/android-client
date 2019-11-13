@@ -8,7 +8,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.CyberDiscussionRawToPostDomainMapper
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.data.toCyberName
 import io.golos.data.utils.getOrThrow
 import io.golos.domain.commun_entities.Permlink

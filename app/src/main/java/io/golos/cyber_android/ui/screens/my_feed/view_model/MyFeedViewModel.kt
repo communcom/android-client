@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.PostDomainListToPostListMapper
+import io.golos.cyber_android.ui.mappers.UserDomainToUserMapper
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
@@ -33,6 +34,14 @@ class MyFeedViewModel @Inject constructor(
     val user = _user.toLiveData()
 
     private var postsConfigurationDomain: PostsConfigurationDomain
+
+    private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
+
+    private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
 
     init {
 
@@ -62,12 +71,7 @@ class MyFeedViewModel @Inject constructor(
     }
 
     fun loadMorePosts() {
-        val postsListState = _postsListState.value
-        if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
-            paginator.proceed(Paginator.Action.Restart)
-        } else{
-            paginator.proceed(Paginator.Action.LoadMore)
-        }
+        paginator.proceed(Paginator.Action.LoadMore)
     }
 
     private fun loadMorePosts(pageCount: Int) {
@@ -93,11 +97,39 @@ class MyFeedViewModel @Inject constructor(
     }
 
     fun start() {
-        loadMorePosts()
-        /*if(_user.value == null){
-
+        if(_user.value == null){
+            loadLocalUser{
+                if(it){
+                    loadInitialPosts()
+                }
+            }
         } else{
+            loadInitialPosts()
+        }
+    }
 
-        }*/
+    private fun loadInitialPosts(){
+        val postsListState = _postsListState.value
+        if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
+            paginator.proceed(Paginator.Action.Restart)
+        }
+    }
+
+    private fun loadLocalUser(isUserLoad: (Boolean) -> Unit){
+        launch {
+            try {
+                _loadUserErrorVisibility.value = false
+                _loadUserProgressVisibility.value = true
+                val userProfile = UserDomainToUserMapper().invoke(model.getLocalUser())
+                _user.value = userProfile
+                isUserLoad.invoke(true)
+            } catch (e: Exception){
+                _loadUserErrorVisibility.value = true
+                isUserLoad.invoke(false)
+            } finally {
+                _loadUserProgressVisibility.value = false
+            }
+
+        }
     }
 }

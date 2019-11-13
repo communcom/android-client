@@ -9,7 +9,7 @@ import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcesse
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.commun_entities.Permlink
 import javax.inject.Inject
 

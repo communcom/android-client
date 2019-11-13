@@ -65,9 +65,9 @@ import io.golos.data.api.vote.VoteApiImpl
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.repositories.*
-import io.golos.data.repositories.current_user_repository.CurrentUserRepository
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
 import io.golos.data.repositories.discussion.live_data.DiscussionCreationRepositoryLiveData

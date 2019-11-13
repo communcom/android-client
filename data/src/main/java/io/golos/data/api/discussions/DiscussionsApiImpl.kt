@@ -12,7 +12,7 @@ import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.api.communities.CommunitiesApi
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink

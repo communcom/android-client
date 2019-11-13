@@ -12,7 +12,7 @@ import io.golos.cyber_android.utils.PostConstants
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider

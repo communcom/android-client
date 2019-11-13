@@ -41,10 +41,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         super.onViewCreated(view, savedInstanceState)
         setupPostsList()
         observeViewModel()
-        viewModel.loadMorePosts()
-        btnRetry.setOnClickListener {
-            viewModel.start()
-        }
+        viewModel.start()
     }
 
     private fun setupPostsList() {
@@ -117,6 +114,20 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
             myFeedAdapter.updateUser(it)
+        })
+        viewModel.loadUserProgressVisibility.observe(this, Observer {
+            if(it){
+                generalProgressLoading.visibility = View.VISIBLE
+            } else{
+                generalProgressLoading.visibility = View.INVISIBLE
+            }
+        })
+        viewModel.loadUserErrorVisibility.observe(this, Observer {
+            if(it){
+                btnRetry.visibility = View.VISIBLE
+            } else{
+                btnRetry.visibility = View.INVISIBLE
+            }
         })
     }
 
