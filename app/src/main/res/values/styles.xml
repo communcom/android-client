@@ -1,4 +1,5 @@
 <resources xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,8 +16,9 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Common.Base.TextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
@@ -41,15 +43,23 @@
         <item name="android:paddingEnd">@dimen/bottom_sheet_dialog_item_padding_horizontal</item>
     </style>
 
-    <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem">
-    </style>
+    <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem"></style>
     <!--Bottom sheet dialog END-->
+
+    <style name="Post.Text.TextStyle" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+    </style>
 
     <style name="Post.Image.Description.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
         <item name="android:textSize">@dimen/text_size_post_less_normal</item>
+    </style>
+
+    <style name="Post.Image.Link.TextStyle" parent="Post.Image.Description.TextStyle">
+        <item name="android:textSize">@dimen/text_size_post_small</item>
+        <item name="android:textColor">@color/grey</item>
     </style>
 
     <style name="Post.Website.Title.TextStyle" parent="Post.Image.Description.TextStyle">
@@ -65,8 +75,7 @@
         <item name="android:textSize">@dimen/text_size_16_sp</item>
     </style>
 
-    <style name="SubHeaderTextStyle" parent="StandardText16spStyle">
-    </style>
+    <style name="SubHeaderTextStyle" parent="StandardText16spStyle"></style>
 
     <style name="HeaderTextStyle" parent="SubHeaderTextStyle">
         <item name="android:textSize">@dimen/text_size_22_sp</item>
@@ -412,8 +421,8 @@
     </style>
 
     <style name="NumericKeypadButtonStyle" parent="StandardText16spStyle">
-        <item name = "android:textSize">@dimen/text_size_pin_keypad</item>
-        <item name = "android:background">@drawable/bg_numeric_keypad_digit</item>
+        <item name="android:textSize">@dimen/text_size_pin_keypad</item>
+        <item name="android:background">@drawable/bg_numeric_keypad_digit</item>
     </style>
 
     <style name="CommunityListItemTitleText" parent="Common.Base.TextStyle">

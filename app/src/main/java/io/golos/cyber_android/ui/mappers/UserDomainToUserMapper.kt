@@ -5,8 +5,10 @@ import io.golos.domain.dto.UserDomain
 
 class UserDomainToUserMapper : Function1<UserDomain, User> {
     override fun invoke(userProfileDomain: UserDomain): User {
-        return User(userProfileDomain.userId,
+        return User(
+            userProfileDomain.userId,
             userProfileDomain.userName,
-            userProfileDomain.userAvatar)
+            userProfileDomain.userAvatar.orEmpty()
+        )
     }
 }

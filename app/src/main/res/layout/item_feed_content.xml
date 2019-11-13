@@ -9,13 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text=""
         tools:text="Some error" />
 
-    <LinearLayout
-        android:id="@+id/postWidgetContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/feedContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

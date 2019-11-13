@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_viewer_header_height"/>
 
-    <include layout="@layout/item_content_text"/>
+    <include layout="@layout/item_feed_content"/>
 
     <include layout="@layout/item_post_controls"/>
 

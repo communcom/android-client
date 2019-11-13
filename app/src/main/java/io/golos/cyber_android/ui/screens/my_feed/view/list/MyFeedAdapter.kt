@@ -3,13 +3,17 @@ package io.golos.cyber_android.ui.screens.my_feed.view.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
+import io.golos.cyber_android.ui.dto.document.Paragraph
+import io.golos.cyber_android.ui.screens.my_feed.view.items.TextPostItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.utils.positiveValue
@@ -48,7 +52,7 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
         }
     }
 
-    private fun getPostListPosition(adapterPosition: Int): Int{
+    private fun getPostListPosition(adapterPosition: Int): Int {
         //Minus one position because first item is header
         return adapterPosition - 1
     }
@@ -77,7 +81,7 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
         calculateDiff.dispatchUpdatesTo(this)
     }
 
-    fun updateUser(user: User){
+    fun updateUser(user: User) {
         this.user = user
         notifyItemChanged(0)
     }
@@ -87,11 +91,33 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
 
         private val voitingWidget: VotingWidget = itemView.findViewById(R.id.votesArea)
 
+        private val feedContent: RecyclerView = itemView.findViewById(R.id.feedContent) //todo make like a custom view with own VH
+
+        private val feedAdapter: RecyclerAdapter = RecyclerAdapter()
+
+        init {
+            feedContent.layoutManager = LinearLayoutManager(itemView.context) //todo to VH
+        }
+
         fun bind(post: Post) {
+            setUpFeedContent()
             setPostHeader(post)
             setVotesCounter(post.votes)
             KiloCounterFormatter().format(post.stats?.commentsCount.positiveValue().toLong())
             setCommentsCounter(post.stats?.commentsCount ?: 0)
+        }
+
+        private fun setUpFeedContent() {
+            feedContent.adapter = feedAdapter
+
+            //todo test data
+            feedAdapter.updateAdapter(
+                arrayListOf(
+                    TextPostItem(Paragraph.Text(1, "content_1", "text")),
+                    TextPostItem(Paragraph.Text(2, "content_2", "text")),
+                    TextPostItem(Paragraph.Text(3, "content_3", "text"))
+                )
+            )
         }
 
         private fun setPostHeader(post: Post) {
@@ -111,24 +137,25 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
             itemView.postHeader.setHeader(postHeader)
         }
 
-        private fun setVotesCounter(votes: Post.Votes){
+        private fun setVotesCounter(votes: Post.Votes) {
             val votesCounter = votes.upCount - votes.downCount
             voitingWidget.setVoteBalance(votesCounter.positiveValue())
             voitingWidget.setDownVoteButtonSelected(votes.hasDownVote)
             voitingWidget.setUpVoteButtonSelected(votes.hasUpVote)
         }
 
-        private fun setCommentsCounter(commentsCounter: Int){
+        private fun setCommentsCounter(commentsCounter: Int) {
             itemView.commentsCountText.text = commentsCounter.toString()
         }
 
-        fun unbind(){
+        fun unbind() {
 
         }
     }
 
-    class CreatePostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
-        inflate(R.layout.item_create_post, parent, false)) {
+    class CreatePostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_editor_widget, parent, false)
+    ) {
         fun bind(user: User?) {
             user?.let {
                 (itemView.editorWidget as EditorWidget).loadUserAvatar(user.avatarUrl, user.userName)
