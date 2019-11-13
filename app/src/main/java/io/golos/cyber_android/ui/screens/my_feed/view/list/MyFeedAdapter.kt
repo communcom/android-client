@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
+import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
-import io.golos.cyber_android.utils.EMPTY
 import io.golos.cyber_android.utils.positiveValue
-import kotlinx.android.synthetic.main.item_editor_widget.view.*
+import kotlinx.android.synthetic.main.item_create_post.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 import timber.log.Timber
@@ -63,8 +63,9 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
-        if (holder.itemViewType == DATA) {
-            (holder as PostViewHolder).unbind()
+        when(holder.itemViewType){
+            DATA -> (holder as PostViewHolder).unbind()
+            CREATE_POST -> (holder as CreatePostViewHolder).unbind()
         }
     }
 
@@ -79,10 +80,6 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
     fun updateUser(user: User){
         this.user = user
         notifyItemChanged(0)
-    }
-
-    fun hasUser() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     inner class PostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
@@ -131,11 +128,15 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
     }
 
     class CreatePostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
-        inflate(R.layout.item_editor_widget, parent, false)) {
+        inflate(R.layout.item_create_post, parent, false)) {
         fun bind(user: User?) {
             user?.let {
-                itemView.editorWidget.loadUserAvatar(user.avatarUrl, user.userName)
+                (itemView.editorWidget as EditorWidget).loadUserAvatar(user.avatarUrl, user.userName)
             }
+        }
+
+        fun unbind(){
+            (itemView.editorWidget as EditorWidget).findViewById<EditorWidget>(R.id.editorWidget).clearUserAvater()
         }
     }
 
