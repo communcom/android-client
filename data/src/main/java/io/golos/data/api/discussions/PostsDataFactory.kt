@@ -58,7 +58,7 @@ internal object PostsDataFactory {
     fun createPost(body: String, community: Community, userId: String, commentsCount: Long, permlink: Permlink): PostDiscussionRaw =
         PostDiscussionRaw(
             body,
-            DiscussionVotes(0, 0),
+            DiscussionVotes(0, 0, false, false),
             DiscussionMetadata(Date()),
             DiscussionId(CyberName(userId), community.id.id, Permlink.generate().value),
             CyberCommunity(community.id.id, community.name, community.logoUrl, "alias"),
