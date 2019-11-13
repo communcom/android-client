@@ -8,7 +8,7 @@ class DiscussionVotesToVotesDomainMapper : Function1<DiscussionVotes, PostDomain
     override fun invoke(discussionVotes: DiscussionVotes): PostDomain.VotesDomain {
         return PostDomain.VotesDomain(discussionVotes.downCount,
             discussionVotes.upCount,
-            true,
-            false)
+            discussionVotes.hasUpVote ?: false,
+            discussionVotes.hasDownVote ?: false)
     }
 }

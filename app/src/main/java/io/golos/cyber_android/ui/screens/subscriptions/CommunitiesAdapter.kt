@@ -16,6 +16,8 @@ import java.util.*
 
 class CommunitiesAdapter : PaginalAdapter<Community>() {
 
+    override val countItemsFromEndForBeginUploadNewPage: Int = 10
+
 
     override var items: MutableList<Community> = mutableListOf()
 

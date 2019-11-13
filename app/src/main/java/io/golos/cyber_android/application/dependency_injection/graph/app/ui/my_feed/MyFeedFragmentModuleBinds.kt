@@ -9,9 +9,9 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModel
-import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModelImpl
-import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
+import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
+import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModelImpl
+import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.use_cases.posts.GetPostsUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl
@@ -20,16 +20,16 @@ import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl
 interface MyFeedFragmentModuleBinds {
 
     @Binds
-    @ViewModelKey(PostsListViewModel::class)
+    @ViewModelKey(MyFeedViewModel::class)
     @IntoMap
-    fun bindViewModel(viewModel: PostsListViewModel): ViewModel
+    fun bindViewModel(viewModel: MyFeedViewModel): ViewModel
 
     @Binds
     @FragmentScope
     fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
 
     @Binds
-    fun bindModel(model: PostsListModelImpl): PostsListModel
+    fun bindModel(model: MyFeedModelImpl): MyFeedModel
 
     @Binds
     fun bindPaginatorSubscriptions(impl: Paginator.Store<VersionedListItem>): Paginator.Store<VersionedListItem>

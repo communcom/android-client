@@ -91,7 +91,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isFullData = false
                     adapter.isPageError = false
-                    adapter.isSearchProgress = false
+                    adapter.isNewPageProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
                     pbLoading.visibility = View.INVISIBLE
                 }
@@ -99,7 +99,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isFullData = true
                     adapter.isPageError = false
-                    adapter.isSearchProgress = false
+                    adapter.isNewPageProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
                     pbLoading.visibility = View.INVISIBLE
                 }
@@ -110,15 +110,16 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                 is Paginator.State.NewPageProgress<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isPageError = false
+                    adapter.isNewPageProgress = true
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
-                    adapter.isSearchProgress = true
+                    adapter.isNewPageProgress = true
                     pbLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
-                    adapter.isSearchProgress = false
+                    adapter.isNewPageProgress = false
                     uiHelper.showMessage(R.string.loading_error)
                     pbLoading.visibility = View.INVISIBLE
                 }

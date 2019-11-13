@@ -8,6 +8,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.utils.EMPTY
@@ -21,9 +22,14 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
 
     override var items: MutableList<Post> = arrayListOf()
 
+    private var user: User? = null
+
+    override val countItemsFromEndForBeginUploadNewPage: Int = 10
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             PROGRESS_ERROR -> getProgressErrorViewHolder(parent)
+            CREATE_POST -> CreatePostViewHolder(parent)
             DATA -> PostViewHolder(parent)
             else -> PostViewHolder(parent)
         }
@@ -33,23 +39,27 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
         super.onBindViewHolder(holder, position)
         when (holder.itemViewType) {
             DATA -> {
-                val post = items[position]
+                val post = items[getPostListPosition(position)]
                 (holder as PostViewHolder).bind(post)
             }
             CREATE_POST -> {
-                (holder as CreatePostViewHolder).bind(items[position])
+                (holder as CreatePostViewHolder).bind(user)
             }
         }
     }
 
-    /*override fun getItemViewType(position: Int): Int {
-        //TODO kv 12/11/2019 нужно переделать на биндинг данныз о пользователе добавить по моделе в списке а не по позиции
+    private fun getPostListPosition(adapterPosition: Int): Int{
+        //Minus one position because first item is header
+        return adapterPosition - 1
+    }
+
+    override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
             CREATE_POST
         } else {
             super.getItemViewType(position)
         }
-    }*/
+    }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
@@ -64,6 +74,15 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
         this.items.clear()
         this.items.addAll(posts)
         calculateDiff.dispatchUpdatesTo(this)
+    }
+
+    fun updateUser(user: User){
+        this.user = user
+        notifyItemChanged(0)
+    }
+
+    fun hasUser() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     inner class PostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
@@ -113,9 +132,10 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
 
     class CreatePostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
         inflate(R.layout.item_editor_widget, parent, false)) {
-        fun bind(post: Post) {
-            val author = post.author
-            itemView.editorWidget.loadUserAvatar(author.avatarUrl ?: "", author.username ?: EMPTY)
+        fun bind(user: User?) {
+            user?.let {
+                itemView.editorWidget.loadUserAvatar(user.avatarUrl, user.userName)
+            }
         }
     }
 

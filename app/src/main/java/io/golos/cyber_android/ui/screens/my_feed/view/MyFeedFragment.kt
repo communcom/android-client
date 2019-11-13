@@ -15,18 +15,18 @@ import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
+import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
 
-class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewModel>() {
+class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
 
-    override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: PostsListViewModel) {
+    override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: MyFeedViewModel) {
         binding.viewModel = viewModel
     }
 
-    override fun provideViewModelType(): Class<PostsListViewModel> = PostsListViewModel::class.java
+    override fun provideViewModelType(): Class<MyFeedViewModel> = MyFeedViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_my_feed
 
@@ -41,7 +41,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
         super.onViewCreated(view, savedInstanceState)
         setupPostsList()
         observeViewModel()
-        viewModel.start()
+        viewModel.loadMorePosts()
+        btnRetry.setOnClickListener {
+            viewModel.start()
+        }
     }
 
     private fun setupPostsList() {
@@ -67,17 +70,15 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.isFullData = false
                     myFeedAdapter.isPageError = false
-                    myFeedAdapter.isSearchProgress = false
+                    myFeedAdapter.isNewPageProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
-//                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.isFullData = true
                     myFeedAdapter.isPageError = false
-                    myFeedAdapter.isSearchProgress = false
+                    myFeedAdapter.isNewPageProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
-//                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
@@ -86,15 +87,16 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
                 is Paginator.State.NewPageProgress<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.isPageError = false
+                    myFeedAdapter.isNewPageProgress = true
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isSearchProgress = true
+                    myFeedAdapter.isNewPageProgress = true
                     pbLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isSearchProgress = false
+                    myFeedAdapter.isNewPageProgress = false
                     uiHelper.showMessage(R.string.loading_error)
                     pbLoading.visibility = View.INVISIBLE
                 }
@@ -110,6 +112,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
                     btnRetry.visibility = View.VISIBLE
                 }
             }
+        })
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
+            myFeedAdapter.updateUser(it)
         })
     }
 

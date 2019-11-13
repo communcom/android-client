@@ -17,7 +17,7 @@ buildscript {
         targetsdk = 28
 
         // Commun4j
-        commun4jVersion = "0.9.9"
+        commun4jVersion = "0.9.10"
 
         // Kotlin
         kotlin_version = '1.3.50'
