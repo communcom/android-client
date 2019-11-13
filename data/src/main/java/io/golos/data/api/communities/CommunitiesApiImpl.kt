@@ -1,5 +1,6 @@
 package io.golos.data.api.communities
 
+import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.Commun4j
@@ -63,13 +64,17 @@ constructor(
 
     override fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> =
         try {
+            if(Random.nextInt() % 2 == 0) {
+                throw java.lang.Exception()
+            }
+
             communities
                 .asSequence()
                 .filter {
                     if(isUser) {
                         isUserCommunity(it)
                     } else {
-                        !isUserCommunity(it)
+                        true
                     }
                 }
                 .drop(offset)
@@ -81,10 +86,11 @@ constructor(
             throw ex
         }
 
-    override suspend fun joinToCommunity(externalId: String) =
-        withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
+    override fun joinToCommunity(externalId: String) {
+        if(Random.nextInt() % 2 == 0) {
+            throw java.lang.Exception()
         }
+    }
 
     override suspend fun searchInCommunities(query: String, isUser: Boolean): List<CommunityDomain> =
         withContext(dispatchersProvider.calculationsDispatcher) {
@@ -158,7 +164,7 @@ constructor(
                     it.followersQuantity < 100 -> it.followersQuantity * random.nextInt(50)
                     else -> it.followersQuantity * random.nextInt(500)
                 }
-                CommunityDomain(it.id, it.name, it.logoUrl, followersQuantity.toLong(), true)
+                CommunityDomain(it.id, it.name, it.logoUrl, followersQuantity.toLong(), followersQuantity.toLong(), Random.nextBoolean())
             }
     }
 
@@ -197,7 +203,13 @@ constructor(
         for(i in 0..30){
             val communityName = communityNamesArray[rand.nextInt(communityNamesArray.size - 1)]
             val communityLogo: String = communityLogoArray[rand.nextInt(communityLogoArray.size - 1)]
-            val communityDomain = CommunityDomain(UUID.randomUUID().toString(), communityName, communityLogo, rand.nextInt(1000000).toLong(), rand.nextBoolean())
+            val communityDomain = CommunityDomain(
+                UUID.randomUUID().toString(),
+                communityName,
+                communityLogo,
+                rand.nextInt(1000000).toLong(),
+                rand.nextInt(1000000).toLong(),
+                rand.nextBoolean())
             communityList.add(communityDomain)
         }
         return communityList

@@ -14,7 +14,7 @@ class RetryListItemViewHolder(
     R.layout.view_communities_retry_list_item
 ) {
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {
-        itemView.pageLoadingRetryButton.setOnClickListener {  }
+        itemView.pageLoadingRetryButton.setOnClickListener { listItemEventsProcessor.retry() }
 
     }
 

@@ -17,7 +17,7 @@ class FeedViewModel @Inject constructor(
     val getEventsLiveData = eventsLiveData as LiveData<Event>
 
     fun onFiltersCLicked() {
-        commandMutableLiveData.value = ShowPostFiltersCommand()
+        _command.value = ShowPostFiltersCommand()
     }
 
     sealed class Event {

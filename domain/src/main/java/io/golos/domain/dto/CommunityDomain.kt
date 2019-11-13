@@ -5,5 +5,6 @@ data class CommunityDomain (
     val name: String,
     var logo: String?,
     val followersCount: Long,
+    val postsCount: Long,
     val isSubscribed: Boolean
 )

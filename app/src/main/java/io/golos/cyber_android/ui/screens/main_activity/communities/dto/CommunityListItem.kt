@@ -7,5 +7,7 @@ data class CommunityListItem(
     override val id: Long,
     override val version: Long,
     val community: CommunityDomain,
-    val isJoined: Boolean
+
+    val isJoined: Boolean,
+    val isJoinInProgress: Boolean
 ) : VersionedListItem

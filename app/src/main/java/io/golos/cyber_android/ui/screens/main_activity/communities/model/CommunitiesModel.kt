@@ -12,4 +12,9 @@ interface CommunitiesModel: ModelBase {
     suspend fun loadPage()
 
     suspend fun retry()
+
+    /**
+     * @return true in case of success
+     */
+    suspend fun join(communityId: String): Boolean
 }

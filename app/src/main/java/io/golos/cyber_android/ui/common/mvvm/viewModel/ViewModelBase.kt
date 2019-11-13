@@ -1,14 +1,15 @@
 package io.golos.cyber_android.ui.common.mvvm.viewModel
 
 import androidx.annotation.CallSuper
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.utils.toSingleLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -39,13 +40,13 @@ constructor(
     /**
      * Direct command for view
      */
-    protected val commandMutableLiveData = MutableLiveData<ViewCommand>()
-
-    val command = commandMutableLiveData.toSingleLiveData()
+    protected val _command = SingleLiveData<ViewCommand>()
+    val command: LiveData<ViewCommand>
+        get() = _command
 
     /**
      * On configuration change we need to show dialog if it wasn't closed.
-     * That's why we can't use [commandMutableLiveData]
+     * That's why we can't use [_command]
      */
     val dialogCommands: MutableLiveData<ViewCommand> = MutableLiveData()
 
@@ -57,6 +58,6 @@ constructor(
 
     protected fun handleError(error: Throwable){
         Timber.e(error)
-        commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
+        _command.value = ShowMessageCommand(R.string.loading_error)
     }
 }

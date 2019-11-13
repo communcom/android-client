@@ -22,6 +22,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subs
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.CommunityListItemViewHolderDialog
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -58,4 +59,5 @@ interface UIComponent {
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)
     fun inject(widget: CommentWidgetEdit)
+    fun inject(viewHolder: CommunityListItemViewHolderDialog)
 }

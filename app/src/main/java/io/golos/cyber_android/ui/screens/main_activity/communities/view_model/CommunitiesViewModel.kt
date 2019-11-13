@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.main_activity.communities.view_model
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.model.CommunitiesModel
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
@@ -26,10 +28,24 @@ constructor(
     fun onViewCreated() = loadPage()
 
     override fun onItemClick(community: CommunityDomain) {
-        commandMutableLiveData.value = NavigateToCommunityPageCommand(community.communityId)
+        _command.value = NavigateToCommunityPageCommand(community.communityId)
     }
 
     override fun onNextPageReached() = loadPage()
+
+    override fun retry() {
+        launch {
+            model.retry()
+        }
+    }
+
+    override fun onJoinClick(communityId: String) {
+        launch {
+            if(!model.join(communityId)) {
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
+    }
 
     private fun loadPage() {
         launch {

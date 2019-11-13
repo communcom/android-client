@@ -5,11 +5,11 @@ import io.golos.domain.dto.CommunityPageDomain
 
 interface CommunitiesApi {
     /**
-     * @param isUser is user's or discoverer followers
+     * @param isUser if the value is true returns only user's community (all communities otherwise)
      */
     fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain>
 
-    suspend fun joinToCommunity(externalId: String)
+    fun joinToCommunity(externalId: String)
 
     /**
      * @param isUser is user's or discoverer followers

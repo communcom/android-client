@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.formatters.size.FollowersSizeFormatter
-import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
@@ -27,8 +25,4 @@ abstract class CommunitiesFragmentModuleBinds {
 
     @Binds
     abstract fun provideDiscoverModel(model: CommunitiesModelImpl): CommunitiesModel
-
-    @Binds
-    @FragmentScope
-    abstract fun provideFollowersSizeFormatter(formatter: FollowersSizeFormatter): SizeFormatter
 }

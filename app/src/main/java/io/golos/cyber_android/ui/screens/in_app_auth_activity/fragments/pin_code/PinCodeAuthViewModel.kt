@@ -44,25 +44,25 @@ constructor(
 
     fun onInactive() {
         model.reset()
-        commandMutableLiveData.value = ResetPinCommand()
+        _command.value = ResetPinCommand()
     }
 
     fun onSwitchToFingerprintClick() {
-        commandMutableLiveData.value = SwitchToFingerprintCommand()
+        _command.value = SwitchToFingerprintCommand()
     }
 
     fun onDigitPressed(digit: Digit) {
-        commandMutableLiveData.value = SetPinCodeDigitCommand(digit)
+        _command.value = SetPinCodeDigitCommand(digit)
 
         when(model.processDigit(digit)) {
-            PinCodeValidationResult.VALID -> commandMutableLiveData.value = AuthSuccessCommand()
+            PinCodeValidationResult.VALID -> _command.value = AuthSuccessCommand()
 
             PinCodeValidationResult.INVALID -> {
                 messageText.value = appResourcesProvider.getString(R.string.authPinCodeAuthFail)
                 messageColor.value = errorColor
 
                 model.reset()
-                commandMutableLiveData.value = ResetPinCommand()
+                _command.value = ResetPinCommand()
             }
 
             else -> {}

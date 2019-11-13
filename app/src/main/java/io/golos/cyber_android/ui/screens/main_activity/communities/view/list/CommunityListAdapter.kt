@@ -11,12 +11,12 @@ import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.vie
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.LoadingListItemViewHolder
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.RetryListItemViewHolder
 
-class CommunityListAdapter(
+open class CommunityListAdapter(
     private val listItemEventsProcessor: CommunityListItemEventsProcessor,
     pageSize: Int?
 ) : VersionedListAdapterBase<CommunityListItemEventsProcessor>(listItemEventsProcessor, pageSize) {
 
-    private companion object {
+    protected companion object {
         const val COMMUNITY = 0
         const val LOADING = 1
         const val RETRY = 2

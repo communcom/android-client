@@ -6,4 +6,8 @@ interface CommunityListItemEventsProcessor {
     fun onItemClick(community: CommunityDomain)
 
     fun onNextPageReached()
+
+    fun retry()
+
+    fun onJoinClick(communityId: String) {}
 }

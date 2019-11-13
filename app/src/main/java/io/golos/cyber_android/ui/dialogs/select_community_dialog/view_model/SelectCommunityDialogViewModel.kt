@@ -62,10 +62,16 @@ constructor(
     }
 
     override fun onItemClick(community: CommunityDomain) {
-        commandMutableLiveData.value = CommunitySelected(community)
+        _command.value = CommunitySelected(community)
     }
 
     override fun onNextPageReached() = loadPage()
+
+    override fun retry() {
+        launch {
+            model.retry()
+        }
+    }
 
     private fun loadPage() {
         launch {
@@ -83,7 +89,7 @@ constructor(
                 _searchResultVisibility.value = false
             }                                               // Fail
         }, {
-            commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageCommand(R.string.common_general_error)
             _searchResultItems.value = listOf()
             _searchResultVisibility.value = false
         })

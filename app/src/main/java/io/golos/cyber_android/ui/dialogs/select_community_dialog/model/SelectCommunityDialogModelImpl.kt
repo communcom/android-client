@@ -27,6 +27,9 @@ constructor(
     communitiesApi,
     dispatchersProvider
 ), SelectCommunityDialogModel {
+
+    override val showUserCommunityOnly: Boolean = true
+
     override fun search(searchText: String) = search.search(searchText)
 
     @Suppress("NestedLambdaShadowedImplicitParameter")
