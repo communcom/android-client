@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.posts_list.model.PostsListModel
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.PostsConfigurationDomain
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,6 +38,7 @@ class PostsListViewModel @Inject constructor(
             }
         }
         paginator.render = {
+            Timber.d("paginator: render update -> [${it::class.java.simpleName.toUpperCase()}]")
             _postsListState.value = it
         }
 
@@ -56,17 +58,21 @@ class PostsListViewModel @Inject constructor(
     }
 
     private fun loadPosts(pageCount: Int){
+        Timber.d("paginator: load posts on page -> $pageCount")
         launch {
             try {
                 postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGE_SIZE)
                 val postsDomainList = model.getPosts(postsConfigurationDomain)
                 val postList = PostDomainListToPostListMapper().invoke(postsDomainList)
-                paginator.proceed(
-                    Paginator.Action.NewPage(
-                        pageCount,
-                        postList
+                Timber.d("paginator: post list size -> ${postList.size}")
+                launch(Dispatchers.Main) {
+                    paginator.proceed(
+                        Paginator.Action.NewPage(
+                            pageCount,
+                            postList
+                        )
                     )
-                )
+                }
             } catch (e: Exception){
                 Timber.e(e)
             }

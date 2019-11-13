@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.posts_list.view_model.PostsListViewModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import timber.log.Timber
 
 class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewModel>() {
 
@@ -49,6 +50,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
         rvPosts.adapter = myFeedAdapter
 
         myFeedAdapter.nextPageCallback = {
+            Timber.d("paginator: load more posts")
             viewModel.loadMorePosts()
         }
         myFeedAdapter.onPageRetryLoadingCallback = {
@@ -59,6 +61,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
     private fun observeViewModel() {
         viewModel.postsListState.observe(viewLifecycleOwner, Observer {
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
+            Timber.d("paginator:[${it::class.java.simpleName.toUpperCase()}]")
             when (it) {
                 is Paginator.State.Data<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
@@ -66,7 +69,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
                     myFeedAdapter.isPageError = false
                     myFeedAdapter.isSearchProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
-                    pbLoading.visibility = View.INVISIBLE
+//                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
@@ -74,7 +77,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, PostsListViewMode
                     myFeedAdapter.isPageError = false
                     myFeedAdapter.isSearchProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
-                    pbLoading.visibility = View.INVISIBLE
+//                    pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
