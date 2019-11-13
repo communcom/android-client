@@ -2,13 +2,11 @@ package io.golos.cyber_android.ui.screens.my_feed.view.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.IntDef
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
-import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
@@ -17,6 +15,7 @@ import io.golos.cyber_android.utils.positiveValue
 import kotlinx.android.synthetic.main.item_editor_widget.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
+import timber.log.Timber
 
 open class MyFeedAdapter : PaginalAdapter<Post>() {
 
@@ -60,6 +59,7 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
     }
 
     fun updateMyFeedPosts(posts: List<Post>) {
+        Timber.d("paginator: posts size -> ${posts.size}")
         val calculateDiff = DiffUtil.calculateDiff(MyFeedDiffUtil(this.items, posts))
         this.items.clear()
         this.items.addAll(posts)

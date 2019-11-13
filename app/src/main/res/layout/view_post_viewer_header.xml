@@ -8,18 +8,14 @@
 
     <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
         android:id="@+id/backButton"
-
         android:layout_width="@dimen/post_viewer_header_tool_button_size"
         android:layout_height="@dimen/post_viewer_header_tool_button_size"
-
         android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
-
-        android:background="@null"
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
+        android:background="@null"
         app:imageButton_icon="@drawable/ic_back"
         app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
         app:imageButton_tint="@color/tint_tool_button_gray"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,87 +24,61 @@
         android:id="@+id/communityAvatar"
         android:layout_width="@dimen/post_viewer_header_community_icon_size"
         android:layout_height="@dimen/post_viewer_header_community_icon_size"
-
+        android:layout_marginStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_group_temporary"
-
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/communityTitle"
-
+        style="@style/ToolbarTitleTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        style="@style/ToolbarTitleTextStyle"
-
-        tools:text="Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch"
-
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/authorAndTime"
-        app:layout_constraintStart_toEndOf="@+id/communityAvatar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread_inside"
-        app:layout_constraintEnd_toStartOf="@+id/joinToCommunityButton"
-
         android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin_large"
         android:layout_marginTop="@dimen/post_viewer_header_vertical_margin"
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin_large"
-
-        />
+        app:layout_constraintBottom_toTopOf="@+id/authorAndTime"
+        app:layout_constraintEnd_toStartOf="@+id/joinToCommunityButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/communityAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:text="Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch" />
 
     <TextView
         android:id="@+id/authorAndTime"
-
+        style="@style/PostCardAuthorTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        style="@style/PostCardAuthorTextStyle"
-
         android:layout_marginBottom="@dimen/post_viewer_header_vertical_margin"
-
-        tools:text="12:45 &#8226; Ivan Ivanov"
-
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/communityTitle"
-        app:layout_constraintTop_toBottomOf="@+id/communityTitle"
         app:layout_constraintEnd_toEndOf="@+id/communityTitle"
         app:layout_constraintHorizontal_bias="0.0"
-        />
+        app:layout_constraintStart_toStartOf="@+id/communityTitle"
+        app:layout_constraintTop_toBottomOf="@+id/communityTitle"
+        tools:text="12:45 &#8226; Ivan Ivanov" />
 
     <Button
         android:id="@+id/joinToCommunityButton"
-
-        android:text="@string/join_to_community"
-
+        style="@style/CommunityJoinButton"
         android:layout_width="@dimen/post_viewer_header_community_join_button_width"
         android:layout_height="@dimen/post_viewer_header_community_join_button_height"
-
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
-
-        style="@style/CommunityJoinButton"
-
-        app:layout_constraintEnd_toStartOf="@+id/menuButton"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/join_to_community"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/menuButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
         android:id="@+id/menuButton"
-
         android:layout_width="@dimen/post_viewer_header_tool_button_size"
         android:layout_height="@dimen/post_viewer_header_tool_button_size"
-
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
-
         android:background="@null"
-
         app:imageButton_icon="@drawable/ic_more"
         app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-        app:imageButton_tint="@color/tint_tool_button_gray"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

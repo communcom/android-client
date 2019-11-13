@@ -89,14 +89,17 @@ object Paginator {
             is Action.LoadMore -> {
                 when (state) {
                     is State.Data<*> -> {
+                        Timber.d("paginator:[DATA]")
                         sideEffectListener(SideEffect.LoadPage(state.pageCount + 1))
                         State.NewPageProgress(state.pageCount, state.data as List<T>)
                     }
                     is State.PageError<*> -> {
+                        Timber.d("paginator:[PAGE_ERROR]")
                         sideEffectListener(SideEffect.LoadPage(state.pageCount + 1))
                         State.NewPageProgress(state.pageCount, state.data as List<T>)
                     }
                     is State.SearchPageError<*> -> {
+                        Timber.d("paginator:[SEARCH_PAGE_ERROR]")
                         sideEffectListener(SideEffect.LoadPage(state.pageCount))
                         State.NewPageProgress(state.pageCount, state.data as List<T>)
                     }
@@ -104,9 +107,12 @@ object Paginator {
                 }
             }
             is Action.NewPage<*> -> {
+                Timber.d("paginator:[NEW_PAGE]")
                 val items = action.items as List<T>
+                Timber.d("paginator: items size -> ${items.size}")
                 when (state) {
                     is State.EmptyProgress -> {
+                        Timber.d("paginator:[EMPTY_PROGRESS]")
                         if (items.isEmpty()) {
                             State.Empty
                         } else {
@@ -114,6 +120,7 @@ object Paginator {
                         }
                     }
                     is State.Refresh<*> -> {
+                        Timber.d("paginator:[REFRESH]")
                         if (items.isEmpty()) {
                             State.Empty
                         } else {
@@ -121,9 +128,12 @@ object Paginator {
                         }
                     }
                     is State.NewPageProgress<*> -> {
+                        Timber.d("paginator:[NEW_PAGE_PROGRESS]")
                         if (items.isEmpty()) {
+                            Timber.d("paginator: items is empty")
                             State.FullData(state.pageCount, state.data as List<T>)
                         } else {
+                            Timber.d("paginator: set -> [STATE.DATA]")
                             State.Data(state.pageCount + 1, state.data as List<T> + items)
                         }
                     }
@@ -172,20 +182,22 @@ object Paginator {
 
         var sideEffectListener: (SideEffect) -> Unit = {
             when(it){
-                is SideEffect.LoadPage -> {}
-                is SideEffect.ErrorEvent -> {}
+                is SideEffect.LoadPage -> {Timber.d("paginator: SideEffect.LoadPage")}
+                is SideEffect.ErrorEvent -> {Timber.d("paginator: SideEffect.ErrorEvent")}
             }
         }
 
         fun proceed(action: Action) {
-            Timber.d("Action: $action")
+            Timber.d("paginator: [Action: ${action::class.java.simpleName.toUpperCase()}]")
             val newState = reducer<T>(action, state) { sideEffect ->
                 sideEffectListener.invoke(sideEffect)
             }
+            Timber.d("paginator: current state -> [${state::class.java.simpleName.toUpperCase()}]")
+            Timber.d("paginator: new state -> [${newState::class.java.simpleName.toUpperCase()}]")
             if (newState != state) {
                 state = newState
-                Timber.d("New state: $state")
-                render(state)
+                Timber.d("[New state: $state]")
+                render.invoke(state)
             }
         }
     }

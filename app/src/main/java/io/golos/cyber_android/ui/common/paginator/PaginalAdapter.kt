@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.subscriptions.Community
 import kotlinx.android.synthetic.main.item_progress_error.view.*
 import kotlin.properties.Delegates
 
@@ -59,7 +58,9 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
                 (holder as PaginalAdapter<*>.ProgressErrorViewHolder).bind()
             }
         }
-        if (!isFullData && position >= items.size - 10 && !isPageError && !isSearchProgress) nextPageCallback?.invoke()
+        if (!isFullData && position >= items.size - 1 && !isPageError && !isSearchProgress) {
+            nextPageCallback?.invoke()
+        }
     }
 
     protected fun getProgressErrorViewHolder(parent: ViewGroup): ProgressErrorViewHolder {
