@@ -266,7 +266,7 @@ constructor(
         // note[AS] it'll be "getComment" method in a future. So far we use a stub
         return CommentDiscussionRaw(
             "",
-            DiscussionVotes(0L, 0L),
+            DiscussionVotes(0L, 0L, false, false),
             DiscussionMetadata(Date()),
             DiscussionId(CyberName(""), "", ""),
             DiscussionId(CyberName(""), "", ""),
