@@ -8,7 +8,7 @@ import io.golos.commun4j.sharedmodel.AuthSecret
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.Pair
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.api.AuthApi
 import javax.inject.Inject
 

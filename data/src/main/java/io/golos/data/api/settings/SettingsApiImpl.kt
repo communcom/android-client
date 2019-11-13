@@ -5,7 +5,7 @@ import io.golos.commun4j.services.model.MobileShowSettings
 import io.golos.commun4j.services.model.ResultOk
 import io.golos.commun4j.services.model.UserSettings
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
 
 class SettingsApiImpl

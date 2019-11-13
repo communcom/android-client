@@ -4,7 +4,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.data.repositories.current_user_repository.CurrentUserRepository
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel

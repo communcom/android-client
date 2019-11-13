@@ -7,7 +7,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.AuthUtils
 import io.golos.commun4j.utils.StringSigner
 import io.golos.data.api.user_metadata.UserMetadataApi
-import io.golos.data.repositories.current_user_repository.CurrentUserRepository
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.data.toCyberName
 import io.golos.data.toCyberUser
 import io.golos.domain.*

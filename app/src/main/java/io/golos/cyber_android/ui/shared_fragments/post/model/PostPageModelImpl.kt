@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi

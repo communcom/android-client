@@ -15,6 +15,8 @@ import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.use_cases.posts.GetPostsUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl
+import io.golos.domain.use_cases.user.GetLocalUserUseCase
+import io.golos.domain.use_cases.user.GetLocalUserUseCaseImpl
 
 @Module
 interface MyFeedFragmentModuleBinds {
@@ -36,4 +38,7 @@ interface MyFeedFragmentModuleBinds {
 
     @Binds
     fun bindGetPostsUseCase(getPostsUseCaseImpl: GetPostsUseCaseImpl): GetPostsUseCase
+
+    @Binds
+    fun bindGetLocalUserUseCase(getLocalUserUseCase: GetLocalUserUseCaseImpl): GetLocalUserUseCase
 }

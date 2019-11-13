@@ -3,9 +3,8 @@ package io.golos.data.api.push_notifications
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.services.model.ResultOk
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.data.api.AppName
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
 
 class PushNotificationsApiImpl

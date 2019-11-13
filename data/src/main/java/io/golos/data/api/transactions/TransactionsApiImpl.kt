@@ -3,10 +3,8 @@ package io.golos.data.api.transactions
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.services.model.ResultOk
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TransactionsApiImpl
