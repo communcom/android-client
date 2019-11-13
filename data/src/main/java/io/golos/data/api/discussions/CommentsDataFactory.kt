@@ -93,7 +93,7 @@ object CommentsDataFactory {
         val communityId = UUID.randomUUID().toString()
         return CommentDiscussionRaw(
             content = contentAsJson,
-            votes = DiscussionVotes(Random.nextLong(-1000, 1000), Random.nextLong(-1000, 1000)),
+            votes = DiscussionVotes(Random.nextLong(-1000, 1000), Random.nextLong(-1000, 1000), false, false),
             meta = DiscussionMetadata(Date()),
             contentId = DiscussionId(cyberName, communityId, permlink.value),
             author = DiscussionAuthor(cyberName, author.username, author.avatarUrl),
@@ -106,7 +106,7 @@ object CommentsDataFactory {
     private fun createRandomComment(parentId: DiscussionId?): CommentDiscussionRaw {
         val communityId = UUID.randomUUID().toString()
         val content = CommentToJsonMapper.mapTextToJson(texts[Random.nextInt(texts.size)])
-        val votes = DiscussionVotes(Random.nextLong(-1000, 1000), Random.nextLong(-1000, 1000))
+        val votes = DiscussionVotes(Random.nextLong(-1000, 1000), Random.nextLong(-1000, 1000), false, false)
         val meta = DiscussionMetadata(Random.nextDate())
         val author = users[Random.nextInt(users.size)]
         val contentId = DiscussionId(author.userId, communityId, Permlink.generate().value)
