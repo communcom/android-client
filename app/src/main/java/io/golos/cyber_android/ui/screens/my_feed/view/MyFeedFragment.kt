@@ -86,7 +86,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()
-                    myFeedAdapter.isFullData = true
                     generalProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {

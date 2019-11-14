@@ -10,13 +10,10 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.my_feed.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
-import timber.log.Timber
 
 open class MyFeedAdapter : RecyclerAdapter() {
 
     private val rvViewPool = RecyclerView.RecycledViewPool()
-
-    var isFullData = false
 
     var onPageRetryLoadingCallback: (() -> Unit)? = null
 
@@ -26,11 +23,8 @@ open class MyFeedAdapter : RecyclerAdapter() {
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }
-        Timber.d("paginator:[POST] new items size -> ${postsItems.size}")
-        Timber.d("paginator:[POST] saved items size -> ${items.size}")
         val adapterItemsList = ArrayList<RecyclerItem>(items)
         adapterItemsList.addAll(postsItems)
-        Timber.d("paginator:[POST] recycler items size -> ${adapterItemsList.size}")
         updateAdapter(adapterItemsList)
     }
 
