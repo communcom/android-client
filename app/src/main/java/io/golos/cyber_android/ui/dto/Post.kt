@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.dto
 
+import io.golos.domain.use_cases.post.post_dto.PostBlock
 import java.util.*
 
 data class Post(
@@ -7,7 +8,7 @@ data class Post(
     val author: Author,
     val community: Community,
     val contentId: ContentId,
-    val document: Document?,
+    val body: PostBlock,
     val meta: Meta,
     val stats: Stats?,
     val type: String?,

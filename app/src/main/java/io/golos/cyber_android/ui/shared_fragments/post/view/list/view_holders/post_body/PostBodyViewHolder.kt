@@ -9,14 +9,14 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostB
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.use_cases.post.post_dto.*
-import kotlinx.android.synthetic.main.item_content_text.view.*
+import kotlinx.android.synthetic.main.item_post_block.view.*
 import timber.log.Timber
 
 class PostBodyViewHolder constructor(
     parentView: ViewGroup
 ) : ViewHolderBase<PostPageViewModelListEventsProcessor, PostBodyListItem>(
     parentView,
-    R.layout.item_content_text
+    R.layout.item_post_block
 ) {
     override fun init(listItem: PostBodyListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         itemView.errorHolder.visibility = View.INVISIBLE

@@ -1,5 +1,6 @@
 package io.golos.domain.dto
 
+import io.golos.domain.use_cases.post.post_dto.PostBlock
 import java.util.*
 
 data class PostDomain(
@@ -7,7 +8,7 @@ data class PostDomain(
     val author: AuthorDomain,
     val community: CommunityDomain,
     val contentId: ContentIdDomain,
-    val document: DocumentDomain?,
+    val body: PostBlock,
     val meta: MetaDomain,
     val stats: StatsDomain?,
     val type: String?,

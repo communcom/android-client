@@ -121,7 +121,8 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _loadUserErrorVisibility.value = false
                 _loadUserProgressVisibility.value = true
-                val userProfile = UserDomainToUserMapper().invoke(model.getLocalUser())
+                //val userProfile = UserDomainToUserMapper().invoke(model.getLocalUser())
+                val userProfile = User("1", "sdsds", "")
                 _user.value = userProfile
                 isUserLoad.invoke(true)
             } catch (e: Exception){

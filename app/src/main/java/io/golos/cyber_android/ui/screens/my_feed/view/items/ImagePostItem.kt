@@ -1,18 +1,13 @@
 package io.golos.cyber_android.ui.screens.my_feed.view.items
 
 import android.content.Context
-import android.view.View
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
-import io.golos.cyber_android.ui.dto.document.Image
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.AttachmentsWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.EmbedImageWidget
+import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.use_cases.post.post_dto.ImageBlock
 
-class ImagePostItem(
-    private val image: Image
-): BaseRecyclerItem() {
+class ImagePostItem(imageBlock: ImageBlock) :
+    BasePostBlockItem<ImageBlock, EmbedImageWidget>(imageBlock) {
 
-    override fun getLayoutId(): Int = R.layout.item_feed_image
-
-    override fun renderView(context: Context, view: View) {
-        super.renderView(context, view)
-    }
+    override fun createWidgetView(context: Context): EmbedImageWidget = EmbedImageWidget(context)
 }

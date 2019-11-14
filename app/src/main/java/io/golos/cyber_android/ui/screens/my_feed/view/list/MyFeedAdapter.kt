@@ -6,17 +6,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
-import io.golos.cyber_android.ui.dto.document.Paragraph
-import io.golos.cyber_android.ui.screens.my_feed.view.items.TextPostItem
+import io.golos.cyber_android.ui.screens.my_feed.view.items.*
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.AttachmentsWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.utils.positiveValue
+import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.android.synthetic.main.item_create_post.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
@@ -67,7 +70,7 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
-        when(holder.itemViewType){
+        when (holder.itemViewType) {
             DATA -> (holder as PostViewHolder).unbind()
             CREATE_POST -> (holder as CreatePostViewHolder).unbind()
         }
@@ -86,8 +89,9 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
         notifyItemChanged(0)
     }
 
-    inner class PostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).
-        inflate(R.layout.item_post_content, parent, false)) {
+    inner class PostViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_post_content, parent, false)
+    ) {
 
         private val voitingWidget: VotingWidget = itemView.findViewById(R.id.votesArea)
 
@@ -100,24 +104,44 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
         }
 
         fun bind(post: Post) {
-            setUpFeedContent()
+            setUpFeedContent(post.body)
             setPostHeader(post)
             setVotesCounter(post.votes)
             KiloCounterFormatter().format(post.stats?.commentsCount.positiveValue().toLong())
             setCommentsCounter(post.stats?.commentsCount ?: 0)
         }
 
-        private fun setUpFeedContent() {
+        private fun setUpFeedContent(postBlock: Block) {
             feedContent.adapter = feedAdapter
 
-            //todo test data
-            feedAdapter.updateAdapter(
-                arrayListOf(
-                    TextPostItem(Paragraph.Text(1, "content_1", "text")),
-                    TextPostItem(Paragraph.Text(2, "content_2", "text")),
-                    TextPostItem(Paragraph.Text(3, "content_3", "text"))
-                )
-            )
+            val postBodyItem = createPostBodyItem(postBlock)
+            val postBodyContentList = arrayListOf<RecyclerItem>()
+            if(postBodyItem != null){
+                postBodyContentList.add(postBodyItem)
+            }
+            feedAdapter.updateAdapter(postBodyContentList)
+        }
+
+        private fun createPostBodyItem(block: Block): BaseRecyclerItem? {
+            return when (block) {
+                is AttachmentsBlock -> {
+                    if (block.content.size == 1) {
+                        createPostBodyItem(block.content.single()) // A single attachment is shown as embed block
+                    } else {
+                        AttachmentPostItem(block)
+                    }
+                }
+
+                is ImageBlock -> ImagePostItem(block)
+
+                is VideoBlock -> VideoPostItem(block)
+
+                is WebsiteBlock -> WebSitePostItem(block)
+
+                is ParagraphBlock -> ParagraphPostItem(block)
+
+                else -> null
+            }
         }
 
         private fun setPostHeader(post: Post) {
@@ -162,7 +186,7 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
             }
         }
 
-        fun unbind(){
+        fun unbind() {
             (itemView.editorWidget as EditorWidget).findViewById<EditorWidget>(R.id.editorWidget).clearUserAvater()
         }
     }

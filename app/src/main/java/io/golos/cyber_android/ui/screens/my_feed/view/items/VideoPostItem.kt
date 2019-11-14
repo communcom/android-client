@@ -1,18 +1,13 @@
 package io.golos.cyber_android.ui.screens.my_feed.view.items
 
 import android.content.Context
-import android.view.View
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
-import io.golos.cyber_android.ui.dto.document.Video
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.EmbedVideoWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.ParagraphWidget
+import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
+import io.golos.domain.use_cases.post.post_dto.VideoBlock
 
-class VideoPostItem(
-    private val video: Video
-) : BaseRecyclerItem() {
+class VideoPostItem(videoBlock: VideoBlock) :
+    BasePostBlockItem<VideoBlock, EmbedVideoWidget>(videoBlock) {
 
-    override fun getLayoutId(): Int = R.layout.item_feed_video
-
-    override fun renderView(context: Context, view: View) {
-        super.renderView(context, view)
-    }
+    override fun createWidgetView(context: Context): EmbedVideoWidget = EmbedVideoWidget(context)
 }

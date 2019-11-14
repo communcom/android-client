@@ -11,7 +11,7 @@ class PostDomainToPostMapper : Function1<PostDomain, Post> {
             AuthorDomainToAuthorMapper().invoke(postDomain.author),
             CommunityDomainToCommunityMapper().invoke(postDomain.community),
             ContentIdDomainToContentIdMapper().invoke(postDomain.contentId),
-            DocumentDomainToDocumentMapper().invoke(postDomain.document),
+            postDomain.body,
             MetadataDomainToMetadataMapper().invoke(postDomain.meta),
             null,
             null,
