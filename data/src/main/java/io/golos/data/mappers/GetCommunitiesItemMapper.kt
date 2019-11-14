@@ -29,6 +29,6 @@ fun GetCommunitiesItem.mapToCommunityPageDomain(): CommunityPageDomain =
         friends = listOf(),
         membersCount = subscribersCount.toLong(),
         leadsCount = 0,
-        communityCurrency = CommunityPageDomain.CommunityPageCurrencyDomain("USD", 1f),
+        communityCurrency = CommunityPageDomain.CommunityPageCurrencyDomain(name, 1f),
         joinDate = Date()
     )

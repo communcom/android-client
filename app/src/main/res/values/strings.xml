@@ -388,4 +388,5 @@
         <item>Rules</item>
     </string-array>
 
+    <string name="created">Created</string>
 </resources>

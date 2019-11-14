@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -93,6 +94,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         super.onDestroy()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun observeViewModel() {
         viewModel.communityPageLiveData.observe(this, Observer {
             tvCommunityName.text = it.name
@@ -114,7 +116,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, membersCount.toPluralInt())
             tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, leadsCount.toPluralInt())
             tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, friendsCount.toPluralInt())
-            tvJoinTime.text = it.joinDate.toMMMM_DD_YYYY_Format()
+            tvJoinTime.text = "${resources.getString(R.string.created)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
             ivNotificationCommunityControl.setOnClickListener {
                 viewModel.onNotificationCommunityControlClicked()
