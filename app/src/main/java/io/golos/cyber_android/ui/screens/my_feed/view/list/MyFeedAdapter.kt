@@ -107,6 +107,7 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
             feedContent.apply {
                 setRecycledViewPool(recycledViewPool)
             }
+            return this
         }
 
         fun bind(post: Post) {

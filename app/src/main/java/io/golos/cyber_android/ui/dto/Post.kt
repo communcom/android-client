@@ -25,30 +25,6 @@ data class Post(
         val creationTime: Date
     )
 
-    data class Document(
-        val attributes: Attributes,
-        val content: List<Content>,
-        val id: String,
-        val type: String
-    ) {
-        data class Content(
-            val contentBodyList: List<ContentBody>,
-            val id: String,
-            val type: String
-        ) {
-            data class ContentBody(
-                val content: String,
-                val id: String,
-                val type: String
-            )
-        }
-
-        data class Attributes(
-            val type: String,
-            val version: String
-        )
-    }
-
     data class Community(
         val alias: String?,
         val communityId: String,

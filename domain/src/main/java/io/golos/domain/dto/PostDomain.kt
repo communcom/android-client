@@ -25,30 +25,6 @@ data class PostDomain(
         val creationTime: Date
     )
 
-    data class DocumentDomain(
-        val attributes: AttributesDomain,
-        val content: List<ContentDomain>,
-        val id: String,
-        val type: String
-    ) {
-        data class ContentDomain(
-            val contentBodyList: List<ContentBodyDomain>,
-            val id: String,
-            val type: String
-        ) {
-            data class ContentBodyDomain(
-                val content: String,
-                val id: String,
-                val type: String
-            )
-        }
-
-        data class AttributesDomain(
-            val type: String,
-            val version: String
-        )
-    }
-
     data class CommunityDomain(
         val alias: String?,
         val communityId: String,
