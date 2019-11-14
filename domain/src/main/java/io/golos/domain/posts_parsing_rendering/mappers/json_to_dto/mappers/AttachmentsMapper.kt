@@ -7,6 +7,7 @@ import io.golos.domain.use_cases.post.post_dto.MediaBlock
 import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import org.json.JSONObject
+import timber.log.Timber
 
 class AttachmentsMapper(mappersFactory: MappersFactory): MapperBase<AttachmentsBlock>(mappersFactory) {
     override fun map(source: JSONObject): AttachmentsBlock {
@@ -17,7 +18,7 @@ class AttachmentsMapper(mappersFactory: MappersFactory): MapperBase<AttachmentsB
         for(i in 0 until jsonContent.length()) {
             jsonContent.getJSONObject(i)
                 .also {
-                    val block = when(val type = it.getType()) {
+                    val block = when(it.getType()) {
                         BlockType.IMAGE -> mappersFactory.getMapper<ImageMapper>(
                             ImageMapper::class).map(it)
                         BlockType.VIDEO -> mappersFactory.getMapper<VideoMapper>(
@@ -29,10 +30,11 @@ class AttachmentsMapper(mappersFactory: MappersFactory): MapperBase<AttachmentsB
                             Uri.parse("https://www.tokkoro.com/picsup/6007603-lake-waterfall-landscape-deep-forest-trees-sky-sunlight-sea-clouds-beautiful-nature.jpg"),
                             "description"
                         )
-                        else -> throw UnsupportedOperationException("This type ob block is not supported here: $type")
+                        else -> null
                     }
-
-                    content.add(block)
+                    if(block != null){
+                        content.add(block)
+                    }
                 }
         }
 
