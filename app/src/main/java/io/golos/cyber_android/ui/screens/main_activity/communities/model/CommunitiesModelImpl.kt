@@ -7,9 +7,9 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.RetryListItem
-import io.golos.data.api.communities.CommunitiesApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.utils.IdUtil
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.delay
@@ -20,7 +20,7 @@ import javax.inject.Inject
 open class CommunitiesModelImpl
 @Inject
 constructor(
-    private val communitiesApi: CommunitiesApi,
+    private val communitiesRepository: CommunitiesRepository,
     private val dispatchersProvider: DispatchersProvider
 ) : ModelBaseImpl(), CommunitiesModel {
 
@@ -33,7 +33,7 @@ constructor(
 
     private var currentLoadingState = LoadingState.READY_TO_LOAD
 
-    private var joiningInProgress = false
+    private var subscribingInProgress = false
 
     private var loadedItems: MutableList<VersionedListItem> = mutableListOf()
 
@@ -66,19 +66,24 @@ constructor(
         }
     }
 
-    override suspend fun join(communityId: String): Boolean {
-        if(joiningInProgress) {
+    override suspend fun subscribeUnsubscribe(communityId: String): Boolean {
+        if(subscribingInProgress) {
             return true
         }
 
-        joiningInProgress = true
+        subscribingInProgress = true
 
-        startJoinToCommunity(communityId)
+        val community = loadedItems[getCommunityIndex(communityId)] as CommunityListItem
+
+        setCommunityInProgress(communityId)
 
         val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
             try {
-                communitiesApi.joinToCommunity(communityId)
+                if(community.isJoined) {
+                    communitiesRepository.unsubscribeToCommunity(communityId)
+                } else {
+                    communitiesRepository.subscribeToCommunity(communityId)
+                }
                 true
             } catch (ex: Exception) {
                 Timber.e(ex)
@@ -86,9 +91,9 @@ constructor(
             }
         }
 
-        completeJoinToCommunity(communityId, isSuccess)
+        completeCommunityInProgress(communityId, isSuccess)
 
-        joiningInProgress = false
+        subscribingInProgress = false
 
         return isSuccess
     }
@@ -121,7 +126,8 @@ constructor(
             delay(500)
 
             try {
-                communitiesApi.getCommunitiesList(offset, pageSize, showUserCommunityOnly)
+                communitiesRepository
+                    .getCommunitiesList(offset, pageSize, showUserCommunityOnly)
                     .map { rawItem -> rawItem.map() }
             } catch (ex: Exception) {
                 Timber.e(ex)
@@ -149,18 +155,25 @@ constructor(
         loadedItems.addAll(data)
     }
 
-    private fun startJoinToCommunity(communityId: String) =
-        updateCommunity(communityId) { oldItem ->
-            oldItem.copy(version = oldItem.version + 1, isJoinInProgress = true)
+    private fun setCommunityInProgress(communityId: String) =
+        updateCommunity(communityId) { oldCommunity ->
+            oldCommunity.copy(version = oldCommunity.version + 1, isProgress = true)
         }
 
-    private fun completeJoinToCommunity(communityId: String, isSuccess: Boolean) =
-        updateCommunity(communityId) { oldItem ->
-            oldItem.copy(version = oldItem.version + 1, isJoinInProgress = false, isJoined = isSuccess)
+    private fun completeCommunityInProgress(communityId: String, isSuccess: Boolean) =
+        updateCommunity(communityId) { oldCommunity ->
+            oldCommunity.copy(
+                version = oldCommunity.version + 1,
+                isProgress = false,
+                isJoined = if(isSuccess) !oldCommunity.isJoined else oldCommunity.isJoined
+            )
         }
 
     private fun updateCommunity(communityId: String, updateAction: (CommunityListItem) -> CommunityListItem) = updateData {
-        val itemIndex = loadedItems.indexOfFirst { it is CommunityListItem && it.community.communityId == communityId }
+        val itemIndex = getCommunityIndex(communityId)
         loadedItems[itemIndex] = updateAction(loadedItems[itemIndex] as CommunityListItem)
     }
+
+    private fun getCommunityIndex(communityId: String) =
+        loadedItems.indexOfFirst { it is CommunityListItem && it.community.communityId == communityId }
 }

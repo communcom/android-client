@@ -1,6 +1,5 @@
 package io.golos.data.api.communities
 
-import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.Commun4j
@@ -28,6 +27,15 @@ constructor(
     private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
 
+    private val communities: List<CommunityDomain> by lazy { loadCommunities() }
+
+    private data class CommunityRaw (
+        val id: String,
+        val name: String,
+        val followersQuantity: Int,
+        val logoUrl: String
+    )
+
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
         delay(1000)
         //randomException()
@@ -53,25 +61,16 @@ constructor(
             Date(System.currentTimeMillis()))
     }
 
-    private val communities: List<CommunityDomain> by lazy { loadCommunities() }
-
-    private data class CommunityRaw (
-        val id: String,
-        val name: String,
-        val followersQuantity: Int,
-        val logoUrl: String
-    )
-
-    override fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> =
-        try {
-            if(Random.nextInt() % 2 == 0) {
+    override fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> {
+        return try {
+            if (Random.nextInt() % 2 == 0) {
                 throw java.lang.Exception()
             }
 
             communities
                 .asSequence()
                 .filter {
-                    if(isUser) {
+                    if (isUser) {
                         isUserCommunity(it)
                     } else {
                         true
@@ -81,10 +80,11 @@ constructor(
                 .take(pageSize)
                 .toList()
 
-        } catch(ex: Exception) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             throw ex
         }
+    }
 
     override fun joinToCommunity(externalId: String) {
         if(Random.nextInt() % 2 == 0) {

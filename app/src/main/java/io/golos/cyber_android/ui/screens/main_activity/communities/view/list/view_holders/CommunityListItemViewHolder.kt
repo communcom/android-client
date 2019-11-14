@@ -56,25 +56,15 @@ class CommunityListItemViewHolder(
 
             itemView.setOnClickListener { listItemEventsProcessor.onItemClick(community) }
 
-            if(isJoinInProgress) {
-                itemView.joinButton.text = appResources.getString(R.string.join_to_community)
-                itemView.joinButton.isEnabled = false
-                itemView.joinButton.setOnClickListener(null)
-
-                itemView.joiningProgress.visibility = View.VISIBLE
+            if(isJoined) {
+                itemView.joinButton.text = appResources.getString(R.string.joined_to_community)
             } else {
-                if(isJoined) {
-                    itemView.joinButton.text = appResources.getString(R.string.joined_to_community)
-                    itemView.joinButton.isEnabled = false
-                    itemView.joinButton.setOnClickListener(null)
-                } else {
-                    itemView.joinButton.text = appResources.getString(R.string.join_to_community)
-                    itemView.joinButton.isEnabled = true
-                    itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
-                }
-
-                itemView.joiningProgress.visibility = View.INVISIBLE
+                itemView.joinButton.text = appResources.getString(R.string.join_to_community)
             }
+
+            itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
+            itemView.joinButton.isEnabled = !isProgress
+            itemView.joiningProgress.visibility = if(isProgress) View.VISIBLE else View.INVISIBLE
 
             itemView.ivLogo.loadCommunity(community.logo)
         }

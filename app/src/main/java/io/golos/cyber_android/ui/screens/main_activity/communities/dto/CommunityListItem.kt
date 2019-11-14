@@ -9,5 +9,5 @@ data class CommunityListItem(
     val community: CommunityDomain,
 
     val isJoined: Boolean,
-    val isJoinInProgress: Boolean
+    val isProgress: Boolean
 ) : VersionedListItem

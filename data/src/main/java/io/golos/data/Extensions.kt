@@ -1,7 +1,11 @@
 package io.golos.data
 
 import androidx.lifecycle.MutableLiveData
+import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.Either
+import io.golos.data.exceptions.ApiResponseErrorException
+import io.golos.data.mappers.ApiResponseErrorToApiResponseErrorDomainMapper
 import io.golos.domain.dto.CyberUser
 
 /**
@@ -35,3 +39,8 @@ internal fun <E> List<E>.replaceByProducer(
 internal fun CyberName.toCyberUser() = CyberUser(this.name)
 internal fun String.toCyberUser() = CyberUser(this)
 internal fun String.toCyberName() = CyberName(this)
+
+fun <S> Either<S, ApiResponseError>.getOrThrow(): S =
+    (this as? Either.Success)?.value
+        ?:
+    throw ApiResponseErrorException(ApiResponseErrorToApiResponseErrorDomainMapper.invoke((this as Either.Failure).value))

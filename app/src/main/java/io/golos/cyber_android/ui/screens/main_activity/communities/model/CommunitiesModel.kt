@@ -16,5 +16,5 @@ interface CommunitiesModel: ModelBase {
     /**
      * @return true in case of success
      */
-    suspend fun join(communityId: String): Boolean
+    suspend fun subscribeUnsubscribe(communityId: String): Boolean
 }

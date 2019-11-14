@@ -41,7 +41,7 @@ constructor(
 
     override fun onJoinClick(communityId: String) {
         launch {
-            if(!model.join(communityId)) {
+            if(!model.subscribeUnsubscribe(communityId)) {
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
