@@ -92,6 +92,7 @@ class MyFeedViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Timber.e(e)
+                paginator.proceed(Paginator.Action.PageError(e))
             }
         }
     }
