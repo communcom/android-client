@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
+import io.golos.cyber_android.ui.common.extensions.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
@@ -152,10 +153,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     private fun setCommunityLogo(communityLogo: String?) {
-        Glide.with(ivCommunityLogo)
-            .load(communityLogo)
-            .apply(RequestOptions.circleCropTransform())
-            .into(ivCommunityLogo)
+        ivCommunityLogo.loadCommunity(communityLogo)
     }
 
     private fun setSubscriptionStatus(isSubscribed: Boolean) {

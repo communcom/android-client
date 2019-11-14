@@ -12,7 +12,7 @@ class CommunityFriendDomainToCommunityFriendMapper :
             communityFriendDomain.userId,
             communityFriendDomain.userName,
             communityFriendDomain.avatarUrl,
-            communityFriendDomain.hasAward
+            communityFriendDomain.isLead
         )
     }
 }

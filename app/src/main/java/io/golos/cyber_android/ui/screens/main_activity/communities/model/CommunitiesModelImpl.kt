@@ -12,7 +12,6 @@ import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.utils.IdUtil
 import io.golos.domain.utils.MurmurHash
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -122,17 +121,13 @@ constructor(
     }
 
     private suspend fun getData(offset: Int): List<CommunityListItem>? =
-        withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-
-            try {
-                communitiesRepository
-                    .getCommunitiesList(offset, pageSize, showUserCommunityOnly)
-                    .map { rawItem -> rawItem.map() }
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                null
-            }
+        try {
+            communitiesRepository
+                .getCommunitiesList(offset, pageSize, showUserCommunityOnly)
+                .map { rawItem -> rawItem.map() }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            null
         }
 
     private fun updateData(updateAction: (MutableList<VersionedListItem>) -> Unit) {
