@@ -12,6 +12,7 @@ import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
@@ -37,15 +38,7 @@ constructor(
     private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
 
     @ColorInt
-    private val spansColor: Int
-
-    @Inject
-    internal lateinit var appResourcesProvider: AppResourcesProvider
-
-    init {
-        App.injections.get<PostPageFragmentComponent>().inject(this)
-        spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
-    }
+    private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
 
     override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
         onClickProcessor = processor
@@ -63,13 +56,14 @@ constructor(
     private fun setUp() {
         setTextColor(Color.BLACK)
 
-        setTextSize(TypedValue.COMPLEX_UNIT_PX, appResourcesProvider.getDimens(R.dimen.text_size_post_normal))
+        val resources = context.resources
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_size_post_normal))
 
-        appResourcesProvider.getDimens(R.dimen.post_content_border_horizontal).toInt().also {
+        resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
             setPadding(it, 0, it, 0)
         }
 
-        appResourcesProvider.getDimens(R.dimen.margin_block).toInt().also {
+        resources.getDimension(R.dimen.margin_block).toInt().also {
             val params = this.layoutParams as ViewGroup.MarginLayoutParams
             params.topMargin = it
             params.bottomMargin = it

@@ -31,20 +31,16 @@ constructor(
 
     private var images = mutableListOf<ImageView>()
 
-    @Inject
-    internal lateinit var appResProvider: AppResourcesProvider
-
     init {
-        App.injections.get<PostPageFragmentComponent>().inject(this)
-
         inflate(context, R.layout.view_post_attachments, this)
     }
 
     override fun render(block: AttachmentsBlock) {
         attachmentsContainer.removeAllViews()
 
-        val size = appResProvider.getDimens(R.dimen.size_post_attachments).toInt()
-        val gap = appResProvider.getDimens(R.dimen.gap_post_attachments).toInt()
+        val resources = context.resources
+        val size = resources.getDimension(R.dimen.size_post_attachments).toInt()
+        val gap = resources.getDimension(R.dimen.gap_post_attachments).toInt()
 
         val lastIndex = images.lastIndex
 

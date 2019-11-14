@@ -30,12 +30,7 @@ constructor(
     private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
     private var siteUri: Uri? = null
 
-    @Inject
-    internal lateinit var appResourcesProvider: AppResourcesProvider
-
     init {
-        App.injections.get<PostPageFragmentComponent>().inject(this)
-
         inflate(context, R.layout.view_post_embed_website, this)
     }
 
@@ -59,7 +54,7 @@ constructor(
         val thumbnailUrl = block.thumbnailUrl
         //val thumbnailUrl = "https://yastatic.net/s3/home/logos/share/share-logo_ru.png"
 
-        val radius = appResourcesProvider.getDimens(R.dimen.radius_corner_embed_website)
+        val radius = context.resources.getDimension(R.dimen.radius_corner_embed_website)
         Glide
             .with(this)
             .load(thumbnailUrl?.toString() ?: PostStubs.website)
