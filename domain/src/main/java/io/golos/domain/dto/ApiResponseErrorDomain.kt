@@ -1,4 +1,4 @@
-package io.golos.data.dto
+package io.golos.domain.dto
 
 data class ApiResponseErrorDomain(
     val id: Long,

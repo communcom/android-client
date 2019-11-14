@@ -1,6 +1,6 @@
 package io.golos.data.exceptions
 
-import io.golos.data.dto.ApiResponseErrorDomain
+import io.golos.domain.dto.ApiResponseErrorDomain
 
 class ApiResponseErrorException(
     val errorInfo: ApiResponseErrorDomain
