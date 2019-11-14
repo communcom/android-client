@@ -13,7 +13,7 @@ interface RecyclerItem {
 
     fun initView(context: Context, view: View)
 
-    fun onViewRecycled() {}
+    fun onViewRecycled(view: View) {}
 
     fun areItemsTheSame(): Int = hashCode()
 

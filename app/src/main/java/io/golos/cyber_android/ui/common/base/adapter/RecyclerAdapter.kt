@@ -5,13 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
+import java.lang.Exception
 
-class RecyclerAdapter(
+open class RecyclerAdapter(
     items: List<RecyclerItem> = mutableListOf(),
     var click: ((RecyclerItem) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
-    private var items = items.toMutableList()
+    protected var items = items.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
@@ -34,7 +36,7 @@ class RecyclerAdapter(
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        holder.holderItem?.onViewRecycled()
+        holder.holderItem?.onViewRecycled(holder.itemView)
     }
 
     override fun getItemCount(): Int = items.size
@@ -67,7 +69,11 @@ class RecyclerAdapter(
                 }
             })
             items = newItems.toMutableList()
-            result.dispatchUpdatesTo(this)
+            try {
+                result.dispatchUpdatesTo(this)
+            }catch (e: Exception){
+                Timber.e(e)
+            }
         }
     }
 

@@ -65,35 +65,34 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             when (it) {
                 is Paginator.State.Data<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isFullData = false
-                    myFeedAdapter.isPageError = false
-                    myFeedAdapter.isNewPageProgress = false
+                    myFeedAdapter.hideLoadingNextPageError()
+                    myFeedAdapter.hideLoadingNextPageProgress()
                     generalProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+                    myFeedAdapter.hideLoadingNextPageError()
+                    myFeedAdapter.hideLoadingNextPageProgress()
                     myFeedAdapter.isFullData = true
-                    myFeedAdapter.isPageError = false
-                    myFeedAdapter.isNewPageProgress = false
                     generalProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isPageError = true
+                    myFeedAdapter.showLoadingNextPageError()
                 }
                 is Paginator.State.NewPageProgress<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isPageError = false
-                    myFeedAdapter.isNewPageProgress = true
+                    myFeedAdapter.hideLoadingNextPageError()
+                    myFeedAdapter.showLoadingNextPageProgress()
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isNewPageProgress = true
+                    myFeedAdapter.showLoadingNextPageProgress()
                     pbLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.isNewPageProgress = false
+                    myFeedAdapter.hideLoadingNextPageProgress()
                     uiHelper.showMessage(R.string.loading_error)
                     pbLoading.visibility = View.INVISIBLE
                 }
