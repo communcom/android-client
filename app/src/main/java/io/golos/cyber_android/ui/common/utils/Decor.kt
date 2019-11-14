@@ -49,3 +49,26 @@ class TopDividerItemDecoration(context: Context) : RecyclerView.ItemDecoration()
         outRect.bottom = height
     }
 }
+
+class DividerPostDecoration(context: Context) : DividerItemDecoration(context, VERTICAL) {
+
+    private val divider = ContextCompat.getDrawable(context, R.drawable.divider_post_card)
+
+    init {
+        divider?.let { drawable ->
+            setDrawable(drawable)
+        }
+    }
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        val height = divider!!.intrinsicHeight
+        val position = parent.getChildLayoutPosition(view)
+
+        outRect.bottom = height
+
+        if (position == 0) {
+            outRect.top = height
+        }
+    }
+
+}

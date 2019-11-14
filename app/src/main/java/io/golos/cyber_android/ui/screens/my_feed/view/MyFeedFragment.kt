@@ -5,20 +5,21 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
+import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
-import timber.log.Timber
 
 class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
 
@@ -46,13 +47,27 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     private fun setupPostsList() {
         val myFeedAdapter = MyFeedAdapter()
-        rvPosts.addItemDecoration(TopDividerItemDecoration(requireContext()))
-        rvPosts.adapter = myFeedAdapter
+        val lManager = LinearLayoutManager(context)
 
-        myFeedAdapter.nextPageCallback = {
-            Timber.d("paginator: load more posts")
-            viewModel.loadMorePosts()
-        }
+        rvPosts.addItemDecoration(DividerPostDecoration(requireContext()))
+        rvPosts.layoutManager = lManager
+
+        rvPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = recyclerView.childCount
+                val totalItemCount = lManager.itemCount
+                val firstVisibleItem = lManager.findFirstVisibleItemPosition()
+
+                if (totalItemCount - visibleItemCount <= firstVisibleItem + visibleItemCount) {
+                    if (lManager.findLastCompletelyVisibleItemPosition() >= totalItemCount - 1) {
+                        viewModel.loadMorePosts()
+                    }
+                }
+            }
+        })
+
+        rvPosts.adapter = myFeedAdapter
         myFeedAdapter.onPageRetryLoadingCallback = {
             viewModel.loadMorePosts()
         }
@@ -61,7 +76,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     private fun observeViewModel() {
         viewModel.postsListState.observe(viewLifecycleOwner, Observer {
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
-            Timber.d("paginator:[${it::class.java.simpleName.toUpperCase()}]")
             when (it) {
                 is Paginator.State.Data<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
@@ -70,20 +84,20 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     generalProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()
                     myFeedAdapter.isFullData = true
                     generalProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+                    myFeedAdapter.hideLoadingNextPageProgress()
                     myFeedAdapter.showLoadingNextPageError()
+                    rvPosts.scrollToPosition(myFeedAdapter.itemCount - 1)
                 }
                 is Paginator.State.NewPageProgress<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.showLoadingNextPageProgress()
+                    rvPosts.scrollToPosition(myFeedAdapter.itemCount - 1)
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
@@ -114,16 +128,16 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             myFeedAdapter.updateUser(it)
         })
         viewModel.loadUserProgressVisibility.observe(this, Observer {
-            if(it){
+            if (it) {
                 generalProgressLoading.visibility = View.VISIBLE
-            } else{
+            } else {
                 generalProgressLoading.visibility = View.INVISIBLE
             }
         })
         viewModel.loadUserErrorVisibility.observe(this, Observer {
-            if(it){
+            if (it) {
                 btnRetry.visibility = View.VISIBLE
-            } else{
+            } else {
                 btnRetry.visibility = View.INVISIBLE
             }
         })

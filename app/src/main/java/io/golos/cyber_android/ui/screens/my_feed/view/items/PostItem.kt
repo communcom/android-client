@@ -8,18 +8,14 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
-import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.utils.positiveValue
 import io.golos.domain.use_cases.post.post_dto.*
-import kotlinx.android.synthetic.main.item_create_post.view.*
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
-import kotlinx.android.synthetic.main.item_progress_error.view.*
 
 class PostItem(private val post: Post) : BaseRecyclerItem() {
 

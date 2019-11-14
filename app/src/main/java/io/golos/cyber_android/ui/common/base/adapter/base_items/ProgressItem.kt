@@ -12,6 +12,7 @@ class ProgressItem: BaseRecyclerItem() {
 
     override fun initView(context: Context, view: View) {
         super.initView(context, view)
+        view.pbPageLoading.visibility = View.VISIBLE
         view.btnPageLoadingRetry.visibility = View.INVISIBLE
     }
 }
