@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
-import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
@@ -16,7 +15,6 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.my_feed.view.items.*
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.AttachmentsWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.utils.positiveValue
 import io.golos.domain.use_cases.post.post_dto.*
@@ -33,12 +31,14 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
 
     override val countItemsFromEndForBeginUploadNewPage: Int = 10
 
+    private val rvViewPool = RecyclerView.RecycledViewPool()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             PROGRESS_ERROR -> getProgressErrorViewHolder(parent)
             CREATE_POST -> CreatePostViewHolder(parent)
-            DATA -> PostViewHolder(parent)
-            else -> PostViewHolder(parent)
+            DATA -> PostViewHolder(parent).setRecycledViewPool(rvViewPool)
+            else -> PostViewHolder(parent).setRecycledViewPool(rvViewPool)
         }
     }
 
@@ -103,6 +103,12 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
             feedContent.layoutManager = LinearLayoutManager(itemView.context) //todo to VH
         }
 
+        fun setRecycledViewPool(recycledViewPool: RecyclerView.RecycledViewPool): PostViewHolder{
+            feedContent.apply {
+                setRecycledViewPool(recycledViewPool)
+            }
+        }
+
         fun bind(post: Post) {
             setUpFeedContent(post.body)
             setPostHeader(post)
@@ -111,15 +117,14 @@ open class MyFeedAdapter : PaginalAdapter<Post>() {
             setCommentsCounter(post.stats?.commentsCount ?: 0)
         }
 
-        private fun setUpFeedContent(postBlock: Block) {
+        private fun setUpFeedContent(postBlock: PostBlock) {
             feedContent.adapter = feedAdapter
-
-            val postBodyItem = createPostBodyItem(postBlock)
-            val postBodyContentList = arrayListOf<RecyclerItem>()
-            if(postBodyItem != null){
-                postBodyContentList.add(postBodyItem)
+            val postContentItems: List<BaseRecyclerItem> = postBlock.content
+                .filter { createPostBodyItem(it) != null }
+                .map {
+                createPostBodyItem(it)!!
             }
-            feedAdapter.updateAdapter(postBodyContentList)
+            feedAdapter.updateAdapter(postContentItems)
         }
 
         private fun createPostBodyItem(block: Block): BaseRecyclerItem? {
