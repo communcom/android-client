@@ -28,8 +28,8 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.edit_profile_bio_activity.EditProfileBioActivity
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
-import io.golos.cyber_android.ui.screens.feed.FeedPageLiveDataProvider
-import io.golos.cyber_android.ui.screens.feed.FeedViewModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageLiveDataProvider
+import io.golos.cyber_android.ui.screens.main_activity.feed.FeedViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
 import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment

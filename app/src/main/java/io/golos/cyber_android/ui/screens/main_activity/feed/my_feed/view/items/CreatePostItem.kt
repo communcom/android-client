@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view.items
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.items
 
 import android.content.Context
 import android.view.View
@@ -7,7 +7,6 @@ import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.User
 import kotlinx.android.synthetic.main.item_create_post.view.*
-import kotlinx.android.synthetic.main.item_progress_error.view.*
 
 class CreatePostItem(private val user: User?) : BaseRecyclerItem() {
 

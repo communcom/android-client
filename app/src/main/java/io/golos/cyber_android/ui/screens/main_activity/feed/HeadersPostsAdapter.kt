@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.feed
+package io.golos.cyber_android.ui.screens.main_activity.feed
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.LoadingViewHolder
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter.EditorWidgetViewHolder
-import io.golos.cyber_android.ui.screens.feed.HeadersPostsAdapter.SortingWidgetViewHolder
+import io.golos.cyber_android.ui.screens.main_activity.feed.HeadersPostsAdapter.EditorWidgetViewHolder
+import io.golos.cyber_android.ui.screens.main_activity.feed.HeadersPostsAdapter.SortingWidgetViewHolder
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter

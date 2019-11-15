@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.cyber_android.ui.screens.feed.FeedViewModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.FeedViewModel
 import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
 import io.golos.data.errors.AppError
 import io.golos.domain.extensions.map

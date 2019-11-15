@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.feed
+package io.golos.cyber_android.ui.screens.main_activity.feed
 
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.action.VoteUseCase

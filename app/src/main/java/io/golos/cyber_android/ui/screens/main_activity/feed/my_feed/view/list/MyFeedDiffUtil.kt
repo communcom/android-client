@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view.list
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list
 
 import androidx.recyclerview.widget.DiffUtil
 import io.golos.cyber_android.ui.dto.Post

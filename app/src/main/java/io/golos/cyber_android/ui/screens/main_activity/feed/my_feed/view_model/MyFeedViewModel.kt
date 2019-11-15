@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view_model
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
@@ -7,8 +7,7 @@ import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.PostDomainListToPostListMapper
-import io.golos.cyber_android.ui.mappers.UserDomainToUserMapper
-import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider

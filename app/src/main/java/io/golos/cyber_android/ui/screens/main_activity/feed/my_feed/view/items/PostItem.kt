@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view.items
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.items
 
 import android.content.Context
 import android.view.View

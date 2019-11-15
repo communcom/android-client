@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.feed
+package io.golos.cyber_android.ui.screens.main_activity.feed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

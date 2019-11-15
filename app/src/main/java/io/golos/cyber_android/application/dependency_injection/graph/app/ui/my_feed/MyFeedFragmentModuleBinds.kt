@@ -9,9 +9,9 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
-import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModelImpl
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModelImpl
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.use_cases.posts.GetPostsUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl

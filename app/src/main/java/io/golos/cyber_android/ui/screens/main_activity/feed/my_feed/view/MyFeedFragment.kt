@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view
 
 import android.os.Bundle
 import android.view.View
@@ -14,11 +14,10 @@ import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
-import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
