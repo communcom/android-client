@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,17 +10,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
+import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
+import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -48,7 +56,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun setupPostsList() {
-        val myFeedAdapter = MyFeedAdapter()
+        val myFeedAdapter = MyFeedAdapter(viewModel)
         val lManager = LinearLayoutManager(context)
 
         rvPosts.addItemDecoration(DividerPostDecoration(requireContext()))
@@ -73,11 +81,37 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         myFeedAdapter.onPageRetryLoadingCallback = {
             viewModel.loadMorePosts()
         }
-        myFeedAdapter.onPostCommentsClicked = {
-            val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
-            startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(discussionIdModel, true)))
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        when (command) {
+            is NavigateToImageViewCommand -> openImageView(command.imageUri)
+
+            is NavigateToLinkViewCommand -> openLinkView(command.link)
+
+            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
+
+            is NavigateToPostCommand -> openPost(command.discussionIdModel)
         }
     }
+
+    private fun openPost(discussionIdModel: DiscussionIdModel) {
+        startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(discussionIdModel)))
+    }
+
+    private fun openUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
+
+    private fun openLinkView(link: Uri) {
+        Intent(Intent.ACTION_VIEW, link)
+            .also { intent ->
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+    }
+
+    private fun openImageView(imageUri: Uri) =
+        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
 
     private fun observeViewModel() {
         viewModel.postsListState.observe(viewLifecycleOwner, Observer {

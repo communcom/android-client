@@ -4,11 +4,15 @@ import android.content.Context
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.PostBlockWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.use_cases.post.post_dto.Block
 import kotlinx.android.synthetic.main.item_post_block.view.*
+import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
 
-abstract class BasePostBlockItem<POST_BLOCK : Block, WIDGET : PostBlockWidget<POST_BLOCK>>(private val postBlock: POST_BLOCK) :
+abstract class BasePostBlockItem<POST_BLOCK : Block, WIDGET : PostBlockWidget<POST_BLOCK>>(private val postBlock: POST_BLOCK,
+                                                                                           private val processor: MyFeedViewModelListEventsProcessor?) :
     BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_block

@@ -10,24 +10,17 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.items.PostItem
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModelListEventsProcessor
 
-open class MyFeedAdapter : RecyclerAdapter() {
+open class MyFeedAdapter(private val eventsProcessor: MyFeedViewModelListEventsProcessor) : RecyclerAdapter() {
 
     private val rvViewPool = RecyclerView.RecycledViewPool()
 
     var onPageRetryLoadingCallback: (() -> Unit)? = null
 
-    var onPostCommentsClicked: ((Post.ContentId) -> Unit)? = null
-
     fun updateMyFeedPosts(posts: List<Post>) {
         val postsItems = posts.map {
-            val postItem = PostItem(it, object: PostItem.PostItemClickListener{
-
-                override fun onCommentsClicked(contentId: Post.ContentId) {
-                    onPostCommentsClicked?.invoke(contentId)
-                }
-
-            })
+            val postItem = PostItem(it, eventsProcessor)
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }
@@ -40,9 +33,9 @@ open class MyFeedAdapter : RecyclerAdapter() {
         val adapterItemsList = ArrayList<RecyclerItem>(items)
         val createPostItem = adapterItemsList.find { it is CreatePostItem }
         if (createPostItem == null) {
-            adapterItemsList.add(0, CreatePostItem(user))
+            adapterItemsList.add(0, CreatePostItem(user, eventsProcessor))
         } else {
-            adapterItemsList[0] = CreatePostItem(user)
+            adapterItemsList[0] = CreatePostItem(user, eventsProcessor)
         }
         updateAdapter(adapterItemsList)
     }

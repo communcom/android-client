@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
@@ -7,10 +8,15 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +26,32 @@ class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>
-) : ViewModelBase<MyFeedModel>(dispatchersProvider, model) {
+) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedViewModelListEventsProcessor {
+
+    override fun onLinkInPostClick(link: Uri) {
+        _command.value = NavigateToLinkViewCommand(link)
+    }
+
+    override fun onImageInPostClick(imageUri: Uri) {
+        _command.value = NavigateToImageViewCommand(imageUri)
+    }
+
+    override fun onUserInPostClick(userName: String) {
+
+    }
+
+    override fun onUpVoteClick() {
+
+    }
+
+    override fun onDownVoteClick() {
+
+    }
+
+    override fun onCommentsClicked(postContentId: Post.ContentId) {
+        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel)
+    }
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
 

@@ -9,15 +9,23 @@ import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostImageListener
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostLinkListener
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostUserListener
+import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostVoteListener
 import io.golos.cyber_android.utils.positiveValue
 import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 
-class PostItem(private val post: Post, private val listener: PostItemClickListener? = null) : BaseRecyclerItem() {
+class PostItem(
+    private val post: Post,
+    private val listener: MyFeedViewModelListEventsProcessor
+) : BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_content
 
@@ -62,17 +70,17 @@ class PostItem(private val post: Post, private val listener: PostItemClickListen
                 if (block.content.size == 1) {
                     createPostBodyItem(block.content.single()) // A single attachment is shown as embed block
                 } else {
-                    AttachmentPostItem(block)
+                    AttachmentPostItem(block, listener)
                 }
             }
 
-            is ImageBlock -> ImagePostItem(block)
+            is ImageBlock -> ImagePostItem(block, listener)
 
-            is VideoBlock -> VideoPostItem(block)
+            is VideoBlock -> VideoPostItem(block, listener)
 
-            is WebsiteBlock -> WebSitePostItem(block)
+            is WebsiteBlock -> WebSitePostItem(block, listener)
 
-            is ParagraphBlock -> ParagraphPostItem(block)
+            is ParagraphBlock -> ParagraphPostItem(block, listener)
 
             else -> null
         }
@@ -106,15 +114,10 @@ class PostItem(private val post: Post, private val listener: PostItemClickListen
     private fun setCommentsCounter(view: View, commentsCounter: Int) {
         view.commentsCountText.text = commentsCounter.toString()
         view.commentsCountText.setOnClickListener {
-            listener?.onCommentsClicked(post.contentId)
+            listener.onCommentsClicked(post.contentId)
         }
         view.commentsIcon.setOnClickListener {
-            listener?.onCommentsClicked(post.contentId)
+            listener.onCommentsClicked(post.contentId)
         }
-    }
-
-    interface PostItemClickListener{
-
-        fun onCommentsClicked(contentId: Post.ContentId)
     }
 }
