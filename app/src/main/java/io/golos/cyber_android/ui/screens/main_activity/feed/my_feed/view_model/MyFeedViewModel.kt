@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
-import io.golos.cyber_android.ui.mappers.PostDomainListToPostListMapper
+import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
@@ -66,7 +66,7 @@ class MyFeedViewModel @Inject constructor(
             try {
                 postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGINATION_PAGE_SIZE)
                 val postsDomainList = model.getPosts(postsConfigurationDomain)
-                val postList = PostDomainListToPostListMapper().invoke(postsDomainList)
+                val postList = postsDomainList.mapToPostsList()
                 Timber.d("paginator: post list size -> ${postList.size}")
                 launch(Dispatchers.Main) {
                     paginator.proceed(
@@ -107,7 +107,7 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _loadUserErrorVisibility.value = false
                 _loadUserProgressVisibility.value = true
-                //val userProfile = UserDomainToUserMapper().invoke(model.getLocalUser())
+                //val userProfile = UserDomainMapper().invoke(model.getLocalUser())
                 val userProfile = User("1", "sdsds", "")
                 _user.value = userProfile
                 postsConfigurationDomain = PostsConfigurationDomain(
