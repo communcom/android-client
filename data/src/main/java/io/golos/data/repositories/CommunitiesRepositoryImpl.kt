@@ -10,7 +10,6 @@ import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 class CommunitiesRepositoryImpl
@@ -19,14 +18,15 @@ constructor(
     private val communitiesApi: CommunitiesApi,
     private val dispatchersProvider: DispatchersProvider,
 
-    private val commun4j: Commun4j,
-    private val currentUserRepository: CurrentUserRepositoryRead
+    private val commun4j: Commun4j
 ) : RepositoryBase(dispatchersProvider),
     CommunitiesRepository {
 
-    override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain =
-        apiCall { commun4j.getCommunity(communityId) }
-            .mapToCommunityPageDomain()
+    override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
+        val community = apiCall { commun4j.getCommunity(communityId) }
+        val leads = apiCall { commun4j.getLeaders(communityId, 50, 0) }.items.map { it.userId }
+        return community.mapToCommunityPageDomain(leads)
+    }
 
     override suspend fun subscribeToCommunity(communityId: String) {
         return withContext(dispatchersProvider.ioDispatcher) {
@@ -60,7 +60,7 @@ constructor(
             throw UnsupportedOperationException("Getting communities for current user is not supported now")
         }
 
-        return apiCall { commun4j.getCommunitiesList(currentUserRepository.user, offset, pageSize) }
+        return apiCall { commun4j.getCommunitiesList(offset, pageSize) }
             .items
             .map { it.mapToCommunityDomain() }
     }
