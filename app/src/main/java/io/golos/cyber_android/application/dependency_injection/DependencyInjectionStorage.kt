@@ -40,14 +40,12 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentModule
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
-import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.use_cases.model.CommunityModel
@@ -190,11 +188,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             MyFeedFragmentComponent::class -> get<UIComponent>()
                 .postsListFragment
-                .postsListFragmentModule(
-                    MyFeedFragmentModule(
-                        args[0] as GetPostsConfiguration
-                    )
-                )
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

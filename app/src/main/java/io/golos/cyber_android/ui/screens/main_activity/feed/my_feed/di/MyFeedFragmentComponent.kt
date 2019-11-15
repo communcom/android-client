@@ -1,16 +1,14 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.MyFeedFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
-@Subcomponent(modules = [MyFeedFragmentModuleBinds::class, MyFeedFragmentModule::class])
+@Subcomponent(modules = [MyFeedFragmentModuleBinds::class])
 @FragmentScope
 interface MyFeedFragmentComponent {
     @Subcomponent.Builder
     interface Builder {
-
-        fun postsListFragmentModule(module: MyFeedFragmentModule): Builder
 
         fun build(): MyFeedFragmentComponent
     }

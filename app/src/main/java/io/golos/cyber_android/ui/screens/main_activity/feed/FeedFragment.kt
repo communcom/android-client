@@ -22,7 +22,6 @@ import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.MyFeedFragment
 import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersBottomSheetDialog
-import io.golos.cyber_android.ui.dto.GetPostsByUserIdConfiguration
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -84,11 +83,7 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
                     ).apply {
                         setTargetFragment(this@FeedFragment, FEED_REQUEST_CODE)
                     }
-                    FeedTabs.MY_FEED.index -> MyFeedFragment.newInstance(
-                        GetPostsByUserIdConfiguration(
-                            arguments?.getString(Tags.USER_ID)!!
-                        )
-                    )
+                    FeedTabs.MY_FEED.index -> MyFeedFragment.newInstance()
                     else -> throw RuntimeException("Unsupported tab")
                 }
             }

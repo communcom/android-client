@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed
+package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

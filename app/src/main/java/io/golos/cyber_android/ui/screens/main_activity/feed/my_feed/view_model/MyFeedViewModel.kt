@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.PostDomainListToPostListMapper
@@ -20,7 +19,6 @@ import javax.inject.Inject
 class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
-    private val getPostsConfiguration: GetPostsConfiguration,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model) {
 
@@ -32,7 +30,7 @@ class MyFeedViewModel @Inject constructor(
 
     val user = _user.toLiveData()
 
-    private var postsConfigurationDomain: PostsConfigurationDomain
+    private lateinit var postsConfigurationDomain: PostsConfigurationDomain
 
     private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -56,17 +54,6 @@ class MyFeedViewModel @Inject constructor(
             Timber.d("paginator: render update -> [${it::class.java.simpleName.toUpperCase()}]")
             _postsListState.value = it
         }
-
-        postsConfigurationDomain = PostsConfigurationDomain(
-            getPostsConfiguration.userId,
-            null,
-            null,
-            PostsConfigurationDomain.SortByDomain.TIME,
-            PostsConfigurationDomain.TimeFrameDomain.DAY,
-            PAGINATION_PAGE_SIZE,
-            0,
-            PostsConfigurationDomain.TypeFeedDomain.NEW
-        )
     }
 
     fun loadMorePosts() {
@@ -123,6 +110,16 @@ class MyFeedViewModel @Inject constructor(
                 //val userProfile = UserDomainToUserMapper().invoke(model.getLocalUser())
                 val userProfile = User("1", "sdsds", "")
                 _user.value = userProfile
+                postsConfigurationDomain = PostsConfigurationDomain(
+                    userProfile.id,
+                    null,
+                    null,
+                    PostsConfigurationDomain.SortByDomain.TIME,
+                    PostsConfigurationDomain.TimeFrameDomain.DAY,
+                    PAGINATION_PAGE_SIZE,
+                    0,
+                    PostsConfigurationDomain.TypeFeedDomain.NEW
+                )
                 isUserLoad.invoke(true)
             } catch (e: Exception){
                 _loadUserErrorVisibility.value = true

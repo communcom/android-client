@@ -2,19 +2,17 @@ package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
-import io.golos.cyber_android.ui.dto.GetPostsConfiguration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
@@ -31,7 +29,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     override fun layoutResId(): Int = R.layout.fragment_my_feed
 
-    override fun inject() = App.injections.get<MyFeedFragmentComponent>(arguments!!.getParcelable(UPLOAD_POSTS_CONFIGURATION))
+    override fun inject() = App.injections.get<MyFeedFragmentComponent>()
         .inject(this)
 
     override fun releaseInjection() {
@@ -149,16 +147,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     companion object {
 
-        private const val UPLOAD_POSTS_CONFIGURATION = "UPLOAD_POSTS_CONFIGURATION"
+        fun newInstance(): Fragment {
 
-        fun newInstance(getPostsConfiguration: GetPostsConfiguration): Fragment {
-            val postsListFragment = MyFeedFragment()
-            postsListFragment.apply {
-                arguments = bundleOf(
-                    UPLOAD_POSTS_CONFIGURATION to getPostsConfiguration
-                )
-            }
-            return postsListFragment
+            return MyFeedFragment()
         }
     }
 }
