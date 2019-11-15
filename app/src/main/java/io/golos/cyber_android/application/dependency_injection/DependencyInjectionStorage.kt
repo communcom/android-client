@@ -35,8 +35,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.my_community_fragment.MyCommunityFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentModule
@@ -61,14 +59,14 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
     private val components = mutableMapOf<KClass<*>, Any>()
 
-    inline fun <reified T>get(vararg args: Any?): T = getComponent(T::class, args)
+    inline fun <reified T> get(vararg args: Any?): T = getComponent(T::class, args)
 
-    inline fun <reified T>release() = releaseComponent(T::class)
+    inline fun <reified T> release() = releaseComponent(T::class)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T>getComponent(type: KClass<*>, args: Array<out Any?>): T {
+    fun <T> getComponent(type: KClass<*>, args: Array<out Any?>): T {
         var result = components[type]
-        if(result == null) {
+        if (result == null) {
             result = provideComponent<T>(type, args)
             components[type] = result!!
         }
@@ -78,8 +76,8 @@ class DependencyInjectionStorage(private val appContext: Context) {
     fun releaseComponent(type: KClass<*>) = components.remove(type)
 
     @Suppress("IMPLICIT_CAST_TO_ANY", "UNCHECKED_CAST")
-    private fun <T>provideComponent(type: KClass<*>, args: Array<out Any?>): T {
-        return when(type) {
+    private fun <T> provideComponent(type: KClass<*>, args: Array<out Any?>): T {
+        return when (type) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
 
             UIComponent::class -> get<AppComponent>().ui.build()
@@ -131,12 +129,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             MainActivityComponent::class -> get<UIComponent>().mainActivity.build()
-
-            MyFeedFragmentComponent::class ->
-                get<MainActivityComponent>()
-                    .myFeedFragmentComponent
-                    .init(MyFeedFragmentModule(args[0] as CyberUser, args[1] as CyberName))
-                    .build()
 
             NotificationsFragmentComponent::class -> get<MainActivityComponent>().notificationsFragmentComponent.build()
 
@@ -201,7 +193,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent::class -> get<UIComponent>()
                 .postsListFragment
-                .postsListFragmentModule(io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentModule(args[0] as GetPostsConfiguration))
+                .postsListFragmentModule(
+                    io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentModule(
+                        args[0] as GetPostsConfiguration
+                    )
+                )
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
