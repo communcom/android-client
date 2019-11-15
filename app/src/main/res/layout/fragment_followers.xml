@@ -42,7 +42,7 @@
             tools:listitem="@layout/item_subscription" />
 
         <include
-            android:id="@+id/generalProgressLoading"
+            android:id="@+id/emptyPostProgressLoading"
             layout="@layout/item_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

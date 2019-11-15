@@ -16,6 +16,10 @@ import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
+import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
@@ -69,6 +73,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         myFeedAdapter.onPageRetryLoadingCallback = {
             viewModel.loadMorePosts()
         }
+        myFeedAdapter.onPostCommentsClicked = {
+            val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
+            startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(discussionIdModel, true)))
+        }
     }
 
     private fun observeViewModel() {
@@ -79,12 +87,12 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     myFeedAdapter.hideLoadingNextPageProgress()
@@ -108,14 +116,14 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
-                    generalProgressLoading.visibility = View.VISIBLE
+                    emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
                 }
                 is Paginator.State.Empty -> {
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyError -> {
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     btnRetry.visibility = View.VISIBLE
                 }
             }
@@ -126,9 +134,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         })
         viewModel.loadUserProgressVisibility.observe(this, Observer {
             if (it) {
-                generalProgressLoading.visibility = View.VISIBLE
+                userProgressLoading.visibility = View.VISIBLE
             } else {
-                generalProgressLoading.visibility = View.INVISIBLE
+                userProgressLoading.visibility = View.INVISIBLE
             }
         })
         viewModel.loadUserErrorVisibility.observe(this, Observer {

@@ -92,7 +92,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                     adapter.isFullData = false
                     adapter.isPageError = false
                     adapter.isNewPageProgress = false
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
@@ -100,7 +100,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                     adapter.isFullData = true
                     adapter.isPageError = false
                     adapter.isNewPageProgress = false
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
@@ -124,14 +124,14 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
-                    generalProgressLoading.visibility = View.VISIBLE
+                    emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
                 }
                 is Paginator.State.Empty -> {
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyError -> {
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     btnRetry.visibility = View.VISIBLE
                 }
             }

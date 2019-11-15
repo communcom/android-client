@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 
-class PostItem(private val post: Post) : BaseRecyclerItem() {
+class PostItem(private val post: Post, private val listener: PostItemClickListener? = null) : BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_content
 
@@ -105,5 +105,16 @@ class PostItem(private val post: Post) : BaseRecyclerItem() {
 
     private fun setCommentsCounter(view: View, commentsCounter: Int) {
         view.commentsCountText.text = commentsCounter.toString()
+        view.commentsCountText.setOnClickListener {
+            listener?.onCommentsClicked(post.contentId)
+        }
+        view.commentsIcon.setOnClickListener {
+            listener?.onCommentsClicked(post.contentId)
+        }
+    }
+
+    interface PostItemClickListener{
+
+        fun onCommentsClicked(contentId: Post.ContentId)
     }
 }

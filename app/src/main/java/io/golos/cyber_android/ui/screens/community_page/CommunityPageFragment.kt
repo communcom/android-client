@@ -140,9 +140,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
         viewModel.communityPageIsLoadProgressLiveData.observe(this, Observer {
             if (it) {
-                generalProgressLoading.visibility = View.VISIBLE
+                emptyPostProgressLoading.visibility = View.VISIBLE
             } else {
-                generalProgressLoading.visibility = View.INVISIBLE
+                emptyPostProgressLoading.visibility = View.INVISIBLE
             }
         })
     }

@@ -17,9 +17,17 @@ open class MyFeedAdapter : RecyclerAdapter() {
 
     var onPageRetryLoadingCallback: (() -> Unit)? = null
 
+    var onPostCommentsClicked: ((Post.ContentId) -> Unit)? = null
+
     fun updateMyFeedPosts(posts: List<Post>) {
         val postsItems = posts.map {
-            val postItem = PostItem(it)
+            val postItem = PostItem(it, object: PostItem.PostItemClickListener{
+
+                override fun onCommentsClicked(contentId: Post.ContentId) {
+                    onPostCommentsClicked?.invoke(contentId)
+                }
+
+            })
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }
