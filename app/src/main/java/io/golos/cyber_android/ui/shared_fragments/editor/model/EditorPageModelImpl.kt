@@ -17,9 +17,9 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
-import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.PostCreationResultEntity
 import io.golos.domain.dto.UpdatePostResultEntity
 import io.golos.domain.dto.UploadedImageEntity
@@ -142,15 +142,15 @@ constructor(
         }
     }
 
-    override suspend fun getLastUsedCommunity(): Community? =
+    override suspend fun getLastUsedCommunity(): CommunityDomain? =
         withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
-            keyValueStorage.getLastUsedCommunityId()?.let {communityApi.getCommunityById(CommunityId(it))}
+            keyValueStorage.getLastUsedCommunityId()?.let {communityApi.getCommunityById(it)}
         }
 
-    override suspend fun saveLastUsedCommunity(community: Community) {
+    override suspend fun saveLastUsedCommunity(community: CommunityDomain) {
         withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.saveLastUsedCommunityId(community.id.id)
+            keyValueStorage.saveLastUsedCommunityId(community.communityId)
         }
     }
 

@@ -100,7 +100,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val community = communitiesApi.getCommunityById(communityId)
+        val community = communitiesApi.getCommunityById(communityId.id)
 
         val postPermlink = Permlink.generate()
 

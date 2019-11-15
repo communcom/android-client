@@ -6,4 +6,7 @@ object Clarification {
 
     const val PERSISTENT = "PERSISTENT"
     const val CACHE = "CACHE"
+
+    const val FOLLOWERS = "FOLLOWERS"
+    const val POSTS = "POSTS"
 }

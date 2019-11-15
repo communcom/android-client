@@ -1,24 +1,22 @@
 package io.golos.data.api.communities
 
-import io.golos.domain.commun_entities.Community
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityPageDomain
 
 interface CommunitiesApi {
     /**
-     * @param isUser is user's or discoverer followers
+     * @param isUser if the value is true returns only user's community (all communities otherwise)
      */
-    suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<Community>
+    fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain>
 
-    suspend fun joinToCommunity(externalId: String)
+    fun joinToCommunity(externalId: String)
 
     /**
      * @param isUser is user's or discoverer followers
      */
-    suspend fun searchInCommunities(query: String, isUser: Boolean): List<Community>
+    suspend fun searchInCommunities(query: String, isUser: Boolean): List<CommunityDomain>
 
-    fun getCommunityById(communityId: CommunityId): Community?
+    fun getCommunityById(communityId: String): CommunityDomain?
 
     suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain>
 

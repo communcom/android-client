@@ -33,8 +33,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.discover_fragment.DiscoverFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.my_community_fragment.MyCommunityFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentModule
@@ -42,6 +40,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
@@ -59,14 +59,14 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
     private val components = mutableMapOf<KClass<*>, Any>()
 
-    inline fun <reified T> get(vararg args: Any?): T = getComponent(T::class, args)
+    inline fun <reified T>get(vararg args: Any?): T = getComponent(T::class, args)
 
-    inline fun <reified T> release() = releaseComponent(T::class)
+    inline fun <reified T>release() = releaseComponent(T::class)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> getComponent(type: KClass<*>, args: Array<out Any?>): T {
+    fun <T>getComponent(type: KClass<*>, args: Array<out Any?>): T {
         var result = components[type]
-        if (result == null) {
+        if(result == null) {
             result = provideComponent<T>(type, args)
             components[type] = result!!
         }
@@ -76,8 +76,9 @@ class DependencyInjectionStorage(private val appContext: Context) {
     fun releaseComponent(type: KClass<*>) = components.remove(type)
 
     @Suppress("IMPLICIT_CAST_TO_ANY", "UNCHECKED_CAST")
-    private fun <T> provideComponent(type: KClass<*>, args: Array<out Any?>): T {
-        return when (type) {
+    private fun <T>provideComponent(type: KClass<*>, args: Array<out Any?>): T {
+        @Suppress("EXPERIMENTAL_API_USAGE")
+        return when(type) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
 
             UIComponent::class -> get<AppComponent>().ui.build()
@@ -157,10 +158,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             CommunitiesFragmentComponent::class -> get<MainActivityComponent>().communitiesFragmentComponent.build()
 
-            DiscoverFragmentComponent::class -> get<CommunitiesFragmentComponent>().discoverFragmentComponent.build()
-
-            MyCommunityFragmentComponent::class -> get<CommunitiesFragmentComponent>().myCommunityFragmentComponent.build()
-
             ProfileSettingsActivityComponent::class -> get<UIComponent>().profileSettingsActivity.build()
 
             FeedbackActivityComponent::class -> get<UIComponent>().feedbackActivity.build()
@@ -191,10 +188,10 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 .postFiltersFragment
                 .build()
 
-            io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentComponent::class -> get<UIComponent>()
+            MyFeedFragmentComponent::class -> get<UIComponent>()
                 .postsListFragment
                 .postsListFragmentModule(
-                    io.golos.cyber_android.application.dependency_injection.graph.app.ui.my_feed.MyFeedFragmentModule(
+                    MyFeedFragmentModule(
                         args[0] as GetPostsConfiguration
                     )
                 )

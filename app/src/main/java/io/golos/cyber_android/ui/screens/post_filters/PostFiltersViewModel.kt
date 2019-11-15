@@ -35,11 +35,11 @@ class PostFiltersViewModel @Inject constructor(dispatchersProvider: DispatchersP
         val postFilters = PostFilters()
         postFilters.updateTimeFilter = currentUpdateTimeFilter
         postFilters.periodTimeFilter = currentPeriodTimeFilter
-        commandMutableLiveData.value = ApplyPostFiltersCommand(postFilters)
+        _command.value = ApplyPostFiltersCommand(postFilters)
     }
 
     fun onClosedClicked() {
-        commandMutableLiveData.value = BackCommand()
+        _command.value = BackCommand()
     }
 
     enum class UpdateTimeFilter{

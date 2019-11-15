@@ -29,9 +29,14 @@
     <string name="formatter_followers_mega">m</string>
     <string name="formatter_followers_giga">g</string>
     <plurals name="formatter_followers_formatted" >
-        <item quantity="zero">{0}{1} followers</item>
-        <item quantity="one">{0}{1} follower</item>
-        <item quantity="other">{0}{1} followers</item>
+        <item quantity="zero">{0}{1} Followers</item>
+        <item quantity="one">{0}{1} Follower</item>
+        <item quantity="other">{0}{1} Followers</item>
+    </plurals>
+    <plurals name="formatter_posts_formatted" >
+        <item quantity="zero">{0}{1} Posts</item>
+        <item quantity="one">{0}{1} Post</item>
+        <item quantity="other">{0}{1} Posts</item>
     </plurals>
     <!--Size formatting - end -->
 
@@ -383,4 +388,5 @@
         <item>Rules</item>
     </string-array>
 
+    <string name="created">Created</string>
 </resources>

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogViewModel"/>
+            type="io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
         android:paddingTop="@dimen/select_community_dialog_padding_large"
         android:paddingBottom="@dimen/select_community_dialog_padding_small"
 
-        tools:context=".ui.dialogs.select_community_dialog.SelectCommunityDialog">
+        tools:context=".ui.dialogs.select_community_dialog.view.SelectCommunityDialog">
 
         <EditText
             android:id="@+id/searchField"
@@ -55,7 +55,7 @@
 
             tools:ignore="Autofill,LabelFor" />
 
-        <io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogList
+        <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
             android:id="@+id/communitiesList"
 
             android:layout_width="match_parent"
@@ -63,18 +63,22 @@
 
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
 
+            app:has_paging="true"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchField"
             />
 
-        <io.golos.cyber_android.ui.dialogs.select_community_dialog.SelectCommunityDialogList
+        <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
             android:id="@+id/communitiesSearchList"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
+
+            app:has_paging="false"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

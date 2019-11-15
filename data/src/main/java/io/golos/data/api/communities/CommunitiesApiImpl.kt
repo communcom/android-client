@@ -7,8 +7,6 @@ import io.golos.data.api.Commun4jApiBase
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Community
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.utils.MurmurHash
@@ -28,6 +26,15 @@ constructor(
     private val moshi: Moshi,
     private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
+
+    private val communities: List<CommunityDomain> by lazy { loadCommunities() }
+
+    private data class CommunityRaw (
+        val id: String,
+        val name: String,
+        val followersQuantity: Int,
+        val logoUrl: String
+    )
 
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
         delay(1000)
@@ -54,45 +61,38 @@ constructor(
             Date(System.currentTimeMillis()))
     }
 
-    private val communities: List<Community> by lazy { loadCommunities() }
-
-    private data class CommunityRaw (
-        val id: String,
-        val name: String,
-        val followersQuantity: Int,
-        val logoUrl: String
-    )
-
-    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<Community> =
-        withContext(dispatchersProvider.calculationsDispatcher) {
-            delay(500)
-
-            try {
-                communities
-                    .asSequence()
-                    .filter {
-                        if(isUser) {
-                            isUserCommunity(it)
-                        } else {
-                            !isUserCommunity(it)
-                        }
-                    }
-                    .drop(offset)
-                    .take(pageSize)
-                    .toList()
-
-            } catch(ex: Exception) {
-                Timber.e(ex)
-                throw ex
+    override fun getCommunitiesList(offset: Int, pageSize: Int, isUser: Boolean): List<CommunityDomain> {
+        return try {
+            if (Random.nextInt() % 2 == 0) {
+                throw java.lang.Exception()
             }
-        }
 
-    override suspend fun joinToCommunity(externalId: String) =
-        withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-        }
+            communities
+                .asSequence()
+                .filter {
+                    if (isUser) {
+                        isUserCommunity(it)
+                    } else {
+                        true
+                    }
+                }
+                .drop(offset)
+                .take(pageSize)
+                .toList()
 
-    override suspend fun searchInCommunities(query: String, isUser: Boolean): List<Community> =
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            throw ex
+        }
+    }
+
+    override fun joinToCommunity(externalId: String) {
+        if(Random.nextInt() % 2 == 0) {
+            throw java.lang.Exception()
+        }
+    }
+
+    override suspend fun searchInCommunities(query: String, isUser: Boolean): List<CommunityDomain> =
         withContext(dispatchersProvider.calculationsDispatcher) {
             delay(500)
 
@@ -116,8 +116,8 @@ constructor(
             }
         }
 
-    override fun getCommunityById(communityId: CommunityId): Community? =
-            communities.firstOrNull { it.id == communityId }
+    override fun getCommunityById(communityId: String): CommunityDomain? =
+            communities.firstOrNull { it.communityId == communityId }
 
     override suspend fun unsubscribeToCommunity(communityId: String) {
         delay(2000)
@@ -143,7 +143,7 @@ constructor(
         return getMockCommunitiesList()
     }
 
-    private fun loadCommunities(): List<Community> {
+    private fun loadCommunities(): List<CommunityDomain> {
         val random = Random(Date().time)
 
         return String(appResources.getCommunities().readBytes())
@@ -164,11 +164,11 @@ constructor(
                     it.followersQuantity < 100 -> it.followersQuantity * random.nextInt(50)
                     else -> it.followersQuantity * random.nextInt(500)
                 }
-                Community(CommunityId(it.id), it.name, followersQuantity, it.logoUrl)
+                CommunityDomain(it.id, it.name, it.logoUrl, followersQuantity.toLong(), followersQuantity.toLong(), Random.nextBoolean())
             }
     }
 
-    private fun isUserCommunity(communityExt: Community) = MurmurHash.hash64(communityExt.name) % 2 == 0L
+    private fun isUserCommunity(communityExt: CommunityDomain) = MurmurHash.hash64(communityExt.name) % 2 == 0L
 
     private fun randomException(){
         val rand = Random
@@ -203,7 +203,13 @@ constructor(
         for(i in 0..30){
             val communityName = communityNamesArray[rand.nextInt(communityNamesArray.size - 1)]
             val communityLogo: String = communityLogoArray[rand.nextInt(communityLogoArray.size - 1)]
-            val communityDomain = CommunityDomain(UUID.randomUUID().toString(), communityName, communityLogo, rand.nextInt(1000000).toLong(), rand.nextBoolean())
+            val communityDomain = CommunityDomain(
+                UUID.randomUUID().toString(),
+                communityName,
+                communityLogo,
+                rand.nextInt(1000000).toLong(),
+                rand.nextInt(1000000).toLong(),
+                rand.nextBoolean())
             communityList.add(communityDomain)
         }
         return communityList

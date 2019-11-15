@@ -1,25 +1,28 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment
 
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
-import io.golos.cyber_android.ui.common.formatters.size.FollowersSizeFormatter
-import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridge
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeChild
-import io.golos.cyber_android.ui.screens.main_activity.communities.search_bridge.SearchBridgeParent
+import dagger.multibindings.IntoMap
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.screens.main_activity.communities.model.CommunitiesModel
+import io.golos.cyber_android.ui.screens.main_activity.communities.model.CommunitiesModelImpl
+import io.golos.cyber_android.ui.screens.main_activity.communities.view_model.CommunitiesViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Module
 abstract class CommunitiesFragmentModuleBinds {
     @Binds
     @FragmentScope
-    abstract fun bindSearchBridgeParent(bridge: SearchBridge): SearchBridgeParent
+    abstract fun provideViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
 
     @Binds
-    @FragmentScope
-    abstract fun bindSearchBridgeChild(bridge: SearchBridge): SearchBridgeChild
+    @IntoMap
+    @ViewModelKey(CommunitiesViewModel::class)
+    abstract fun provideDiscoverViewModel(viewModel: CommunitiesViewModel): ViewModel
 
     @Binds
-    @FragmentScope
-    abstract fun provideFollowersSizeFormatter(formatter: FollowersSizeFormatter): SizeFormatter
+    abstract fun provideDiscoverModel(model: CommunitiesModelImpl): CommunitiesModel
 }

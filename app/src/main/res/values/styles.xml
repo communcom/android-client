@@ -20,6 +20,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
     <style name="Common.Base.TextStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/roboto_regular</item>
@@ -450,14 +451,15 @@
     </style>
 
     <style name="CommunityJoinButton" parent="BaseButton">
-        <item name="android:background">@drawable/bg_community_join_button</item>
+        <item name="android:background">@drawable/bg_join_button_community</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
     </style>
 
     <style name="BaseButton" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/tint_community_join_button_text</item>
-        <item name="android:background">@drawable/bg_community_join_button</item>
+        <item name="android:background">@drawable/bg_join_button</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingStart">@dimen/btn_join_horizontal_padding</item>
@@ -541,4 +543,9 @@
         <item name="buttonTint">@color/blue</item>
     </style>
 
+    <style name="Community.Title.TextStyle" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

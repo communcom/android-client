@@ -1,98 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:background="@color/window_background"
-        android:layout_height="@dimen/height_community_list_item">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_community_list_item"
+    android:background="@color/window_background"
+    android:orientation="vertical">
 
     <ImageView
-            android:id="@+id/ivLogo"
+        android:id="@+id/ivLogo"
 
-            android:layout_width="@dimen/size_icon_community"
-            android:layout_height="@dimen/size_icon_community"
+        android:layout_width="@dimen/size_icon_community"
+        android:layout_height="@dimen/size_icon_community"
 
-            app:srcCompat="@drawable/img_example_flag"
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin"
 
-            android:layout_marginStart="@dimen/select_community_dialog_search_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="ContentDescription"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
 
     <TextView
-            android:text=""
-            tools:text = "Title"
+        android:id="@+id/title"
+        style="@style/CommunityListItemTitleText"
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
 
-            android:id="@+id/title"
-            style="@style/CommunityListItemTitleText"
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin_tiny"
 
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/followersText"
-            app:layout_constraintStart_toEndOf="@+id/ivLogo"
-            app:layout_constraintEnd_toStartOf="@+id/joinButton"
+        android:text=""
 
-            android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
-            android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+        app:layout_constraintBottom_toTopOf="@+id/followersText"
+        app:layout_constraintEnd_toStartOf="@+id/joiningProgress"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toTopOf="parent"
 
-            app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_chainStyle="packed"
 
-            android:layout_marginBottom="@dimen/gap"/>
+        tools:text="Title" />
+
     <TextView
-            android:text=""
-            tools:text = "52k followers"
+        android:id="@+id/followersText"
+        style="@style/CommunityListItemFollowersText"
 
-            style="@style/CommunityListItemFollowersText"
-            android:ellipsize="end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        android:ellipsize="end"
 
-            android:id="@+id/followersText"
+        android:text=""
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toEndOf="@+id/ivLogo"
-            app:layout_constraintEnd_toStartOf="@+id/joinButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/title"
 
-            android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
-            android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="52k followers" />
 
-            android:layout_marginTop="@dimen/gap"/>
+    <ProgressBar
+        android:id="@+id/joiningProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="@dimen/select_community_dialog_progress_size"
+        android:layout_height="@dimen/select_community_dialog_progress_size"
+
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin_tiny"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/joinButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-            android:id="@+id/joinButton"
+        android:id="@+id/joinButton"
 
-            android:text="@string/join_to_community"
+        style="@style/CommunityJoinButton"
 
-            android:layout_width="@dimen/community_join_button_width"
-            android:layout_height="@dimen/community_join_button_height"
+        android:layout_width="@dimen/community_join_button_width"
+        android:layout_height="@dimen/community_join_button_height"
 
-            android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
 
-            style="@style/CommunityJoinButton"
+        android:text="@string/join_to_community"
 
-            android:visibility="gone"
-            tools:visibility="visible"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-    />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="0dp"
+
         android:layout_height="@dimen/stroke_normal"
 
         android:background="@color/select_community_dialog_bcg"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

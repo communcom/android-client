@@ -23,7 +23,7 @@ data class CommunityPageDomain(
         val userId: String,
         val userName: String,
         val avatarUrl: String,
-        val hasAward: Boolean
+        val isLead: Boolean
     )
 
     data class CommunityPageCurrencyDomain(val currencyName: String, val exchangeRate: Float)

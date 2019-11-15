@@ -1,5 +1,6 @@
 package io.golos.domain.repositories
 
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dto.AuthState
 
 interface CurrentUserRepositoryRead {
@@ -8,6 +9,8 @@ interface CurrentUserRepositoryRead {
     val userId: String
 
     val userAvatarUrl: String?
+
+    val user: CyberName
 }
 
 interface CurrentUserRepository : CurrentUserRepositoryRead {

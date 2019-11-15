@@ -8,10 +8,14 @@ import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
+import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
+import io.golos.cyber_android.ui.common.formatters.size.plurals.FollowersSizeFormatter
+import io.golos.cyber_android.ui.common.formatters.size.plurals.PostsSizeFormatter
 import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.helper.UIHelperImpl
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.FileSystemHelper
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.UIScope
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.action.VoteUseCase
@@ -33,6 +37,7 @@ import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.requestmodel.UserSettingModel
 import io.golos.domain.requestmodel.VoteRequestModel
+import javax.inject.Named
 
 @Module
 abstract class UIModuleBinds {
@@ -85,4 +90,14 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideFileSystemHelper(helper: FileSystemHelperImpl): FileSystemHelper
+
+    //region Formatters
+    @Binds
+    @Named(Clarification.FOLLOWERS)
+    abstract fun provideFollowersSizeFormatter(formatter: FollowersSizeFormatter): SizeFormatter
+
+    @Binds
+    @Named(Clarification.POSTS)
+    abstract fun providePostsSizeFormatter(formatter: PostsSizeFormatter): SizeFormatter
+    //endregion
 }

@@ -17,7 +17,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.CommunitiesFragment
+import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile.ProfileFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.setStatusBarColor
@@ -110,12 +110,19 @@ class MainActivity : ActivityBase() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if(position == Tab.FEED.index){
-                    setStatusBarColor(R.color.feed_status_bar_color)
-                    tintStatusBarIcons(true)
-                } else{
-                    setStatusBarColor(R.color.window_status_bar_background)
-                    tintStatusBarIcons(false)
+                when(position) {
+                    Tab.FEED.index -> {
+                        setStatusBarColor(R.color.feed_status_bar_color)
+                        tintStatusBarIcons(true)
+                    }
+                    Tab.COMMUNITIES.index -> {
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        tintStatusBarIcons(true)
+                    }
+                    else -> {
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        tintStatusBarIcons(false)
+                    }
                 }
             }
         })

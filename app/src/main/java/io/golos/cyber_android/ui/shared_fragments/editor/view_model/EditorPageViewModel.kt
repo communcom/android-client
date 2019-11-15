@@ -17,7 +17,8 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Community
+import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.UseCase
@@ -82,7 +83,7 @@ constructor(
 
     val getFileUploadingStateLiveData = fileUploadingStateLiveData
 
-    val community = MutableLiveData<Community?>()
+    val community = MutableLiveData<CommunityDomain?>()
     val isPostEnabled = MutableLiveData<Boolean>(false)
     val isSelectCommunityEnabled = MutableLiveData<Boolean>(false)
 
@@ -149,7 +150,7 @@ constructor(
         this.title = title
     }
 
-    fun setCommunity(community: Community) {
+    fun setCommunity(community: CommunityDomain) {
         this.community.value = community
         isPostEnabled.value = true
     }
@@ -168,7 +169,7 @@ constructor(
 
         launch {
             try {
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
+                _command.value = SetLoadingVisibilityCommand(true)
 
                 model.saveLastUsedCommunity(community.value!!)
 
@@ -177,7 +178,7 @@ constructor(
                     uploadResult = model.uploadLocalImage(content)
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    commandMutableLiveData.value = ShowMessageCommand(R.string.error_upload_file)
+                    _command.value = ShowMessageCommand(R.string.error_upload_file)
                     return@launch
                 }
 
@@ -187,29 +188,29 @@ constructor(
 
                 try {
                     val callResult = if(postToEdit == null) {
-                        model.createPost(content, adultOnly, community.value!!.id, images)
+                        model.createPost(content, adultOnly, CommunityId(community.value!!.communityId), images)
                     } else {
                         model.updatePost(content, postToEdit.permlink, adultOnly, images)
                     }
-                    commandMutableLiveData.value = PostCreatedViewCommand(callResult)
+                    _command.value = PostCreatedViewCommand(callResult)
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    commandMutableLiveData.value = PostErrorViewCommand(ex)
+                    _command.value = PostErrorViewCommand(ex)
                 }
 
             } catch(ex: Exception) {
                 Timber.e(ex)
-                commandMutableLiveData.value = PostErrorViewCommand(ex)
+                _command.value = PostErrorViewCommand(ex)
             } finally {
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
 
     private fun showValidationResult(validationResult: ValidationResult) =
         when(validationResult) {
-            ValidationResult.ERROR_POST_IS_TOO_LONG -> commandMutableLiveData.value = ShowMessageCommand(R.string.error_post_too_long)
-            ValidationResult.ERROR_POST_IS_EMPTY -> commandMutableLiveData.value = ShowMessageCommand(R.string.error_post_empty)
+            ValidationResult.ERROR_POST_IS_TOO_LONG -> _command.value = ShowMessageCommand(R.string.error_post_too_long)
+            ValidationResult.ERROR_POST_IS_EMPTY -> _command.value = ShowMessageCommand(R.string.error_post_empty)
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
@@ -225,18 +226,18 @@ constructor(
     }
 
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        commandMutableLiveData.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
+        _command.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
 
         if(!isEdit && embedCount == 0) {
-            commandMutableLiveData.value = InsertExternalLinkViewCommand(linkInfo)
+            _command.value = InsertExternalLinkViewCommand(linkInfo)
         }
     }
 
     fun validatePastedLink(uri: Uri) = processUri(uri.toString()) {
-        commandMutableLiveData.value = PastedLinkIsValidViewCommand(uri)
+        _command.value = PastedLinkIsValidViewCommand(uri)
 
         if(embedCount == 0) {
-            commandMutableLiveData.value = InsertExternalLinkViewCommand(it)
+            _command.value = InsertExternalLinkViewCommand(it)
         }
     }
 
@@ -256,7 +257,7 @@ constructor(
 
     private fun processUri(uri: String, processSuccessViewCommand: (ExternalLinkInfo) -> Unit) {
         launch {
-            commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
+            _command.value = SetLoadingVisibilityCommand(true)
 
             when(val linkInfo = model.getExternalLinkInfo(uri)) {
                 is Either.Success -> {
@@ -265,21 +266,21 @@ constructor(
 
                 is Either.Failure -> {
                     when(linkInfo.value) {
-                        ExternalLinkError.GENERAL_ERROR -> commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
-                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> commandMutableLiveData.value = ShowMessageCommand(R.string.post_edit_invalid_resource_type)
-                        ExternalLinkError.INVALID_URL -> commandMutableLiveData.value = ShowMessageCommand(R.string.post_edit_invalid_url)
+                        ExternalLinkError.GENERAL_ERROR -> _command.value = ShowMessageCommand(R.string.common_general_error)
+                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> _command.value = ShowMessageCommand(R.string.post_edit_invalid_resource_type)
+                        ExternalLinkError.INVALID_URL -> _command.value = ShowMessageCommand(R.string.post_edit_invalid_url)
                     }
                 }
             }
 
-            commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
+            _command.value = SetLoadingVisibilityCommand(false)
         }
     }
 
     private fun setUp() {
         launch {
             try {
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
+                _command.value = SetLoadingVisibilityCommand(true)
 
                 if(postToEdit == null) {
                     // New post
@@ -304,10 +305,10 @@ constructor(
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                commandMutableLiveData.value = ShowMessageCommand(R.string.common_general_error)
-                commandMutableLiveData.value = NavigateToMainScreenCommand()
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = NavigateToMainScreenCommand()
             }  finally {
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

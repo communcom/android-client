@@ -3,10 +3,9 @@ package io.golos.cyber_android.ui.shared_fragments.editor.view.widgets
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.domain.commun_entities.Community
+import io.golos.cyber_android.ui.common.extensions.loadCommunity
+import io.golos.domain.dto.CommunityDomain
 import kotlinx.android.synthetic.main.view_post_editor_community_container.view.*
 
 /**
@@ -28,17 +27,14 @@ constructor(
         showCommunitiesButton.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
     }
 
-    fun setCommunity(community: Community?) {
+    fun setCommunity(community: CommunityDomain?) {
         if(community == null) {
             return
         }
 
         communityName.text = community.name
 
-        Glide.with(this)
-            .load(community.logoUrl)
-            .apply(RequestOptions.circleCropTransform())
-            .into(communityAvatar)
+        communityAvatar.loadCommunity(community.logo)
     }
 
     fun setOnShowCommunitiesClickListener(listener: () -> Unit) {

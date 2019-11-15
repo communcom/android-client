@@ -5,6 +5,7 @@ import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
 import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
+import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.DiscussionCreationResultEntity
 import io.golos.domain.mappers.discussion_creation.request.DiscussionCreationRequestMapper
 import io.golos.domain.mappers.discussion_creation.result.DiscussionCreateResultToEntityMapper
@@ -33,7 +34,7 @@ abstract class DiscussionCreationRepositoryBase(
                     request.title,
                     request.body,
                     request.tags,
-                    request.communityId,
+                    CommunityId(request.communityId),
                     request.metadata,
                     request.beneficiaries,
                     request.vestPayment,

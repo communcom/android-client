@@ -1,46 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.screens.main_activity.MainActivity">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.main_activity.communities.view_model.CommunitiesViewModel"/>
+    </data>
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/actionBar"
-            app:elevation="0dp"
-            android:background="@color/white"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:layout_height="wrap_content"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="match_parent"
 
-        <include
-                android:layout_marginTop="@dimen/margin_feed_search_bar"
-                android:layout_marginStart="@dimen/margin_feed_search_bar"
-                android:layout_marginEnd="@dimen/margin_feed_search_bar"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
+            android:id="@+id/root"
+            tools:context=".ui.screens.main_activity.communities.view.CommunitiesFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/actionBar"
+                app:elevation="0dp"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                layout="@layout/view_search_bar"/>
 
-        <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                app:tabMode="fixed"
-                app:tabTextColor="@color/text_color_feed_tabs"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="@dimen/communities_list_header_height"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                android:background="@color/white">
 
-    </com.google.android.material.appbar.AppBarLayout>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-    <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/communitiesPager"
+                    android:text="@string/communities"
+
+                    style="@style/Community.Title.TextStyle"
+
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:paddingTop="@dimen/communities_list_padding_top"
+            android:paddingLeft="@dimen/communities_list_padding"
+            android:paddingRight="@dimen/communities_list_padding"
+
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:overScrollMode="never"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:background="@color/window_background_light_gray">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/select_community_dialog_list_header_height"
+                android:background="@drawable/bcg_communities_select_dialog_list_top" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mainList"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/select_community_dialog_list_bcg"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/select_community_dialog_list_header_height"
+                android:background="@drawable/bcg_communities_select_dialog_list_bottom" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

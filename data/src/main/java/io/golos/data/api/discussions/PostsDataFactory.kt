@@ -11,9 +11,9 @@ import io.golos.commun4j.model.*
 import io.golos.commun4j.services.model.CyberCommunity
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
-import io.golos.domain.commun_entities.Community
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
+import io.golos.domain.dto.CommunityDomain
 import java.util.*
 import io.golos.commun4j.utils.Pair as CommunPair
 
@@ -55,13 +55,13 @@ internal object PostsDataFactory {
     fun getDeletemssgComnGalleryStruct(userId: String, permlink: Permlink): RemoveCGalleryStruct =
         RemoveCGalleryStruct(CyberSymbolCode(""), MssgidCGalleryStruct(CyberName(userId), permlink.value))
 
-    fun createPost(body: String, community: Community, userId: String, commentsCount: Long, permlink: Permlink): PostDiscussionRaw =
+    fun createPost(body: String, community: CommunityDomain, userId: String, commentsCount: Long, permlink: Permlink): PostDiscussionRaw =
         PostDiscussionRaw(
             body,
             DiscussionVotes(0, 0, false, false),
             DiscussionMetadata(Date()),
-            DiscussionId(CyberName(userId), community.id.id, Permlink.generate().value),
-            CyberCommunity(community.id.id, community.name, community.logoUrl, "alias"),
+            DiscussionId(CyberName(userId), community.communityId, Permlink.generate().value),
+            CyberCommunity(community.communityId, community.name, community.logo, "alias"),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
             commentsCount
         )

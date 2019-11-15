@@ -123,7 +123,7 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun onFindCommunitiesClicked() {
-        commandMutableLiveData.value = NavigateToSearchCommunitiesCommand()
+        _command.value = NavigateToSearchCommunitiesCommand()
     }
 
     fun start() {
@@ -182,7 +182,7 @@ class SubscriptionsViewModel @Inject constructor(
     fun changeCommunitySubscriptionStatus(community: Community) {
         launch {
             try {
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(true)
+                _command.value = SetLoadingVisibilityCommand(true)
                 val communityId = community.communityId
                 if (community.isSubscribed) {
                     model.unsubscribeToCommunity(communityId)
@@ -204,11 +204,11 @@ class SubscriptionsViewModel @Inject constructor(
                     _subscriptionsListStateLiveData.value = updatedState
                     _subscriptionStatusLiveData.value = community
                 }
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
+                _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                commandMutableLiveData.value = ShowMessageCommand(R.string.loading_error)
-                commandMutableLiveData.value = SetLoadingVisibilityCommand(false)
+                _command.value = ShowMessageCommand(R.string.loading_error)
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
 
@@ -237,7 +237,7 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun back() {
-        commandMutableLiveData.value = BackCommand()
+        _command.value = BackCommand()
     }
 
     enum class SubscriptionsState {

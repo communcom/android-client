@@ -1,5 +1,6 @@
 package io.golos.domain.extensions
 
+import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.commun4j.sharedmodel.Either
 
 /**
@@ -35,4 +36,3 @@ fun <S, F, NS> Either<S, F>.mapSuccessOrFail(mapSuccess: (S) -> NS, mapFail: () 
     }
 
 fun <S, F : Throwable> Either<S, F>.getOrThrow(): S = (this as? Either.Success)?.value ?: throw (this as Either.Failure).value
-
