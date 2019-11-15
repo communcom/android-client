@@ -17,9 +17,9 @@ import java.util.concurrent.locks.ReentrantLock
  * A [BitmapTransformation] which rounds the top corners of a bitmap.
  * Based on Glide code
  */
-class TopRoundedCorners(private val roundingRadius: Float) : BitmapTransformation() {
+class TopRoundedCornersTransformation(private val roundingRadius: Float) : BitmapTransformation() {
     companion object {
-        private const val ID = "io.golos.cyber_android.ui.common.glide.TopRoundedCorners"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.TopRoundedCornersTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 
@@ -76,8 +76,8 @@ class TopRoundedCorners(private val roundingRadius: Float) : BitmapTransformatio
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun equals(o: Any?): Boolean {
-        if (o is TopRoundedCorners) {
-            val other = o as TopRoundedCorners?
+        if (o is TopRoundedCornersTransformation) {
+            val other = o as TopRoundedCornersTransformation?
             return roundingRadius == other!!.roundingRadius
         }
         return false

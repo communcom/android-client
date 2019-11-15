@@ -62,4 +62,6 @@
 
     <!--Feed-->
     <color name="feed_status_bar_color">@color/blue</color>
+
+    <color name="avatar_frame">@color/blue</color>
 </resources>
