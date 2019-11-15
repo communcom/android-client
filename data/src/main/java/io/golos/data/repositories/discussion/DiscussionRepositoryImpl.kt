@@ -51,8 +51,8 @@ constructor(
                 postsConfigurationDomain.communityId,
                 postsConfigurationDomain.communityAlias,
                 postsConfigurationDomain.allowNsfw,
-                FeedType.TOP_COMENTS,
-                FeedSortByType.TIME,
+                FeedType.TOP_LIKES,
+                FeedSortByType.TIME_DESC,
                 FeedTimeFrame.ALL,
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
