@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel" />
+            type="io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
