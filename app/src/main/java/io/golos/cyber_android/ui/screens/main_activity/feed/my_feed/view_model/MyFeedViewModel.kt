@@ -11,6 +11,8 @@ import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeed
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
+import io.golos.cyber_android.ui.screens.post_filters.PostFilters
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersViewModel
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -18,6 +20,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +28,8 @@ import javax.inject.Inject
 class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
-    private val paginator: Paginator.Store<Post>
+    private val paginator: Paginator.Store<Post>,
+    private val postFilter: PostFilters
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedViewModelListEventsProcessor {
 
     override fun onLinkInPostClick(link: Uri) {
@@ -73,6 +77,37 @@ class MyFeedViewModel @Inject constructor(
 
     init {
 
+        Timber.d("filter: post filter -> $postFilter")
+
+        launch {
+            postFilter.flowFilter?.collect { filter ->
+                Timber.d("filter: [FLOW] - ${filter.periodTimeFilter.name}")
+                val feedType = when (filter.updateTimeFilter) {
+                    PostFiltersViewModel.UpdateTimeFilter.HOT ->
+                        PostsConfigurationDomain.TypeFeedDomain.TOP_REWARDS
+                    PostFiltersViewModel.UpdateTimeFilter.NEW ->
+                        PostsConfigurationDomain.TypeFeedDomain.NEW
+                    PostFiltersViewModel.UpdateTimeFilter.POPULAR ->
+                        PostsConfigurationDomain.TypeFeedDomain.TOP_LIKES
+                }
+                val feedTimeFrame = when (filter.periodTimeFilter) {
+                    PostFiltersViewModel.PeriodTimeFilter.PAST_24_HOURS ->
+                        PostsConfigurationDomain.TimeFrameDomain.DAY
+                    PostFiltersViewModel.PeriodTimeFilter.PAST_WEEK ->
+                        PostsConfigurationDomain.TimeFrameDomain.WEEK
+                    PostFiltersViewModel.PeriodTimeFilter.PAST_MONTH ->
+                        PostsConfigurationDomain.TimeFrameDomain.MONTH
+                    PostFiltersViewModel.PeriodTimeFilter.ALL ->
+                        PostsConfigurationDomain.TimeFrameDomain.ALL
+                }
+                postsConfigurationDomain = postsConfigurationDomain.copy(
+                    typeFeed = feedType,
+                    timeFrame = feedTimeFrame
+                )
+                loadInitialPosts()
+            }
+        }
+
         paginator.sideEffectListener = {
             when (it) {
                 is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
@@ -115,25 +150,25 @@ class MyFeedViewModel @Inject constructor(
     }
 
     fun start() {
-        if(_user.value == null){
-            loadLocalUser{
-                if(it){
+        if (_user.value == null) {
+            loadLocalUser {
+                if (it) {
                     loadInitialPosts()
                 }
             }
-        } else{
+        } else {
             loadInitialPosts()
         }
     }
 
-    private fun loadInitialPosts(){
+    private fun loadInitialPosts() {
         val postsListState = _postsListState.value
         if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
             paginator.proceed(Paginator.Action.Restart)
         }
     }
 
-    private fun loadLocalUser(isUserLoad: (Boolean) -> Unit){
+    private fun loadLocalUser(isUserLoad: (Boolean) -> Unit) {
         launch {
             try {
                 _loadUserErrorVisibility.value = false
@@ -152,7 +187,7 @@ class MyFeedViewModel @Inject constructor(
                     PostsConfigurationDomain.TypeFeedDomain.NEW
                 )
                 isUserLoad.invoke(true)
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 _loadUserErrorVisibility.value = true
                 isUserLoad.invoke(false)
             } finally {

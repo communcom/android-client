@@ -25,6 +25,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -45,6 +46,12 @@ constructor(
 ), DiscussionRepository {
 
     override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> {
+        val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
+        Timber.d("posts: type -> ${type.name}")
+        val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
+        Timber.d("posts: sortByType -> ${sortByType.name}")
+        val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
+        Timber.d("posts: timeFrame -> ${timeFrame.name}")
         return apiCall {
             commun4j.getPostsRaw(
                 postsConfigurationDomain.userId.toCyberName(),

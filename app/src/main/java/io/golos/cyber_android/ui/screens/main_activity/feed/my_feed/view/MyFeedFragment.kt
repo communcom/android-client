@@ -30,6 +30,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import timber.log.Timber
 
 class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
 
@@ -148,6 +149,12 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     myFeedAdapter.hideLoadingNextPageProgress()
                     uiHelper.showMessage(R.string.loading_error)
                     pbLoading.visibility = View.INVISIBLE
+                }
+                is Paginator.State.Refresh<*> -> {
+                    Timber.d("filter: GET new posts after filter update")
+                    myFeedAdapter.clearAllPosts()
+                    emptyPostProgressLoading.visibility = View.VISIBLE
+                    btnRetry.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
                     emptyPostProgressLoading.visibility = View.VISIBLE

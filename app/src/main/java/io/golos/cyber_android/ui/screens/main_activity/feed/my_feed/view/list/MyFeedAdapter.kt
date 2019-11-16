@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.items.PostItem
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModelListEventsProcessor
+import timber.log.Timber
 
 open class MyFeedAdapter(private val eventsProcessor: MyFeedViewModelListEventsProcessor) : RecyclerAdapter() {
 
@@ -76,5 +77,14 @@ open class MyFeedAdapter(private val eventsProcessor: MyFeedViewModelListEventsP
         val errorItem = adapterItemsList.find { it is ErrorItem }
         adapterItemsList.remove(errorItem)
         updateAdapter(adapterItemsList)
+    }
+
+    fun clearAllPosts() {
+        val deletedItems = ArrayList<RecyclerItem>(items)
+        Timber.d("filter: items before deleting -> ${deletedItems.size}")
+        val createPostItem = deletedItems.find { it is CreatePostItem } //todo delete after test
+        items.removeAll(deletedItems.filter { it !is CreatePostItem })
+        updateAdapter(items)
+        Timber.d("filter: items before deleting -> ${items.size}")
     }
 }

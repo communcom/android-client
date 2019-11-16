@@ -72,22 +72,45 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="@dimen/padding_toolbar_buttons_20dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/sort_top"
+                        android:text="@string/sort_hot"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_15_sp" />
 
                     <CheckBox
-                        android:id="@+id/cbTop"
+                        android:id="@+id/cbHot"
                         style="@style/BaseCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin_default" />
                 </LinearLayout>
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/post_filters_section_height"-->
+<!--                    android:gravity="center_vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginStart="@dimen/margin_default"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:text="@string/sort_top"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/text_size_15_sp" />-->
+
+<!--                    <CheckBox-->
+<!--                        android:id="@+id/cbTop"-->
+<!--                        style="@style/BaseCheckBox"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="@dimen/margin_default" />-->
+<!--                </LinearLayout>-->
 
                 <View
                     android:layout_width="match_parent"
@@ -100,7 +123,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="@dimen/padding_toolbar_buttons_20dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
@@ -122,23 +145,46 @@
                     android:layout_height="@dimen/dimen_2"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/post_filters_section_height"-->
+<!--                    android:gravity="center_vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginStart="@dimen/margin_default"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:text="@string/sort_old"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/text_size_15_sp" />-->
+
+<!--                    <CheckBox-->
+<!--                        android:id="@+id/cbOld"-->
+<!--                        style="@style/BaseCheckBox"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="@dimen/margin_default" />-->
+<!--                </LinearLayout>-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_filters_section_height"
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="@dimen/padding_toolbar_buttons_20dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/sort_old"
+                        android:text="@string/sort_popular"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_15_sp" />
 
                     <CheckBox
-                        android:id="@+id/cbOld"
+                        android:id="@+id/cbPopular"
                         style="@style/BaseCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -174,7 +220,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="@dimen/padding_toolbar_buttons_20dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
@@ -202,7 +248,35 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="@dimen/padding_toolbar_buttons_20dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/filter_time_week"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_15_sp" />
+
+                    <CheckBox
+                        android:id="@+id/cbWeek"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_2"
+                    android:background="@color/bottom_sheet_dialog_bcg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
@@ -224,23 +298,46 @@
                     android:layout_height="@dimen/dimen_2"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/post_filters_section_height"-->
+<!--                    android:gravity="center_vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginStart="@dimen/margin_default"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center_vertical"-->
+<!--                        android:text="@string/filter_time_year"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/text_size_15_sp" />-->
+
+<!--                    <CheckBox-->
+<!--                        android:id="@+id/cbYear"-->
+<!--                        style="@style/BaseCheckBox"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="@dimen/margin_default" />-->
+<!--                </LinearLayout>-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_filters_section_height"
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="@dimen/padding_toolbar_buttons_20dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="@string/filter_time_year"
+                        android:text="@string/filter_time_all"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_15_sp" />
 
                     <CheckBox
-                        android:id="@+id/cbYear"
+                        android:id="@+id/cbAll"
                         style="@style/BaseCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import timber.log.Timber
-import java.lang.Exception
 
 open class RecyclerAdapter(
     items: List<RecyclerItem> = mutableListOf(),
