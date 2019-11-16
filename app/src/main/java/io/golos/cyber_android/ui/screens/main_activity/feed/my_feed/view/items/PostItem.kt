@@ -102,6 +102,11 @@ class PostItem(
         }
     }
 
+    override fun onViewRecycled(view: View) {
+        super.onViewRecycled(view)
+        view.postHeader.release()
+    }
+
     private fun setVotesCounter(view: View, votes: Post.Votes) {
         val votesCounter = votes.upCount - votes.downCount
         val votingWidget = view.findViewById<VotingWidget>(R.id.votesArea)

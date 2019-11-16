@@ -93,6 +93,15 @@ constructor(
         onUserClickListener = listener
     }
 
+    fun release(){
+        setOnUserClickListener(null)
+        setOnMenuButtonClickListener(null)
+        setOnJoinToCommunityButtonClickListener(null)
+        setOnBackButtonClickListener(null)
+        Glide.with(this)
+            .clear(communityAvatar)
+    }
+
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
