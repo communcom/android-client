@@ -17,7 +17,7 @@ interface EmbedWebsiteWidgetListener: BasePostBlockWidgetListener, LinkListener
 
 interface ParagraphWidgetListener: BasePostBlockWidgetListener, LinkListener{
 
-    fun onUserClicked(userName: String)
+    fun onUserClicked(userId: String)
 
 }
 

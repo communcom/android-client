@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeed
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersViewModel
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
@@ -48,8 +49,8 @@ class MyFeedViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onUserClicked(userName: String) {
-
+    override fun onUserClicked(userId: String) {
+        _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
     override fun onCommentsClicked(postContentId: Post.ContentId) {

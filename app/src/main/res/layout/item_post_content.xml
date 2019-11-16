@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeader
+    <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeaderView
         android:id="@+id/postHeader"
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_viewer_header_height"/>

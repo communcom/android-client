@@ -97,6 +97,9 @@ class PostItem(
             isJoinFeatureEnabled = false
         )
         view.postHeader.setHeader(postHeader)
+        view.postHeader.setOnUserClickListener {
+            listener.onUserClicked(it)
+        }
     }
 
     private fun setVotesCounter(view: View, votes: Post.Votes) {

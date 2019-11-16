@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 /**
  * Header with post info
  */
-class PostPageHeader
+class PostPageHeaderView
 @JvmOverloads
 constructor(
     context: Context,

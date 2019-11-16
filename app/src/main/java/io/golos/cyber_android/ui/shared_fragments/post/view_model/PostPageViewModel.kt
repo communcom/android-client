@@ -101,12 +101,12 @@ constructor(
         _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
-    override fun onUserClicked(userName: String) {
+    override fun onUserClicked(userId: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
 
-                val userId = model.getUserId(userName)
+                val userId = model.getUserId(userId)
 
                 wasMovedToChild = true
                 _command.value = NavigateToUserProfileViewCommand(userId)
