@@ -9,16 +9,12 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
-import javax.inject.Inject
 
 class AttachmentsWidget
 @JvmOverloads
@@ -27,7 +23,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<AttachmentsBlock> {
+    PostBlockWidget<AttachmentsBlock, AttachmentWidgetListener> {
 
     private var images = mutableListOf<ImageView>()
 
@@ -56,11 +52,10 @@ constructor(
         }
     }
 
-    override fun cancel() {
+    override fun release() {
         images.forEach {
             Glide.with(this).clear(it)
         }
-
         images.clear()
     }
 

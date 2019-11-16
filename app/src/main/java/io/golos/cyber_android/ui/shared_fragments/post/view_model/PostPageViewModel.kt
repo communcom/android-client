@@ -15,8 +15,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.PostPageModel
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
-import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -91,17 +91,17 @@ constructor(
         }
     }
 
-    override fun onImageInPostClick(imageUri: Uri) {
+    override fun onImageClicked(imageUri: Uri) {
         wasMovedToChild = true
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onLinkInPostClick(link: Uri) {
+    override fun onLinkClicked(linkUri: Uri) {
         wasMovedToChild = true
-        _command.value = NavigateToLinkViewCommand(link)
+        _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
-    override fun onUserInPostClick(userName: String) {
+    override fun onUserClicked(userName: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)

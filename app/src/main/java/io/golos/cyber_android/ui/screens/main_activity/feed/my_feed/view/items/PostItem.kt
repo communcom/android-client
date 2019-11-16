@@ -9,13 +9,9 @@ import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModelListEventsProcessor
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostImageListener
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostLinkListener
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostUserListener
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostVoteListener
 import io.golos.cyber_android.utils.positiveValue
 import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.android.synthetic.main.item_feed_content.view.*
@@ -24,7 +20,7 @@ import kotlinx.android.synthetic.main.item_post_controls.view.*
 
 class PostItem(
     private val post: Post,
-    private val listener: MyFeedViewModelListEventsProcessor
+    private val listener: MyFeedListListener
 ) : BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_content

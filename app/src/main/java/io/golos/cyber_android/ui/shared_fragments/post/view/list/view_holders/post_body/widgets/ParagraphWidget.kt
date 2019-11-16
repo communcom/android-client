@@ -14,17 +14,12 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.AppResourcesProvider
+import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.use_cases.post.toTypeface
-import javax.inject.Inject
 
 class ParagraphWidget
 @JvmOverloads
@@ -33,20 +28,20 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr),
-    PostBlockWidget<ParagraphBlock> {
+    PostBlockWidget<ParagraphBlock, ParagraphWidgetListener> {
 
-    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
+    private var onClickProcessor: ParagraphWidgetListener? = null
 
     @ColorInt
     private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
 
-    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
+    override fun setOnClickProcessor(processor: ParagraphWidgetListener?) {
         onClickProcessor = processor
     }
 
     override fun render(block: ParagraphBlock) = setText(block)
 
-    override fun cancel() = setOnClickProcessor(null)
+    override fun release() = setOnClickProcessor(null)
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -107,7 +102,7 @@ constructor(
         // Click on the link
         builder.setSpan(object: ColorTextClickableSpan(block.content, spansColor) {
             override fun onClick(spanData: String) {
-                onClickProcessor?.onUserInPostClick(spanData)           // User's name
+                onClickProcessor?.onUserClicked(spanData)           // User's name
             }
         }, textInterval)
     }
@@ -118,7 +113,7 @@ constructor(
         // Click on the link
         builder.setSpan(object: LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
-                onClickProcessor?.onLinkInPostClick(spanData)
+                onClickProcessor?.onLinkClicked(spanData)
             }
         }, textInterval)
     }

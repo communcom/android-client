@@ -76,7 +76,7 @@ constructor(
         // Click on the link
         builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
-                // onClickProcessor?.onLinkInPostClick(spanData)
+                // onClickProcessor?.onLinkClicked(spanData)
             }
         }, textInterval)
     }

@@ -8,15 +8,10 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.common.glide.TopRoundedCorners
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
-import javax.inject.Inject
 
 class EmbedWebsiteWidget
 @JvmOverloads
@@ -25,20 +20,20 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<WebsiteBlock> {
+    PostBlockWidget<WebsiteBlock, EmbedWebsiteWidgetListener> {
 
-    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
+    private var onClickProcessor: EmbedWebsiteWidgetListener? = null
     private var siteUri: Uri? = null
 
     init {
         inflate(context, R.layout.view_post_embed_website, this)
     }
 
-    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
+    override fun setOnClickProcessor(processor: EmbedWebsiteWidgetListener?) {
         if(processor != null) {
             setOnClickListener {
                 siteUri?.let {
-                    this.onClickProcessor?.onLinkInPostClick(it)
+                    this.onClickProcessor?.onLinkClicked(it)
                 }
             }
         } else {
@@ -67,7 +62,7 @@ constructor(
         siteName.text = host
     }
 
-    override fun cancel() {
+    override fun release() {
         Glide
             .with(this)
             .clear(image)

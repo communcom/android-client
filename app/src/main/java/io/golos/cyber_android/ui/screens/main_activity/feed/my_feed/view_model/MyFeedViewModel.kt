@@ -30,25 +30,25 @@ class MyFeedViewModel @Inject constructor(
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>,
     private val postFilter: PostFilters
-) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedViewModelListEventsProcessor {
+) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
-    override fun onLinkInPostClick(link: Uri) {
-        _command.value = NavigateToLinkViewCommand(link)
+    override fun onDownVoteClicked() {
+
     }
 
-    override fun onImageInPostClick(imageUri: Uri) {
+    override fun onUpVoteClicked() {
+
+    }
+
+    override fun onLinkClicked(linkUri: Uri) {
+        _command.value = NavigateToLinkViewCommand(linkUri)
+    }
+
+    override fun onImageClicked(imageUri: Uri) {
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onUserInPostClick(userName: String) {
-
-    }
-
-    override fun onUpVoteClick() {
-
-    }
-
-    override fun onDownVoteClick() {
+    override fun onUserClicked(userName: String) {
 
     }
 

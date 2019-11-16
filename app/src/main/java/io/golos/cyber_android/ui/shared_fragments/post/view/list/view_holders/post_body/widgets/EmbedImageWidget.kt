@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 
@@ -18,20 +17,20 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<ImageBlock> {
+    PostBlockWidget<ImageBlock, EmbedImageWidgetListener> {
 
-    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
+    private var onClickProcessor: EmbedImageWidgetListener? = null
     private var imageUri: Uri? = null
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
-    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
+    override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
         if(processor != null) {
             setOnClickListener {
                 imageUri?.let {
-                    this.onClickProcessor?.onImageInPostClick(it)
+                    this.onClickProcessor?.onImageClicked(it)
                 }
             }
         } else {
@@ -52,7 +51,7 @@ constructor(
             .into(image)
     }
 
-    override fun cancel() {
+    override fun release() {
         Glide.with(this).clear(image)
         setOnClickProcessor(null)
     }

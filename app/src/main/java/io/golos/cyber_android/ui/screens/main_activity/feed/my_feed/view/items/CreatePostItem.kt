@@ -6,10 +6,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.User
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModelListEventsProcessor
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedListListener
 import kotlinx.android.synthetic.main.item_create_post.view.*
 
-class CreatePostItem(private val user: User?, private val eventsProcessor: MyFeedViewModelListEventsProcessor) : BaseRecyclerItem() {
+class CreatePostItem(private val user: User?, private val eventsProcessor: MyFeedListListener) : BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_editor_widget
 

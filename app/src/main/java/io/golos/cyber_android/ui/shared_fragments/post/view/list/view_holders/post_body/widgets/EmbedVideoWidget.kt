@@ -9,8 +9,6 @@ import io.golos.cyber_android.R
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_video.view.*
-import kotlinx.android.synthetic.main.view_post_embed_video.view.description
-import kotlinx.android.synthetic.main.view_post_embed_video.view.image
 
 class EmbedVideoWidget
 @JvmOverloads
@@ -19,7 +17,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<VideoBlock> {
+    PostBlockWidget<VideoBlock, EmbedVideoWidgetListener> {
 
     init {
         inflate(context, R.layout.view_post_embed_video, this)
@@ -49,7 +47,7 @@ constructor(
         }
     }
 
-    override fun cancel() {
+    override fun release() {
         if(video.visibility == View.VISIBLE) {
             video.stopLoading()
         }
