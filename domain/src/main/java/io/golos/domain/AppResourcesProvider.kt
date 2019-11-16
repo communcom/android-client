@@ -13,8 +13,14 @@ interface AppResourcesProvider {
 
     fun getString(@StringRes resId: Int): String
 
+    /**
+     * @Deprecated need use [io.golos.cyber_android.utils.Resources.getFormattedString]
+     */
     fun getFormattedString(@StringRes resId: Int, vararg args: Any): String
 
+    /**
+     * @Deprecated need use [io.golos.cyber_android.utils.Resources.getFormattedString]
+     */
     fun getFormattedString(string: String, vararg args: Any): String
 
     fun getQuantityString(@PluralsRes resId: Int, quantity: Int): String
