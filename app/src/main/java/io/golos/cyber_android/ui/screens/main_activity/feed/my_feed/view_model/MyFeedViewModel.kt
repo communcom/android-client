@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
+import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
@@ -173,8 +174,7 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _loadUserErrorVisibility.value = false
                 _loadUserProgressVisibility.value = true
-                //val userProfile = UserDomainMapper().invoke(model.getLocalUser())
-                val userProfile = User("1", "sdsds", "")
+                val userProfile = model.getLocalUser().mapToUser()
                 _user.value = userProfile
                 val feedFilters = model.feedFiltersFlow.first()
                 val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()
