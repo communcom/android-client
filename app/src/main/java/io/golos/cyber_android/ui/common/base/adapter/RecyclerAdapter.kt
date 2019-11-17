@@ -64,7 +64,7 @@ open class RecyclerAdapter(
                     oldItemPosition: Int,
                     newItemPosition: Int
                 ): Boolean {
-                    return items[oldItemPosition] == newItems[newItemPosition]
+                    return items[oldItemPosition].areContentsSame(newItems[newItemPosition])
                 }
             })
             items = newItems.toMutableList()

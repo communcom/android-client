@@ -119,9 +119,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
             when (it) {
                 is Paginator.State.Data<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()
+                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
@@ -162,6 +162,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 }
                 is Paginator.State.Empty -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE
+                    myFeedAdapter.updateMyFeedPosts(mutableListOf())
                 }
                 is Paginator.State.EmptyError -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE

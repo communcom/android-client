@@ -100,16 +100,18 @@ class MyFeedViewModel @Inject constructor(
         launch {
             model.feedFiltersFlow.collect {
                 Timber.d("filters: [FLOW] - ${it}")
-                val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
-                val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
                 if (::postsConfigurationDomain.isInitialized) {
-                    postsConfigurationDomain = postsConfigurationDomain.copy(
-                        typeFeed = feedType,
-                        timeFrame = feedTimeFrame
-                    )
-                    paginator.initState(Paginator.State.Empty)
-                    loadPostsJob?.cancel()
-                    restartLoadPosts()
+                    val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
+                    val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
+                    if(feedType != postsConfigurationDomain.typeFeed ||
+                        feedTimeFrame != postsConfigurationDomain.timeFrame){
+                        postsConfigurationDomain = postsConfigurationDomain.copy(
+                            typeFeed = feedType,
+                            timeFrame = feedTimeFrame
+                        )
+                        paginator.initState(Paginator.State.Empty)
+                        restartLoadPosts()
+                    }
                 }
             }
         }
@@ -155,6 +157,7 @@ class MyFeedViewModel @Inject constructor(
     }
 
     private fun restartLoadPosts(){
+        loadPostsJob?.cancel()
         paginator.proceed(Paginator.Action.Restart)
     }
 

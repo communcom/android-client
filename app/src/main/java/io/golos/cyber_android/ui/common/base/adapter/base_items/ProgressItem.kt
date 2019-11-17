@@ -15,4 +15,6 @@ class ProgressItem: BaseRecyclerItem() {
         view.pbPageLoading.visibility = View.VISIBLE
         view.btnPageLoadingRetry.visibility = View.INVISIBLE
     }
+
+
 }

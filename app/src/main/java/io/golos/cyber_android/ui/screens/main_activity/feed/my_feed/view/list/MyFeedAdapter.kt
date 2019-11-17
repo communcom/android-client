@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.base_items.ErrorItem
 import io.golos.cyber_android.ui.common.base.adapter.base_items.ProgressItem
 import io.golos.cyber_android.ui.dto.Post
@@ -24,8 +25,19 @@ open class MyFeedAdapter(private val eventsProcessor: MyFeedListListener) : Recy
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }
-        val adapterItemsList = ArrayList(items)
-        adapterItemsList.addAll(postsItems)
+        val adapterItemsList: ArrayList<RecyclerItem> = ArrayList(postsItems)
+        val createPostItem = items.find { it is CreatePostItem }
+        if(createPostItem != null){
+            adapterItemsList.add(0, createPostItem)
+        }
+        val progressItem = items.find { it is ProgressItem }
+        if(progressItem != null){
+            adapterItemsList.add(progressItem)
+        }
+        val errorItem = items.find { it is ErrorItem }
+        if(errorItem != null){
+            adapterItemsList.add(errorItem)
+        }
         updateAdapter(adapterItemsList)
     }
 

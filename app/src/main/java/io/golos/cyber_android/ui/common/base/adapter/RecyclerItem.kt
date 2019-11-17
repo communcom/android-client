@@ -15,6 +15,9 @@ interface RecyclerItem {
 
     fun onViewRecycled(view: View) {}
 
+    //Need return indificator for item, default is hashcode
     fun areItemsTheSame(): Int = hashCode()
 
+    //Define that content same: default use equals
+    fun areContentsSame(item: RecyclerItem): Boolean = this == item
 }

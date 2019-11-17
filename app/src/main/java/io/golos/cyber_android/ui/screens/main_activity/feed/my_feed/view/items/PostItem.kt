@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedListListener
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 
 class PostItem(
-    private val post: Post,
+    val post: Post,
     private val listener: MyFeedListListener
 ) : BaseRecyclerItem() {
 
@@ -28,6 +29,15 @@ class PostItem(
     private var recycledViewPool: RecyclerView.RecycledViewPool? = null
 
     private val feedAdapter: RecyclerAdapter = RecyclerAdapter()
+
+    override fun areItemsTheSame(): Int = post.contentId.hashCode()
+
+    override fun areContentsSame(item: RecyclerItem): Boolean {
+        if(item is PostItem){
+            return post == item.post
+        }
+        return false
+    }
 
     override fun initView(context: Context, view: View) {
         super.initView(context, view)
