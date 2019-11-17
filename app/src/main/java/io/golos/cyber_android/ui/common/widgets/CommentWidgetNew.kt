@@ -28,15 +28,12 @@ constructor(
     @Inject
     internal lateinit var currentUserRepository: CurrentUserRepositoryRead
 
-    @Inject
-    internal lateinit var appResourcesProvider: AppResourcesProvider
-
     init {
         App.injections.get<UIComponent>().inject(this)
 
         inflate(context, R.layout.view_comment_widget, this)
 
-        root.layoutTransition.setDuration(appResourcesProvider.getInteger(android.R.integer.config_shortAnimTime).toLong())
+        root.layoutTransition.setDuration(context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
 
         comment.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {

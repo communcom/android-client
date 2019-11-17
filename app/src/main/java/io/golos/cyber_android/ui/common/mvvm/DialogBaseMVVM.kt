@@ -15,7 +15,6 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -36,9 +35,6 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
 
     protected val viewModel: VM
         get() = _viewModel
-
-    @Inject
-    internal lateinit var resourcesProvider: AppResourcesProvider
 
     @Inject
     internal lateinit var uiHelper: UIHelper

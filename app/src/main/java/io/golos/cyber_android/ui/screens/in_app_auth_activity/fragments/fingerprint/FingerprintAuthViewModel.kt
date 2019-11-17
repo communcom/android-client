@@ -1,40 +1,41 @@
 package io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.core.fingerprints.eventsHandler.*
+import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToPinCodeCommand
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 
 class FingerprintAuthViewModel
 @Inject
 constructor(
+    private val context: Context,
     @StringRes private val headerText: Int,
-    private val appResourcesProvider: AppResourcesProvider,
     dispatchersProvider: DispatchersProvider,
     model: FingerprintAuthModel
 ) : ViewModelBase<FingerprintAuthModel>(dispatchersProvider, model) {
 
     private val fingerprintAuthEventHandler: FingerprintAuthEventHandler = { processAuthEvents(it) }
 
-    private val normalColor = appResourcesProvider.getColor(R.color.black)
-    private val errorColor by lazy { appResourcesProvider.getColor(R.color.red) }
+    private val normalColor = context.resources.getColorRes(R.color.black)
+    private val errorColor by lazy { context.resources.getColorRes(R.color.red) }
 
-    val title: MutableLiveData<String> = MutableLiveData(appResourcesProvider.getString(headerText))
+    val title: MutableLiveData<String> = MutableLiveData(context.resources.getString(headerText))
 
-    val messageText: MutableLiveData<String> = MutableLiveData(appResourcesProvider.getString(R.string.authTouchSensor))
+    val messageText: MutableLiveData<String> = MutableLiveData(context.resources.getString(R.string.authTouchSensor))
     val messageColor: MutableLiveData<Int> = MutableLiveData(normalColor)
 
     fun onActive() {
         model.startAuth(fingerprintAuthEventHandler)
 
-        messageText.value = appResourcesProvider.getString(R.string.authTouchSensor)
+        messageText.value = context.resources.getString(R.string.authTouchSensor)
         messageColor.value = normalColor
     }
 
@@ -51,7 +52,7 @@ constructor(
             is FingerprintAuthSuccessEvent -> _command.value = AuthSuccessCommand()
 
             is FingerprintAuthFailEvent -> {
-                messageText.value = appResourcesProvider.getString(R.string.authFingerprintAuthFail)
+                messageText.value = context.resources.getString(R.string.authFingerprintAuthFail)
                 messageColor.value = errorColor
             }
 

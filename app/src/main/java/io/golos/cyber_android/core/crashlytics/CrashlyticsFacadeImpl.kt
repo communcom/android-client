@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import com.crashlytics.android.Crashlytics
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
-import io.golos.domain.AppResourcesProvider
+import io.golos.cyber_android.ui.common.extensions.getLocale
 import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DeviceInfoProvider
 import javax.inject.Inject
@@ -14,7 +14,6 @@ class CrashlyticsFacadeImpl
 @Inject
 constructor(
     appContext: Context,
-    appResourcesProvider: AppResourcesProvider,
     displayInfoProvider: DisplayInfoProvider,
     deviceInfoProvider: DeviceInfoProvider
 ): CrashlyticsFacade {
@@ -27,7 +26,7 @@ constructor(
             Crashlytics.setString("BUILD_FLAVOR", BuildConfig.FLAVOR)
             Crashlytics.setBool("IS_DEBUG_BUILD", BuildConfig.DEBUG)
 
-            Crashlytics.setString("LOCALE", appResourcesProvider.getLocale())
+            Crashlytics.setString("LOCALE", appContext.resources.getLocale())
 
             Crashlytics.setString("COUNTRY", deviceInfoProvider.getCountryCode() ?: "")
 

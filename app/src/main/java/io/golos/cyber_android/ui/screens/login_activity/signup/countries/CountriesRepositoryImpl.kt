@@ -1,8 +1,9 @@
-package io.golos.data.repositories.countries
+package io.golos.cyber_android.ui.screens.login_activity.signup.countries
 
+import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import io.golos.domain.AppResourcesProvider
+import io.golos.cyber_android.R
 import io.golos.domain.DeviceInfoProvider
 import io.golos.domain.dto.CountryEntity
 import javax.inject.Inject
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class CountriesRepositoryImpl
 @Inject
 constructor(
-    private val appResourcesProvider: AppResourcesProvider,
+    private val context: Context,
     private val moshi: Moshi,
     private val deviceInfoProvider: DeviceInfoProvider
 ) : CountriesRepository {
@@ -21,7 +22,7 @@ constructor(
     private lateinit var countries: List<CountryEntity>
 
     override fun getCountries(): List<CountryEntity> {
-        val countriesRaw = String(appResourcesProvider.getCountries().readBytes())
+        val countriesRaw = String(context.resources.openRawResource(R.raw.countries).readBytes())
 
         val countries = moshi.adapter<List<CountryEntity>>(
             Types.newParameterizedType(

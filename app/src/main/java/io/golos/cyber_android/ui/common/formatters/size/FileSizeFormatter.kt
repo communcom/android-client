@@ -1,10 +1,11 @@
 package io.golos.cyber_android.ui.common.formatters.size
 
+import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.domain.AppResourcesProvider
+import io.golos.cyber_android.ui.common.extensions.getFormattedString
 
 /** Format size with units of measure */
-class FileSizeFormatter(private val appResources: AppResourcesProvider): SizeFormatterBase(1024.0), SizeFormatter {
+class FileSizeFormatter(private val context: Context): SizeFormatterBase(1024.0), SizeFormatter {
     private companion object {
         private val sizeUnits = arrayOf(
             R.string.formatter_files_none,
@@ -16,6 +17,6 @@ class FileSizeFormatter(private val appResources: AppResourcesProvider): SizeFor
     override fun format(size: Long): String =
         calculateUnitIndex(size)
             .let {
-                appResources.getFormattedString(R.string.formatter_files_formatted, calculateValue("##0.#", size, it), sizeUnits[it])
+                context.resources.getFormattedString(R.string.formatter_files_formatted, calculateValue("##0.#", size, it), sizeUnits[it])
             }
 }

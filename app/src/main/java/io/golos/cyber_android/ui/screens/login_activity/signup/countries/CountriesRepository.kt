@@ -1,4 +1,4 @@
-package io.golos.data.repositories.countries
+package io.golos.cyber_android.ui.screens.login_activity.signup.countries
 
 import io.golos.domain.dto.CountryEntity
 

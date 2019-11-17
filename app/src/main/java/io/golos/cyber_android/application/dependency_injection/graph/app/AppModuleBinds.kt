@@ -23,7 +23,6 @@ import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemory
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
-import io.golos.cyber_android.core.resources.AppResourcesProviderImpl
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
@@ -354,9 +353,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideDeviceInfoService(service: DeviceInfoProviderImpl): DeviceInfoProvider
-
-    @Binds
-    abstract fun provideAppResourcesProvider(provider: AppResourcesProviderImpl): AppResourcesProvider
 
     @Binds
     abstract fun provideDisplayInfoProvider(provider: DisplayInfoProviderImpl): DisplayInfoProvider

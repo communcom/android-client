@@ -3,6 +3,7 @@ package io.golos.data.api.communities
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.Commun4j
+import io.golos.data.R
 import io.golos.data.api.Commun4jApiBase
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.AppResourcesProvider
@@ -20,9 +21,9 @@ import kotlin.random.Random
 class CommunitiesApiImpl
 @Inject
 constructor(
+    private val context: Context,
     commun4j: Commun4j,
     currentUserRepository: CurrentUserRepositoryRead,
-    private val appResources: AppResourcesProvider,
     private val moshi: Moshi,
     private val dispatchersProvider: DispatchersProvider
 ) : Commun4jApiBase(commun4j, currentUserRepository), CommunitiesApi {
@@ -146,7 +147,7 @@ constructor(
     private fun loadCommunities(): List<CommunityDomain> {
         val random = Random(Date().time)
 
-        return String(appResources.getCommunities().readBytes())
+        return String(context.resources.openRawResource(R.raw.communities).readBytes())
             .let {
                 moshi.adapter<List<CommunityRaw>>(
                     Types.newParameterizedType(

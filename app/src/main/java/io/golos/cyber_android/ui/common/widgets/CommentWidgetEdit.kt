@@ -11,9 +11,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
 import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
-import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.view_comment_widget_edit.view.*
-import javax.inject.Inject
 
 class CommentWidgetEdit
 @JvmOverloads
@@ -26,15 +24,12 @@ constructor(
     private var onSendClickListener: ((String) -> Unit)? = null
     private var onCloseClickListener: (() -> Unit)? = null
 
-    @Inject
-    internal lateinit var appResourcesProvider: AppResourcesProvider
-
     init {
         App.injections.get<UIComponent>().inject(this)
 
         inflate(context, R.layout.view_comment_widget_edit, this)
 
-        root.layoutTransition.setDuration(appResourcesProvider.getInteger(android.R.integer.config_shortAnimTime).toLong())
+        root.layoutTransition.setDuration(context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
 
         newText.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
@@ -80,9 +75,9 @@ constructor(
         oldText.text = settings.oldText.firstOrNull()
 
         editCommentLabel.text = if(settings.isInEditMode) {
-            appResourcesProvider.getString(R.string.edit_comment_send)
+            context.resources.getString(R.string.edit_comment_send)
         } else {
-            appResourcesProvider.getString(R.string.edit_comment_reply)
+            context.resources.getString(R.string.edit_comment_reply)
         }
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.UserNameValidator
 import io.golos.cyber_android.utils.asEvent
-import io.golos.data.repositories.countries.CountriesRepository
+import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.dto.CountryEntity

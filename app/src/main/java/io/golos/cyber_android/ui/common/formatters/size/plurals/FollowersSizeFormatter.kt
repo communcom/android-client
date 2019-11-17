@@ -1,14 +1,14 @@
 package io.golos.cyber_android.ui.common.formatters.size.plurals
 
+import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.domain.AppResourcesProvider
 import javax.inject.Inject
 
 class FollowersSizeFormatter
 @Inject
 constructor(
-    appResources: AppResourcesProvider
+    context: Context
 ) : PluralSizeFormatterBase(
-    appResources,
+    context,
     R.plurals.formatter_followers_formatted)
 

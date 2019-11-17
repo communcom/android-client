@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.comments
 
+import android.content.Context
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
@@ -12,6 +13,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
+import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.extensions.loadAvatar
 import io.golos.cyber_android.ui.common.formatters.time_estimation.TimeEstimationFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
@@ -23,8 +25,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.Comme
 import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
+import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
 import io.golos.domain.use_cases.post.post_dto.PostBlock
@@ -40,13 +42,10 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     private val maxStringLenToCutNeeded = 285
 
     @ColorInt
-    private val spansColor: Int
+    private val spansColor = parentView.context.resources.getColorRes(R.color.default_clickable_span_color)
 
     @ColorInt
-    private val moreLabelColor: Int
-
-    @Inject
-    internal lateinit var appResourcesProvider: AppResourcesProvider
+    private val moreLabelColor = parentView.context.resources.getColorRes(R.color.dark_gray)
 
     @Inject
     internal lateinit var commentTextRenderer: CommentTextRenderer
@@ -68,9 +67,6 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     init {
         @Suppress("LeakingThis")
         inject()
-
-        spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
-        moreLabelColor = appResourcesProvider.getColor(R.color.dark_gray)
     }
 
     @CallSuper
@@ -78,13 +74,14 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         loadAvatarIcon(listItem.author.avatarUrl)
 
         _mainCommentText.text = getCommentText(
+            _rootView.context.applicationContext,
             listItem.author,
             getParentAuthor(listItem),
             listItem.currentUserId,
             listItem.content,
             true)
 
-        _replyAndTimeText.text = getReplyAndTimeText(listItem.metadata)
+        _replyAndTimeText.text = getReplyAndTimeText(_rootView.context.applicationContext, listItem.metadata)
         _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
 
         setupVoting(listItem, listItemEventsProcessor)
@@ -115,6 +112,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     private fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
 
     private fun getCommentText(
+        context: Context,
         author: DiscussionAuthorModel,
         parentAuthor: DiscussionAuthorModel?,
         currentUserId: String,
@@ -172,7 +170,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                     // expand text
                 }
             }
-            cutResult.appendSpannedText(appResourcesProvider.getString(R.string.comments_more), style)
+            cutResult.appendSpannedText(context.resources.getString(R.string.comments_more), style)
 
             return cutResult
         }
@@ -189,7 +187,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
     }
 
-    private fun getReplyAndTimeText(metadata: DiscussionMetadataModel): SpannableStringBuilder {
+    private fun getReplyAndTimeText(context: Context, metadata: DiscussionMetadataModel): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         // Reply label
@@ -198,10 +196,10 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 // Reply
             }
         }
-        result.appendSpannedText(appResourcesProvider.getString(R.string.reply), replySpan)
+        result.appendSpannedText(context.resources.getString(R.string.reply), replySpan)
 
         // Time
-        val time = TimeEstimationFormatter(appResourcesProvider).format(metadata.time)
+        val time = TimeEstimationFormatter(context).format(metadata.time)
         result.append(" ${SpecialChars.bullet} ")
         result.append(time)
 

@@ -27,16 +27,7 @@ interface PostPageFragmentComponent {
     }
 
     fun inject(fragment: PostPageFragment)
-    fun inject(header: PostPageHeaderView)
 
-    fun inject(widget: ParagraphWidget)
-    fun inject(widget: EmbedWebsiteWidget)
-    fun inject(widget: AttachmentsWidget)
-
-    fun inject(holder: CommentsTitleViewHolder)
-    fun inject(holder: SecondLevelCommentLoadingViewHolder)
-    fun inject(holder: SecondLevelCommentRetryViewHolder)
     fun inject(holder: FirstLevelCommentViewHolder)
     fun inject(holder: SecondLevelCommentViewHolder)
-    fun inject(holder: SecondLevelCommentCollapsedViewHolder)
 }

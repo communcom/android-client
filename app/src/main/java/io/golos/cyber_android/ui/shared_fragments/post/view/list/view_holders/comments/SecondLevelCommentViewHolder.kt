@@ -46,7 +46,7 @@ class SecondLevelCommentViewHolder(
     override fun init(listItem: SecondLevelCommentListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         // Add second-level margin
         val layoutParams = itemView.layoutParams as RecyclerView.LayoutParams
-        layoutParams.marginStart = appResourcesProvider.getDimens(R.dimen.post_comments_second_level_margin).toInt()
+        layoutParams.marginStart = itemView.context.resources.getDimension(R.dimen.post_comments_second_level_margin).toInt()
         itemView.layoutParams = layoutParams
 
         super.init(listItem, listItemEventsProcessor)

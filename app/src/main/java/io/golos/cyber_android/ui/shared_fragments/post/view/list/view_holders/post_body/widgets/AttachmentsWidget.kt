@@ -13,6 +13,10 @@ import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
+import io.golos.domain.post.post_dto.AttachmentsBlock
+import io.golos.domain.post.post_dto.ImageBlock
+import io.golos.domain.post.post_dto.VideoBlock
+import io.golos.domain.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
 
@@ -34,9 +38,8 @@ constructor(
     override fun render(block: AttachmentsBlock) {
         attachmentsContainer.removeAllViews()
 
-        val resources = context.resources
-        val size = resources.getDimension(R.dimen.size_post_attachments).toInt()
-        val gap = resources.getDimension(R.dimen.gap_post_attachments).toInt()
+        val size = context.resources.getDimension(R.dimen.size_post_attachments).toInt()
+        val gap = context.resources.getDimension(R.dimen.gap_post_attachments).toInt()
 
         val lastIndex = images.lastIndex
 

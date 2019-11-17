@@ -51,14 +51,13 @@ constructor(
     private fun setUp() {
         setTextColor(Color.BLACK)
 
-        val resources = context.resources
-        setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_size_post_normal))
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.text_size_post_normal))
 
-        resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
+        context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
             setPadding(it, 0, it, 0)
         }
 
-        resources.getDimension(R.dimen.margin_block).toInt().also {
+        context.resources.getDimension(R.dimen.margin_block).toInt().also {
             val params = this.layoutParams as ViewGroup.MarginLayoutParams
             params.topMargin = it
             params.bottomMargin = it

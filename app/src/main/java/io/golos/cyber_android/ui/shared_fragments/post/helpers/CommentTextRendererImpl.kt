@@ -1,14 +1,15 @@
 package io.golos.cyber_android.ui.shared_fragments.post.helpers
 
+import android.content.Context
 import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
@@ -21,10 +22,10 @@ import javax.inject.Inject
 class CommentTextRendererImpl
 @Inject
 constructor(
-    appResourcesProvider: AppResourcesProvider
+    context: Context
 ) : CommentTextRenderer {
     @ColorInt
-    private val spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
+    private val spansColor = context.resources.getColorRes(R.color.default_clickable_span_color)
 
     override fun render(post: List<Block>): List<CharSequence> =
         post

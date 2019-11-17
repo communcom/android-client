@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
-import io.golos.domain.AppResourcesProvider
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
 import javax.inject.Inject
@@ -32,9 +31,6 @@ class CommunityListItemViewHolder(
     @Inject
     @field:Named(Clarification.POSTS)
     internal lateinit var postsFormatter: SizeFormatter
-
-    @Inject
-    internal lateinit var appResources: AppResourcesProvider
 
     init {
         App.injections.get<CommunitiesFragmentComponent>().inject(this)
@@ -57,9 +53,9 @@ class CommunityListItemViewHolder(
             itemView.setOnClickListener { listItemEventsProcessor.onItemClick(community) }
 
             if(isJoined) {
-                itemView.joinButton.text = appResources.getString(R.string.joined_to_community)
+                itemView.joinButton.text = itemView.context.resources.getString(R.string.joined_to_community)
             } else {
-                itemView.joinButton.text = appResources.getString(R.string.join_to_community)
+                itemView.joinButton.text = itemView.context.resources.getString(R.string.join_to_community)
             }
 
             itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
