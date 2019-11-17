@@ -2,71 +2,52 @@ package io.golos.cyber_android.ui.screens.post_filters
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ApplyPostFiltersCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.flow.flowOf
-import timber.log.Timber
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PostFiltersViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
-    model: PostFiltersModel,
-    private val filter: PostFilters
+    model: PostFiltersModel
 ) : ViewModelBase<PostFiltersModel>(dispatchersProvider, model) {
 
+    private val _updateTimeFilter = MutableLiveData<PostFiltersHolder.UpdateTimeFilter>()
+
+    private val _periodTimeFilter = MutableLiveData<PostFiltersHolder.PeriodTimeFilter>()
+
+    val updateTimeFilter = _updateTimeFilter.toLiveData()
+
+    val periodTimeFilter = _periodTimeFilter.toLiveData()
+
     init {
-        Timber.d("filter: [$filter]")
+        launch {
+            val feedFilters = model.feedFiltersFlow.first()
+            _updateTimeFilter.value = feedFilters.updateTimeFilter
+            _periodTimeFilter.value = feedFilters.periodTimeFilter
+        }
     }
 
-    private val updateTimeFilterMutableLiveData = MutableLiveData<UpdateTimeFilter>(model.updateTimeFilter)
-
-    val updateTimeFilterLiveData = updateTimeFilterMutableLiveData.toLiveData()
-
-    private val periodTimeFilterMutableLiveData = MutableLiveData<PeriodTimeFilter>(model.periodTimeFilter)
-
-    val periodTimeFilterLiveData = periodTimeFilterMutableLiveData.toLiveData()
-
-    fun changeUpdateTimeFilter(filter: UpdateTimeFilter) {
-        updateTimeFilterMutableLiveData.value = filter
+    fun changeUpdateTimeFilter(filter: PostFiltersHolder.UpdateTimeFilter) {
+        _updateTimeFilter.value = filter
     }
 
-    fun changePeriodTimeFilter(filter: PeriodTimeFilter) {
-        periodTimeFilterMutableLiveData.value = filter
+    fun changePeriodTimeFilter(filter: PostFiltersHolder.PeriodTimeFilter) {
+        _periodTimeFilter.value = filter
     }
 
     fun onNextClicked() {
-        val currentUpdateTimeFilter: UpdateTimeFilter = updateTimeFilterMutableLiveData.value!!
-        model.updateTimeFilter = currentUpdateTimeFilter
-        val currentPeriodTimeFilter: PeriodTimeFilter = periodTimeFilterMutableLiveData.value!!
-        model.periodTimeFilter = currentPeriodTimeFilter
-        val postFilter = PostFilters().apply {
-            updateTimeFilter = currentUpdateTimeFilter
-            periodTimeFilter = currentPeriodTimeFilter
+        val currentUpdateTimeFilter: PostFiltersHolder.UpdateTimeFilter = _updateTimeFilter.value!!
+        val currentPeriodTimeFilter: PostFiltersHolder.PeriodTimeFilter = _periodTimeFilter.value!!
+        launch {
+            model.updateFilters(PostFiltersHolder.FeedFilters(currentUpdateTimeFilter, currentPeriodTimeFilter))
+            _command.value = BackCommand()
         }
-
-        //todo look at the flowFilter (not updated)
-        filter.flowFilter = flowOf(postFilter)
-        filter.update(filter.flowFilter)
-
-        _command.value = ApplyPostFiltersCommand(postFilter)
     }
 
     fun onClosedClicked() {
         _command.value = BackCommand()
-    }
-
-    enum class UpdateTimeFilter {
-        HOT, //TOP_REWARDS
-        NEW, //NEW
-        POPULAR //TOP_LIKES
-    }
-
-    enum class PeriodTimeFilter {
-        PAST_24_HOURS, //DAY
-        PAST_WEEK, //WEEK
-        PAST_MONTH, //MONTH
-        ALL //ALL
     }
 }

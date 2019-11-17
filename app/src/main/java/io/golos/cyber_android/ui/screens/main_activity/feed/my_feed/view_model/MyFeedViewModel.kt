@@ -7,13 +7,13 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
+import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
+import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.screens.post_filters.PostFilters
-import io.golos.cyber_android.ui.screens.post_filters.PostFiltersViewModel
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -21,7 +21,9 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,8 +31,7 @@ import javax.inject.Inject
 class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
-    private val paginator: Paginator.Store<Post>,
-    private val postFilter: PostFilters
+    private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     override fun onDownVoteClicked() {
@@ -76,38 +77,10 @@ class MyFeedViewModel @Inject constructor(
 
     val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
 
+    private var loadPostsJob: Job? = null
+
     init {
-
-        Timber.d("filter: post filter -> $postFilter")
-
-        launch {
-            postFilter.flowFilter?.collect { filter ->
-                Timber.d("filter: [FLOW] - ${filter.periodTimeFilter.name}")
-                val feedType = when (filter.updateTimeFilter) {
-                    PostFiltersViewModel.UpdateTimeFilter.HOT ->
-                        PostsConfigurationDomain.TypeFeedDomain.TOP_REWARDS
-                    PostFiltersViewModel.UpdateTimeFilter.NEW ->
-                        PostsConfigurationDomain.TypeFeedDomain.NEW
-                    PostFiltersViewModel.UpdateTimeFilter.POPULAR ->
-                        PostsConfigurationDomain.TypeFeedDomain.TOP_LIKES
-                }
-                val feedTimeFrame = when (filter.periodTimeFilter) {
-                    PostFiltersViewModel.PeriodTimeFilter.PAST_24_HOURS ->
-                        PostsConfigurationDomain.TimeFrameDomain.DAY
-                    PostFiltersViewModel.PeriodTimeFilter.PAST_WEEK ->
-                        PostsConfigurationDomain.TimeFrameDomain.WEEK
-                    PostFiltersViewModel.PeriodTimeFilter.PAST_MONTH ->
-                        PostsConfigurationDomain.TimeFrameDomain.MONTH
-                    PostFiltersViewModel.PeriodTimeFilter.ALL ->
-                        PostsConfigurationDomain.TimeFrameDomain.ALL
-                }
-                postsConfigurationDomain = postsConfigurationDomain.copy(
-                    typeFeed = feedType,
-                    timeFrame = feedTimeFrame
-                )
-                loadInitialPosts()
-            }
-        }
+        applyFiltersListener()
 
         paginator.sideEffectListener = {
             when (it) {
@@ -123,13 +96,32 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
+    private fun applyFiltersListener(){
+        launch {
+            model.feedFiltersFlow.collect {
+                Timber.d("filters: [FLOW] - ${it}")
+                val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
+                val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
+                if (::postsConfigurationDomain.isInitialized) {
+                    postsConfigurationDomain = postsConfigurationDomain.copy(
+                        typeFeed = feedType,
+                        timeFrame = feedTimeFrame
+                    )
+                    paginator.initState(Paginator.State.Empty)
+                    loadPostsJob?.cancel()
+                    restartLoadPosts()
+                }
+            }
+        }
+    }
+
     fun loadMorePosts() {
         paginator.proceed(Paginator.Action.LoadMore)
     }
 
     private fun loadMorePosts(pageCount: Int) {
         Timber.d("paginator: load posts on page -> $pageCount")
-        launch {
+        loadPostsJob = launch {
             try {
                 postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGINATION_PAGE_SIZE)
                 val postsDomainList = model.getPosts(postsConfigurationDomain)
@@ -162,10 +154,14 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
+    private fun restartLoadPosts(){
+        paginator.proceed(Paginator.Action.Restart)
+    }
+
     private fun loadInitialPosts() {
         val postsListState = _postsListState.value
         if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
-            paginator.proceed(Paginator.Action.Restart)
+            restartLoadPosts()
         }
     }
 
@@ -177,15 +173,18 @@ class MyFeedViewModel @Inject constructor(
                 //val userProfile = UserDomainMapper().invoke(model.getLocalUser())
                 val userProfile = User("1", "sdsds", "")
                 _user.value = userProfile
+                val feedFilters = model.feedFiltersFlow.first()
+                val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()
+                val feedTimeFrame = feedFilters.periodTimeFilter.mapToTimeFrameDomain()
                 postsConfigurationDomain = PostsConfigurationDomain(
                     userProfile.id,
                     null,
                     null,
                     PostsConfigurationDomain.SortByDomain.TIME,
-                    PostsConfigurationDomain.TimeFrameDomain.DAY,
+                    feedTimeFrame,
                     PAGINATION_PAGE_SIZE,
                     0,
-                    PostsConfigurationDomain.TypeFeedDomain.NEW
+                    feedType
                 )
                 isUserLoad.invoke(true)
             } catch (e: Exception) {
@@ -196,5 +195,10 @@ class MyFeedViewModel @Inject constructor(
             }
 
         }
+    }
+
+    override fun onCleared() {
+        loadPostsJob?.cancel()
+        super.onCleared()
     }
 }

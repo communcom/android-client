@@ -20,7 +20,6 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowPostFiltersComman
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.MyFeedFragment
-import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersBottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.coroutines.flow.collect
@@ -70,7 +69,6 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
                     viewModel.onFiltersCLicked()
                 }
         }
-        attachPostFiltersListener()
     }
 
     private fun setupViewPager() {
@@ -144,35 +142,8 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
             if (childFragmentManager.findFragmentByTag(tag) == null) {
                 val postFiltersBottomSheetDialog = PostFiltersBottomSheetDialog()
                 postFiltersBottomSheetDialog.show(childFragmentManager, tag)
-                postFiltersBottomSheetDialog.setFiltersApplyListener(PostFiltersListener)
             }
         }
-    }
-
-    private fun attachPostFiltersListener(){
-        val tag = PostFiltersBottomSheetDialog::class.java.name
-        childFragmentManager.findFragmentByTag(tag)?.let {
-            (it as PostFiltersBottomSheetDialog).setFiltersApplyListener(PostFiltersListener)
-        }
-    }
-
-    private object PostFiltersListener: PostFiltersBottomSheetDialog.FilterChangeListener{
-        override fun onFiltersChanged(filters: PostFilters) {
-
-        }
-
-    }
-
-    private fun removePostFiltersListener(){
-        val tag = PostFiltersBottomSheetDialog::class.java.name
-        childFragmentManager.findFragmentByTag(tag)?.let {
-            (it as PostFiltersBottomSheetDialog).setFiltersApplyListener(null)
-        }
-    }
-
-    override fun onDestroyView() {
-        removePostFiltersListener()
-        super.onDestroyView()
     }
 
     companion object {
