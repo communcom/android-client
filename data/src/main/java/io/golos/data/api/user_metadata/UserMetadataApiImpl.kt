@@ -9,7 +9,7 @@ import io.golos.commun4j.http.rpc.model.transaction.response.TransactionParentRe
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcessed
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.commun_entities.GetProfileResultExt
 import javax.inject.Inject
 import io.golos.commun4j.utils.Pair as CommunPair

@@ -11,13 +11,13 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
-import io.golos.data.repositories.discussion.DiscussionRepository
+import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.post.post_dto.PostMetadata
+import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

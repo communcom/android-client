@@ -5,6 +5,8 @@ import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
 import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.repositories.RepositoryBase
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.DiscussionCreationResultEntity
 import io.golos.domain.mappers.discussion_creation.request.DiscussionCreationRequestMapper
@@ -14,9 +16,10 @@ import io.golos.domain.mappers.discussion_creation.result.DiscussionUpdateResult
 import io.golos.domain.requestmodel.*
 
 abstract class DiscussionCreationRepositoryBase(
+    dispatchersProvider: DispatchersProvider,
     private val discussionsCreationApi: DiscussionsApi,
     private val transactionsApi: TransactionsApi
-) {
+): RepositoryBase(dispatchersProvider){
     protected fun createOrUpdateDiscussion(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity {
             val request = DiscussionCreationRequestMapper.map(params)
             val apiAnswer = when (request) {

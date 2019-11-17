@@ -1,8 +1,8 @@
 package io.golos.domain.posts_parsing_rendering
 
-import io.golos.domain.post.editor_output.MentionSpanInfo
-import io.golos.domain.post.editor_output.ParagraphMetadata
-import io.golos.domain.post.editor_output.TagSpanInfo
+import io.golos.domain.use_cases.post.editor_output.MentionSpanInfo
+import io.golos.domain.use_cases.post.editor_output.ParagraphMetadata
+import io.golos.domain.use_cases.post.editor_output.TagSpanInfo
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.SpansSplitter
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.SplittedMention
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.SplittedTag

@@ -27,7 +27,7 @@ import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.PostBlock
 import javax.inject.Inject
 
 @Suppress("PropertyName")

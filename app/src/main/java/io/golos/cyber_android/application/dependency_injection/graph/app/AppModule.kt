@@ -4,7 +4,6 @@ import android.app.backup.BackupManager
 import android.content.Context
 import android.os.Build
 import com.squareup.moshi.Moshi
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.golos.commun4j.sharedmodel.Commun4jConfig
@@ -15,7 +14,7 @@ import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.core.logger.Cyber4JLogger
-import io.golos.cyber_android.ui.screens.post_filters.PostFilters
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.data.repositories.countries.CountriesRepository
 import io.golos.data.repositories.countries.CountriesRepositoryImpl
 import io.golos.domain.*
@@ -108,5 +107,5 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun providePostFilters(): PostFilters = PostFilters()
+    internal fun providePostFilters(): PostFiltersHolder = PostFiltersHolder()
 }

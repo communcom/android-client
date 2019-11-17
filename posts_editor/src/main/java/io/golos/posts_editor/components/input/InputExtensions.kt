@@ -9,7 +9,6 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.util.Linkify
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -20,11 +19,10 @@ import android.webkit.URLUtil
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
-import io.golos.domain.post.TextStyle
-import io.golos.domain.post.editor_output.*
+import io.golos.domain.use_cases.post.TextStyle
+import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
@@ -46,7 +44,6 @@ import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
 import io.golos.posts_editor.utilities.toHtml
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.util.*
 import kotlin.reflect.KClass

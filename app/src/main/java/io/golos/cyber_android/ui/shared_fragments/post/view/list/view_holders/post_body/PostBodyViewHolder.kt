@@ -8,15 +8,15 @@ import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.post.post_dto.*
-import kotlinx.android.synthetic.main.item_content_text.view.*
+import io.golos.domain.use_cases.post.post_dto.*
+import kotlinx.android.synthetic.main.item_post_block.view.*
 import timber.log.Timber
 
 class PostBodyViewHolder constructor(
     parentView: ViewGroup
 ) : ViewHolderBase<PostPageViewModelListEventsProcessor, PostBodyListItem>(
     parentView,
-    R.layout.item_content_text
+    R.layout.item_post_block
 ) {
     override fun init(listItem: PostBodyListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         itemView.errorHolder.visibility = View.INVISIBLE
@@ -38,7 +38,7 @@ class PostBodyViewHolder constructor(
     override fun release() {
         with(itemView.postWidgetContainer) {
             for(i in 0 until childCount) {
-                getChildAt(i).let {it as? PostBlockWidget<*> }?.cancel()
+                getChildAt(i).let {it as? PostBlockWidget<*, *> }?.release()
             }
         }
     }
@@ -51,7 +51,7 @@ class PostBodyViewHolder constructor(
         itemView.errorHolder.visibility = View.VISIBLE
     }
 
-    private fun createWidget(block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor): PostBlockWidget<*> =
+    private fun createWidget(block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor): PostBlockWidget<*, *> =
         when(block) {
             is AttachmentsBlock -> {
                 if(block.content.size == 1) {

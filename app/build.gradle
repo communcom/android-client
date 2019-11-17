@@ -132,6 +132,8 @@ dependencies {
     implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
     implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
     implementation "ru.ldralighieri.corbind:corbind:$corbind"
+    implementation "androidx.core:core-ktx:+"
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshiCodegen")
 
     /* Timber */
     implementation "com.jakewharton.timber:timber:$timberVersion"

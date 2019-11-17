@@ -12,8 +12,8 @@ import io.golos.cyber_android.utils.PostConstants
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
-import io.golos.data.repositories.discussion.DiscussionRepository
+import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
@@ -24,7 +24,7 @@ import io.golos.domain.dto.PostCreationResultEntity
 import io.golos.domain.dto.UpdatePostResultEntity
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.post.editor_output.*
+import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest

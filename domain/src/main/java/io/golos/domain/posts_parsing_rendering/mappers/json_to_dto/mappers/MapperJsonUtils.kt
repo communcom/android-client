@@ -3,17 +3,24 @@ package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 import android.graphics.Color
 import android.net.Uri
 import android.util.Size
-import io.golos.domain.post.TextStyle
+import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 import java.lang.UnsupportedOperationException
 
 abstract class MapperJsonUtils {
     protected fun JSONObject.getAttributes(): JSONObject? = this.tryJSONObject("attributes")
 
-    protected fun JSONObject.getType(): BlockType = this.getString("type").let { type -> BlockType.values().first { it.value == type } }
+    protected fun JSONObject.getType(): BlockType = this.getString("type").let { type ->
+        val blockType = BlockType.values().firstOrNull { it.value == type } ?: BlockType.UNDEFINED
+        if(blockType == BlockType.UNDEFINED){
+            Timber.e("Post block has not supported type = ${this.getString("type")}")
+        }
+        return blockType
+    }
 
     protected fun JSONArray?.contains(value: String): Boolean {
         if(this == null) {

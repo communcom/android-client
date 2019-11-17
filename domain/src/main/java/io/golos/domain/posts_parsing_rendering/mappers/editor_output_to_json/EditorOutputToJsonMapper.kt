@@ -1,6 +1,6 @@
 package io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json
 
-import io.golos.domain.post.editor_output.*
+import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants

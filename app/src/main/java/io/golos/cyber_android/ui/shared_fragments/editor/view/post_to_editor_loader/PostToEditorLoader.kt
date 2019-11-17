@@ -4,9 +4,9 @@ import android.net.Uri
 import android.text.SpannableStringBuilder
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
-import io.golos.domain.post.editor_output.EmbedType
-import io.golos.domain.post.editor_output.LinkInfo
-import io.golos.domain.post.post_dto.*
+import io.golos.domain.use_cases.post.editor_output.EmbedType
+import io.golos.domain.use_cases.post.editor_output.LinkInfo
+import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.posts_editor.EditorDataLoader
 import io.golos.posts_editor.utilities.post.PostStubs
 import io.golos.posts_editor.utilities.post.spans.PostSpansFactory

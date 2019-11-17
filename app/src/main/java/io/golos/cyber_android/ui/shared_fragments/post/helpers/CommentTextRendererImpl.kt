@@ -11,8 +11,8 @@ import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
-import io.golos.domain.post.post_dto.*
-import io.golos.domain.post.toTypeface
+import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.use_cases.post.toTypeface
 import javax.inject.Inject
 
 /**
@@ -76,7 +76,7 @@ constructor(
         // Click on the link
         builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
-                // onClickProcessor?.onLinkInPostClick(spanData)
+                // onClickProcessor?.onLinkClicked(spanData)
             }
         }, textInterval)
     }

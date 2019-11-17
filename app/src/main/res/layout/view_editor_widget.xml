@@ -1,50 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:paddingStart="@dimen/padding_horizontal_editor_widget"
-              android:paddingEnd="0dp"
-              android:paddingTop="@dimen/padding_vertical_editor_widget"
-              android:paddingBottom="@dimen/padding_vertical_editor_widget"
-              android:background="@color/white"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/padding_horizontal_editor_widget"
+    android:paddingTop="@dimen/padding_vertical_editor_widget"
+    android:paddingEnd="0dp"
+    android:paddingBottom="@dimen/padding_vertical_editor_widget">
 
-    <FrameLayout android:layout_width="@dimen/size_editor_widget_avatar"
-                 android:layout_height="@dimen/size_editor_widget_avatar">
+    <FrameLayout
+        android:layout_width="@dimen/size_editor_widget_avatar"
+        android:layout_height="@dimen/size_editor_widget_avatar">
+
         <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/avatar"
-                android:background="@drawable/bg_profile_avatar_no_borders"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_profile_avatar_no_borders" />
+
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/name"
-                style="@style/ProfileSmallAvatarTextStyle"
-                tools:text="S"
-                android:maxLength="1"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-        />
+            android:id="@+id/name"
+            style="@style/ProfileSmallAvatarTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLength="1"
+            tools:text="S" />
+
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/caption"
-            android:theme="@style/EditorWidgetCaptionTextStyle"
-            android:text="@string/editor_widget_caption"
-            android:layout_marginStart="@dimen/padding_horizontal_editor_widget"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_horizontal_editor_widget"
+        android:layout_weight="1"
+        android:text="@string/editor_widget_caption"
+        android:theme="@style/EditorWidgetCaptionTextStyle" />
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/galleryButton"
-            app:srcCompat="@drawable/ic_editor_widget_camera"
-            android:paddingStart="@dimen/padding_horizontal_editor_widget"
-            android:paddingEnd="@dimen/padding_horizontal_editor_widget"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+        android:id="@+id/galleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/padding_horizontal_editor_widget"
+        android:paddingEnd="@dimen/padding_horizontal_editor_widget"
+        app:srcCompat="@drawable/ic_photo" />
 
 </LinearLayout>

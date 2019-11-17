@@ -31,6 +31,7 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
+    dispatchersProvider,
     discussionsCreationApi,
     transactionsApi
 ), Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {

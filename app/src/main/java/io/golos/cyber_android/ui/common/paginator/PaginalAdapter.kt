@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.subscriptions.Community
 import kotlinx.android.synthetic.main.item_progress_error.view.*
+import timber.log.Timber
 import kotlin.properties.Delegates
 
 /**
@@ -36,10 +36,14 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    var isSearchProgress by Delegates.observable(false) { _, isSearchProgressOld, isSearchProgressNew ->
+    var isNewPageProgress by Delegates.observable(false) { _, isSearchProgressOld, isSearchProgressNew ->
         if (isSearchProgressOld != isSearchProgressNew) {
             val lastPositionItem = items.size - 1
-            notifyItemChanged(lastPositionItem)
+            try {
+                notifyItemChanged(lastPositionItem)
+            }catch (e: Exception){
+                Timber.e(e)
+            }
         }
     }
 
@@ -59,7 +63,9 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
                 (holder as PaginalAdapter<*>.ProgressErrorViewHolder).bind()
             }
         }
-        if (!isFullData && position >= items.size - 10 && !isPageError && !isSearchProgress) nextPageCallback?.invoke()
+        if (!isFullData && position >= items.size - countItemsFromEndForBeginUploadNewPage && !isPageError && !isNewPageProgress) {
+            nextPageCallback?.invoke()
+        }
     }
 
     protected fun getProgressErrorViewHolder(parent: ViewGroup): ProgressErrorViewHolder {
@@ -94,6 +100,11 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    /**
+     * Count items in list for begin upload new page in list
+     */
+    protected abstract val countItemsFromEndForBeginUploadNewPage: Int
+
     protected companion object {
 
         @IntDef(DATA, PROGRESS_ERROR)
@@ -103,4 +114,5 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
         const val DATA = 0
         const val PROGRESS_ERROR = 1
     }
+
 }

@@ -1,17 +1,13 @@
 package io.golos.cyber_android.ui.screens.post_filters
 
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class PostFiltersModelImpl @Inject constructor(private val postFilters: PostFilters): PostFiltersModel {
+class PostFiltersModelImpl @Inject constructor(private val postFiltersHolder: PostFiltersHolder): PostFiltersModel {
 
-    override var updateTimeFilter: PostFiltersViewModel.UpdateTimeFilter
-        get() = postFilters.updateTimeFilter
-        set(value) {
-            postFilters.updateTimeFilter = value
-        }
-    override var periodTimeFilter: PostFiltersViewModel.PeriodTimeFilter
-        get() = postFilters.periodTimeFilter
-        set(value) {
-            postFilters.periodTimeFilter = value
-        }
+    override suspend fun updateFilters(filters: PostFiltersHolder.FeedFilters) {
+        postFiltersHolder.updateFeedFilters(filters)
+    }
+
+    override val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters> = postFiltersHolder.feedFiltersFlow
 }

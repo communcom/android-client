@@ -10,7 +10,9 @@ enum class BlockType(val value: String) {
     IMAGE("image"),
     VIDEO("video"),
     WEBSITE("website"),
-    ATTACHMENTS("attachments")
+    ATTACHMENTS("attachments"),
+    RICH("rich"),
+    UNDEFINED("undefined")
 }
 
 enum class Attribute(val value: String) {

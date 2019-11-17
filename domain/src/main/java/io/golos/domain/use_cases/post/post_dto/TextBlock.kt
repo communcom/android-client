@@ -1,0 +1,10 @@
+package io.golos.domain.use_cases.post.post_dto
+
+import androidx.annotation.ColorInt
+import io.golos.domain.use_cases.post.TextStyle
+
+data class TextBlock(
+    val content: String,
+    val style: TextStyle?,
+    @ColorInt val textColor: Int?
+): ParagraphItemBlock

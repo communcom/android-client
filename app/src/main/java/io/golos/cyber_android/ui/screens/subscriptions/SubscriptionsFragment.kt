@@ -140,9 +140,9 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
 
         viewModel.generalLoadingProgressVisibilityLiveData.observe(this, Observer {
             if (it) {
-                generalProgressLoading.visibility = View.VISIBLE
+                emptyPostProgressLoading.visibility = View.VISIBLE
             } else {
-                generalProgressLoading.visibility = View.INVISIBLE
+                emptyPostProgressLoading.visibility = View.INVISIBLE
             }
         })
 
@@ -174,13 +174,13 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = false
                 subscriptionsAdapter.isPageError = false
-                subscriptionsAdapter.isSearchProgress = false
+                subscriptionsAdapter.isNewPageProgress = false
             }
             is Paginator.State.FullData<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
                 subscriptionsAdapter.isFullData = true
                 subscriptionsAdapter.isPageError = false
-                subscriptionsAdapter.isSearchProgress = false
+                subscriptionsAdapter.isNewPageProgress = false
             }
             is Paginator.State.PageError<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
@@ -192,11 +192,11 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
             }
             is Paginator.State.SearchProgress<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
-                subscriptionsAdapter.isSearchProgress = true
+                subscriptionsAdapter.isNewPageProgress = true
             }
             is Paginator.State.SearchPageError<*> -> {
                 subscriptionsAdapter.updateCommunities(state.data as MutableList<Community>)
-                subscriptionsAdapter.isSearchProgress = false
+                subscriptionsAdapter.isNewPageProgress = false
                 uiHelper.showMessage(R.string.loading_error)
             }
         }

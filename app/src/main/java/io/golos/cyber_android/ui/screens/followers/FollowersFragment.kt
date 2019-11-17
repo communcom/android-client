@@ -91,16 +91,16 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isFullData = false
                     adapter.isPageError = false
-                    adapter.isSearchProgress = false
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    adapter.isNewPageProgress = false
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isFullData = true
                     adapter.isPageError = false
-                    adapter.isSearchProgress = false
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    adapter.isNewPageProgress = false
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
@@ -110,27 +110,28 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
                 is Paginator.State.NewPageProgress<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
                     adapter.isPageError = false
+                    adapter.isNewPageProgress = true
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
-                    adapter.isSearchProgress = true
+                    adapter.isNewPageProgress = true
                     pbLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
                     adapter.updateFollowers(it.data as MutableList<Follower>)
-                    adapter.isSearchProgress = false
+                    adapter.isNewPageProgress = false
                     uiHelper.showMessage(R.string.loading_error)
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
-                    generalProgressLoading.visibility = View.VISIBLE
+                    emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
                 }
                 is Paginator.State.Empty -> {
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyError -> {
-                    generalProgressLoading.visibility = View.INVISIBLE
+                    emptyPostProgressLoading.visibility = View.INVISIBLE
                     btnRetry.visibility = View.VISIBLE
                 }
             }

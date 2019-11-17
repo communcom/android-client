@@ -5,9 +5,9 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt
-import io.golos.domain.post.TextStyle
-import io.golos.domain.post.editor_output.LinkInfo
-import io.golos.domain.post.toTypeface
+import io.golos.domain.use_cases.post.TextStyle
+import io.golos.domain.use_cases.post.editor_output.LinkInfo
+import io.golos.domain.use_cases.post.toTypeface
 import io.golos.posts_editor.components.input.spans.custom.LinkSpan
 import io.golos.posts_editor.components.input.spans.custom.MentionSpan
 import io.golos.posts_editor.components.input.spans.custom.TagSpan

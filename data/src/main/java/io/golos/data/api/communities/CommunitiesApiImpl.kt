@@ -4,7 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import io.golos.commun4j.Commun4j
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.AppResourcesProvider
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain

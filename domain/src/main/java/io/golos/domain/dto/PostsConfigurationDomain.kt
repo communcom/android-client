@@ -1,0 +1,37 @@
+package io.golos.domain.dto
+
+data class PostsConfigurationDomain(
+    val userId: String,
+    val communityId: String?,
+    val communityAlias: String?,
+    val sortBy: SortByDomain = SortByDomain.TIME,
+    val timeFrame: TimeFrameDomain = TimeFrameDomain.DAY,
+    val limit: Int,
+    val offset: Int,
+    val typeFeed: TypeFeedDomain = TypeFeedDomain.TOP_LIKES,
+    val allowNsfw: Boolean = false
+) {
+
+    enum class TypeFeedDomain {
+        NEW,
+        COMMUNITY,
+        SUBSCRIPTIONS,
+        BY_USER,
+        TOP_LIKES,
+        TOP_COMMENTS,
+        TOP_REWARDS,
+        HOT
+    }
+
+    enum class SortByDomain {
+        TIME,
+        TIME_DESC
+    }
+
+    enum class TimeFrameDomain {
+        DAY,
+        WEEK,
+        MONTH,
+        ALL
+    }
+}

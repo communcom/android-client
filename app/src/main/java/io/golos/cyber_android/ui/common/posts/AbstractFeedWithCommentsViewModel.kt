@@ -27,7 +27,7 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
     /**
      * Sends comment to discussion
      * @param discussion [DiscussionModel] from where [DiscussionIdModel] will be extracted
-     * @param comment comment content
+     * @param comment comment contentBodyEntityList
      */
     fun sendComment(discussion: DiscussionModel, comment: CharSequence) {
         sendComment(discussion.contentId, comment)
@@ -36,7 +36,7 @@ abstract class AbstractFeedWithCommentsViewModel<out R : FeedUpdateRequest, E: D
     /**
      * Sends comment to discussion
      * @param id id of a parent discussion
-     * @param comment comment content
+     * @param comment comment contentBodyEntityList
      */
     fun sendComment(id: DiscussionIdModel, comment: CharSequence) {
         if (validateComment(comment)) {

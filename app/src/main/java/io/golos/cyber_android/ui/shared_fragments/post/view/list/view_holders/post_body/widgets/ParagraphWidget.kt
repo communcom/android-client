@@ -12,18 +12,14 @@ import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.AppResourcesProvider
+import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
-import io.golos.domain.post.post_dto.*
-import io.golos.domain.post.toTypeface
-import javax.inject.Inject
+import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.use_cases.post.toTypeface
 
 class ParagraphWidget
 @JvmOverloads
@@ -32,28 +28,20 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr),
-    PostBlockWidget<ParagraphBlock> {
+    PostBlockWidget<ParagraphBlock, ParagraphWidgetListener> {
 
-    private var onClickProcessor: PostPageViewModelListEventsProcessor? = null
+    private var onClickProcessor: ParagraphWidgetListener? = null
 
     @ColorInt
-    private val spansColor: Int
+    private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
 
-    @Inject
-    internal lateinit var appResourcesProvider: AppResourcesProvider
-
-    init {
-        App.injections.get<PostPageFragmentComponent>().inject(this)
-        spansColor = appResourcesProvider.getColor(R.color.default_clickable_span_color)
-    }
-
-    override fun setOnClickProcessor(processor: PostPageViewModelListEventsProcessor?) {
+    override fun setOnClickProcessor(processor: ParagraphWidgetListener?) {
         onClickProcessor = processor
     }
 
     override fun render(block: ParagraphBlock) = setText(block)
 
-    override fun cancel() = setOnClickProcessor(null)
+    override fun release() = setOnClickProcessor(null)
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -63,13 +51,14 @@ constructor(
     private fun setUp() {
         setTextColor(Color.BLACK)
 
-        setTextSize(TypedValue.COMPLEX_UNIT_PX, appResourcesProvider.getDimens(R.dimen.text_size_post_normal))
+        val resources = context.resources
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.text_size_post_normal))
 
-        appResourcesProvider.getDimens(R.dimen.post_content_border_horizontal).toInt().also {
+        resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
             setPadding(it, 0, it, 0)
         }
 
-        appResourcesProvider.getDimens(R.dimen.margin_block).toInt().also {
+        resources.getDimension(R.dimen.margin_block).toInt().also {
             val params = this.layoutParams as ViewGroup.MarginLayoutParams
             params.topMargin = it
             params.bottomMargin = it
@@ -113,7 +102,7 @@ constructor(
         // Click on the link
         builder.setSpan(object: ColorTextClickableSpan(block.content, spansColor) {
             override fun onClick(spanData: String) {
-                onClickProcessor?.onUserInPostClick(spanData)           // User's name
+                onClickProcessor?.onUserClicked(spanData)           // User's name
             }
         }, textInterval)
     }
@@ -124,7 +113,7 @@ constructor(
         // Click on the link
         builder.setSpan(object: LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
-                onClickProcessor?.onLinkInPostClick(spanData)
+                onClickProcessor?.onLinkClicked(spanData)
             }
         }, textInterval)
     }

@@ -33,8 +33,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.feed_fragment.MyFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentModule
@@ -42,6 +40,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentModule
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
@@ -130,12 +129,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             MainActivityComponent::class -> get<UIComponent>().mainActivity.build()
 
-            MyFeedFragmentComponent::class ->
-                get<MainActivityComponent>()
-                    .myFeedFragmentComponent
-                    .init(MyFeedFragmentModule(args[0] as CyberUser, args[1] as CyberName))
-                    .build()
-
             NotificationsFragmentComponent::class -> get<MainActivityComponent>().notificationsFragmentComponent.build()
 
             ProfileFragmentComponent::class ->
@@ -191,6 +184,10 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostFiltersFragmentComponent::class -> get<UIComponent>()
                 .postFiltersFragment
+                .build()
+
+            MyFeedFragmentComponent::class -> get<UIComponent>()
+                .postsListFragment
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

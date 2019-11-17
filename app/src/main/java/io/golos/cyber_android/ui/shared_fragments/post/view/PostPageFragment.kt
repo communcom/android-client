@@ -32,8 +32,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.post.post_dto.PostFormatVersion
-import io.golos.domain.post.post_dto.PostType
+import io.golos.domain.use_cases.post.post_dto.PostFormatVersion
+import io.golos.domain.use_cases.post.post_dto.PostType
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_post.*
 

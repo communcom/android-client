@@ -13,8 +13,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.voting.CommentVotin
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.data.repositories.current_user_repository.CurrentUserRepository
-import io.golos.data.repositories.discussion.DiscussionRepository
+import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.use_cases.model.DiscussionIdModel

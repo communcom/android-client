@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.co
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.AttachmentsWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.EmbedWebsiteWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.ParagraphWidget
-import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeader
+import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeaderView
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [
@@ -27,7 +27,7 @@ interface PostPageFragmentComponent {
     }
 
     fun inject(fragment: PostPageFragment)
-    fun inject(header: PostPageHeader)
+    fun inject(header: PostPageHeaderView)
 
     fun inject(widget: ParagraphWidget)
     fun inject(widget: EmbedWebsiteWidget)

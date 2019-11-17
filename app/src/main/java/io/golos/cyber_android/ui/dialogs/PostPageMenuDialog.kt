@@ -6,8 +6,8 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
-import io.golos.domain.post.post_dto.PostFormatVersion
-import io.golos.domain.post.post_dto.PostType
+import io.golos.domain.use_cases.post.post_dto.PostFormatVersion
+import io.golos.domain.use_cases.post.post_dto.PostType
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import kotlinx.android.synthetic.main.dialog_post_menu.*
 

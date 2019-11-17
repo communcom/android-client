@@ -4,7 +4,7 @@ import io.golos.commun4j.Commun4j
 import io.golos.commun4j.services.model.IFramelyEmbedResult
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.data.api.Commun4jApiBase
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
 
 class EmbedApiImpl

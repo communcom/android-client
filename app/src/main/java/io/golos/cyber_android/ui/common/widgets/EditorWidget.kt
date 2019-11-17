@@ -41,8 +41,8 @@ class EditorWidget : LinearLayout {
     /**
      * Loads user avatar into avatar ImageView
      */
-    fun loadUserAvatar(url: String, username: String) {
-        if (url.isNotBlank()) {
+    fun loadUserAvatar(url: String?, username: String) {
+        if (url?.isNotBlank() == true) {
             Glide.with(this)
                 .load(url)
                 .apply(RequestOptions.circleCropTransform())
@@ -54,6 +54,14 @@ class EditorWidget : LinearLayout {
                 .into(avatar)
             name.text = username
         }
+    }
+
+    /**
+     * Clear user avatar
+     */
+    fun clearUserAvater(){
+        Glide.with(this)
+            .clear(this)
     }
 
     interface Listener {

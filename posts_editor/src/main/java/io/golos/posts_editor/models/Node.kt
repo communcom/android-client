@@ -1,6 +1,6 @@
 package io.golos.posts_editor.models
 
-import io.golos.domain.post.TextStyle
+import io.golos.domain.use_cases.post.TextStyle
 
 class Node {
     var type: EditorType? = null

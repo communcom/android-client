@@ -39,8 +39,8 @@ import io.golos.cyber_android.ui.common.utils.TextWatcherBase
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.data.errors.AppError
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.post.TextStyle
-import io.golos.domain.post.editor_output.EmbedType
+import io.golos.domain.use_cases.post.TextStyle
+import io.golos.domain.use_cases.post.editor_output.EmbedType
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor

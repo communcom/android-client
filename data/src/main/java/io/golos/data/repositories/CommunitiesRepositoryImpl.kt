@@ -4,10 +4,10 @@ import io.golos.commun4j.Commun4j
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.mapToCommunityDomain
 import io.golos.data.mappers.mapToCommunityPageDomain
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryRead
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityPageDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
 import java.lang.UnsupportedOperationException
