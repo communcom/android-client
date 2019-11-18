@@ -11,7 +11,7 @@ class UsersApiImpl @Inject constructor() : UsersApi {
 
     override suspend fun getFollowers(query: String?, offset: Int, pageSizeLimit: Int): List<FollowerDomain> {
         delay(2000)
-        randomException()
+        //randomException()
         return getMockFollowersList()
     }
 

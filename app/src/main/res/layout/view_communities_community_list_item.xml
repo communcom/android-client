@@ -23,7 +23,7 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/leaderName"
         style="@style/CommunityListItemTitleText"
 
         android:layout_width="0dp"
@@ -34,7 +34,7 @@
 
         android:text=""
 
-        app:layout_constraintBottom_toTopOf="@+id/followersText"
+        app:layout_constraintBottom_toTopOf="@+id/leaderPoints"
         app:layout_constraintEnd_toStartOf="@+id/joiningProgress"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/followersText"
+        android:id="@+id/leaderPoints"
         style="@style/CommunityListItemFollowersText"
 
         android:layout_width="0dp"
@@ -55,10 +55,10 @@
         android:text=""
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="@+id/leaderName"
 
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="@+id/leaderName"
+        app:layout_constraintTop_toBottomOf="@+id/leaderName"
         tools:text="52k followers" />
 
     <ProgressBar
@@ -73,11 +73,11 @@
         tools:visibility="visible"
 
         app:layout_constraintBottom_toTopOf="@+id/view"
-        app:layout_constraintEnd_toStartOf="@+id/joinButton"
+        app:layout_constraintEnd_toStartOf="@+id/voteButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/joinButton"
+        android:id="@+id/voteButton"
 
         style="@style/CommunityJoinButton"
 

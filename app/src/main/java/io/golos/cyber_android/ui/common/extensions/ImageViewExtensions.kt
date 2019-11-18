@@ -12,10 +12,10 @@ fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.i
 
 fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.drawable.ic_group_temporary)
 
-fun ImageView.loadLeader(avatarUrl: String?, percentage: Float) =
+fun ImageView.loadLeader(url: String?, percentage: Float) =
     Glide
         .with(this)
-        .load(avatarUrl)
+        .load(if(url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
         .transform(
             CircleCrop(),
             PercentageRoundFrameTransform(
@@ -26,12 +26,14 @@ fun ImageView.loadLeader(avatarUrl: String?, percentage: Float) =
                 R.drawable.ic_avatar_frame
             )
         )
+        .fallback(R.drawable.ic_empty_user)
+        .error(R.drawable.ic_empty_user)
         .into(this)
 
 fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
     Glide
         .with(this)
-        .load(url)
+        .load(if(url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
         .apply(RequestOptions.circleCropTransform())
         .fallback(defaultRes)
         .error(defaultRes)

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.community_page
+package io.golos.cyber_android.ui.screens.community_page.dto
 
 import java.util.*
 

@@ -10,7 +10,7 @@ class LoadingListItemViewHolder(
     parentView: ViewGroup
 ) : ViewHolderBase<CommunityListItemEventsProcessor, VersionedListItem>(
     parentView,
-    R.layout.view_communities_loading_list_item
+    R.layout.view_loading_list_item
 ) {
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {
         // do nothing

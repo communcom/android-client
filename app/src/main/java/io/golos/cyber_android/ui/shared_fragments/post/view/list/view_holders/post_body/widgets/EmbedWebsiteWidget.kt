@@ -63,7 +63,7 @@ constructor(
 
         val host = block.content.host?.capitalize()
 
-        title.text = block.title ?: block.description ?: block.providerName ?: host
+        leaderName.text = block.title ?: block.description ?: block.providerName ?: host
         siteName.text = host
     }
 

@@ -11,15 +11,11 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
-import io.golos.cyber_android.ui.screens.community_page.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManager
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimationManagerTarget
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimator
 import io.golos.cyber_android.ui.screens.login_activity.animation.SplashAnimatorTarget
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.screens.profile.ProfileFragment
-import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsFragment
 import io.golos.domain.requestmodel.SignInState
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject

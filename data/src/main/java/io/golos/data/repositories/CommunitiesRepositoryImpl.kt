@@ -3,9 +3,11 @@ package io.golos.data.repositories
 import io.golos.commun4j.Commun4j
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.mapToCommunityDomain
+import io.golos.data.mappers.mapToCommunityLeaderDomain
 import io.golos.data.mappers.mapToCommunityPageDomain
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -64,4 +66,9 @@ constructor(
             .items
             .map { it.mapToCommunityDomain() }
     }
+
+    override suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain> =
+        apiCall { commun4j.getLeaders(communityId, 50, 0)}
+            .items
+            .map { it.mapToCommunityLeaderDomain() }
 }

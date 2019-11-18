@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.community_page.CommunityPage
+import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import kotlinx.android.synthetic.main.view_community_followers.view.*
 
 class CommunityFollowersView @JvmOverloads constructor(

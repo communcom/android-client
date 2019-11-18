@@ -2,9 +2,9 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_community_list_item"
+    android:layout_height="@dimen/retry_list_item_height"
 
-    android:padding="@dimen/community_list_item_retry_padding">
+    android:padding="@dimen/retry_list_item_padding">
 
     <Button
         android:id="@+id/pageLoadingRetryButton"

@@ -1,6 +1,7 @@
 package io.golos.domain.use_cases.community
 
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.CommunityPageDomain
 
 interface CommunitiesRepository {
@@ -18,4 +19,6 @@ interface CommunitiesRepository {
      * [forCurrentUserOnly] if true the method returns only current users' communities (otherwise - all communities)
      */
     suspend fun getCommunitiesList(offset: Int, pageSize: Int, forCurrentUserOnly: Boolean): List<CommunityDomain>
+
+    suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain>
 }

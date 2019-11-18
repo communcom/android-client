@@ -29,11 +29,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:id="@+id/title"
+        android:id="@+id/leaderName"
         style="@style/CommunityListItemTitleText"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/followersText"
+        app:layout_constraintBottom_toTopOf="@+id/leaderPoints"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -52,10 +52,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:id="@+id/followersText"
+        android:id="@+id/leaderPoints"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/leaderName"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintEnd_toEndOf="parent"
 

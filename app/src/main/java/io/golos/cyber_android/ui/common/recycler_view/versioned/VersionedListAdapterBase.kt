@@ -22,5 +22,5 @@ abstract class VersionedListAdapterBase<TListItemEventsProcessor>(
         }
     }
 
-    abstract fun onNextPageReached()
+    protected open fun onNextPageReached() {}
 }

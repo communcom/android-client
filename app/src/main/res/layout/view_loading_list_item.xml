@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_community_list_item">
+    android:layout_height="@dimen/loading_list_item_height">
 
     <ProgressBar
         android:id="@+id/commentsLoadingProgress"

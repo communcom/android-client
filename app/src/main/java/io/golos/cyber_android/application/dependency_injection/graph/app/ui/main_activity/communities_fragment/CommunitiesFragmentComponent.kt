@@ -2,7 +2,6 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.mai
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.CommunityListItemViewHolder
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [CommunitiesFragmentModuleBinds::class])
@@ -14,5 +13,4 @@ interface CommunitiesFragmentComponent {
     }
 
     fun inject(fragment: CommunitiesFragment)
-    fun inject(viewHolder: CommunityListItemViewHolder)
 }

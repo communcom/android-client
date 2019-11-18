@@ -1,13 +1,11 @@
-package io.golos.cyber_android.ui.common.formatters.size.plurals
+package io.golos.cyber_android.ui.common.formatters.size
 
 import android.content.Context
 import androidx.annotation.PluralsRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.extensions.getFormattedString
-import io.golos.cyber_android.ui.common.formatters.size.SizeFormatter
-import io.golos.cyber_android.ui.common.formatters.size.SizeFormatterBase
 
-abstract class PluralSizeFormatterBase
+class PluralSizeFormatter
 constructor(
     private val context: Context,
     @PluralsRes private val stringTemplate: Int
@@ -25,7 +23,7 @@ constructor(
     override fun format(size: Long): String =
         calculateUnitIndex(size)
             .let {
-                val value = calculateValue("#", size, it)
+                val value = calculateValue("#.#", size, it)
                 val unit = context.resources.getString(sizeUnits[it])
                 val template = context.resources.getQuantityString(stringTemplate, size.toInt())
                 context.resources.getFormattedString(template, value, unit)

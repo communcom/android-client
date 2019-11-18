@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.community_page
+package io.golos.cyber_android.ui.screens.community_page.model
 
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.domain.use_cases.community.GetCommunityPageByIdUseCase

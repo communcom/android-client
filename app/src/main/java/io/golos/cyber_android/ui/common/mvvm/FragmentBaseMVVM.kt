@@ -55,7 +55,8 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject()
-        _viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
+        val viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
+        _viewModel = viewModel
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

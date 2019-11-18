@@ -39,7 +39,7 @@ class NotificationSettingsAdapter(val listener: Listener) :
 
         fun bind(item: NotificationSetting, listener: Listener) {
             itemView.icon.setImageResource(item.icon)
-            itemView.title.setText(item.title)
+            itemView.leaderName.setText(item.title)
             itemView.settingSwitch.isChecked = item.isEnabled
 
             itemView.settingSwitch.setOnCheckedChangeListener { _, isChecked ->

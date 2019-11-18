@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.community_page
+package io.golos.cyber_android.ui.screens.community_page.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -19,6 +19,9 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
+import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
+import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
+import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
@@ -27,12 +30,6 @@ import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
-
-    override fun releaseInjection() {
-        App.injections
-            .get<CommunityPageFragmentComponent>()
-            .inject(this)
-    }
 
     override fun layoutResId(): Int = R.layout.fragment_community_page
 
@@ -63,6 +60,11 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         .get<CommunityPageFragmentComponent>()
         .inject(this)
 
+    override fun releaseInjection() {
+        App.injections.release<CommunityPageFragmentComponent>()
+    }
+
+
     override fun linkViewModel(binding: FragmentCommunityPageBinding, viewModel: CommunityPageViewModel) {
         binding.viewModel = viewModel
     }
@@ -76,7 +78,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
         observeViewModel()
-        viewModel.start(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
+        viewModel.start(getCommunityId())
         ivBack.setOnClickListener {
             viewModel.onBackPressed()
         }
@@ -180,16 +182,19 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun initViewPager(communityPage: CommunityPage) {
         fragmentPagesList = createPageFragmentsList(communityPage)
         vpContent.adapter = communityPagerTabAdapter
+        vpContent.offscreenPageLimit = 4
     }
 
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
         fragmentPagesList.add(FollowersFragment.newInstance())
-        fragmentPagesList.add(FollowersFragment.newInstance())
+        fragmentPagesList.add(LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)))
         fragmentPagesList.add(CommunityPageAboutFragment.newInstance(communityPage.description))
         fragmentPagesList.add(CommunityPageRulesFragment.newInstance(communityPage.rules))
         return fragmentPagesList
     }
+
+    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)
 
     companion object {
 

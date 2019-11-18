@@ -107,7 +107,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             viewModel.post(editorWidget.getMetadata())
         }
 
-        title.addTextChangedListener(object : TextWatcherBase() {
+        leaderName.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
                 viewModel.onTitleChanged(s.toString())
@@ -122,8 +122,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             .show(requireFragmentManager(), "followers")
         }
 
-        title.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        title.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_POST_TITLE_LENGTH))
+        leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        leaderName.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
     }
@@ -279,7 +279,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 val parsedPost = it.content.body.postBlock
 
                     toolbarTitle.setText(R.string.edit_post)
-                    title.setText(parsedPost.title)
+                    leaderName.setText(parsedPost.title)
                     PostToEditorLoader.load(editorWidget, parsedPost)
 
                     nsfwButton.isActivated = it.content.tags.contains(TagModel("nsfw"))

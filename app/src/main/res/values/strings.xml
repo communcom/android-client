@@ -38,6 +38,11 @@
         <item quantity="one">{0}{1} Post</item>
         <item quantity="other">{0}{1} Posts</item>
     </plurals>
+    <plurals name="formatter_points_formatted" >
+        <item quantity="zero">{0}{1} points</item>
+        <item quantity="one">{0}{1} point</item>
+        <item quantity="other">{0}{1} points</item>
+    </plurals>
     <!--Size formatting - end -->
 
     <!--Time formatting - start-->
@@ -330,6 +335,7 @@
     <string name="join_to_community">Join</string>
     <string name="joined_to_community">Joined</string>
     <string name="missing_description">Missing Description</string>
+    <string name="no_leaders">There are no leaders in this community</string>
 
     <!--Subscriptions-->
     <string name="no_subscriptions">No Subscriptions</string>
@@ -392,4 +398,5 @@
     </string-array>
 
     <string name="created">Created</string>
+    <string name="vote">Vote</string>
 </resources>

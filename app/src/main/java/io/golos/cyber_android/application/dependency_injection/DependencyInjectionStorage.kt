@@ -9,6 +9,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UICo
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.leads_list_fragment.CommunityPageLeadsListComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.leads_list_fragment.CommunityPageLeadsListModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_rules.CommunityPageRulesFragmentComponent
@@ -176,6 +178,16 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunityPageRulesFragmentComponent::class -> get<UIComponent>()
                 .communityPageRulesFragment
                 .init(CommunityPageRulesFragmentModule(args[0] as String))
+                .build()
+
+            CommunityPageAboutFragmentComponent::class -> get<UIComponent>()
+                .communityPageAboutFragment
+                .init(CommunityPageAboutFragmentModule(args[0] as String))
+                .build()
+
+            CommunityPageLeadsListComponent::class -> get<CommunityPageFragmentComponent>()
+                .leadsListFragment
+                .init(CommunityPageLeadsListModule(args[0] as String))
                 .build()
 
             FeedFragmentComponent::class -> get<UIComponent>()
