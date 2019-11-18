@@ -8,13 +8,8 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.glide.TopRoundedCorners
-import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.common.glide.TopRoundedCornersTransformation
-import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
-import io.golos.domain.post.post_dto.WebsiteBlock
+import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
 

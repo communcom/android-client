@@ -15,9 +15,6 @@ import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.core.logger.Cyber4JLogger
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
-import io.golos.data.repositories.countries.CountriesRepository
-import io.golos.data.repositories.countries.CountriesRepositoryImpl
-import io.golos.cyber_android.ui.screens.post_filters.PostFilters
 import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepository
 import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepositoryImpl
 import io.golos.domain.*

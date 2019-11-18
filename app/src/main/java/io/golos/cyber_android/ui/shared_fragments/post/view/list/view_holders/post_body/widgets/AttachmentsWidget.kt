@@ -13,10 +13,6 @@ import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
-import io.golos.domain.post.post_dto.AttachmentsBlock
-import io.golos.domain.post.post_dto.ImageBlock
-import io.golos.domain.post.post_dto.VideoBlock
-import io.golos.domain.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
 

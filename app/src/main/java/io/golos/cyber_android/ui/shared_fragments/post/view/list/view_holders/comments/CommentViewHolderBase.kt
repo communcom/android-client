@@ -26,7 +26,6 @@ import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRender
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.extensions.appendSpannedText
-import io.golos.domain.post.post_dto.PostBlock
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
 import io.golos.domain.use_cases.post.post_dto.PostBlock
