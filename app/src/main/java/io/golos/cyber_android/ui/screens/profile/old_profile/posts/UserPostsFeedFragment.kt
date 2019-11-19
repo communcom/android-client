@@ -1,7 +1,5 @@
-package io.golos.cyber_android.ui.screens.main_activity.feed
+package io.golos.cyber_android.ui.screens.profile.old_profile.posts
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,42 +7,36 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.main_activity.feed.community.CommunityFeedViewModel
-import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.main_activity.feed.*
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
-import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
 import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
-import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.dto.CyberUser
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
-import kotlinx.android.synthetic.main.fragment_feed_list.*
+import kotlinx.android.synthetic.main.fragment_user_posts_feed_list.*
 import javax.inject.Inject
 
 /**
- * Fragment that represents TRENDING tab of the Feed Page.
+ * Fragment that represents POSTS tab of the Profile Page
  */
-
-class TrendingFeedFragment :
+open class UserPostsFeedFragment :
     AbstractFeedFragment<PostFeedUpdateRequest, PostEntity, PostModel, FeedPageTabViewModel<PostFeedUpdateRequest>>() {
 
     override lateinit var viewModel: FeedPageTabViewModel<PostFeedUpdateRequest>
@@ -57,33 +49,35 @@ class TrendingFeedFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        App.injections
-            .get<TrendingFeedFragmentComponent>(
-                CommunityId(arguments?.getString(Tags.COMMUNITY_NAME)!!),
-                arguments?.getString(Tags.USER_ID)!!.toCyberName())
-            .inject(this)
+        App.injections.get<UserPostsFeedFragmentComponent>(CyberUser(arguments?.getString(Tags.USER_ID)!!)).inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_feed_list, container, false)
+    override fun onDestroy() {
+        App.injections.release<UserPostsFeedFragmentComponent>()
+        super.onDestroy()
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_user_posts_feed_list, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         swipeRefresh.setOnRefreshListener {
             viewModel.requestRefresh()
         }
+        swipeRefresh.isEnabled = false
         setupSortingWidget()
-        setupEditorWidget()
     }
 
     override fun onNewData(data: List<PostModel>) {
         swipeRefresh.isRefreshing = false
+        if (data.isEmpty()) {
+            empty.visibility = View.VISIBLE
+            feedList.visibility = View.GONE
+        } else {
+            empty.visibility = View.GONE
+            feedList.visibility = View.VISIBLE
+        }
     }
 
     override fun setupFeedAdapter() {
@@ -126,7 +120,7 @@ class TrendingFeedFragment :
                     showDiscussionMenu(postModel)
                 }
             },
-            isEditorWidgetSupported = true,
+            isEditorWidgetSupported = false,
             isSortingWidgetSupported = true
         )
         feedList.addItemDecoration(TopDividerItemDecoration(requireContext()))
@@ -134,9 +128,11 @@ class TrendingFeedFragment :
 
     override fun setupEventsProvider() {
         (targetFragment as? FeedPageLiveDataProvider)
-            ?.provideEventsLiveData()?.observe(this, Observer {
-                when (it) {
-                    is FeedViewModel.Event.SearchEvent -> viewModel.onSearch(it.query)
+            ?.provideEventsLiveData()?.asEvent()?.observe(this, Observer { event ->
+                event.getIfNotHandled()?.let {
+                    when (it) {
+                        is FeedViewModel.Event.RefreshRequestEvent -> viewModel.requestRefresh()
+                    }
                 }
             })
 
@@ -167,36 +163,7 @@ class TrendingFeedFragment :
                 sortingWidgetState = state
             }
         })
-
-        viewModel.getEditorWidgetStateLiveData.observe(this, Observer { state ->
-            (feedList.adapter as HeadersPostsAdapter).apply {
-                editorWidgetState = state
-            }
-        })
     }
-
-    override fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CommunityFeedViewModel::class.java)
-    }
-
-    private fun setupEditorWidget() {
-        (feedList.adapter as HeadersPostsAdapter).editorWidgetListener = object : EditorWidget.Listener {
-            override fun onGalleryClick() {
-                ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
-                    setTargetFragment(this@TrendingFeedFragment, EDITOR_WIDGET_PHOTO_REQUEST_CODE)
-                }.show(requireFragmentManager(), "cover")
-            }
-
-            override fun onWidgetClick() {
-                startActivityForResult(
-                    EditorPageActivity.getIntent(
-                        requireContext()
-                    ), REQUEST_POST_CREATION
-                )
-            }
-        }
-    }
-
 
     private fun setupSortingWidget() {
         (feedList.adapter as HeadersPostsAdapter).sortingWidgetListener = object : SortingWidget.Listener {
@@ -222,55 +189,19 @@ class TrendingFeedFragment :
         SortingTypeDialogFragment
             .newInstance(values)
             .apply {
-                setTargetFragment(this@TrendingFeedFragment, SORT_REQUEST_CODE)
+                setTargetFragment(this@UserPostsFeedFragment, SORT_REQUEST_CODE)
             }
             .show(requireFragmentManager(), null)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SORT_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            onSortSelected(data.getSerializableExtra(SortingTypeDialogFragment.RESULT_TAG) as SortingType)
-        }
-        if (requestCode == REQUEST_POST_CREATION && resultCode == Activity.RESULT_OK) {
-            viewModel.requestRefresh()
-        }
-
-        if (requestCode == EDITOR_WIDGET_PHOTO_REQUEST_CODE) {
-            val target = when (resultCode) {
-                ImagePickerDialog.RESULT_GALLERY ->
-                    ImagePickerFragmentBase.ImageSource.GALLERY
-                ImagePickerDialog.RESULT_CAMERA ->
-                    ImagePickerFragmentBase.ImageSource.CAMERA
-                ImagePickerDialog.RESULT_DELETE ->
-                    ImagePickerFragmentBase.ImageSource.NONE
-                else -> null
-            }
-            if (target != null) startActivityForResult(
-                EditorPageActivity.getIntent(
-                    requireContext(),
-                    EditorPageFragment.Args(initialImageSource = target)
-                ), REQUEST_POST_CREATION
-            )
-        }
-    }
-
-    private fun onSortSelected(sort: SortingType) {
-        when (sort) {
-            is TrendingSort -> {
-                viewModel.onSort(sort)
-            }
-            is TimeFilter -> {
-                viewModel.onFilter(sort)
-            }
-        }
+    override fun setupViewModel() {
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserPostsFeedViewModel::class.java)
     }
 
     companion object {
-        fun newInstance(communityName: String, userId: String) =
-            TrendingFeedFragment().apply {
+        fun newInstance(userId: String) =
+            UserPostsFeedFragment().apply {
                 arguments = Bundle().apply {
-                    putString(Tags.COMMUNITY_NAME, communityName)
                     putString(Tags.USER_ID, userId)
                 }
             }

@@ -4,14 +4,14 @@
             android:id="@+id/graph_settings" app:startDestination="@id/profileSettingsFragment">
 
     <fragment android:id="@+id/NSFWSettingsFragment"
-              android:name="io.golos.cyber_android.ui.screens.profile.edit.settings.nsfw.NSFWSettingsFragment"
+              android:name="io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.nsfw.NSFWSettingsFragment"
               android:label="NSFWSettingsFragment"/>
 
     <fragment android:id="@+id/LanguageSettingsFragment"
-              android:name="io.golos.cyber_android.ui.screens.profile.edit.settings.language.LanguageSettingsFragment"
+              android:name="io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.language.LanguageSettingsFragment"
               android:label="NSFWSettingsFragment"/>
     <fragment android:id="@+id/profileSettingsFragment"
-              android:name="io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsFragment"
+              android:name="io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.ProfileSettingsFragment"
               android:label="ProfileSettingsFragment">
         <action android:id="@+id/action_profileSettingsFragment_to_NSFWSettingsFragment"
                 app:destination="@id/NSFWSettingsFragment"/>

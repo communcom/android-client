@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.profile.edit.cover.EditProfileCoverViewModel
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.cover.EditProfileCoverViewModel
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.use_cases.user.UserMetadataUseCase
 import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl

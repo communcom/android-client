@@ -49,16 +49,16 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.screens.profile.ProfileActivity"
+                android:name=".ui.screens.profile.old_profile.ProfileActivity"
                 android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.screens.profile.edit.avatar.EditProfileAvatarActivity"
+                android:name=".ui.screens.profile.old_profile.edit.avatar.EditProfileAvatarActivity"
                 android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.screens.profile.edit.cover.EditProfileCoverActivity"
+                android:name=".ui.screens.profile.old_profile.edit.cover.EditProfileCoverActivity"
                 android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.screens.profile.edit.settings.ProfileSettingsActivity"
+                android:name=".ui.screens.profile.old_profile.edit.settings.ProfileSettingsActivity"
                 android:screenOrientation="portrait"/>
         <activity
                 android:name=".ui.screens.edit_profile_bio_activity.EditProfileBioActivity"
