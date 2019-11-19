@@ -36,8 +36,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.OldProfileFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.OldProfileFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
@@ -46,6 +46,8 @@ import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFra
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
@@ -107,6 +109,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(EditorPageFragmentModule(args[0] as CommunityModel?, args[1] as DiscussionIdModel?))
                     .build()
 
+            ProfileFragmentComponent::class ->
+                get<UIComponent>()
+                    .profileFragment
+                    .init(ProfileFragmentModule(args[0] as CyberName))
+                    .build()
+
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()
 
             FingerprintAuthFragmentComponent::class ->
@@ -133,10 +141,10 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             NotificationsFragmentComponent::class -> get<MainActivityComponent>().notificationsFragmentComponent.build()
 
-            ProfileFragmentComponent::class ->
+            OldProfileFragmentComponent::class ->
                 get<MainActivityComponent>()
-                    .profileFragmentComponent
-                    .init(ProfileFragmentModule(args[0] as CyberName))
+                    .oldProfileFragmentComponent
+                    .init(OldProfileFragmentModule(args[0] as CyberName))
                     .build()
 
             TrendingFeedFragmentComponent::class ->

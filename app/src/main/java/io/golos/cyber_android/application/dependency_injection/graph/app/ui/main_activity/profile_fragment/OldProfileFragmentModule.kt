@@ -5,7 +5,7 @@ import dagger.Provides
 import io.golos.commun4j.sharedmodel.CyberName
 
 @Module
-class ProfileFragmentModule(private val forUser: CyberName) {
+class OldProfileFragmentModule(private val forUser: CyberName) {
     @Provides
     internal fun provideForUser():CyberName = forUser
 }
