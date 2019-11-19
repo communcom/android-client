@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel" />
@@ -238,12 +237,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tab_layout_height_default"
                 android:layout_gravity="bottom"
+
+                app:tabTextAppearance="@style/TabsText"
+
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription" />
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vpContent"

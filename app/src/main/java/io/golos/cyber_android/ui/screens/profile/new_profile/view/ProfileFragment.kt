@@ -10,9 +10,12 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
+import kotlinx.android.synthetic.main.fragment_profile_new.*
 
 class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
     companion object {
@@ -45,6 +48,9 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initPages()
+//        initViewPager()
 //        viewModel.onViewCreated()
     }
 
@@ -59,4 +65,17 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     }
 
     private fun getUser() = (arguments?.getString(Tags.USER_ID) ?: "").toCyberName()
+
+    private fun initPages() {
+        tabLayout.apply {
+            setupWithViewPager(vpContent)
+            setSelectedTabIndicator(TabLineDrawable(requireContext()))
+            setSelectedTabIndicatorColor(context.resources.getColorRes(R.color.blue))
+        }
+
+        vpContent.post{
+            vpContent.adapter = ProfilePagesAdapter(context!!.applicationContext, childFragmentManager)
+            vpContent.offscreenPageLimit = 2
+        }
+    }
 }

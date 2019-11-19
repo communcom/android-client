@@ -40,7 +40,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private val tabTitles by lazy {
         requireContext().resources.getStringArray(R.array.community_page_tab_titles)
     }
-
     private val communityPagerTabAdapter by lazy {
 
         object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

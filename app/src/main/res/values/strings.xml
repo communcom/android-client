@@ -397,6 +397,11 @@
         <item>Rules</item>
     </string-array>
 
+    <string-array name="profile_page_tab_titles">
+        <item>Posts</item>
+        <item>Comments</item>
+    </string-array>
+
     <string name="created">Created</string>
     <string name="vote">Vote</string>
 </resources>
