@@ -8,6 +8,7 @@ fun CyberCommunity.mapToCommunityDomainMapper(): PostDomain.CommunityDomain{
         this.alias,
         this.communityId,
         this.name,
-        this.avatarUrl
+        this.avatarUrl,
+        false //todo -> [isSubscribe] hardcoded until it comes in response
     )
 }

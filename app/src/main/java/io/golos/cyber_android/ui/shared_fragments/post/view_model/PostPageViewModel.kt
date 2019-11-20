@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dialogs.post.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -126,6 +127,10 @@ constructor(
     override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)
 
     override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
+
+    override fun onMenuClicked(postMenu: PostMenu) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true

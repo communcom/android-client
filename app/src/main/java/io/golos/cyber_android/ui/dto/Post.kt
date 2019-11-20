@@ -12,6 +12,7 @@ data class Post(
     val meta: Meta,
     val stats: Stats?,
     val type: String?,
+    val shareUrl: String?,
     val votes: Votes
 ) {
     data class Votes(
@@ -29,7 +30,8 @@ data class Post(
         val alias: String?,
         val communityId: String,
         val name: String?,
-        val avatarUrl: String?
+        val avatarUrl: String?,
+        val isSubscribe: Boolean
     )
 
     data class Stats(

@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dialogs.post.model.PostMenu
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
@@ -11,10 +12,7 @@ import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.model.MyFeedModel
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToUserProfileViewCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.*
 import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -55,6 +53,10 @@ class MyFeedViewModel @Inject constructor(
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
+    override fun onMenuClicked(postMenu: PostMenu) {
+        _command.value = NavigationToPostMenuViewCommand(postMenu)
+    }
+
     override fun onCommentsClicked(postContentId: Post.ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel)
@@ -92,15 +94,29 @@ class MyFeedViewModel @Inject constructor(
             }
         }
         paginator.render = {
-            Timber.d("paginator: render update -> [${it::class.java.simpleName.toUpperCase()}]")
             _postsListState.value = it
         }
     }
 
+    fun addToFavorite() {}
+
+    fun removeFromFavorite() {}
+
+    fun sharePost(shareUrl: String) {}
+
+    fun editPost() {}
+
+    fun deletePost() {}
+
+    fun joinToCommunity(communityId: String) {}
+
+    fun joinedToCommunity(communityId: String) {}
+
+    fun reportPost() {}
+
     private fun applyFiltersListener(){
         launch {
             model.feedFiltersFlow.collect {
-                Timber.d("filters: [FLOW] - ${it}")
                 if (::postsConfigurationDomain.isInitialized) {
                     val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
                     val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()

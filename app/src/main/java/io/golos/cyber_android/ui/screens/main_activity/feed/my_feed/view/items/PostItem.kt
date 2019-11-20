@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.dialogs.post.model.PostMenu
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
@@ -109,6 +110,21 @@ class PostItem(
         view.postHeader.setHeader(postHeader)
         view.postHeader.setOnUserClickListener {
             listener.onUserClicked(it)
+        }
+        view.postHeader.setOnMenuButtonClickListener {
+            listener.onMenuClicked(
+                PostMenu(
+                    communityId = community.communityId,
+                    communityName = community.name,
+                    communityAvatarUrl = community.avatarUrl,
+                    creationTime = post.meta.creationTime,
+                    authorUsername = author.username,
+                    authorUserId = author.userId,
+                    shareUrl = post.shareUrl,
+                    isMyPost = true, //todo equal current user with post author user
+                    isSubscribe = post.community.isSubscribe
+                )
+            )
         }
     }
 

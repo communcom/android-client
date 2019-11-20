@@ -12,6 +12,7 @@ data class PostDomain(
     val meta: MetaDomain,
     val stats: StatsDomain?,
     val type: String?,
+    val shareUrl: String?,
     val votes: VotesDomain
 ) {
     data class VotesDomain(
@@ -29,7 +30,8 @@ data class PostDomain(
         val alias: String?,
         val communityId: String,
         val name: String?,
-        val avatarUrl: String?
+        val avatarUrl: String?,
+        val isSubscribe: Boolean
     )
 
     data class StatsDomain(

@@ -12,6 +12,7 @@ fun PostDomain.mapToPost(): Post {
         this.meta.mapToMeta(),
         null,
         null,
+        this.shareUrl,
         this.votes.mapToVotes()
     )
 }

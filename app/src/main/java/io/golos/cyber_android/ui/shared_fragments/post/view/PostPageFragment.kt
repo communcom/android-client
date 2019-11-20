@@ -21,7 +21,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
-import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
+import io.golos.cyber_android.ui.dialogs.post.PostPageMenuDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity

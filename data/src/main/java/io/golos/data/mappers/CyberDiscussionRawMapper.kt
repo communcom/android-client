@@ -16,6 +16,7 @@ class CyberDiscussionRawMapper : Function1<CyberDiscussionRaw, PostDomain> {
             discussionRaw.meta.mapToMetaDomain(),
             null,
             null,
+            "", //todo -> [share url] hardcoded until it comes in response
             discussionRaw.votes.mapToVotesDomain()
         )
     }

@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
+import io.golos.cyber_android.ui.dialogs.post.PostPageMenuDialog
+import io.golos.cyber_android.ui.dialogs.post.model.PostMenu
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToUserProfileViewCommand
+import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
 import io.golos.cyber_android.ui.screens.profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
@@ -93,7 +93,48 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
             is NavigateToPostCommand -> openPost(command.discussionIdModel)
+
+            is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PostPageMenuDialog.REQUEST -> {
+                when (resultCode) {
+                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> viewModel.addToFavorite()
+                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> viewModel.removeFromFavorite()
+                    PostPageMenuDialog.RESULT_SHARE -> {
+                        val shareUrl = data?.extras?.getString(Tags.SHARE_URL)
+                        shareUrl?.let { url ->
+                            viewModel.sharePost(url)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_EDIT -> viewModel.editPost()
+                    PostPageMenuDialog.RESULT_DELETE -> viewModel.deletePost()
+                    PostPageMenuDialog.RESULT_JOIN -> {
+                        val communityId = data?.extras?.getString(Tags.COMMUNITY_ID)
+                        communityId?.let { id ->
+                            viewModel.joinToCommunity(id)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_JOINED -> {
+                        val communityId = data?.extras?.getString(Tags.COMMUNITY_ID)
+                        communityId?.let { id ->
+                            viewModel.joinedToCommunity(id)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_REPORT -> viewModel.reportPost()
+                }
+            }
+        }
+    }
+
+    private fun openPostMenuDialog(postMenu: PostMenu) {
+        PostPageMenuDialog.newInstance(postMenu).apply {
+            setTargetFragment(this@MyFeedFragment, PostPageMenuDialog.REQUEST)
+        }.show(requireFragmentManager(), "show")
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel) {
