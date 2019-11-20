@@ -59,6 +59,11 @@ class PostItem(
         setVotesCounter(view, post.votes)
         KiloCounterFormatter().format(post.stats?.commentsCount.positiveValue().toLong())
         setCommentsCounter(view, post.stats?.commentsCount ?: 0)
+        view.ivShare.setOnClickListener {
+            post.shareUrl?.let {
+                listener.onShareClicked(it)
+            }
+        }
     }
 
     private fun setUpFeedContent(view: View, postBlock: PostBlock?) {

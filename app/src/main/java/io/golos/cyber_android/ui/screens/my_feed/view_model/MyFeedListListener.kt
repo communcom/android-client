@@ -10,11 +10,17 @@ interface MyFeedListListener :
     EmbedVideoWidgetListener,
     ParagraphWidgetListener,
     PostCommentsListener,
-    PostVotesListener
+    PostVotesListener,
+    PostShareListener
 
 interface PostCommentsListener {
 
     fun onCommentsClicked(postContentId: Post.ContentId)
+}
+
+interface PostShareListener {
+
+    fun onShareClicked(shareUrl: String)
 }
 
 interface PostVotesListener {

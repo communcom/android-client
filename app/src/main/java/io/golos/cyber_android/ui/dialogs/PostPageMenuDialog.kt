@@ -14,7 +14,9 @@ import kotlinx.android.synthetic.main.dialog_post_menu.*
 
 /**
  * [BottomSheetDialogFragment] that shows post menu
+ *
  */
+@Deprecated("Need use another dialog from ui.screens.post_page_menu")
 class PostPageMenuDialog : BottomSheetDialogFragmentBase() {
     companion object {
         const val REQUEST = 9303

@@ -137,8 +137,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     PostPageMenuDialog.RESULT_SHARE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         val shareUrl = postMenu?.shareUrl
-                        shareUrl?.let { shareUrl ->
-                            viewModel.sharePost(shareUrl)
+                        shareUrl?.let {
+                            viewModel.onShareClicked(it)
                         }
                     }
                     PostPageMenuDialog.RESULT_EDIT -> {

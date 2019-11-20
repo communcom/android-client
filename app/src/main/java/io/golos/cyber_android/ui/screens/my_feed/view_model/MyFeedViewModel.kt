@@ -33,6 +33,10 @@ class MyFeedViewModel @Inject constructor(
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
+    override fun onShareClicked(shareUrl: String) {
+        _command.value = SharePostCommand(shareUrl)
+    }
+
     override fun onDownVoteClicked() {
 
     }
@@ -124,9 +128,6 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun sharePost(shareUrl: String) {
-        _command.value = SharePostCommand(shareUrl)
-    }
 
     fun editPost(permlink: String) {
         val post = getPostFromPostsListState(permlink)
