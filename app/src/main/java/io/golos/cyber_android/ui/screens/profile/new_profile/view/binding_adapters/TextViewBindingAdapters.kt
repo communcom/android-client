@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.extensions.parentActivity
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
-import io.golos.cyber_android.utils.toMMMM_DD_YYYY_Format
+import io.golos.cyber_android.ui.utils.toMMMM_DD_YYYY_Format
 import java.util.*
 
 @SuppressLint("SetTextI18n")
