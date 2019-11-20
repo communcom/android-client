@@ -1,13 +1,14 @@
 package io.golos.data.repositories.discussion
 
 import io.golos.commun4j.Commun4j
+import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.commun4j.model.FeedSortByType
 import io.golos.commun4j.model.FeedTimeFrame
 import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.data.mappers.CyberDiscussionRawMapper
+import io.golos.data.mappers.mapToPostDomain
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -61,9 +62,7 @@ constructor(
                 postsConfigurationDomain.offset
             )
         }.items
-            .map {
-                CyberDiscussionRawMapper().invoke(it)
-            }
+            .map(CyberDiscussionRaw::mapToPostDomain)
     }
 
     private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }
