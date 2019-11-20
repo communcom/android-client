@@ -5,20 +5,7 @@ apply from: "$rootDir/config.gradle"
 dependencies {
     implementation project(':domain')
     implementation project(':utils')
-
-    implementation("io.golos.commun4j:commun4j:$commun4jVersion")
-
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-
-    /* Timber */
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-
-    /* Dagger */
-    implementation "com.google.dagger:dagger:$dagger_version"
-
-    testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
-    testImplementation "junit:junit:$junitVersion"
+    deps.groups.tests dependencies
+    deps.groups.architectureComponents dependencies
+    implementation("io.golos.commun4j:commun4j:$versions.commun4jVersion")
 }

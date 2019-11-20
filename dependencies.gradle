@@ -1,0 +1,321 @@
+ext.versions = [
+        minsdk              : 21,
+        targetsdk           : 28,
+
+        androidGradlePlugin : '3.5.1',
+        kotlin              : '1.3.50',
+        coreKtx             : '1.2.0-beta02',
+        kotlinCoroutines    : '1.1.1',
+
+        //Android
+        appcompat           : '1.1.0',
+        annotation          : '1.1.0',
+        legacySupport       : '1.0.0',
+
+        commun4jVersion     : '0.9.14',
+
+        //Network
+        retrofit            : '2.4.0',
+        okhttp3             : '3.8.0',
+
+        //Rx
+        rxjava              : '2.1.10',
+        rxkotlin            : '2.3.0',
+        rxandroid           : '2.0.2',
+        rxbinding           : '2.1.1',
+        adapterRxJava       : '2.3.0',
+        rxlifecycle         : '3.0.0',
+        rxPreferences       : '2.0.0',
+        rxPermissions       : '0.10.2',
+        rxPaparazzo         : '0.6.1-2.x',
+        rxRelay             : '2.1.1',
+
+        //Dagger
+        dagger              : '2.19',
+
+        //Utils
+        timber              : '4.7.1',
+        leakCanary          : '2.0-alpha-3',
+        fabric              : '2.10.1',
+        fabricPlugin        : '1.29.0',
+        protobuf            : "3.9.1",
+
+        //Architecture components
+        lifecycle           : '2.2.0-alpha02',
+        navigation          : '2.0.0',
+
+        //UI
+        constraintLayout    : '1.1.3',
+        recyclerView        : '1.0.0',
+        glide               : '4.9.0',
+        materialDesign      : '1.0.0',
+        pagingLibrary       : '2.1.0',
+        corbind             : '1.2.0',
+        viewPager2          : '1.0.0-beta03',
+        adwancedWebView     : 'v3.0.0',
+        decoro              : '1.3.5',
+        fileChooser         : 'v1.1.17',
+        photoView           : '2.3.0',
+        captcha             : '17.0.0',
+
+        //Google services
+        googleServicesPlugin: '4.2.0',
+        playServicesBase    : '16.0.1',
+        playServicesLocation: '16.0.0',
+        playServicesMap     : '16.1.0',
+        googleMapsUtils     : '0.5',
+        playServicesVision : '18.0.0',
+
+        //Firebase
+        firebaseMessaging   : '19.0.1',
+        firebaseCore        : '17.0.1',
+
+        //Tests
+        jUnit               : '4.12',
+        testRunner          : '1.1.0',
+        expressoRunner      : '3.1.1',
+
+        //Serializers
+        moshi               : "1.8.0",
+        moshiCodegen        : "1.9.1",
+        jsoup               : "1.11.3"
+]
+
+ext.gradlePlugins = [
+        android       : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
+        kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        fabric        : "io.fabric.tools:gradle:$versions.fabricPlugin",
+        googleServices: "com.google.gms:google-services:$versions.googleServicesPlugin"
+]
+
+ext.deps = [
+
+        'android'               : [
+                appcompat    : "androidx.appcompat:appcompat:$versions.appcompat",
+                annotation   : "androidx.annotation:annotation:$versions.annotation",
+                legacySupport: "androidx.legacy:legacy-support-v4:$versions.legacySupport",
+                androidCore  : "androidx.core:core-ktx:+"
+        ],
+
+        'kotlin'                : [
+                kotlinStdLib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
+                coreKtx            : "androidx.core:core-ktx:$versions.coreKtx",
+                kotlinReflectionApi: "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin",
+                coroutinesCore     : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlinCoroutines",
+                coroutinesAndroid  : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.kotlinCoroutines"
+        ],
+
+        'injection'             : [
+                dagger                : "com.google.dagger:dagger:$versions.dagger",
+                daggerCompiler        : "com.google.dagger:dagger-compiler:$versions.dagger",
+                daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$versions.dagger"
+        ],
+
+        'network'               : [
+                retrofit             : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+                retrofitConverterGson: "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+                okhttp3              : "com.squareup.okhttp3:okhttp:$versions.okhttp3",
+                okhttp3Logging       : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp3",
+                stetho               : "com.facebook.stetho:stetho:$versions.stetho",
+                stethoOkHttp3        : "com.facebook.stetho:stetho-okhttp3:$versions.stetho",
+                chuck                : "com.readystatesoftware.chuck:library:$versions.chuck",
+        ],
+
+        'utils'                 : [
+                timber    : "com.jakewharton.timber:timber:$versions.timber",
+                leakCanary: "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
+                fabric    : "com.crashlytics.sdk.android:crashlytics:$versions.fabric",
+                protobuf  : "com.google.protobuf:protobuf-java:$versions.protobuf"
+        ],
+
+        'rx'                    : [
+                rxjava2                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
+                rxkotlin                : "io.reactivex.rxjava2:rxkotlin:$versions.rxkotlin",
+                rxandroid               : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
+                rxbinding               : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$versions.rxbinding",
+                adapterRxJava           : "com.squareup.retrofit2:adapter-rxjava2:$versions.adapterRxJava",
+                rxlifecycle             : "com.trello.rxlifecycle3:rxlifecycle:$versions.rxlifecycle",
+                rxlifecycleAndroid      : "com.trello.rxlifecycle3:rxlifecycle-android:$versions.rxlifecycle",
+                rxlifecyclekotlin       : "com.trello.rxlifecycle3:rxlifecycle-kotlin:$versions.rxlifecycle",
+                rxlifecyclekotlinAndroid: "com.trello.rxlifecycle3:rxlifecycle-android-lifecycle-kotlin:$versions.rxlifecycle",
+                rxPreferences           : "com.f2prateek.rx.preferences2:rx-preferences:$versions.rxPreferences",
+                rxPermissions           : "com.github.tbruyelle:rxpermissions:$versions.rxPermissions",
+                rxPaparazzo             : "com.github.miguelbcr:RxPaparazzo:$versions.rxPaparazzo",
+                rxRelay                 : "com.jakewharton.rxrelay2:rxrelay:$versions.rxRelay",
+        ],
+
+        'architectureComponents': [
+                lifecycle                   : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
+                lifecycleAnnotationProcessor: "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+                lifecycleExtension          : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
+                viewModel                   : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+        ],
+
+        'ui'                    : [
+                constraintLayout        : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
+                recyclerView            : "androidx.recyclerview:recyclerview:1.0.0",
+                glide                   : "com.github.bumptech.glide:glide:$versions.glide",
+                glideAnnotationProcessor: "com.github.bumptech.glide:compiler:$versions.glide",
+                materialDesign          : "com.google.android.material:material:$versions.materialDesign",
+                pagingLibrary           : "androidx.paging:paging-runtime:$versions.pagingLibrary",
+                corbind                 : "ru.ldralighieri.corbind:corbind:$versions.corbind",
+                viewPager2              : "androidx.viewpager2:viewpager2:$versions.viewPager2",
+                adwancedWebView         : "com.github.delight-im:Android-AdvancedWebView:$versions.adwancedWebView",
+                decoro                  : "ru.tinkoff.decoro:decoro:$versions.decoro",
+                fileChooser             : "com.github.hedzr:android-file-chooser:$versions.fileChooser",
+                photoView               : "com.github.chrisbanes:PhotoView:$versions.photoView",
+                captcha                 : "com.google.android.gms:play-services-safetynet:$versions.captcha"
+        ],
+
+        'googleServices'        : [
+                googleServicesBase    : "com.google.android.gms:play-services-base:$versions.playServicesBase",
+                googleServicesLocation: "com.google.android.gms:play-services-location:$versions.playServicesLocation",
+                googleServicesMap     : "com.google.android.gms:play-services-maps:$versions.playServicesMap",
+                googleMapsUtils       : "com.google.maps.android:android-maps-utils:$versions.googleMapsUtils",
+                playServicesVision : "com.google.android.gms:play-services-vision:$versions.playServicesVision"
+        ],
+
+        'firebase'              : [
+                firebaseMessaging: "com.google.firebase:firebase-messaging:$versions.firebaseMessaging",
+                firebaseCore     : "com.google.firebase:firebase-core:$versions.firebaseCore"
+        ],
+
+        'navigation'            : [
+                navigationFragment: "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+                navigationUi      : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
+        ],
+
+        'tests'                 : [
+                jUnit         : "junit:junit:$versions.jUnit",
+                testRunner    : "androidx.test.ext:junit:$versions.testRunner",
+                expressoRunner: "junit:junit:$versions.expressoRunner",
+        ],
+
+        'serializers'           : [
+                moshi       : "com.squareup.moshi:moshi:$versions.moshi",
+                moshiCodegen: "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshiCodegen",
+                jsoup       : "org.jsoup:jsoup:$versions.jsoup"
+        ]
+]
+
+ext.deps.groups = [
+        'kotlin'                : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.kotlin.coreKtx
+            implementation deps.kotlin.kotlinStdLib
+        },
+
+        'android'               : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.android.appcompat
+            implementation deps.android.annotation
+            implementation deps.android.legacySupport
+            implementation deps.android.androidCore
+        },
+
+        'kotlinCoroutines'      : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.kotlin.coroutinesCore
+            implementation deps.kotlin.coroutinesAndroid
+        },
+
+        'injection'             : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.injection.dagger
+            kapt deps.injection.daggerCompiler
+            kapt deps.injection.daggerAndroidProcessor
+        },
+
+        'network'               : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.network.retrofit
+            implementation deps.network.retrofitConverterGson
+            implementation deps.network.okhttp3
+            implementation deps.network.okhttp3Logging
+            implementation deps.rx.adapterRxJava
+            implementation deps.network.stetho
+            implementation deps.network.stethoOkHttp3
+            implementation deps.network.chuck
+        },
+
+        'rx'                    : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.rx.rxjava2
+            implementation deps.rx.rxkotlin
+            implementation deps.rx.rxandroid
+            implementation deps.rx.rxbinding
+            implementation deps.rx.rxlifecycle
+            implementation deps.rx.rxlifecycleAndroid
+            implementation deps.rx.rxlifecyclekotlin
+            implementation deps.rx.rxlifecyclekotlinAndroid
+            implementation deps.rx.rxPreferences
+            implementation deps.rx.rxPermissions
+            implementation deps.rx.rxPaparazzo
+            implementation deps.rx.rxRelay
+        },
+
+        'architectureComponents': { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.architectureComponents.lifecycle
+            implementation deps.architectureComponents.lifecycleExtension
+            implementation deps.architectureComponents.viewModel
+            kapt deps.architectureComponents.lifecycleAnnotationProcessor
+        },
+
+        'location'              : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.googleServices.googleServicesBase
+            implementation deps.googleServices.googleServicesLocation
+        },
+
+        'map'                   : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.googleServices.googleServicesBase
+            implementation deps.googleServices.googleServicesMap
+            implementation deps.googleServices.googleMapsUtils
+        },
+
+        'firebase'              : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.firebase.firebaseCore
+            implementation deps.firebase.firebaseMessaging
+        },
+
+        'navigation'            : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.navigation.navigationFragment
+            implementation deps.navigation.navigationUi
+        },
+
+        'ui'                    : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.ui.constraintLayout
+            implementation deps.ui.recyclerView
+            implementation deps.ui.glide
+            implementation deps.ui.materialDesign
+            implementation deps.ui.pagingLibrary
+            implementation deps.ui.corbind
+            implementation deps.ui.adwancedWebView
+            implementation deps.ui.decoro
+            implementation deps.ui.fileChooser
+            implementation deps.ui.viewPager2
+            implementation deps.ui.photoView
+            implementation deps.ui.captcha
+            kapt deps.ui.glideAnnotationProcessor
+        },
+
+        'tests'                 : { dependencyHandler ->
+            delegate = dependencyHandler
+            testImplementation deps.tests.jUnit
+            androidTestImplementation deps.tests.testRunner
+            androidTestImplementation deps.tests.expressoRunner
+
+        },
+
+        'serializers'           : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.serializers.moshi
+            implementation deps.serializers.jsoup
+            kapt deps.serializers.moshiCodegen
+        }
+]

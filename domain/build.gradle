@@ -4,19 +4,8 @@ apply from: "$rootDir/config.gradle"
 
 dependencies {
     implementation project(':utils')
-
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation("com.squareup.moshi:moshi:$moshiVersion")
-    implementation("io.golos.commun4j:commun4j:$commun4jVersion")
-
-    /* Dagger */
-    implementation "com.google.dagger:dagger:$dagger_version"
-
-    /* Timber */
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-
-    testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
-    testImplementation "junit:junit:$junitVersion"
-
+    deps.groups.tests dependencies
+    deps.groups.serializers dependencies
+    deps.groups.architectureComponents dependencies
+    implementation("io.golos.commun4j:commun4j:$versions.commun4jVersion")
 }
