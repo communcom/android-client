@@ -18,18 +18,6 @@ ext.versions = [
         retrofit            : '2.4.0',
         okhttp3             : '3.8.0',
 
-        //Rx
-        rxjava              : '2.1.10',
-        rxkotlin            : '2.3.0',
-        rxandroid           : '2.0.2',
-        rxbinding           : '2.1.1',
-        adapterRxJava       : '2.3.0',
-        rxlifecycle         : '3.0.0',
-        rxPreferences       : '2.0.0',
-        rxPermissions       : '0.10.2',
-        rxPaparazzo         : '0.6.1-2.x',
-        rxRelay             : '2.1.1',
-
         //Dagger
         dagger              : '2.19',
 
@@ -128,22 +116,6 @@ ext.deps = [
                 protobuf  : "com.google.protobuf:protobuf-java:$versions.protobuf"
         ],
 
-        'rx'                    : [
-                rxjava2                 : "io.reactivex.rxjava2:rxjava:$versions.rxjava",
-                rxkotlin                : "io.reactivex.rxjava2:rxkotlin:$versions.rxkotlin",
-                rxandroid               : "io.reactivex.rxjava2:rxandroid:$versions.rxandroid",
-                rxbinding               : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$versions.rxbinding",
-                adapterRxJava           : "com.squareup.retrofit2:adapter-rxjava2:$versions.adapterRxJava",
-                rxlifecycle             : "com.trello.rxlifecycle3:rxlifecycle:$versions.rxlifecycle",
-                rxlifecycleAndroid      : "com.trello.rxlifecycle3:rxlifecycle-android:$versions.rxlifecycle",
-                rxlifecyclekotlin       : "com.trello.rxlifecycle3:rxlifecycle-kotlin:$versions.rxlifecycle",
-                rxlifecyclekotlinAndroid: "com.trello.rxlifecycle3:rxlifecycle-android-lifecycle-kotlin:$versions.rxlifecycle",
-                rxPreferences           : "com.f2prateek.rx.preferences2:rx-preferences:$versions.rxPreferences",
-                rxPermissions           : "com.github.tbruyelle:rxpermissions:$versions.rxPermissions",
-                rxPaparazzo             : "com.github.miguelbcr:RxPaparazzo:$versions.rxPaparazzo",
-                rxRelay                 : "com.jakewharton.rxrelay2:rxrelay:$versions.rxRelay",
-        ],
-
         'architectureComponents': [
                 lifecycle                   : "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle",
                 lifecycleAnnotationProcessor: "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
@@ -236,22 +208,6 @@ ext.deps.groups = [
             implementation deps.network.stetho
             implementation deps.network.stethoOkHttp3
             implementation deps.network.chuck
-        },
-
-        'rx'                    : { dependencyHandler ->
-            delegate = dependencyHandler
-            implementation deps.rx.rxjava2
-            implementation deps.rx.rxkotlin
-            implementation deps.rx.rxandroid
-            implementation deps.rx.rxbinding
-            implementation deps.rx.rxlifecycle
-            implementation deps.rx.rxlifecycleAndroid
-            implementation deps.rx.rxlifecyclekotlin
-            implementation deps.rx.rxlifecyclekotlinAndroid
-            implementation deps.rx.rxPreferences
-            implementation deps.rx.rxPermissions
-            implementation deps.rx.rxPaparazzo
-            implementation deps.rx.rxRelay
         },
 
         'architectureComponents': { dependencyHandler ->
