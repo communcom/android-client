@@ -22,7 +22,7 @@ class JoinedItem(
             menuAction.setDrawableToEnd(R.drawable.ic_join)
             menuAction.setStyle(R.style.BottomSheetMenuItem)
             menuAction.setOnClickListener {
-                listItemEventsProcessor.onJoinedItemClick(listItem.communityId)
+                listItemEventsProcessor.onJoinedItemClick()
             }
         }
     }

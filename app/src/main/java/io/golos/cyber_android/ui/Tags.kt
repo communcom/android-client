@@ -7,6 +7,5 @@ object Tags {
     const val ARGS = "ARGS"
     const val DISCUSSION_ID = "DISCUSSION_ID"
 
-    const val SHARE_URL = "SHARE_URL"
-    const val COMMUNITY_ID = "COMMUNITY_ID"
+    const val POST_MENU = "POST_MENU"
 }

@@ -31,14 +31,11 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         const val RESULT_JOINED = Activity.RESULT_FIRST_USER + 7
         const val RESULT_REPORT = Activity.RESULT_FIRST_USER + 8
 
-
-        private const val IS_MY_POST = "IS_MY_POST"
-        private const val PAYLOAD = "PAYLOAD"
-        private const val TYPE = "TYPE"
-        private const val FORMAT_VERSION = "FORMAT_VERSION"
-
         private const val POST_MENU = "POST_MENU"
 
+        private lateinit var postMenu: PostMenu
+
+        @Deprecated("Need use another method newInstance")
         fun newInstance(
             isMyPost: Boolean,
             type: PostType,
@@ -47,10 +44,10 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         ): PostPageMenuDialog {
             return PostPageMenuDialog().apply {
                 arguments = Bundle().apply {
-                    putSerializable(IS_MY_POST, isMyPost)
-                    putString(PAYLOAD, payload)
-                    putInt(TYPE, type.value)
-                    putParcelable(FORMAT_VERSION, formatVersion)
+                    putSerializable("", isMyPost)
+                    putString("", payload)
+                    putInt("", type.value)
+                    putParcelable("", formatVersion)
                 }
             }
         }
@@ -67,47 +64,57 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     }
 
     override fun onAddToFavoriteItemClick() {
-        setSelectAction(RESULT_ADD_FAVORITE)
+        setSelectAction(RESULT_ADD_FAVORITE){
+            putExtra(Tags.POST_MENU, postMenu)
+        }
     }
 
     override fun onRemoveFromFavoriteItemClick() {
-        setSelectAction(RESULT_REMOVE_FAVORITE)
+        setSelectAction(RESULT_REMOVE_FAVORITE){
+            putExtra(Tags.POST_MENU, postMenu)
+        }
     }
 
-    override fun onShareItemClick(shareUrl: String) {
+    override fun onShareItemClick() {
         setSelectAction(RESULT_SHARE) {
-            putExtra(Tags.SHARE_URL, shareUrl)
+            putExtra(Tags.POST_MENU, postMenu)
         }
     }
 
     override fun onEditItemClick() {
-        setSelectAction(RESULT_EDIT)
-    }
-
-    override fun onDeleteItemClick() {
-        setSelectAction(RESULT_DELETE)
-    }
-
-    override fun onJoinItemClick(communityId: String) {
-        setSelectAction(RESULT_JOIN) {
-            putExtra(Tags.COMMUNITY_ID, communityId)
+        setSelectAction(RESULT_EDIT){
+            putExtra(Tags.POST_MENU, postMenu)
         }
     }
 
-    override fun onJoinedItemClick(communityId: String) {
+    override fun onDeleteItemClick() {
+        setSelectAction(RESULT_DELETE){
+            putExtra(Tags.POST_MENU, postMenu)
+        }
+    }
+
+    override fun onJoinItemClick() {
+        setSelectAction(RESULT_JOIN) {
+            putExtra(Tags.POST_MENU, postMenu)
+        }
+    }
+
+    override fun onJoinedItemClick() {
         setSelectAction(RESULT_JOINED) {
-            putExtra(Tags.COMMUNITY_ID, communityId)
+            putExtra(Tags.POST_MENU, postMenu)
         }
     }
 
     override fun onReportItemClick() {
-        setSelectAction(RESULT_REPORT)
+        setSelectAction(RESULT_REPORT){
+            putExtra(Tags.POST_MENU, postMenu)
+        }
     }
 
     override fun provideLayout(): Int = R.layout.dialog_post_menu
 
     override fun setupView() {
-        val postMenu = arguments!!.getParcelable<PostMenu>(POST_MENU)
+        postMenu = arguments!!.getParcelable(POST_MENU)
 
         postMenu?.let { menu ->
             val adapter = PostMenuAdapter(this)
@@ -137,11 +144,6 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         }
 
         ivClose.setOnClickListener { dismiss() }
-//        val isMyPost = arguments?.getBoolean(IS_MY_POST)
-//        val type = PostType.create(arguments!!.getInt(TYPE))
-//        val postFormat = arguments!!.getParcelable<PostFormatVersion>(FORMAT_VERSION)!!
-//
-//        val canEdit = type == PostType.BASIC && PostGlobalConstants.postFormatVersion.major >= postFormat.major
     }
 
     private fun generateMyPostMenu(postMenu: PostMenu): List<VersionedListItem> {
@@ -160,9 +162,9 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         val items = mutableListOf<VersionedListItem>()
 
         if (postMenu.isSubscribe) {
-            items.add(JoinListItem(postMenu.communityId))
+            items.add(JoinListItem())
         } else {
-            items.add(JoinedListItem(postMenu.communityId))
+            items.add(JoinedListItem())
         }
         items.add(ReportListItem()) //todo add data to edit post
 

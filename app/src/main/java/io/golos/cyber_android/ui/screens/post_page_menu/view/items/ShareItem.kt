@@ -22,7 +22,7 @@ class ShareItem(
             menuAction.setDrawableToEnd(R.drawable.ic_share)
             menuAction.setStyle(R.style.BottomSheetMenuItem)
             menuAction.setOnClickListener {
-                listItemEventsProcessor.onShareItemClick(listItem.shareUrl)
+                listItemEventsProcessor.onShareItemClick()
             }
         }
     }

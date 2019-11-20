@@ -103,25 +103,27 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         when (requestCode) {
             PostPageMenuDialog.REQUEST -> {
                 when (resultCode) {
-                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> viewModel.addToFavorite()
-                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> viewModel.removeFromFavorite()
+                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> viewModel.addToFavorite("")
+                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> viewModel.removeFromFavorite("")
                     PostPageMenuDialog.RESULT_SHARE -> {
-                        val shareUrl = data?.extras?.getString(Tags.SHARE_URL)
-                        shareUrl?.let { url ->
-                            viewModel.sharePost(url)
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        val shareUrl = postMenu?.shareUrl
+                        shareUrl?.let { shareUrl ->
+                            viewModel.sharePost(shareUrl)
                         }
                     }
-                    PostPageMenuDialog.RESULT_EDIT -> viewModel.editPost()
-                    PostPageMenuDialog.RESULT_DELETE -> viewModel.deletePost()
+                    PostPageMenuDialog.RESULT_EDIT -> viewModel.editPost("")
+                    PostPageMenuDialog.RESULT_DELETE -> viewModel.deletePost("")
                     PostPageMenuDialog.RESULT_JOIN -> {
-                        val communityId = data?.extras?.getString(Tags.COMMUNITY_ID)
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        val communityId = postMenu?.communityId
                         communityId?.let { id ->
                             viewModel.joinToCommunity(id)
                         }
                     }
                     PostPageMenuDialog.RESULT_JOINED -> {
-                        val communityId = data?.extras?.getString(Tags.COMMUNITY_ID)
-                        communityId?.let { id ->
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.communityId?.let { id ->
                             viewModel.joinedToCommunity(id)
                         }
                     }

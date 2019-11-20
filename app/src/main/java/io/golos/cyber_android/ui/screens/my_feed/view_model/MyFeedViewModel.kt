@@ -98,21 +98,37 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorite() {}
+    fun addToFavorite(permlink: String) {
 
-    fun removeFromFavorite() {}
+    }
 
-    fun sharePost(shareUrl: String) {}
+    fun removeFromFavorite(permlink: String) {
 
-    fun editPost() {}
+    }
 
-    fun deletePost() {}
+    fun sharePost(shareUrl: String) {
 
-    fun joinToCommunity(communityId: String) {}
+    }
 
-    fun joinedToCommunity(communityId: String) {}
+    fun editPost(permlink: String) {
 
-    fun reportPost() {}
+    }
+
+    fun deletePost(permlink: String) {
+
+    }
+
+    fun joinToCommunity(communityId: String) {
+
+    }
+
+    fun joinedToCommunity(communityId: String) {
+
+    }
+
+    fun reportPost() {
+
+    }
 
     private fun applyFiltersListener(){
         launch {

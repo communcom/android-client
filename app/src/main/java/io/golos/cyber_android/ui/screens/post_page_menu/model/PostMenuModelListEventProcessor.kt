@@ -8,15 +8,15 @@ interface PostMenuListener {
 
     fun onRemoveFromFavoriteItemClick()
 
-    fun onShareItemClick(shareUrl: String)
+    fun onShareItemClick()
 
     fun onEditItemClick()
 
     fun onDeleteItemClick()
 
-    fun onJoinItemClick(communityId: String)
+    fun onJoinItemClick()
 
-    fun onJoinedItemClick(communityId: String)
+    fun onJoinedItemClick()
 
     fun onReportItemClick()
 

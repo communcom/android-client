@@ -122,7 +122,8 @@ class PostItem(
                     authorUserId = author.userId,
                     shareUrl = post.shareUrl,
                     isMyPost = post.isMyPost,
-                    isSubscribe = post.community.isSubscribe
+                    isSubscribe = post.community.isSubscribe,
+                    permlink = post.contentId.permlink
                 )
             )
         }
