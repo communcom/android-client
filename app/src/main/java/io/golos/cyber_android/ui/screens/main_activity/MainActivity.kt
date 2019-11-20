@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
-import io.golos.cyber_android.ui.screens.profile.ProfileFragment
+import io.golos.cyber_android.ui.screens.profile.old_profile.OldProfileFragment
 import io.golos.cyber_android.utils.asEvent
 import io.golos.cyber_android.utils.setStatusBarColor
 import io.golos.cyber_android.utils.tintStatusBarIcons
@@ -99,7 +99,7 @@ class MainActivity : ActivityBase() {
                     Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
                     //Tab.NOTIFICATIONS -> NotificationsFragment.newInstance()
                     //Tab.WALLET -> WalletFragment.newInstance()
-                    Tab.PROFILE -> ProfileFragment.newInstance(user.name)
+                    Tab.PROFILE -> OldProfileFragment.newInstance(user.name)
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
             }

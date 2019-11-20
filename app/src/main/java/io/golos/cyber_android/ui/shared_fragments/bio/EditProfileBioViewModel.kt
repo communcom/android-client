@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.bio
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.screens.profile.edit.EditProfileViewModelBase
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.EditProfileViewModelBase
 import io.golos.domain.use_cases.user.UserMetadataUseCase
 import javax.inject.Inject
 

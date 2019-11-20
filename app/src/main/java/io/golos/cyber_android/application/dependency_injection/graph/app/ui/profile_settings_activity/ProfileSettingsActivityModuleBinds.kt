@@ -1,15 +1,13 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.profile.edit.settings.ProfileSettingsViewModel
-import io.golos.domain.dependency_injection.scopes.ActivityScope
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.ProfileSettingsViewModel
 
 @Module
 abstract class ProfileSettingsActivityModuleBinds {

@@ -24,7 +24,7 @@ import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFra
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedViewModel
-import io.golos.cyber_android.ui.screens.profile.ProfileActivity
+import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.domain.use_cases.model.DiscussionIdModel

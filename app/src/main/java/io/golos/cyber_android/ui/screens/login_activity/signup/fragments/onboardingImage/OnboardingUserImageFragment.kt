@@ -21,9 +21,9 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
-import io.golos.cyber_android.ui.screens.profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarActivity
-import io.golos.cyber_android.ui.screens.profile.edit.avatar.EditProfileAvatarFragment
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.avatar.EditProfileAvatarActivity
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.avatar.EditProfileAvatarFragment
 import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize

@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.profile.posts.UserPostsFeedViewModel
+import io.golos.cyber_android.ui.screens.profile.old_profile.posts.UserPostsFeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.feed.AbstractFeedUseCase
