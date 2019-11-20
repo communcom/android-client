@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets
 
 import android.net.Uri
-import io.golos.cyber_android.ui.dialogs.post.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 
 interface BasePostBlockWidgetListener
 

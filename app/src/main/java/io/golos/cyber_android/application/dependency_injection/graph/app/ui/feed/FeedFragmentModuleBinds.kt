@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedViewModel
+import io.golos.cyber_android.ui.screens.feed.FeedViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Module
