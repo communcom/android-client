@@ -103,8 +103,18 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         when (requestCode) {
             PostPageMenuDialog.REQUEST -> {
                 when (resultCode) {
-                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> viewModel.addToFavorite("")
-                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> viewModel.removeFromFavorite("")
+                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.addToFavorite(it.permlink)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let{
+                            viewModel.removeFromFavorite(it.permlink)
+                        }
+                    }
                     PostPageMenuDialog.RESULT_SHARE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         val shareUrl = postMenu?.shareUrl
@@ -112,8 +122,18 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                             viewModel.sharePost(shareUrl)
                         }
                     }
-                    PostPageMenuDialog.RESULT_EDIT -> viewModel.editPost("")
-                    PostPageMenuDialog.RESULT_DELETE -> viewModel.deletePost("")
+                    PostPageMenuDialog.RESULT_EDIT -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.editPost(it.permlink)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_DELETE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.deletePost(it.permlink)
+                        }
+                    }
                     PostPageMenuDialog.RESULT_JOIN -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         val communityId = postMenu?.communityId
