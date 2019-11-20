@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.my_feed.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
@@ -98,35 +99,161 @@ class MyFeedViewModel @Inject constructor(
     }
 
     fun addToFavorite(permlink: String) {
-
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.addToFavorite(permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     fun removeFromFavorite(permlink: String) {
-
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.removeFromFavorite(permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     fun sharePost(shareUrl: String) {
-
+        _command.value = SharePostCommand(shareUrl)
     }
 
     fun editPost(permlink: String) {
-
+        val post = getPostFromPostsListState(permlink)
+        post?.let {
+            _command.value = EditPostCommand(it)
+        }
     }
 
     fun deletePost(permlink: String) {
-
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.deletePost(permlink)
+                _postsListState.value = deletePostInState(_postsListState.value, permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
-    fun joinToCommunity(communityId: String) {
-
+    fun subscribeToCommunity(communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.subscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
-    fun joinedToCommunity(communityId: String) {
-
+    fun unsubscribeToCommunity(communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.unsubscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
-    fun reportPost() {
+    fun reportPost(permlink: String) {
+        val post = getPostFromPostsListState(permlink)
+        post?.let {
+            _command.value = ReportPostCommand(post)
+        }
+    }
 
+    private fun changeCommunitySubscriptionStatusInState(state: Paginator.State?, communityId: String, isSubscribed: Boolean): Paginator.State?{
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val post = (state as? List<Post>)?.find { it.community.communityId == communityId }
+                post?.community?.isSubscribed = isSubscribed
+            }
+            is Paginator.State.Refresh<*> -> {
+                val post = (state as? List<Post>)?.find { it.community.communityId == communityId }
+                post?.community?.isSubscribed = isSubscribed
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val post = (state as? List<Post>)?.find { it.community.communityId == communityId }
+                post?.community?.isSubscribed = isSubscribed
+
+            }
+            is Paginator.State.FullData<*> -> {
+                val post = (state as? List<Post>)?.find { it.community.communityId == communityId }
+                post?.community?.isSubscribed = isSubscribed
+            }
+        }
+        return state
+    }
+
+    private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State?{
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val postsList = state as? MutableList<Post>
+                val post = postsList?.find { it.contentId.permlink == permlink }
+                postsList?.remove(post)
+            }
+            is Paginator.State.Refresh<*> -> {
+                val postsList = state as? MutableList<Post>
+                val post = postsList?.find { it.contentId.permlink == permlink }
+                postsList?.remove(post)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val postsList = state as? MutableList<Post>
+                val post = postsList?.find { it.contentId.permlink == permlink }
+                postsList?.remove(post)
+
+            }
+            is Paginator.State.FullData<*> -> {
+                val postsList = state as? MutableList<Post>
+                val post = postsList?.find { it.contentId.permlink == permlink }
+                postsList?.remove(post)
+            }
+        }
+        return state
+    }
+
+    private fun getPostFromPostsListState(permlink: String): Post? {
+        when (postsListState) {
+            is Paginator.State.Data<*> -> {
+                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
+            }
+            is Paginator.State.Refresh<*> -> {
+                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
+
+            }
+            is Paginator.State.FullData<*> -> {
+                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
+            }
+        }
+        return null
     }
 
     private fun applyFiltersListener() {

@@ -8,7 +8,7 @@ data class PostDomain(
     val author: AuthorDomain,
     val community: CommunityDomain,
     val contentId: ContentIdDomain,
-    val body: PostBlock,
+    val body: PostBlock?,
     val meta: MetaDomain,
     val stats: StatsDomain?,
     val type: String?,
@@ -32,7 +32,7 @@ data class PostDomain(
         val communityId: String,
         val name: String?,
         val avatarUrl: String?,
-        val isSubscribe: Boolean
+        val isSubscribed: Boolean
     )
 
     data class StatsDomain(

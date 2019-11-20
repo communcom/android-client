@@ -3,17 +3,18 @@ package io.golos.data.mappers
 import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
+import io.golos.utils.toAbsoluteUrl
 
-fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean): PostDomain{
+fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean): PostDomain {
     return PostDomain(
         this.author.mapToAuthorDomain(),
         this.community.mapToCommunityDomainMapper(),
         this.contentId.mapToContentIdDomain(),
-        JsonToDtoMapper().map(this.document!!),
+        this.document?.let { JsonToDtoMapper().map(it) },
         this.meta.mapToMetaDomain(),
         null,
         null,
-        this.url,
+        this.url.toAbsoluteUrl(),
         this.votes.mapToVotesDomain(),
         isMyPost
     )

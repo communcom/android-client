@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
+import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -95,7 +96,25 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is NavigateToPostCommand -> openPost(command.discussionIdModel)
 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
+
+            is SharePostCommand -> sharePost(command.shareUrl)
+
+            is EditPostCommand -> editPost(command.post)
+
+            is ReportPostCommand -> reportPost(command.post)
         }
+    }
+
+    private fun reportPost(post: Post) {
+
+    }
+
+    private fun editPost(post: Post) {
+
+    }
+
+    private fun sharePost(shareUrl: String) {
+        requireContext().shareMessage(shareUrl)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -134,20 +153,25 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                             viewModel.deletePost(it.permlink)
                         }
                     }
-                    PostPageMenuDialog.RESULT_JOIN -> {
+                    PostPageMenuDialog.RESULT_SUBSCRIBE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         val communityId = postMenu?.communityId
-                        communityId?.let { id ->
-                            viewModel.joinToCommunity(id)
+                        communityId?.let {
+                            viewModel.subscribeToCommunity(it)
                         }
                     }
-                    PostPageMenuDialog.RESULT_JOINED -> {
+                    PostPageMenuDialog.RESULT_UNSUBSCRIBE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.communityId?.let { id ->
-                            viewModel.joinedToCommunity(id)
+                        postMenu?.communityId?.let {
+                            viewModel.unsubscribeToCommunity(it)
                         }
                     }
-                    PostPageMenuDialog.RESULT_REPORT -> viewModel.reportPost()
+                    PostPageMenuDialog.RESULT_REPORT -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.reportPost(it.permlink)
+                        }
+                    }
                 }
             }
         }

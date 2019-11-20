@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
@@ -27,8 +28,8 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         const val RESULT_SHARE = Activity.RESULT_FIRST_USER + 3
         const val RESULT_EDIT = Activity.RESULT_FIRST_USER + 4
         const val RESULT_DELETE = Activity.RESULT_FIRST_USER + 5
-        const val RESULT_JOIN = Activity.RESULT_FIRST_USER + 6
-        const val RESULT_JOINED = Activity.RESULT_FIRST_USER + 7
+        const val RESULT_SUBSCRIBE = Activity.RESULT_FIRST_USER + 6
+        const val RESULT_UNSUBSCRIBE = Activity.RESULT_FIRST_USER + 7
         const val RESULT_REPORT = Activity.RESULT_FIRST_USER + 8
 
         private const val POST_MENU = "POST_MENU"
@@ -94,13 +95,13 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     }
 
     override fun onJoinItemClick() {
-        setSelectAction(RESULT_JOIN) {
+        setSelectAction(RESULT_SUBSCRIBE) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }
 
     override fun onJoinedItemClick() {
-        setSelectAction(RESULT_JOINED) {
+        setSelectAction(RESULT_UNSUBSCRIBE) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }
@@ -152,8 +153,8 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         postMenu.shareUrl?.let { shareUrl ->
             items.add(ShareListItem(shareUrl))
         }
-        items.add(EditListItem()) //todo add data to edit post
-        items.add(DeleteListItem()) //todo add data to delete post
+        items.add(EditListItem())
+        items.add(DeleteListItem())
 
         return items
     }
@@ -161,12 +162,12 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     private fun generateNotMyPostMenu(postMenu: PostMenu): List<VersionedListItem> {
         val items = mutableListOf<VersionedListItem>()
 
-        if (postMenu.isSubscribe) {
-            items.add(JoinListItem())
-        } else {
+        if (postMenu.isSubscribed) {
             items.add(JoinedListItem())
+        } else {
+            items.add(JoinListItem())
         }
-        items.add(ReportListItem()) //todo add data to edit post
+        items.add(ReportListItem())
 
         return items
     }

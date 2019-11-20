@@ -9,6 +9,6 @@ fun PostDomain.CommunityDomain.mapToCommunity(): Post.Community {
         this.communityId,
         this.name,
         this.avatarUrl,
-        this.isSubscribe
+        this.isSubscribed
     )
 }

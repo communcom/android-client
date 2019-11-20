@@ -8,7 +8,7 @@ data class Post(
     val author: Author,
     val community: Community,
     val contentId: ContentId,
-    val body: PostBlock,
+    val body: PostBlock?,
     val meta: Meta,
     val stats: Stats?,
     val type: String?,
@@ -32,7 +32,7 @@ data class Post(
         val communityId: String,
         val name: String?,
         val avatarUrl: String?,
-        val isSubscribe: Boolean
+        var isSubscribed: Boolean
     )
 
     data class Stats(

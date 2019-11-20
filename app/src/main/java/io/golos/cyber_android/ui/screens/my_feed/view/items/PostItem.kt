@@ -61,9 +61,10 @@ class PostItem(
         setCommentsCounter(view, post.stats?.commentsCount ?: 0)
     }
 
-    private fun setUpFeedContent(view: View, postBlock: PostBlock) {
+    private fun setUpFeedContent(view: View, postBlock: PostBlock?) {
         view.feedContent.adapter = feedAdapter
-        val postContentItems: List<BaseRecyclerItem> = postBlock.content
+        val contentList = postBlock?.content ?: arrayListOf()
+        val postContentItems: List<BaseRecyclerItem> = contentList
             .filter { createPostBodyItem(it) != null }
             .map {
                 createPostBodyItem(it)!!
@@ -122,7 +123,7 @@ class PostItem(
                     authorUserId = author.userId,
                     shareUrl = post.shareUrl,
                     isMyPost = post.isMyPost,
-                    isSubscribe = post.community.isSubscribe,
+                    isSubscribed = post.community.isSubscribed,
                     permlink = post.contentId.permlink
                 )
             )
