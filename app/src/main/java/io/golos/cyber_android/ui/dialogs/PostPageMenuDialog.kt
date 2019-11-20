@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.domain.use_cases.post.post_dto.PostFormatVersion
 import io.golos.domain.use_cases.post.post_dto.PostType
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
+import kotlinx.android.synthetic.main.dialog_comment_menu.*
 import kotlinx.android.synthetic.main.dialog_post_menu.*
 
 /**
