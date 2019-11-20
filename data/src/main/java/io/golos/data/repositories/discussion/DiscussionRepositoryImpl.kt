@@ -62,7 +62,10 @@ constructor(
                 postsConfigurationDomain.offset
             )
         }.items
-            .map(CyberDiscussionRaw::mapToPostDomain)
+            .map{
+                val userId = it.author.userId.name
+                it.mapToPostDomain(userId == currentUserRepository.userId)
+            }
     }
 
     private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }

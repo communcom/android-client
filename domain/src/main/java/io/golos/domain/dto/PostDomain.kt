@@ -13,7 +13,8 @@ data class PostDomain(
     val stats: StatsDomain?,
     val type: String?,
     val shareUrl: String?,
-    val votes: VotesDomain
+    val votes: VotesDomain,
+    val isMyPost: Boolean
 ) {
     data class VotesDomain(
         val downCount: Long,

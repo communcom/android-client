@@ -121,7 +121,7 @@ class PostItem(
                     authorUsername = author.username,
                     authorUserId = author.userId,
                     shareUrl = post.shareUrl,
-                    isMyPost = true, //todo equal current user with post author user
+                    isMyPost = post.isMyPost,
                     isSubscribe = post.community.isSubscribe
                 )
             )
