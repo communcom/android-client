@@ -4,17 +4,16 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
-import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
-import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
-import io.golos.cyber_android.utils.toLiveData
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
@@ -130,14 +129,15 @@ class MyFeedViewModel @Inject constructor(
 
     }
 
-    private fun applyFiltersListener(){
+    private fun applyFiltersListener() {
         launch {
             model.feedFiltersFlow.collect {
                 if (::postsConfigurationDomain.isInitialized) {
                     val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
                     val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
-                    if(feedType != postsConfigurationDomain.typeFeed ||
-                        feedTimeFrame != postsConfigurationDomain.timeFrame){
+                    if (feedType != postsConfigurationDomain.typeFeed ||
+                        feedTimeFrame != postsConfigurationDomain.timeFrame
+                    ) {
                         postsConfigurationDomain = postsConfigurationDomain.copy(
                             typeFeed = feedType,
                             timeFrame = feedTimeFrame
@@ -189,7 +189,7 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    private fun restartLoadPosts(){
+    private fun restartLoadPosts() {
         loadPostsJob?.cancel()
         paginator.proceed(Paginator.Action.Restart)
     }

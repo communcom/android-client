@@ -4,17 +4,18 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
+apply from: "$rootDir/dependencies.gradle"
 
 ext {
     applicationIdSuffix = ""
 }
 
 android {
-    compileSdkVersion targetsdk
+    compileSdkVersion versions.targetsdk
     defaultConfig {
         applicationId "io.golos.cyber_android"
-        minSdkVersion minsdk
-        targetSdkVersion targetsdk
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.targetsdk
         versionCode appVesrionCode
         versionName appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -106,73 +107,26 @@ buildscript {
 
 dependencies {
     /* Our libraries */
-    implementation("io.golos.commun4j:commun4j:$commun4jVersion")
+    implementation("io.golos.commun4j:commun4j:$versions.commun4jVersion")
 
     /*Modules*/
     implementation project(':domain')
     implementation project(':data')
     implementation project(':posts_editor')
+    implementation project(':utils')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:$androidXAppcompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
-    implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
-    implementation "androidx.paging:paging-runtime:$pagingVersion"
-    implementation("com.squareup.moshi:moshi:$moshiVersion")
-    implementation "com.github.delight-im:Android-AdvancedWebView:$advancedWebViewVersion"
-    implementation "ru.tinkoff.decoro:decoro:$decoroVersion"
-    implementation "com.github.hedzr:android-file-chooser:$dirchooserVersion"
-    implementation "ru.ldralighieri.corbind:corbind:$corbind"
-    implementation "androidx.core:core-ktx:+"
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshiCodegen")
+    deps.groups.kotlin dependencies
+    deps.groups.ui dependencies
+    deps.groups.tests dependencies
+    deps.groups.serializers dependencies
+    deps.groups.android dependencies
+    deps.groups.navigation dependencies
+    deps.groups.architectureComponents dependencies
+    deps.groups.injection dependencies
+    deps.groups.firebase dependencies
 
-    /* Timber */
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-
-    /* Photo view */
-    implementation "com.github.chrisbanes:PhotoView:$photoViewVersion"
-
-    /*Firebase*/
-    implementation "com.google.firebase:firebase-core:$firebaseCoreSdkVersion"
-    implementation "com.google.firebase:firebase-messaging:$fcmVersion"
-    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsSdkVersion"
-
-    implementation "com.google.android.gms:play-services-vision:$visionVersion"
-
-    implementation "androidx.legacy:legacy-support-v4:$legacyVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-
-    /*Protobuf*/
-    implementation "com.google.protobuf:protobuf-java:$protobufVersion"
-
-    implementation "com.google.android.gms:play-services-safetynet:$captcha"
-
-    /*Tests*/
-    testImplementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    testImplementation "androidx.arch.core:core-testing:$archCoreTesting"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation("com.squareup.moshi:moshi:$moshiVersion")
-    androidTestImplementation "androidx.test.ext:junit:$test_runner_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_runner_version"
-
-    /* Dagger */
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
-    /* Libraries & modules */
-    testImplementation project(':domain')
-    testImplementation "io.golos.commun4j:commun4j:$commun4jVersion"
-    testImplementation project(':data')
+    implementation deps.utils.timber
+    implementation deps.utils.fabric
+    implementation deps.utils.protobuf
+    implementation deps.googleServices.playServicesVision
 }

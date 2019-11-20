@@ -11,7 +11,7 @@ import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
 import android.widget.EditText
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.utils.TextWatcherBase
 
 interface SmsCodeEditTextInnerState {
     val isTextEmpty: Boolean

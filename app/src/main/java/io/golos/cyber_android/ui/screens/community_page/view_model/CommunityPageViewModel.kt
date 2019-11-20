@@ -9,8 +9,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
-import io.golos.cyber_android.utils.EMPTY
-import io.golos.cyber_android.utils.toLiveData
+import io.golos.utils.EMPTY
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -33,7 +33,7 @@ class CommunityPageViewModel @Inject constructor(
 
     val communityPageIsLoadProgressLiveData = communityPageIsLoadProgressMutableLiveData.toLiveData()
 
-    private var communityId: String = EMPTY
+    private var communityId: String = io.golos.utils.EMPTY
 
     fun start(communityId: String) {
         this.communityId = communityId

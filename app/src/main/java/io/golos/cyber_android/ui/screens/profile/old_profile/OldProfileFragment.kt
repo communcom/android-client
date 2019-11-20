@@ -39,8 +39,8 @@ import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.Profi
 import io.golos.cyber_android.ui.screens.profile.old_profile.posts.UserPostsFeedFragment
 import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsFragment
 import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioFragment
-import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
+import io.golos.cyber_android.ui.utils.asEvent
+import io.golos.cyber_android.ui.utils.TabLayoutMediator
 import io.golos.data.errors.AppError
 import io.golos.domain.use_cases.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult

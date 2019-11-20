@@ -19,9 +19,9 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile.old_profile.OldProfileFragment
-import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.utils.setStatusBarColor
-import io.golos.cyber_android.utils.tintStatusBarIcons
+import io.golos.cyber_android.ui.utils.asEvent
+import io.golos.cyber_android.ui.utils.setStatusBarColor
+import io.golos.cyber_android.ui.utils.tintStatusBarIcons
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 import javax.inject.Inject

@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.utils.debounce
+import io.golos.cyber_android.ui.utils.debounce
 import kotlinx.android.synthetic.main.fragment_followers.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*

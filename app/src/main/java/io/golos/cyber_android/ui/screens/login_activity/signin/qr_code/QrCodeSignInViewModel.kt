@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDecrypted
 import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
-import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.extensions.map

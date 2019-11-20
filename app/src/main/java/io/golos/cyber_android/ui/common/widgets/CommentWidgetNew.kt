@@ -9,9 +9,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
 import io.golos.cyber_android.ui.common.extensions.loadAvatar
-import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.AppResourcesProvider
 import kotlinx.android.synthetic.main.view_comment_widget.view.*
 import javax.inject.Inject
 

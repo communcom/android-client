@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
+import io.golos.cyber_android.ui.utils.toTimeEstimateFormat
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
-import io.golos.cyber_android.utils.toTimeEstimateFormat
 import io.golos.domain.extensions.appendSpannedText
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 

@@ -4,8 +4,8 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.utils.combinedWith
+import io.golos.cyber_android.ui.utils.asEvent
+import io.golos.cyber_android.ui.utils.combinedWith
 import io.golos.domain.dto.DiscussionEntity
 import io.golos.domain.dto.DiscussionsSort
 import io.golos.domain.use_cases.action.VoteUseCase

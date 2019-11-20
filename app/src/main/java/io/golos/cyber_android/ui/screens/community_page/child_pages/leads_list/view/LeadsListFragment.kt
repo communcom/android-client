@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.list.LeadsListListAdapter
 import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view_model.LeadsListViewModel
-import io.golos.cyber_android.utils.EMPTY
+import io.golos.utils.EMPTY
 import kotlinx.android.synthetic.main.fragment_community_leads.*
 
 class LeadsListFragment : FragmentBaseMVVM<FragmentCommunityLeadsBinding, LeadsListViewModel>() {
@@ -35,7 +35,7 @@ class LeadsListFragment : FragmentBaseMVVM<FragmentCommunityLeadsBinding, LeadsL
     override fun layoutResId(): Int = R.layout.fragment_community_leads
 
     override fun inject() = App.injections
-        .get<CommunityPageLeadsListComponent>(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
+        .get<CommunityPageLeadsListComponent>(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))
         .inject(this)
 
     override fun releaseInjection() {
