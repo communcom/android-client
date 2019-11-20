@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
-import io.golos.cyber_android.utils.PostConstants
+import io.golos.utils.PostConstants
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
@@ -78,7 +78,7 @@ constructor(
             .filterIsInstance<ParagraphMetadata>()
             .sumBy { it.plainText.length }
 
-        if(postLen > PostConstants.MAX_POST_CONTENT_LENGTH) {
+        if(postLen > io.golos.utils.PostConstants.MAX_POST_CONTENT_LENGTH) {
             return ValidationResult.ERROR_POST_IS_TOO_LONG
         }
 

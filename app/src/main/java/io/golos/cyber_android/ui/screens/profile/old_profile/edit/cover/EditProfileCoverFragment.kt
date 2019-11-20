@@ -21,7 +21,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.cyber_android.ui.common.widgets.TouchImageView
 import io.golos.domain.use_cases.model.UserMetadataModel
 import io.golos.domain.requestmodel.QueryResult

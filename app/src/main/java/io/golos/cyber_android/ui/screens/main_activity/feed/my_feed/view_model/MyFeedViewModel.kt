@@ -15,8 +15,8 @@ import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_co
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.utils.PAGINATION_PAGE_SIZE
-import io.golos.cyber_android.utils.toLiveData
+import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain

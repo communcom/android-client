@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.post_filters
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
-import io.golos.cyber_android.utils.toLiveData
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

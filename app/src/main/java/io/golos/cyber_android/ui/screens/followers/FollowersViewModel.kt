@@ -10,7 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.followers.mappers.FollowersDomainListToFollowersListMapper
 import io.golos.cyber_android.ui.screens.subscriptions.Community
-import io.golos.cyber_android.utils.toLiveData
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

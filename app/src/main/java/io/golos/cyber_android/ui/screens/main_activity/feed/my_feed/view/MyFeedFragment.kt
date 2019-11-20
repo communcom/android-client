@@ -15,7 +15,7 @@ import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.common.utils.DividerPostDecoration
+import io.golos.cyber_android.ui.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view.list.MyFeedAdapter

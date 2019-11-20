@@ -19,8 +19,8 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.utils.asEvent
-import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.utils.asEvent
+import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize

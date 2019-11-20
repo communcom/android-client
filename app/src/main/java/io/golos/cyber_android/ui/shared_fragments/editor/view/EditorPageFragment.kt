@@ -34,8 +34,8 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view.post_to_editor_loa
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.utils.PostConstants
-import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.utils.PostConstants
+import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.data.errors.AppError
 import io.golos.domain.use_cases.model.*
@@ -123,7 +123,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
 
         leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-        leaderName.filters = arrayOf(InputFilter.LengthFilter(PostConstants.MAX_POST_TITLE_LENGTH))
+        leaderName.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
     }

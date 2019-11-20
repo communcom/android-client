@@ -19,7 +19,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.edit_profile_avatar_fragment.*

@@ -22,7 +22,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.common.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpScreenFragmentBase
-import io.golos.cyber_android.ui.common.utils.ViewUtils
+import io.golos.cyber_android.ui.utils.ViewUtils
 import io.golos.domain.dto.CountryEntity
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.requestmodel.QueryResult

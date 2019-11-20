@@ -10,7 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.LoadingViewHolder
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsAdapter.NotificationViewHolder
-import io.golos.cyber_android.utils.DateUtils
+import io.golos.cyber_android.ui.utils.DateUtils
 import io.golos.domain.use_cases.model.ElapsedTime
 import io.golos.domain.requestmodel.*
 import kotlinx.android.synthetic.main.item_notification.view.*
