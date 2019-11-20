@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
@@ -8,31 +8,31 @@
     android:paddingTop="@dimen/bottom_sheet_dialog_padding_top"
     android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
 
-    <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeaderView
-        android:id="@+id/postMenuHeader"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/post_viewer_header_height"/>
+        android:layout_height="wrap_content">
 
+        <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeaderView
+            android:id="@+id/postMenuHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/post_viewer_header_height" />
+
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_grey"
+            android:layout_gravity="center_vertical|end"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-<!--    <androidx.appcompat.widget.AppCompatTextView-->
-<!--        android:id="@+id/edit"-->
-<!--        style="@style/BottomSheetMenuItem"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/edit_post"-->
-<!--        app:drawableEndCompat="@drawable/ic_edit" />-->
-
-<!--    <androidx.appcompat.widget.AppCompatTextView-->
-<!--        android:id="@+id/delete"-->
-<!--        style="@style/BottomSheetMenuItem.Dangerous"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/delete_post"-->
-<!--        app:drawableEndCompat="@drawable/ic_delete" />-->
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

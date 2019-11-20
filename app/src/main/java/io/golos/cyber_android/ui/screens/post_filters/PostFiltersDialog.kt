@@ -16,7 +16,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.dialog_post_filters.*
 
-class PostFiltersBottomSheetDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersViewModel>() {
+class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersViewModel>() {
 
     override fun provideViewModelType(): Class<PostFiltersViewModel> = PostFiltersViewModel::class.java
 

@@ -135,6 +135,8 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
                 else generateNotMyPostMenu(menu)
             adapter.update(listOfItems)
         }
+
+        ivClose.setOnClickListener { dismiss() }
 //        val isMyPost = arguments?.getBoolean(IS_MY_POST)
 //        val type = PostType.create(arguments!!.getInt(TYPE))
 //        val postFormat = arguments!!.getParcelable<PostFormatVersion>(FORMAT_VERSION)!!

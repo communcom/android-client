@@ -190,7 +190,8 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _loadUserErrorVisibility.value = false
                 _loadUserProgressVisibility.value = true
-                val userProfile = model.getLocalUser().mapToUser()
+                /*val userProfile = model.getLocalUser().mapToUser()*/
+                val userProfile = User("1", "sdsds", "")
                 _user.value = userProfile
                 val feedFilters = model.feedFiltersFlow.first()
                 val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()

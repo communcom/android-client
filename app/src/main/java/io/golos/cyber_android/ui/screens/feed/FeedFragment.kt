@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowPostFiltersComman
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.utils.TabLayoutMediator
 import io.golos.cyber_android.ui.screens.my_feed.view.MyFeedFragment
-import io.golos.cyber_android.ui.screens.post_filters.PostFiltersBottomSheetDialog
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -138,9 +138,9 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         if (command is ShowPostFiltersCommand) {
-            val tag = PostFiltersBottomSheetDialog::class.java.name
+            val tag = PostFiltersDialog::class.java.name
             if (childFragmentManager.findFragmentByTag(tag) == null) {
-                val postFiltersBottomSheetDialog = PostFiltersBottomSheetDialog()
+                val postFiltersBottomSheetDialog = PostFiltersDialog()
                 postFiltersBottomSheetDialog.show(childFragmentManager, tag)
             }
         }
