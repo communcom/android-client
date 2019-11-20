@@ -18,7 +18,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.NavigationArgs
 import io.golos.cyber_android.ui.common.base.FragmentBase
-import io.golos.cyber_android.ui.common.utils.ViewUtils
+import io.golos.cyber_android.ui.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import java.text.MessageFormat
 import java.util.concurrent.TimeUnit

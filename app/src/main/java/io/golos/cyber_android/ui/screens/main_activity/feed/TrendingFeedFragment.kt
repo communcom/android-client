@@ -26,7 +26,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.common.utils.TopDividerItemDecoration
+import io.golos.cyber_android.ui.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget

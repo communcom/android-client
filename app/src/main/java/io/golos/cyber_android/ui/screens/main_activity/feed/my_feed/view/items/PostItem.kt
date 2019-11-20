@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
-import io.golos.cyber_android.utils.positiveValue
+import io.golos.utils.positiveValue
 import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*

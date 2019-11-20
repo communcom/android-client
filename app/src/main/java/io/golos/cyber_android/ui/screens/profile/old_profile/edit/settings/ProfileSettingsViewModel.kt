@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.langu
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.notifications.NotificationSetting
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.notifications.toSettingsEntity
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.notifications.toSettingsList
-import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade

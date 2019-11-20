@@ -25,7 +25,9 @@ import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
-import io.golos.cyber_android.utils.*
+import io.golos.cyber_android.ui.utils.*
+import io.golos.cyber_android.ui.utils.toMMMM_DD_YYYY_Format
+import io.golos.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
@@ -188,13 +190,13 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
         fragmentPagesList.add(FollowersFragment.newInstance())
-        fragmentPagesList.add(LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)))
+        fragmentPagesList.add(LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)))
         fragmentPagesList.add(CommunityPageAboutFragment.newInstance(communityPage.description))
         fragmentPagesList.add(CommunityPageRulesFragment.newInstance(communityPage.rules))
         return fragmentPagesList
     }
 
-    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)
+    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)
 
     companion object {
 

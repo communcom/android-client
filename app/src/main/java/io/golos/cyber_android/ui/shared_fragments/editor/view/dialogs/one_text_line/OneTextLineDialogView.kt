@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.utils.TextWatcherBase
+import io.golos.cyber_android.ui.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.dailog_one_text_line.view.*
 
 class OneTextLineDialogView

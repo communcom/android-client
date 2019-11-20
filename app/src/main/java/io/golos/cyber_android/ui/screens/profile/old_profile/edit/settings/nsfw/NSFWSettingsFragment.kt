@@ -16,7 +16,7 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.settings.ProfileSettingsViewModel
-import io.golos.cyber_android.utils.asEvent
+import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.data.errors.AppError
 import io.golos.domain.dto.NSFWSettingsEntity
 import io.golos.domain.requestmodel.QueryResult

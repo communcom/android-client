@@ -28,10 +28,11 @@ android {
 }
 
 dependencies {
+    implementation project(':utils')
+
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation("com.squareup.moshi:moshi:$moshiVersion")
 
     implementation("io.golos.commun4j:commun4j:$commun4jVersion")
@@ -47,7 +48,6 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation("com.squareup.moshi:moshi:$moshiVersion")
 
 }

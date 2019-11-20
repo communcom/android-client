@@ -11,10 +11,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.AbstractDiscussionModelAdapter
-import io.golos.cyber_android.utils.DateUtils
-import io.golos.cyber_android.ui.common.utils.CustomLinkMovementMethod
-import io.golos.cyber_android.ui.common.utils.colorizeLinks
-import io.golos.cyber_android.ui.common.utils.colorizeUsernames
+import io.golos.cyber_android.ui.utils.CustomLinkMovementMethod
+import io.golos.cyber_android.ui.utils.DateUtils
+import io.golos.cyber_android.ui.utils.colorizeLinks
+import io.golos.cyber_android.ui.utils.colorizeUsernames
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.ContentBodyModel
@@ -57,13 +57,21 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
     inner class CommentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
-            view.commentContent.movementMethod = CustomLinkMovementMethod(object : CustomLinkMovementMethod.Listener {
+            view.commentContent.movementMethod = CustomLinkMovementMethod(object :
+                CustomLinkMovementMethod.Listener {
 
-                override fun onLinkClick(url: String, type: CustomLinkMovementMethod.LinkType): Boolean {
+                override fun onLinkClick(
+                    url: String,
+                    type: CustomLinkMovementMethod.LinkType
+                ): Boolean {
                     when (type) {
                         CustomLinkMovementMethod.LinkType.IMAGE -> listener.onImageLinkClick(url)
                         //username contains @, we need to trim it first
-                        CustomLinkMovementMethod.LinkType.USERNAME -> listener.onUsernameClick(url.substring(1))
+                        CustomLinkMovementMethod.LinkType.USERNAME -> listener.onUsernameClick(
+                            url.substring(
+                                1
+                            )
+                        )
                         CustomLinkMovementMethod.LinkType.WEB -> listener.onWebLinkClick(url)
                     }
                     return true

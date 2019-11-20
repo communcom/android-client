@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
-import io.golos.cyber_android.utils.SPACE
+import io.golos.utils.SPACE
 import kotlinx.android.synthetic.main.item_followers.view.*
 
 class FollowersAdapter : PaginalAdapter<Follower>() {
@@ -86,7 +86,7 @@ class FollowersAdapter : PaginalAdapter<Follower>() {
         }
 
         private fun setFollowerName(firstName: String, lastName: String) {
-            itemView.tvName.text = firstName.plus(SPACE).plus(lastName)
+            itemView.tvName.text = firstName.plus(io.golos.utils.SPACE).plus(lastName)
         }
 
         private fun setLogo(logo: String?) {
