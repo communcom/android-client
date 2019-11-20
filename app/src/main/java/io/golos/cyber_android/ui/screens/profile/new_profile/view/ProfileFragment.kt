@@ -11,10 +11,12 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
+import io.golos.cyber_android.ui.common.extensions.loadCover
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
+import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 
 class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
@@ -39,10 +41,16 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        with(viewModel) {
-//            items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
-//        }
-
+        with(viewModel) {
+            communitiesVisibility.observe({viewLifecycleOwner.lifecycle}) {
+                if(it == View.VISIBLE) {
+                    fragmentManager
+                        ?.beginTransaction()
+                        ?.add(R.id.communitiesContainer, ProfileCommunitiesFragment.newInstance())
+                        ?.commit();
+                }
+            }
+        }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -50,7 +58,6 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         super.onViewCreated(view, savedInstanceState)
 
         initPages()
-//        initViewPager()
 //        viewModel.onViewCreated()
     }
 

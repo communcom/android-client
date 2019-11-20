@@ -56,7 +56,7 @@ class PostItem(
         setUpFeedContent(view, post.body)
         setPostHeader(view, post)
         setVotesCounter(view, post.votes)
-        KiloCounterFormatter().format(post.stats?.commentsCount.positiveValue().toLong())
+        KiloCounterFormatter.format(post.stats?.commentsCount.positiveValue().toLong())
         setCommentsCounter(view, post.stats?.commentsCount ?: 0)
     }
 

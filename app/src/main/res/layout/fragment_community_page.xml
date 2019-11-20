@@ -82,6 +82,9 @@
                             app:layout_constraintStart_toEndOf="@+id/ivCommunityLogo"
                             app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
                             app:layout_constraintVertical_chainStyle="packed"
+
+                            style="@style/Profile.Community.Name"
+
                             tools:text="Binance" />
 
                         <TextView

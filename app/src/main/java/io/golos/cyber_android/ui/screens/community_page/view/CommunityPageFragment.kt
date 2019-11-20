@@ -108,18 +108,18 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             appbar.visibility = View.VISIBLE
             vpContent.visibility = View.VISIBLE
             val leadsCount = it.leadsCount
-            tvLeadsCount.text = KiloCounterFormatter().format(leadsCount)
+            tvLeadsCount.text = KiloCounterFormatter.format(leadsCount)
             val membersCount = it.membersCount
-            tvMemberCount.text = KiloCounterFormatter().format(membersCount)
+            tvMemberCount.text = KiloCounterFormatter.format(membersCount)
             val friendsCount = it.friendsCount
-            tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter().format(friendsCount))
+            tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter.format(friendsCount))
             val communityCurrency = it.communityCurrency
             tvCurrentCurrency.text = communityCurrency.currencyName
             tvCurrentCommunRate.text = communityCurrency.exchangeRate.toString()
             tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, membersCount.toPluralInt())
             tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, leadsCount.toPluralInt())
             tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, friendsCount.toPluralInt())
-            tvJoinTime.text = "${resources.getString(R.string.created)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
+            tvJoinTime.text = "${resources.getString(R.string.joined)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
             ivNotificationCommunityControl.setOnClickListener {
                 viewModel.onNotificationCommunityControlClicked()

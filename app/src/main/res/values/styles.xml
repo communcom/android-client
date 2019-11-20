@@ -451,6 +451,12 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="Profile.Community.Description" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">4</item>
+    </style>
+
     <style name="CommunityJoinButton" parent="BaseButton">
         <item name="android:background">@drawable/bg_join_button_community</item>
         <item name="android:textSize">@dimen/text_size_15_sp</item>
@@ -554,5 +560,12 @@
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Profile.Community.Name" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="fontFamily">@font/roboto_bold</item>
     </style>
 </resources>

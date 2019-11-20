@@ -229,7 +229,7 @@
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
     <string name="sent_points">Sent points</string>
-    <string name="add_bio">Add bio</string>
+    <string name="add_bio">Add Bio</string>
     <string name="post">Post</string>
     <string name="bio_length_format">%1$s/%2$s</string>
     <string name="drag_photo">Drag to move cover photo</string>
@@ -402,6 +402,6 @@
         <item>Comments</item>
     </string-array>
 
-    <string name="created">Created</string>
+    <string name="joined">Joined</string>
     <string name="vote">Vote</string>
 </resources>

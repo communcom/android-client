@@ -17,7 +17,7 @@ import java.security.MessageDigest
 /**
  * A [BitmapTransformation] which puts a round image inside a frame with persentage color indicator
  */
-class PercentageRoundFrameTransform(
+class PercentageRoundFrameTransformation(
     private val context: Context,           // Application context
     private val innerImageSize: Float,      // [0:1]
     private val percentage: Float,          // [0:1]
@@ -27,7 +27,7 @@ class PercentageRoundFrameTransform(
     private val frameTemplate: Int
 ) : BitmapTransformation() {
     companion object {
-        private const val ID = "com.example.vectorframe.glide.PercentageRoundFrameTransform"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.PercentageRoundFrameTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 
@@ -38,8 +38,8 @@ class PercentageRoundFrameTransform(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun equals(o: Any?): Boolean {
-        if (o is PercentageRoundFrameTransform) {
-            val other = o as PercentageRoundFrameTransform?
+        if (o is PercentageRoundFrameTransformation) {
+            val other = o as PercentageRoundFrameTransformation?
 
             return innerImageSize == other!!.innerImageSize &&
                     percentage == other.percentage &&
