@@ -19,9 +19,10 @@ interface EmbedWebsiteWidgetListener: BasePostBlockWidgetListener, LinkListener
 interface ParagraphWidgetListener: BasePostBlockWidgetListener, LinkListener{
 
     fun onUserClicked(userId: String)
+}
 
+interface MenuListener {
     fun onMenuClicked(postMenu: PostMenu)
-
 }
 
 interface LinkListener{

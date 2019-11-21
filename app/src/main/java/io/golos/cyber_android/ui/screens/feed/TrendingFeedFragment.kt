@@ -17,26 +17,26 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
-import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.feed.community.CommunityFeedViewModel
-import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.common.widgets.EditorWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
 import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
+import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
+import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.feed.community.CommunityFeedViewModel
+import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
+import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
+import io.golos.cyber_android.ui.utils.TopDividerItemDecoration
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.PostEntity
-import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.synthetic.main.fragment_feed_list.*
 import javax.inject.Inject
 
@@ -109,7 +109,7 @@ class TrendingFeedFragment :
                     startActivity(
                         PostActivity.getIntent(
                             requireContext(),
-                            PostPageFragment.Args(post.contentId, true)
+                            PostPageFragment.Args(post.contentId, scrollToComments = true)
                         )
                     )
                 }

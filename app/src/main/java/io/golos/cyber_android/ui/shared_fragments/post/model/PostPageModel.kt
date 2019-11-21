@@ -5,10 +5,12 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
+import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
+import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 
-interface PostPageModel : ModelBase {
+interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
     val postId: DiscussionIdModel
 
     val postMetadata: PostMetadata
@@ -22,6 +24,10 @@ interface PostPageModel : ModelBase {
     fun getPostHeader(): PostHeader
 
     suspend fun getUserId(userName: String): String
+
+    suspend fun addToFavorite(permlink: String)
+
+    suspend fun removeFromFavorite(permlink: String)
 
     suspend fun deletePost()
 

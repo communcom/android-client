@@ -37,7 +37,7 @@ constructor(
 
     private var editedCommentId: DiscussionIdModel? = null
     private var repliedCommentId: DiscussionIdModel? = null
-    
+
     val commentsPageSize: Int
         get() = model.commentsPageSize
 
@@ -64,11 +64,12 @@ constructor(
     private val _commentEditFieldVisibility = MutableLiveData<Int>(View.GONE)
     val commentEditFieldVisibility = _commentEditFieldVisibility as LiveData<Int>
 
-    private val _commentEditFieldSettings = MutableLiveData<EditReplyCommentSettings>(EditReplyCommentSettings(listOf(), listOf(), true))
+    private val _commentEditFieldSettings =
+        MutableLiveData<EditReplyCommentSettings>(EditReplyCommentSettings(listOf(), listOf(), true))
     val commentEditFieldSettings = _commentEditFieldSettings as LiveData<EditReplyCommentSettings>
 
     fun setup() {
-        if(wasMovedToChild) {
+        if (wasMovedToChild) {
             wasMovedToChild = false
             return
         }
@@ -128,29 +129,70 @@ constructor(
 
     override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
 
-    override fun onMenuClicked(postMenu: PostMenu) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     fun onUserInHeaderClick(userId: String) {
         wasMovedToChild = true
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
     fun onPostMenuClick() {
-        val metadata = model.postMetadata
-        _command.value = ShowPostMenuViewCommand(
-            currentUserRepository.userId == postToProcess.userId,
-            metadata.version,
-            metadata.type)
+        //if we can use postMenu, use postMenu
+        val postHeader: PostHeader = model.getPostHeader()
+        val postMenu = PostMenu(
+            communityId = "",
+            communityName = postHeader.communityName,
+            communityAvatarUrl = postHeader.communityAvatarUrl,
+            creationTime = postHeader.actionDateTime,
+            authorUsername = postHeader.userName,
+            authorUserId = postHeader.userId,
+            shareUrl = null,
+            isMyPost = currentUserRepository.userId == postToProcess.userId,
+            isSubscribed = false,
+            permlink = model.postId.permlink.value
+        )
+
+        _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
 
     override fun onCommentsTitleMenuClick() {
         _command.value = ShowCommentsSortingMenuViewCommand()
     }
 
+    fun addToFavorite(permlink: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.addToFavorite(permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun removeFromFavorite(permlink: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.removeFromFavorite(permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun onShareClicked(shareUrl: String) {
+        _command.value = SharePostCommand(shareUrl)
+    }
+
     fun editPost() {
         _command.value = StartEditPostViewCommand(model.postId)
+    }
+
+    fun reportPost(permlink: String) {
+        _command.value = ReportPostCommand()
     }
 
     fun deletePost() {
@@ -179,6 +221,34 @@ constructor(
         }
     }
 
+    fun subscribeToCommunity(communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.subscribeToCommunity(communityId)
+                //todo update data
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun unsubscribeToCommunity(communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.unsubscribeToCommunity(communityId)
+                //todo update data
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
     override fun onNextCommentsPageReached() = processSimple { model.loadNextFirstLevelCommentsPage() }
 
     override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryLoadingFirstLevelCommentsPage() }
@@ -203,7 +273,7 @@ constructor(
                 _commentFieldEnabled.value = false
                 model.sendComment(commentText)
                 _command.value = ClearCommentTextViewCommand()
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentFieldEnabled.value = true
@@ -221,7 +291,7 @@ constructor(
         editedCommentId = commentId
     }
 
-    override fun startReplyToComment(commentToReplyId: DiscussionIdModel)  = startReplyOrEditComment {
+    override fun startReplyToComment(commentToReplyId: DiscussionIdModel) = startReplyOrEditComment {
         _commentEditFieldSettings.value = EditReplyCommentSettings(model.getCommentText(commentToReplyId), listOf(), false)
         repliedCommentId = commentToReplyId
     }
@@ -281,7 +351,7 @@ constructor(
                 _commentEditFieldEnabled.value = false
                 commentAction()
                 cancelReplyOrEditComment()
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true

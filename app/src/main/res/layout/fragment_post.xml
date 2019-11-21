@@ -5,32 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel" />
     </data>
 
     <LinearLayout
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.shared_fragments.post.view.PostActivity">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.shared_fragments.post.view.PostActivity">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
             <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/actionBar"
-                    android:background="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    app:liftOnScroll="true"
+                android:id="@+id/actionBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:stateListAnimator="@animator/appbar_elevation"
 
-                    android:stateListAnimator="@animator/appbar_elevation"
+                android:theme="@style/AppTheme.AppBarOverlay"
 
-                    android:theme="@style/AppTheme.AppBarOverlay">
+                app:liftOnScroll="true">
 
                 <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.PostPageHeaderView
                     android:id="@+id/postHeader"
@@ -38,19 +40,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_viewer_header_height"
 
-                    app:post = "@{viewModel.postHeader}"
-                />
+                    app:post="@{viewModel.postHeader}" />
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:id="@+id/postView"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:descendantFocusability="beforeDescendants"
-                    />
+                android:id="@+id/postView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:descendantFocusability="beforeDescendants"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
@@ -58,11 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            app:enabled="@{viewModel.commentFieldEnabled}"
-
             android:visibility="@{viewModel.commentFieldVisibility}"
-            tools:visibility="visible"
-        />
+
+            app:enabled="@{viewModel.commentFieldEnabled}"
+            tools:visibility="visible" />
 
         <io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
             android:id="@+id/postCommentEdit"
@@ -70,11 +69,10 @@
             android:layout_height="wrap_content"
 
             android:visibility="@{viewModel.commentEditFieldVisibility}"
-            tools:visibility="gone"
-
             app:enabled="@{viewModel.commentEditFieldEnabled}"
-            app:settings= "@{viewModel.commentEditFieldSettings}"
-        />
+
+            app:settings="@{viewModel.commentEditFieldSettings}"
+            tools:visibility="gone" />
 
     </LinearLayout>
 </layout>

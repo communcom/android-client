@@ -11,7 +11,8 @@ interface MyFeedListListener :
     ParagraphWidgetListener,
     PostCommentsListener,
     PostVotesListener,
-    PostShareListener
+    PostShareListener,
+    MenuListener
 
 interface PostCommentsListener {
 

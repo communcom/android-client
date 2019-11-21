@@ -11,10 +11,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
-import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
+import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
@@ -69,6 +69,22 @@ constructor(
             postModel.author.userId.userId == currentUserRepository.userId
         )
 
+    override suspend fun addToFavorite(permlink: String) {
+        delay(100)
+    }
+
+    override suspend fun removeFromFavorite(permlink: String) {
+        delay(100)
+    }
+
+    override suspend fun subscribeToCommunity(communityId: String) {
+        delay(100)
+    }
+
+    override suspend fun unsubscribeToCommunity(communityId: String) {
+        delay(100)
+    }
+
     override suspend fun getUserId(userName: String): String =
         withContext(dispatchersProvider.ioDispatcher) {
             authApi.get().getUserProfile(userName).userId.name
@@ -81,7 +97,8 @@ constructor(
         }
 
     override suspend fun voteForPost(isUpVote: Boolean) {
-        val newVotesModel = postVoting.get().processEvent(if(isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, postModel.votes)
+        val newVotesModel =
+            postVoting.get().processEvent(if (isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, postModel.votes)
         postModel = postModel.copy(votes = newVotesModel)
     }
 
