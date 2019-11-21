@@ -6,6 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -37,12 +40,55 @@ constructor(
     private val _addBioVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
     val addBioVisibility: LiveData<Int> get() = _addBioVisibility
 
-    private val _followersCount: MutableLiveData<Long> = MutableLiveData(111)
+    private val _followersCount: MutableLiveData<Long> = MutableLiveData(0)
     val followersCount: LiveData<Long> get() = _followersCount
 
-    private val _followingCount: MutableLiveData<Long> = MutableLiveData(55555)
-    val followingCount: LiveData<Long> get() = _followingCount
+    private val _followingsCount: MutableLiveData<Long> = MutableLiveData(0)
+    val followingsCount: LiveData<Long> get() = _followingsCount
 
     private val _communitiesVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
     val communitiesVisibility: LiveData<Int> get() = _communitiesVisibility
+
+    private val _pageContentVisibility: MutableLiveData<Int> = MutableLiveData(View.INVISIBLE)
+    val pageContentVisibility: LiveData<Int> get() = _pageContentVisibility
+
+    private val _retryButtonVisibility: MutableLiveData<Int> = MutableLiveData(View.INVISIBLE)
+    val retryButtonVisibility: LiveData<Int> get() = _retryButtonVisibility
+
+    private val _loadingProgressVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
+    val loadingProgressVisibility: LiveData<Int> get() = _loadingProgressVisibility
+
+    fun start() = loadPage()
+
+    fun onRetryClick() {
+        _retryButtonVisibility.value = View.INVISIBLE
+        _loadingProgressVisibility.value = View.VISIBLE
+        loadPage()
+    }
+
+    private fun loadPage() {
+        launch {
+            try {
+                with(model.loadProfileInfo()) {
+                    _coverUrl.value = coverUrl
+                    _avatarUrl.value = avatarUrl
+                    _name.value = name
+                    _joinDate.value = joinDate
+                    _bio.value = bio
+                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
+                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
+                    _followersCount.value = followersCount
+                    _followingsCount.value = followingsCount
+                }
+
+                _pageContentVisibility.value = View.VISIBLE
+
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _retryButtonVisibility.value = View.VISIBLE
+            } finally {
+                _loadingProgressVisibility.value = View.INVISIBLE
+            }
+        }
+    }
 }

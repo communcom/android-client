@@ -11,7 +11,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
-import io.golos.cyber_android.ui.common.extensions.loadCover
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
@@ -58,7 +57,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         super.onViewCreated(view, savedInstanceState)
 
         initPages()
-//        viewModel.onViewCreated()
+        viewModel.start()
     }
 
     override fun processViewCommand(command: ViewCommand) {

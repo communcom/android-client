@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:elevation="0dp">
+            app:elevation="0dp"
+            android:visibility="@{viewModel.pageContentVisibility}"
+            tools:visibility="visible">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -45,14 +47,14 @@
                     <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
                         android:id="@+id/backButton"
 
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/size_image_button"
+                        android:layout_height="@dimen/size_image_button"
 
                         android:layout_marginTop="@dimen/dimen_40"
                         android:layout_gravity="start|top"
 
                         app:imageButton_icon="@drawable/ic_back"
-                        app:imageButton_iconInscribeSize="16dp"
+                        app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
                         app:imageButton_tint="@color/white"
                         android:background="@null"
                     />
@@ -60,32 +62,30 @@
                     <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
                         android:id="@+id/menuButton"
 
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/size_image_button"
+                        android:layout_height="@dimen/size_image_button"
 
                         android:layout_marginTop="@dimen/dimen_40"
                         android:layout_gravity="end|top"
 
                         app:imageButton_icon="@drawable/ic_profile_menu"
-                        app:imageButton_iconInscribeSize="16dp"
+                        app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
                         app:imageButton_tint="@color/white"
                         android:background="@null"
                     />
 
                     <ImageView
                         android:id="@+id/updateCoverButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/size_image_button"
+                        android:layout_height="@dimen/size_image_button"
 
                         android:layout_gravity="top|end"
-                        android:layout_marginTop="110dp"
-
-
-                        android:layout_marginEnd="7dp"
+                        android:layout_marginTop="@dimen/profile_update_cover_button_margin_top"
+                        android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
 
                         android:background="@drawable/bcg_profile_cover_button"
 
-                        android:padding="13dp"
+                        android:padding="@dimen/profile_update_cover_button_padding"
                         android:src="@drawable/ic_editor_widget_camera"
 
                         android:tint="@color/white"
@@ -114,15 +114,14 @@
 
                         <ImageView
                             android:id="@+id/updatePhotoButton"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="@dimen/size_image_button"
+                            android:layout_height="@dimen/size_image_button"
 
-                            android:layout_marginStart="20dp"
-
-                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="@dimen/profile_update_photo_button_margin"
+                            android:layout_marginTop="@dimen/profile_update_photo_button_margin"
 
                             android:background="@drawable/bcg_profile_photo_button"
-                            android:padding="14dp"
+                            android:padding="@dimen/profile_update_photo_button_padding"
 
                             android:src="@drawable/ic_editor_widget_camera"
 
@@ -140,8 +139,7 @@
                             android:layout_height="wrap_content"
 
                             android:layout_marginStart="@dimen/margin_small"
-
-                            android:layout_marginEnd="15dp"
+                            android:layout_marginEnd="@dimen/margin_default"
 
                             android:text="@{viewModel.name}"
                             app:layout_constraintBottom_toTopOf="@+id/joinTime"
@@ -226,7 +224,7 @@
                                 style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="match_parent"
 
-                                android:layout_height="35dp"
+                                android:layout_height="@dimen/profile_add_bio_button_height"
                                 android:background="@drawable/bcg_edit_bio_button"
 
                                 android:text="@string/add_bio"
@@ -299,7 +297,7 @@
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_16_sp"
-                                app:kilo="@{viewModel.followingCount}"
+                                app:kilo="@{viewModel.followingsCount}"
                                 app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                 app:layout_constraintStart_toEndOf="@+id/point"
                                 app:layout_constraintTop_toTopOf="@+id/followersCount"
@@ -322,7 +320,7 @@
                         <!--Communities-->
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/profile_communities_height"
 
                             app:layout_constraintTop_toBottomOf="@+id/followersContainer"
                             app:layout_constraintStart_toStartOf="parent"
@@ -365,6 +363,39 @@
             android:id="@+id/vpContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+            android:visibility="@{viewModel.pageContentVisibility}"
+            tools:visibility="visible"
+            />
+
+        <include
+            android:id="@+id/emptyPostProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+
+            android:visibility="@{viewModel.loadingProgressVisibility}"
+            tools:visibility="visible"/>
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:text="@string/retry"
+
+            android:onClick="@{() -> viewModel.onRetryClick()}"
+
+            android:visibility="@{viewModel.retryButtonVisibility}"
+            tools:visibility="visible"
+
+            android:layout_gravity="center"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

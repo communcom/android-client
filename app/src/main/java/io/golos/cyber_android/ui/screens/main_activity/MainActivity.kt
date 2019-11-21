@@ -18,11 +18,9 @@ import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
+import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
-import io.golos.cyber_android.ui.screens.profile.old_profile.OldProfileFragment
-import io.golos.cyber_android.ui.utils.asEvent
-import io.golos.cyber_android.ui.utils.setStatusBarColor
-import io.golos.cyber_android.ui.utils.tintStatusBarIcons
+import io.golos.cyber_android.ui.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 import javax.inject.Inject
@@ -113,16 +111,17 @@ class MainActivity : ActivityBase() {
                 super.onPageSelected(position)
                 when(position) {
                     Tab.FEED.index -> {
+                        clearFullScreenMode()
                         setStatusBarColor(R.color.feed_status_bar_color)
                         tintStatusBarIcons(true)
                     }
                     Tab.COMMUNITIES.index -> {
+                        clearFullScreenMode()
                         setStatusBarColor(R.color.window_status_bar_background)
                         tintStatusBarIcons(true)
                     }
-                    else -> {
-                        setStatusBarColor(R.color.window_status_bar_background)
-                        tintStatusBarIcons(false)
+                    Tab.PROFILE.index -> {
+                        setFullScreenMode()
                     }
                 }
             }

@@ -1,6 +1,8 @@
 package io.golos.domain.use_cases.user
 
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dto.FollowerDomain
+import io.golos.domain.dto.UserProfileDomain
 
 interface UsersRepository {
 
@@ -22,4 +24,6 @@ interface UsersRepository {
      * @param userId user id
      */
     suspend fun unsubscribeToFollower(userId: String)
+
+    suspend fun getUserProfile(user: CyberName): UserProfileDomain
 }
