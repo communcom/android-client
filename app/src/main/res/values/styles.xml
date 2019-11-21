@@ -27,8 +27,13 @@
     </style>
 
     <!--Bottom sheet dialog-->
-    <style name="BottomSheetMenuItem" parent="Common.Base.TextStyle">
+    <style name="BottomSheetMenuTitle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BottomSheetMenuItem" parent="BottomSheetMenuTitle">
+        <item name="android:textStyle">normal</item>
 
         <item name="android:background">@drawable/bcg_bottom_sheet_dialog_round_corners_button</item>
 

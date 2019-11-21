@@ -415,6 +415,8 @@
     <dimen name="tab_line_height">2dp</dimen>
     <!--Bottom sheet dialog-->
     <dimen name="bottom_sheet_dialog_padding_top">5dp</dimen>
+    <dimen name="bottom_sheet_dialog_padding_header_top">16dp</dimen>
+    <dimen name="bottom_sheet_dialog_padding_header_bottom">10dp</dimen>
     <dimen name="bottom_sheet_dialog_padding_bottom">15dp</dimen>
     <dimen name="bottom_sheet_dialog_item_margin_horizontal">15dp</dimen>
     <dimen name="bottom_sheet_dialog_item_margin_vertical">10dp</dimen>

@@ -88,6 +88,8 @@
                         android:padding="@dimen/profile_update_cover_button_padding"
                         android:src="@drawable/ic_editor_widget_camera"
 
+                        android:onClick="@{() -> viewModel.onUpdateCoverClick()}"
+
                         android:tint="@color/white"
                         tools:ignore="ContentDescription" />
 
@@ -124,6 +126,8 @@
                             android:padding="@dimen/profile_update_photo_button_padding"
 
                             android:src="@drawable/ic_editor_widget_camera"
+
+                            android:onClick="@{() -> viewModel.onUpdateAvatarClick()}"
 
                             android:tint="@color/grey"
                             app:layout_constraintStart_toStartOf="@+id/userAvatar"

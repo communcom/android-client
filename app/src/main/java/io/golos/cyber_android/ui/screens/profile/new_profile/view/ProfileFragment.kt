@@ -14,6 +14,9 @@ import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
+import io.golos.cyber_android.ui.dialogs.ProfilePhotoMenuDialog
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectAvatarDialogCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectCoverDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
@@ -61,13 +64,16 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     }
 
     override fun processViewCommand(command: ViewCommand) {
-        super.processViewCommand(command)
-//        if(command is NavigateToCommunityPageCommand){
-//            val requireActivity = requireActivity()
-//            if(requireActivity is MainActivity){
-//                requireActivity.showFragment(CommunityPageFragment.newInstance(command.communityId))
-//            }
-//        }
+        when(command) {
+            is ShowSelectCoverDialogCommand -> {
+                ProfilePhotoMenuDialog.newInstance(ProfilePhotoMenuDialog.Type.COVER, this@ProfileFragment)
+                    .show(requireFragmentManager(), "menu")
+            }
+            is ShowSelectAvatarDialogCommand -> {
+                ProfilePhotoMenuDialog.newInstance(ProfilePhotoMenuDialog.Type.AVATAR, this@ProfileFragment)
+                    .show(requireFragmentManager(), "menu")
+            }
+        }
     }
 
     private fun getUser() = (arguments?.getString(Tags.USER_ID) ?: "").toCyberName()

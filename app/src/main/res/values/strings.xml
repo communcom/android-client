@@ -238,6 +238,8 @@
     <string name="no_posts">No posts</string>
     <string name="you_have_not_made_any_posts">You have not made any post</string>
     <string name="user_not_found_message">404 not found</string>
+    <string name="change_profile_photo">Change profile photo</string>
+    <string name="change_profile_cover">Change profile cover</string>
 
     <!--Notifications-->
     <string name="event_time_and_actor_format">%1$s in %2$s</string>

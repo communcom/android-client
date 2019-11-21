@@ -4,9 +4,10 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectAvatarDialogCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectCoverDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -65,6 +66,15 @@ constructor(
         _loadingProgressVisibility.value = View.VISIBLE
         loadPage()
     }
+
+    fun onUpdateAvatarClick() {
+        _command.value = ShowSelectAvatarDialogCommand()
+    }
+
+    fun onUpdateCoverClick() {
+        _command.value = ShowSelectCoverDialogCommand()
+    }
+
 
     private fun loadPage() {
         launch {

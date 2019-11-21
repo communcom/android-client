@@ -39,10 +39,6 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserProfile(user: CyberName): UserProfileDomain {
-        if(Random.nextBoolean()) {
-            throw Exception()
-        }
-        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
-    }
+    override suspend fun getUserProfile(user: CyberName): UserProfileDomain =
+        apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
 }

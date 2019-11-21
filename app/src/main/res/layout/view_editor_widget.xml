@@ -48,6 +48,8 @@
         android:layout_height="match_parent"
         android:paddingStart="@dimen/padding_horizontal_editor_widget"
         android:paddingEnd="@dimen/padding_horizontal_editor_widget"
-        app:srcCompat="@drawable/ic_photo" />
+        app:srcCompat="@drawable/ic_photo"
+        app:tint="@color/grey"
+        />
 
 </LinearLayout>
