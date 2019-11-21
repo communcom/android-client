@@ -107,7 +107,7 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.addToFavorite(permlink)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -120,7 +120,7 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.removeFromFavorite(permlink)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -142,7 +142,7 @@ class MyFeedViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.deletePost(permlink)
                 _postsListState.value = deletePostInState(_postsListState.value, permlink)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -156,7 +156,7 @@ class MyFeedViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.subscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -170,7 +170,7 @@ class MyFeedViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.unsubscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -185,7 +185,11 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    private fun changeCommunitySubscriptionStatusInState(state: Paginator.State?, communityId: String, isSubscribed: Boolean): Paginator.State?{
+    private fun changeCommunitySubscriptionStatusInState(
+        state: Paginator.State?,
+        communityId: String,
+        isSubscribed: Boolean
+    ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
                 val post = (state as? List<Post>)?.find { it.community.communityId == communityId }
@@ -209,7 +213,7 @@ class MyFeedViewModel @Inject constructor(
         return state
     }
 
-    private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State?{
+    private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
                 val postsList = state as? MutableList<Post>
@@ -238,20 +242,27 @@ class MyFeedViewModel @Inject constructor(
     }
 
     private fun getPostFromPostsListState(permlink: String): Post? {
-        when (postsListState) {
+        when (postsListState.value) {
             is Paginator.State.Data<*> -> {
-                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
+                return ((postsListState.value as Paginator.State.Data<*>).data as List<Post>).find { post ->
+                    post.contentId.permlink == permlink
+                }
             }
             is Paginator.State.Refresh<*> -> {
-                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
-
+                return ((postsListState.value as Paginator.State.Refresh<*>).data as List<Post>).find { post ->
+                    post.contentId.permlink == permlink
+                }
             }
             is Paginator.State.NewPageProgress<*> -> {
-                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
-
+                return ((postsListState.value as Paginator.State.NewPageProgress<*>).data as List<Post>)
+                    .find { post ->
+                        post.contentId.permlink == permlink
+                    }
             }
             is Paginator.State.FullData<*> -> {
-                return (postsListState.data as List<Post>).find { it.contentId.permlink == permlink }
+                return ((postsListState.value as Paginator.State.FullData<*>).data as List<Post>).find { post ->
+                    post.contentId.permlink == permlink
+                }
             }
         }
         return null

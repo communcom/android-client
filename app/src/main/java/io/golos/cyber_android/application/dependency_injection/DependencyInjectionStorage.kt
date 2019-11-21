@@ -48,6 +48,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.use_cases.model.CommunityModel
@@ -104,7 +105,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
             EditorPageFragmentComponent::class ->
                 get<UIComponent>()
                     .editorPageFragment
-                    .init(EditorPageFragmentModule(args[0] as CommunityModel?, args[1] as DiscussionIdModel?))
+                    .init(
+                        EditorPageFragmentModule(
+                            args[0] as CommunityModel?,
+                            args[1] as DiscussionIdModel?,
+                            args[2] as Post.ContentId?
+                        )
+                    )
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()

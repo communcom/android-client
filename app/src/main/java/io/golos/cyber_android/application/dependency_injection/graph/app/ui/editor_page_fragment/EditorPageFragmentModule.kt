@@ -5,29 +5,41 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
-import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.Repository
-import io.golos.domain.dto.*
-import io.golos.domain.use_cases.UseCase
-import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
-import io.golos.domain.use_cases.model.*
-import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
-import io.golos.domain.use_cases.publish.EmbedsUseCase
+import io.golos.domain.dto.CommentEntity
+import io.golos.domain.dto.PostEntity
+import io.golos.domain.dto.VoteRequestEntity
 import io.golos.domain.mappers.CommentsFeedEntityToModelMapper
+import io.golos.domain.mappers.PostEntitiesToModelMapper
+import io.golos.domain.repositories.DiscussionsFeedRepository
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
-import io.golos.domain.mappers.PostEntitiesToModelMapper
+import io.golos.domain.use_cases.UseCase
+import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
+import io.golos.domain.use_cases.model.CommunityModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.UploadedImagesModel
+import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
+import io.golos.domain.use_cases.publish.EmbedsUseCase
 
 @Module
-class EditorPageFragmentModule(private val community: CommunityModel?, private val postToEdit: DiscussionIdModel?) {
+class EditorPageFragmentModule(
+    private val community: CommunityModel?,
+    private val postToEdit: DiscussionIdModel?,
+    private val contentId: Post.ContentId?
+) {
     @Provides
     internal fun provideCommunity(): CommunityModel? = community
 
     @Provides
     internal fun providePostToEdit(): DiscussionIdModel? = postToEdit
+
+    @Provides
+    internal fun provideContentId(): Post.ContentId? = contentId
 
     @Provides
     @IntoMap
@@ -37,6 +49,7 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
         postToEdit: DiscussionIdModel?,
+        contentId: Post.ContentId?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
@@ -53,9 +66,9 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
                 commentsRepository,
                 voteRepository,
                 commentFeeEntityToModelMapper,
-                dispatchersProvider)
-        }
-        else {
+                dispatchersProvider
+            )
+        } else {
             null
         }
 
@@ -66,6 +79,7 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
             imageUploadUseCase,
             postToEdit,
             postUseCase,
+            contentId,
             model
         )
     }
@@ -78,7 +92,7 @@ class EditorPageFragmentModule(private val community: CommunityModel?, private v
         voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
         commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
         dispatchersProvider: DispatchersProvider
-    ) : PostWithCommentUseCaseImpl =
+    ): PostWithCommentUseCaseImpl =
         PostWithCommentUseCaseImpl(
             postId!!,
             postFeedRepository,

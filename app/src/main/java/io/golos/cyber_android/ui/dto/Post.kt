@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.dto
 
+import android.os.Parcelable
 import io.golos.domain.use_cases.post.post_dto.PostBlock
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 data class Post(
@@ -39,11 +41,12 @@ data class Post(
         val commentsCount: Int
     )
 
+    @Parcelize
     data class ContentId(
         val communityId: String,
         val permlink: String,
         val userId: String
-    )
+    ): Parcelable
 
     data class Author(
         val avatarUrl: String?,

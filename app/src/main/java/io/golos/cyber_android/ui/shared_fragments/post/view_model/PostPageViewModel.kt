@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
@@ -174,8 +175,13 @@ constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
+    @Deprecated("")
     fun editPost() {
         _command.value = StartEditPostViewCommand(model.postId)
+    }
+
+    fun editPost(contentId: Post.ContentId) {
+        _command.value = NavigationToEditPostViewCommand(contentId)
     }
 
     fun reportPost() {

@@ -1,7 +1,6 @@
 package io.golos.data.repositories.discussion
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.commun4j.model.FeedSortByType
 import io.golos.commun4j.model.FeedTimeFrame
 import io.golos.commun4j.model.FeedType
@@ -62,7 +61,7 @@ constructor(
                 postsConfigurationDomain.offset
             )
         }.items
-            .map{
+            .map {
                 val userId = it.author.userId.name
                 it.mapToPostDomain(userId == currentUserRepository.userId)
             }
@@ -73,10 +72,17 @@ constructor(
     override fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =
         createOrUpdateDiscussion(params)
 
-    override fun getPost(user: CyberName, permlink: Permlink): PostModel =
-        discussionsApi.getPost(user, permlink)
+    override suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain {
+        return apiCall {
+            commun4j.getPostRaw(user, communityId, permlink)
+        }.mapToPostDomain(user.name)
+    }
+
+    override fun getPost(user: CyberName, permlink: Permlink): PostModel {
+        return discussionsApi.getPost(user, permlink)
             .let { rawPost -> postToEntityMapper.map(rawPost) }
             .let { postEntity -> postToModelMapper.map(postEntity) }
+    }
 
     override fun deletePost(postId: DiscussionIdModel) {
         val request = DeleteDiscussionRequestEntity(postId.permlink)
@@ -145,3 +151,4 @@ constructor(
         return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
     }
 }
+

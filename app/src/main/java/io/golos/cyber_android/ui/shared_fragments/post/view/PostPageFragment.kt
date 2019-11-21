@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
@@ -109,6 +110,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
+            is NavigationToEditPostViewCommand -> openEditPost(command.contentId)
+
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.postMenu)
 
             is ShowCommentsSortingMenuViewCommand -> showCommentsSortingMenu()
@@ -153,8 +156,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                     }
                     PostPageMenuDialog.RESULT_EDIT -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.editPost()
+                        postMenu?.let { menu ->
+                            menu.contentId?.let { contentId ->
+                                viewModel.editPost(contentId)
+                            }
                         }
                     }
                     PostPageMenuDialog.RESULT_DELETE -> {
@@ -232,6 +237,15 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun moveToEditPost(postId: DiscussionIdModel) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
+
+    private fun openEditPost(contentId: Post.ContentId) {
+        startActivity(
+            EditorPageActivity.getIntent(
+                requireContext(),
+                EditorPageFragment.Args(contentId = contentId)
+            )
+        )
+    }
 
     private fun openPostMenuDialog(postMenu: PostMenu) {
         PostPageMenuDialog.newInstance(postMenu).apply {

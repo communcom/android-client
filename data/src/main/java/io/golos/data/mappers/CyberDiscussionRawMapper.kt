@@ -19,3 +19,7 @@ fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean): PostDomain {
         isMyPost
     )
 }
+
+fun CyberDiscussionRaw.mapToPostDomain(user: String): PostDomain {
+    return mapToPostDomain(user == this.author.userId.name)
+}

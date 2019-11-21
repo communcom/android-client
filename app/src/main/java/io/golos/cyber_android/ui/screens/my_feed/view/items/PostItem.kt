@@ -123,6 +123,11 @@ class PostItem(
                     communityId = community.communityId,
                     communityName = community.name,
                     communityAvatarUrl = community.avatarUrl,
+                    contentId = Post.ContentId(
+                        communityId = community.communityId,
+                        permlink = post.contentId.permlink,
+                        userId = author.userId
+                    ),
                     creationTime = post.meta.creationTime,
                     authorUsername = author.username,
                     authorUserId = author.userId,

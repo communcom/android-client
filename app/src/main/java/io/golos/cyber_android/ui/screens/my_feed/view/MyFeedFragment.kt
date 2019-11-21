@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
@@ -24,6 +25,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
+import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
@@ -110,7 +112,14 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun editPost(post: Post) {
-
+        startActivity(
+            EditorPageActivity.getIntent(
+                requireContext(),
+                EditorPageFragment.Args(
+                    contentId = post.contentId
+                )
+            )
+        )
     }
 
     private fun sharePost(shareUrl: String) {
@@ -130,7 +139,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     }
                     PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let{
+                        postMenu?.let {
                             viewModel.removeFromFavorite(it.permlink)
                         }
                     }

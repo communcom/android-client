@@ -5,6 +5,7 @@ import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -68,6 +69,11 @@ constructor(
             communityId = postModel.community.id.id,
             communityName = postModel.community.name,
             communityAvatarUrl = postModel.community.avatarUrl,
+            contentId = Post.ContentId(
+                communityId = postModel.community.id.id,
+                permlink = postId.permlink.value,
+                userId = currentUserRepository.userId
+            ),
             creationTime = postModel.meta.time,
             authorUsername = postModel.author.username,
             authorUserId = postModel.author.userId.userId,

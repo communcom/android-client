@@ -8,7 +8,7 @@ import java.util.*
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
-data class PostModel(
+data class PostModel constructor(
     override val contentId: DiscussionIdModel,
     override val author: DiscussionAuthorModel,
     val community: CommunityModel,
@@ -19,7 +19,7 @@ data class PostModel(
     override val meta: DiscussionMetadataModel,
     override val stats: DiscussionStatsModel,
     val shareUrl: String?
-    ) : DiscussionModel(
+) : DiscussionModel(
     contentId, author, votes,
     payout, meta, stats
 )

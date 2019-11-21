@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
@@ -167,6 +166,7 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         } else {
             items.add(JoinListItem())
         }
+        items.add(EditListItem())
         items.add(ReportListItem())
 
         return items

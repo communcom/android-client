@@ -26,6 +26,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
@@ -55,8 +56,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     data class Args(
         val postToEdit: DiscussionIdModel? = null,
         val community: CommunityModel? = null,
+        val contentId: Post.ContentId? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
-    ): Parcelable
+    ) : Parcelable
 
     private lateinit var binding: FragmentEditorPageBinding
 
@@ -69,7 +71,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         super.onCreate(savedInstanceState)
 
         val args = getArgs()
-        App.injections.get<EditorPageFragmentComponent>(args.community, args.postToEdit).inject(this)
+        App.injections.get<EditorPageFragmentComponent>(
+            args.community,
+            args.postToEdit,
+            args.contentId
+        ).inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditorPageViewModel::class.java)
     }
@@ -97,7 +103,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     private fun setupView() {
         // Add empty line to the editor for a new post
-        if(!viewModel.isInEditMode) {
+        if (!viewModel.isInEditMode) {
             editorWidget.insertEmptyParagraph()
         }
 
@@ -116,10 +122,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         // Show followers selection dialog
         postCommunity.setOnShowCommunitiesClickListener {
-            SelectCommunityDialog.newInstance(uiHelper, postCommunity) {
-                community -> community?.let { viewModel.setCommunity(it) }
+            SelectCommunityDialog.newInstance(uiHelper, postCommunity) { community ->
+                community?.let { viewModel.setCommunity(it) }
             }
-            .show(requireFragmentManager(), "followers")
+                .show(requireFragmentManager(), "followers")
         }
 
         leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
@@ -136,7 +142,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         val possibleEditorActions = editorWidget.getPossibleActions()
 
         possibleEditorActions.forEach { possibleAction ->
-            when(possibleAction) {
+            when (possibleAction) {
                 EditorAction.TEXT_BOLD -> {
                     boldButton.visibility = View.VISIBLE
                     boldButton.setOnClickListener { editorWidget.updateTextStyle(TextStyle.BOLD) }
@@ -148,10 +154,16 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 EditorAction.TEXT_COLOR -> {
                     textColorButton.visibility = View.VISIBLE
                     textColorButton.setOnClickListener {
-                        SelectColorDialog(this.requireContext(), MaterialColor.BLACK, R.string.select_text_color, R.string.ok, R.string.cancel) { selectedColor ->
+                        SelectColorDialog(
+                            this.requireContext(),
+                            MaterialColor.BLACK,
+                            R.string.select_text_color,
+                            R.string.ok,
+                            R.string.cancel
+                        ) { selectedColor ->
                             selectedColor?.let { editorWidget.updateTextColor(it) }
                         }
-                        .show()
+                            .show()
                     }
                 }
                 EditorAction.TAG -> {
@@ -160,42 +172,51 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                         val oldTextOfTag = editorWidget.tryGetTextOfTag()
                         OneTextLineDialog(requireContext(), oldTextOfTag ?: "", R.string.enter_tag) { newTextOfTag ->
                             newTextOfTag?.let {
-                                if(oldTextOfTag == null) {
+                                if (oldTextOfTag == null) {
                                     editorWidget.insertTag(it)
                                 } else {
                                     editorWidget.editTag(it)
                                 }
                             }
                         }
-                        .show()
+                            .show()
                     }
                 }
                 EditorAction.MENTION -> {
                     mentionButton.visibility = View.VISIBLE
                     mentionButton.setOnClickListener {
                         val oldTextOfMention = editorWidget.tryGetTextOfMention()
-                        OneTextLineDialog(requireContext(), oldTextOfMention ?: "", R.string.enter_user_name) { newTextOfMention ->
+                        OneTextLineDialog(
+                            requireContext(),
+                            oldTextOfMention ?: "",
+                            R.string.enter_user_name
+                        ) { newTextOfMention ->
                             newTextOfMention?.let {
-                                if(oldTextOfMention == null) {
+                                if (oldTextOfMention == null) {
                                     editorWidget.insertMention(it)
                                 } else {
                                     editorWidget.editMention(it)
                                 }
                             }
                         }
-                        .show()
+                            .show()
                     }
                 }
                 EditorAction.LINK -> {
                     linkInTextButton.visibility = View.VISIBLE
                     linkInTextButton.setOnClickListener {
                         val oldLink = editorWidget.tryGetLinkInTextInfo()
-                        TextAndLinkDialog(requireContext(), oldLink?.text ?: "", oldLink?.uri?.toString() ?: "", R.string.enter_link) { text, uri ->
-                            if(text != null && uri != null) {
+                        TextAndLinkDialog(
+                            requireContext(),
+                            oldLink?.text ?: "",
+                            oldLink?.uri?.toString() ?: "",
+                            R.string.enter_link
+                        ) { text, uri ->
+                            if (text != null && uri != null) {
                                 viewModel.checkLinkInText(oldLink != null, text, uri)
                             }
                         }
-                        .show()
+                            .show()
                     }
                 }
                 EditorAction.LOCAL_IMAGE -> {
@@ -204,15 +225,15 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                         ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
                             setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
                         }
-                        .show(requireFragmentManager(), "cover")
+                            .show(requireFragmentManager(), "cover")
                     }
                 }
             }
         }
 
-        if(possibleEditorActions.contains(EditorAction.LOCAL_IMAGE)) {
+        if (possibleEditorActions.contains(EditorAction.LOCAL_IMAGE)) {
             viewModel.setEmbedCount(editorWidget.getEmbedCount())
-            editorWidget.setOnEmbedAddedOrRemovedListener { isAdded -> viewModel.processEmbedAddedOrRemoved(isAdded)  }
+            editorWidget.setOnEmbedAddedOrRemovedListener { isAdded -> viewModel.processEmbedAddedOrRemoved(isAdded) }
         }
 
         boldButton.isEnabled = false
@@ -236,7 +257,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     private fun observeViewModel() {
         viewModel.command.observe(this, Observer { command ->
-            when(command) {
+            when (command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
 
                 is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
@@ -250,7 +271,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
                 is UpdateLinkInTextViewCommand ->
                     with(command) {
-                        if(isEdit) {
+                        if (isEdit) {
                             editorWidget.editLinkInText(command.linkInfo)
                         } else {
                             editorWidget.insertLinkInText(command.linkInfo)
@@ -274,15 +295,17 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             nsfwButton.isActivated = it
         })
 
-        viewModel.editingPost.observe(this, Observer {
-            it?.let {
-                val parsedPost = it.content.body.postBlock
+        viewModel.editingPost.observe(this, Observer { postDomain ->
+            postDomain?.let { post ->
+                val parsedPost = post.body
 
+                parsedPost?.let { parsedBody ->
                     toolbarTitle.setText(R.string.edit_post)
-                    leaderName.setText(parsedPost.title)
+                    leaderName.setText(parsedBody.title)
                     PostToEditorLoader.load(editorWidget, parsedPost)
+//                    nsfwButton.isActivated = post.tags.contains(TagModel("nsfw")) //todo didn't have in posts
+                }
 
-                    nsfwButton.isActivated = it.content.tags.contains(TagModel("nsfw"))
             }
         })
     }
@@ -333,7 +356,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     }
 
     private fun ExternalLinkType.mapToEmbedType(): EmbedType =
-        when(this) {
+        when (this) {
             ExternalLinkType.IMAGE -> EmbedType.EXTERNAL_IMAGE
             ExternalLinkType.WEBSITE -> EmbedType.EXTERNAL_WEBSITE
             ExternalLinkType.VIDEO -> EmbedType.EXTERNAL_VIDEO
