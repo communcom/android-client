@@ -17,8 +17,9 @@ data class PostModel(
     val comments: DiscussionCommentsCountModel,
     override val payout: DiscussionPayoutModel,
     override val meta: DiscussionMetadataModel,
-    override val stats: DiscussionStatsModel
-) : DiscussionModel(
+    override val stats: DiscussionStatsModel,
+    val shareUrl: String?
+    ) : DiscussionModel(
     contentId, author, votes,
     payout, meta, stats
 )

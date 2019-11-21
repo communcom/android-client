@@ -17,7 +17,8 @@ constructor() : EntityMerger<PostEntity> {
                 new.content.body,
                 new.content.tags
             ),
-            new.votes, new.comments, new.payout, new.meta, new.stats
+            new.votes, new.comments, new.payout, new.meta, new.stats,
+            new.shareUrl
         )
     }
 }

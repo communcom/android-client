@@ -42,7 +42,8 @@ constructor(
                 CommunityModel(
                     CommunityId(post.community.id),
                     post.community.name,
-                    post.community.avatarUrl
+                    post.community.avatarUrl,
+                    post.community.isSubscribed
                 ),
                 PostContentModel(
                     ContentBodyModel(
@@ -59,7 +60,8 @@ constructor(
                 DiscussionCommentsCountModel(post.comments.count),
                 DiscussionPayoutModel(),
                 DiscussionMetadataModel(post.meta.time, post.meta.time.asElapsedTime()),
-                DiscussionStatsModel(post.stats.rShares, post.stats.viewsCount)
+                DiscussionStatsModel(post.stats.rShares, post.stats.viewsCount),
+                post.shareUrl
             )
         }
         return out
@@ -76,7 +78,8 @@ constructor(
             CommunityModel(
                 CommunityId(post.community.id),
                 post.community.name,
-                post.community.avatarUrl
+                post.community.avatarUrl,
+                post.community.isSubscribed
             ),
             PostContentModel(
                 ContentBodyModel(
@@ -93,7 +96,8 @@ constructor(
             DiscussionCommentsCountModel(post.comments.count),
             DiscussionPayoutModel(),
             DiscussionMetadataModel(post.meta.time, post.meta.time.asElapsedTime()),
-            DiscussionStatsModel(post.stats.rShares, post.stats.viewsCount)
+            DiscussionStatsModel(post.stats.rShares, post.stats.viewsCount),
+            post.shareUrl
         )
 
     private fun TagEntity.toModel() = TagModel(this.tag)

@@ -9,11 +9,12 @@ import io.golos.domain.Entity
 data class CommunityEntity(
     val id: String,
     val name: String,
-    val avatarUrl: String?
+    val avatarUrl: String?,
+    val isSubscribed: Boolean
 ) : Entity {
     companion object {
         fun fromCyber(cyberObject: CyberCommunity) =
-            CommunityEntity(cyberObject.communityId, cyberObject.name!!, cyberObject.avatarUrl)
+            CommunityEntity(cyberObject.communityId, cyberObject.name!!, cyberObject.avatarUrl, cyberObject.isSubscribed ?: false)
     }
 }
 

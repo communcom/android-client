@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.utils.toTimeEstimateFormat
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.domain.extensions.appendSpannedText
+import kotlinx.android.synthetic.main.item_country.view.*
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 
 /**
@@ -48,7 +49,6 @@ constructor(
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
-        joinToCommunityButton.isEnabled = postHeader.canJoinToCommunity
         menuButton.isEnabled = postHeader.canEdit
 
         postHeader.communityAvatarUrl
@@ -64,6 +64,8 @@ constructor(
         authorAndTime.setOnClickListener { onUserClickListener?.invoke(userId) }
         if (postHeader.isJoinFeatureEnabled) {
             joinToCommunityButton.visibility = View.VISIBLE
+            joinToCommunityButton.isEnabled = postHeader.canJoinToCommunity
+            joinToCommunityButton.isChecked = postHeader.isJoinedToCommunity
         } else {
             joinToCommunityButton.visibility = View.GONE
         }

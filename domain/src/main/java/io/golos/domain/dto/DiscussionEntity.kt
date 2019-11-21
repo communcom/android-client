@@ -15,7 +15,8 @@ class PostEntity(
     val comments: DiscussionCommentsCount,
     payout: DiscussionPayout,
     meta: DiscussionMetadata,
-    stats: DiscussionStats
+    stats: DiscussionStats,
+    val shareUrl: String?
 ) : DiscussionEntity(
     contentId, author,
     votes, payout, meta, stats

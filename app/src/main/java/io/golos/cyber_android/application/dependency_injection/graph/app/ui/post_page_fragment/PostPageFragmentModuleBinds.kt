@@ -23,6 +23,10 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.voting.PostVotingMa
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
+import io.golos.domain.use_cases.community.SubscribeToCommunityUseCaseImpl
+import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
+import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCaseImpl
 import io.golos.domain.use_cases.feed.PostWithCommentUseCase
 import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 
@@ -66,4 +70,10 @@ abstract class PostPageFragmentModuleBinds {
 
     @Binds
     abstract fun bindCommentTextRenderer(renderer: CommentTextRendererImpl): CommentTextRenderer
+
+    @Binds
+    abstract fun provideSubscribeToCommunityUseCase(useCase: SubscribeToCommunityUseCaseImpl): SubscribeToCommunityUseCase
+
+    @Binds
+    abstract fun provideUnsubscribeToCommunityUseCase(useCase: UnsubscribeToCommunityUseCaseImpl): UnsubscribeToCommunityUseCase
 }

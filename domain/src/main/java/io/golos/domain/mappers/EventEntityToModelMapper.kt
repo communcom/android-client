@@ -144,7 +144,8 @@ constructor() : EventEntityToModelMapper {
     private fun CommunityEntity.toModel() = CommunityModel(
         CommunityId(this.id),
         this.name,
-        this.avatarUrl
+        this.avatarUrl,
+        this.isSubscribed
     )
 
 }

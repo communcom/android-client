@@ -16,6 +16,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
+import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
@@ -33,8 +35,13 @@ constructor(
     private val authApi: Lazy<AuthApi>,
     private val postListDataSource: PostListDataSource,
     private val postVoting: Lazy<VotingMachine>,
-    private val commentsProcessing: CommentsProcessingFacade
-) : ModelBaseImpl(), PostPageModel {
+    private val commentsProcessing: CommentsProcessingFacade,
+    private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
+    private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase
+) : ModelBaseImpl(),
+    PostPageModel,
+    SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
+    UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase{
 
     private lateinit var postModel: PostModel
 
@@ -51,7 +58,6 @@ constructor(
 
     override suspend fun loadPost() =
         withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
             postModel = discussionRepository.getPost(postToProcess.userId.toCyberName(), postToProcess.permlink)
 
             postListDataSource.createOrUpdatePostData(postModel)
@@ -65,9 +71,9 @@ constructor(
             creationTime = postModel.meta.time,
             authorUsername = postModel.author.username,
             authorUserId = postModel.author.userId.userId,
-            shareUrl = null, //todo
+            shareUrl = postModel.shareUrl,
             isMyPost = currentUserRepository.userId == postToProcess.userId,
-            isSubscribed = false, //todo
+            isSubscribed = postModel.community.isSubscribed,
             permlink = postId.permlink.value
         )
     }
@@ -82,7 +88,8 @@ constructor(
             postModel.author.userId.userId,
 
             false,
-            postModel.author.userId.userId == currentUserRepository.userId
+            postModel.author.userId.userId == currentUserRepository.userId,
+            postModel.community.isSubscribed
         )
 
     override suspend fun addToFavorite(permlink: String) {
@@ -90,14 +97,6 @@ constructor(
     }
 
     override suspend fun removeFromFavorite(permlink: String) {
-        delay(100)
-    }
-
-    override suspend fun subscribeToCommunity(communityId: String) {
-        delay(100)
-    }
-
-    override suspend fun unsubscribeToCommunity(communityId: String) {
         delay(100)
     }
 

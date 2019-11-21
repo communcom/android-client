@@ -178,7 +178,7 @@ constructor(
         _command.value = StartEditPostViewCommand(model.postId)
     }
 
-    fun reportPost(permlink: String) {
+    fun reportPost() {
         _command.value = ReportPostCommand()
     }
 
@@ -213,7 +213,9 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.subscribeToCommunity(communityId)
-                //todo update data
+                _postHeader.value = _postHeader.value?.copy(
+                    isJoinedToCommunity = true
+                )
             } catch (e: java.lang.Exception){
                 Timber.e(e)
             } finally {
@@ -227,7 +229,9 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.unsubscribeToCommunity(communityId)
-                //todo update data
+                _postHeader.value = _postHeader.value?.copy(
+                    isJoinedToCommunity = false
+                )
             } catch (e: java.lang.Exception){
                 Timber.e(e)
             } finally {

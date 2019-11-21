@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/communityTitle"
         tools:text="12:45 &#8226; Ivan Ivanov" />
 
-    <Button
+    <CheckedTextView
         android:id="@+id/joinToCommunityButton"
         style="@style/CommunityJoinButton"
         android:layout_width="@dimen/post_viewer_header_community_join_button_width"
