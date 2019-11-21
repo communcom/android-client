@@ -135,21 +135,8 @@ constructor(
     }
 
     fun onPostMenuClick() {
-        //if we can use postMenu, use postMenu
-        val postHeader: PostHeader = model.getPostHeader()
-        val postMenu = PostMenu(
-            communityId = "",
-            communityName = postHeader.communityName,
-            communityAvatarUrl = postHeader.communityAvatarUrl,
-            creationTime = postHeader.actionDateTime,
-            authorUsername = postHeader.userName,
-            authorUserId = postHeader.userId,
-            shareUrl = null,
-            isMyPost = currentUserRepository.userId == postToProcess.userId,
-            isSubscribed = false,
-            permlink = model.postId.permlink.value
-        )
 
+        val postMenu: PostMenu = model.getPostMenu()
         _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
 

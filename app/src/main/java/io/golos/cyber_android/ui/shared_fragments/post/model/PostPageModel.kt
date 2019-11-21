@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.model
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -20,6 +21,8 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     val commentsPageSize: Int
 
     suspend fun loadPost()
+
+    fun getPostMenu(): PostMenu
 
     fun getPostHeader(): PostHeader
 

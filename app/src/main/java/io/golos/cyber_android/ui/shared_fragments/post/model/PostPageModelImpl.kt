@@ -5,6 +5,7 @@ import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
@@ -55,6 +56,21 @@ constructor(
 
             postListDataSource.createOrUpdatePostData(postModel)
         }
+
+    override fun getPostMenu(): PostMenu {
+        return PostMenu(
+            communityId = postModel.community.id.id,
+            communityName = postModel.community.name,
+            communityAvatarUrl = postModel.community.avatarUrl,
+            creationTime = postModel.meta.time,
+            authorUsername = postModel.author.username,
+            authorUserId = postModel.author.userId.userId,
+            shareUrl = null, //todo
+            isMyPost = currentUserRepository.userId == postToProcess.userId,
+            isSubscribed = false, //todo
+            permlink = postId.permlink.value
+        )
+    }
 
     override fun getPostHeader(): PostHeader =
         PostHeader(

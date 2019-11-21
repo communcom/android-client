@@ -47,7 +47,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
-        val menu: PostMenu? = null, //todo?
         val scrollToComments: Boolean = false
     ) : Parcelable
 
@@ -122,6 +121,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
 
             is SharePostCommand -> sharePost(command.shareUrl)
+
+            is ReportPostCommand -> reportPost()
+
+            is DeletePostCommand -> deletePost()
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
@@ -207,7 +210,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun reportPost() {
-
     }
 
     private fun deletePost() {
