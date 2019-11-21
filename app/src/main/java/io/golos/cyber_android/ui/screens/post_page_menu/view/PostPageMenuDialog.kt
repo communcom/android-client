@@ -166,7 +166,6 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
         } else {
             items.add(JoinListItem())
         }
-        items.add(EditListItem())
         items.add(ReportListItem())
 
         return items
