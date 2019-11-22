@@ -1,12 +1,13 @@
 package io.golos.cyber_android.ui.screens.main_activity
 
 import androidx.lifecycle.*
+import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+import io.golos.domain.requestmodel.PushNotificationsStateModel
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.UpdateOption
 import io.golos.domain.use_cases.notifs.events.EventsUseCase
 import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.use_cases.sign.SignInUseCase
-import io.golos.domain.requestmodel.PushNotificationsStateModel
-import io.golos.domain.requestmodel.QueryResult
 import javax.inject.Inject
 
 class MainViewModel
@@ -15,14 +16,20 @@ constructor(
     private val signInUseCase: SignInUseCase,
     private val eventsUseCase: EventsUseCase,
     private val pushesUseCase: PushNotificationsSettingsUseCase
-) : ViewModel() {
+) : ViewModel(), NavigationBottomMenuWidget.Listener {
 
-    private val currentTabLiveData = MutableLiveData(MainActivity.Tab.FEED)
+    private val currentTabLiveData =
+        MutableLiveData(NavigationBottomMenuWidget.Tab.FEED)
 
     /**
      * Currently selected tab of a main screen
      */
-    val getCurrentTabLiveData = currentTabLiveData as LiveData<MainActivity.Tab>
+    val getCurrentTabLiveData =
+        currentTabLiveData as LiveData<NavigationBottomMenuWidget.Tab>
+
+    private val _createTabLiveData = MutableLiveData<Any>()
+
+    val createTabLiveData = _createTabLiveData
 
     val unreadNotificationsLiveData = eventsUseCase.getUnreadLiveData
 
@@ -56,8 +63,19 @@ constructor(
         mediator.observeForever(observer)
     }
 
+    override fun onFeedClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
 
-    fun onTabSelected(tab: MainActivity.Tab) {
+    override fun onCommunityClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
+
+    override fun onCreateClick() {
+        _createTabLiveData.postValue(Any())
+    }
+
+    override fun onNotificationClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
+
+    override fun onProfileClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
+
+    private fun onTabSelected(tab: NavigationBottomMenuWidget.Tab) {
         currentTabLiveData.postValue(tab)
     }
 
