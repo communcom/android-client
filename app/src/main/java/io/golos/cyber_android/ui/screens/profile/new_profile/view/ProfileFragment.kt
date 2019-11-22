@@ -1,9 +1,11 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -15,10 +17,14 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ProfilePhotoMenuDialog
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectAvatarDialogCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectCoverDialogCommand
+import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.main_activity.MainActivity
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
+import io.golos.cyber_android.ui.screens.profile_photos.ProfilePhotosFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 
 class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
@@ -28,11 +34,14 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         }
     }
 
+    private val user: CyberName
+        get()= (arguments?.getString(Tags.USER_ID) ?: "").toCyberName()
+
     override fun provideViewModelType(): Class<ProfileViewModel> = ProfileViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_profile_new
 
-    override fun inject() = App.injections.get<ProfileFragmentComponent>(getUser()).inject(this)
+    override fun inject() = App.injections.get<ProfileFragmentComponent>(user).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<ProfileFragmentComponent>()
@@ -44,12 +53,13 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
+            // Show communities block
             communitiesVisibility.observe({viewLifecycleOwner.lifecycle}) {
                 if(it == View.VISIBLE) {
                     fragmentManager
                         ?.beginTransaction()
                         ?.add(R.id.communitiesContainer, ProfileCommunitiesFragment.newInstance())
-                        ?.commit();
+                        ?.commit()
                 }
             }
         }
@@ -65,18 +75,24 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is ShowSelectCoverDialogCommand -> {
-                ProfilePhotoMenuDialog.newInstance(ProfilePhotoMenuDialog.Type.COVER, this@ProfileFragment)
-                    .show(requireFragmentManager(), "menu")
-            }
-            is ShowSelectAvatarDialogCommand -> {
-                ProfilePhotoMenuDialog.newInstance(ProfilePhotoMenuDialog.Type.AVATAR, this@ProfileFragment)
-                    .show(requireFragmentManager(), "menu")
-            }
+            is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
+            is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place)
         }
     }
 
-    private fun getUser() = (arguments?.getString(Tags.USER_ID) ?: "").toCyberName()
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            ProfilePhotoMenuDialog.REQUEST -> {
+                val place = PhotoPlace.create(data!!.extras.getInt(ProfilePhotoMenuDialog.PLACE))
+                when (resultCode) {
+                    ProfilePhotoMenuDialog.RESULT_SELECT -> { viewModel.onSelectPhotoMenuChosen(place)}
+                    ProfilePhotoMenuDialog.RESULT_DELETE -> { viewModel.onDeletePhotoMenuChosen(place) }
+                }
+            }
+        }
+    }
 
     private fun initPages() {
         tabLayout.apply {
@@ -90,4 +106,11 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             vpContent.offscreenPageLimit = 2
         }
     }
+
+    private fun showPhotoDialog(place: PhotoPlace) =
+        ProfilePhotoMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
+
+    private fun moveToSelectPhotoPage(place: PhotoPlace) =
+//        CommunityPageFragment - работает - дело во фрагменте
+        (requireActivity() as MainActivity).showFragment(ProfilePhotosFragment.newInstance(place))
 }

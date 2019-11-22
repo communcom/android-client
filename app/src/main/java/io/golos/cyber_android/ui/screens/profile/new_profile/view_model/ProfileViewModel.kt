@@ -4,8 +4,9 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectAvatarDialogCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectCoverDialogCommand
+import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
@@ -67,14 +68,17 @@ constructor(
         loadPage()
     }
 
-    fun onUpdateAvatarClick() {
-        _command.value = ShowSelectAvatarDialogCommand()
+    fun onUpdatePhotoClick(place: PhotoPlace) {
+        _command.value = ShowSelectPhotoDialogCommand(place)
     }
 
-    fun onUpdateCoverClick() {
-        _command.value = ShowSelectCoverDialogCommand()
+    fun onSelectPhotoMenuChosen(place: PhotoPlace) {
+        _command.value = MoveToSelectPhotoPageCommand(place)
     }
 
+    fun onDeletePhotoMenuChosen(place: PhotoPlace) {
+        // do nothing
+    }
 
     private fun loadPage() {
         launch {

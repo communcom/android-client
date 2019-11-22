@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel" />
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel" />
+        <import type="io.golos.cyber_android.ui.dto.PhotoPlace"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -88,7 +87,7 @@
                         android:padding="@dimen/profile_update_cover_button_padding"
                         android:src="@drawable/ic_editor_widget_camera"
 
-                        android:onClick="@{() -> viewModel.onUpdateCoverClick()}"
+                        android:onClick="@{() -> viewModel.onUpdatePhotoClick(PhotoPlace.COVER)}"
 
                         android:tint="@color/white"
                         tools:ignore="ContentDescription" />
@@ -127,7 +126,7 @@
 
                             android:src="@drawable/ic_editor_widget_camera"
 
-                            android:onClick="@{() -> viewModel.onUpdateAvatarClick()}"
+                            android:onClick="@{() -> viewModel.onUpdatePhotoClick(PhotoPlace.AVATAR)}"
 
                             android:tint="@color/grey"
                             app:layout_constraintStart_toStartOf="@+id/userAvatar"

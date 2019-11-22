@@ -8,4 +8,5 @@ object Tags {
     const val DISCUSSION_ID = "DISCUSSION_ID"
 
     const val POST_MENU = "POST_MENU"
+    const val TYPE = "TYPE"
 }

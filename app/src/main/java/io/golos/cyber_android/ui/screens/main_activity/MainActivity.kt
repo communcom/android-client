@@ -154,13 +154,11 @@ class MainActivity : ActivityBase() {
     }
 
     fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
-        val tag = fragment::class::java.name
+        val tag = fragment::class.simpleName
         if(supportFragmentManager.findFragmentByTag(tag) == null){
-            val beginTransaction = supportFragmentManager
-                .beginTransaction()
+            val beginTransaction = supportFragmentManager.beginTransaction()
             if (isAddToBackStack) {
-                beginTransaction
-                    .addToBackStack(tag)
+                beginTransaction.addToBackStack(tag)
             }
             beginTransaction
                 .add(R.id.rootContainer, fragment, tag)
