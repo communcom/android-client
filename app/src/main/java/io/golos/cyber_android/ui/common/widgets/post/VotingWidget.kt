@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.view.widgets
+package io.golos.cyber_android.ui.common.widgets.post
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.my_feed.view_model
 
+import io.golos.cyber_android.ui.common.widgets.post.*
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.*
 
 interface MyFeedListListener :
     AttachmentWidgetListener,

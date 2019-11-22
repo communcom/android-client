@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.view.widgets
+package io.golos.cyber_android.ui.common.widgets.post
 
 import android.content.Context
 import android.text.SpannableStringBuilder
@@ -14,13 +14,12 @@ import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.utils.toTimeEstimateFormat
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.domain.extensions.appendSpannedText
-import kotlinx.android.synthetic.main.item_country.view.*
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 
 /**
  * Header with post info
  */
-class PostPageHeaderView
+class PostPageHeaderWidget
 @JvmOverloads
 constructor(
     context: Context,

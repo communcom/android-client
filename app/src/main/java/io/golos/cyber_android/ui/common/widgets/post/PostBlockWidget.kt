@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets
+package io.golos.cyber_android.ui.common.widgets.post
 
 import io.golos.domain.use_cases.post.post_dto.Block
 
