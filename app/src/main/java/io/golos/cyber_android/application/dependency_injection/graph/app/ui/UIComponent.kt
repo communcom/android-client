@@ -23,6 +23,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subs
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -56,6 +57,7 @@ interface UIComponent {
     val feedFragment: FeedFragmentComponent.Builder
     val postFiltersFragment: PostFiltersFragmentComponent.Builder
     val postsListFragment: MyFeedFragmentComponent.Builder
+    val profileFragment: ProfileFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)

@@ -3,10 +3,12 @@ package io.golos.cyber_android.ui.common.extensions
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.glide.PercentageRoundFrameTransform
+import io.golos.cyber_android.ui.common.glide.GradientTransformation
+import io.golos.cyber_android.ui.common.glide.PercentageRoundFrameTransformation
 
 fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
 
@@ -18,7 +20,7 @@ fun ImageView.loadLeader(url: String?, percentage: Float) =
         .load(if(url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
         .transform(
             CircleCrop(),
-            PercentageRoundFrameTransform(
+            PercentageRoundFrameTransformation(
                 this.context.applicationContext,
                 0.8f,
                 percentage,
@@ -29,6 +31,21 @@ fun ImageView.loadLeader(url: String?, percentage: Float) =
         .fallback(R.drawable.ic_empty_user)
         .error(R.drawable.ic_empty_user)
         .into(this)
+
+fun ImageView.loadCover(url: String?) {
+    val urlToLoad = if(url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url
+
+    Glide
+        .with(this)
+        .load(urlToLoad)
+        .transform(
+            CenterCrop(),
+            GradientTransformation(
+                this.context.applicationContext,
+                R.color.cover_gradient_start_color,
+                R.color.cover_gradient_end_color))
+        .into(this)
+}
 
 fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
     Glide

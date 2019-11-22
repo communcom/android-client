@@ -19,7 +19,7 @@ import com.google.android.material.appbar.AppBarLayout
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.ProfileFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.OldProfileFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
@@ -74,12 +74,12 @@ class OldProfileFragment : FragmentBase(), FeedPageLiveDataProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.injections.get<ProfileFragmentComponent>(getUserName().toCyberName()).inject(this)
+        App.injections.get<OldProfileFragmentComponent>(getUserName().toCyberName()).inject(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        App.injections.release<ProfileFragmentComponent>()
+        App.injections.release<OldProfileFragmentComponent>()
     }
 
     override fun onCreateView(

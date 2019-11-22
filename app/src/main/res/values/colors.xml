@@ -13,6 +13,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="black_40">#66000000</color>
+    <color name="black_30">#4D000000</color>
     <color name="black_20">#33000000</color>
     <color name="light_gray">#F3F5FA</color>
     <color name="light_gray_2">#F6F7FB</color>
@@ -23,6 +24,8 @@
     <color name="blue_40">#666A80F5</color>
     <color name="grey">#A5A7BD</color>
     <color name="blue_light">#d2d9fc</color>
+    <color name="blue_light_2">#94A4FC</color>
+    <color name="blue_dark">#3C57F5</color>
     <color name="white_opacity_50">#80FFFFFF</color>
 
     <color name="pale_black">#8A000000</color>
@@ -64,4 +67,7 @@
     <color name="feed_status_bar_color">@color/blue</color>
 
     <color name="avatar_frame">@color/blue</color>
+
+    <color name="cover_gradient_start_color">#33000000</color>
+    <color name="cover_gradient_end_color">@color/transparent</color>
 </resources>

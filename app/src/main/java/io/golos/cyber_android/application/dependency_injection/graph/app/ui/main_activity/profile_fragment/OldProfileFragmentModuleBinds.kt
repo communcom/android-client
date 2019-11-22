@@ -13,7 +13,7 @@ import io.golos.domain.use_cases.user.UserMetadataUseCase
 import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl
 
 @Module
-abstract class ProfileFragmentModuleBinds {
+abstract class OldProfileFragmentModuleBinds {
     @Binds
     abstract fun provideUserMetadataUseCase(useCase: UserMetadataUseCaseImpl): UserMetadataUseCase
 

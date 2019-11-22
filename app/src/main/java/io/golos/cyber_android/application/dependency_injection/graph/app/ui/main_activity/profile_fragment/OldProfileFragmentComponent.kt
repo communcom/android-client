@@ -5,15 +5,15 @@ import io.golos.cyber_android.ui.screens.profile.old_profile.OldProfileFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [
-    ProfileFragmentModule::class,
-    ProfileFragmentModuleBinds::class
+    OldProfileFragmentModule::class,
+    OldProfileFragmentModuleBinds::class
 ])
 @FragmentScope
-interface ProfileFragmentComponent {
+interface OldProfileFragmentComponent {
     @Subcomponent.Builder
     interface Builder {
-        fun init(module: ProfileFragmentModule): Builder
-        fun build(): ProfileFragmentComponent
+        fun init(module: OldProfileFragmentModule): Builder
+        fun build(): OldProfileFragmentComponent
     }
 
     fun inject(fragment: OldProfileFragment)

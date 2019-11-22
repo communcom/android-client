@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
@@ -17,10 +18,8 @@ class PostControlsViewHolder(
         with(itemView) {
             votesArea.setVoteBalance(listItem.voteBalance)
 
-            val countersFormatter = io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter()
-
-            viewCountsText.text = countersFormatter.format(listItem.totalViews)
-            commentsCountText.text = countersFormatter.format(listItem.totalComments)
+            viewCountsText.text = KiloCounterFormatter.format(listItem.totalViews)
+            commentsCountText.text = KiloCounterFormatter.format(listItem.totalComments)
 
             votesArea.setUpVoteButtonSelected(listItem.isUpVoteActive)
             votesArea.setDownVoteButtonSelected(listItem.isDownVoteActive)
