@@ -8,11 +8,13 @@ data class PostDomain(
     val author: AuthorDomain,
     val community: CommunityDomain,
     val contentId: ContentIdDomain,
-    val body: PostBlock,
+    val body: PostBlock?,
     val meta: MetaDomain,
     val stats: StatsDomain?,
     val type: String?,
-    val votes: VotesDomain
+    val shareUrl: String?,
+    val votes: VotesDomain,
+    val isMyPost: Boolean
 ) {
     data class VotesDomain(
         val downCount: Long,
@@ -29,7 +31,8 @@ data class PostDomain(
         val alias: String?,
         val communityId: String,
         val name: String?,
-        val avatarUrl: String?
+        val avatarUrl: String?,
+        val isSubscribed: Boolean
     )
 
     data class StatsDomain(

@@ -8,7 +8,7 @@ import android.widget.TextView
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.FirstLevelCommentListItem
-import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
+import io.golos.cyber_android.ui.common.widgets.post.VotingWidget
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 

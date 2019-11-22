@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.shared_fragments.post.view_commands
 
 import android.net.Uri
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.PostFormatVersion
-import io.golos.domain.use_cases.post.post_dto.PostType
 
 class NavigateToImageViewCommand(val imageUri: Uri): ViewCommand
 
@@ -12,9 +12,18 @@ class NavigateToLinkViewCommand(val link: Uri): ViewCommand
 
 class NavigateToUserProfileViewCommand(val userId: String): ViewCommand
 
+@Deprecated("")
 class StartEditPostViewCommand(val postId: DiscussionIdModel): ViewCommand
 
-class ShowPostMenuViewCommand(val isMyPost: Boolean, val version: PostFormatVersion, val type: PostType): ViewCommand
+class NavigationToEditPostViewCommand(val contentId: Post.ContentId): ViewCommand
+
+class NavigationToPostMenuViewCommand(val postMenu: PostMenu): ViewCommand
+
+class SharePostCommand(val shareUrl: String) : ViewCommand
+
+class ReportPostCommand : ViewCommand
+
+class DeletePostCommand: ViewCommand
 
 class ShowCommentsSortingMenuViewCommand : ViewCommand
 

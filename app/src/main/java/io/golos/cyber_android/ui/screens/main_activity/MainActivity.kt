@@ -16,7 +16,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
+import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile.old_profile.OldProfileFragment

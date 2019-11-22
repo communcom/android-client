@@ -63,6 +63,7 @@ internal object PostsDataFactory {
             DiscussionId(CyberName(userId), community.communityId, Permlink.generate().value),
             CyberCommunity(community.communityId, community.name, community.logo, "alias", true),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
-            commentsCount
+            commentsCount,
+            null
         )
 }

@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
-import io.golos.cyber_android.ui.shared_fragments.post.view.list.view_holders.post_body.widgets.*
+import io.golos.cyber_android.ui.common.widgets.post.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 /**
@@ -16,21 +16,21 @@ interface PostPageViewModelListEventsProcessor :
     PostVoteListener,
     CommentsListener
 
-interface PostCommentVoteListener : BasePostBlockWidgetListener{
+interface PostCommentVoteListener : BasePostBlockWidgetListener {
 
     fun onCommentUpVoteClick(commentId: DiscussionIdModel)
 
     fun onCommentDownVoteClick(commentId: DiscussionIdModel)
 }
 
-interface PostVoteListener : BasePostBlockWidgetListener{
+interface PostVoteListener : BasePostBlockWidgetListener {
 
     fun onUpVoteClick()
 
     fun onDownVoteClick()
 }
 
-interface CommentsListener : BasePostBlockWidgetListener{
+interface CommentsListener : BasePostBlockWidgetListener {
 
     fun onCommentsTitleMenuClick()
 

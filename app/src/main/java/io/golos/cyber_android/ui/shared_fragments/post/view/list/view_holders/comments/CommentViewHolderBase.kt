@@ -23,7 +23,7 @@ import io.golos.cyber_android.ui.common.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRenderer
-import io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
+import io.golos.cyber_android.ui.common.widgets.post.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.model.DiscussionAuthorModel

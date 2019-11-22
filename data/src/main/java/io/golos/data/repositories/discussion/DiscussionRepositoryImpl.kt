@@ -7,7 +7,7 @@ import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.data.mappers.CyberDiscussionRawMapper
+import io.golos.data.mappers.mapToPostDomain
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -25,7 +25,6 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -47,11 +46,8 @@ constructor(
 
     override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> {
         val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
-        Timber.d("posts: type -> ${type.name}")
         val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
-        Timber.d("posts: sortByType -> ${sortByType.name}")
         val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
-        Timber.d("posts: timeFrame -> ${timeFrame.name}")
         return apiCall {
             commun4j.getPostsRaw(
                 postsConfigurationDomain.userId.toCyberName(),
@@ -64,10 +60,10 @@ constructor(
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
             )
-        }
-            .items
+        }.items
             .map {
-                CyberDiscussionRawMapper().invoke(it)
+                val userId = it.author.userId.name
+                it.mapToPostDomain(userId == currentUserRepository.userId)
             }
     }
 
@@ -76,10 +72,17 @@ constructor(
     override fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =
         createOrUpdateDiscussion(params)
 
-    override fun getPost(user: CyberName, permlink: Permlink): PostModel =
-        discussionsApi.getPost(user, permlink)
+    override suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain {
+        return apiCall {
+            commun4j.getPostRaw(user, communityId, permlink)
+        }.mapToPostDomain(user.name)
+    }
+
+    override fun getPost(user: CyberName, permlink: Permlink): PostModel {
+        return discussionsApi.getPost(user, permlink)
             .let { rawPost -> postToEntityMapper.map(rawPost) }
             .let { postEntity -> postToModelMapper.map(postEntity) }
+    }
 
     override fun deletePost(postId: DiscussionIdModel) {
         val request = DeleteDiscussionRequestEntity(postId.permlink)
@@ -148,3 +151,4 @@ constructor(
         return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
     }
 }
+

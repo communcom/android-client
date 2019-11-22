@@ -12,5 +12,6 @@ import kotlinx.android.parcel.Parcelize
 data class CommunityModel(
     val id: CommunityId,
     val name: String,
-    val avatarUrl: String?
+    val avatarUrl: String?,
+    val isSubscribed: Boolean
 ) : Model, Parcelable

@@ -255,6 +255,15 @@
     <string name="event_unsubscribe_format">%1$s is not following you</string>
 
     <!--Post page-->
+    <string name="favorite_add_post">Add to Favorite</string>
+    <string name="favorite_remove_post">Remove from Favorite</string>
+    <string name="share_post">Share</string>
+    <string name="edit_post_menu">Edit</string>
+    <string name="delete_post_menu">Delete</string>
+    <string name="join_post">Join</string>
+    <string name="joined_post">Joined</string>
+    <string name="report_post">Report</string>
+
     <string name="edit_post">Edit post</string>
     <string name="delete_post">Delete post</string>
 
@@ -404,4 +413,5 @@
 
     <string name="joined">Joined</string>
     <string name="vote">Vote</string>
+    <string name="share_apps_not_found">Share apps not found</string>
 </resources>

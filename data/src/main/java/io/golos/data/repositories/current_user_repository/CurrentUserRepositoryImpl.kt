@@ -17,7 +17,7 @@ constructor() : CurrentUserRepository, CurrentUserRepositoryRead {
     override var authState: AuthState? = null
 
     override val userId: String
-        get() = authState!!.user.name
+        get() = authState?.user?.name ?: ""
 
     override var userAvatarUrl: String? = null
 

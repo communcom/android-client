@@ -6,4 +6,6 @@ object Tags {
     const val MESSAGE = "MESSAGE"
     const val ARGS = "ARGS"
     const val DISCUSSION_ID = "DISCUSSION_ID"
+
+    const val POST_MENU = "POST_MENU"
 }

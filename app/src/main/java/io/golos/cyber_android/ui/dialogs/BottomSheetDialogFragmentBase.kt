@@ -41,4 +41,11 @@ abstract class BottomSheetDialogFragmentBase() : BottomSheetDialogFragment() {
             dismiss()
         }
     }
+
+    protected fun setSelectAction(resultCode: Int, putArgsAction: Intent.() -> Unit = {}) {
+        targetFragment?.onActivityResult(targetRequestCode, resultCode, Intent().also { intent ->
+            putArgsAction.invoke(intent)
+        })
+        dismiss()
+    }
 }

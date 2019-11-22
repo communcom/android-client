@@ -3,33 +3,31 @@ package io.golos.cyber_android.ui.shared_fragments.editor.model
 import android.net.Uri
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.Either
+import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
-import io.golos.utils.PostConstants
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
-import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.PostCreationResultEntity
-import io.golos.domain.dto.UpdatePostResultEntity
-import io.golos.domain.dto.UploadedImageEntity
-import io.golos.domain.use_cases.model.*
-import io.golos.domain.use_cases.post.editor_output.*
+import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.domain.requestmodel.PostUpdateRequestEntity
+import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -54,7 +52,7 @@ constructor(
         withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(uri)!!, uri)
-                if(linkInfo == null) {
+                if (linkInfo == null) {
                     Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.TYPE_IS_NOT_SUPPORTED)
                 } else {
                     Either.Success<ExternalLinkInfo, ExternalLinkError>(linkInfo)
@@ -62,15 +60,14 @@ constructor(
             } catch (ex: CyberServicesError) {
                 Timber.e(ex)
                 Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.INVALID_URL)
-            }
-            catch (ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
                 Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.GENERAL_ERROR)
             }
         }
 
     override fun validatePost(title: String, content: List<ControlMetadata>): ValidationResult {
-        if(content.isEmpty()) {
+        if (content.isEmpty()) {
             return ValidationResult.ERROR_POST_IS_EMPTY
         }
 
@@ -78,7 +75,7 @@ constructor(
             .filterIsInstance<ParagraphMetadata>()
             .sumBy { it.plainText.length }
 
-        if(postLen > io.golos.utils.PostConstants.MAX_POST_CONTENT_LENGTH) {
+        if (postLen > io.golos.utils.PostConstants.MAX_POST_CONTENT_LENGTH) {
             return ValidationResult.ERROR_POST_IS_TOO_LONG
         }
 
@@ -93,7 +90,7 @@ constructor(
         withContext(dispatchersProvider.ioDispatcher) {
             val firstLocalImage = content.firstOrNull { it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE }
 
-            if(firstLocalImage == null) {
+            if (firstLocalImage == null) {
                 return@withContext null
             } else {
                 firstLocalImage
@@ -109,7 +106,8 @@ constructor(
         content: List<ControlMetadata>,
         adultOnly: Boolean,
         communityId: CommunityId,
-        localImagesUri: List<String>) : DiscussionCreationResultModel {
+        localImagesUri: List<String>
+    ): DiscussionCreationResultModel {
         val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
 
         val tags = extractTags(content, adultOnly)
@@ -125,7 +123,12 @@ constructor(
         }
     }
 
-    override suspend fun updatePost(content: List<ControlMetadata>, permlink: Permlink, adultOnly: Boolean, localImagesUri: List<String>)
+    override suspend fun updatePost(
+        content: List<ControlMetadata>,
+        permlink: Permlink,
+        adultOnly: Boolean,
+        localImagesUri: List<String>
+    )
             : DiscussionCreationResultModel {
         val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
 
@@ -145,7 +148,7 @@ constructor(
     override suspend fun getLastUsedCommunity(): CommunityDomain? =
         withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
-            keyValueStorage.getLastUsedCommunityId()?.let {communityApi.getCommunityById(it)}
+            keyValueStorage.getLastUsedCommunityId()?.let { communityApi.getCommunityById(it) }
         }
 
     override suspend fun saveLastUsedCommunity(community: CommunityDomain) {
@@ -160,11 +163,20 @@ constructor(
             discussionRepository.getPost(currentUserRepository.authState!!.user, permlink)
         }
 
+    override suspend fun getPostToEdit(contentId: Post.ContentId): PostDomain =
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.getPost(
+                contentId.userId.toCyberName(),
+                contentId.communityId,
+                contentId.permlink
+            )
+        }
+
     /**
      * @return null - this type of link is not supported
      */
     private fun mapExternalLinkInfo(serverLinkInfo: OEmbedResult, sourceUrl: String): ExternalLinkInfo? {
-        val type  = when(serverLinkInfo.type) {
+        val type = when (serverLinkInfo.type) {
             "link" -> ExternalLinkType.WEBSITE
             "photo" -> ExternalLinkType.IMAGE
             "video" -> ExternalLinkType.VIDEO
@@ -173,9 +185,9 @@ constructor(
                 null
             }
         }
-        ?: return null
+            ?: return null
 
-        val thumbnailUrl = when(type) {
+        val thumbnailUrl = when (type) {
             ExternalLinkType.VIDEO -> serverLinkInfo.thumbnail_url ?: PostStubs.video
             ExternalLinkType.WEBSITE -> serverLinkInfo.thumbnail_url ?: PostStubs.website
             ExternalLinkType.IMAGE -> sourceUrl
@@ -185,7 +197,8 @@ constructor(
             type,
             serverLinkInfo.description ?: serverLinkInfo.title ?: sourceUrl,
             Uri.parse(thumbnailUrl),
-            Uri.parse(sourceUrl))
+            Uri.parse(sourceUrl)
+        )
     }
 
     private fun extractTags(content: List<ControlMetadata>, adultOnly: Boolean): Set<String> {
@@ -198,7 +211,7 @@ constructor(
             .map { it.value }
             .toMutableSet()
 
-        if(adultOnly) {
+        if (adultOnly) {
             tags.add("nsfw")
         }
 

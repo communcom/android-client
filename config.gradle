@@ -28,6 +28,23 @@ android {
         }
     }
 
+    flavorDimensions "cyber4j-config-type"
+
+    productFlavors {
+        prod {
+            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+        }
+        stable {
+            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+        }
+        dev {
+            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+        }
+        unstable {
+            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+        }
+    }
+
     dexOptions {
         javaMaxHeapSize "12g"
     }

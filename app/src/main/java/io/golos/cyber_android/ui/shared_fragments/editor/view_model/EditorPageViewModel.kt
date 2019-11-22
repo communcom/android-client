@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
@@ -19,14 +20,15 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.post.editor_output.ControlMetadata
 import io.golos.domain.use_cases.post.editor_output.LinkInfo
-import io.golos.domain.requestmodel.QueryResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -54,6 +56,7 @@ constructor(
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCaseImpl?,
+    private val contentId: Post.ContentId?,
     model: EditorPageModel
 ) : ViewModelBase<EditorPageModel>(
     dispatchersProvider,
@@ -125,7 +128,7 @@ constructor(
      */
     val getNsfwLiveData = nsfwLiveData as LiveData<Boolean>
 
-    val editingPost = MutableLiveData<PostModel?>()
+    val editingPost = MutableLiveData<PostDomain?>()
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { }
 
@@ -282,7 +285,7 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
 
-                if(postToEdit == null) {
+                if(contentId == null) {
                     // New post
                     val lastUsedCommunity = model.getLastUsedCommunity()
 
@@ -292,7 +295,7 @@ constructor(
                 } else {
                     // Updated post
                     val lastUsedCommunityCall = async { model.getLastUsedCommunity() }
-                    val postToEditCall = async { model.getPostToEdit(postToEdit.permlink) }
+                    val postToEditCall = async { model.getPostToEdit(contentId) }
 
                     val lastUsedCommunity = lastUsedCommunityCall.await()
                     val postToEdit = postToEditCall.await()

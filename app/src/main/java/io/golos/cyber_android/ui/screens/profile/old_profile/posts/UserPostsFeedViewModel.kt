@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.old_profile.posts
 
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedPageTabViewModel
+import io.golos.cyber_android.ui.screens.feed.FeedPageTabViewModel
 import io.golos.domain.dto.DiscussionsSort
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.action.VoteUseCase

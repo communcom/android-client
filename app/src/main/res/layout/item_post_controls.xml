@@ -8,7 +8,7 @@
     android:paddingStart="@dimen/post_content_border_horizontal"
     android:paddingEnd="@dimen/post_content_border_horizontal">
 
-    <io.golos.cyber_android.ui.shared_fragments.post.view.widgets.VotingWidget
+    <io.golos.cyber_android.ui.common.widgets.post.VotingWidget
         android:id="@+id/votesArea"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"
@@ -36,12 +36,12 @@
         android:layout_marginEnd="@dimen/post_controls_view_comments_area_gap"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/viewsIcon"
+        app:layout_constraintEnd_toStartOf="@+id/ivShare"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1.2k" />
 
     <ImageView
-        android:id="@+id/viewsIcon"
+        android:id="@+id/ivShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/post_controls_icons_text_gap"

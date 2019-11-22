@@ -42,7 +42,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.user_posts_feed.UserPostsFeedFragmentModule
-import io.golos.cyber_android.ui.screens.main_activity.feed.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
@@ -50,6 +50,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.use_cases.model.CommunityModel
@@ -106,7 +107,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
             EditorPageFragmentComponent::class ->
                 get<UIComponent>()
                     .editorPageFragment
-                    .init(EditorPageFragmentModule(args[0] as CommunityModel?, args[1] as DiscussionIdModel?))
+                    .init(
+                        EditorPageFragmentModule(
+                            args[0] as CommunityModel?,
+                            args[1] as DiscussionIdModel?,
+                            args[2] as Post.ContentId?
+                        )
+                    )
                     .build()
 
             ProfileFragmentComponent::class ->

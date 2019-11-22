@@ -10,6 +10,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -36,7 +38,7 @@ constructor(
 
     private var editedCommentId: DiscussionIdModel? = null
     private var repliedCommentId: DiscussionIdModel? = null
-    
+
     val commentsPageSize: Int
         get() = model.commentsPageSize
 
@@ -63,11 +65,12 @@ constructor(
     private val _commentEditFieldVisibility = MutableLiveData<Int>(View.GONE)
     val commentEditFieldVisibility = _commentEditFieldVisibility as LiveData<Int>
 
-    private val _commentEditFieldSettings = MutableLiveData<EditReplyCommentSettings>(EditReplyCommentSettings(listOf(), listOf(), true))
+    private val _commentEditFieldSettings =
+        MutableLiveData<EditReplyCommentSettings>(EditReplyCommentSettings(listOf(), listOf(), true))
     val commentEditFieldSettings = _commentEditFieldSettings as LiveData<EditReplyCommentSettings>
 
     fun setup() {
-        if(wasMovedToChild) {
+        if (wasMovedToChild) {
             wasMovedToChild = false
             return
         }
@@ -133,19 +136,56 @@ constructor(
     }
 
     fun onPostMenuClick() {
-        val metadata = model.postMetadata
-        _command.value = ShowPostMenuViewCommand(
-            currentUserRepository.userId == postToProcess.userId,
-            metadata.version,
-            metadata.type)
+
+        val postMenu: PostMenu = model.getPostMenu()
+        _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
 
     override fun onCommentsTitleMenuClick() {
         _command.value = ShowCommentsSortingMenuViewCommand()
     }
 
+    fun addToFavorite(permlink: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.addToFavorite(permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun removeFromFavorite(permlink: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.removeFromFavorite(permlink)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun onShareClicked(shareUrl: String) {
+        _command.value = SharePostCommand(shareUrl)
+    }
+
+    @Deprecated("")
     fun editPost() {
         _command.value = StartEditPostViewCommand(model.postId)
+    }
+
+    fun editPost(contentId: Post.ContentId) {
+        _command.value = NavigationToEditPostViewCommand(contentId)
+    }
+
+    fun reportPost() {
+        _command.value = ReportPostCommand()
     }
 
     fun deletePost() {
@@ -174,6 +214,38 @@ constructor(
         }
     }
 
+    fun subscribeToCommunity(communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.subscribeToCommunity(communityId)
+                _postHeader.value = _postHeader.value?.copy(
+                    isJoinedToCommunity = true
+                )
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun unsubscribeToCommunity(communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.unsubscribeToCommunity(communityId)
+                _postHeader.value = _postHeader.value?.copy(
+                    isJoinedToCommunity = false
+                )
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
     override fun onNextCommentsPageReached() = processSimple { model.loadNextFirstLevelCommentsPage() }
 
     override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryLoadingFirstLevelCommentsPage() }
@@ -198,7 +270,7 @@ constructor(
                 _commentFieldEnabled.value = false
                 model.sendComment(commentText)
                 _command.value = ClearCommentTextViewCommand()
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentFieldEnabled.value = true
@@ -216,7 +288,7 @@ constructor(
         editedCommentId = commentId
     }
 
-    override fun startReplyToComment(commentToReplyId: DiscussionIdModel)  = startReplyOrEditComment {
+    override fun startReplyToComment(commentToReplyId: DiscussionIdModel) = startReplyOrEditComment {
         _commentEditFieldSettings.value = EditReplyCommentSettings(model.getCommentText(commentToReplyId), listOf(), false)
         repliedCommentId = commentToReplyId
     }
@@ -276,7 +348,7 @@ constructor(
                 _commentEditFieldEnabled.value = false
                 commentAction()
                 cancelReplyOrEditComment()
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true

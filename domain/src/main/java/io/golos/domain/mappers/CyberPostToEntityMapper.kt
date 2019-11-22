@@ -29,7 +29,8 @@ constructor() : CyberPostToEntityMapper {
             CommunityEntity(
                 communObject.community.communityId,
                 communObject.community.name!!,
-                communObject.community.avatarUrl
+                communObject.community.avatarUrl,
+                communObject.community.isSubscribed ?: false
             ),
             PostContent(
                 ContentBody(jsonMapper.map(communObject.content)),
@@ -47,7 +48,8 @@ constructor() : CyberPostToEntityMapper {
             DiscussionStats(
                 0.toBigInteger(),
                 0L
-            )                  // note[AS] temporary zero - it'll be in a future
+            ),                  // note[AS] temporary zero - it'll be in a future
+            communObject.shareUrl
         )
     }
 }

@@ -15,7 +15,7 @@ import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.cyber_android.ui.dialogs.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.utils.PaginationScrollListener

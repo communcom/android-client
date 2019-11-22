@@ -14,22 +14,22 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.posts.AbstractFeedFragment
 import io.golos.cyber_android.ui.common.posts.PostsAdapter
-import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.main_activity.feed.*
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
-import io.golos.cyber_android.ui.utils.asEvent
-import io.golos.cyber_android.ui.utils.TopDividerItemDecoration
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
 import io.golos.cyber_android.ui.common.widgets.sorting.SortingWidget
 import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
 import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
+import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
+import io.golos.cyber_android.ui.screens.feed.*
+import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
+import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
+import io.golos.cyber_android.ui.utils.TopDividerItemDecoration
+import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.dto.PostEntity
-import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.synthetic.main.fragment_user_posts_feed_list.*
 import javax.inject.Inject
 
@@ -103,7 +103,7 @@ open class UserPostsFeedFragment :
                     startActivity(
                         PostActivity.getIntent(
                             requireContext(),
-                            PostPageFragment.Args(post.contentId, true)
+                            PostPageFragment.Args(post.contentId, scrollToComments = true)
                         )
                     )
                 }
