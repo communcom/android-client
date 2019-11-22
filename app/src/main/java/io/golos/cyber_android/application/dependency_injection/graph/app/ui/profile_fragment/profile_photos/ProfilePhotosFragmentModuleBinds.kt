@@ -1,0 +1,23 @@
+package io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos
+
+import androidx.lifecycle.ViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModel
+import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModelImpl
+import io.golos.cyber_android.ui.screens.profile_photos.view_model.ProfilePhotosViewModel
+
+@Module
+abstract class ProfilePhotosFragmentModuleBinds {
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfilePhotosViewModel::class)
+    abstract fun provideProfilePhotosViewModel(viewModel: ProfilePhotosViewModel): ViewModel
+
+    @Binds
+    abstract fun provideProfilePhotosModel(model: ProfilePhotosModelImpl): ProfilePhotosModel
+}

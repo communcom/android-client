@@ -48,8 +48,11 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
@@ -120,6 +123,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 get<UIComponent>()
                     .profileFragment
                     .init(ProfileFragmentModule(args[0] as CyberName))
+                    .build()
+
+            ProfilePhotosFragmentComponent::class ->
+                get<ProfileFragmentComponent>()
+                    .photosFragment
+                    .init(ProfilePhotosFragmentModule(args[0] as PhotoPlace, args[1] as String?))
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()

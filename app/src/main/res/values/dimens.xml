@@ -407,7 +407,6 @@
     <!--Communities list-->
     <dimen name="communities_list_padding">10dp</dimen>
     <dimen name="communities_list_padding_top">20dp</dimen>
-    <dimen name="communities_list_header_height">44dp</dimen>
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>
@@ -443,4 +442,7 @@
     <dimen name="profile_update_photo_button_padding">14dp</dimen>
     <dimen name="profile_add_bio_button_height">35dp</dimen>
     <dimen name="profile_communities_height">261dp</dimen>
+
+    <dimen name="white_header_height">44dp</dimen>
+    <dimen name="white_header_buttons_margin">15dp</dimen>
 </resources>

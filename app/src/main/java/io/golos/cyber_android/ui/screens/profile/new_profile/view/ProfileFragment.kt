@@ -18,13 +18,12 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ProfilePhotoMenuDialog
 import io.golos.cyber_android.ui.dto.PhotoPlace
-import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
-import io.golos.cyber_android.ui.screens.profile_photos.ProfilePhotosFragment
+import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 
 class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
@@ -111,6 +110,5 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         ProfilePhotoMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
     private fun moveToSelectPhotoPage(place: PhotoPlace) =
-//        CommunityPageFragment - работает - дело во фрагменте
-        (requireActivity() as MainActivity).showFragment(ProfilePhotosFragment.newInstance(place))
+        (requireActivity() as MainActivity).showFragment(ProfilePhotosFragment.newInstance(place, "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80"))
 }
