@@ -64,7 +64,7 @@
                 />
         </FrameLayout>
 
-        <io.golos.cyber_android.ui.screens.profile_photos.widgets.PostPhotoView
+        <io.golos.cyber_android.ui.screens.profile_photos.view.widgets.PostPhotoView
             android:id="@+id/previewImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,6 +105,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/previewImage"
+
+            android:visibility="@{viewModel.galleryListVisibility}"
+            tools:visibility="visible"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

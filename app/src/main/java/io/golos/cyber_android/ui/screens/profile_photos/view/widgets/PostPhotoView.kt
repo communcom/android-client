@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_photos.widgets
+package io.golos.cyber_android.ui.screens.profile_photos.view.widgets
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -37,6 +37,10 @@ constructor(
     private val coverHeightFactor = 0.48
 
     private var onLoadingCompleteListener: ((Boolean) -> Unit)? = null
+
+    init {
+        scaleType = ScaleType.CENTER
+    }
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
@@ -93,7 +97,6 @@ constructor(
 
         Glide
             .with(this)
-            .applyDefaultRequestOptions(RequestOptions.centerCropTransform())
             .load(imageUrl)
             .listener(object: RequestListener<Drawable> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
@@ -105,7 +108,6 @@ constructor(
                     onLoadingCompleteListener?.invoke(true)
                     return false
                 }
-
             })
             .into(this)
     }

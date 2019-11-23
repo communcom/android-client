@@ -9,6 +9,8 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModel
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModelImpl
+import io.golos.cyber_android.ui.screens.profile_photos.model.gallery_items_source.GalleryItemsSource
+import io.golos.cyber_android.ui.screens.profile_photos.model.gallery_items_source.GalleryItemsSourceImpl
 import io.golos.cyber_android.ui.screens.profile_photos.view_model.ProfilePhotosViewModel
 
 @Module
@@ -20,4 +22,7 @@ abstract class ProfilePhotosFragmentModuleBinds {
 
     @Binds
     abstract fun provideProfilePhotosModel(model: ProfilePhotosModelImpl): ProfilePhotosModel
+
+    @Binds
+    abstract fun provideGalleryItemsSource(source: GalleryItemsSourceImpl): GalleryItemsSource
 }
