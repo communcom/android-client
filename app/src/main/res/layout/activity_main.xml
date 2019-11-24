@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,10 +18,18 @@
             android:layout_weight="1"
             android:overScrollMode="never" />
 
-        <io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
-            android:id="@+id/navigationMenu"
+        <io.golos.cyber_android.ui.common.widgets.RoundedView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:topLeftCornerRadius="32dp"
+            app:topRightCornerRadius="32dp">
+
+            <io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+                android:id="@+id/navigationMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </io.golos.cyber_android.ui.common.widgets.RoundedView>
 
     </LinearLayout>
 

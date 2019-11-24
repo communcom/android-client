@@ -2,11 +2,11 @@ package io.golos.cyber_android.ui.common.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import com.google.android.material.card.MaterialCardView
+import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_navigation_bottom_menu.view.*
 
-class NavigationBottomMenuWidget : MaterialCardView {
+class NavigationBottomMenuWidget : LinearLayout {
 
     var clickListener: Listener? = null
 
