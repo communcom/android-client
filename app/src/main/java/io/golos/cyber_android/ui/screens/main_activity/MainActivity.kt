@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -59,6 +60,22 @@ class MainActivity : ActivityBase() {
         })
 
         viewModel.getCurrentTabLiveData.observe(this, Observer {
+            val tab =
+                NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
+                    navigationTab.index == it.index
+                }
+            when (tab) {
+                NavigationBottomMenuWidget.Tab.FEED -> {
+                    (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
+                }
+                NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
+                    (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
+                }
+                NavigationBottomMenuWidget.Tab.PROFILE -> {
+                    (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(45.dp)
+                }
+                null -> (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(0)
+            }
             mainPager.currentItem = it.index
         })
 
