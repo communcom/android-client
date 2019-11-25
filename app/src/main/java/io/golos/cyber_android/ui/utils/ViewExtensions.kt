@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.utils
 
+import android.content.res.Resources
 import android.os.Build
 import android.text.Editable
 import android.text.Spannable
@@ -10,6 +11,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import java.util.regex.Pattern
 
+/**
+ * Convert dp to pixel
+ */
+val Float.dp: Float
+    get() = (this * Resources.getSystem().displayMetrics.density)
 
 fun AppCompatTextView.setStyle(@StyleRes styleResId: Int) {
     if (Build.VERSION.SDK_INT < 23) {

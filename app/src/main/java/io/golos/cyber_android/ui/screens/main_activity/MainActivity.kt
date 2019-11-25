@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,9 +15,11 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
-import io.golos.cyber_android.ui.screens.main_activity.feed.FeedFragment
+import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,14 +28,6 @@ import javax.inject.Inject
 
 
 class MainActivity : ActivityBase() {
-
-    enum class Tab(val index: Int, @IdRes val navItem: Int) {
-        FEED(0, R.id.navigation_feed),
-        COMMUNITIES(1, R.id.navigation_communities),
-        //NOTIFICATIONS(1, R.id.navigation_notifications),
-        //WALLET(3, R.id.navigation_wallet),
-        PROFILE(2, R.id.navigation_profile)
-    }
 
     private lateinit var viewModel: MainViewModel
 
@@ -50,6 +43,8 @@ class MainActivity : ActivityBase() {
         addNotificationsBadge()
         setupViewModel()
         observeViewModel()
+
+        navigationMenu.clickListener = viewModel
     }
 
     private fun observeViewModel() {
@@ -60,12 +55,15 @@ class MainActivity : ActivityBase() {
         viewModel.authStateLiveData.asEvent().observe(this, Observer { authState ->
             authState.getIfNotHandled()?.let {
                 setupPager(it.userName)
-                setupNavigationView()
             }
         })
 
         viewModel.getCurrentTabLiveData.observe(this, Observer {
             mainPager.currentItem = it.index
+        })
+
+        viewModel.createTabLiveData.observe(this, Observer {
+            startActivity(EditorPageActivity.getIntent(this))
         })
     }
 
@@ -90,51 +88,53 @@ class MainActivity : ActivityBase() {
 
     private fun setupPager(user: CyberName) {
         mainPager.isUserInputEnabled = false
-        mainPager.offscreenPageLimit = Tab.values().size
+        mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size
         mainPager.adapter = object : FragmentStateAdapter(supportFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
-                return when (Tab.values().find { it.index == position }) {
-                    Tab.FEED -> FeedFragment.newInstance("gls", user.name)
-                    Tab.COMMUNITIES -> CommunitiesFragment.newInstance()
-                    //Tab.NOTIFICATIONS -> NotificationsFragment.newInstance()
-                    //Tab.WALLET -> WalletFragment.newInstance()
-                    Tab.PROFILE -> ProfileFragment.newInstance(user.name)
+                val tab =
+                    NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
+                        navigationTab.index == position
+                    }
+                return when (tab) {
+                    NavigationBottomMenuWidget.Tab.FEED -> {
+                        FeedFragment.newInstance("gls", user.name)
+                    }
+                    NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
+                        CommunitiesFragment.newInstance()
+                    }
+                    NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
+                        NotificationsFragment.newInstance()
+                    }
+                    NavigationBottomMenuWidget.Tab.PROFILE -> {
+                        ProfileFragment.newInstance(user.name)
+                    }
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
             }
 
-            override fun getItemCount() = Tab.values().size
+            override fun getItemCount() = NavigationBottomMenuWidget.Tab.values().size
         }
-        mainPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+        mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                when(position) {
-                    Tab.FEED.index -> {
+                when (position) {
+                    NavigationBottomMenuWidget.Tab.FEED.index -> {
                         clearFullScreenMode()
                         setStatusBarColor(R.color.feed_status_bar_color)
                         tintStatusBarIcons(true)
                     }
-                    Tab.COMMUNITIES.index -> {
+                    NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
                         clearFullScreenMode()
                         setStatusBarColor(R.color.window_status_bar_background)
                         tintStatusBarIcons(true)
                     }
-                    Tab.PROFILE.index -> {
+                    NavigationBottomMenuWidget.Tab.PROFILE.index -> {
                         setFullScreenMode()
                     }
                 }
             }
         })
-    }
-
-    private fun setupNavigationView() {
-        navigationView.setOnNavigationItemSelectedListener {
-            Tab.values().find { tab -> it.itemId == tab.navItem }?.run {
-                viewModel.onTabSelected(this)
-            }
-            return@setOnNavigationItemSelectedListener true
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -155,7 +155,7 @@ class MainActivity : ActivityBase() {
 
     fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
         val tag = fragment::class.simpleName
-        if(supportFragmentManager.findFragmentByTag(tag) == null){
+        if (supportFragmentManager.findFragmentByTag(tag) == null) {
             val beginTransaction = supportFragmentManager.beginTransaction()
             if (isAddToBackStack) {
                 beginTransaction.addToBackStack(tag)

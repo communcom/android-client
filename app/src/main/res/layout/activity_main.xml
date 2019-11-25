@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.screens.main_activity.MainActivity">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.main_activity.MainActivity">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/light_gray">
 
         <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/mainPager"
-                android:overScrollMode="never"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+            android:id="@+id/mainPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/navigationView"
-                app:menu="@menu/menu_navigation_main"
-                app:itemIconTint="@color/navigation_item_tint_color"
-                android:layout_gravity="bottom"
+        <io.golos.cyber_android.ui.common.widgets.RoundedView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:topLeftCornerRadius="32dp"
+            app:topRightCornerRadius="32dp">
+
+            <io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+                android:id="@+id/navigationMenu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"/>
+                android:layout_height="wrap_content" />
+
+        </io.golos.cyber_android.ui.common.widgets.RoundedView>
+
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/rootContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
