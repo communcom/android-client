@@ -13,6 +13,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 
 @Module(subcomponents = [
     BioFragmentComponent::class,
@@ -26,6 +27,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
     InAppAuthActivityComponent::class,
     FeedbackActivityComponent::class,
     SelectCommunityDialogComponent::class,
-    ProfileFragmentComponent::class
+    ProfileFragmentComponent::class,
+    ProfilePostsFragmentComponent::class
 ])
 class UIModuleChilds

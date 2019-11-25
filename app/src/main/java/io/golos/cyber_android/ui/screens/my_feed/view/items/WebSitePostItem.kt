@@ -15,7 +15,7 @@ class WebSitePostItem(val websiteBlock: WebsiteBlock, widgetListener: EmbedWebsi
     override fun areItemsTheSame(): Int = websiteBlock.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is WebSitePostItem){
+        if (item is WebSitePostItem) {
             return websiteBlock == item.websiteBlock
         }
         return false

@@ -15,7 +15,7 @@ class ImagePostItem(val imageBlock: ImageBlock, widgetListener: EmbedImageWidget
     override fun areItemsTheSame(): Int = imageBlock.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is ImagePostItem){
+        if (item is ImagePostItem) {
             return imageBlock == item.imageBlock
         }
         return false

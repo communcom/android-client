@@ -9,21 +9,29 @@ import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.common.widgets.post.VotingWidget
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
-import io.golos.cyber_android.ui.common.widgets.post.VotingWidget
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
+import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
+import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class PostItem(
     val post: Post,
+    private val type: Type,
     private val listener: MyFeedListListener
 ) : BaseRecyclerItem() {
+
+    enum class Type {
+        FEED,
+        PROFILE
+    }
 
     override fun getLayoutId(): Int = R.layout.item_post_content
 
@@ -34,7 +42,7 @@ class PostItem(
     override fun areItemsTheSame(): Int = post.contentId.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is PostItem){
+        if (item is PostItem) {
             return post == item.post
         }
         return false
@@ -62,6 +70,17 @@ class PostItem(
         view.ivShare.setOnClickListener {
             post.shareUrl?.let {
                 listener.onShareClicked(it)
+            }
+        }
+
+        when (type) {
+            Type.FEED -> {
+                view.votesArea.upvoteButton.visibility = View.VISIBLE
+                view.votesArea.downvoteButton.visibility = View.VISIBLE
+            }
+            Type.PROFILE -> {
+                view.votesArea.upvoteButton.visibility = View.INVISIBLE
+                view.votesArea.downvoteButton.visibility = View.INVISIBLE
             }
         }
     }

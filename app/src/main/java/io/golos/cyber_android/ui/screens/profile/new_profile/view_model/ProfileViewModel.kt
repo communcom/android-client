@@ -81,6 +81,8 @@ constructor(
     }
 
     private fun loadPage() {
+//        _loadingProgressVisibility.value = View.INVISIBLE
+//        _pageContentVisibility.value = View.VISIBLE
         launch {
             try {
                 with(model.loadProfileInfo()) {

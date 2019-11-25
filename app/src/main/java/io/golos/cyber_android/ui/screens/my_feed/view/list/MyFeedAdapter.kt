@@ -13,7 +13,10 @@ import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import timber.log.Timber
 
-open class MyFeedAdapter(private val eventsProcessor: MyFeedListListener) : RecyclerAdapter() {
+open class MyFeedAdapter(
+    private val postType: PostItem.Type,
+    private val eventsProcessor: MyFeedListListener
+) : RecyclerAdapter() {
 
     private val rvViewPool = RecyclerView.RecycledViewPool()
 
@@ -21,7 +24,7 @@ open class MyFeedAdapter(private val eventsProcessor: MyFeedListListener) : Recy
 
     fun updateMyFeedPosts(posts: List<Post>) {
         val postsItems = posts.map {
-            val postItem = PostItem(it, eventsProcessor)
+            val postItem = PostItem(it, postType, eventsProcessor)
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }

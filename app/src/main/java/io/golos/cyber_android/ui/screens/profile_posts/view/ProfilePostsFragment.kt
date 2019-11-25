@@ -1,16 +1,15 @@
-package io.golos.cyber_android.ui.screens.my_feed.view
+package io.golos.cyber_android.ui.screens.profile_posts.view
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.databinding.FragmentMyFeedBinding
+import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
@@ -18,39 +17,39 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
+import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import kotlinx.android.synthetic.main.fragment_my_feed.*
+import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
-import timber.log.Timber
 
-class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
+class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
 
-    override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: MyFeedViewModel) {
+    override fun linkViewModel(binding: FragmentProfilePostsBinding, viewModel: ProfilePostsViewModel) {
         binding.viewModel = viewModel
     }
 
-    override fun provideViewModelType(): Class<MyFeedViewModel> = MyFeedViewModel::class.java
+    override fun provideViewModelType(): Class<ProfilePostsViewModel> = ProfilePostsViewModel::class.java
 
-    override fun layoutResId(): Int = R.layout.fragment_my_feed
+    override fun layoutResId(): Int = R.layout.fragment_profile_posts
 
-    override fun inject() = App.injections.get<MyFeedFragmentComponent>()
-        .inject(this)
+    override fun inject() {
+        App.injections.get<ProfilePostsFragmentComponent>().inject(this)
+    }
 
     override fun releaseInjection() {
-        App.injections.release<MyFeedFragmentComponent>()
+        App.injections.release<ProfilePostsFragmentComponent>()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,34 +57,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         setupPostsList()
         observeViewModel()
         viewModel.start()
-    }
-
-    private fun setupPostsList() {
-        val myFeedAdapter = MyFeedAdapter(PostItem.Type.FEED, viewModel)
-        val lManager = LinearLayoutManager(context)
-
-        rvPosts.addItemDecoration(DividerPostDecoration(requireContext()))
-        rvPosts.layoutManager = lManager
-
-        rvPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val visibleItemCount = recyclerView.childCount
-                val totalItemCount = lManager.itemCount
-                val firstVisibleItem = lManager.findFirstVisibleItemPosition()
-
-                if (totalItemCount - visibleItemCount <= firstVisibleItem + visibleItemCount) {
-                    if (lManager.findLastCompletelyVisibleItemPosition() >= totalItemCount - 1) {
-                        viewModel.loadMorePosts()
-                    }
-                }
-            }
-        })
-
-        rvPosts.adapter = myFeedAdapter
-        myFeedAdapter.onPageRetryLoadingCallback = {
-            viewModel.loadMorePosts()
-        }
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -106,25 +77,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
             is ReportPostCommand -> reportPost(command.post)
         }
-    }
-
-    private fun reportPost(post: Post) {
-
-    }
-
-    private fun editPost(post: Post) {
-        startActivity(
-            EditorPageActivity.getIntent(
-                requireContext(),
-                EditorPageFragment.Args(
-                    contentId = post.contentId
-                )
-            )
-        )
-    }
-
-    private fun sharePost(shareUrl: String) {
-        requireContext().shareMessage(shareUrl)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -187,29 +139,41 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         }
     }
 
-    private fun openPostMenuDialog(postMenu: PostMenu) {
-        PostPageMenuDialog.newInstance(postMenu).apply {
-            setTargetFragment(this@MyFeedFragment, PostPageMenuDialog.REQUEST)
-        }.show(requireFragmentManager(), "show")
+    override fun onDestroyView() {
+        rvPosts.adapter = null
+        super.onDestroyView()
     }
 
-    private fun openPost(discussionIdModel: DiscussionIdModel) {
-        startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(discussionIdModel)))
-    }
+    private fun setupPostsList() {
+        val profilePostAdapter = MyFeedAdapter(PostItem.Type.PROFILE, viewModel)
+        val lManager = LinearLayoutManager(context)
 
-    private fun openUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
+        with(rvPosts) {
+            addItemDecoration(DividerPostDecoration(requireContext()))
+            layoutManager = lManager
 
-    private fun openLinkView(link: Uri) {
-        Intent(Intent.ACTION_VIEW, link)
-            .also { intent ->
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val visibleItemCount = recyclerView.childCount
+                    val totalItemCount = lManager.itemCount
+                    val firstVisibleItem = lManager.findFirstVisibleItemPosition()
+
+                    if (totalItemCount - visibleItemCount <= firstVisibleItem + visibleItemCount) {
+                        if (lManager.findLastCompletelyVisibleItemPosition() >= totalItemCount - 1) {
+                            viewModel.loadMorePosts()
+                        }
+                    }
                 }
-            }
-    }
+            })
 
-    private fun openImageView(imageUri: Uri) =
-        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
+            adapter = profilePostAdapter
+        }
+
+        profilePostAdapter.onPageRetryLoadingCallback = {
+            viewModel.loadMorePosts()
+        }
+    }
 
     private fun observeViewModel() {
         viewModel.postsListState.observe(viewLifecycleOwner, Observer {
@@ -248,7 +212,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     pbLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.Refresh<*> -> {
-                    Timber.d("filter: GET new posts after filter update")
                     myFeedAdapter.clearAllPosts()
                     emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
@@ -267,10 +230,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 }
             }
         })
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
-            myFeedAdapter.updateUser(it)
-        })
+
         viewModel.loadUserProgressVisibility.observe(this, Observer {
             if (it) {
                 userProgressLoading.visibility = View.VISIBLE
@@ -278,6 +238,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 userProgressLoading.visibility = View.INVISIBLE
             }
         })
+
         viewModel.loadUserErrorVisibility.observe(this, Observer {
             if (it) {
                 btnRetry.visibility = View.VISIBLE
@@ -287,16 +248,53 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         })
     }
 
-    override fun onDestroyView() {
-        rvPosts.adapter = null
-        super.onDestroyView()
+    private fun reportPost(post: Post) {
+
+    }
+
+    private fun editPost(post: Post) {
+        startActivity(
+            EditorPageActivity.getIntent(
+                requireContext(),
+                EditorPageFragment.Args(
+                    contentId = post.contentId
+                )
+            )
+        )
+    }
+
+    private fun sharePost(shareUrl: String) {
+        requireContext().shareMessage(shareUrl)
+    }
+
+    private fun openPostMenuDialog(postMenu: PostMenu) {
+        PostPageMenuDialog.newInstance(postMenu).apply {
+            setTargetFragment(this@ProfilePostsFragment, PostPageMenuDialog.REQUEST)
+        }.show(requireFragmentManager(), "show")
+    }
+
+    private fun openPost(discussionIdModel: DiscussionIdModel) {
+        startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(discussionIdModel)))
+    }
+
+    private fun openUserProfile(userId: String) {
+        startActivity(ProfileActivity.getIntent(requireContext(), userId))
+    }
+
+    private fun openLinkView(link: Uri) {
+        Intent(Intent.ACTION_VIEW, link)
+            .also { intent ->
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+    }
+
+    private fun openImageView(imageUri: Uri) {
+        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
     }
 
     companion object {
-
-        fun newInstance(): Fragment {
-
-            return MyFeedFragment()
-        }
+        fun newInstance() = ProfilePostsFragment()
     }
 }

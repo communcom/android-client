@@ -9,8 +9,10 @@ import io.golos.cyber_android.ui.common.widgets.post.PostBlockWidget
 import io.golos.domain.use_cases.post.post_dto.Block
 import kotlinx.android.synthetic.main.item_post_block.view.*
 
-abstract class BasePostBlockItem<POST_BLOCK : Block, WIDGET_LISTENER: BasePostBlockWidgetListener, WIDGET : PostBlockWidget<POST_BLOCK, WIDGET_LISTENER>>(private val postBlock: POST_BLOCK,
-                                                                                                                                                                                                                                                      private val widgetListener: WIDGET_LISTENER? = null) :
+abstract class BasePostBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlockWidgetListener, WIDGET : PostBlockWidget<POST_BLOCK, WIDGET_LISTENER>>(
+    private val postBlock: POST_BLOCK,
+    private val widgetListener: WIDGET_LISTENER? = null
+) :
     BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_block

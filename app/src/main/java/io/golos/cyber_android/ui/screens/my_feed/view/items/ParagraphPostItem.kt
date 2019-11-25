@@ -15,7 +15,7 @@ class ParagraphPostItem(val paragraphBlock: ParagraphBlock, widgetListener: Para
     override fun areItemsTheSame(): Int = paragraphBlock.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is ParagraphPostItem){
+        if (item is ParagraphPostItem) {
             return paragraphBlock == item.paragraphBlock
         }
         return false

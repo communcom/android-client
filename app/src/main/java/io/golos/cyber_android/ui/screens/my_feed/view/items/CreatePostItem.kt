@@ -29,7 +29,7 @@ class CreatePostItem(val user: User?, private val eventsProcessor: MyFeedListLis
     override fun areItemsTheSame(): Int = user?.id.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is CreatePostItem){
+        if (item is CreatePostItem) {
             return user == item.user
         }
         return false

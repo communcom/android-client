@@ -11,19 +11,20 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feed.FeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
-import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -58,6 +59,7 @@ interface UIComponent {
     val postFiltersFragment: PostFiltersFragmentComponent.Builder
     val postsListFragment: MyFeedFragmentComponent.Builder
     val profileFragment: ProfileFragmentComponent.Builder
+    val profilePostsFragment: ProfilePostsFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)
