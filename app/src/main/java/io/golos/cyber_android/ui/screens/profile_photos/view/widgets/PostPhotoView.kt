@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.core.graphics.drawable.toBitmap
@@ -12,13 +13,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoViewImageInfo
 
 
 /**
@@ -117,5 +117,16 @@ constructor(
                 }
             })
             .into(this)
+    }
+
+    fun getImageInfo(): PhotoViewImageInfo {
+        val drawableRect = Rect(0, 0, 0, 0)
+        getDrawingRect(drawableRect)
+
+        return PhotoViewImageInfo(
+            (drawable as BitmapDrawable).bitmap,
+            imageMatrix,
+            drawableRect
+        )
     }
 }

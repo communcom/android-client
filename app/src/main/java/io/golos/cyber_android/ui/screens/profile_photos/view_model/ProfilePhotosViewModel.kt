@@ -11,17 +11,13 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.PhotoPlace
-import io.golos.cyber_android.ui.screens.profile_photos.dto.InitPhotoPreviewCommand
-import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
-import io.golos.cyber_android.ui.screens.profile_photos.dto.StartCameraCommand
+import io.golos.cyber_android.ui.screens.profile_photos.dto.*
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModel
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.GalleryGridItemEventsProcessor
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Named
 
 class ProfilePhotosViewModel
 @Inject
@@ -71,6 +67,27 @@ constructor(
 
     fun onCancelClick() {
         _command.value = BackCommand()
+    }
+
+    fun onSaveClick() {
+        _command.value = RequestResultImageCommand()
+    }
+
+    fun processResultImage(imageInfo: PhotoViewImageInfo) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+
+                val imageFile = model.saveSelectedPhoto(imageInfo)
+
+                _command.value = SetLoadingVisibilityCommand(false)
+                _command.value = PassResultCommand(imageFile, photoPlace)
+                _command.value = BackCommand()
+            } catch (ex: Exception) {
+                _command.value = SetLoadingVisibilityCommand(false)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
     }
 
     fun onPreviewLoadingCompleted() {

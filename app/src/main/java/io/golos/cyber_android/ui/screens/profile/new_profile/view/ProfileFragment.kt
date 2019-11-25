@@ -110,5 +110,10 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         ProfilePhotoMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
     private fun moveToSelectPhotoPage(place: PhotoPlace) =
-        (requireActivity() as MainActivity).showFragment(ProfilePhotosFragment.newInstance(place, "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80"))
+        (requireActivity() as MainActivity)
+            .showFragment(
+                ProfilePhotosFragment.newInstance(
+                    place,
+                    "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80",
+                    this))
 }

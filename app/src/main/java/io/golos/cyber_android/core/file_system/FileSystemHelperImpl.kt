@@ -2,6 +2,9 @@ package io.golos.cyber_android.core.file_system
 
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
+import androidx.core.content.FileProvider
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.App
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.DispatchersProvider
@@ -44,6 +47,9 @@ constructor(
                 null
             }
         }
+
+    override fun getTempImageFile(): File =
+        File.createTempFile("JPG_", IdUtil.generateLongId().toString(), appContext.externalCacheDir)
 
     @Suppress("SameParameterValue")
     private fun getCacheFolder(subFolderName: String): File {

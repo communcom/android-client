@@ -1,9 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile_photos.view
 
 import android.Manifest
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -16,37 +20,50 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.screens.profile_photos.dto.InitPhotoPreviewCommand
+import io.golos.cyber_android.ui.screens.profile_photos.dto.PassResultCommand
+import io.golos.cyber_android.ui.screens.profile_photos.dto.RequestResultImageCommand
 import io.golos.cyber_android.ui.screens.profile_photos.dto.StartCameraCommand
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.GalleryGridAdapter
 import io.golos.cyber_android.ui.screens.profile_photos.view_model.ProfilePhotosViewModel
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_profile_photos.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
+import java.io.File
 import javax.inject.Inject
 
 @RuntimePermissions
 class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, ProfilePhotosViewModel>() {
+    @Parcelize
+    data class Result(
+        val photoFilePath: String,
+        val place: PhotoPlace
+    ): Parcelable
+
+    companion object {
+        private const val PLACE = "PLACE"
+        private const val IMAGE_URL = "IMAGE_URL"
+        private const val RESULT = "RESULT"
+
+        const val PROFILE_PHOTO_REQUEST = 1657
+
+        fun newInstance(place: PhotoPlace, imageUrl: String?, parentFragment: Fragment): ProfilePhotosFragment {
+            return ProfilePhotosFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(PLACE, place.value)
+                    putString(IMAGE_URL, imageUrl)
+                }
+                setTargetFragment(parentFragment, PROFILE_PHOTO_REQUEST)
+            }
+        }
+    }
 
     private lateinit var galleryGridAdapter: GalleryGridAdapter
     private lateinit var galleryGridLayoutManager: GridLayoutManager
 
     @Inject
     internal lateinit var cameraHelper: CameraHelper
-
-    companion object {
-        private const val PLACE = "PLACE"
-        private const val IMAGE_URL = "IMAGE_URL"
-
-        fun newInstance(place: PhotoPlace, imageUrl: String?): ProfilePhotosFragment {
-            return ProfilePhotosFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(PLACE, place.value)
-                    putString(IMAGE_URL, imageUrl)
-                }
-            }
-        }
-    }
 
     override fun provideViewModelType(): Class<ProfilePhotosViewModel> = ProfilePhotosViewModel::class.java
 
@@ -72,6 +89,8 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
             is BackCommand -> requireActivity().onBackPressed()
             is InitPhotoPreviewCommand -> initPhotoPreview(command.photoPlace, command.imageUrl, command.isImageFromCamera)
             is StartCameraCommand -> startCameraWithPermissionCheck()
+            is RequestResultImageCommand -> requestResultImage()
+            is PassResultCommand -> passResult(command.imageFile, command.photoPlace)
         }
     }
 
@@ -125,5 +144,14 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
         }
 
         galleryGridAdapter.update(data)
+    }
+
+    private fun requestResultImage() = viewModel.processResultImage(previewImage.getImageInfo())
+
+    private fun passResult(imageFile: File, photoPlace: PhotoPlace) {
+        targetFragment!!.onActivityResult(
+            PROFILE_PHOTO_REQUEST,
+            Activity.RESULT_OK,
+            Intent().apply { extras!!.putParcelable(RESULT, Result(imageFile.absolutePath, photoPlace)) })
     }
 }

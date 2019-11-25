@@ -46,6 +46,8 @@
                 style="@style/BlueHeaderButton"
 
                 android:layout_gravity="center_vertical|end"
+
+                android:onClick="@{() -> viewModel.onSaveClick()}"
                 />
 
             <TextView
