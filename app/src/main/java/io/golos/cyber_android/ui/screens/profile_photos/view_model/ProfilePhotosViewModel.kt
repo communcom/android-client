@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_photos.view_model
 
+import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,7 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.screens.profile_photos.dto.InitPhotoPreviewCommand
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
+import io.golos.cyber_android.ui.screens.profile_photos.dto.StartCameraCommand
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModel
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.GalleryGridItemEventsProcessor
 import io.golos.domain.DispatchersProvider
@@ -56,7 +58,7 @@ constructor(
                 _imagePreviewLoadingVisibility.value = View.VISIBLE
 
                 if(items.size > 1) {
-                    _command.value = InitPhotoPreviewCommand(photoPlace, (items[1] as PhotoGridItem).imageUri)
+                    _command.value = InitPhotoPreviewCommand(photoPlace, (items[1] as PhotoGridItem).imageUri, false)
                 }
 
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -83,11 +85,26 @@ constructor(
         _command.value = BackCommand()
     }
 
-    override fun onCameraCellClick() {
-        // do noting
+    fun onCameraImageCaptured(cameraImageUri: Uri) {
+        try {
+            _galleryItems.value = model.addCameraImageToGallery(cameraImageUri)
+            selectPhoto(cameraImageUri.toString(), true)
+        } catch (ex: Exception) {
+            _command.value = ShowMessageCommand(R.string.common_general_error)
+        }
     }
 
-    override fun onPhotoCellClick(imageUri: String) {
-        // do nothing
+    override fun onCameraCellClick() {
+        _command.value = StartCameraCommand()
+    }
+
+    override fun onPhotoCellClick(selectedImageUri: String, isImageFromCamera: Boolean)
+            = selectPhoto(selectedImageUri, isImageFromCamera)
+
+    private fun selectPhoto(selectedImageUri: String, isImageFromCamera: Boolean) {
+        _imagePreviewVisibility.value = View.INVISIBLE
+        _imagePreviewLoadingVisibility.value = View.VISIBLE
+
+        _command.value = InitPhotoPreviewCommand(photoPlace, selectedImageUri, isImageFromCamera)
     }
 }

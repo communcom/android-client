@@ -3,6 +3,8 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui
 import dagger.Binds
 import dagger.Module
 import io.golos.cyber_android.core.bitmaps.BitmapsUtilsImpl
+import io.golos.cyber_android.core.camera.CameraHelper
+import io.golos.cyber_android.core.camera.CameraHelperImpl
 import io.golos.cyber_android.core.file_system.FileSystemHelperImpl
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
@@ -85,4 +87,7 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideFileSystemHelper(helper: FileSystemHelperImpl): FileSystemHelper
+
+    @Binds
+    abstract fun provideCameraHelper(helper: CameraHelperImpl): CameraHelper
 }

@@ -34,7 +34,7 @@ class PhotoGridItemViewHolder(
             .override(100, 100)
             .into(itemView.photoImage)
 
-        itemView.setOnClickListener { listItemEventsProcessor.onPhotoCellClick(listItem.imageUri) }
+        itemView.setOnClickListener { listItemEventsProcessor.onPhotoCellClick(listItem.imageUri, listItem.isImageFromCamera) }
     }
 
     override fun release() {
