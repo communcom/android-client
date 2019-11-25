@@ -28,9 +28,7 @@ class ProfilePhotosViewModel
 constructor(
     dispatchersProvider: DispatchersProvider,
     model: ProfilePhotosModel,
-    private val photoPlace: PhotoPlace,
-    @Named(Clarification.IMAGE_URL)
-    private val imageUrl: String?
+    private val photoPlace: PhotoPlace
 ) : ViewModelBase<ProfilePhotosModel>(dispatchersProvider, model),
     GalleryGridItemEventsProcessor {
 
