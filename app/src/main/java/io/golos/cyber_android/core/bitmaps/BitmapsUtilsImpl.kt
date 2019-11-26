@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
-import io.golos.cyber_android.application.App
 import io.golos.domain.BitmapsUtils
 import timber.log.Timber
 import java.io.File
@@ -36,6 +35,12 @@ constructor(): BitmapsUtils {
             return file
         }
 
+    override fun saveToFile(file: File, source: Bitmap, quality: Int) {
+        FileOutputStream(file).use { stream ->
+            source.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+        }
+    }
+
     /**
      * Get rotation angle for saved bitmap
      * @return ExifInterface.ORIENTATION_
@@ -53,12 +58,5 @@ constructor(): BitmapsUtils {
         val matrix = Matrix()
         matrix.postRotate(degrees)
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
-
-    /** */
-    private fun saveToFile(file: File, source: Bitmap, quality: Int = 50) {
-        FileOutputStream(file).use { stream ->
-            source.compress(Bitmap.CompressFormat.JPEG, quality, stream)
-        }
     }
 }

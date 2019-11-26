@@ -73,6 +73,7 @@ import io.golos.data.repositories.discussion.live_data.DiscussionCreationReposit
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
+import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.data.repositories.vote.VoteRepositoryImpl
 import io.golos.data.repositories.vote.live_data.VoteRepositoryLiveData

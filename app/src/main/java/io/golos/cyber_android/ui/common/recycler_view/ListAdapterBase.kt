@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.recycler_view
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 

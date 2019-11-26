@@ -12,7 +12,7 @@ ext.versions = [
         annotation          : '1.1.0',
         legacySupport       : '1.0.0',
 
-        commun4jVersion     : '0.9.14',
+        commun4jVersion     : '0.9.16',
 
         //Network
         retrofit            : '2.4.0',
@@ -45,6 +45,7 @@ ext.versions = [
         fileChooser         : 'v1.1.17',
         photoView           : '2.3.0',
         captcha             : '17.0.0',
+        permissdispatcher   : '4.6.0',
 
         //Google services
         googleServicesPlugin: '4.2.0',
@@ -124,19 +125,21 @@ ext.deps = [
         ],
 
         'ui'                    : [
-                constraintLayout        : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
-                recyclerView            : "androidx.recyclerview:recyclerview:1.0.0",
-                glide                   : "com.github.bumptech.glide:glide:$versions.glide",
-                glideAnnotationProcessor: "com.github.bumptech.glide:compiler:$versions.glide",
-                materialDesign          : "com.google.android.material:material:$versions.materialDesign",
-                pagingLibrary           : "androidx.paging:paging-runtime:$versions.pagingLibrary",
-                corbind                 : "ru.ldralighieri.corbind:corbind:$versions.corbind",
-                viewPager2              : "androidx.viewpager2:viewpager2:$versions.viewPager2",
-                adwancedWebView         : "com.github.delight-im:Android-AdvancedWebView:$versions.adwancedWebView",
-                decoro                  : "ru.tinkoff.decoro:decoro:$versions.decoro",
-                fileChooser             : "com.github.hedzr:android-file-chooser:$versions.fileChooser",
-                photoView               : "com.github.chrisbanes:PhotoView:$versions.photoView",
-                captcha                 : "com.google.android.gms:play-services-safetynet:$versions.captcha"
+                constraintLayout                     : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
+                recyclerView                         : "androidx.recyclerview:recyclerview:1.0.0",
+                glide                                : "com.github.bumptech.glide:glide:$versions.glide",
+                glideAnnotationProcessor             : "com.github.bumptech.glide:compiler:$versions.glide",
+                materialDesign                       : "com.google.android.material:material:$versions.materialDesign",
+                pagingLibrary                        : "androidx.paging:paging-runtime:$versions.pagingLibrary",
+                corbind                              : "ru.ldralighieri.corbind:corbind:$versions.corbind",
+                viewPager2                           : "androidx.viewpager2:viewpager2:$versions.viewPager2",
+                adwancedWebView                      : "com.github.delight-im:Android-AdvancedWebView:$versions.adwancedWebView",
+                decoro                               : "ru.tinkoff.decoro:decoro:$versions.decoro",
+                fileChooser                          : "com.github.hedzr:android-file-chooser:$versions.fileChooser",
+                photoView                            : "com.github.chrisbanes:PhotoView:$versions.photoView",
+                captcha                              : "com.google.android.gms:play-services-safetynet:$versions.captcha",
+                permissdispatcher                    : "org.permissionsdispatcher:permissionsdispatcher:$versions.permissdispatcher",
+                permissdispatcherAnnotationProcessor : "org.permissionsdispatcher:permissionsdispatcher-processor:$versions.permissdispatcher"
         ],
 
         'googleServices'        : [
@@ -257,7 +260,9 @@ ext.deps.groups = [
             implementation deps.ui.viewPager2
             implementation deps.ui.photoView
             implementation deps.ui.captcha
+            implementation deps.ui.permissdispatcher
             kapt deps.ui.glideAnnotationProcessor
+            kapt deps.ui.permissdispatcherAnnotationProcessor
         },
 
         'tests'                 : { dependencyHandler ->

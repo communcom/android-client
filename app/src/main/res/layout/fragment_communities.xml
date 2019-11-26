@@ -29,7 +29,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/communities_list_header_height"
+                android:layout_height="@dimen/white_header_height"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 android:background="@color/white">
 

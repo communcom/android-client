@@ -1,9 +1,12 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.view_model
 
 import android.view.View
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
@@ -11,6 +14,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -21,23 +25,19 @@ constructor(
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
 
-    private val _coverUrl: MutableLiveData<String?> =
-        MutableLiveData("https://media.istockphoto.com/vectors/fashionable-pattern-in-the-arab-style-seamless-background-arabesque-vector-id928387200")
+    private val _coverUrl: MutableLiveData<String?> = MutableLiveData()
     val coverUrl: LiveData<String?> get() = _coverUrl
 
-    private val _avatarUrl: MutableLiveData<String?> =
-        MutableLiveData("http://www.born-today.com/images/1391266842p5/2742325.jpg")
+    private val _avatarUrl: MutableLiveData<String?> = MutableLiveData()
     val avatarUrl: LiveData<String?> get() = _avatarUrl
 
-    private val _name: MutableLiveData<String?> =
-        MutableLiveData("Ghiyath al-Din Abu'l-Fath Umar ibn Ibrahim Al-Nisaburi al-Khayyami")
+    private val _name: MutableLiveData<String?> = MutableLiveData("Ghiyath al-Din Abu'l-Fath Umar ibn Ibrahim Al-Nisaburi al-Khayyami")
     val name: LiveData<String?> get() = _name
 
     private val _joinDate: MutableLiveData<Date> = MutableLiveData(Date())
     val joinDate: LiveData<Date> get() = _joinDate
 
-    private val _bio: MutableLiveData<String?> =
-        MutableLiveData("Omar Khayyam was a Persian mathematician, astronomer, and poet. He was born in Nishapur, in northeastern Iran, and spent most of his life near the court of the Karakhanid and Seljuq rulers in the period which witnessed the First Crusade.")
+    private val _bio: MutableLiveData<String?> = MutableLiveData("Omar Khayyam was a Persian mathematician, astronomer, and poet. He was born in Nishapur, in northeastern Iran, and spent most of his life near the court of the Karakhanid and Seljuq rulers in the period which witnessed the First Crusade.")
     val bio: LiveData<String?> get() = _bio
 
     private val _bioVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
@@ -81,7 +81,43 @@ constructor(
     }
 
     fun onDeletePhotoMenuChosen(place: PhotoPlace) {
-        // do nothing
+        launch {
+            try {
+                when(place) {
+                    PhotoPlace.COVER -> {
+                        _coverUrl.value = null
+                        model.clearCover()
+                    }
+                    PhotoPlace.AVATAR -> {
+                        _avatarUrl.value = null
+                        model.clearAvatar()
+                    }
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
+    }
+
+    fun updatePhoto(imageFile: File, place: PhotoPlace) {
+        launch {
+            try {
+                when(place) {
+                    PhotoPlace.COVER -> {
+                        _coverUrl.value = imageFile.toURI().toString()
+                        model.sendCover(imageFile)
+                    }
+                    PhotoPlace.AVATAR -> {
+                        _avatarUrl.value = imageFile.toURI().toString()
+                        model.sendAvatar(imageFile)
+                    }
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
     }
 
     private fun loadPage() {

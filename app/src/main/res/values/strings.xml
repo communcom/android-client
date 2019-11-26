@@ -417,4 +417,7 @@
     <string name="joined">Joined</string>
     <string name="vote">Vote</string>
     <string name="share_apps_not_found">Share apps not found</string>
+    <string name="save">Save</string>
+
+    <string name="profile_photos_storage_permissions_denied">You can\'s select a photo without granted permissions, sorry…</string>
 </resources>

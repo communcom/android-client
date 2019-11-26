@@ -573,4 +573,9 @@
         <item name="android:maxLines">1</item>
         <item name="fontFamily">@font/roboto_bold</item>
     </style>
+
+    <style name="BlueHeaderButton" parent="Common.Base.TextStyle">
+        <item name="android:textColor">@color/clickable_text_color</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+    </style>
 </resources>
