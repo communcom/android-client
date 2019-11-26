@@ -18,6 +18,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/viewIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/viewCountText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_open_eye"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/viewCountText"
+        style="@style/PostCardCountersTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/post_controls_view_comments_area_gap"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/commentsIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1.2k" />
+
+    <ImageView
         android:id="@+id/commentsIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

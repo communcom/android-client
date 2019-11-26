@@ -145,7 +145,7 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
     }
 
     private fun setupPostsList() {
-        val profilePostAdapter = MyFeedAdapter(PostItem.Type.PROFILE, viewModel)
+        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE)
         val lManager = LinearLayoutManager(context)
 
         with(rvPosts) {

@@ -65,23 +65,24 @@ class PostItem(
         setUpFeedContent(view, post.body)
         setPostHeader(view, post)
         setVotesCounter(view, post.votes)
-        KiloCounterFormatter.format(post.stats?.commentsCount.positiveValue().toLong())
-        setCommentsCounter(view, post.stats?.commentsCount ?: 0)
+        setUpVotesButton(view, post.isMyPost)
+        setUpViewCount(view, post.stats?.viewCount, type == Type.PROFILE)
+        setCommentsCounter(view, post.stats?.commentsCount)
         view.ivShare.setOnClickListener {
             post.shareUrl?.let {
                 listener.onShareClicked(it)
             }
         }
+    }
 
-        when (type) {
-            Type.FEED -> {
-                view.votesArea.upvoteButton.visibility = View.VISIBLE
-                view.votesArea.downvoteButton.visibility = View.VISIBLE
-            }
-            Type.PROFILE -> {
-                view.votesArea.upvoteButton.visibility = View.INVISIBLE
-                view.votesArea.downvoteButton.visibility = View.INVISIBLE
-            }
+    private fun setUpViewCount(view: View, count: Int?, isNeedToShow: Boolean) {
+        if (isNeedToShow) {
+            view.viewIcon.visibility = View.VISIBLE
+            view.viewCountText.visibility = View.VISIBLE
+            view.viewCountText.text = KiloCounterFormatter.format(count.positiveValue().toLong())
+        } else {
+            view.viewIcon.visibility = View.INVISIBLE
+            view.viewCountText.visibility = View.INVISIBLE
         }
     }
 
@@ -172,8 +173,18 @@ class PostItem(
         votingWidget.setUpVoteButtonSelected(votes.hasUpVote)
     }
 
-    private fun setCommentsCounter(view: View, commentsCounter: Int) {
-        view.commentsCountText.text = commentsCounter.toString()
+    private fun setUpVotesButton(view: View, isMyPost: Boolean) {
+        if (isMyPost) {
+            view.votesArea.upvoteButton.visibility = View.VISIBLE
+            view.votesArea.downvoteButton.visibility = View.VISIBLE
+        } else {
+            view.votesArea.upvoteButton.visibility = View.INVISIBLE
+            view.votesArea.downvoteButton.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setCommentsCounter(view: View, commentsCounter: Int?) {
+        view.commentsCountText.text = KiloCounterFormatter.format(commentsCounter.positiveValue().toLong())
         view.commentsCountText.setOnClickListener {
             listener.onCommentsClicked(post.contentId)
         }

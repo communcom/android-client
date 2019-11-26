@@ -61,7 +61,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun setupPostsList() {
-        val myFeedAdapter = MyFeedAdapter(PostItem.Type.FEED, viewModel)
+        val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED)
         val lManager = LinearLayoutManager(context)
 
         rvPosts.addItemDecoration(DividerPostDecoration(requireContext()))

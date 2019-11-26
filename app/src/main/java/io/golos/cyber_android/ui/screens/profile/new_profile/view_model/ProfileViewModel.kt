@@ -9,8 +9,6 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPho
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -81,30 +79,30 @@ constructor(
     }
 
     private fun loadPage() {
-//        _loadingProgressVisibility.value = View.INVISIBLE
-//        _pageContentVisibility.value = View.VISIBLE
-        launch {
-            try {
-                with(model.loadProfileInfo()) {
-                    _coverUrl.value = coverUrl
-                    _avatarUrl.value = avatarUrl
-                    _name.value = name
-                    _joinDate.value = joinDate
-                    _bio.value = bio
-                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
-                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
-                    _followersCount.value = followersCount
-                    _followingsCount.value = followingsCount
-                }
-
-                _pageContentVisibility.value = View.VISIBLE
-
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _retryButtonVisibility.value = View.VISIBLE
-            } finally {
-                _loadingProgressVisibility.value = View.INVISIBLE
-            }
-        }
+        _loadingProgressVisibility.value = View.INVISIBLE
+        _pageContentVisibility.value = View.VISIBLE
+//        launch {
+//            try {
+//                with(model.loadProfileInfo()) {
+//                    _coverUrl.value = coverUrl
+//                    _avatarUrl.value = avatarUrl
+//                    _name.value = name
+//                    _joinDate.value = joinDate
+//                    _bio.value = bio
+//                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
+//                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
+//                    _followersCount.value = followersCount
+//                    _followingsCount.value = followingsCount
+//                }
+//
+//                _pageContentVisibility.value = View.VISIBLE
+//
+//            } catch (ex: Exception) {
+//                Timber.e(ex)
+//                _retryButtonVisibility.value = View.VISIBLE
+//            } finally {
+//                _loadingProgressVisibility.value = View.INVISIBLE
+//            }
+//        }
     }
 }
