@@ -41,6 +41,16 @@ interface UsersRepository {
     suspend fun updateAvatar(avatarFile: File): String
 
     /**
+     * Clear cover of current user profile
+     */
+    suspend fun clearCover()
+
+    /**
+     * Clear avatar of current user profile
+     */
+    suspend fun clearAvatar()
+
+    /**
      * Update user's bio
      */
     suspend fun updateBio(bio: String)

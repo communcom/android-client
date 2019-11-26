@@ -25,10 +25,10 @@ constructor(
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
 
-    private val _coverUrl: MutableLiveData<String?> = MutableLiveData("https://media.istockphoto.com/vectors/fashionable-pattern-in-the-arab-style-seamless-background-arabesque-vector-id928387200")
+    private val _coverUrl: MutableLiveData<String?> = MutableLiveData()
     val coverUrl: LiveData<String?> get() = _coverUrl
 
-    private val _avatarUrl: MutableLiveData<String?> = MutableLiveData("http://www.born-today.com/images/1391266842p5/2742325.jpg")
+    private val _avatarUrl: MutableLiveData<String?> = MutableLiveData()
     val avatarUrl: LiveData<String?> get() = _avatarUrl
 
     private val _name: MutableLiveData<String?> = MutableLiveData("Ghiyath al-Din Abu'l-Fath Umar ibn Ibrahim Al-Nisaburi al-Khayyami")
@@ -81,7 +81,23 @@ constructor(
     }
 
     fun onDeletePhotoMenuChosen(place: PhotoPlace) {
-        // do nothing
+        launch {
+            try {
+                when(place) {
+                    PhotoPlace.COVER -> {
+                        _coverUrl.value = null
+                        model.clearCover()
+                    }
+                    PhotoPlace.AVATAR -> {
+                        _avatarUrl.value = null
+                        model.clearAvatar()
+                    }
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
     }
 
     fun updatePhoto(imageFile: File, place: PhotoPlace) {

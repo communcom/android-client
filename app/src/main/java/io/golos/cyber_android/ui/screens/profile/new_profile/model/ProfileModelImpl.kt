@@ -26,4 +26,8 @@ constructor(
      * @return url of a cover
      */
     override suspend fun sendCover(coverFile: File): String = usersRepository.updateCover(coverFile)
+
+    override suspend fun clearAvatar() = usersRepository.clearAvatar()
+
+    override suspend fun clearCover() = usersRepository.clearCover()
 }

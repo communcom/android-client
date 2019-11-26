@@ -16,4 +16,8 @@ interface ProfileModel: ModelBase {
      * @return url of an avatar
      */
     suspend fun sendCover(coverFile: File): String
+
+    suspend fun clearAvatar()
+
+    suspend fun clearCover()
 }
