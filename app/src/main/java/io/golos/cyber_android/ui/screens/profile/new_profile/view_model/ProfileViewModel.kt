@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.view_model
 
 import android.view.View
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
