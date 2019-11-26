@@ -25,6 +25,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileV
 import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
+import java.io.File
 
 class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
     companion object {
@@ -82,6 +83,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         when (requestCode) {
             ProfilePhotoMenuDialog.REQUEST -> {
                 val place = PhotoPlace.create(data!!.extras.getInt(ProfilePhotoMenuDialog.PLACE))
@@ -89,6 +91,10 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                     ProfilePhotoMenuDialog.RESULT_SELECT -> { viewModel.onSelectPhotoMenuChosen(place)}
                     ProfilePhotoMenuDialog.RESULT_DELETE -> { viewModel.onDeletePhotoMenuChosen(place) }
                 }
+            }
+            ProfilePhotosFragment.REQUEST -> {
+                val result = data!!.extras.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
+                viewModel.updatePhoto(File(result.photoFilePath), result.place)
             }
         }
     }
@@ -115,5 +121,5 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                 ProfilePhotosFragment.newInstance(
                     place,
                     "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80",
-                    this))
+                    this@ProfileFragment))
 }

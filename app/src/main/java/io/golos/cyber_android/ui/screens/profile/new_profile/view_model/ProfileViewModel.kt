@@ -1,9 +1,12 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.view_model
 
 import android.view.View
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
@@ -11,6 +14,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -78,6 +82,26 @@ constructor(
 
     fun onDeletePhotoMenuChosen(place: PhotoPlace) {
         // do nothing
+    }
+
+    fun updatePhoto(imageFile: File, place: PhotoPlace) {
+        launch {
+            try {
+                when(place) {
+                    PhotoPlace.COVER -> {
+                        _coverUrl.value = imageFile.toURI().toString()
+                        model.sendCover(imageFile)
+                    }
+                    PhotoPlace.AVATAR -> {
+                        _avatarUrl.value = imageFile.toURI().toString()
+                        model.sendAvatar(imageFile)
+                    }
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
     }
 
     private fun loadPage() {

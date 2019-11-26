@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.profile_photos.view
 
 import android.Manifest
 import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -44,9 +43,9 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
     companion object {
         private const val PLACE = "PLACE"
         private const val IMAGE_URL = "IMAGE_URL"
-        private const val RESULT = "RESULT"
 
-        const val PROFILE_PHOTO_REQUEST = 1657
+        const val RESULT = "RESULT"
+        const val REQUEST = 1657
 
         fun newInstance(place: PhotoPlace, imageUrl: String?, parentFragment: Fragment): ProfilePhotosFragment {
             return ProfilePhotosFragment().apply {
@@ -54,7 +53,7 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
                     putInt(PLACE, place.value)
                     putString(IMAGE_URL, imageUrl)
                 }
-                setTargetFragment(parentFragment, PROFILE_PHOTO_REQUEST)
+                setTargetFragment(parentFragment, REQUEST)
             }
         }
     }
@@ -150,8 +149,10 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
 
     private fun passResult(imageFile: File, photoPlace: PhotoPlace) {
         targetFragment!!.onActivityResult(
-            PROFILE_PHOTO_REQUEST,
+            REQUEST,
             Activity.RESULT_OK,
-            Intent().apply { extras!!.putParcelable(RESULT, Result(imageFile.absolutePath, photoPlace)) })
+            Intent().apply {
+                this.putExtra(RESULT, Result(imageFile.absolutePath, photoPlace))
+            })
     }
 }
