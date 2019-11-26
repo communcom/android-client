@@ -23,7 +23,6 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -347,18 +346,12 @@ class ProfilePostsViewModel @Inject constructor(
                 /*val userProfile = model.getLocalUser().mapToUser()*/
                 val userProfile = User("1", "sdsds", "")
                 _user.value = userProfile
-                val feedFilters = model.feedFiltersFlow.first()
-                val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()
-                val feedTimeFrame = feedFilters.periodTimeFilter.mapToTimeFrameDomain()
                 postsConfigurationDomain = PostsConfigurationDomain(
-                    userProfile.id,
-                    null,
-                    null,
-                    PostsConfigurationDomain.SortByDomain.TIME,
-                    feedTimeFrame,
-                    PAGINATION_PAGE_SIZE,
-                    0,
-                    feedType
+                    userId = userProfile.id,
+                    communityId = null,
+                    communityAlias = null,
+                    limit = PAGINATION_PAGE_SIZE,
+                    offset = 0
                 )
                 isUserLoad.invoke(true)
             } catch (e: Exception) {

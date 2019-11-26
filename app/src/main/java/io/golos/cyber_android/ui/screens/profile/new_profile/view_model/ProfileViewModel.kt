@@ -9,6 +9,8 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPho
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -19,19 +21,23 @@ constructor(
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
 
-    private val _coverUrl: MutableLiveData<String?> = MutableLiveData("https://media.istockphoto.com/vectors/fashionable-pattern-in-the-arab-style-seamless-background-arabesque-vector-id928387200")
+    private val _coverUrl: MutableLiveData<String?> =
+        MutableLiveData("https://media.istockphoto.com/vectors/fashionable-pattern-in-the-arab-style-seamless-background-arabesque-vector-id928387200")
     val coverUrl: LiveData<String?> get() = _coverUrl
 
-    private val _avatarUrl: MutableLiveData<String?> = MutableLiveData("http://www.born-today.com/images/1391266842p5/2742325.jpg")
+    private val _avatarUrl: MutableLiveData<String?> =
+        MutableLiveData("http://www.born-today.com/images/1391266842p5/2742325.jpg")
     val avatarUrl: LiveData<String?> get() = _avatarUrl
 
-    private val _name: MutableLiveData<String?> = MutableLiveData("Ghiyath al-Din Abu'l-Fath Umar ibn Ibrahim Al-Nisaburi al-Khayyami")
+    private val _name: MutableLiveData<String?> =
+        MutableLiveData("Ghiyath al-Din Abu'l-Fath Umar ibn Ibrahim Al-Nisaburi al-Khayyami")
     val name: LiveData<String?> get() = _name
 
     private val _joinDate: MutableLiveData<Date> = MutableLiveData(Date())
     val joinDate: LiveData<Date> get() = _joinDate
 
-    private val _bio: MutableLiveData<String?> = MutableLiveData("Omar Khayyam was a Persian mathematician, astronomer, and poet. He was born in Nishapur, in northeastern Iran, and spent most of his life near the court of the Karakhanid and Seljuq rulers in the period which witnessed the First Crusade.")
+    private val _bio: MutableLiveData<String?> =
+        MutableLiveData("Omar Khayyam was a Persian mathematician, astronomer, and poet. He was born in Nishapur, in northeastern Iran, and spent most of his life near the court of the Karakhanid and Seljuq rulers in the period which witnessed the First Crusade.")
     val bio: LiveData<String?> get() = _bio
 
     private val _bioVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
@@ -79,30 +85,28 @@ constructor(
     }
 
     private fun loadPage() {
-        _loadingProgressVisibility.value = View.INVISIBLE
-        _pageContentVisibility.value = View.VISIBLE
-//        launch {
-//            try {
-//                with(model.loadProfileInfo()) {
-//                    _coverUrl.value = coverUrl
-//                    _avatarUrl.value = avatarUrl
-//                    _name.value = name
-//                    _joinDate.value = joinDate
-//                    _bio.value = bio
-//                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
-//                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
-//                    _followersCount.value = followersCount
-//                    _followingsCount.value = followingsCount
-//                }
-//
-//                _pageContentVisibility.value = View.VISIBLE
-//
-//            } catch (ex: Exception) {
-//                Timber.e(ex)
-//                _retryButtonVisibility.value = View.VISIBLE
-//            } finally {
-//                _loadingProgressVisibility.value = View.INVISIBLE
-//            }
-//        }
+        launch {
+            try {
+                with(model.loadProfileInfo()) {
+                    _coverUrl.value = coverUrl
+                    _avatarUrl.value = avatarUrl
+                    _name.value = name
+                    _joinDate.value = joinDate
+                    _bio.value = bio
+                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
+                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
+                    _followersCount.value = followersCount
+                    _followingsCount.value = followingsCount
+                }
+
+                _pageContentVisibility.value = View.VISIBLE
+
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _retryButtonVisibility.value = View.VISIBLE
+            } finally {
+                _loadingProgressVisibility.value = View.INVISIBLE
+            }
+        }
     }
 }
