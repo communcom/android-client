@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.view.list
+package io.golos.cyber_android.ui.screens.communities_list.view.list
 
 import io.golos.domain.dto.CommunityDomain
 

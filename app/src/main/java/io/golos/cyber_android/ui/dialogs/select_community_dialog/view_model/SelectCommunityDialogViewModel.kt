@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.extensions.fold

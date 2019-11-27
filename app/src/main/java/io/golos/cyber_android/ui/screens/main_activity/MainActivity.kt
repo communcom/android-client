@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.CommunitiesFragment
+import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragment
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
@@ -117,7 +117,7 @@ class MainActivity : ActivityBase() {
                         FeedFragment.newInstance("gls", user.name)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                        CommunitiesFragment.newInstance()
+                        CommunitiesListFragment.newInstance()
                     }
                     NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
                         NotificationsFragment.newInstance()

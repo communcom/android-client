@@ -1,12 +1,12 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.model
+package io.golos.cyber_android.ui.screens.communities_list.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.RetryListItem
+import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.communities_list.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.communities_list.dto.RetryListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -16,12 +16,12 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
-open class CommunitiesModelImpl
+open class CommunitiesListModelImpl
 @Inject
 constructor(
     private val communitiesRepository: CommunitiesRepository,
     private val dispatchersProvider: DispatchersProvider
-) : ModelBaseImpl(), CommunitiesModel {
+) : ModelBaseImpl(), CommunitiesListModel {
 
     private enum class LoadingState {
         READY_TO_LOAD,
@@ -152,7 +152,10 @@ constructor(
 
     private fun setCommunityInProgress(communityId: String) =
         updateCommunity(communityId) { oldCommunity ->
-            oldCommunity.copy(version = oldCommunity.version + 1, isProgress = true)
+            oldCommunity.copy(
+                version = oldCommunity.version + 1,
+                isProgress = true,
+                isJoined = !oldCommunity.isJoined)
         }
 
     private fun completeCommunityInProgress(communityId: String, isSuccess: Boolean) =
@@ -160,7 +163,7 @@ constructor(
             oldCommunity.copy(
                 version = oldCommunity.version + 1,
                 isProgress = false,
-                isJoined = if(isSuccess) !oldCommunity.isJoined else oldCommunity.isJoined
+                isJoined = if(isSuccess) oldCommunity.isJoined else !oldCommunity.isJoined
             )
         }
 

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.view
+package io.golos.cyber_android.ui.screens.communities_list.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,18 +15,18 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.main_activity.communities.view_model.CommunitiesViewModel
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListAdapter
+import io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel
 import kotlinx.android.synthetic.main.fragment_communities.*
 
-class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesViewModel>() {
+class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesListViewModel>() {
     companion object {
-        fun newInstance() = CommunitiesFragment()    }
+        fun newInstance() = CommunitiesListFragment()    }
 
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
 
-    override fun provideViewModelType(): Class<CommunitiesViewModel> = CommunitiesViewModel::class.java
+    override fun provideViewModelType(): Class<CommunitiesListViewModel> = CommunitiesListViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_communities
 
@@ -36,7 +36,7 @@ class CommunitiesFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, Communi
         App.injections.release<CommunitiesFragmentComponent>()
     }
 
-    override fun linkViewModel(binding: FragmentCommunitiesBinding, viewModel: CommunitiesViewModel) {
+    override fun linkViewModel(binding: FragmentCommunitiesBinding, viewModel: CommunitiesListViewModel) {
         binding.viewModel = viewModel
     }
 

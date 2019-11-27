@@ -8,8 +8,8 @@ import io.golos.cyber_android.ui.common.extensions.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_communities_community_list_item_dialog.view.*
 
 class CommunityListItemViewHolderDialog(

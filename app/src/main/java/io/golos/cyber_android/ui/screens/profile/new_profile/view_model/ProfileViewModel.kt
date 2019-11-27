@@ -141,6 +141,9 @@ constructor(
     }
 
     fun onBioClick() {
+        if(bioUpdateInProgress) {
+            return
+        }
         _command.value = ShowEditBioDialogCommand()
     }
 

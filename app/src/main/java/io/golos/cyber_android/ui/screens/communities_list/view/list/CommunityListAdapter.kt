@@ -1,15 +1,15 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.view.list
+package io.golos.cyber_android.ui.screens.communities_list.view.list
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.RetryListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.CommunityListItemViewHolder
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.LoadingListItemViewHolder
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders.RetryListItemViewHolder
+import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.communities_list.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.communities_list.dto.RetryListItem
+import io.golos.cyber_android.ui.screens.communities_list.view.list.view_holders.CommunityListItemViewHolder
+import io.golos.cyber_android.ui.screens.communities_list.view.list.view_holders.LoadingListItemViewHolder
+import io.golos.cyber_android.ui.screens.communities_list.view.list.view_holders.RetryListItemViewHolder
 
 open class CommunityListAdapter(
     private val listItemEventsProcessor: CommunityListItemEventsProcessor,

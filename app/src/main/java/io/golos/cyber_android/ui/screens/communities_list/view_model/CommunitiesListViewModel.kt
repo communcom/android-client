@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.view_model
+package io.golos.cyber_android.ui.screens.communities_list.view_model
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.R
@@ -6,19 +6,19 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.model.CommunitiesModel
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModel
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CommunitiesViewModel
+class CommunitiesListViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: CommunitiesModel
-) : ViewModelBase<CommunitiesModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
+    model: CommunitiesListModel
+) : ViewModelBase<CommunitiesListModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
     val items: LiveData<List<VersionedListItem>>
         get()  = model.items

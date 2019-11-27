@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.main_activity.communities.view_model.CommunitiesViewModel"/>
+            type="io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
 
             android:id="@+id/root"
-            tools:context=".ui.screens.main_activity.communities.view.CommunitiesFragment">
+            tools:context=".ui.screens.communities_list.view.CommunitiesListFragment">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/actionBar"

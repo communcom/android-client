@@ -1,7 +1,6 @@
-package io.golos.cyber_android.ui.screens.main_activity.communities.view.list.view_holders
+package io.golos.cyber_android.ui.screens.communities_list.view.list.view_holders
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
@@ -9,8 +8,8 @@ import io.golos.cyber_android.ui.common.extensions.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.main_activity.communities.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
 
 class CommunityListItemViewHolder(
@@ -35,31 +34,29 @@ class CommunityListItemViewHolder(
         }
 
         with(listItem) {
-            itemView.leaderName.text = community.name
+            itemView.communityTitle.text = community.name
 
             val followers = followersFormatter.format(community.followersCount)
             val posts = postsFormatter.format(community.postsCount)
 
-            itemView.leaderPoints.text = "$followers ${SpecialChars.bullet} $posts"
+            itemView.communityInfo.text = "$followers ${SpecialChars.bullet} $posts"
 
             itemView.setOnClickListener { listItemEventsProcessor.onItemClick(community) }
 
             if(isJoined) {
-                itemView.voteButton.text = itemView.context.resources.getString(R.string.joined_to_community)
+                itemView.joinButton.text = itemView.context.resources.getString(R.string.joined_to_community)
             } else {
-                itemView.voteButton.text = itemView.context.resources.getString(R.string.join_to_community)
+                itemView.joinButton.text = itemView.context.resources.getString(R.string.join_to_community)
             }
 
-            itemView.voteButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
-            itemView.voteButton.isEnabled = !isProgress
-            itemView.joiningProgress.visibility = if(isProgress) View.VISIBLE else View.INVISIBLE
+            itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
 
             itemView.ivLogo.loadCommunity(community.logo)
         }
     }
 
     override fun release() {
-        itemView.voteButton.setOnClickListener(null)
+        itemView.joinButton.setOnClickListener(null)
         itemView.setOnClickListener(null)
     }
 }

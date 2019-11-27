@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.dialogs.select_community_dialog.model
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.search.CommunitiesSearch
-import io.golos.cyber_android.ui.screens.main_activity.communities.model.CommunitiesModelImpl
+import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModelImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.extensions.mapSuccess
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -15,7 +15,7 @@ constructor(
     private val search: CommunitiesSearch,
     dispatchersProvider: DispatchersProvider,
     communitiesRepository: CommunitiesRepository
-) : CommunitiesModelImpl(
+) : CommunitiesListModelImpl(
     communitiesRepository,
     dispatchersProvider
 ), SelectCommunityDialogModel {
