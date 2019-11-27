@@ -8,8 +8,7 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
-import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
-import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
+import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
@@ -22,7 +21,6 @@ import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -54,8 +52,6 @@ class ProfilePostsViewModel @Inject constructor(
     private var loadPostsJob: Job? = null
 
     init {
-        applyFiltersListener()
-
         paginator.sideEffectListener = {
             when (it) {
                 is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
@@ -268,27 +264,6 @@ class ProfilePostsViewModel @Inject constructor(
         return null
     }
 
-    private fun applyFiltersListener() {
-        launch {
-            model.feedFiltersFlow.collect {
-                if (::postsConfigurationDomain.isInitialized) {
-                    val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
-                    val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
-                    if (feedType != postsConfigurationDomain.typeFeed ||
-                        feedTimeFrame != postsConfigurationDomain.timeFrame
-                    ) {
-                        postsConfigurationDomain = postsConfigurationDomain.copy(
-                            typeFeed = feedType,
-                            timeFrame = feedTimeFrame
-                        )
-                        paginator.initState(Paginator.State.Empty)
-                        restartLoadPosts()
-                    }
-                }
-            }
-        }
-    }
-
     fun loadMorePosts() {
         paginator.proceed(Paginator.Action.LoadMore)
     }
@@ -343,15 +318,17 @@ class ProfilePostsViewModel @Inject constructor(
             try {
                 _loadUserErrorVisibility.value = false
                 _loadUserProgressVisibility.value = true
-                /*val userProfile = model.getLocalUser().mapToUser()*/
-                val userProfile = User("1", "sdsds", "")
+                val userProfile = model.getLocalUser().mapToUser()
                 _user.value = userProfile
                 postsConfigurationDomain = PostsConfigurationDomain(
                     userId = userProfile.id,
                     communityId = null,
                     communityAlias = null,
                     limit = PAGINATION_PAGE_SIZE,
-                    offset = 0
+                    offset = 0,
+                    sortBy = PostsConfigurationDomain.SortByDomain.TIME_DESC,
+                    timeFrame = PostsConfigurationDomain.TimeFrameDomain.ALL,
+                    typeFeed = PostsConfigurationDomain.TypeFeedDomain.BY_USER
                 )
                 isUserLoad.invoke(true)
             } catch (e: Exception) {

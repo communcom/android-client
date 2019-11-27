@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
+import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
@@ -345,8 +346,7 @@ class MyFeedViewModel @Inject constructor(
             try {
                 _loadUserErrorVisibility.value = false
                 _loadUserProgressVisibility.value = true
-                /*val userProfile = model.getLocalUser().mapToUser()*/
-                val userProfile = User("1", "sdsds", "")
+                val userProfile = model.getLocalUser().mapToUser()
                 _user.value = userProfile
                 val feedFilters = model.feedFiltersFlow.first()
                 val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()
@@ -355,7 +355,7 @@ class MyFeedViewModel @Inject constructor(
                     userProfile.id,
                     null,
                     null,
-                    PostsConfigurationDomain.SortByDomain.TIME,
+                    PostsConfigurationDomain.SortByDomain.TIME_DESC,
                     feedTimeFrame,
                     PAGINATION_PAGE_SIZE,
                     0,
