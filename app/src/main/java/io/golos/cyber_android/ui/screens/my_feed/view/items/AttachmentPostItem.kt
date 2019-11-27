@@ -18,7 +18,7 @@ class AttachmentPostItem(
     override fun areItemsTheSame(): Int = attachmentsBlock.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is AttachmentPostItem){
+        if (item is AttachmentPostItem) {
             return attachmentsBlock == item.attachmentsBlock
         }
         return false

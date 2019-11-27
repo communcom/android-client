@@ -15,7 +15,7 @@ class VideoPostItem(val videoBlock: VideoBlock, widgetListener: EmbedVideoWidget
     override fun areItemsTheSame(): Int = videoBlock.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if(item is VideoPostItem){
+        if (item is VideoPostItem) {
             return videoBlock == item.videoBlock
         }
         return false

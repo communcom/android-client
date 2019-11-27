@@ -36,7 +36,8 @@ data class PostDomain(
     )
 
     data class StatsDomain(
-        val commentsCount: Int
+        val commentsCount: Int,
+        val viewCount: Int
     )
 
     data class ContentIdDomain(

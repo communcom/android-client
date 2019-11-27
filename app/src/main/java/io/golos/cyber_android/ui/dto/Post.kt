@@ -38,7 +38,8 @@ data class Post(
     )
 
     data class Stats(
-        val commentsCount: Int
+        val commentsCount: Int,
+        val viewCount: Int
     )
 
     @Parcelize

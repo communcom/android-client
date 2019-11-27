@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view_model
+package io.golos.cyber_android.ui.screens.profile_posts.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -8,12 +8,11 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
-import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
-import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
-import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
+import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -22,17 +21,49 @@ import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class MyFeedViewModel @Inject constructor(
+class ProfilePostsViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
+
+    private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
+
+    val postsListState = _postsListState.toLiveData()
+
+    private val _user: MutableLiveData<User> = MutableLiveData()
+
+    val user = _user.toLiveData()
+
+    private lateinit var postsConfigurationDomain: PostsConfigurationDomain
+
+    private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
+
+    private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
+
+    private var loadPostsJob: Job? = null
+
+    init {
+        paginator.sideEffectListener = {
+            when (it) {
+                is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
+                is Paginator.SideEffect.ErrorEvent -> {
+
+                }
+            }
+        }
+        paginator.render = {
+            _postsListState.value = it
+        }
+    }
 
     override fun onShareClicked(shareUrl: String) {
         _command.value = SharePostCommand(shareUrl)
@@ -65,42 +96,6 @@ class MyFeedViewModel @Inject constructor(
     override fun onCommentsClicked(postContentId: Post.ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel)
-    }
-
-    private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
-
-    val postsListState = _postsListState.toLiveData()
-
-    private val _user: MutableLiveData<User> = MutableLiveData()
-
-    val user = _user.toLiveData()
-
-    private lateinit var postsConfigurationDomain: PostsConfigurationDomain
-
-    private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
-
-    private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
-
-    private var loadPostsJob: Job? = null
-
-    init {
-        applyFiltersListener()
-
-        paginator.sideEffectListener = {
-            when (it) {
-                is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
-                is Paginator.SideEffect.ErrorEvent -> {
-
-                }
-            }
-        }
-        paginator.render = {
-            _postsListState.value = it
-        }
     }
 
     fun addToFavorite(permlink: String) {
@@ -269,39 +264,16 @@ class MyFeedViewModel @Inject constructor(
         return null
     }
 
-    private fun applyFiltersListener() {
-        launch {
-            model.feedFiltersFlow.collect {
-                if (::postsConfigurationDomain.isInitialized) {
-                    val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
-                    val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
-                    if (feedType != postsConfigurationDomain.typeFeed ||
-                        feedTimeFrame != postsConfigurationDomain.timeFrame
-                    ) {
-                        postsConfigurationDomain = postsConfigurationDomain.copy(
-                            typeFeed = feedType,
-                            timeFrame = feedTimeFrame
-                        )
-                        paginator.initState(Paginator.State.Empty)
-                        restartLoadPosts()
-                    }
-                }
-            }
-        }
-    }
-
     fun loadMorePosts() {
         paginator.proceed(Paginator.Action.LoadMore)
     }
 
     private fun loadMorePosts(pageCount: Int) {
-        Timber.d("paginator: load posts on page -> $pageCount")
         loadPostsJob = launch {
             try {
                 postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGINATION_PAGE_SIZE)
                 val postsDomainList = model.getPosts(postsConfigurationDomain)
                 val postList = postsDomainList.mapToPostsList()
-                Timber.d("paginator: post list size -> ${postList.size}")
                 launch(Dispatchers.Main) {
                     paginator.proceed(
                         Paginator.Action.NewPage(
@@ -348,18 +320,15 @@ class MyFeedViewModel @Inject constructor(
                 _loadUserProgressVisibility.value = true
                 val userProfile = model.getLocalUser().mapToUser()
                 _user.value = userProfile
-                val feedFilters = model.feedFiltersFlow.first()
-                val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()
-                val feedTimeFrame = feedFilters.periodTimeFilter.mapToTimeFrameDomain()
                 postsConfigurationDomain = PostsConfigurationDomain(
-                    userProfile.id,
-                    null,
-                    null,
-                    PostsConfigurationDomain.SortByDomain.TIME_DESC,
-                    feedTimeFrame,
-                    PAGINATION_PAGE_SIZE,
-                    0,
-                    feedType
+                    userId = userProfile.id,
+                    communityId = null,
+                    communityAlias = null,
+                    limit = PAGINATION_PAGE_SIZE,
+                    offset = 0,
+                    sortBy = PostsConfigurationDomain.SortByDomain.TIME_DESC,
+                    timeFrame = PostsConfigurationDomain.TimeFrameDomain.ALL,
+                    typeFeed = PostsConfigurationDomain.TypeFeedDomain.BY_USER
                 )
                 isUserLoad.invoke(true)
             } catch (e: Exception) {

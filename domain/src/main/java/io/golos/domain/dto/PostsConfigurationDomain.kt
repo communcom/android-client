@@ -4,11 +4,11 @@ data class PostsConfigurationDomain(
     val userId: String,
     val communityId: String?,
     val communityAlias: String?,
-    val sortBy: SortByDomain = SortByDomain.TIME,
-    val timeFrame: TimeFrameDomain = TimeFrameDomain.DAY,
+    val sortBy: SortByDomain = SortByDomain.TIME_DESC,
+    val timeFrame: TimeFrameDomain = TimeFrameDomain.ALL,
     val limit: Int,
     val offset: Int,
-    val typeFeed: TypeFeedDomain = TypeFeedDomain.TOP_LIKES,
+    val typeFeed: TypeFeedDomain = TypeFeedDomain.BY_USER,
     val allowNsfw: Boolean = false
 ) {
 
