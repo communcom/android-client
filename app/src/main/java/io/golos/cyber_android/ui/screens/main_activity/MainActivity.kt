@@ -137,17 +137,16 @@ class MainActivity : ActivityBase() {
                 super.onPageSelected(position)
                 when (position) {
                     NavigationBottomMenuWidget.Tab.FEED.index -> {
-                        clearFullScreenMode()
                         setStatusBarColor(R.color.feed_status_bar_color)
                         tintStatusBarIcons(true)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
-                        clearFullScreenMode()
                         setStatusBarColor(R.color.window_status_bar_background)
                         tintStatusBarIcons(true)
                     }
                     NavigationBottomMenuWidget.Tab.PROFILE.index -> {
-                        setFullScreenMode()
+                        setStatusBarColor(R.color.window_status_bar_background)
+                        tintStatusBarIcons(true)
                     }
                 }
             }

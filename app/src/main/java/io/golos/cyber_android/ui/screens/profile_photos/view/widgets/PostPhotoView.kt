@@ -20,7 +20,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoViewImageInfo
 
-
 /**
  * Photo view which contains avatar and cover photos
  */

@@ -3,6 +3,10 @@ package io.golos.domain.extensions
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.CharacterStyle
+import android.text.style.ForegroundColorSpan
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 
 fun SpannableStringBuilder.setSpan(span: CharacterStyle, interval: IntRange) =
     this.setSpan(span, interval.first, interval.last, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
@@ -19,3 +23,6 @@ fun SpannableStringBuilder.appendSpannedText(text: String, span: CharacterStyle)
     val interval = this.appendText(text)
     this.setSpan(span, interval)
 }
+
+fun SpannableStringBuilder.appendColorText(text: String, @ColorInt color: Int) =
+    appendSpannedText(text, ForegroundColorSpan(color))

@@ -17,6 +17,8 @@ interface ProfileModel: ModelBase {
      */
     suspend fun sendCover(coverFile: File): String
 
+    suspend fun sendBio(text: String)
+
     suspend fun clearAvatar()
 
     suspend fun clearCover()

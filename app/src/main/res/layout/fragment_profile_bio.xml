@@ -1,0 +1,120 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile_bio.view_model.ProfileBioViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <!-- Header -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/white_header_height"
+
+            android:id="@+id/header"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_bio"
+
+                style="@style/Community.Title.TextStyle"
+
+                android:layout_gravity="center"
+                />
+
+            <ImageView
+                android:id="@+id/closeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close_gray"
+
+                android:layout_gravity="center_vertical|start"
+
+                tools:ignore="ContentDescription"
+
+                android:layout_marginStart="@dimen/margin_default"
+
+                android:onClick="@{() -> viewModel.onCloseClick()}"
+            />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+
+            android:layout_height="@dimen/height_editor_toolbar"
+
+            android:background="@drawable/bcg_editor_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <io.golos.cyber_android.ui.screens.profile_bio.view.widgets.TextLenView
+                android:layout_width="78dp"
+                android:layout_height="35dp"
+
+                android:layout_gravity="center_vertical|start"
+
+                android:layout_marginStart="@dimen/margin_default"
+
+                tools:text="30/100"
+                app:textLen="@{viewModel.texLenInfo}"
+            />
+
+            <Button
+                android:id="@+id/postButton"
+
+                android:layout_width="@dimen/width_editor_post_button"
+                android:layout_height="@dimen/height_editor_post_button"
+
+                style="@style/Editor.Send.Button"
+
+                android:layout_gravity="center_vertical|end"
+
+                enabled="@{viewModel.postButtonEnabled}"
+                android:onClick="@{() -> viewModel.onPostClick()}"
+                />
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/editor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:padding="@dimen/margin_default"
+
+            android:inputType="none"
+            android:hint="@string/enter_text"
+            android:text="@={viewModel.text}"
+
+            android:singleLine="false"
+
+            android:gravity="start|top"
+            android:maxLength="@{viewModel.maxTextLen}"
+            android:textSize="@dimen/text_size_17_sp"
+            android:background="@null"
+
+            app:layout_constraintBottom_toTopOf="@+id/footer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+
+            tools:ignore="Autofill" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

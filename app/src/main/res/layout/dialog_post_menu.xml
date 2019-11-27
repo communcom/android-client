@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_default"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_close_grey"
+            android:src="@drawable/ic_close_gray"
             android:layout_gravity="center_vertical|end"
             tools:ignore="ContentDescription" />
 

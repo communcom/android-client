@@ -2,6 +2,7 @@ package io.golos.data.repositories.users
 
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
+import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
 import io.golos.data.mappers.mapToUserProfileDomain
@@ -95,7 +96,7 @@ class UsersRepositoryImpl @Inject constructor(
                 whatsapp = null,
                 wechat = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
-                clientAuthRequest = null,
+                clientAuthRequest = ClientAuthRequest.empty,
                 user = currentUserRepository.user,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE))
         )

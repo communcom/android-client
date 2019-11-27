@@ -19,9 +19,11 @@ import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ProfilePhotoMenuDialog
 import io.golos.cyber_android.ui.dto.PhotoPlace
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToAddBioPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
+import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
@@ -77,6 +79,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         when(command) {
             is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
             is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place)
+            is MoveToAddBioPageCommand -> moveToAddBioPage()
         }
     }
 
@@ -95,6 +98,9 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             ProfilePhotosFragment.REQUEST -> {
                 val result = data!!.extras.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 viewModel.updatePhoto(File(result.photoFilePath), result.place)
+            }
+            ProfileBioFragment.REQUEST -> {
+                viewModel.updateBio(data!!.extras.getString(ProfileBioFragment.RESULT)!!)
             }
         }
     }
@@ -122,4 +128,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                     place,
                     "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80",
                     this@ProfileFragment))
+
+    private fun moveToAddBioPage() =
+        (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(this@ProfileFragment))
 }

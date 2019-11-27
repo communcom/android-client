@@ -47,6 +47,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
@@ -130,6 +131,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 get<ProfileFragmentComponent>()
                     .photosFragment
                     .init(ProfilePhotosFragmentModule(args[0] as PhotoPlace, args[1] as String?))
+                    .build()
+
+            ProfileBioFragmentComponent::class ->
+                get<ProfileFragmentComponent>()
+                    .bioFragment
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()

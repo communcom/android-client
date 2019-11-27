@@ -62,7 +62,7 @@ constructor(
             throw UnsupportedOperationException("Getting communities for current user is not supported now")
         }
 
-        return apiCall { commun4j.getCommunitiesList(offset, pageSize) }
+        return apiCall { commun4j.getCommunitiesList(null, offset, pageSize) }
             .items
             .map { it.mapToCommunityDomain() }
     }

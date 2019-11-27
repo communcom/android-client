@@ -578,4 +578,14 @@
         <item name="android:textColor">@color/clickable_text_color</item>
         <item name="android:textSize">@dimen/text_size_15_sp</item>
     </style>
+
+    <style name="Editor.Send.Button" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_marginStart">@dimen/margin_size_editor_tool_button</item>
+        <item name="android:layout_marginEnd">@dimen/margin_size_editor_common</item>
+        <item name="android:background">@drawable/bcg_blue_round_corners_button</item>
+        <item name="android:textColor">@color/tint_editor_post_button</item>
+        <item name="android:text">@string/post_button</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

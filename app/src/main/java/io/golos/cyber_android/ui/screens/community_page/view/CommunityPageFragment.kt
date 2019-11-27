@@ -70,11 +70,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         binding.viewModel = viewModel
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setFullScreenMode()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
@@ -90,11 +85,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         if (command is BackCommand) {
             requireFragmentManager().popBackStack()
         }
-    }
-
-    override fun onDestroy() {
-        clearFullScreenMode()
-        super.onDestroy()
     }
 
     @SuppressLint("SetTextI18n")

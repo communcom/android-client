@@ -7,6 +7,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToAddBioPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
@@ -30,13 +31,13 @@ constructor(
     private val _avatarUrl: MutableLiveData<String?> = MutableLiveData()
     val avatarUrl: LiveData<String?> get() = _avatarUrl
 
-    private val _name: MutableLiveData<String?> = MutableLiveData("Ghiyath al-Din Abu'l-Fath Umar ibn Ibrahim Al-Nisaburi al-Khayyami")
+    private val _name: MutableLiveData<String?> = MutableLiveData()
     val name: LiveData<String?> get() = _name
 
     private val _joinDate: MutableLiveData<Date> = MutableLiveData(Date())
     val joinDate: LiveData<Date> get() = _joinDate
 
-    private val _bio: MutableLiveData<String?> = MutableLiveData("Omar Khayyam was a Persian mathematician, astronomer, and poet. He was born in Nishapur, in northeastern Iran, and spent most of his life near the court of the Karakhanid and Seljuq rulers in the period which witnessed the First Crusade.")
+    private val _bio: MutableLiveData<String?> = MutableLiveData()
     val bio: LiveData<String?> get() = _bio
 
     private val _bioVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
@@ -79,42 +80,45 @@ constructor(
         _command.value = MoveToSelectPhotoPageCommand(place)
     }
 
+    fun onAddBioClick() {
+        _command.value = MoveToAddBioPageCommand()
+    }
+
     fun onDeletePhotoMenuChosen(place: PhotoPlace) {
         launch {
-            try {
-                when(place) {
-                    PhotoPlace.COVER -> {
-                        _coverUrl.value = null
-                        model.clearCover()
-                    }
-                    PhotoPlace.AVATAR -> {
-                        _avatarUrl.value = null
-                        model.clearAvatar()
-                    }
-                }
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+            when(place) {
+                PhotoPlace.COVER -> deleteCover()
+                PhotoPlace.AVATAR -> deleteAvatar()
             }
         }
     }
 
     fun updatePhoto(imageFile: File, place: PhotoPlace) {
         launch {
+            when(place) {
+                PhotoPlace.COVER -> updateCover(imageFile)
+                PhotoPlace.AVATAR -> updateAvatar(imageFile)
+            }
+        }
+    }
+
+    fun updateBio(text: String) {
+        val oldValue = _bio.value
+
+        launch {
             try {
-                when(place) {
-                    PhotoPlace.COVER -> {
-                        _coverUrl.value = imageFile.toURI().toString()
-                        model.sendCover(imageFile)
-                    }
-                    PhotoPlace.AVATAR -> {
-                        _avatarUrl.value = imageFile.toURI().toString()
-                        model.sendAvatar(imageFile)
-                    }
-                }
+                _bio.value = text
+                _bioVisibility.value = View.VISIBLE
+                _addBioVisibility.value = View.GONE
+
+                model.sendBio(text)
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = ShowMessageCommand(R.string.common_general_error)
+
+                _bio.value = oldValue
+                _bioVisibility.value = View.GONE
+                _addBioVisibility.value = View.VISIBLE
             }
         }
     }
@@ -142,6 +146,56 @@ constructor(
             } finally {
                 _loadingProgressVisibility.value = View.INVISIBLE
             }
+        }
+    }
+
+    private suspend fun updateAvatar(avatarFile: File) {
+        val oldValue = _avatarUrl.value
+
+        try {
+            _avatarUrl.value = avatarFile.toURI().toString()
+            model.sendAvatar(avatarFile)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _avatarUrl.value = oldValue
+        }
+    }
+
+    private suspend fun updateCover(coverFile: File) {
+        val oldValue = _coverUrl.value
+
+        try {
+            _coverUrl.value = coverFile.toURI().toString()
+            model.sendCover(coverFile)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _coverUrl.value = oldValue
+        }
+    }
+
+    private suspend fun deleteAvatar() {
+        val oldValue = _avatarUrl.value
+        try {
+            _avatarUrl.value = null
+            model.clearAvatar()
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _avatarUrl.value = oldValue
+        }
+    }
+
+    private suspend fun deleteCover() {
+        val oldValue = _coverUrl.value
+        try {
+            _coverUrl.value = null
+            model.clearCover()
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _coverUrl.value = oldValue
         }
     }
 }

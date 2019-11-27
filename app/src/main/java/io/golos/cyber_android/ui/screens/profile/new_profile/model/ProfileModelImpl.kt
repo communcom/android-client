@@ -27,6 +27,8 @@ constructor(
      */
     override suspend fun sendCover(coverFile: File): String = usersRepository.updateCover(coverFile)
 
+    override suspend fun sendBio(text: String) = usersRepository.updateBio(text)
+
     override suspend fun clearAvatar() = usersRepository.clearAvatar()
 
     override suspend fun clearCover() = usersRepository.clearCover()

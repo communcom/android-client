@@ -6,3 +6,5 @@ import io.golos.cyber_android.ui.dto.PhotoPlace
 class ShowSelectPhotoDialogCommand(val place: PhotoPlace): ViewCommand
 
 class MoveToSelectPhotoPageCommand(val place: PhotoPlace): ViewCommand
+
+class MoveToAddBioPageCommand(): ViewCommand
