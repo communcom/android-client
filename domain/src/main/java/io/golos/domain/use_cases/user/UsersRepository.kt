@@ -54,4 +54,9 @@ interface UsersRepository {
      * Update user's bio
      */
     suspend fun updateBio(bio: String)
+
+    /**
+     * Clear bio of current user profile
+     */
+    suspend fun clearBio()
 }

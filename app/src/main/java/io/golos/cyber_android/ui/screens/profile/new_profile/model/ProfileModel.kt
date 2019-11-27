@@ -22,4 +22,6 @@ interface ProfileModel: ModelBase {
     suspend fun clearAvatar()
 
     suspend fun clearCover()
+
+    suspend fun clearBio()
 }

@@ -207,9 +207,14 @@
     <string name="change_all_passwords">Change all passwords</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="make_a_photo">Make a photo</string>
+
+    <string name="select_cover">Select cover</string>
     <string name="select_photo">Select photo</string>
+    <string name="edit_description">Edit</string>
     <string name="delete_current_cover">Delete current cover</string>
     <string name="delete_current_photo">Delete current photo</string>
+    <string name="delete_description">Delete</string>
+
     <string name="change_position">Change position</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
@@ -239,8 +244,10 @@
     <string name="no_posts">No posts</string>
     <string name="you_have_not_made_any_posts">You have not made any post</string>
     <string name="user_not_found_message">404 not found</string>
+
     <string name="change_profile_photo">Change profile photo</string>
     <string name="change_profile_cover">Change profile cover</string>
+    <string name="change_profile_description">Change profile description</string>
 
     <!--Notifications-->
     <string name="event_time_and_actor_format">%1$s in %2$s</string>

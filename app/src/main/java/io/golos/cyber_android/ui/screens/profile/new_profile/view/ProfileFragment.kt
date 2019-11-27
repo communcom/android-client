@@ -16,11 +16,12 @@ import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
-import io.golos.cyber_android.ui.dialogs.ProfilePhotoMenuDialog
-import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToAddBioPageCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToBioPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
@@ -78,8 +79,9 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
+            is ShowEditBioDialogCommand -> showEditBioDialog()
             is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place)
-            is MoveToAddBioPageCommand -> moveToAddBioPage()
+            is MoveToBioPageCommand -> moveToBioPage(command.text)
         }
     }
 
@@ -88,11 +90,11 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            ProfilePhotoMenuDialog.REQUEST -> {
-                val place = PhotoPlace.create(data!!.extras.getInt(ProfilePhotoMenuDialog.PLACE))
+            ProfileMenuDialog.REQUEST -> {
+                val item = ProfileItem.create(data!!.extras.getInt(ProfileMenuDialog.ITEM))
                 when (resultCode) {
-                    ProfilePhotoMenuDialog.RESULT_SELECT -> { viewModel.onSelectPhotoMenuChosen(place)}
-                    ProfilePhotoMenuDialog.RESULT_DELETE -> { viewModel.onDeletePhotoMenuChosen(place) }
+                    ProfileMenuDialog.RESULT_SELECT -> { viewModel.onSelectMenuChosen(item)}
+                    ProfileMenuDialog.RESULT_DELETE -> { viewModel.onDeleteMenuChosen(item) }
                 }
             }
             ProfilePhotosFragment.REQUEST -> {
@@ -118,10 +120,13 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         }
     }
 
-    private fun showPhotoDialog(place: PhotoPlace) =
-        ProfilePhotoMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
+    private fun showPhotoDialog(place: ProfileItem) =
+        ProfileMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
-    private fun moveToSelectPhotoPage(place: PhotoPlace) =
+    private fun showEditBioDialog() =
+        ProfileMenuDialog.newInstance(ProfileItem.BIO, this@ProfileFragment).show(requireFragmentManager(), "menu")
+
+    private fun moveToSelectPhotoPage(place: ProfileItem) =
         (requireActivity() as MainActivity)
             .showFragment(
                 ProfilePhotosFragment.newInstance(
@@ -129,6 +134,6 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                     "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80",
                     this@ProfileFragment))
 
-    private fun moveToAddBioPage() =
-        (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(this@ProfileFragment))
+    private fun moveToBioPage(text: String?) =
+        (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 }

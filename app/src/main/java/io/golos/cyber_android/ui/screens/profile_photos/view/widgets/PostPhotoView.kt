@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoViewImageInfo
 
 /**
@@ -33,7 +33,7 @@ constructor(
 
     private val drawableOverlay by lazy { context.resources.getDrawable(R.drawable.template_profile_photo_avatar, null) }
 
-    private var photoPlace = PhotoPlace.AVATAR
+    private var photoPlace = ProfileItem.AVATAR
 
     private val coverHeightFactor = 0.48
 
@@ -46,7 +46,7 @@ constructor(
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
 
-        if(photoPlace == PhotoPlace.AVATAR) {
+        if(photoPlace == ProfileItem.AVATAR) {
 
             val bmp = drawableOverlay.toBitmap(width, height, Bitmap.Config.ARGB_8888)
 
@@ -60,26 +60,26 @@ constructor(
         val width = MeasureSpec.getSize(widthMeasureSpec)
 
         when(photoPlace) {
-            PhotoPlace.AVATAR -> setMeasuredDimension(width, width)
-            PhotoPlace.COVER -> setMeasuredDimension(width, (width*coverHeightFactor).toInt())
+            ProfileItem.AVATAR -> setMeasuredDimension(width, width)
+            ProfileItem.COVER -> setMeasuredDimension(width, (width*coverHeightFactor).toInt())
         }
     }
 
-    fun setMode(photoPlace: PhotoPlace) {
-        if(this.photoPlace == photoPlace) {
+    fun setMode(profileItem: ProfileItem) {
+        if(this.photoPlace == profileItem) {
             return
         }
 
-        this.photoPlace = photoPlace
+        this.photoPlace = profileItem
 
-        when(photoPlace) {
-            PhotoPlace.AVATAR -> {
+        when(profileItem) {
+            ProfileItem.AVATAR -> {
                 val params = layoutParams
                 layoutParams.height = layoutParams.width
                 layoutParams = params
             }
 
-            PhotoPlace.COVER -> {
+            ProfileItem.COVER -> {
                 val params = layoutParams
                 layoutParams.height = (layoutParams.width * coverHeightFactor).toInt()
                 layoutParams = params
@@ -100,7 +100,7 @@ constructor(
             .with(this)
             .load(imageUrl)
             .apply {
-                if(isImageFromCamera && photoPlace == PhotoPlace.COVER) {
+                if(isImageFromCamera && photoPlace == ProfileItem.COVER) {
                     this.transform(CenterCrop())
                 }
             }

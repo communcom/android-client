@@ -6,15 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
-import io.golos.cyber_android.ui.dto.PhotoPlace
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToAddBioPageCommand
+import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToBioPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
+import java.lang.UnsupportedOperationException
 import java.util.*
 import javax.inject.Inject
 
@@ -64,6 +66,15 @@ constructor(
     private val _loadingProgressVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
     val loadingProgressVisibility: LiveData<Int> get() = _loadingProgressVisibility
 
+    private var bioUpdateInProgress = false
+
+    init {
+        _bio.observeForever {
+            _bioVisibility.value = if(it.isNullOrEmpty()) View.GONE else View.VISIBLE
+            _addBioVisibility.value = if(it.isNullOrEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
     fun start() = loadPage()
 
     fun onRetryClick() {
@@ -72,32 +83,38 @@ constructor(
         loadPage()
     }
 
-    fun onUpdatePhotoClick(place: PhotoPlace) {
+    fun onUpdatePhotoClick(place: ProfileItem) {
         _command.value = ShowSelectPhotoDialogCommand(place)
     }
 
-    fun onSelectPhotoMenuChosen(place: PhotoPlace) {
-        _command.value = MoveToSelectPhotoPageCommand(place)
+    fun onSelectMenuChosen(item: ProfileItem) {
+        _command.value = when(item) {
+            ProfileItem.AVATAR,
+            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item)
+            ProfileItem.BIO -> MoveToBioPageCommand(_bio.value)
+        }
     }
 
-    fun onAddBioClick() {
-        _command.value = MoveToAddBioPageCommand()
-    }
-
-    fun onDeletePhotoMenuChosen(place: PhotoPlace) {
+    fun onDeleteMenuChosen(place: ProfileItem) {
         launch {
             when(place) {
-                PhotoPlace.COVER -> deleteCover()
-                PhotoPlace.AVATAR -> deleteAvatar()
+                ProfileItem.COVER -> deleteCover()
+                ProfileItem.AVATAR -> deleteAvatar()
+                ProfileItem.BIO -> deleteBio()
             }
         }
     }
 
-    fun updatePhoto(imageFile: File, place: PhotoPlace) {
+    fun onAddBioClick() {
+        _command.value = MoveToBioPageCommand(null)
+    }
+
+    fun updatePhoto(imageFile: File, item: ProfileItem) {
         launch {
-            when(place) {
-                PhotoPlace.COVER -> updateCover(imageFile)
-                PhotoPlace.AVATAR -> updateAvatar(imageFile)
+            when(item) {
+                ProfileItem.COVER -> updateCover(imageFile)
+                ProfileItem.AVATAR -> updateAvatar(imageFile)
+                else -> throw UnsupportedOperationException("This item is not supported: $item")
             }
         }
     }
@@ -107,9 +124,9 @@ constructor(
 
         launch {
             try {
+                bioUpdateInProgress = true
+
                 _bio.value = text
-                _bioVisibility.value = View.VISIBLE
-                _addBioVisibility.value = View.GONE
 
                 model.sendBio(text)
             } catch (ex: Exception) {
@@ -117,10 +134,14 @@ constructor(
                 _command.value = ShowMessageCommand(R.string.common_general_error)
 
                 _bio.value = oldValue
-                _bioVisibility.value = View.GONE
-                _addBioVisibility.value = View.VISIBLE
+            } finally {
+                bioUpdateInProgress = false
             }
         }
+    }
+
+    fun onBioClick() {
+        _command.value = ShowEditBioDialogCommand()
     }
 
     private fun loadPage() {
@@ -196,6 +217,27 @@ constructor(
             Timber.e(ex)
             _command.value = ShowMessageCommand(R.string.common_general_error)
             _coverUrl.value = oldValue
+        }
+    }
+
+    private fun deleteBio() {
+        val oldValue = _bio.value
+
+        launch {
+            try {
+                bioUpdateInProgress = true
+
+                _bio.value = null
+
+                model.clearBio()
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+
+                _bio.value = oldValue
+            } finally {
+                bioUpdateInProgress = false
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_bio.view
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -17,17 +18,25 @@ import kotlinx.android.synthetic.main.fragment_profile_bio.*
 
 class ProfileBioFragment : FragmentBaseMVVM<FragmentProfileBioBinding, ProfileBioViewModel>() {
     companion object {
+        private const val TEXT = "TEXT"
+
         const val RESULT = "RESULT"
         const val REQUEST = 4504
 
-        fun newInstance(parentFragment: Fragment) = ProfileBioFragment().apply { setTargetFragment(parentFragment, REQUEST) }
+        fun newInstance(text: String?, parentFragment: Fragment) =
+            ProfileBioFragment().apply {
+                    setTargetFragment(parentFragment, REQUEST)
+                    arguments = Bundle().apply {
+                        putString(TEXT, text)
+                    }
+                }
     }
 
     override fun provideViewModelType(): Class<ProfileBioViewModel> = ProfileBioViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_profile_bio
 
-    override fun inject() = App.injections.get<ProfileBioFragmentComponent>().inject(this)
+    override fun inject() = App.injections.get<ProfileBioFragmentComponent>(arguments!!.getString(TEXT)).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<ProfileBioFragmentComponent>()

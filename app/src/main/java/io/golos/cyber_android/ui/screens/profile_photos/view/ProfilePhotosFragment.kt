@@ -17,7 +17,7 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.InitPhotoPreviewCommand
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PassResultCommand
 import io.golos.cyber_android.ui.screens.profile_photos.dto.RequestResultImageCommand
@@ -37,20 +37,20 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
     @Parcelize
     data class Result(
         val photoFilePath: String,
-        val place: PhotoPlace
+        val place: ProfileItem
     ): Parcelable
 
     companion object {
-        private const val PLACE = "PLACE"
+        private const val ITEM = "ITEM"
         private const val IMAGE_URL = "IMAGE_URL"
 
         const val RESULT = "RESULT"
         const val REQUEST = 1657
 
-        fun newInstance(place: PhotoPlace, imageUrl: String?, parentFragment: Fragment): ProfilePhotosFragment {
+        fun newInstance(item: ProfileItem, imageUrl: String?, parentFragment: Fragment): ProfilePhotosFragment {
             return ProfilePhotosFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(PLACE, place.value)
+                    putInt(ITEM, item.value)
                     putString(IMAGE_URL, imageUrl)
                 }
                 setTargetFragment(parentFragment, REQUEST)
@@ -71,7 +71,7 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
     override fun inject() =
         App.injections
             .get<ProfilePhotosFragmentComponent>(
-                PhotoPlace.create(arguments!!.getInt(PLACE)),
+                ProfileItem.create(arguments!!.getInt(ITEM)),
                 arguments!!.getString(IMAGE_URL))
             .inject(this)
 
@@ -86,10 +86,10 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is BackCommand -> requireActivity().onBackPressed()
-            is InitPhotoPreviewCommand -> initPhotoPreview(command.photoPlace, command.imageUrl, command.isImageFromCamera)
+            is InitPhotoPreviewCommand -> initPhotoPreview(command.profileItem, command.imageUrl, command.isImageFromCamera)
             is StartCameraCommand -> startCameraWithPermissionCheck()
             is RequestResultImageCommand -> requestResultImage()
-            is PassResultCommand -> passResult(command.imageFile, command.photoPlace)
+            is PassResultCommand -> passResult(command.imageFile, command.profileItem)
         }
     }
 
@@ -124,7 +124,7 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
     @OnPermissionDenied(Manifest.permission.CAMERA)
     internal fun onCameraPermissionsDenied() { /*do nothing*/ }
 
-    private fun initPhotoPreview(place: PhotoPlace, imageUrl: String?, isImageFromCamera: Boolean) {
+    private fun initPhotoPreview(place: ProfileItem, imageUrl: String?, isImageFromCamera: Boolean) {
         previewImage.setMode(place)
         previewImage.load(imageUrl, isImageFromCamera)
     }
@@ -147,12 +147,12 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
 
     private fun requestResultImage() = viewModel.processResultImage(previewImage.getImageInfo())
 
-    private fun passResult(imageFile: File, photoPlace: PhotoPlace) {
+    private fun passResult(imageFile: File, profileItem: ProfileItem) {
         targetFragment!!.onActivityResult(
             REQUEST,
             Activity.RESULT_OK,
             Intent().apply {
-                this.putExtra(RESULT, Result(imageFile.absolutePath, photoPlace))
+                this.putExtra(RESULT, Result(imageFile.absolutePath, profileItem))
             })
     }
 }

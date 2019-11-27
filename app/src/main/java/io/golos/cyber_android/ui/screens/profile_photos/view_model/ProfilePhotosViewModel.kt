@@ -10,7 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.*
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModel
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.GalleryGridItemEventsProcessor
@@ -24,7 +24,7 @@ class ProfilePhotosViewModel
 constructor(
     dispatchersProvider: DispatchersProvider,
     model: ProfilePhotosModel,
-    private val photoPlace: PhotoPlace
+    private val profileItem: ProfileItem
 ) : ViewModelBase<ProfilePhotosModel>(dispatchersProvider, model),
     GalleryGridItemEventsProcessor {
 
@@ -52,7 +52,7 @@ constructor(
                 _imagePreviewLoadingVisibility.value = View.VISIBLE
 
                 if(items.size > 1) {
-                    _command.value = InitPhotoPreviewCommand(photoPlace, (items[1] as PhotoGridItem).imageUri, false)
+                    _command.value = InitPhotoPreviewCommand(profileItem, (items[1] as PhotoGridItem).imageUri, false)
                 }
 
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -81,7 +81,7 @@ constructor(
                 val imageFile = model.saveSelectedPhoto(imageInfo)
 
                 _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = PassResultCommand(imageFile, photoPlace)
+                _command.value = PassResultCommand(imageFile, profileItem)
                 _command.value = BackCommand()
             } catch (ex: Exception) {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -120,6 +120,6 @@ constructor(
         _imagePreviewVisibility.value = View.INVISIBLE
         _imagePreviewLoadingVisibility.value = View.VISIBLE
 
-        _command.value = InitPhotoPreviewCommand(photoPlace, selectedImageUri, isImageFromCamera)
+        _command.value = InitPhotoPreviewCommand(profileItem, selectedImageUri, isImageFromCamera)
     }
 }

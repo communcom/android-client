@@ -32,4 +32,6 @@ constructor(
     override suspend fun clearAvatar() = usersRepository.clearAvatar()
 
     override suspend fun clearCover() = usersRepository.clearCover()
+
+    override suspend fun clearBio() = usersRepository.clearBio()
 }

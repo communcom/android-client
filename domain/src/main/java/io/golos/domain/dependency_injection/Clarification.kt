@@ -10,4 +10,5 @@ object Clarification {
     const val COMMUNITY_ID = "COMMUNITY_ID"
 
     const val IMAGE_URL = "IMAGE_URL"
+    const val TEXT = "TEXT"
 }

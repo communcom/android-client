@@ -9,11 +9,15 @@ import io.golos.cyber_android.ui.screens.profile_bio.dto.PrepareToCloseCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.TextLenInfo
 import io.golos.cyber_android.ui.screens.profile_bio.model.ProfileBioModel
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dependency_injection.Clarification
 import javax.inject.Inject
+import javax.inject.Named
 
 class ProfileBioViewModel
 @Inject
 constructor(
+    @Named(Clarification.TEXT)
+    private val inputText: String?,
     dispatchersProvider: DispatchersProvider,
     model: ProfileBioModel
 ) : ViewModelBase<ProfileBioModel>(dispatchersProvider, model) {
@@ -27,7 +31,7 @@ constructor(
     private val _maxTextLen = MutableLiveData(model.maxTextLen)
     val maxTextLen: LiveData<Int> get() = _maxTextLen
 
-    val text = MutableLiveData<String>("")
+    val text = MutableLiveData<String>(inputText)
 
     init {
         text.observeForever {

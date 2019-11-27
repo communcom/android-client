@@ -48,11 +48,12 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
-import io.golos.cyber_android.ui.dto.PhotoPlace
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
@@ -130,12 +131,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
             ProfilePhotosFragmentComponent::class ->
                 get<ProfileFragmentComponent>()
                     .photosFragment
-                    .init(ProfilePhotosFragmentModule(args[0] as PhotoPlace, args[1] as String?))
+                    .init(ProfilePhotosFragmentModule(args[0] as ProfileItem, args[1] as String?))
                     .build()
 
             ProfileBioFragmentComponent::class ->
                 get<ProfileFragmentComponent>()
                     .bioFragment
+                    .init(ProfileBioFragmentModule(args[0] as String?))
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()

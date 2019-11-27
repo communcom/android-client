@@ -85,6 +85,13 @@ class UsersRepositoryImpl @Inject constructor(
         updateCurrentUserMetadata { it.copy(biography = bio) }
     }
 
+    /**
+     * Clear bio of current user profile
+     */
+    override suspend fun clearBio() {
+        updateCurrentUserMetadata { it.copy(biography = "") }
+    }
+
     private suspend fun updateCurrentUserMetadata(requestAction: (UserMetadataRequest) -> UserMetadataRequest) =
         requestAction(
             UserMetadataRequest(
