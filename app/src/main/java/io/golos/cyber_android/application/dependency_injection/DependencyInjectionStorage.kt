@@ -53,8 +53,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
-import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
@@ -186,8 +186,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
             PostPageFragmentComponent::class ->
                 get<UIComponent>()
                     .postPageFragment
-                    .init(PostPageFragmentModule(args[0] as DiscussionIdModel))
-                    .build()
+                    .init(
+                        PostPageFragmentModule(
+                            args[0] as DiscussionIdModel,
+                            args[1] as Post.ContentId?
+                        )
+                    ).build()
 
             CommunitiesFragmentComponent::class -> get<MainActivityComponent>().communitiesFragmentComponent.build()
 

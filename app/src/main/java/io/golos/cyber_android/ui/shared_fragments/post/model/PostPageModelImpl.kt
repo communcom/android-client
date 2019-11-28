@@ -15,12 +15,14 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
+import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.PostDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.model.PostModel
+import io.golos.domain.use_cases.model.DiscussionVotesModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -38,64 +40,71 @@ constructor(
     private val postVoting: Lazy<VotingMachine>,
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
-    private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase
+    private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
+    private val contentId: Post.ContentId?
 ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
-    UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase{
+    UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
 
-    private lateinit var postModel: PostModel
+//    private lateinit var postModel: PostModel
+
+    private lateinit var postDomain: PostDomain
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
 
     override val postId: DiscussionIdModel
-        get() = postModel.contentId
+        get() = DiscussionIdModel(postDomain.contentId.userId, Permlink(postDomain.contentId.permlink))
 
     override val postMetadata: PostMetadata
-        get() = postModel.content.body.postBlock.metadata
+        get() = postDomain.body!!.metadata
 
     override val commentsPageSize: Int
         get() = commentsProcessing.pageSize
 
-    override suspend fun loadPost() =
+    override suspend fun loadPost() {
         withContext(dispatchersProvider.ioDispatcher) {
-            postModel = discussionRepository.getPost(postToProcess.userId.toCyberName(), postToProcess.permlink)
-
-            postListDataSource.createOrUpdatePostData(postModel)
+            postDomain = discussionRepository.getPost(
+                contentId?.userId.orEmpty().toCyberName(),
+                contentId?.communityId.orEmpty(),
+                contentId?.permlink.orEmpty()
+            )
+            postListDataSource.createOrUpdatePostData(postDomain)
         }
+    }
 
     override fun getPostMenu(): PostMenu {
         return PostMenu(
-            communityId = postModel.community.id.id,
-            communityName = postModel.community.name,
-            communityAvatarUrl = postModel.community.avatarUrl,
+            communityId = postDomain.community.communityId,
+            communityName = postDomain.community.name,
+            communityAvatarUrl = postDomain.community.avatarUrl,
             contentId = Post.ContentId(
-                communityId = postModel.community.id.id,
+                communityId = postDomain.community.communityId,
                 permlink = postId.permlink.value,
                 userId = currentUserRepository.userId
             ),
-            creationTime = postModel.meta.time,
-            authorUsername = postModel.author.username,
-            authorUserId = postModel.author.userId.userId,
-            shareUrl = postModel.shareUrl,
+            creationTime = postDomain.meta.creationTime,
+            authorUsername = postDomain.author.username,
+            authorUserId = postDomain.author.userId,
+            shareUrl = postDomain.shareUrl,
             isMyPost = currentUserRepository.userId == postToProcess.userId,
-            isSubscribed = postModel.community.isSubscribed,
+            isSubscribed = postDomain.community.isSubscribed,
             permlink = postId.permlink.value
         )
     }
 
     override fun getPostHeader(): PostHeader =
         PostHeader(
-            postModel.community.name,
-            postModel.community.avatarUrl,
-            postModel.meta.time,
+            postDomain.community.name,
+            postDomain.community.avatarUrl,
+            postDomain.meta.creationTime,
 
-            postModel.author.username,
-            postModel.author.userId.userId,
+            postDomain.author.username,
+            postDomain.author.userId,
 
             false,
-            postModel.author.userId.userId == currentUserRepository.userId,
-            postModel.community.isSubscribed
+            postDomain.author.userId == currentUserRepository.userId,
+            postDomain.community.isSubscribed
         )
 
     override suspend fun addToFavorite(permlink: String) {
@@ -119,8 +128,24 @@ constructor(
 
     override suspend fun voteForPost(isUpVote: Boolean) {
         val newVotesModel =
-            postVoting.get().processEvent(if (isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, postModel.votes)
-        postModel = postModel.copy(votes = newVotesModel)
+            postVoting.get().processEvent(
+                if (isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE,
+                DiscussionVotesModel(
+                    postDomain.votes.hasUpVote,
+                    postDomain.votes.hasDownVote,
+                    postDomain.votes.upCount,
+                    postDomain.votes.downCount
+                )
+            )
+        postDomain = postDomain.copy(
+            votes = PostDomain.VotesDomain(
+                downCount = newVotesModel.downCount,
+                upCount = newVotesModel.upCount,
+                hasDownVote = newVotesModel.hasDownVote,
+                hasUpVote = newVotesModel.hasUpVote
+            )
+        )
+//        postModel = postModel.copy(votes = newVotesModel)
     }
 
     override suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
@@ -141,17 +166,28 @@ constructor(
         commentsProcessing.retryLoadSecondLevelPage(parentCommentId)
 
     override suspend fun sendComment(commentText: String) {
-        val totalComments = postModel.comments.count
+        val totalComments = postDomain.stats?.commentsCount ?: 0
 
         commentsProcessing.sendComment(commentText, totalComments > 0)
-        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments + 1))
+        postDomain = postDomain.copy(
+            stats = postDomain.stats?.copy(
+                commentsCount = totalComments + 1
+            )
+        )
+//        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments + 1))
     }
 
     override suspend fun deleteComment(commentId: DiscussionIdModel) {
-        val totalComments = postModel.comments.count
+//        val totalComments = postModel.comments.count
+        val totalComments = postDomain.stats?.commentsCount ?: 0
 
-        commentsProcessing.deleteComment(commentId, totalComments == 1L)
-        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments - 1))
+        commentsProcessing.deleteComment(commentId, totalComments == 1)
+//        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments - 1))
+        postDomain = postDomain.copy(
+            stats = postDomain.stats?.copy(
+                commentsCount = totalComments - 1
+            )
+        )
     }
 
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =

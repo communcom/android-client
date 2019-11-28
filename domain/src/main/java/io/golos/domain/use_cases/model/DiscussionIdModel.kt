@@ -6,7 +6,7 @@ import io.golos.domain.commun_entities.Permlink
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class DiscussionIdModel(
+data class DiscussionIdModel constructor(
     val userId: String,
     val permlink: Permlink
 ) : Model, Parcelable {

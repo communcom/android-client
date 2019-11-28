@@ -45,6 +45,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
+        val contentId: Post.ContentId? = null,
         val scrollToComments: Boolean = false
     ) : Parcelable
 
@@ -54,7 +55,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     override fun inject() =
         App.injections.get<PostPageFragmentComponent>(
-            arguments!!.getParcelable<Args>(Tags.ARGS)!!.id
+            arguments!!.getParcelable<Args>(Tags.ARGS)!!.id,
+            arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId
         ).inject(this)
 
     override fun linkViewModel(binding: FragmentPostBinding, viewModel: PostPageViewModel) {

@@ -30,7 +30,8 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postToProcess: DiscussionIdModel
+    private val postToProcess: DiscussionIdModel,
+    private val contentId: Post.ContentId?
 ) : ViewModelBase<PostPageModel>(dispatchersProvider, model),
     PostPageViewModelListEventsProcessor {
 
