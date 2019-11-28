@@ -3,11 +3,13 @@ package io.golos.cyber_android.ui.shared_fragments.post.model.voting
 /**
  * User's actions
  */
+@Deprecated("Not need use, use Domain model")
 enum class VotingEvent {
     UP_VOTE,
     DOWN_VOTE
 }
 
+@Deprecated("Not need use, use Domain model")
 enum class VotingState {
     NOT_VOTING,
     NOT_VOTED,

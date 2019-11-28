@@ -95,7 +95,7 @@ class ProfilePostsViewModel @Inject constructor(
 
     override fun onCommentsClicked(postContentId: Post.ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
-        _command.value = NavigateToPostCommand(discussionIdModel)
+        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
     }
 
     fun addToFavorite(permlink: String) {

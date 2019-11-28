@@ -14,7 +14,10 @@ class NavigateToUserProfileViewCommand(val userId: String) : ViewCommand
 
 class NavigationToPostMenuViewCommand(val post: PostMenu) : ViewCommand
 
-class NavigateToPostCommand(val discussionIdModel: DiscussionIdModel) : ViewCommand
+class NavigateToPostCommand(
+    val discussionIdModel: DiscussionIdModel,
+    val contentId: Post.ContentId
+) : ViewCommand
 
 class SharePostCommand(val shareUrl: String) : ViewCommand
 

@@ -31,6 +31,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.utils.shareMessage
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -62,6 +63,16 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     private fun setupPostsList() {
         val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED)
+        myFeedAdapter.click = { item ->
+            item as PostItem
+            val contentId = item.post.contentId
+            val discussionIdModel = DiscussionIdModel(
+                contentId.userId,
+                Permlink(contentId.permlink)
+            )
+
+            openPost(discussionIdModel, contentId)
+        }
         val lManager = LinearLayoutManager(context)
 
         rvPosts.addItemDecoration(DividerPostDecoration(requireContext()))
@@ -96,7 +107,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
-            is NavigateToPostCommand -> openPost(command.discussionIdModel)
+            is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
 
@@ -193,8 +204,19 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         }.show(requireFragmentManager(), "show")
     }
 
-    private fun openPost(discussionIdModel: DiscussionIdModel) {
-        startActivity(PostActivity.getIntent(requireContext(), PostPageFragment.Args(discussionIdModel)))
+    private fun openPost(
+        discussionIdModel: DiscussionIdModel,
+        contentId: Post.ContentId
+    ) {
+        startActivity(
+            PostActivity.getIntent(
+                requireContext(),
+                PostPageFragment.Args(
+                    discussionIdModel,
+                    contentId
+                )
+            )
+        )
     }
 
     private fun openUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
