@@ -8,6 +8,7 @@ import java.util.*
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
+@Deprecated("Not need use, use Domain model")
 data class PostModel constructor(
     override val contentId: DiscussionIdModel,
     override val author: DiscussionAuthorModel,
@@ -24,6 +25,7 @@ data class PostModel constructor(
     payout, meta, stats
 )
 
+@Deprecated("Not need use, use Domain model")
 data class CommentModel(
     override val contentId: DiscussionIdModel,
     override val author: DiscussionAuthorModel,
@@ -38,7 +40,7 @@ data class CommentModel(
 ) : DiscussionModel(
     contentId, author, votes, payout, meta, stats
 )
-
+@Deprecated("Not need use, use Domain model")
 sealed class DiscussionModel(
     open val contentId: DiscussionIdModel,
     open val author: DiscussionAuthorModel,
@@ -49,18 +51,22 @@ sealed class DiscussionModel(
     var isActiveUserDiscussion: Boolean = false
 ) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class DiscussionCommentsCountModel(val count: Long) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class PostContentModel(
     val body: ContentBodyModel,
     val tags: List<TagModel>
 ) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class CommentContentModel(
     val body: ContentBodyModel,
     val commentLevel: Int               // 0 or 1
 ) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class EmbedModel(
     val type: String,
     val title: String,
@@ -70,17 +76,22 @@ data class EmbedModel(
     val html: String
 ) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class ContentBodyModel(
     val postBlock: PostBlock
 ) : Model
 
 
+@Deprecated("Not need use, use Domain model")
 data class DiscussionMetadataModel(val time: Date, val elapsedFormCreation: ElapsedTime) : Model
 
+@Deprecated("Not need use, use Domain model")
 class DiscussionPayoutModel : Model
 
+@Deprecated("Not need use, use Domain model")
 data class DiscussionStatsModel(val rShares: BigInteger, val viewsCount: Long) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class DiscussionVotesModel(
     val hasUpVote: Boolean,
     val hasDownVote: Boolean,
@@ -88,6 +99,8 @@ data class DiscussionVotesModel(
     val downCount: Long
 ) : Model
 
+@Deprecated("Not need use, use Domain model")
 data class ElapsedTime(val elapsedMinutes: Int, val elapsedHours: Int, val elapsedDays: Int)
 
+@Deprecated("Not need use, use Domain model")
 data class TagModel(val tag: String)

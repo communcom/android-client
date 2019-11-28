@@ -47,8 +47,6 @@ constructor(
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
 
-//    private lateinit var postModel: PostModel
-
     private lateinit var postDomain: PostDomain
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
@@ -145,7 +143,6 @@ constructor(
                 hasUpVote = newVotesModel.hasUpVote
             )
         )
-//        postModel = postModel.copy(votes = newVotesModel)
     }
 
     override suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
@@ -174,15 +171,12 @@ constructor(
                 commentsCount = totalComments + 1
             )
         )
-//        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments + 1))
     }
 
     override suspend fun deleteComment(commentId: DiscussionIdModel) {
-//        val totalComments = postModel.comments.count
         val totalComments = postDomain.stats?.commentsCount ?: 0
 
         commentsProcessing.deleteComment(commentId, totalComments == 1)
-//        postModel = postModel.copy(comments = postModel.comments.copy(count = totalComments - 1))
         postDomain = postDomain.copy(
             stats = postDomain.stats?.copy(
                 commentsCount = totalComments - 1
