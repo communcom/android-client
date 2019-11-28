@@ -4,6 +4,8 @@ import io.golos.cyber_android.ui.common.widgets.post.*
 import io.golos.cyber_android.ui.dto.Post
 
 interface MyFeedListListener :
+    RichWidgetListener,
+    EmbedWidgetListener,
     AttachmentWidgetListener,
     EmbedImageWidgetListener,
     EmbedWebsiteWidgetListener,

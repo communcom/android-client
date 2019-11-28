@@ -115,6 +115,10 @@ class PostItem(
 
             is ParagraphBlock -> ParagraphPostItem(block, listener)
 
+            is RichBlock -> RichPostItem(block, listener)
+
+            is EmbedBlock -> EmbedPostItem(block, listener)
+
             else -> null
         }
     }

@@ -12,6 +12,7 @@ enum class BlockType(val value: String) {
     WEBSITE("website"),
     ATTACHMENTS("attachments"),
     RICH("rich"),
+    EMBED("embed"),
     UNDEFINED("undefined")
 }
 
@@ -22,13 +23,15 @@ enum class Attribute(val value: String) {
     TEXT_COLOR("text_color"),
     URL("url"),
     TYPE("type"),
-    THUMBNAIL_URL("thumbnail_url"),
+    THUMBNAIL_URL("thumbnailUrl"),
     THUMBNAIL_SIZE("thumbnail_size"),
+    THUMBNAIL_WIDTH("thumbnailWidth"),
+    THUMBNAIL_HEIGHT("thumbnailHeight"),
     DESCRIPTION("description"),
-    PROVIDER_NAME("provider_name"),
+    PROVIDER_NAME("providerName"),
     HTML("html"),
     AUTHOR("author"),
-    AUTHOR_URL("author_url")
+    AUTHOR_URL("authorUrl")
 }
 
 object PostTypeJson {

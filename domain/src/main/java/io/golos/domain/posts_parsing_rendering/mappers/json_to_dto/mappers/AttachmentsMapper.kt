@@ -1,38 +1,38 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import android.net.Uri
-import io.golos.domain.posts_parsing_rendering.Attribute
+import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.MediaBlock
-import io.golos.domain.posts_parsing_rendering.BlockType
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import org.json.JSONObject
-import timber.log.Timber
 
-class AttachmentsMapper(mappersFactory: MappersFactory): MapperBase<AttachmentsBlock>(mappersFactory) {
+class AttachmentsMapper(mappersFactory: MappersFactory) : MapperBase<AttachmentsBlock>(mappersFactory) {
     override fun map(source: JSONObject): AttachmentsBlock {
         val jsonContent = source.getContentAsArray()
 
         val content = mutableListOf<MediaBlock>()
 
-        for(i in 0 until jsonContent.length()) {
+        for (i in 0 until jsonContent.length()) {
             jsonContent.getJSONObject(i)
-                .also {
-                    val block = when(it.getType()) {
-                        BlockType.IMAGE -> mappersFactory.getMapper<ImageMapper>(
-                            ImageMapper::class).map(it)
-                        BlockType.VIDEO -> mappersFactory.getMapper<VideoMapper>(
-                            VideoMapper::class).map(it)
-                        BlockType.WEBSITE -> mappersFactory.getMapper<WebsiteMapper>(
-                            WebsiteMapper::class).map(it)
-                        //TODO kv 14/11/2019 dirty hack
-                        BlockType.RICH -> ImageBlock(
-                            Uri.parse("https://www.tokkoro.com/picsup/6007603-lake-waterfall-landscape-deep-forest-trees-sky-sunlight-sea-clouds-beautiful-nature.jpg"),
-                            "description"
-                        )
+                .also { json ->
+                    val block = when (json.getType()) {
+                        BlockType.IMAGE -> {
+                            mappersFactory.getMapper<ImageMapper>(ImageMapper::class).map(json)
+                        }
+                        BlockType.VIDEO -> {
+                            mappersFactory.getMapper<VideoMapper>(VideoMapper::class).map(json)
+                        }
+                        BlockType.WEBSITE -> {
+                            mappersFactory.getMapper<WebsiteMapper>(WebsiteMapper::class).map(json)
+                        }
+                        BlockType.RICH -> {
+                            mappersFactory.getMapper<RichMapper>(RichMapper::class).map(json)
+                        }
+                        BlockType.EMBED -> {
+                            mappersFactory.getMapper<EmbedMapper>(EmbedMapper::class).map(json)
+                        }
                         else -> null
                     }
-                    if(block != null){
+                    if (block != null) {
                         content.add(block)
                     }
                 }

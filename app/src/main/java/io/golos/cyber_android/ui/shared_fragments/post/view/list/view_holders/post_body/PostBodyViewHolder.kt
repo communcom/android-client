@@ -78,6 +78,14 @@ class PostBodyViewHolder constructor(
                 setOnClickProcessor(listItemEventsProcessor)
             }
 
+            is RichBlock -> RichWidget(itemView.context).apply {
+                render(block)
+            }
+
+            is EmbedBlock -> EmbedWidget(itemView.context).apply {
+                render(block)
+            }
+
             else -> throw UnsupportedOperationException("This type of block is not supported: $block")
         }
 }

@@ -9,10 +9,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.domain.use_cases.post.post_dto.VideoBlock
-import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
+import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
 
@@ -39,15 +36,21 @@ constructor(
 
         val lastIndex = images.lastIndex
 
-        block.content.forEachIndexed() { index, mediaBlock ->
-            val uriToShow = when(mediaBlock) {
-                is ImageBlock -> mediaBlock.content
-                is WebsiteBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.website)
-                is VideoBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.video)
-                else -> throw UnsupportedOperationException("This block is not supported: $mediaBlock")
-            }
+        block.content.forEachIndexed { index, mediaBlock ->
+            when (mediaBlock) {
+                is RichBlock -> attachmentsContainer.addView(RichWidget(context))
+                is EmbedBlock -> attachmentsContainer.addView(EmbedWidget(context))
+                else -> {
+                    val uriToShow = when (mediaBlock) {
+                        is ImageBlock -> mediaBlock.content
+                        is WebsiteBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.website)
+                        is VideoBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.video)
+                        else -> throw UnsupportedOperationException("This block is not supported: $mediaBlock")
+                    }
 
-            addAttachment(uriToShow, size, gap, index == 0, index == lastIndex)
+                    addAttachment(uriToShow, size, gap, index == 0, index == lastIndex)
+                }
+            }
         }
     }
 

@@ -5,6 +5,10 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 
 interface BasePostBlockWidgetListener
 
+interface RichWidgetListener: BasePostBlockWidgetListener
+
+interface EmbedWidgetListener: BasePostBlockWidgetListener
+
 interface AttachmentWidgetListener : BasePostBlockWidgetListener
 
 interface EmbedImageWidgetListener : BasePostBlockWidgetListener {
