@@ -12,7 +12,6 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -45,14 +44,6 @@ constructor(
 
     // For thread-safety
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
-
-    override suspend fun createOrUpdatePostData(postModel: PostModel) =
-        updateSafe {
-            createOrUpdatePostTitle(postModel)
-            createOrUpdatePostBody(postModel)
-            createOrUpdatePostControls(postModel)
-            createOrUpdateCommentsTitle(postModel)
-        }
 
     override suspend fun createOrUpdatePostData(postDomain: PostDomain) {
         updateSafe {
@@ -345,23 +336,6 @@ constructor(
         }
     }
 
-    private fun createOrUpdatePostTitle(postModel: PostModel) {
-        val oldTitle = postList.singleOrNull { it is PostTitleListItem }
-
-        val newTitle = postModel.content.body.postBlock.title?.let {
-            PostTitleListItem(IdUtil.generateLongId(), 0, it)
-        }
-
-        when {
-            oldTitle == null && newTitle == null -> {
-            }
-            oldTitle == null && newTitle != null -> postList.add(0, newTitle)
-            oldTitle != null && newTitle == null -> postList.remove(oldTitle)
-            oldTitle != null && newTitle != null ->
-                postList[0] = (oldTitle as PostTitleListItem).copy(version = oldTitle.version + 1, title = newTitle.title)
-        }
-    }
-
     private fun createOrUpdatePostTitle(postDomain: PostDomain) {
         val oldTitle = postList.singleOrNull { it is PostTitleListItem }
 
@@ -376,17 +350,6 @@ constructor(
             oldTitle != null && newTitle == null -> postList.remove(oldTitle)
             oldTitle != null && newTitle != null ->
                 postList[0] = (oldTitle as PostTitleListItem).copy(version = oldTitle.version + 1, title = newTitle.title)
-        }
-    }
-
-    private fun createOrUpdatePostBody(postModel: PostModel) {
-        val oldBodyIndex = postList.indexOfFirst { it is PostBodyListItem }
-
-        if (oldBodyIndex == -1) {
-            postList.add(PostBodyListItem(IdUtil.generateLongId(), 0, postModel.content.body.postBlock))
-        } else {
-            val oldBody = postList[oldBodyIndex]
-            postList[oldBodyIndex] = PostBodyListItem(oldBody.id, oldBody.version + 1, postModel.content.body.postBlock)
         }
     }
 
@@ -411,27 +374,6 @@ constructor(
         }
     }
 
-    private fun createOrUpdatePostControls(postModel: PostModel) {
-        val oldControlsIndex = postList.indexOfFirst { it is PostControlsListItem }
-
-        val controls = PostControlsListItem(
-            IdUtil.generateLongId(),
-            version = 0,
-            voteBalance = postModel.votes.upCount - postModel.votes.downCount,
-            isUpVoteActive = false,
-            isDownVoteActive = false,
-            totalComments = postModel.comments.count,
-            totalViews = postModel.stats.viewsCount
-        )
-
-        if (oldControlsIndex == -1) {
-            postList.add(controls)
-        } else {
-            val oldControls = postList[oldControlsIndex]
-            postList[oldControlsIndex] = controls.copy(id = oldControls.id, version = oldControls.version + 1)
-        }
-    }
-
     private fun createOrUpdatePostControls(postDomain: PostDomain) {
         val oldControlsIndex = postList.indexOfFirst { it is PostControlsListItem }
 
@@ -450,27 +392,6 @@ constructor(
         } else {
             val oldControls = postList[oldControlsIndex]
             postList[oldControlsIndex] = controls.copy(id = oldControls.id, version = oldControls.version + 1)
-        }
-    }
-
-    private fun createOrUpdateCommentsTitle(postModel: PostModel) {
-        val oldTitle = postList.singleOrNull { it is CommentsTitleListItem }
-
-        val newTitle = if (postModel.comments.count != 0L) {
-            CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST)
-        } else {
-            null
-        }
-
-        val commentsTitleIndex = if (hasPostTitle) 3 else 2
-
-        when {
-            oldTitle == null && newTitle == null -> {
-            }
-            oldTitle == null && newTitle != null -> postList.add(commentsTitleIndex, newTitle)
-            oldTitle != null && newTitle == null -> postList.remove(oldTitle)
-            oldTitle != null && newTitle != null ->
-                postList[commentsTitleIndex] = newTitle.copy(id = oldTitle.id, version = oldTitle.version + 1)
         }
     }
 
