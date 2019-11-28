@@ -1,8 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/profile_communities_height"
-    android:background="#FFDADA">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
-</FrameLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/stroke_normal"
+
+        android:background="@color/light_gray"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/communitiesList"
+        android:layout_width="0dp"
+
+        android:layout_height="206dp"
+
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/seeAllLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/see_all"
+
+        style="@style/BlueHeaderButton"
+
+        android:layout_marginEnd="@dimen/margin_default"
+
+        app:layout_constraintBottom_toTopOf="@+id/communitiesList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/CommunitiesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        style="@style/Profile.Community.Name"
+
+        android:layout_marginStart="@dimen/margin_default"
+
+        android:text="@string/communities"
+        app:layout_constraintBottom_toBottomOf="@+id/seeAllLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/CommunitiesInfoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.2k (300 Mutual)"
+        tools:text="1.2k (300 Mutual)"
+
+        android:layout_marginStart="@dimen/margin_default"
+
+        style="@style/ProfileJoinedTextStyle"
+
+        app:layout_constraintBottom_toTopOf="@+id/communitiesList"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

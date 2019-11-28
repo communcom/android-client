@@ -36,14 +36,14 @@ class CommunityListItemViewHolderDialog(
 
         itemView.leaderName.text = listItem.community.name
 
-        val followers = followersFormatter.format(listItem.community.followersCount)
+        val followers = followersFormatter.format(listItem.community.subscribersCount)
         val posts = postsFormatter.format(listItem.community.postsCount)
 
         itemView.leaderPoints.text = "$followers ${SpecialChars.bullet} $posts"
 
         itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community) }
 
-        itemView.ivLogo.loadCommunity(listItem.community.logo)
+        itemView.ivLogo.loadCommunity(listItem.community.avatarUrl)
     }
 
     override fun release() {

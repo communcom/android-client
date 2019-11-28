@@ -11,10 +11,10 @@ data class CommunityPageDomain(
     val rules: String?,
     val isSubscribed: Boolean,
     val isBlocked: Boolean,
-    val friendsCount: Long,
+    val friendsCount: Int,
     val friends: List<CommunityFriendDomain>,
-    val membersCount: Long,
-    val leadsCount: Long,
+    val membersCount: Int,
+    val leadsCount: Int,
     val communityCurrency: CommunityPageCurrencyDomain,
     val joinDate: Date
 ) {

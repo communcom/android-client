@@ -14,7 +14,7 @@ class FileSizeFormatter(private val context: Context): SizeFormatterBase(1024.0)
             R.string.formatter_files_giga)
     }
 
-    override fun format(size: Long): String =
+    override fun format(size: Int): String =
         calculateUnitIndex(size)
             .let {
                 context.resources.getFormattedString(R.string.formatter_files_formatted, calculateValue("##0.#", size, it), sizeUnits[it])

@@ -49,7 +49,7 @@ class LeadersListItemViewHolder(
         val result = SpannableStringBuilder()
 
         with(listItem) {
-            result.append( pointsFormatter.format(rating.toLong()))
+            result.append( pointsFormatter.format(rating.toInt()))
 
             result.append(" ")
             result.append(" ${SpecialChars.bullet} ")

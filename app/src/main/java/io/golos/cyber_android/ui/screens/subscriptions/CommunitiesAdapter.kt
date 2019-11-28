@@ -87,7 +87,7 @@ class CommunitiesAdapter : PaginalAdapter<Community>() {
             itemView.tvName.text = name
         }
 
-        private fun setFollowersCount(followersCount: Long) {
+        private fun setFollowersCount(followersCount: Int) {
             val followersCountFormatted = NumberFormat.getNumberInstance(Locale.US).format(followersCount)
             val followersLabel = itemView.context.resources.getQuantityString(R.plurals.plural_followers, followersCount.toPluralInt())
             itemView.tvFollowers.text = followersCountFormatted.plus(io.golos.utils.SPACE).plus(followersLabel)

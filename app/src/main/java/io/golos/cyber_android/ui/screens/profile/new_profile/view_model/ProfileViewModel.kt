@@ -48,13 +48,13 @@ constructor(
     private val _addBioVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
     val addBioVisibility: LiveData<Int> get() = _addBioVisibility
 
-    private val _followersCount: MutableLiveData<Long> = MutableLiveData(0)
-    val followersCount: LiveData<Long> get() = _followersCount
+    private val _followersCount: MutableLiveData<Int> = MutableLiveData(0)
+    val followersCount: LiveData<Int> get() = _followersCount
 
-    private val _followingsCount: MutableLiveData<Long> = MutableLiveData(0)
-    val followingsCount: LiveData<Long> get() = _followingsCount
+    private val _followingsCount: MutableLiveData<Int> = MutableLiveData(0)
+    val followingsCount: LiveData<Int> get() = _followingsCount
 
-    private val _communitiesVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
+    private val _communitiesVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
     val communitiesVisibility: LiveData<Int> get() = _communitiesVisibility
 
     private val _pageContentVisibility: MutableLiveData<Int> = MutableLiveData(View.INVISIBLE)
@@ -160,6 +160,7 @@ constructor(
                     _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
                     _followersCount.value = followersCount
                     _followingsCount.value = followingsCount
+                    _communitiesVisibility.value = if(highlightCommunities.isNotEmpty()) View.VISIBLE else View.GONE
                 }
 
                 _pageContentVisibility.value = View.VISIBLE

@@ -24,7 +24,7 @@ fun setJoinedDateBinding(view: TextView, valueToBind: LiveData<Date>?) {
 }
 
 @BindingAdapter("kilo")
-fun setKiloBinding(view: TextView, valueToBind: LiveData<Long>?) {
+fun setKiloBinding(view: TextView, valueToBind: LiveData<Int>?) {
     valueToBind?.let { value ->
         view.parentActivity?.let { activity ->
             value.observe(activity, Observer {

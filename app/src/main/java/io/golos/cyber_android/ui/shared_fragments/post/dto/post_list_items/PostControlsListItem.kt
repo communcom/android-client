@@ -13,6 +13,6 @@ data class PostControlsListItem(
     val isUpVoteActive: Boolean,
     val isDownVoteActive: Boolean,
 
-    val totalComments: Long,
-    val totalViews: Long
+    val totalComments: Int,
+    val totalViews: Int
 ) : VersionedListItem

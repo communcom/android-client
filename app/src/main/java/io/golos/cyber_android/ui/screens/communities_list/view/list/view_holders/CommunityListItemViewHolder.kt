@@ -36,7 +36,7 @@ class CommunityListItemViewHolder(
         with(listItem) {
             itemView.communityTitle.text = community.name
 
-            val followers = followersFormatter.format(community.followersCount)
+            val followers = followersFormatter.format(community.subscribersCount)
             val posts = postsFormatter.format(community.postsCount)
 
             itemView.communityInfo.text = "$followers ${SpecialChars.bullet} $posts"
@@ -51,7 +51,7 @@ class CommunityListItemViewHolder(
 
             itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
 
-            itemView.ivLogo.loadCommunity(community.logo)
+            itemView.ivLogo.loadCommunity(community.avatarUrl)
         }
     }
 

@@ -20,7 +20,7 @@ data class PostDiscussionRaw(
 
     val author: DiscussionAuthor,
 
-    val childCount: Long,
+    val childCount: Int,
 
     val shareUrl: String?
 )

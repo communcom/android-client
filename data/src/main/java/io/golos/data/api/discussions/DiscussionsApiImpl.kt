@@ -106,7 +106,7 @@ constructor(
 
         val comments = CommentsDataFactory.createComments(postPermlink, authState.user.name)
 
-        val post = PostsDataFactory.createPost(body, community!!, authState.user.name, comments.size.toLong(), postPermlink)
+        val post = PostsDataFactory.createPost(body, community!!, authState.user.name, comments.size, postPermlink)
         Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
         DataStorage.posts.add(post)
 

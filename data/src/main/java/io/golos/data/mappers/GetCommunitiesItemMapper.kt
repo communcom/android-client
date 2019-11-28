@@ -9,10 +9,12 @@ import java.util.*
 fun GetCommunitiesItem.mapToCommunityDomain(): CommunityDomain =
     CommunityDomain(
         communityId = communityId,
+        alias = alias,
         name = name,
-        logo = avatarUrl,
-        followersCount = subscribersCount.toLong(),
-        postsCount = postsCount?.toLong() ?: 0L,
+        avatarUrl = avatarUrl,
+        coverUrl = coverUrl,
+        subscribersCount = subscribersCount,
+        postsCount = postsCount ?: 0,
         isSubscribed = isSubscribed ?: false
     )
 
@@ -26,10 +28,10 @@ fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): Commu
         rules = (rules as? String) ?: "" ,
         isSubscribed = isSubscribed ?: false,
         isBlocked = isBlocked ?: true,
-        friendsCount = friendsCount?.toLong() ?: 0,
+        friendsCount = friendsCount ?: 0,
         friends = friends?.map { it.mapToCommunityFriendDomain(leaders) } ?: listOf(),
-        membersCount = subscribersCount.toLong(),
-        leadsCount = leadersCount?.toLong() ?: 0,
+        membersCount = subscribersCount,
+        leadsCount = leadersCount ?: 0,
         communityCurrency = CommunityPageDomain.CommunityPageCurrencyDomain(name, 1f),
         joinDate = Date()
     )

@@ -34,7 +34,7 @@ constructor(
 
         communityName.text = community.name
 
-        communityAvatar.loadCommunity(community.logo)
+        communityAvatar.loadCommunity(community.avatarUrl)
     }
 
     fun setOnShowCommunitiesClickListener(listener: () -> Unit) {

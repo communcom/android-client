@@ -10,6 +10,8 @@ data class UserProfileDomain(
     val bio: String?,
     val name: String,
     val joinDate: Date,
-    val followersCount: Long,
-    val followingsCount: Long
+    val followersCount: Int,
+    val followingsCount: Int,
+    val communitiesSubscribedCount: Int,
+    val highlightCommunities: List<CommunityDomain>
 )

@@ -5,7 +5,7 @@ import io.golos.domain.use_cases.post.post_dto.PostBlock
 import java.math.BigInteger
 import java.util.*
 
-data class DiscussionCommentsCount(val count: Long) : Entity
+data class DiscussionCommentsCount(val count: Int) : Entity
 
 data class PostContent(
     val body: ContentBody,
@@ -31,7 +31,7 @@ data class DiscussionMetadata(val time: Date) : Entity
 
 class DiscussionPayout : Entity
 
-data class DiscussionStats(val rShares: BigInteger, val viewsCount: Long) : Entity
+data class DiscussionStats(val rShares: BigInteger, val viewsCount: Int) : Entity
 
 data class DiscussionVotes(
     val hasUpVote: Boolean,

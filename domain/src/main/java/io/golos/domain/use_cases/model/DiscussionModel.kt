@@ -52,7 +52,7 @@ sealed class DiscussionModel(
 ) : Model
 
 @Deprecated("Not need use, use Domain model")
-data class DiscussionCommentsCountModel(val count: Long) : Model
+data class DiscussionCommentsCountModel(val count: Int) : Model
 
 @Deprecated("Not need use, use Domain model")
 data class PostContentModel(
@@ -89,7 +89,7 @@ data class DiscussionMetadataModel(val time: Date, val elapsedFormCreation: Elap
 class DiscussionPayoutModel : Model
 
 @Deprecated("Not need use, use Domain model")
-data class DiscussionStatsModel(val rShares: BigInteger, val viewsCount: Long) : Model
+data class DiscussionStatsModel(val rShares: BigInteger, val viewsCount: Int) : Model
 
 @Deprecated("Not need use, use Domain model")
 data class DiscussionVotesModel(

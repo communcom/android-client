@@ -79,7 +79,7 @@ class PostItem(
         if (isNeedToShow) {
             view.viewIcon.visibility = View.VISIBLE
             view.viewCountText.visibility = View.VISIBLE
-            view.viewCountText.text = KiloCounterFormatter.format(count.positiveValue().toLong())
+            view.viewCountText.text = KiloCounterFormatter.format(count.positiveValue())
         } else {
             view.viewIcon.visibility = View.INVISIBLE
             view.viewCountText.visibility = View.INVISIBLE
@@ -192,7 +192,7 @@ class PostItem(
     }
 
     private fun setCommentsCounter(view: View, commentsCounter: Int?) {
-        view.commentsCountText.text = KiloCounterFormatter.format(commentsCounter.positiveValue().toLong())
+        view.commentsCountText.text = KiloCounterFormatter.format(commentsCounter.positiveValue())
         view.commentsCountText.setOnClickListener {
             listener.onCommentsClicked(post.contentId)
         }

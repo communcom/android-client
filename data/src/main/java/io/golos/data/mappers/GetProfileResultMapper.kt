@@ -11,7 +11,9 @@ fun GetProfileResult.mapToUserProfileDomain(): UserProfileDomain {
         bio = personal?.biography,
         name = username!!,
         joinDate = registration!!.time,
-        followersCount = subscribers?.usersCount?.toLong() ?: 0L,
-        followingsCount = subscriptions?.usersCount?.toLong() ?: 0L
+        followersCount = subscribers?.usersCount ?: 0,
+        followingsCount = subscriptions?.usersCount ?: 0,
+        communitiesSubscribedCount = subscriptions?.communitiesCount ?: 0,
+        highlightCommunities = highlightCommunities?.map { it.mapToCommunityDomain() } ?: listOf()
     )
 }

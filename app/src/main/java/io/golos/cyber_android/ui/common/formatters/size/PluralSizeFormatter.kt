@@ -20,7 +20,7 @@ constructor(
             R.string.formatter_followers_giga)
     }
 
-    override fun format(size: Long): String =
+    override fun format(size: Int): String =
         calculateUnitIndex(size)
             .let {
                 val value = calculateValue("#.#", size, it)

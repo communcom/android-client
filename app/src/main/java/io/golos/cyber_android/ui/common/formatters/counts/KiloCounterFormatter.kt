@@ -4,7 +4,7 @@ import java.util.*
 import kotlin.math.abs
 
 object KiloCounterFormatter {
-    fun format(count: Long): String =
+    fun format(count: Int): String =
         when {
             abs(count) < 1000 -> count.toString()
             abs(count) % 1000 < 51 -> "${count/1000}k"

@@ -427,4 +427,6 @@
     <string name="save">Save</string>
 
     <string name="profile_photos_storage_permissions_denied">You can\'s select a photo without granted permissions, sorry…</string>
+
+    <string name="see_all">see all</string>
 </resources>

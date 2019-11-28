@@ -165,7 +165,7 @@ constructor(
                     it.followersQuantity < 100 -> it.followersQuantity * random.nextInt(50)
                     else -> it.followersQuantity * random.nextInt(500)
                 }
-                CommunityDomain(it.id, it.name, it.logoUrl, followersQuantity.toLong(), followersQuantity.toLong(), Random.nextBoolean())
+                CommunityDomain(it.id, null, it.name, it.logoUrl, null, followersQuantity, followersQuantity, Random.nextBoolean())
             }
     }
 
@@ -206,10 +206,12 @@ constructor(
             val communityLogo: String = communityLogoArray[rand.nextInt(communityLogoArray.size - 1)]
             val communityDomain = CommunityDomain(
                 UUID.randomUUID().toString(),
+                null,
                 communityName,
                 communityLogo,
-                rand.nextInt(1000000).toLong(),
-                rand.nextInt(1000000).toLong(),
+                null,
+                rand.nextInt(1000000),
+                rand.nextInt(1000000),
                 rand.nextBoolean())
             communityList.add(communityDomain)
         }

@@ -47,7 +47,7 @@ constructor() : CyberPostToEntityMapper {
             DiscussionMetadata(communObject.meta.creationTime),
             DiscussionStats(
                 0.toBigInteger(),
-                0L
+                0
             ),                  // note[AS] temporary zero - it'll be in a future
             communObject.shareUrl
         )
