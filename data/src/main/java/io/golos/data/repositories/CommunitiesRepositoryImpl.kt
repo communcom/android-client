@@ -1,14 +1,20 @@
 package io.golos.data.repositories
 
 import io.golos.commun4j.Commun4j
+import io.golos.commun4j.model.BandWidthRequest
+import io.golos.commun4j.model.ClientAuthRequest
+import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.mapToCommunityDomain
 import io.golos.data.mappers.mapToCommunityLeaderDomain
 import io.golos.data.mappers.mapToCommunityPageDomain
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.CommunityPageDomain
+import io.golos.domain.dto.UserKeyType
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
@@ -19,8 +25,9 @@ class CommunitiesRepositoryImpl
 constructor(
     private val communitiesApi: CommunitiesApi,
     private val dispatchersProvider: DispatchersProvider,
-
-    private val commun4j: Commun4j
+    private val commun4j: Commun4j,
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    private val userKeyStore: UserKeyStore
 ) : RepositoryBase(dispatchersProvider),
     CommunitiesRepository {
 
@@ -31,14 +38,26 @@ constructor(
     }
 
     override suspend fun subscribeToCommunity(communityId: String) {
-        return withContext(dispatchersProvider.ioDispatcher) {
-            communitiesApi.subscribeToCommunity(communityId)
+        apiCallChain {
+            commun4j.followCommunity(
+                communityCode = CyberSymbolCode(communityId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                follower = currentUserRepository.user,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
         }
     }
 
     override suspend fun unsubscribeToCommunity(communityId: String) {
-        return withContext(dispatchersProvider.ioDispatcher) {
-            communitiesApi.unsubscribeToCommunity(communityId)
+        apiCallChain {
+            commun4j.unFollowCommunity(
+                communityCode = CyberSymbolCode(communityId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                follower = currentUserRepository.user,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
         }
     }
 
