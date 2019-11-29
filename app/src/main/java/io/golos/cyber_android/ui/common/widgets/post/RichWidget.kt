@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.common.widgets.post
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -19,11 +20,21 @@ constructor(
 ) : FrameLayout(context, attrs, defStyleAttr),
     PostBlockWidget<RichBlock, RichWidgetListener> {
 
+    private var onClickProcessor: RichWidgetListener? = null
+
+    private var linkUri: Uri? = null
+
+
     init {
         inflate(context, R.layout.view_attachment_rich, this)
     }
 
+    override fun setOnClickProcessor(processor: RichWidgetListener?) {
+        this.onClickProcessor = processor
+    }
+
     override fun render(block: RichBlock) {
+        linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl
         if (thumbnailUrl != null) {
             val width = block.thumbnailWidth ?: 640
@@ -44,6 +55,16 @@ constructor(
         richIcon.setImageResource(type.providerIconResId)
         richName.text = block.author
         richUrl.text = block.authorUrl?.authority
+
+        if(onClickProcessor != null) {
+            llLinkProvider.setOnClickListener {
+                linkUri?.let {
+                    this.onClickProcessor?.onLinkClicked(it)
+                }
+            }
+        } else {
+            llLinkProvider.setOnClickListener(null)
+        }
     }
 
     override fun release() {
