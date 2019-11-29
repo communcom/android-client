@@ -79,10 +79,12 @@ class PostBodyViewHolder constructor(
             }
 
             is RichBlock -> RichWidget(itemView.context).apply {
+                setOnClickProcessor(listItemEventsProcessor)
                 render(block)
             }
 
             is EmbedBlock -> EmbedWidget(itemView.context).apply {
+                setOnClickProcessor(listItemEventsProcessor)
                 render(block)
             }
 

@@ -14,7 +14,9 @@ interface PostPageViewModelListEventsProcessor :
     ParagraphWidgetListener,
     PostCommentVoteListener,
     PostVoteListener,
-    CommentsListener
+    CommentsListener,
+    RichWidgetListener,
+    EmbedWidgetListener
 
 interface PostCommentVoteListener : BasePostBlockWidgetListener {
 
