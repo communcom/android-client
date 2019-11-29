@@ -17,7 +17,7 @@ import java.security.MessageDigest
 /**
  * A [BitmapTransformation] which puts a round image inside a frame with persentage color indicator
  */
-class PercentageRoundFrameTransformation(
+class PercentageRoundVectorFrameTransformation(
     private val context: Context,           // Application context
     private val innerImageSize: Float,      // [0:1]
     private val percentage: Float,          // [0:1]
@@ -25,9 +25,9 @@ class PercentageRoundFrameTransformation(
     private val percentAreaColor: Int,
     @DrawableRes
     private val frameTemplate: Int
-) : BitmapTransformation() {
+) : TransformationBase() {
     companion object {
-        private const val ID = "io.golos.cyber_android.ui.common.glide.PercentageRoundFrameTransformation"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.PercentageRoundVectorFrameTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 
@@ -38,8 +38,8 @@ class PercentageRoundFrameTransformation(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun equals(o: Any?): Boolean {
-        if (o is PercentageRoundFrameTransformation) {
-            val other = o as PercentageRoundFrameTransformation?
+        if (o is PercentageRoundVectorFrameTransformation) {
+            val other = o as PercentageRoundVectorFrameTransformation?
 
             return innerImageSize == other!!.innerImageSize &&
                     percentage == other.percentage &&
@@ -92,31 +92,6 @@ class PercentageRoundFrameTransformation(
         }
 
         return combined
-    }
-
-    private fun getAlphaSafeConfig(inBitmap: Bitmap): Bitmap.Config {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Avoid short circuiting the sdk check.
-            if (Bitmap.Config.RGBA_F16 == inBitmap.config) { // NOPMD
-                return Bitmap.Config.RGBA_F16
-            }
-        }
-
-        return Bitmap.Config.ARGB_8888
-    }
-
-    private fun getAlphaSafeBitmap(pool: BitmapPool, maybeAlphaSafe: Bitmap): Bitmap {
-        val safeConfig = getAlphaSafeConfig(maybeAlphaSafe)
-        if (safeConfig == maybeAlphaSafe.config) {
-            return maybeAlphaSafe
-        }
-
-        val argbBitmap = pool.get(maybeAlphaSafe.width, maybeAlphaSafe.height, safeConfig)
-        Canvas(argbBitmap).drawBitmap(maybeAlphaSafe, 0f /*left*/, 0f /*top*/, null /*paint*/)
-
-        // We now own this Bitmap. It's our responsibility to replace it in the pool outside this method
-        // when we're finished with it.
-        return argbBitmap
     }
 
     private fun getFrameBitmap(size: Int, config: Bitmap.Config): Bitmap {

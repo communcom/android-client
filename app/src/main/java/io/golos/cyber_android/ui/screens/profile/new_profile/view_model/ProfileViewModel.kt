@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToBioPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDialogCommand
@@ -54,8 +56,8 @@ constructor(
     private val _followingsCount: MutableLiveData<Int> = MutableLiveData(0)
     val followingsCount: LiveData<Int> get() = _followingsCount
 
-    private val _communitiesVisibility: MutableLiveData<Int> = MutableLiveData(View.GONE)
-    val communitiesVisibility: LiveData<Int> get() = _communitiesVisibility
+    private val _communities: MutableLiveData<ProfileCommunities?> = MutableLiveData(null)
+    val communities: LiveData<ProfileCommunities?> get() = _communities
 
     private val _pageContentVisibility: MutableLiveData<Int> = MutableLiveData(View.INVISIBLE)
     val pageContentVisibility: LiveData<Int> get() = _pageContentVisibility
@@ -160,7 +162,10 @@ constructor(
                     _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
                     _followersCount.value = followersCount
                     _followingsCount.value = followingsCount
-                    _communitiesVisibility.value = if(highlightCommunities.isNotEmpty()) View.VISIBLE else View.GONE
+
+                    if(highlightCommunities.isNotEmpty()) {
+                        _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
+                    }
                 }
 
                 _pageContentVisibility.value = View.VISIBLE

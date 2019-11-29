@@ -40,7 +40,7 @@
 
                     android:text="@string/communities"
 
-                    style="@style/Community.Title.TextStyle"
+                    style="@style/White.Header.TextStyle"
 
                     android:layout_gravity="center" />
             </FrameLayout>

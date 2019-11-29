@@ -17,7 +17,9 @@ import java.util.concurrent.locks.ReentrantLock
  * A [BitmapTransformation] which rounds the top corners of a bitmap.
  * Based on Glide code
  */
-class TopRoundedCornersTransformation(private val roundingRadius: Float) : BitmapTransformation() {
+class TopRoundedCornersTransformation(
+    private val roundingRadius: Float
+) : TransformationBase() {
     companion object {
         private const val ID = "io.golos.cyber_android.ui.common.glide.TopRoundedCornersTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
@@ -145,30 +147,5 @@ class TopRoundedCornersTransformation(private val roundingRadius: Float) : Bitma
         }
 
         return result
-    }
-
-    private fun getAlphaSafeConfig(inBitmap: Bitmap): Bitmap.Config {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Avoid short circuiting the sdk check.
-            if (Bitmap.Config.RGBA_F16 == inBitmap.config) { // NOPMD
-                return Bitmap.Config.RGBA_F16
-            }
-        }
-
-        return Bitmap.Config.ARGB_8888
-    }
-
-    private fun getAlphaSafeBitmap(pool: BitmapPool, maybeAlphaSafe: Bitmap): Bitmap {
-        val safeConfig = getAlphaSafeConfig(maybeAlphaSafe)
-        if (safeConfig == maybeAlphaSafe.config) {
-            return maybeAlphaSafe
-        }
-
-        val argbBitmap = pool.get(maybeAlphaSafe.width, maybeAlphaSafe.height, safeConfig)
-        Canvas(argbBitmap).drawBitmap(maybeAlphaSafe, 0f /*left*/, 0f /*top*/, null /*paint*/)
-
-        // We now own this Bitmap. It's our responsibility to replace it in the pool outside this method
-        // when we're finished with it.
-        return argbBitmap
     }
 }

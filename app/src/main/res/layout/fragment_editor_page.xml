@@ -338,7 +338,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
 
-                style="@style/Editor.Send.Button"
+                style="@style/BlueWhite.RoundCorners.Button"
+
+                android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+                android:layout_marginEnd="@dimen/margin_size_editor_common"
 
                 android:enabled="@{viewModel.isPostEnabled}"
                 />

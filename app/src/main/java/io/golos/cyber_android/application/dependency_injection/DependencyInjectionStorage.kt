@@ -49,6 +49,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities.ProfileCommunitiesFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities.ProfileCommunitiesFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
@@ -138,6 +140,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 get<ProfileFragmentComponent>()
                     .bioFragment
                     .init(ProfileBioFragmentModule(args[0] as String?))
+                    .build()
+
+            ProfileCommunitiesFragmentComponent::class ->
+                get<ProfileFragmentComponent>()
+                    .communitiesFragment
+                    .init(ProfileCommunitiesFragmentModule(args[0] as ProfileCommunities))
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()

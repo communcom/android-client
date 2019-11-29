@@ -9,7 +9,6 @@ import android.graphics.Shader.TileMode
 import androidx.annotation.ColorRes
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Util
 import io.golos.cyber_android.ui.common.extensions.getColorRes
 import java.nio.ByteBuffer
@@ -22,7 +21,7 @@ class GradientTransformation(
     private val startColor: Int,
     @ColorRes
     private val endColor: Int
-) : BitmapTransformation() {
+) : TransformationBase() {
     companion object {
         private const val ID = "io.golos.cyber_android.ui.common.glide.GradientTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
@@ -30,7 +29,7 @@ class GradientTransformation(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun equals(o: Any?): Boolean {
-        if (o is PercentageRoundFrameTransformation) {
+        if (o is PercentageRoundVectorFrameTransformation) {
             val other = o as GradientTransformation?
 
             return startColor == other!!.startColor && endColor == other.endColor

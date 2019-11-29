@@ -8,7 +8,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.glide.GradientTransformation
-import io.golos.cyber_android.ui.common.glide.PercentageRoundFrameTransformation
+import io.golos.cyber_android.ui.common.glide.PercentageRoundVectorFrameTransformation
 
 fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
 
@@ -20,7 +20,7 @@ fun ImageView.loadLeader(url: String?, percentage: Float) =
         .load(if(url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
         .transform(
             CircleCrop(),
-            PercentageRoundFrameTransformation(
+            PercentageRoundVectorFrameTransformation(
                 this.context.applicationContext,
                 0.8f,
                 percentage,

@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_bio"
 
-                style="@style/Community.Title.TextStyle"
+                style="@style/White.Header.TextStyle"
 
                 android:layout_gravity="center"
                 />
@@ -81,7 +81,10 @@
                 android:layout_width="@dimen/width_editor_post_button"
                 android:layout_height="@dimen/height_editor_post_button"
 
-                style="@style/Editor.Send.Button"
+                style="@style/BlueWhite.RoundCorners.Button"
+
+                android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+                android:layout_marginEnd="@dimen/margin_size_editor_common"
 
                 android:layout_gravity="center_vertical|end"
 

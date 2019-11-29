@@ -25,7 +25,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDial
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
-import io.golos.cyber_android.ui.screens.profile_communities.ProfileCommunitiesFragment
+import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
@@ -56,12 +56,11 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
-            // Show communities block
-            communitiesVisibility.observe({viewLifecycleOwner.lifecycle}) {
-                if(it == View.VISIBLE) {
+            communities.observe({viewLifecycleOwner.lifecycle}) {
+                it?.let {
                     fragmentManager
                         ?.beginTransaction()
-                        ?.add(R.id.communitiesContainer, ProfileCommunitiesFragment.newInstance())
+                        ?.add(R.id.communitiesContainer, ProfileCommunitiesFragment.newInstance(it))
                         ?.commit()
                 }
             }

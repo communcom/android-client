@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.mappers
 
+import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.PostDomain
 
 fun PostDomain.CommunityDomain.mapToCommunity(): Post.Community {
@@ -12,3 +14,14 @@ fun PostDomain.CommunityDomain.mapToCommunity(): Post.Community {
         this.isSubscribed
     )
 }
+
+fun CommunityDomain.mapToCommunity() =
+    Community (
+        communityId = communityId,
+        name = name,
+        avatarUrl = avatarUrl,
+        coverUrl = coverUrl,
+        subscribersCount = subscribersCount,
+        postsCount = postsCount,
+        isSubscribed = isSubscribed
+    )

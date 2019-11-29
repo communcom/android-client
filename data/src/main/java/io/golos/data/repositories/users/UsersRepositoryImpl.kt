@@ -5,6 +5,7 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
+import io.golos.data.mappers.mapToCommunityDomain
 import io.golos.data.mappers.mapToUserProfileDomain
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
@@ -45,8 +46,17 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserProfile(user: CyberName): UserProfileDomain =
-        apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
+    override suspend fun getUserProfile(user: CyberName): UserProfileDomain {
+        // This code is correct but it's temporary commented for debug purpose
+        // (because highlightCommunities lis is always empty for a current user profile)
+        //--------------------------------------
+        //apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
+        //--------------------------------------
+
+        // Code for debugging only - see an explanation above
+        val fakeCommunities = apiCall { commun4j.getCommunitiesList(null, 0, 10) }
+        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain(fakeCommunities)
+    }
 
     /**
      * Update cover of current user profile

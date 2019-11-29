@@ -225,21 +225,18 @@
 
                             <Button
                                 android:id="@+id/addBioButton"
-                                style="?android:attr/borderlessButtonStyle"
-                                android:layout_width="match_parent"
 
+                                android:layout_width="match_parent"
                                 android:layout_height="@dimen/profile_add_bio_button_height"
-                                android:background="@drawable/bcg_edit_bio_button"
 
                                 android:text="@string/add_bio"
-                                android:textAllCaps="false"
+                                style="@style/GrayBlue.RoundCorners.Button"
 
-                                android:textColor="@color/blue"
-                                android:visibility="@{viewModel.addBioVisibility}"
                                 tools:text="@string/add_bio"
 
                                 android:onClick="@{() -> viewModel.onAddBioClick()}"
 
+                                android:visibility="@{viewModel.addBioVisibility}"
                                 tools:visibility="visible" />
                         </FrameLayout>
 
@@ -333,7 +330,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             android:id="@+id/communitiesContainer"
 
-                            android:visibility="@{viewModel.communitiesVisibility}"
+                            app:communitiesVisibility="@{viewModel.communities}"
                             tools:visibility="visible"
 
                             tools:layout_width="match_parent"
