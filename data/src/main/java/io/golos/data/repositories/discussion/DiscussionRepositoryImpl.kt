@@ -48,7 +48,7 @@ constructor(
         val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
         val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
         val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
-        return apiCall {
+        val items = apiCall {
             commun4j.getPostsRaw(
                 postsConfigurationDomain.userId.toCyberName(),
                 postsConfigurationDomain.communityId,
@@ -61,10 +61,10 @@ constructor(
                 postsConfigurationDomain.offset
             )
         }.items
-            .map {
-                val userId = it.author.userId.name
-                it.mapToPostDomain(userId == currentUserRepository.userId)
-            }
+        return items.map {
+            val userId = it.author.userId.name
+            it.mapToPostDomain(userId == currentUserRepository.userId)
+        }
     }
 
     private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }

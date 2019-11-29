@@ -88,8 +88,12 @@ class PostItem(
 
     private fun setUpFeedContent(view: View, postBlock: PostBlock?) {
         view.feedContent.adapter = feedAdapter
-        val contentList = postBlock?.content ?: arrayListOf()
-        val postContentItems: List<BaseRecyclerItem> = contentList
+        val contentList : ArrayList<Block> = postBlock?.content as? ArrayList<Block> ?: arrayListOf()
+        val newContentList = ArrayList<Block>(contentList)
+        ((postBlock?.attachments) as? Block)?.let {
+            newContentList.add(it)
+        }
+        val postContentItems = newContentList
             .filter { createPostBodyItem(it) != null }
             .map {
                 createPostBodyItem(it)!!
@@ -114,6 +118,10 @@ class PostItem(
             is WebsiteBlock -> WebSitePostItem(block, listener)
 
             is ParagraphBlock -> ParagraphPostItem(block, listener)
+
+            is RichBlock -> RichPostItem(block, listener)
+
+            is EmbedBlock -> EmbedPostItem(block, listener)
 
             else -> null
         }

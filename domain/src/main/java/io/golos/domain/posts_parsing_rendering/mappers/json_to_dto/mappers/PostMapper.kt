@@ -1,12 +1,12 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.PostBlock
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.IncompatibleVersionsException
+import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.use_cases.post.post_dto.Block
+import io.golos.domain.use_cases.post.post_dto.PostBlock
 import org.json.JSONObject
 
 class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersFactory) {
@@ -54,6 +54,19 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersF
                             attachments = mappersFactory.getMapper<AttachmentsMapper>(
                                 AttachmentsMapper::class).map(block)
                         }
+
+                        BlockType.RICH -> {
+                            content.add(
+                                mappersFactory.getMapper<RichMapper>(RichMapper::class).map(block)
+                            )
+                        }
+
+                        BlockType.EMBED -> {
+                            content.add(
+                                mappersFactory.getMapper<EmbedMapper>(EmbedMapper::class).map(block)
+                            )
+                        }
+
                         else -> throw UnsupportedOperationException("This type ob block is not supported here: $type")
                     }
                 }

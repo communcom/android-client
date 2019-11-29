@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.golos.cyber_android.ui.common.widgets.RoundedView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:background="@drawable/bg_post_divider"
+    app:bottomLeftCornerRadius="10dp"
+    app:bottomRightCornerRadius="10dp"
+    app:topLeftCornerRadius="10dp"
+    app:topRightCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/richDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:visibility="gone"
+            tools:text="Magna nisi sunt quis id nisi ullamco adipisicing sint sint reprehenderit consequat et aliquip consequat. Incididunt cupidatat velit excepteur aute culpa in dolore sunt dolor occaecat cillum reprehenderit. Ullamco adipisicing minim magna culpa dolore amet dolor Lorem nisi laboris."
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/richImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_upvote"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/llLinkProvider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/richIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_instagram" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/richName"
+                    style="@style/StandardText16spStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="adoasjdasoidjasoidj" />
+
+                <TextView
+                    android:id="@+id/richUrl"
+                    style="@style/Post.Image.Link.TextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Instagram.com" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</io.golos.cyber_android.ui.common.widgets.RoundedView>

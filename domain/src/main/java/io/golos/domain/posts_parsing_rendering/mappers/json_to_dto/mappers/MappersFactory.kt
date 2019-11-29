@@ -13,40 +13,29 @@ class MappersFactory {
         }
 
         return when(type) {
-            PostMapper::class -> PostMapper(
-                this
-            )
+            PostMapper::class -> PostMapper(this)
 
-            ParagraphMapper::class -> ParagraphMapper(
-                this
-            )
+            ParagraphMapper::class -> ParagraphMapper(this)
 
-            WebsiteMapper::class -> WebsiteMapper(
-                this
-            )
-            VideoMapper::class -> VideoMapper(
-                this
-            )
-            ImageMapper::class -> ImageMapper(
-                this
-            )
+            WebsiteMapper::class -> WebsiteMapper(this)
 
-            TextMapper::class -> TextMapper(
-                this
-            )
-            TagMapper::class -> TagMapper(
-                this
-            )
-            MentionMapper::class -> MentionMapper(
-                this
-            )
-            LinkMapper::class -> LinkMapper(
-                this
-            )
+            VideoMapper::class -> VideoMapper(this)
 
-            AttachmentsMapper::class -> AttachmentsMapper(
-                this
-            )
+            ImageMapper::class -> ImageMapper(this)
+
+            TextMapper::class -> TextMapper(this)
+
+            TagMapper::class -> TagMapper(this)
+
+            MentionMapper::class -> MentionMapper(this)
+
+            LinkMapper::class -> LinkMapper(this)
+
+            AttachmentsMapper::class -> AttachmentsMapper(this)
+
+            RichMapper::class -> RichMapper(this)
+
+            EmbedMapper::class -> EmbedMapper(this)
 
             else -> throw UnsupportedOperationException("This type of block is not supported: $type")
         }
