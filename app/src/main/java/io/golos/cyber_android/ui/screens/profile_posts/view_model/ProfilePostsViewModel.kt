@@ -69,12 +69,38 @@ class ProfilePostsViewModel @Inject constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-    override fun onDownVoteClicked() {
-
+    override fun onUpVoteClicked(post: Post.ContentId) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.upVote(
+                    post.communityId,
+                    post.userId,
+                    post.permlink
+                )
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
-    override fun onUpVoteClicked() {
-
+    override fun onDownVoteClicked(post: Post.ContentId) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.downVote(
+                    post.communityId,
+                    post.userId,
+                    post.permlink
+                )
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     override fun onLinkClicked(linkUri: Uri) {

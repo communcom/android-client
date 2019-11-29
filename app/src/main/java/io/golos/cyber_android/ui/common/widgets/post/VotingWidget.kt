@@ -46,4 +46,9 @@ constructor(
         votesText.text = balance.toString()
     }
 
+    fun release() {
+        onUpVoteButtonClickListener = null
+        onDownVoteButtonClickListener = null
+    }
+
 }

@@ -171,6 +171,7 @@ class PostItem(
     override fun onViewRecycled(view: View) {
         super.onViewRecycled(view)
         view.postHeader.release()
+        view.votesArea.release()
     }
 
     private fun setVotesCounter(view: View, votes: Post.Votes) {
@@ -185,6 +186,12 @@ class PostItem(
         if (isMyPost) {
             view.votesArea.upvoteButton.visibility = View.VISIBLE
             view.votesArea.downvoteButton.visibility = View.VISIBLE
+            view.votesArea.setOnUpVoteButtonClickListener {
+                listener.onUpVoteClicked(post.contentId)
+            }
+            view.votesArea.setOnDownVoteButtonClickListener {
+                listener.onDownVoteClicked(post.contentId)
+            }
         } else {
             view.votesArea.upvoteButton.visibility = View.INVISIBLE
             view.votesArea.downvoteButton.visibility = View.INVISIBLE
