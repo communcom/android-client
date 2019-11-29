@@ -383,8 +383,8 @@ constructor(
             voteBalance = postDomain.votes.upCount - postDomain.votes.downCount,
             isUpVoteActive = false,
             isDownVoteActive = false,
-            totalComments = postDomain.stats?.commentsCount?.toLong() ?: 0,
-            totalViews = postDomain.stats?.viewCount?.toLong() ?: 0
+            totalComments = postDomain.stats?.commentsCount ?: 0,
+            totalViews = postDomain.stats?.viewCount ?: 0
         )
 
         if (oldControlsIndex == -1) {
