@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
-import io.golos.cyber_android.ui.common.extensions.loadAvatar
+import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.android.synthetic.main.view_comment_widget.view.*

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.glide
+package io.golos.cyber_android.ui.common.glide.transformations
 
 import android.content.Context
 import android.graphics.*
@@ -24,7 +24,7 @@ class RoundFrameTransformation(
 ) : TransformationBase() {
 
     companion object {
-        private const val ID = "io.golos.cyber_android.ui.common.glide.RoundFrameTransformation"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.transformations.RoundFrameTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 
@@ -80,10 +80,11 @@ class RoundFrameTransformation(
 
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.color = frameColor
-        paint.strokeWidth = strokeWidth
-        paint.style = Paint.Style.STROKE
+        paint.style = Paint.Style.FILL
 
-        tempCanvas.drawCircle(base.width/2f, base.height/2f, base.width/2f, paint)
+        val correctionOffset = strokeWidth/2f
+
+        tempCanvas.drawCircle(base.width/2f, base.height/2f, base.width/2f - correctionOffset, paint)
 
         val sourceTransformSize = toTransform.width
         val sourceRect = Rect(0, 0, sourceTransformSize, sourceTransformSize)
@@ -91,13 +92,13 @@ class RoundFrameTransformation(
         val resultTransformSize = base.width - strokeWidth*2
 
         val resultRect = RectF(
-            (base.width-resultTransformSize)/2,
-            (base.height-resultTransformSize)/2,
-            base.width - ((base.width-resultTransformSize)/2),
-            base.height - ((base.height-resultTransformSize)/2)
+            (base.width-resultTransformSize)/2 + correctionOffset,
+            (base.height-resultTransformSize)/2 + correctionOffset,
+            base.width - ((base.width-resultTransformSize)/2) - correctionOffset,
+            base.height - ((base.height-resultTransformSize)/2) - correctionOffset
         )
 
-        tempCanvas.drawBitmap(toTransform, sourceRect, resultRect, null)
+        tempCanvas.drawBitmap(toTransform, sourceRect, resultRect, paint)
 
         return base
     }

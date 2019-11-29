@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities.ProfileCommunitiesFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileCommunitiesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileCommunities
+import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel
+import kotlinx.android.synthetic.main.fragment_profile_communities.*
 
 class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBinding, ProfileCommunitiesViewModel>() {
     companion object {
@@ -24,6 +28,9 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
                 }
             }
     }
+
+    private lateinit var communitiesListAdapter: CommunityListAdapter
+    private lateinit var communitiesListLayoutManager: LinearLayoutManager
 
     override fun provideViewModelType(): Class<ProfileCommunitiesViewModel> = ProfileCommunitiesViewModel::class.java
 
@@ -42,6 +49,20 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
         binding.viewModel = viewModel
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        with(viewModel) {
+            items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.onViewCreated()
+    }
+
+
 //    override fun processViewCommand(command: ViewCommand) {
 //        when(command) {
 //            is BackCommand -> requireActivity().onBackPressed()
@@ -49,4 +70,21 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
 //            is PrepareToCloseCommand -> prepareToClose()
 //        }
 //    }
+
+    private fun updateList(data: List<VersionedListItem>) {
+        if(!::communitiesListAdapter.isInitialized) {
+            communitiesListLayoutManager = LinearLayoutManager(context)
+            communitiesListLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+
+            communitiesListAdapter = CommunityListAdapter(viewModel)
+            communitiesListAdapter.setHasStableIds(true)
+
+            communitiesList.isSaveEnabled = false
+            communitiesList.itemAnimator = null
+            communitiesList.layoutManager = communitiesListLayoutManager
+            communitiesList.adapter = communitiesListAdapter
+        }
+
+        communitiesListAdapter.update(data)
+    }
 }

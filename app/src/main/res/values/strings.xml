@@ -429,4 +429,5 @@
     <string name="profile_photos_storage_permissions_denied">You can\'s select a photo without granted permissions, sorry…</string>
 
     <string name="see_all">see all</string>
+    <string name="communities_count">{0} ({1} Mutual)</string>
 </resources>

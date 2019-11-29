@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.glide
+package io.golos.cyber_android.ui.common.glide.transformations
 
 import android.content.Context
 import android.graphics.*
@@ -27,7 +27,7 @@ class PercentageRoundVectorFrameTransformation(
     private val frameTemplate: Int
 ) : TransformationBase() {
     companion object {
-        private const val ID = "io.golos.cyber_android.ui.common.glide.PercentageRoundVectorFrameTransformation"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.transformations.PercentageRoundVectorFrameTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 

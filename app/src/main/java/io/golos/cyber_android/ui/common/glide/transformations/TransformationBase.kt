@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.glide
+package io.golos.cyber_android.ui.common.glide.transformations
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

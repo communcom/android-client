@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.glide
+package io.golos.cyber_android.ui.common.glide.transformations
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -23,7 +23,7 @@ class GradientTransformation(
     private val endColor: Int
 ) : TransformationBase() {
     companion object {
-        private const val ID = "io.golos.cyber_android.ui.common.glide.GradientTransformation"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.transformations.GradientTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 

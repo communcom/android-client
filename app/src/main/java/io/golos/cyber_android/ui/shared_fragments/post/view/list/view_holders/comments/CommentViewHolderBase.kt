@@ -14,7 +14,7 @@ import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.common.extensions.getColorRes
-import io.golos.cyber_android.ui.common.extensions.loadAvatar
+import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.formatters.time_estimation.TimeEstimationFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan

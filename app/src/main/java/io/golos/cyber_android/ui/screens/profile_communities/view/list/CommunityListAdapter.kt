@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 
 open class CommunityListAdapter(
-    private val listItemEventsProcessor: CommunityListItemEventsProcessor
+    listItemEventsProcessor: CommunityListItemEventsProcessor
 ) : VersionedListAdapterBase<CommunityListItemEventsProcessor>(listItemEventsProcessor, null) {
 
     protected companion object {
@@ -16,7 +16,7 @@ open class CommunityListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<CommunityListItemEventsProcessor, VersionedListItem> =
         when(viewType) {
-            //COMMUNITY -> CommunityListItemViewHolder(parent)
+            COMMUNITY -> CommunityListItemViewHolder(parent)
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 

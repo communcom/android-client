@@ -1,5 +1,6 @@
-package io.golos.cyber_android.ui.common.extensions
+package io.golos.cyber_android.ui.common.glide
 
+import android.content.Context
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
@@ -7,8 +8,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.glide.GradientTransformation
-import io.golos.cyber_android.ui.common.glide.PercentageRoundVectorFrameTransformation
+import io.golos.cyber_android.ui.common.glide.transformations.GradientTransformation
+import io.golos.cyber_android.ui.common.glide.transformations.PercentageRoundVectorFrameTransformation
+import com.bumptech.glide.request.target.Target
 
 fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
 
@@ -43,7 +45,9 @@ fun ImageView.loadCover(url: String?) {
             GradientTransformation(
                 this.context.applicationContext,
                 R.color.cover_gradient_start_color,
-                R.color.cover_gradient_end_color))
+                R.color.cover_gradient_end_color
+            )
+        )
         .into(this)
 }
 
@@ -56,3 +60,5 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
         .error(defaultRes)
         .into(this)
 }
+
+fun Target<*>.clear(context: Context) = Glide.with(context).clear(this)
