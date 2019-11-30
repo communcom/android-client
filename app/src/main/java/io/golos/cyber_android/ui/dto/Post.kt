@@ -15,12 +15,12 @@ data class Post(
     val stats: Stats?,
     val type: String?,
     val shareUrl: String?,
-    val votes: Votes,
+    var votes: Votes,
     val isMyPost: Boolean
 ) {
     data class Votes(
-        val downCount: Long,
-        val upCount: Long,
+        var downCount: Long,
+        var upCount: Long,
         val hasUpVote: Boolean,
         val hasDownVote: Boolean
     )

@@ -125,12 +125,14 @@ constructor(
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.upVote(communityId, userId, permlink)
+            updateUpVote()
         }
     }
 
     override suspend fun downVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.downVote(communityId, userId, permlink)
+            updateDownVote()
         }
     }
 
@@ -181,4 +183,34 @@ constructor(
 
     override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) =
         commentsProcessing.replyToComment(repliedCommentId, newCommentText)
+
+    private suspend fun updateUpVote() {
+        val votes = postDomain.votes
+        if (!votes.hasUpVote) {
+            postDomain = postDomain.copy(
+                votes = PostDomain.VotesDomain(
+                    downCount = votes.downCount,
+                    upCount = votes.upCount + 1,
+                    hasDownVote = false,
+                    hasUpVote = true
+                )
+            )
+        }
+        postListDataSource.createOrUpdatePostData(postDomain)
+    }
+
+    private suspend fun updateDownVote() {
+        val votes = postDomain.votes
+        if (!votes.hasDownVote) {
+            postDomain = postDomain.copy(
+                votes = PostDomain.VotesDomain(
+                    downCount = votes.downCount + 1,
+                    upCount = votes.upCount,
+                    hasDownVote = true,
+                    hasUpVote = false
+                )
+            )
+        }
+        postListDataSource.createOrUpdatePostData(postDomain)
+    }
 }

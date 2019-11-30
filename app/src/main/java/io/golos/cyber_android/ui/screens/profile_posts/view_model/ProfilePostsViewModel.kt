@@ -73,11 +73,8 @@ class ProfilePostsViewModel @Inject constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(
-                    post.communityId,
-                    post.userId,
-                    post.permlink
-                )
+                model.upVote(post.communityId, post.userId, post.permlink)
+                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, post.communityId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -90,11 +87,8 @@ class ProfilePostsViewModel @Inject constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.downVote(
-                    post.communityId,
-                    post.userId,
-                    post.permlink
-                )
+                model.downVote(post.communityId, post.userId, post.permlink)
+                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, post.communityId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -365,6 +359,136 @@ class ProfilePostsViewModel @Inject constructor(
             }
 
         }
+    }
+
+    private fun updateUpVoteCountOfVotes(
+        state: Paginator.State?,
+        communityId: String
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasUpVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+            is Paginator.State.Refresh<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasUpVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasUpVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+            is Paginator.State.FullData<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasUpVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+        }
+        return state
+    }
+
+    private fun updateDownVoteCountOfVotes(
+        state: Paginator.State?,
+        communityId: String
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasDownVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+            is Paginator.State.Refresh<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasDownVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasDownVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+            is Paginator.State.FullData<*> -> {
+                val foundedPost = ((state).data as List<Post>).find { post ->
+                    post.community.communityId == communityId
+                }
+                foundedPost?.let { post ->
+                    if (!post.votes.hasDownVote) {
+                        post.votes = post.votes.copy(
+                            upCount = post.votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+        }
+        return state
     }
 
     override fun onCleared() {
