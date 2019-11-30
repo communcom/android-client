@@ -15,7 +15,8 @@
             android:layout_height="match_parent"
 
             android:id="@+id/root"
-            tools:context=".ui.screens.communities_list.view.CommunitiesListFragment">
+            tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
+            android:background="@color/white">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/actionBar"
@@ -43,6 +44,24 @@
                     style="@style/White.Header.TextStyle"
 
                     android:layout_gravity="center" />
+
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/backButton"
+
+                    android:layout_width="@dimen/size_image_button"
+                    android:layout_height="@dimen/size_image_button"
+
+                    app:imageButton_icon="@drawable/ic_back"
+                    app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
+                    app:imageButton_tint="@color/black"
+                    android:background="@null"
+
+                    android:layout_gravity="center_vertical|start"
+
+                    tools:visibility="visible"
+                    android:visibility="@{viewModel.backButtonVisibility}"
+                    android:onClick="@{() -> viewModel.onBackButtonClick()}"
+                    />
             </FrameLayout>
 
         </com.google.android.material.appbar.AppBarLayout>

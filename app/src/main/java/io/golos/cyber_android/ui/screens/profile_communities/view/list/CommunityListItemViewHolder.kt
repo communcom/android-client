@@ -43,12 +43,12 @@ class CommunityListItemViewHolder(
                 itemView.followingButton.visibility = View.VISIBLE
                 itemView.followButton.visibility = View.GONE
 
-                itemView.followingButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
+                itemView.followingButton.setOnClickListener { listItemEventsProcessor.onFolllowUnfollowClick(community.communityId) }
             } else {
                 itemView.followingButton.visibility = View.GONE
                 itemView.followButton.visibility = View.VISIBLE
 
-                itemView.followButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
+                itemView.followButton.setOnClickListener { listItemEventsProcessor.onFolllowUnfollowClick(community.communityId) }
             }
 
             coverGlideTarget = Glide

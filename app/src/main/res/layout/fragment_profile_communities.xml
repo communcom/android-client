@@ -40,6 +40,7 @@
             style="@style/BlueHeaderButton"
 
             android:layout_marginEnd="@dimen/margin_default"
+            android:onClick="@{() -> viewModel.onSeeAllClick()}"
 
             app:layout_constraintBottom_toTopOf="@+id/communitiesList"
             app:layout_constraintEnd_toEndOf="parent"

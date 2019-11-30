@@ -1,7 +1,8 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity
 
 import dagger.Subcomponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment.CommunitiesFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentComponent
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.OldProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
@@ -28,7 +29,8 @@ interface MainActivityComponent {
     val oldProfileFragmentComponent: OldProfileFragmentComponent.Builder
     val trendingFeedFragmentComponent: TrendingFeedFragmentComponent.Builder
     val userPostsFeedFragmentComponent: UserPostsFeedFragmentComponent.Builder
-    val communitiesFragmentComponent: CommunitiesFragmentComponent.Builder
+    val communitiesFragmentComponent: CommunitiesListFragmentComponent.Builder
+    val communitiesFragmentTabComponent: CommunitiesListFragmentTabComponent.Builder
 
     fun inject(activity: MainActivity)
 }

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_fragment
+package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.screens.communities_list.view_model.Communities
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Module
-abstract class CommunitiesFragmentModuleBinds {
+abstract class CommunitiesListFragmentModuleBinds {
     @Binds
     @FragmentScope
     abstract fun provideViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory

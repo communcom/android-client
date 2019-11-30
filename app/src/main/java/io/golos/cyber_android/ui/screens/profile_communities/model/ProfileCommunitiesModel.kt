@@ -8,4 +8,9 @@ interface ProfileCommunitiesModel : ModelBase {
     val items: LiveData<List<VersionedListItem>>
 
     fun loadPage()
+
+    /**
+     * @return true in case of success
+     */
+    suspend fun subscribeUnsubscribe(communityId: String): Boolean
 }
