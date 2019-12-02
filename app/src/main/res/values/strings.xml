@@ -28,17 +28,17 @@
     <string name="formatter_followers_kilo">k</string>
     <string name="formatter_followers_mega">m</string>
     <string name="formatter_followers_giga">g</string>
-    <plurals name="formatter_followers_formatted" >
+    <plurals name="formatter_followers_formatted">
         <item quantity="zero">{0}{1} Followers</item>
         <item quantity="one">{0}{1} Follower</item>
         <item quantity="other">{0}{1} Followers</item>
     </plurals>
-    <plurals name="formatter_posts_formatted" >
+    <plurals name="formatter_posts_formatted">
         <item quantity="zero">{0}{1} Posts</item>
         <item quantity="one">{0}{1} Post</item>
         <item quantity="other">{0}{1} Posts</item>
     </plurals>
-    <plurals name="formatter_points_formatted" >
+    <plurals name="formatter_points_formatted">
         <item quantity="zero">{0}{1} points</item>
         <item quantity="one">{0}{1} point</item>
         <item quantity="other">{0}{1} points</item>
@@ -87,6 +87,19 @@
     <string name="filter_time_all">All time</string>
     <string name="filter_time_year">Past year</string>
     <string name="filter_time_of_all_time">Of all time</string>
+
+    <!--Report Widget-->
+    <string name="report_send">Send</string>
+    <string name="report_title">Please select a problem</string>
+    <string name="report_spam">Spam</string>
+    <string name="report_harassment">Harassment</string>
+    <string name="report_niguty">Niguty</string>
+    <string name="report_violence">Violence</string>
+    <string name="report_false_news">False News</string>
+    <string name="report_terrorism">Terrorism</string>
+    <string name="report_hate_speech">Hate Speech</string>
+    <string name="report_unauthorized_sales">Unauthorized Sales</string>
+    <string name="report_message">If someone is in immediate danger, call local emergency services. Do not wait.</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Add a comment…</string>
