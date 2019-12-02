@@ -17,9 +17,9 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragmentTab
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
-import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragment
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
@@ -117,7 +117,7 @@ class MainActivity : ActivityBase() {
                         FeedFragment.newInstance("gls", user.name)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                        CommunitiesListFragment.newInstance()
+                        CommunitiesListFragmentTab.newInstance()
                     }
                     NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
                         NotificationsFragment.newInstance()
@@ -176,6 +176,13 @@ class MainActivity : ActivityBase() {
             if (isAddToBackStack) {
                 beginTransaction.addToBackStack(tag)
             }
+
+            beginTransaction.setCustomAnimations(
+                R.anim.nav_slide_in_right,
+                R.anim.nav_slide_out_left,
+                R.anim.nav_slide_in_left,
+                R.anim.nav_slide_out_right)
+
             beginTransaction
                 .add(R.id.rootContainer, fragment, tag)
                 .commit()

@@ -18,9 +18,6 @@ import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowPostFiltersCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.feed.FeedPageLiveDataProvider
-import io.golos.cyber_android.ui.screens.feed.FeedViewModel
-import io.golos.cyber_android.ui.screens.feed.TrendingFeedFragment
 import io.golos.cyber_android.ui.utils.TabLayoutMediator
 import io.golos.cyber_android.ui.screens.my_feed.view.MyFeedFragment
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.extensions.loadCommunity
+import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.domain.dto.CommunityDomain
 import kotlinx.android.synthetic.main.view_post_editor_community_container.view.*
 

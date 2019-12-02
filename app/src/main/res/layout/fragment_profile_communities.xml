@@ -40,6 +40,7 @@
             style="@style/BlueHeaderButton"
 
             android:layout_marginEnd="@dimen/margin_default"
+            android:onClick="@{() -> viewModel.onSeeAllClick()}"
 
             app:layout_constraintBottom_toTopOf="@+id/communitiesList"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +63,9 @@
             android:id="@+id/CommunitiesInfoLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             tools:text="1.2k (300 Mutual)"
+            app:communitiesCount="@{viewModel.communitiesCount}"
 
             android:layout_marginStart="@dimen/margin_default"
 

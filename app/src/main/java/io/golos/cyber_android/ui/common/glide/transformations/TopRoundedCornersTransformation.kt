@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.glide
+package io.golos.cyber_android.ui.common.glide.transformations
 
 import android.graphics.*
 import android.os.Build
@@ -21,7 +21,7 @@ class TopRoundedCornersTransformation(
     private val roundingRadius: Float
 ) : TransformationBase() {
     companion object {
-        private const val ID = "io.golos.cyber_android.ui.common.glide.TopRoundedCornersTransformation"
+        private const val ID = "io.golos.cyber_android.ui.common.glide.transformations.TopRoundedCornersTransformation"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 

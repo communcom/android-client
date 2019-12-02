@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.glide.TopRoundedCornersTransformation
+import io.golos.cyber_android.ui.common.glide.transformations.TopRoundedCornersTransformation
 import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
@@ -53,7 +53,9 @@ constructor(
         Glide
             .with(this)
             .load(thumbnailUrl?.toString() ?: PostStubs.website)
-            .transform(CenterCrop(), TopRoundedCornersTransformation(radius))
+            .transform(CenterCrop(),
+                TopRoundedCornersTransformation(radius)
+            )
             .into(image)
 
         val host = block.content.host?.capitalize()

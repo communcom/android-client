@@ -11,4 +11,5 @@ object Clarification {
 
     const val IMAGE_URL = "IMAGE_URL"
     const val TEXT = "TEXT"
+    const val BACK_BUTTON = "BACK_BUTTON"
 }

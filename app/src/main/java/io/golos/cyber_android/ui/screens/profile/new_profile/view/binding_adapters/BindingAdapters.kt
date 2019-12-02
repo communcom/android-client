@@ -9,8 +9,8 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.extensions.loadAvatar
-import io.golos.cyber_android.ui.common.extensions.loadCover
+import io.golos.cyber_android.ui.common.glide.loadAvatar
+import io.golos.cyber_android.ui.common.glide.loadCover
 import io.golos.cyber_android.ui.common.extensions.parentActivity
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.dto.ProfileCommunities

@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.cyber_android.ui.common.extensions.getColorRes
-import io.golos.cyber_android.ui.common.extensions.loadAvatar
-import io.golos.cyber_android.ui.common.extensions.loadLeader
+import io.golos.cyber_android.ui.common.glide.loadLeader
 import io.golos.cyber_android.ui.common.formatters.percent.PercentFormatter
 import io.golos.cyber_android.ui.common.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
