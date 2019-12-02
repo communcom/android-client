@@ -11,7 +11,6 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_source.PostListDataSource
-import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingEvent
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
@@ -22,7 +21,6 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.model.DiscussionVotesModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -124,25 +122,18 @@ constructor(
             discussionRepository.deletePost(postId)
         }
 
-    override suspend fun voteForPost(isUpVote: Boolean) {
-        val newVotesModel =
-            postVoting.get().processEvent(
-                if (isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE,
-                DiscussionVotesModel(
-                    postDomain.votes.hasUpVote,
-                    postDomain.votes.hasDownVote,
-                    postDomain.votes.upCount,
-                    postDomain.votes.downCount
-                )
-            )
-        postDomain = postDomain.copy(
-            votes = PostDomain.VotesDomain(
-                downCount = newVotesModel.downCount,
-                upCount = newVotesModel.upCount,
-                hasDownVote = newVotesModel.hasDownVote,
-                hasUpVote = newVotesModel.hasUpVote
-            )
-        )
+    override suspend fun upVote(communityId: String, userId: String, permlink: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.upVote(communityId, userId, permlink)
+            updateUpVote()
+        }
+    }
+
+    override suspend fun downVote(communityId: String, userId: String, permlink: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.downVote(communityId, userId, permlink)
+            updateDownVote()
+        }
     }
 
     override suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
@@ -192,4 +183,34 @@ constructor(
 
     override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) =
         commentsProcessing.replyToComment(repliedCommentId, newCommentText)
+
+    private suspend fun updateUpVote() {
+        val votes = postDomain.votes
+        if (!votes.hasUpVote) {
+            postDomain = postDomain.copy(
+                votes = PostDomain.VotesDomain(
+                    downCount = votes.downCount,
+                    upCount = votes.upCount + 1,
+                    hasDownVote = false,
+                    hasUpVote = true
+                )
+            )
+        }
+        postListDataSource.createOrUpdatePostData(postDomain)
+    }
+
+    private suspend fun updateDownVote() {
+        val votes = postDomain.votes
+        if (!votes.hasDownVote) {
+            postDomain = postDomain.copy(
+                votes = PostDomain.VotesDomain(
+                    downCount = votes.downCount + 1,
+                    upCount = votes.upCount,
+                    hasDownVote = true,
+                    hasUpVote = false
+                )
+            )
+        }
+        postListDataSource.createOrUpdatePostData(postDomain)
+    }
 }

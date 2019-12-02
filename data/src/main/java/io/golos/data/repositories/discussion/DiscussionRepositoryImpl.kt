@@ -1,10 +1,10 @@
 package io.golos.data.repositories.discussion
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.model.FeedSortByType
-import io.golos.commun4j.model.FeedTimeFrame
-import io.golos.commun4j.model.FeedType
+import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
+import io.golos.commun4j.model.*
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.mapToPostDomain
@@ -64,6 +64,40 @@ constructor(
         return items.map {
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId)
+        }
+    }
+
+    override suspend fun upVote(
+        communityId: String,
+        userId: String,
+        permlink: String
+    ) {
+        apiCallChain {
+            commun4j.upVote(
+                communCode = CyberSymbolCode(communityId),
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                weight = 0,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                voter = userId.toCyberName()
+            )
+        }
+    }
+
+    override suspend fun downVote(
+        communityId: String,
+        userId: String,
+        permlink: String
+    ) {
+        apiCallChain {
+            commun4j.downVote(
+                communCode = CyberSymbolCode(communityId),
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                weight = 0,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                voter = userId.toCyberName()
+            )
         }
     }
 

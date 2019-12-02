@@ -123,9 +123,41 @@ constructor(
         }
     }
 
-    override fun onUpVoteClick() = voteForPost(true)
+    override fun onUpVoteClick() {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.upVote(
+                    contentId?.communityId.orEmpty(),
+                    contentId?.userId.orEmpty(),
+                    contentId?.permlink.orEmpty()
+                )
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
 
-    override fun onDownVoteClick() = voteForPost(false)
+    override fun onDownVoteClick() {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.downVote(
+                    contentId?.communityId.orEmpty(),
+                    contentId?.userId.orEmpty(),
+                    contentId?.permlink.orEmpty()
+                )
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
 
     override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)
 
@@ -311,8 +343,6 @@ constructor(
                 repliedCommentId != null -> model.replyToComment(repliedCommentId!!, newCommentText)
             }
         }
-
-    private fun voteForPost(isUpVote: Boolean) = processSimple { model.voteForPost(isUpVote) }
 
     private fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
         processSimple { model.voteForComment(commentId, isUpVote) }

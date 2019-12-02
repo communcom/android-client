@@ -34,7 +34,17 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun deletePost()
 
-    suspend fun voteForPost(isUpVote: Boolean)
+    suspend fun upVote(
+        communityId: String,
+        userId: String,
+        permlink: String
+    )
+
+    suspend fun downVote(
+        communityId: String,
+        userId: String,
+        permlink: String
+    )
 
     suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean)
 

@@ -381,8 +381,8 @@ constructor(
             IdUtil.generateLongId(),
             version = 0,
             voteBalance = postDomain.votes.upCount - postDomain.votes.downCount,
-            isUpVoteActive = false,
-            isDownVoteActive = false,
+            isUpVoteActive = postDomain.votes.hasUpVote,
+            isDownVoteActive = postDomain.votes.hasDownVote,
             totalComments = postDomain.stats?.commentsCount ?: 0,
             totalViews = postDomain.stats?.viewCount ?: 0
         )

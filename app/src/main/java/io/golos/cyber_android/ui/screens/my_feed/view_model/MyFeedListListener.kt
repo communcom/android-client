@@ -28,7 +28,7 @@ interface PostShareListener {
 
 interface PostVotesListener {
 
-    fun onUpVoteClicked()
+    fun onUpVoteClicked(post: Post.ContentId)
 
-    fun onDownVoteClicked()
+    fun onDownVoteClicked(post: Post.ContentId)
 }

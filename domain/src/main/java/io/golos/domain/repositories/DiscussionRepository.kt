@@ -13,6 +13,10 @@ import io.golos.domain.use_cases.model.PostModel
 interface DiscussionRepository {
     fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
 
+    suspend fun upVote(communityId: String, userId: String, permlink: String)
+
+    suspend fun downVote(communityId: String, userId: String, permlink: String)
+
     suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain
 
     @Deprecated("Use getPost method with 3 params")
