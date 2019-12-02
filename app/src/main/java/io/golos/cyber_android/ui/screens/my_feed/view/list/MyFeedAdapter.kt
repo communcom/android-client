@@ -11,7 +11,6 @@ import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.my_feed.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
-import timber.log.Timber
 
 open class MyFeedAdapter(
     private val eventsProcessor: MyFeedListListener,
@@ -95,10 +94,7 @@ open class MyFeedAdapter(
 
     fun clearAllPosts() {
         val deletedItems = ArrayList(items)
-        Timber.d("filter: items before deleting -> ${deletedItems.size}")
-        val createPostItem = deletedItems.find { it is CreatePostItem } //todo delete after test
         items.removeAll(deletedItems.filter { it !is CreatePostItem })
         updateAdapter(items)
-        Timber.d("filter: items before deleting -> ${items.size}")
     }
 }

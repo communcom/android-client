@@ -12,13 +12,25 @@ interface MyFeedModel : ModelBase,
     GetPostsUseCase,
     GetLocalUserUseCase,
     SubscribeToCommunityUseCase,
-    UnsubscribeToCommunityUseCase{
+    UnsubscribeToCommunityUseCase {
 
     suspend fun addToFavorite(permlink: String)
 
     suspend fun removeFromFavorite(permlink: String)
 
     suspend fun deletePost(permlink: String)
+
+    suspend fun upVote(
+        communityId: String,
+        userId: String,
+        permlink: String
+    )
+
+    suspend fun downVote(
+        communityId: String,
+        userId: String,
+        permlink: String
+    )
 
     val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
 }
