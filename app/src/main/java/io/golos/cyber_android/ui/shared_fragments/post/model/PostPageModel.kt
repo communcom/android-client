@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
+import kotlinx.coroutines.flow.Flow
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
     val postId: DiscussionIdModel
@@ -46,6 +48,13 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         permlink: String
     )
 
+    suspend fun reportPost(
+        communityId: String,
+        userId: String,
+        permlink: String,
+        reason: String
+    )
+
     suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
@@ -69,4 +78,6 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
+
+    val reportsFlow: Flow<PostReportHolder.Report>
 }

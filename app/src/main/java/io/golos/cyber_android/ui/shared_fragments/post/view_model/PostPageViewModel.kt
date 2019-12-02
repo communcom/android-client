@@ -20,7 +20,9 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -71,6 +73,8 @@ constructor(
     val commentEditFieldSettings = _commentEditFieldSettings as LiveData<EditReplyCommentSettings>
 
     fun setup() {
+        applyPostReports()
+
         if (wasMovedToChild) {
             wasMovedToChild = false
             return
@@ -383,6 +387,28 @@ constructor(
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true
+            }
+        }
+    }
+
+    private fun applyPostReports() {
+        launch {
+            model.reportsFlow.collect { report ->
+                try {
+                    _command.value = SetLoadingVisibilityCommand(true)
+                    val collectedReports = report.reports
+                    val reason = JSONArray(collectedReports).toString()
+                    model.reportPost(
+                        report.contentId.communityId,
+                        report.contentId.userId,
+                        report.contentId.permlink,
+                        reason
+                    )
+                } catch (e: Exception) {
+                    Timber.e(e)
+                } finally {
+                    _command.value = SetLoadingVisibilityCommand(false)
+                }
             }
         }
     }

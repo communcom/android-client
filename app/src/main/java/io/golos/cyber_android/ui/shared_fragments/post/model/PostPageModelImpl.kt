@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.model.comments_processing.CommentsProcessingFacade
@@ -23,6 +24,7 @@ import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -39,8 +41,9 @@ constructor(
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
-    private val contentId: Post.ContentId?
-) : ModelBaseImpl(),
+    private val contentId: Post.ContentId?,
+    private val postReport: PostReportHolder
+    ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
@@ -175,6 +178,12 @@ constructor(
         )
     }
 
+    override suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.reportPost(communityId, userId, permlink, reason)
+        }
+    }
+
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
         commentsProcessing.getCommentText(commentId)
 
@@ -213,4 +222,7 @@ constructor(
         }
         postListDataSource.createOrUpdatePostData(postDomain)
     }
+
+    override val reportsFlow: Flow<PostReportHolder.Report>
+        get() = postReport.reportFlow
 }
