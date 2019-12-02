@@ -25,6 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -109,6 +110,7 @@ class MyFeedViewModel @Inject constructor(
 
     init {
         applyFiltersListener()
+        applyPostReports()
 
         paginator.sideEffectListener = {
             when (it) {
@@ -435,6 +437,28 @@ class MyFeedViewModel @Inject constructor(
                         paginator.initState(Paginator.State.Empty)
                         restartLoadPosts()
                     }
+                }
+            }
+        }
+    }
+
+    private fun applyPostReports() {
+        launch {
+            model.reportsFlow.collect { report ->
+                try {
+                    _command.value = SetLoadingVisibilityCommand(true)
+                    val collectedReports = report.reports
+                    val reason = JSONArray(collectedReports).toString()
+                    model.reportPost(
+                        report.contentId.communityId,
+                        report.contentId.userId,
+                        report.contentId.permlink,
+                        reason
+                    )
+                } catch (e: Exception) {
+                    Timber.e(e)
+                } finally {
+                    _command.value = SetLoadingVisibilityCommand(false)
                 }
             }
         }

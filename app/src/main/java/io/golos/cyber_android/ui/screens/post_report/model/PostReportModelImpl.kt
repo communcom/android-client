@@ -1,17 +1,21 @@
 package io.golos.cyber_android.ui.screens.post_report.model
 
 import android.annotation.SuppressLint
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PostReportModelImpl @Inject constructor(
-    private val postReportHolder: PostReportHolder
+    private val postReportHolder: PostReportHolder,
+    private val contentId: Post.ContentId
 ) : PostReportModel {
 
     private val collectedReports = mutableListOf<String>()
 
-    override suspend fun sendReports(reports: List<String>) = postReportHolder.sendReports(reports)
+    override suspend fun sendReports(reports: PostReportHolder.Report) {
+        postReportHolder.sendReports(reports)
+    }
 
     override val reportFlow: Flow<PostReportHolder.Report> = postReportHolder.reportFlow
 
@@ -26,4 +30,6 @@ class PostReportModelImpl @Inject constructor(
             collectedReports.remove(lowerCaseReport)
         }
     }
+
+    override fun getContentId(): Post.ContentId = contentId
 }

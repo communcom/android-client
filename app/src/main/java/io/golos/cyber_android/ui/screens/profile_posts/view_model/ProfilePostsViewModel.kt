@@ -21,7 +21,9 @@ import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,6 +54,8 @@ class ProfilePostsViewModel @Inject constructor(
     private var loadPostsJob: Job? = null
 
     init {
+        applyPostReports()
+
         paginator.sideEffectListener = {
             when (it) {
                 is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
@@ -489,6 +493,28 @@ class ProfilePostsViewModel @Inject constructor(
             }
         }
         return state
+    }
+
+    private fun applyPostReports() {
+        launch {
+            model.reportsFlow.collect { report ->
+                try {
+                    _command.value = SetLoadingVisibilityCommand(true)
+                    val collectedReports = report.reports
+                    val reason = JSONArray(collectedReports).toString()
+                    model.reportPost(
+                        report.contentId.communityId,
+                        report.contentId.userId,
+                        report.contentId.permlink,
+                        reason
+                    )
+                } catch (e: Exception) {
+                    Timber.e(e)
+                } finally {
+                    _command.value = SetLoadingVisibilityCommand(false)
+                }
+            }
+        }
     }
 
     override fun onCleared() {

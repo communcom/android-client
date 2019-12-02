@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
@@ -261,7 +262,11 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
     }
 
     private fun reportPost(post: Post) {
-
+        val tag = PostReportDialog::class.java.name
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.show(childFragmentManager, tag)
+        }
     }
 
     private fun editPost(post: Post) {

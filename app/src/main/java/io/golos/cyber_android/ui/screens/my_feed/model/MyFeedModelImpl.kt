@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.my_feed.model
 
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
+import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -18,6 +19,7 @@ class MyFeedModelImpl @Inject constructor(
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
     private val postFilter: PostFiltersHolder,
+    private val postReport: PostReportHolder,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider
 ) : MyFeedModel,
@@ -50,6 +52,15 @@ class MyFeedModelImpl @Inject constructor(
         }
     }
 
+    override suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.reportPost(communityId, userId, permlink, reason)
+        }
+    }
+
     override val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
         get() = postFilter.feedFiltersFlow
+
+    override val reportsFlow: Flow<PostReportHolder.Report>
+        get() = postReport.reportFlow
 }

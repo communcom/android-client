@@ -67,6 +67,19 @@ constructor(
         }
     }
 
+    override suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String) {
+        apiCallChain {
+            commun4j.reportContent(
+                communityCode = CyberSymbolCode(communityId),
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                reason = reason,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                reporter = userId.toCyberName()
+            )
+        }
+    }
+
     override suspend fun upVote(
         communityId: String,
         userId: String,

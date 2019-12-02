@@ -26,6 +26,7 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -124,7 +125,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is SharePostCommand -> sharePost(command.shareUrl)
 
-            is ReportPostCommand -> reportPost()
+            is ReportPostCommand -> reportPost(command.contentId)
 
             is DeletePostCommand -> deletePost()
 
@@ -185,8 +186,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                     }
                     PostPageMenuDialog.RESULT_REPORT -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.reportPost()
+                        postMenu?.let { menu ->
+                            menu.contentId?.let { contentId ->
+                                viewModel.reportPost(contentId)
+                            }
                         }
                     }
                 }
@@ -213,7 +216,12 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         requireContext().shareMessage(shareUrl)
     }
 
-    private fun reportPost() {
+    private fun reportPost(contentId: Post.ContentId) {
+        val tag = PostReportDialog::class.java.name
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val dialog = PostReportDialog.newInstance(PostReportDialog.Args(contentId))
+            dialog.show(childFragmentManager, tag)
+        }
     }
 
     private fun deletePost() {

@@ -1,23 +1,41 @@
 package io.golos.cyber_android.ui.screens.post_report.view
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.FrameLayout
-import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.DialogPostReportBinding
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.view_model.PostReportViewModel
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.dialog_post_report.*
 
 class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewModel>() {
+
+    @Parcelize
+    data class Args(
+        val contentId: Post.ContentId
+    ) : Parcelable
+
+    companion object {
+        fun newInstance(args: Args): PostReportDialog {
+            return PostReportDialog().apply {
+                arguments = Bundle().apply {
+                    putParcelable(Tags.ARGS, args)
+                }
+            }
+        }
+    }
 
     override fun layoutResId(): Int = R.layout.dialog_post_report
 
@@ -45,7 +63,6 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addListeners()
-        observeViewModel()
         btnSend.setOnClickListener {
             viewModel.onSendClicked()
         }
@@ -56,7 +73,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
 
     override fun inject() {
         App.injections
-            .get<PostReportFragmentComponent>()
+            .get<PostReportFragmentComponent>(arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId)
             .inject(this)
     }
 
@@ -76,12 +93,6 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     }
 
     override fun getTheme(): Int = R.style.PostFiltersBottomSheet
-
-    private fun observeViewModel() {
-        viewModel.reportType.observe(this, Observer { type ->
-
-        })
-    }
 
     private fun addListeners() {
         cbSpam.setOnCheckedChangeListener { _, _ ->

@@ -21,7 +21,7 @@ class NavigationToPostMenuViewCommand(val postMenu: PostMenu): ViewCommand
 
 class SharePostCommand(val shareUrl: String) : ViewCommand
 
-class ReportPostCommand : ViewCommand
+class ReportPostCommand(val contentId: Post.ContentId) : ViewCommand
 
 class DeletePostCommand: ViewCommand
 

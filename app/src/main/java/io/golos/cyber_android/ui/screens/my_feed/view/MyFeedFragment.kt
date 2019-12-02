@@ -123,7 +123,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     private fun reportPost(post: Post) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
-            PostReportDialog().show(childFragmentManager, tag)
+            val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.show(childFragmentManager, tag)
         }
     }
 

@@ -217,8 +217,8 @@ constructor(
         _command.value = NavigationToEditPostViewCommand(contentId)
     }
 
-    fun reportPost() {
-        _command.value = ReportPostCommand()
+    fun reportPost(contentId: Post.ContentId) {
+        _command.value = ReportPostCommand(contentId)
     }
 
     fun deletePost() {
