@@ -9,17 +9,17 @@ class PostReportModelImpl @Inject constructor(
     private val contentId: Post.ContentId
 ) : PostReportModel {
 
-    override fun getReport(): PostReportDialog.Report = PostReportDialog.Report(collectedReports, contentId)
+    override fun getReport(): PostReportDialog.Report = PostReportDialog.Report(collectedReasons, contentId)
 
-    private val collectedReports = mutableListOf<String>()
+    private val collectedReasons = mutableListOf<String>()
 
     @SuppressLint("DefaultLocale")
-    override fun collectReasons(report: PostReportDialog.Type) {
-        val lowerCaseReport = report.name.toLowerCase()
-        if (!collectedReports.contains(lowerCaseReport)) {
-            collectedReports.add(lowerCaseReport)
+    override fun collectReason(report: PostReportDialog.Type) {
+        val lowerCaseReason = report.name.toLowerCase()
+        if (!collectedReasons.contains(lowerCaseReason)) {
+            collectedReasons.add(lowerCaseReason)
         } else {
-            collectedReports.remove(lowerCaseReport)
+            collectedReasons.remove(lowerCaseReason)
         }
     }
 }

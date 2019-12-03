@@ -25,6 +25,6 @@ class PostReportViewModel @Inject constructor(
     }
 
     fun collectReason(reasons: PostReportDialog.Type) {
-        model.collectReasons(reasons)
+        model.collectReason(reasons)
     }
 }

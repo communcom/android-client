@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostReportModel: ModelBase {
 
-    fun collectReasons(report: PostReportDialog.Type)
+    fun collectReason(report: PostReportDialog.Type)
 
     fun getReport(): PostReportDialog.Report
 }
