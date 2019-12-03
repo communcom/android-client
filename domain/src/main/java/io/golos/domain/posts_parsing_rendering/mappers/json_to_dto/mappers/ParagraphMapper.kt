@@ -4,6 +4,7 @@ import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 import io.golos.domain.use_cases.post.post_dto.ParagraphItemBlock
 import io.golos.domain.posts_parsing_rendering.BlockType
 import org.json.JSONObject
+import timber.log.Timber
 
 class ParagraphMapper(mappersFactory: MappersFactory): MapperBase<ParagraphBlock>(mappersFactory) {
     override fun map(source: JSONObject): ParagraphBlock {
@@ -23,10 +24,16 @@ class ParagraphMapper(mappersFactory: MappersFactory): MapperBase<ParagraphBlock
                             MentionMapper::class).map(block)
                         BlockType.LINK -> mappersFactory.getMapper<LinkMapper>(
                             LinkMapper::class).map(block)
-                        else -> throw UnsupportedOperationException("This type ob block is not supported here: $type")
+                        BlockType.PARAGRAPH -> mappersFactory.getMapper<ParagraphMapper>(
+                            ParagraphMapper::class).map(block)
+                        else -> {
+                            Timber.e("This type ob block is not supported here: $type")
+                            null
+                        }
                     }
-
-                    content.add(textBlock)
+                    textBlock?.let {
+                        content.add(it)
+                    }
                 }
         }
 
