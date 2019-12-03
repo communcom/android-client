@@ -77,7 +77,7 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
 
             is EditPostCommand -> editPost(command.post)
 
-            is ReportPostCommand -> reportPost(command.post)
+            is ReportPostCommand -> openPostReport(command.post)
         }
     }
 
@@ -133,7 +133,7 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
                     PostPageMenuDialog.RESULT_REPORT -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         postMenu?.let {
-                            viewModel.reportPost(it.permlink)
+                            viewModel.onSendReportClicked(it.permlink)
                         }
                     }
                 }
@@ -261,10 +261,13 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
         })
     }
 
-    private fun reportPost(post: Post) {
+    private fun openPostReport(post: Post) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.onPostReportCompleteCallback = {
+                viewModel.sendReport(it)
+            }
             dialog.show(childFragmentManager, tag)
         }
     }

@@ -116,14 +116,17 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
             is EditPostCommand -> editPost(command.post)
 
-            is ReportPostCommand -> reportPost(command.post)
+            is ReportPostCommand -> openPostReportDialog(command.post)
         }
     }
 
-    private fun reportPost(post: Post) {
+    private fun openPostReportDialog(post: Post) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.onPostReportCompleteCallback = {
+                viewModel.sendReport(it)
+            }
             dialog.show(childFragmentManager, tag)
         }
     }
@@ -195,7 +198,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     PostPageMenuDialog.RESULT_REPORT -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         postMenu?.let {
-                            viewModel.reportPost(it.permlink)
+                            viewModel.onReportPostClicked(it.permlink)
                         }
                     }
                 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
-import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -78,6 +77,4 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
-
-    val reportsFlow: Flow<PostReportHolder.Report>
 }

@@ -2,8 +2,9 @@ package io.golos.cyber_android.ui.screens.post_report.view_model
 
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
-import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.cyber_android.ui.screens.post_report.model.PostReportModel
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,8 +16,7 @@ class PostReportViewModel @Inject constructor(
 
     fun onSendClicked() {
         launch {
-            model.sendReports(PostReportHolder.Report(model.getReports(), model.getContentId()))
-            _command.value = BackCommand()
+            _command.value = SendReportCommand(model.getReport())
         }
     }
 
@@ -24,7 +24,7 @@ class PostReportViewModel @Inject constructor(
         _command.value = BackCommand()
     }
 
-    fun collectReport(report: PostReportHolder.Type) {
-        model.collectReport(report)
+    fun collectReason(reasons: PostReportDialog.Type) {
+        model.collectReasons(reasons)
     }
 }

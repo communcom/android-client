@@ -14,13 +14,15 @@ import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.post_report.PostReportHolder
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
+import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand
 import io.golos.cyber_android.ui.screens.post_report.view_model.PostReportViewModel
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.dialog_post_report.*
 
 class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewModel>() {
+
+    var onPostReportCompleteCallback: ((Report) -> Unit)? = null
 
     @Parcelize
     data class Args(
@@ -56,8 +58,10 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        onPostReportCompleteCallback = null
         removeListeners()
+        dismiss()
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,6 +93,10 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         super.processViewCommand(command)
         when (command) {
             is BackCommand -> dismiss()
+            is SendReportCommand -> {
+                onPostReportCompleteCallback?.invoke(command.report)
+                dismiss()
+            }
         }
     }
 
@@ -96,35 +104,35 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
 
     private fun addListeners() {
         cbSpam.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.SPAM)
+            viewModel.collectReason(Type.SPAM)
         }
 
         cbHarassment.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.HARASSMENT)
+            viewModel.collectReason(Type.HARASSMENT)
         }
 
         cbNiguty.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.NIGUTY)
+            viewModel.collectReason(Type.NIGUTY)
         }
 
         cbViolence.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.VIOLENCE)
+            viewModel.collectReason(Type.VIOLENCE)
         }
 
         cbFalseNews.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.FALSENEWS)
+            viewModel.collectReason(Type.FALSENEWS)
         }
 
         cbTerrorism.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.TERRORISM)
+            viewModel.collectReason(Type.TERRORISM)
         }
 
         cbHateSpeech.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.HATESPEECH)
+            viewModel.collectReason(Type.HATESPEECH)
         }
 
         cbUnauthorizedSales.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReport(PostReportHolder.Type.UNAUTHORIZEDSALES)
+            viewModel.collectReason(Type.UNAUTHORIZEDSALES)
         }
     }
 
@@ -169,5 +177,18 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     private fun changeBottomSheetBehaviorState(state: Int) {
         val behaviour = getBehaviour()
         behaviour?.state = state
+    }
+
+    data class Report(val reasons: List<String>, val contentId: Post.ContentId)
+
+    enum class Type {
+        SPAM,
+        HARASSMENT,
+        NIGUTY,
+        VIOLENCE,
+        FALSENEWS,
+        TERRORISM,
+        HATESPEECH,
+        UNAUTHORIZEDSALES
     }
 }

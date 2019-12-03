@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -110,7 +111,6 @@ class MyFeedViewModel @Inject constructor(
 
     init {
         applyFiltersListener()
-        applyPostReports()
 
         paginator.sideEffectListener = {
             when (it) {
@@ -201,7 +201,7 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun reportPost(permlink: String) {
+    fun onReportPostClicked(permlink: String) {
         val post = getPostFromPostsListState(permlink)
         post?.let {
             _command.value = ReportPostCommand(post)
@@ -442,24 +442,22 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    private fun applyPostReports() {
+    fun sendReport(report: PostReportDialog.Report){
         launch {
-            model.reportsFlow.collect { report ->
-                try {
-                    _command.value = SetLoadingVisibilityCommand(true)
-                    val collectedReports = report.reports
-                    val reason = JSONArray(collectedReports).toString()
-                    model.reportPost(
-                        report.contentId.communityId,
-                        report.contentId.userId,
-                        report.contentId.permlink,
-                        reason
-                    )
-                } catch (e: Exception) {
-                    Timber.e(e)
-                } finally {
-                    _command.value = SetLoadingVisibilityCommand(false)
-                }
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                val collectedReports = report.reasons
+                val reason = JSONArray(collectedReports).toString()
+                model.reportPost(
+                    report.contentId.communityId,
+                    report.contentId.userId,
+                    report.contentId.permlink,
+                    reason
+                )
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

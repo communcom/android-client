@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -20,7 +21,6 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
@@ -73,8 +73,6 @@ constructor(
     val commentEditFieldSettings = _commentEditFieldSettings as LiveData<EditReplyCommentSettings>
 
     fun setup() {
-        applyPostReports()
-
         if (wasMovedToChild) {
             wasMovedToChild = false
             return
@@ -391,24 +389,22 @@ constructor(
         }
     }
 
-    private fun applyPostReports() {
+    fun reportSend(report: PostReportDialog.Report){
         launch {
-            model.reportsFlow.collect { report ->
-                try {
-                    _command.value = SetLoadingVisibilityCommand(true)
-                    val collectedReports = report.reports
-                    val reason = JSONArray(collectedReports).toString()
-                    model.reportPost(
-                        report.contentId.communityId,
-                        report.contentId.userId,
-                        report.contentId.permlink,
-                        reason
-                    )
-                } catch (e: Exception) {
-                    Timber.e(e)
-                } finally {
-                    _command.value = SetLoadingVisibilityCommand(false)
-                }
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                val collectedReports = report.reasons
+                val reason = JSONArray(collectedReports).toString()
+                model.reportPost(
+                    report.contentId.communityId,
+                    report.contentId.userId,
+                    report.contentId.permlink,
+                    reason
+                )
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
