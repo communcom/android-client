@@ -13,5 +13,6 @@ data class UserProfileDomain(
     val followersCount: Int,
     val followingsCount: Int,
     val communitiesSubscribedCount: Int,
-    val highlightCommunities: List<CommunityDomain>
+    val highlightCommunities: List<CommunityDomain>,
+    val commonFriends: List<UserDomain>
 )

@@ -11,6 +11,7 @@ import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.FollowerDomain
+import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
@@ -50,12 +51,23 @@ class UsersRepositoryImpl @Inject constructor(
         // This code is correct but it's temporary commented for debug purpose
         // (because highlightCommunities lis is always empty for a current user profile)
         //--------------------------------------
-        //apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
+//        commun4j.getUserSubscriptions()     // Following
+//        commun4j.getSubscribers()           // Followers
+
+        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
         //--------------------------------------
 
         // Code for debugging only - see an explanation above
-        val fakeCommunities = apiCall { commun4j.getCommunitiesList(null, 0, 10) }
-        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain(fakeCommunities)
+//        val fakeCommunities = apiCall { commun4j.getCommunitiesList(null, 0, 10) }
+//        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain(fakeCommunities)
+    }
+
+    override suspend fun getUserFollowers(user: CyberName, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+        apiCall { commun4j.getSubscribers(user, null, pageSizeLimit, offset) }
+    }
+
+    override suspend fun getUserFollowing(user: CyberName, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     /**
