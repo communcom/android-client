@@ -1,150 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/graph_login"
-            app:startDestination="@id/welcomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_login"
+    app:startDestination="@id/welcomeFragment">
 
-    <fragment android:id="@+id/welcomeFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.welcome.WelcomeFragment"
-              android:label="fragment_welcome" tools:layout="@layout/fragment_welcome">
-        <action android:id = "@+id/action_welcomeFragment_to_licenseFragment"
-                app:destination = "@id/licenseFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:popUpToInclusive = "false"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_default_pop_exit_anim">
-        </action>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.welcome.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcomeFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/welcomeFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_signUpPhoneFragment"
+            app:destination="@id/signUpPhoneFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/welcomeFragment" />
     </fragment>
-    <fragment android:id="@+id/signInFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signin.SignInFragment"
-              android:label="fragment_sign_in" tools:layout="@layout/fragment_sign_in">
-        <action android:id="@+id/action_signInFragment_to_signUpKeyFragment" app:destination="@id/signUpKeyFragment"
-                app:enterAnim="@anim/nav_slide_in_right" app:exitAnim="@anim/nav_slide_out_left"
-                app:popEnterAnim="@anim/nav_slide_in_left" app:popExitAnim="@anim/nav_slide_out_right"/>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signin.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_signUpKeyFragment"
+            app:destination="@id/signUpKeyFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
     </fragment>
-    <fragment android:id="@+id/signUpPhoneFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.phone.SignUpPhoneFragment"
-              android:label="fragment_sign_up_phone" tools:layout="@layout/fragment_sign_up_phone">
-        <action android:id="@+id/action_signUpPhoneFragment_to_signUpCountryFragment"
-                app:destination="@id/signUpCountryFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
-        <action android:id = "@+id/action_signUpPhoneFragment_to_signUpVerificationFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:destination = "@id/signUpVerificationFragment"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"
-                app:popUpToInclusive = "false"
-        />
-        <action android:id = "@+id/action_signUpPhoneFragment_to_signUpNameFragment"
-                app:destination = "@id/signUpNameFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"
-                app:popUpToInclusive = "false"
-        />
+    <fragment
+        android:id="@+id/signUpPhoneFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.phone.SignUpPhoneFragment"
+        android:label="fragment_sign_up_phone"
+        tools:layout="@layout/fragment_sign_up_phone">
+        <action
+            android:id="@+id/action_signUpPhoneFragment_to_signUpCountryFragment"
+            app:destination="@id/signUpCountryFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
+        <action
+            android:id="@+id/action_signUpPhoneFragment_to_signUpVerificationFragment"
+            app:destination="@id/signUpVerificationFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_signUpPhoneFragment_to_signUpNameFragment"
+            app:destination="@id/signUpNameFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpToInclusive="false" />
     </fragment>
-    <fragment android:id="@+id/signUpCountryFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.SignUpCountryFragment"
-              android:label="fragment_sign_up_country" tools:layout="@layout/fragment_sign_up_country"/>
-    <fragment android:id="@+id/signUpVerificationFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.verification.SignUpVerificationFragment"
-              android:label="fragment_sign_up_verification" tools:layout="@layout/fragment_sign_up_verification">
-        <action android:id="@+id/action_signUpVerificationFragment_to_signUpNameFragment"
-                app:popUpTo="@id/signUpPhoneFragment"
-                app:destination="@id/signUpNameFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+    <fragment
+        android:id="@+id/signUpCountryFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.SignUpCountryFragment"
+        android:label="fragment_sign_up_country"
+        tools:layout="@layout/fragment_sign_up_country" />
+    <fragment
+        android:id="@+id/signUpVerificationFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.verification.SignUpVerificationFragment"
+        android:label="fragment_sign_up_verification"
+        tools:layout="@layout/fragment_sign_up_verification">
+        <action
+            android:id="@+id/action_signUpVerificationFragment_to_signUpNameFragment"
+            app:destination="@id/signUpNameFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/signUpPhoneFragment" />
     </fragment>
-    <fragment android:id="@+id/signUpNameFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.name.SignUpNameFragment"
-              android:label="fragment_sign_up_name" tools:layout="@layout/fragment_sign_up_name">
-        <action android:id="@+id/action_signUpNameFragment_to_signUpKeyFragment"
-                app:destination="@id/signUpKeyFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right" app:popUpToInclusive="false" app:popUpTo="@+id/graph_login"/>
+    <fragment
+        android:id="@+id/signUpNameFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.name.SignUpNameFragment"
+        android:label="fragment_sign_up_name"
+        tools:layout="@layout/fragment_sign_up_name">
+        <action
+            android:id="@+id/action_signUpNameFragment_to_signUpKeyFragment"
+            app:destination="@id/signUpKeyFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/graph_login"
+            app:popUpToInclusive="false" />
     </fragment>
-    <fragment android:id="@+id/signUpKeyFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.key.SignUpKeyFragment"
-              android:label="fragment_sign_up_key" tools:layout="@layout/fragment_sign_up_key">
-        <action android:id = "@+id/action_signUpKeyFragment_to_pinCodeFragment"
-                app:destination = "@id/pinCodeFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"/>
+    <fragment
+        android:id="@+id/signUpKeyFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.key.SignUpKeyFragment"
+        android:label="fragment_sign_up_key"
+        tools:layout="@layout/fragment_sign_up_key">
+        <action
+            android:id="@+id/action_signUpKeyFragment_to_pinCodeFragment"
+            app:destination="@id/pinCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
     </fragment>
-    <fragment android:id="@+id/onboardingUserImageFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage.OnboardingUserImageFragment"
-              android:label="onboarding_user_image_fragment" tools:layout="@layout/fragment_onboarding_user_image">
-        <action android:id="@+id/action_onboardingUserImageFragment_to_onboardingBioFragment"
-                app:destination="@id/onboardingBioFragment" app:enterAnim="@anim/nav_slide_in_right"
-                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
-                app:popExitAnim="@anim/nav_slide_out_right"/>
+    <fragment
+        android:id="@+id/onboardingUserImageFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage.OnboardingUserImageFragment"
+        android:label="onboarding_user_image_fragment"
+        tools:layout="@layout/fragment_onboarding_user_image">
+        <action
+            android:id="@+id/action_onboardingUserImageFragment_to_onboardingBioFragment"
+            app:destination="@id/onboardingBioFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
     </fragment>
-    <fragment android:id="@+id/onboardingBioFragment"
-              android:name="io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment"
-              android:label="fragment_onboarding_bio" tools:layout="@layout/fragment_onboarding_bio"/>
-    <fragment android:id="@+id/licenseFragment" android:name="io.golos.cyber_android.ui.screens.login_activity.license.LicenseFragment"
-              android:label="fragment_license" tools:layout="@layout/fragment_license">
-        <action android:id = "@+id/action_licenseFragment_to_signInFragment"
-                app:destination = "@id/signInFragment"
-                app:popUpTo = "@+id/welcomeFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_default_pop_exit_anim"/>
-        <action android:id = "@+id/action_licenseFragment_to_signUpPhoneFragment"
-                app:destination = "@id/signUpPhoneFragment"
-                app:popUpTo = "@+id/welcomeFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_default_pop_exit_anim"/>
-        <argument android:name="DESTINATION" app:argType="string"/>
+    <fragment
+        android:id="@+id/onboardingBioFragment"
+        android:name="io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment"
+        android:label="fragment_onboarding_bio"
+        tools:layout="@layout/fragment_onboarding_bio" />
+    <fragment
+        android:id="@+id/signUpProtectionKeysFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.SignUpProtectionKeysFragment"
+        android:label="fragment_sign_up_protection_keys"
+        tools:layout="@layout/fragment_sign_up_protection_keys">
+        <action
+            android:id="@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
+            app:destination="@id/onboardingUserImageFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/graph_login" />
     </fragment>
-    <fragment android:id="@+id/signUpProtectionKeysFragment"
-              android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.SignUpProtectionKeysFragment"
-              android:label="fragment_sign_up_protection_keys" tools:layout="@layout/fragment_sign_up_protection_keys">
-        <action android:id = "@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
-                app:destination = "@id/onboardingUserImageFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"
-                app:popUpTo = "@+id/graph_login"/>
+    <fragment
+        android:id="@+id/pinCodeFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeFragment"
+        android:label="fragment_pin_code"
+        tools:layout="@layout/fragment_pin_code">
+        <action
+            android:id="@+id/action_pinCodeFragment_to_fingerprintFragment"
+            app:destination="@id/fingerprintFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
+        <action
+            android:id="@+id/action_pinCodeFragment_to_signUpProtectionKeysFragment"
+            app:destination="@id/signUpProtectionKeysFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/graph_login" />
     </fragment>
-    <fragment android:id = "@+id/pinCodeFragment"
-              android:name = "io.golos.cyber_android.ui.screens.login_activity.signup.fragments.pin.PinCodeFragment"
-              android:label = "fragment_pin_code"
-              tools:layout = "@layout/fragment_pin_code">
-        <action android:id = "@+id/action_pinCodeFragment_to_fingerprintFragment"
-                app:destination = "@id/fingerprintFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"/>
-        <action android:id = "@+id/action_pinCodeFragment_to_signUpProtectionKeysFragment"
-                app:destination = "@id/signUpProtectionKeysFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"
-                app:popUpTo = "@+id/graph_login"/>
-    </fragment>
-    <fragment android:id = "@+id/fingerprintFragment"
-              android:name = "io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintFragment"
-              android:label = "fragment_fingerprint"
-              tools:layout = "@layout/fragment_fingerprint">
-        <action android:id = "@+id/action_fingerprintFragment_to_signUpProtectionKeysFragment"
-                app:destination = "@id/signUpProtectionKeysFragment"
-                app:enterAnim = "@anim/nav_slide_in_right"
-                app:exitAnim = "@anim/nav_slide_out_left"
-                app:popEnterAnim = "@anim/nav_slide_in_left"
-                app:popExitAnim = "@anim/nav_slide_out_right"
-                app:popUpTo = "@+id/graph_login"/>
+    <fragment
+        android:id="@+id/fingerprintFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintFragment"
+        android:label="fragment_fingerprint"
+        tools:layout="@layout/fragment_fingerprint">
+        <action
+            android:id="@+id/action_fingerprintFragment_to_signUpProtectionKeysFragment"
+            app:destination="@id/signUpProtectionKeysFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/graph_login" />
     </fragment>
 </navigation>
