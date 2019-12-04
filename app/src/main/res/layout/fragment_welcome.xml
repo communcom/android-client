@@ -1,63 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:paddingTop="@dimen/margin_default"
-              android:paddingBottom="@dimen/margin_default"
-              android:background="@color/white"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".ui.screens.login_activity.welcome.WelcomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_default"
+    android:paddingBottom="@dimen/margin_default"
+    tools:context=".ui.screens.login_activity.welcome.WelcomeFragment">
 
-    <io.golos.cyber_android.ui.common.widgets.WelcomePagerIndicatorView
-            android:id="@+id/slidesIndicator"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_welcome_pager_indicator"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/slidesPager"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-    <TextView
-            android:id="@+id/signUp"
-            style="@style/SignUpButtonStyle"
-            android:layout_marginTop="@dimen/margin_top_welcome_buttons"
-            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
-            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
-            android:text="@string/sign_up"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <TextView
-            android:id="@+id/signIn"
-            style="@style/SignInButtonStyle"
-            android:background="?attr/selectableItemBackground"
-            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
-            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
-            android:text="@string/sign_in"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <TextView
-            android:id="@+id/versionText"
-
-            android:text=""
-            tools:text = "1.0 (100)"
-
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dotsIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:dotsColor="@color/middle_gray_5"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="6dp"
+            app:dotsSpacing="4dp"
+            app:dotsWidthFactor="4.0"
+            app:selectedDotColor="@color/blue" />
 
+        <TextView
+            android:id="@+id/topSignIn"
+            style="@style/Common.Base.TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="@string/sign_in"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
 
-            style="@style/SignInTextLabel"
+    </FrameLayout>
 
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default"
-    />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/slidesPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/nextSlide"
+        style="@style/SignUpStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="@dimen/margin_top_welcome_buttons"
+        android:layout_marginEnd="20dp"
+        android:text="@string/next_slide"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/signUp"
+        style="@style/SignUpStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/sign_up"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/signIn"
+        style="@style/SignInStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/sign_in"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </LinearLayout>
