@@ -23,7 +23,6 @@ import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -99,7 +98,6 @@ constructor(
             postDomain.author.userId,
 
             false,
-            postDomain.author.userId == currentUserRepository.userId,
             postDomain.community.isSubscribed
         )
 

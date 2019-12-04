@@ -129,7 +129,6 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
                     userName = menu.authorUsername,
                     userId = menu.authorUserId,
                     canJoinToCommunity = false,
-                    canEdit = false,
                     isBackFeatureEnabled = false,
                     isJoinFeatureEnabled = false
                 )
