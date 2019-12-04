@@ -56,8 +56,7 @@ class WelcomeFragment : FragmentBase() {
         setupSlidesPager(slides)
 
         topSignIn.setOnClickListener {
-            val args = Bundle().also { it.putString(NavigationArgs.DESTINATION, NavigationArgs.SIGN_IN) }
-            findNavController().navigate(R.id.action_welcomeFragment_to_licenseFragment, args)
+            findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
         }
         signIn.setOnClickListener {
             findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)

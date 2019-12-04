@@ -268,13 +268,13 @@
 
     <style name="WelcomeSlidesTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">36sp</item>
+        <item name="android:textSize">26sp</item>
 <!--        <item name="fontFamily">@font/roboto_bold</item>-->
     </style>
 
     <style name="WelcomeSlidesSubTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_17_sp</item>
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
         <item name="android:textColor">@color/grey</item>
     </style>
 
