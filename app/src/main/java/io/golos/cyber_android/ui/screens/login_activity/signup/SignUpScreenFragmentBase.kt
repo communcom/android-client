@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.signup
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType.TYPE_CLASS_PHONE
 import android.view.View
 import android.widget.EditText
 import androidx.annotation.CallSuper
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.utils.TextWatcherBase
+import io.golos.domain.dto.CountryEntity
 import javax.inject.Inject
 
 /**
@@ -47,7 +49,16 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
 
         fieldToValidate?.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.onFieldChanged(s.toString())
+                val writenText = s.toString()
+                if (fieldToValidate?.inputType == TYPE_CLASS_PHONE) {
+                    val viewTag = fieldToValidate?.tag as? CountryEntity
+                    viewTag?.let { tag ->
+                        val phone = signUpViewModel.getNormalizedPhone(writenText)
+                        viewModel.onPhoneFieldChanged(phone, tag.countryPhoneLength)
+                    }
+                } else {
+                    viewModel.onFieldChanged(writenText)
+                }
             }
         })
     }

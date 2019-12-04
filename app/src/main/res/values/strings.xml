@@ -442,7 +442,10 @@
     <string name="communities_count">{0} ({1} Mutual)</string>
 
     <!--SignUp-->
-    <string name="sign_up_description">By clicking the “Sign up” button, you agree to the Terms of use, Privacy Policy and Blockchain Disclaimer</string>
+    <string name="sign_up_description">By clicking the “Sign up” button, you agree to the</string>
+    <string name="sign_up_description_1">Terms of use, Privacy Policy</string>
+    <string name="sign_up_description_2">and</string>
+    <string name="sign_up_description_3">Blockchain Disclaimer</string>
     <string name="do_you_have_account">Do you have account?</string>
 
 

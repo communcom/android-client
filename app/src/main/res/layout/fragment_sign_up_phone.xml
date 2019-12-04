@@ -42,10 +42,10 @@
             style="@style/SignInCaptionTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default"
             android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_top_sign_in_caption"
+            android:layout_marginEnd="@dimen/margin_default"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:fontFamily="@font/roboto_bold"
@@ -55,56 +55,57 @@
             android:id="@+id/country"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_42"
-            android:textSize="@dimen/text_size_17_sp"
-            android:background="@drawable/bg_input_field"
-            android:clickable="true"
-            android:focusable="false"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:inputType="none"
             android:layout_marginStart="@dimen/dimen_42"
             android:layout_marginTop="@dimen/dimen_48"
             android:layout_marginEnd="@dimen/dimen_42"
+            android:background="@drawable/bg_input_field"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/select_country"
+            android:inputType="none"
+            android:maxLines="1"
             android:paddingStart="@dimen/margin_default"
             android:paddingEnd="@dimen/margin_default"
-            android:hint="@string/select_country"/>
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_17_sp" />
 
         <io.golos.cyber_android.ui.common.widgets.PrefixTextInputEditText
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_42"
+            android:layout_marginStart="@dimen/dimen_42"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/dimen_42"
+            android:background="@drawable/bg_input_field"
+            android:hint="@string/phone_number"
             android:imeOptions="actionDone"
             android:inputType="phone"
             android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="@dimen/text_size_17_sp"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginStart="@dimen/dimen_42"
-            android:layout_marginEnd="@dimen/dimen_42"
             android:paddingStart="@dimen/margin_default"
             android:paddingEnd="@dimen/margin_default"
-            android:background="@drawable/bg_input_field"
-            android:hint="@string/phone_number" />
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_17_sp" />
 
         <TextView
+            android:id="@+id/signUpDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up_description"
             android:layout_marginStart="@dimen/dimen_42"
             android:layout_marginTop="@dimen/dimen_30"
             android:layout_marginEnd="@dimen/dimen_42"
             android:gravity="center"
-            android:textSize="@dimen/text_size_10_sp"/>
+            android:textSize="@dimen/text_size_10_sp"
+            tools:text="@string/sign_up_description" />
 
         <TextView
             android:id="@+id/signUp"
             style="@style/SignUpButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_42"
-            android:layout_marginEnd="@dimen/dimen_42"
             android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/dimen_42"
             android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/dimen_42"
             android:enabled="false"
             android:text="@string/next" />
 
@@ -112,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
             android:gravity="center"
             android:paddingTop="@dimen/margin_default"
             android:paddingBottom="@dimen/margin_default">
@@ -121,19 +122,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/do_you_have_account"
-                android:textSize="@dimen/text_size_15_sp"
                 android:textColor="@color/grey"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="@dimen/text_size_15_sp" />
 
             <TextView
                 android:id="@+id/tvSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_small"
-                android:text="@string/sign_in"
                 android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/blue"/>
+                android:text="@string/sign_in"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
     </LinearLayout>

@@ -6,7 +6,7 @@ import javax.inject.Inject
 class SignUpPhoneViewModel
 @Inject
 constructor(): SignUpScreenViewModelBase() {
-    override fun validate(field: String): Boolean {
-        return field.length > 10
+    override fun validate(field: String, minFieldCount: Int): Boolean {
+        return field.length - 1 >= minFieldCount
     }
 }
