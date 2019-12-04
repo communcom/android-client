@@ -15,7 +15,7 @@ constructor(
 ) : ModelBaseImpl(), ProfileModel {
 
     override suspend fun loadProfileInfo(): UserProfileDomain =
-        usersRepository.getUserProfile(currentUserRepository.user)
+        usersRepository.getUserProfile(currentUserRepository.authState!!.user)
 
     /**
      * @return url of an avatar

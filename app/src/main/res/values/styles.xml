@@ -628,5 +628,12 @@
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="BlueWhite.RoundCorners.Toggle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_color_toggle_profile_followers</item>
+        <item name="android:background">@drawable/bcg_toggle_profile_followers</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+    </style>
     <!--Common-->
 </resources>

@@ -43,7 +43,7 @@ constructor(
                 communityCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                follower = currentUserRepository.user,
+                follower = currentUserRepository.authState!!.user,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
@@ -55,7 +55,7 @@ constructor(
                 communityCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                follower = currentUserRepository.user,
+                follower = currentUserRepository.authState!!.user,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }

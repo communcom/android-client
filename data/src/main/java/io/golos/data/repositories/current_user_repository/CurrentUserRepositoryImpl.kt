@@ -17,10 +17,10 @@ constructor() : CurrentUserRepository, CurrentUserRepositoryRead {
     override var authState: AuthState? = null
 
     override val userId: String
-        get() = authState?.user?.name ?: ""
+        get() = authState!!.user.name
+
+    override val userName: String
+        get() = authState!!.userName
 
     override var userAvatarUrl: String? = null
-
-    override val user: CyberName
-        get() = authState!!.user
 }

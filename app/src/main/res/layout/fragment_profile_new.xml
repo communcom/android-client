@@ -260,7 +260,10 @@
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_16_sp"
+
                                 app:kilo="@{viewModel.followersCount}"
+                                android:onClick="@{() -> viewModel.onFollowersClick()}"
+
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -276,8 +279,10 @@
                                 android:textSize="@dimen/text_size_12_sp"
                                 app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                 app:layout_constraintStart_toEndOf="@+id/followersCount"
+                                app:layout_constraintTop_toTopOf="@+id/followersCount"
 
-                                app:layout_constraintTop_toTopOf="@+id/followersCount" />
+                                android:onClick="@{() -> viewModel.onFollowersClick()}"
+                                />
 
                             <TextView
                                 android:id="@+id/point"
@@ -300,7 +305,10 @@
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_16_sp"
+
                                 app:kilo="@{viewModel.followingsCount}"
+                                android:onClick="@{() -> viewModel.onFollowingsClick()}"
+
                                 app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                 app:layout_constraintStart_toEndOf="@+id/point"
                                 app:layout_constraintTop_toTopOf="@+id/followersCount"
@@ -314,6 +322,9 @@
                                 android:text="@string/following"
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/text_size_12_sp"
+
+                                android:onClick="@{() -> viewModel.onFollowingsClick()}"
+
                                 app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                 app:layout_constraintStart_toEndOf="@+id/followingCount"
                                 app:layout_constraintTop_toTopOf="@+id/followersCount" />

@@ -6,13 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToBioPageCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDialogCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
@@ -147,6 +145,14 @@ constructor(
             return
         }
         _command.value = ShowEditBioDialogCommand()
+    }
+
+    fun onFollowersClick() {
+        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWERS)
+    }
+
+    fun onFollowingsClick() {
+        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWING)
     }
 
     private fun loadPage() {

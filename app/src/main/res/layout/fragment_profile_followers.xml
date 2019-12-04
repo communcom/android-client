@@ -1,0 +1,228 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile_followers.view_model.ProfileFollowersViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:id="@+id/root"
+        tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            app:elevation="0dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <TextView
+                    android:id="@+id/titleText"
+                    style="@style/White.Header.TextStyle"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/profile_followers_title_margin"
+
+                    android:text="@{viewModel.title}"
+                    tools:text="F.F. Preobrajensky"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/backButton"
+
+                    android:layout_width="@dimen/size_image_button"
+                    android:layout_height="@dimen/size_image_button"
+
+                    android:background="@null"
+                    app:imageButton_icon="@drawable/ic_back"
+                    app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
+                    app:imageButton_tint="@color/black"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/titleText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/titleText" />
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/profile_followers_search_field_height"
+
+                    android:layout_marginStart="@dimen/profile_followers_search_field_margin_horizontal"
+                    android:layout_marginTop="@dimen/profile_followers_search_field_margin_top"
+                    android:layout_marginEnd="@dimen/profile_followers_search_field_margin_horizontal"
+
+                    android:background="@drawable/bcg_common_white_round_rect"
+                    android:drawableStart="@drawable/ic_search_small"
+
+                    android:drawablePadding="@dimen/select_community_dialog_drawable_padding"
+
+                    android:hint="@string/hint_search"
+                    android:imeOptions="actionDone"
+
+                    android:inputType="text"
+
+                    android:lines="1"
+                    android:maxLength="16"
+
+                    android:maxLines="1"
+                    android:padding="@dimen/select_community_dialog_padding"
+                    android:textSize="@dimen/text_size_17_sp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titleText"
+
+                    tools:ignore="Autofill,LabelFor" />
+
+                <ToggleButton
+                    android:id="@+id/toggleAll"
+                    style="@style/BlueWhite.RoundCorners.Toggle"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="@dimen/profile_followers_filters_button_height"
+                    android:textOff="@string/all"
+
+                    android:textOn="@string/all"
+
+                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
+                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
+
+                    app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
+                    app:layout_constraintEnd_toStartOf="@+id/toggleMutual"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/searchField"
+                    app:layout_constraintTop_toBottomOf="@+id/searchField"
+                    tools:checked="true"
+
+                    android:tag="ALL"
+                    app:filter="@{viewModel.filter}"
+                    />
+
+                <ToggleButton
+                    android:id="@+id/toggleMutual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/profile_followers_filters_button_height"
+
+                    android:textOff="@string/mutual"
+                    android:textOn="@string/mutual"
+
+                    style="@style/BlueWhite.RoundCorners.Toggle"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/toggleAll"
+                    app:layout_constraintEnd_toStartOf="@+id/toggleFollowers"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/toggleAll"
+                    app:layout_constraintTop_toTopOf="@+id/toggleAll"
+
+                    android:tag="MUTUAL"
+                    app:filter="@{viewModel.filter}"
+                    />
+
+                <ToggleButton
+                    android:id="@+id/toggleFollowers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/profile_followers_filters_button_height"
+
+                    android:textOff="@string/followers"
+                    android:textOn="@string/followers"
+
+                    style="@style/BlueWhite.RoundCorners.Toggle"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/toggleMutual"
+                    app:layout_constraintEnd_toStartOf="@+id/toggleFollowing"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/toggleMutual"
+                    app:layout_constraintTop_toTopOf="@+id/toggleMutual"
+
+                    android:tag="FOLLOWERS"
+                    app:filter="@{viewModel.filter}"
+                    />
+
+                <ToggleButton
+                    android:id="@+id/toggleFollowing"
+                    style="@style/BlueWhite.RoundCorners.Toggle"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="@dimen/profile_followers_filters_button_height"
+                    android:textOff="@string/following"
+
+                    android:textOn="@string/following"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/toggleFollowers"
+                    app:layout_constraintEnd_toEndOf="@+id/searchField"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/toggleFollowers"
+                    app:layout_constraintTop_toTopOf="@+id/toggleFollowers"
+
+                    android:tag="FOLLOWING"
+                    app:filter="@{viewModel.filter}"
+                    />
+                
+                <View
+                    android:id="@+id/bottomBorder"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/stroke_thin"
+
+                    android:background="@color/grey"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:paddingTop="@dimen/general_list_padding_top"
+            android:paddingLeft="@dimen/general_list_padding"
+            android:paddingRight="@dimen/general_list_padding"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:overScrollMode="never"
+
+            android:background="@color/window_background_light_gray">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_list_header_height"
+                android:background="@drawable/bcg_general_list_top" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mainList"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/general_list_bcg"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_list_header_height"
+                android:background="@drawable/bcg_general_list_bottom" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

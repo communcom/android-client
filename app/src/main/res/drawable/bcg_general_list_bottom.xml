@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/select_community_dialog_list_bcg" />
+            <solid android:color="@color/general_list_bcg" />
             <corners
-                android:bottomLeftRadius="@dimen/select_community_dialog_list_header_height"
-                android:bottomRightRadius="@dimen/select_community_dialog_list_header_height"
+                android:bottomLeftRadius="@dimen/general_list_header_height"
+                android:bottomRightRadius="@dimen/general_list_header_height"
                 android:topRightRadius="0dp"
                 android:topLeftRadius="0dp" />
         </shape>

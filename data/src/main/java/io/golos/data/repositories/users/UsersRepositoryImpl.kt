@@ -114,7 +114,7 @@ class UsersRepositoryImpl @Inject constructor(
                 wechat = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                user = currentUserRepository.user,
+                user = currentUserRepository.authState!!.user,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE))
         )
         .let {

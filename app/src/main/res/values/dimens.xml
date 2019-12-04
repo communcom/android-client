@@ -375,12 +375,11 @@
     <dimen name="select_community_dialog_padding_small">10dp</dimen>
     <dimen name="select_community_dialog_padding_large">15dp</dimen>
     <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>
-    <dimen name="select_community_dialog_padding">12dp</dimen>
+    <dimen name="select_community_dialog_padding">10dp</dimen>
     <dimen name="select_community_dialog_drawable_padding">8dp</dimen>
     <dimen name="select_community_dialog_search_margin">15dp</dimen>
     <dimen name="select_community_dialog_search_margin_small">10dp</dimen>
     <dimen name="select_community_dialog_search_margin_tiny">5dp</dimen>
-    <dimen name="select_community_dialog_list_header_height">7dp</dimen>
     <dimen name="select_community_dialog_progress_size">15dp</dimen>
 
     <!-- Button Join -->
@@ -405,9 +404,10 @@
     <dimen name="community_notification_control_size">36dp</dimen>
     <dimen name="community_btn_join_min_width">70dp</dimen>
 
-    <!--Communities list-->
-    <dimen name="communities_list_padding">10dp</dimen>
-    <dimen name="communities_list_padding_top">20dp</dimen>
+    <!-- List (Communities, Followers) -->
+    <dimen name="general_list_padding">10dp</dimen>
+    <dimen name="general_list_padding_top">20dp</dimen>
+    <dimen name="general_list_header_height">7dp</dimen>
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>
@@ -458,6 +458,12 @@
     <dimen name="profile_communities_list_item_title_margin">70dp</dimen>
     <dimen name="profile_communities_list_item_members_margin">52dp</dimen>
     <dimen name="profile_communities_list_item_bcg_corner">15dp</dimen>
+    <dimen name="profile_followers_title_margin">20dp</dimen>
+    <dimen name="profile_followers_search_field_height">40dp</dimen>
+    <dimen name="profile_followers_search_field_margin_horizontal">14dp</dimen>
+    <dimen name="profile_followers_search_field_margin_top">16dp</dimen>
+    <dimen name="profile_followers_filters_button_height">35dp</dimen>
+    <dimen name="profile_followers_filters_button_margin">10dp</dimen>
 
     <dimen name="white_header_height">44dp</dimen>
     <dimen name="white_header_buttons_margin">15dp</dimen>

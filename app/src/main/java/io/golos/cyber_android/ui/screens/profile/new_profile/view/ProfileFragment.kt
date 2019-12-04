@@ -17,15 +17,14 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
+import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToBioPageCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDialogCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommunitiesFragment
+import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
@@ -81,6 +80,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             is ShowEditBioDialogCommand -> showEditBioDialog()
             is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place)
             is MoveToBioPageCommand -> moveToBioPage(command.text)
+            is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter)
         }
     }
 
@@ -135,4 +135,8 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
 
     private fun moveToBioPage(text: String?) =
         (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
+
+    private fun moveToFollowersPage(filter: FollowersFilter) {
+        (requireActivity() as MainActivity).showFragment(ProfileFollowersFragment.newInstance(filter))
+    }
 }

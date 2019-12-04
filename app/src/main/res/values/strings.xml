@@ -251,6 +251,8 @@
     <string name="edit_bio">Edit Bio</string>
     <string name="followers">Followers</string>
     <string name="followings">Followings</string>
+    <string name="all">All</string>
+    <string name="mutual">Mutual</string>
     <string name="subscribes">Subscribes</string>
     <string name="posts">Posts</string>
     <string name="comments">Comments</string>
