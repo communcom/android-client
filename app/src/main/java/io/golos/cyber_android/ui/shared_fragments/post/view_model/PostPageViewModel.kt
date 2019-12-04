@@ -389,7 +389,7 @@ constructor(
         }
     }
 
-    fun reportSend(report: PostReportDialog.Report){
+    fun sendReport(report: PostReportDialog.Report){
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -397,7 +397,6 @@ constructor(
                 val reason = JSONArray(collectedReports).toString()
                 model.reportPost(
                     report.contentId.communityId,
-                    report.contentId.userId,
                     report.contentId.permlink,
                     reason
                 )

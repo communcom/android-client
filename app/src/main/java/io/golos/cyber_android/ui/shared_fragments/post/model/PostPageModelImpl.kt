@@ -175,9 +175,9 @@ constructor(
         )
     }
 
-    override suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(communityId: String, permlink: String, reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.reportPost(communityId, userId, permlink, reason)
+            discussionRepository.reportPost(communityId, currentUserRepository.userId, permlink, reason)
         }
     }
 

@@ -502,7 +502,6 @@ class ProfilePostsViewModel @Inject constructor(
                 val reason = JSONArray(collectedReports).toString()
                 model.reportPost(
                     report.contentId.communityId,
-                    report.contentId.userId,
                     report.contentId.permlink,
                     reason
                 )

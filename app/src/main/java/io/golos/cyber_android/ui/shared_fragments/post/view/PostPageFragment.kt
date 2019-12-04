@@ -125,7 +125,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is SharePostCommand -> sharePost(command.shareUrl)
 
-            is ReportPostCommand -> reportPost(command.contentId)
+            is ReportPostCommand -> showReportPost(command.contentId)
 
             is DeletePostCommand -> deletePost()
 
@@ -216,10 +216,13 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         requireContext().shareMessage(shareUrl)
     }
 
-    private fun reportPost(contentId: Post.ContentId) {
+    private fun showReportPost(contentId: Post.ContentId) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val dialog = PostReportDialog.newInstance(PostReportDialog.Args(contentId))
+            dialog.onPostReportCompleteCallback = {
+                viewModel.sendReport(it)
+            }
             dialog.show(childFragmentManager, tag)
         }
     }
