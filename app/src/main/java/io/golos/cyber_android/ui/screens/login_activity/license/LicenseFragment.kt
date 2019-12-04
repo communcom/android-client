@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.NavigationArgs
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import kotlinx.android.synthetic.main.fragment_license.*
 
-
+@Deprecated("")
 class LicenseFragment : FragmentBase() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_license, container, false)
@@ -36,11 +34,6 @@ class LicenseFragment : FragmentBase() {
             nextButton.isEnabled = checkedId == R.id.acceptButton
         }
 
-        nextButton.setOnClickListener {
-            when(arguments!![NavigationArgs.DESTINATION] as String) {
-                NavigationArgs.SIGN_IN -> findNavController().navigate(R.id.action_licenseFragment_to_signInFragment)
-                NavigationArgs.SIGN_UP -> findNavController().navigate(R.id.action_licenseFragment_to_signUpPhoneFragment)
-            }
-        }
+        nextButton.setOnClickListener {}
     }
 }

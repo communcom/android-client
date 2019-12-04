@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.NavigationArgs
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
@@ -61,12 +60,10 @@ class WelcomeFragment : FragmentBase() {
             findNavController().navigate(R.id.action_welcomeFragment_to_licenseFragment, args)
         }
         signIn.setOnClickListener {
-            val args = Bundle().also { it.putString(NavigationArgs.DESTINATION, NavigationArgs.SIGN_IN) }
-            findNavController().navigate(R.id.action_welcomeFragment_to_licenseFragment, args)
+            findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
         }
         signUp.setOnClickListener {
-            val args = Bundle().also { it.putString(NavigationArgs.DESTINATION, NavigationArgs.SIGN_UP) }
-            findNavController().navigate(R.id.action_welcomeFragment_to_licenseFragment, args)
+            findNavController().navigate(R.id.action_welcomeFragment_to_signUpPhoneFragment)
         }
         nextSlide.setOnClickListener {
             slidesPager.setCurrentItem(slidesPager.currentItem + 1, true)
