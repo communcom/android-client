@@ -201,7 +201,7 @@
     <!--Welcome-->
     <dimen name="margin_horizontal_welcome_sign_up">35dp</dimen>
     <dimen name="height_welcome_sign_button_min">40dp</dimen>
-    <dimen name="radius_bg_sign_up_button">4dp</dimen>
+    <dimen name="radius_bg_sign_up_button">8dp</dimen>
     <dimen name="margin_top_welcome_buttons">35dp</dimen>
     <dimen name="margin_top_welcome_caption">0dp</dimen>
     <dimen name="height_welcome_pager_indicator">3dp</dimen>
@@ -461,4 +461,7 @@
 
     <dimen name="white_header_height">44dp</dimen>
     <dimen name="white_header_buttons_margin">15dp</dimen>
+
+    <!--SignUp-->
+    <dimen name="sign_up_country_flag_size">24dp</dimen>
 </resources>

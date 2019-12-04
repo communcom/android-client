@@ -55,7 +55,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="@dimen/margin_top_welcome_buttons"
         android:layout_marginEnd="20dp"
-        android:text="@string/next_slide"
+        android:text="@string/next"
         android:textStyle="bold" />
 
     <TextView

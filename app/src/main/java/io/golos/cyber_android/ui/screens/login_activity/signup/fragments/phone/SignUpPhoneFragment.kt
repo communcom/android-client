@@ -72,7 +72,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
                 signUpViewModel.updateRegisterState(it)
             }
         }
-        listOf(countryInputLayout, country).forEach {
+        listOf(country, country).forEach {
             it.setOnClickListener {
                 ViewUtils.hideKeyboard(requireActivity())
                 findNavController().navigate(R.id.action_signUpPhoneFragment_to_signUpCountryFragment)
@@ -84,6 +84,10 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
             if(hasFocus) {
                 phone.moveCursorToTheEnd()
             }
+        }
+
+        tvSignIn.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpPhoneFragment_to_signInFragment)
         }
 
         signUpViewModel.initSelectedCountry()
@@ -137,22 +141,22 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
 
     private fun onCountrySelected(countryModel: CountryEntity?) {
         country.setText(countryModel?.countryName)
-        countryInputLayout.isActivated = countryModel != null
+        country.isActivated = countryModel != null
 
         if (countryModel != null) {
             setupPhoneMask(countryModel)
             phone.isEnabled = true
-            phoneInputLayout.isEnabled = true
+            phone.isEnabled = true
         } else {
             phoneMaskWatcher.setMask(MaskImpl.createTerminated(emptyMask))
             phone.isEnabled = false
-            phoneInputLayout.isEnabled = false
+            phone.isEnabled = false
         }
 
-
+        val countryFlag = requireContext().resources.getDimension(R.dimen.sign_up_country_flag_size).toInt()
         Glide.with(requireContext())
             .load(countryModel?.thumbNailUrl)
-            .apply(RequestOptions.circleCropTransform())
+            .apply(RequestOptions.circleCropTransform().override(countryFlag, countryFlag))
             .into(object : CustomViewTarget<TextView, Drawable>(country) {
                 override fun onLoadFailed(errorDrawable: Drawable?) {
                 }
@@ -161,7 +165,8 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
                 }
 
                 override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    country.setCompoundDrawablesWithIntrinsicBounds(null, null, resource, null)
+                    country.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null)
+                    country.compoundDrawablePadding = requireContext().resources.getDimensionPixelSize(R.dimen.margin_small)
                 }
 
             })
