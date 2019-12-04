@@ -402,6 +402,7 @@ constructor(
                 )
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

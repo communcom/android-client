@@ -2,8 +2,10 @@ package io.golos.cyber_android.ui.screens.profile_posts.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
@@ -507,6 +509,7 @@ class ProfilePostsViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
