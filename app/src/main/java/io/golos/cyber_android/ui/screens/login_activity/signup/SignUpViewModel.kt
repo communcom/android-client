@@ -3,17 +3,19 @@ package io.golos.cyber_android.ui.screens.login_activity.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepository
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.UserNameValidator
 import io.golos.cyber_android.ui.utils.asEvent
-import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.dto.CountryEntity
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.reg.SignUpUseCase
-import kotlinx.coroutines.*
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -176,24 +178,11 @@ constructor(
         }
     }
 
-    fun initSelectedCountry() {
-        if(selectedCountryLiveData.value != null) {
-            return
-        }
-
-        launch {
-            selectedCountryLiveData.value = withContext(dispatchersProvider.ioDispatcher) {
-                try {
-                    countriesRepository.getCurrentCountry()
-                } catch (ex: Exception) {
-                    Timber.e(ex)
-                    null
-                }
-            }
-        }
+    fun resetCountrySelection() {
+        selectedCountryLiveData.value = null
     }
 
-    private fun getNormalizedPhone(phone: String) = "+${phone.trim().replace("\\D+".toRegex(), "")}"
+    fun getNormalizedPhone(phone: String) = "+${phone.trim().replace("\\D+".toRegex(), "")}"
 
     init {
         signUpUseCase.subscribe()

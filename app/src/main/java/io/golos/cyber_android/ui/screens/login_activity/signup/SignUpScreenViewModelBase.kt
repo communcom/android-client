@@ -32,5 +32,11 @@ abstract class SignUpScreenViewModelBase: ViewModel() {
         validnessLiveData.postValue(validate(this.field))
     }
 
-    abstract fun validate(field: String): Boolean
+    fun onPhoneFieldChanged(field: String, minFieldCount: Int) {
+        validnessLiveData.postValue(validate(field, minFieldCount))
+    }
+
+    open fun validate(field: String): Boolean = false
+
+    open fun validate(field: String, minFieldCount: Int): Boolean = false
 }
