@@ -50,6 +50,13 @@ class MyFeedModelImpl @Inject constructor(
         }
     }
 
+    override suspend fun reportPost(authorPostId: String, communityId: String, permlink: String, reason: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
+        }
+    }
+
     override val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
         get() = postFilter.feedFiltersFlow
+
 }

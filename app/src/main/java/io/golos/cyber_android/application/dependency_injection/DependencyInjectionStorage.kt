@@ -61,6 +61,8 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
+import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
@@ -254,6 +256,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostFiltersFragmentComponent::class -> get<UIComponent>()
                 .postFiltersFragment
+                .build()
+
+            PostReportFragmentComponent::class -> get<UIComponent>()
+                .postReportFragment
+                .init(PostReportModule(args[0] as Post.ContentId))
                 .build()
 
             MyFeedFragmentComponent::class -> get<UIComponent>()

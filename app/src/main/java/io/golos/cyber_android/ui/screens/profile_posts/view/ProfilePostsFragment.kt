@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
@@ -76,7 +77,7 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
 
             is EditPostCommand -> editPost(command.post)
 
-            is ReportPostCommand -> reportPost(command.post)
+            is ReportPostCommand -> openPostReport(command.post)
         }
     }
 
@@ -132,7 +133,7 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
                     PostPageMenuDialog.RESULT_REPORT -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         postMenu?.let {
-                            viewModel.reportPost(it.permlink)
+                            viewModel.onSendReportClicked(it.permlink)
                         }
                     }
                 }
@@ -260,8 +261,15 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
         })
     }
 
-    private fun reportPost(post: Post) {
-
+    private fun openPostReport(post: Post) {
+        val tag = PostReportDialog::class.java.name
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.onPostReportCompleteCallback = {
+                viewModel.sendReport(it)
+            }
+            dialog.show(childFragmentManager, tag)
+        }
     }
 
     private fun editPost(post: Post) {

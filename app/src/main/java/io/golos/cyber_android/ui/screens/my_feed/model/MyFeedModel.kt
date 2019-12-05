@@ -32,5 +32,12 @@ interface MyFeedModel : ModelBase,
         permlink: String
     )
 
+    suspend fun reportPost(
+        authorPostId: String,
+        communityId: String,
+        permlink: String,
+        reason: String
+    )
+
     val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
 }

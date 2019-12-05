@@ -48,8 +48,6 @@ constructor(
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
-        menuButton.isEnabled = postHeader.canEdit
-
         postHeader.communityAvatarUrl
             ?.let {
                 Glide.with(this)
