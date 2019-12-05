@@ -1,10 +1,9 @@
 package io.golos.cyber_android.ui.dto
 
 enum class FollowersFilter(val value: Int) {
-    ALL(0),
-    MUTUAL(1),
-    FOLLOWERS(2),
-    FOLLOWING(3);
+    MUTUAL(0),
+    FOLLOWERS(1),
+    FOLLOWING(2);
 
     companion object {
         fun create(value: Int) = values().first { it.value == value }

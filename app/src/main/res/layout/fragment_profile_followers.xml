@@ -95,30 +95,6 @@
                     tools:ignore="Autofill,LabelFor" />
 
                 <ToggleButton
-                    android:id="@+id/toggleAll"
-                    style="@style/BlueWhite.RoundCorners.Toggle"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="@dimen/profile_followers_filters_button_height"
-                    android:textOff="@string/all"
-
-                    android:textOn="@string/all"
-
-                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
-                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
-
-                    app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
-                    app:layout_constraintEnd_toStartOf="@+id/toggleMutual"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/searchField"
-                    app:layout_constraintTop_toBottomOf="@+id/searchField"
-                    tools:checked="true"
-
-                    android:tag="ALL"
-                    app:filter="@{viewModel.filter}"
-                    />
-
-                <ToggleButton
                     android:id="@+id/toggleMutual"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/profile_followers_filters_button_height"
@@ -126,13 +102,18 @@
                     android:textOff="@string/mutual"
                     android:textOn="@string/mutual"
 
+                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
+                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
+
                     style="@style/BlueWhite.RoundCorners.Toggle"
 
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleAll"
                     app:layout_constraintEnd_toStartOf="@+id/toggleFollowers"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/toggleAll"
-                    app:layout_constraintTop_toTopOf="@+id/toggleAll"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
+                    app:layout_constraintStart_toStartOf="@+id/searchField"
+                    app:layout_constraintTop_toBottomOf="@+id/searchField"
+
+                    tools:checked="true"
 
                     android:tag="MUTUAL"
                     app:filter="@{viewModel.filter}"
