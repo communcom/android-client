@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.EventTypeEntity
 import io.golos.domain.dto.EventsListEntity
@@ -70,7 +71,7 @@ constructor(
             if (it?.isUserLoggedIn == true && !isSubscribedOnEvents && authedUserName != null) {
                 isSubscribedOnEvents = true
                 val baseRequest = EventsFeedUpdateRequest(
-                    authedUserName,
+                    CyberName(authedUserName.userId),
                     eventTypes, 0
                 )
 
@@ -125,7 +126,7 @@ constructor(
         if (option == UpdateOption.REFRESH_FROM_BEGINNING || eventsLiveData.value.isNullOrEmpty()) {
             eventsRepository.makeAction(
                 EventsFeedUpdateRequest(
-                    authedUserName,
+                    CyberName(authedUserName.userId),
                     eventTypes,
                     limit
                 )
@@ -134,7 +135,7 @@ constructor(
             val lastId = eventsLiveData.value.orEmpty().lastOrNull()?.eventId
             eventsRepository.makeAction(
                 EventsFeedUpdateRequest(
-                    authedUserName,
+                    CyberName(authedUserName.userId),
                     eventTypes,
                     limit,
                     lastId
@@ -155,7 +156,7 @@ constructor(
             mediatorLiveData.removeSource(
                 eventsRepository.getAsLiveData(
                     EventsFeedUpdateRequest(
-                        authedUserName,
+                        CyberName(authedUserName.userId),
                         eventTypes, 0
                     )
                 )

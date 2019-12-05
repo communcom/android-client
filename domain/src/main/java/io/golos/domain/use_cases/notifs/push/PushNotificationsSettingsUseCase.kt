@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dto.PushNotificationsStateEntity
@@ -44,7 +45,7 @@ constructor(
         mediator.addSource(authRepository.getAsLiveData(authRepository.allDataRequest)) {
             readinessLiveData.value = it?.isUserLoggedIn == true
             if (it.isUserLoggedIn) {
-                updateState.value = QueryResult.Success(keyValueStorage.getPushNotificationsSettings(it.user))
+                updateState.value = QueryResult.Success(keyValueStorage.getPushNotificationsSettings(CyberName(it.user.userId)))
             }
         }
 
@@ -55,7 +56,7 @@ constructor(
                 is QueryResult.Success -> {
                     val newSettings = PushNotificationsStateModel(lastRequest.toEnable)
                     authRepository.getAsLiveData(authRepository.allDataRequest).value?.let {
-                        keyValueStorage.savePushNotificationsSettings(it.user, newSettings)
+                        keyValueStorage.savePushNotificationsSettings(CyberName(it.user.userId), newSettings)
                     }
                     QueryResult.Success(newSettings)
                 }
@@ -81,7 +82,7 @@ constructor(
     override fun unsubscribeFromPushNotifications() {
         if (readinessLiveData.value == true) {
             authRepository.getAsLiveData(authRepository.allDataRequest).value?.let {
-                val params = PushNotificationsUnsubscribeRequest(it.user)
+                val params = PushNotificationsUnsubscribeRequest(CyberName(it.user.userId))
                 pushRepository.makeAction(params)
                 lastRequest = params
             }

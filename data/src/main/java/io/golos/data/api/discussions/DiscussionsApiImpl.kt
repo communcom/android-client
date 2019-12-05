@@ -104,9 +104,9 @@ constructor(
 
         val postPermlink = Permlink.generate()
 
-        val comments = CommentsDataFactory.createComments(postPermlink, authState.user.name)
+        val comments = CommentsDataFactory.createComments(postPermlink, authState.user.userId)
 
-        val post = PostsDataFactory.createPost(body, community!!, authState.user.name, comments.size, postPermlink)
+        val post = PostsDataFactory.createPost(body, community!!, authState.user.userId, comments.size, postPermlink)
         Log.d("CREATE_POST", "createPost() UserId: ${post.contentId.userId}; permlink: ${post.contentId.permlink}")
         DataStorage.posts.add(post)
 
@@ -155,7 +155,7 @@ constructor(
         DataStorage.posts[postIndex] = post.copy(content = newBody)
 
         return PostsDataFactory.createCommitedTransaction(
-            PostsDataFactory.getUpdatemssgComnGalleryStruct(authState.user.name, postPermlink)
+            PostsDataFactory.getUpdatemssgComnGalleryStruct(authState.user.userId, postPermlink)
         )
 
 //        return commun4j.updatePost(postPermlink, newTitle, newBody, newTags, newJsonMetadata, BandWidthRequest(BandWidthSource.GOLOSIO_SERVICES))
@@ -173,7 +173,7 @@ constructor(
 
         return PostsDataFactory.createCommitedTransaction(
             PostsDataFactory.getDeletemssgComnGalleryStruct(
-                authState.user.name,
+                authState.user.userId,
                 postPermlink
             )
         )
@@ -189,7 +189,7 @@ constructor(
 
         return PostsDataFactory.createCommitedTransaction(
             PostsDataFactory.getDeletemssgComnGalleryStruct(
-                authState.user.name,
+                authState.user.userId,
                 commentPermlink
             )
         )

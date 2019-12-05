@@ -3,7 +3,7 @@ package io.golos.data.mappers
 import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.domain.dto.CommunityDomain
 
-fun GetProfileResult.ProfileHighlightedCommunities.mapToCommunityDomain() =
+fun GetProfileResult.ProfileHighlightedCommunitiesItem.mapToCommunityDomain() =
     CommunityDomain(
         communityId = communityId,
 

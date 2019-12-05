@@ -16,7 +16,7 @@ ext.versions = [
         annotation          : '1.1.0',
         legacySupport       : '1.0.0',
 
-        commun4jVersion     : '1.0.2',
+        commun4jVersion     : '1.0.3',
 
         //Network
         retrofit              : '2.4.0',

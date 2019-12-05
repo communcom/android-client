@@ -79,7 +79,7 @@ constructor(
 
             comments.forEach { rawComment ->
                 // Add comment
-                val commentListItem = CommentsMapper.mapToFirstLevel(rawComment, currentUserRepository.userId)
+                val commentListItem = CommentsMapper.mapToFirstLevel(rawComment, currentUserRepository.userId.userId)
                 postList.add(commentListItem)
 
                 // Add collapsed comments list item
@@ -89,7 +89,7 @@ constructor(
                             id = IdUtil.generateLongId(),
                             version = 0,
                             topCommentAuthor = rawComment.child[0].author,
-                            currentUserId = currentUserRepository.userId,
+                            currentUserId = currentUserRepository.userId.userId,
                             totalChild = rawComment.childTotal,
                             parentCommentId = commentListItem.externalId
                         )
@@ -176,7 +176,7 @@ constructor(
 
             // Add comments
             comments
-                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId, repliedAuthors) }
+                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId.userId, repliedAuthors) }
                 .union(
                     if (isEndOfDataReached) {
                         listOf()
@@ -186,7 +186,7 @@ constructor(
                                 IdUtil.generateLongId(),
                                 0,
                                 nextTopCommentAuthor!!,
-                                currentUserRepository.userId,
+                                currentUserRepository.userId.userId,
                                 (totalComments - commentsAdded - comments.size).toLong(),
                                 parentCommentId
                             )
@@ -224,7 +224,7 @@ constructor(
      */
     override suspend fun addNewComment(comment: CommentModel) =
         updateSafe {
-            postList[newCommentPosition] = CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId)
+            postList[newCommentPosition] = CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId.userId)
         }
 
     override suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState) =
@@ -283,7 +283,7 @@ constructor(
             postList[getCommentIndex(repliedCommentId) + 1] =
                 CommentsMapper.mapToSecondLevel(
                     commentModel,
-                    currentUserRepository.userId,
+                    currentUserRepository.userId.userId,
                     repliedCommentAuthor,
                     repliedCommentLevel
                 )

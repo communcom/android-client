@@ -5,15 +5,12 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
-import io.golos.data.mappers.mapToCommunityDomain
+import io.golos.data.mappers.mapToUserDomain
 import io.golos.data.mappers.mapToUserProfileDomain
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.FollowerDomain
-import io.golos.domain.dto.UserDomain
-import io.golos.domain.dto.UserKeyType
-import io.golos.domain.dto.UserProfileDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
 import kotlinx.coroutines.withContext
@@ -41,34 +38,20 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun unsubscribeToFollower(userId: String) {
+    override suspend fun unsubscribeToFollower(userId: UserIdDomain) {
         withContext(dispatchersProvider.ioDispatcher){
-            usersApi.unsubscribeToFollower(userId)
+            usersApi.unsubscribeToFollower(userId.userId)
         }
     }
 
-    override suspend fun getUserProfile(user: CyberName): UserProfileDomain {
-        // This code is correct but it's temporary commented for debug purpose
-        // (because highlightCommunities lis is always empty for a current user profile)
-        //--------------------------------------
-//        commun4j.getUserSubscriptions()     // Following
-//        commun4j.getSubscribers()           // Followers
+    override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
+        apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
 
-        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
-        //--------------------------------------
+    override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> =
+        apiCall { commun4j.getSubscribers(CyberName(userId.userId), null, pageSizeLimit, offset) }.items.map { it.mapToUserDomain() }
 
-        // Code for debugging only - see an explanation above
-//        val fakeCommunities = apiCall { commun4j.getCommunitiesList(null, 0, 10) }
-//        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain(fakeCommunities)
-    }
-
-    override suspend fun getUserFollowers(user: CyberName, offset: Int, pageSizeLimit: Int): List<UserDomain> {
-        apiCall { commun4j.getSubscribers(user, null, pageSizeLimit, offset) }
-    }
-
-    override suspend fun getUserFollowing(user: CyberName, offset: Int, pageSizeLimit: Int): List<UserDomain> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> =
+        apiCall { commun4j.getUserSubscriptions(CyberName(userId.userId), pageSizeLimit, offset) }.items.map { it.mapToUserDomain() }
 
     /**
      * Update cover of current user profile
@@ -126,7 +109,7 @@ class UsersRepositoryImpl @Inject constructor(
                 wechat = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                user = currentUserRepository.authState!!.user,
+                user = CyberName(currentUserRepository.authState!!.user.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE))
         )
         .let {

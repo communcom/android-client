@@ -5,6 +5,7 @@ import io.golos.commun4j.abi.implementation.c.social.UpdatemetaCSocialStruct
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitted
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.GetProfileResultExt
+import io.golos.domain.dto.UserIdDomain
 import io.golos.commun4j.utils.Pair as CommunPair
 
 interface UserMetadataApi {
@@ -14,7 +15,7 @@ interface UserMetadataApi {
         profileImage: String? = null
     ): TransactionCommitted<UpdatemetaCSocialStruct>
 
-    fun getUserMetadata(user: CyberName): GetProfileResultExt
+    fun getUserMetadata(user: UserIdDomain): GetProfileResultExt
 
     fun pin(user: CyberName): CommunPair<TransactionCommitted<PinCSocialStruct>, PinCSocialStruct>
 

@@ -26,6 +26,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.keys_backup.view_commands.NavigateToOnboardingCommand
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.onboardingImage.OnboardingUserImageFragment
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
 import javax.inject.Inject
@@ -76,11 +77,11 @@ class SignUpProtectionKeysFragment : FragmentBase() {
         keysExporter.processRequestPermissionsResult(requestCode, grantResults)
     }
 
-    private fun navigateToOnboarding(user: CyberName) {
+    private fun navigateToOnboarding(user: UserIdDomain) {
         findNavController().safeNavigate(
             R.id.signUpProtectionKeysFragment,
             R.id.action_signUpProtectionKeysFragment_to_onboardingUserImageFragment,
-            Bundle().apply { putParcelable(Tags.ARGS, OnboardingUserImageFragment.Args(user.name) )}
+            Bundle().apply { putParcelable(Tags.ARGS, OnboardingUserImageFragment.Args(user.userId) )}
         )
     }
 

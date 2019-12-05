@@ -9,6 +9,7 @@ import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserMetadataCollectionEntity
 import io.golos.domain.dto.UserMetadataEntity
 import io.golos.domain.requestmodel.*
@@ -97,7 +98,7 @@ constructor(
 
                     is UserMetadataFetchRequest -> {
                         val updatedMeta = withContext(dispatchersProvider.calculationsDispatcher) {
-                            metadataApi.getUserMetadata(params.user)
+                            metadataApi.getUserMetadata(UserIdDomain(params.user.name))
                                 .run { UserMetadataToEntityMapper.map(this.profile) }
                         }
                         savedMetadata.value =
@@ -113,7 +114,7 @@ constructor(
                             )
                             if (params.shouldWaitForTransaction) {
                                 transactionsApi.waitForTransaction(transactionResult.transaction_id)
-                                metadataApi.getUserMetadata(params.user)
+                                metadataApi.getUserMetadata(UserIdDomain(params.user.name))
                                     .run { UserMetadataToEntityMapper.map(this.profile) }
                             } else {
                                 //if we should not wait for transaction to complete, then we need to provide

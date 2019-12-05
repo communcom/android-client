@@ -64,7 +64,7 @@ constructor(
         }.items
         return items.map {
             val userId = it.author.userId.name
-            it.mapToPostDomain(userId == currentUserRepository.userId)
+            it.mapToPostDomain(userId == currentUserRepository.userId.userId)
         }
     }
 
@@ -189,7 +189,7 @@ constructor(
         commentLevel: Int
     ) =
         CommentModel(
-            contentId = DiscussionIdModel(currentUserRepository.userId, permlink),
+            contentId = DiscussionIdModel(currentUserRepository.userId.userId, permlink),
             author = author,
             content = CommentContentModel(
                 body = ContentBodyModel(jsonToDtoMapper.map(contentAsJson)),
@@ -207,7 +207,7 @@ constructor(
     private fun createComment(parentId: DiscussionIdModel, commentText: String, commentLevel: Int): CommentModel {
         val contentAsJson = CommentToJsonMapper.mapTextToJson(commentText)
         val author = DiscussionAuthorModel(
-            CyberUser(currentUserRepository.userId),
+            CyberUser(currentUserRepository.userId.userId),
             currentUserRepository.authState!!.userName,
             currentUserRepository.userAvatarUrl
         )

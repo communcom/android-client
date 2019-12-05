@@ -5,7 +5,7 @@ import io.golos.domain.dto.UserDomain
 
 fun UserDomain.mapToUser(): User{
     return User(
-        this.userId,
+        this.userId.userId,
         this.userName,
         this.userAvatar.orEmpty()
     )

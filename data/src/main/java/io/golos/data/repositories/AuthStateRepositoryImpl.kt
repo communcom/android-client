@@ -13,10 +13,7 @@ import io.golos.data.toCyberUser
 import io.golos.domain.*
 import io.golos.domain.api.AuthApi
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.dto.AuthState
-import io.golos.domain.dto.AuthType
-import io.golos.domain.dto.CyberUser
-import io.golos.domain.dto.UserKeyType
+import io.golos.domain.dto.*
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.repositories.AuthStateRepository
 import io.golos.domain.requestmodel.AuthRequest
@@ -64,7 +61,7 @@ constructor(
         repositoryScope.launch {
             if (params.type == AuthType.LOG_OUT) {
                 logout()
-                authState.value = AuthState("", "".toCyberName(), false, false, false, false, AuthType.LOG_OUT)
+                authState.value = AuthState("", UserIdDomain(""), false, false, false, false, AuthType.LOG_OUT)
                 return@launch
             }
 
@@ -76,12 +73,12 @@ constructor(
 
             if (newParams.isEmpty()) {
                 authState.value =
-                    AuthState("", "".toCyberName(), false, false, false, false, newParams.type)   // User is not logged in
+                    AuthState("", UserIdDomain(""), false, false, false, false, newParams.type)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
-                authState.value = AuthState("", "".toCyberName(), false, false, false, false, newParams.type)
+                authState.value = AuthState("", UserIdDomain(""), false, false, false, false, newParams.type)
             } else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
@@ -259,7 +256,7 @@ constructor(
 
         val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
             try {
-                metadataApi.getUserMetadata(resolvedName)
+                metadataApi.getUserMetadata(UserIdDomain(resolvedName.name))
             } catch (ex: Exception) {
                 Timber.e(ex)
                 null
@@ -282,7 +279,7 @@ constructor(
         if (loadingQuery != null) {
             val finalAuthState = AuthState(
                 userName,
-                resolvedName,
+                UserIdDomain(resolvedName.name),
                 true,
                 oldAuthState?.isPinCodeSettingsPassed ?: false,
                 oldAuthState?.isFingerprintSettingsPassed ?: false,
@@ -310,7 +307,7 @@ constructor(
         Timber.tag(LogTags.LOGIN).d("Auth fail")
 
         repositoryScope.launch {
-            authState.value = AuthState("", "".toCyberName(), false, false, false, false, authType)
+            authState.value = AuthState("", UserIdDomain(""), false, false, false, false, authType)
             val loadingQuery =
                 authRequestsLiveData.value?.entries?.findLast { it.value is QueryResult.Loading }
 
@@ -336,7 +333,7 @@ constructor(
                 userKeyStore.getKey(UserKeyType.ACTIVE)
             }
 
-            AuthRequest(authSavedAuthState.userName, authSavedAuthState.user.toCyberUser(), key, authType)
+            AuthRequest(authSavedAuthState.userName, CyberUser(authSavedAuthState.user.userId), key, authType)
         }
     }
 
@@ -349,7 +346,7 @@ constructor(
             val currentUser = keyValueStorage.getAuthState()!!.user
 
             keyValueStorage.removeAuthState()
-            keyValueStorage.removePushNotificationsSettings(currentUser)
+            keyValueStorage.removePushNotificationsSettings(CyberName(currentUser.userId))
             keyValueStorage.removePinCode()
             keyValueStorage.removeAppUnlockWay()
 

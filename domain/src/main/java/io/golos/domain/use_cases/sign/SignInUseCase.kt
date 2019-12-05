@@ -9,6 +9,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.AuthState
 import io.golos.domain.dto.AuthType
 import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.UseCase
@@ -52,7 +53,7 @@ constructor(
         mediator.observeForever(observer)
         mediator.addSource(authRepo.getAsLiveData(authRepo.allDataRequest)) {
 
-            authState.value = UserAuthState(it.isUserLoggedIn, it.user)
+            authState.value = UserAuthState(it.isUserLoggedIn, CyberName(it.user.userId))
 
             updateLogInState()
 
@@ -84,7 +85,7 @@ constructor(
 
             delay(100)
             val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value
-                ?: AuthState("", CyberName(""), false, false, false, false, AuthType.SIGN_IN)
+                ?: AuthState("", UserIdDomain(""), false, false, false, false, AuthType.SIGN_IN)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             val isSetupCompleted = with(authStateInRepository) {

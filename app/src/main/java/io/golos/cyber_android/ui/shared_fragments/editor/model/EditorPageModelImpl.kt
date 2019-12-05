@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.editor.model
 
 import android.net.Uri
 import io.golos.commun4j.services.model.OEmbedResult
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
@@ -160,7 +161,7 @@ constructor(
     override suspend fun getPostToEdit(permlink: Permlink): PostModel =
         withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
-            discussionRepository.getPost(currentUserRepository.authState!!.user, permlink)
+            discussionRepository.getPost(CyberName(currentUserRepository.authState!!.user.userId), permlink)
         }
 
     override suspend fun getPostToEdit(contentId: Post.ContentId): PostDomain =

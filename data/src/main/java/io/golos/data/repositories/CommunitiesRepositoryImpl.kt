@@ -3,6 +3,7 @@ package io.golos.data.repositories
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.mapToCommunityDomain
@@ -14,7 +15,6 @@ import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.dto.UserKeyType
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
@@ -43,7 +43,7 @@ constructor(
                 communityCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                follower = currentUserRepository.authState!!.user,
+                follower = CyberName(currentUserRepository.authState!!.user.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
@@ -55,7 +55,7 @@ constructor(
                 communityCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                follower = currentUserRepository.authState!!.user,
+                follower = CyberName(currentUserRepository.authState!!.user.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
