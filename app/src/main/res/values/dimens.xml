@@ -27,6 +27,7 @@
     <dimen name="text_size_36_sp">36sp</dimen>
     <dimen name="text_size_34_sp">34sp</dimen>
     <dimen name="text_size_30_sp">30sp</dimen>
+    <dimen name="text_size_32_sp">32sp</dimen>
     <dimen name="text_size_26_sp">26sp</dimen>
     <dimen name="text_size_24_sp">24sp</dimen>
     <dimen name="text_size_22_sp">22sp</dimen>
@@ -50,6 +51,7 @@
     <dimen name="dimen_26">26dp</dimen>
     <dimen name="dimen_28">28dp</dimen>
     <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_34">34dp</dimen>
     <dimen name="dimen_42">42dp</dimen>
     <dimen name="dimen_45">45dp</dimen>
     <dimen name="dimen_48">48dp</dimen>
@@ -467,4 +469,8 @@
 
     <!--SignUp-->
     <dimen name="sign_up_country_flag_size">24dp</dimen>
+
+    <!--Ftue-->
+    <dimen name="communities_board_height">114dp</dimen>
+    <dimen name="communities_board_next_btn_size">50dp</dimen>
 </resources>

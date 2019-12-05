@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.ftuesearchcommunity.viewmodel.FtueSearchCommunityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_40"
+            android:textSize="@dimen/text_size_32_sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:text="@string/get_you_first_points"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_17_sp"
+            android:textColor="@color/grey"
+            android:fontFamily="@font/roboto_regular"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:text="@string/subscribe_to_3_communities"
+            android:layout_marginTop="@dimen/margin_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_34"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:hint="@string/hint_search"
+            android:layout_marginTop="@dimen/margin_default"
+            android:background="@drawable/bg_input_field"
+            android:paddingStart="@dimen/dimen_14"
+            android:paddingEnd="@dimen/dimen_14"
+            android:textSize="@dimen/text_size_14_sp"
+            android:drawableStart="@drawable/ic_search_small"
+            android:drawablePadding="@dimen/dimen_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
+            android:clipToPadding="true"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
+            app:layout_constraintVertical_bias="0.0"
+            app:spanCount="2"
+            tools:listitem="@layout/view_profile_communities_community_list_item" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCommunitiesBoard"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/communities_board_height"
+            android:background="@drawable/bg_top_round_corners"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCommunitiesCollection"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/communities_board_next_btn_size"
+                android:layout_marginStart="@dimen/margin_small"
+                android:paddingStart="@dimen/dimen_12"
+                android:clipToPadding="true"
+                android:paddingEnd="@dimen/dimen_12"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnNext"
+                app:layout_constraintBottom_toBottomOf="@+id/btnNext"
+                app:layout_constraintEnd_toStartOf="@+id/btnNext"/>
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="@dimen/communities_board_next_btn_size"
+                android:layout_height="@dimen/communities_board_next_btn_size"
+                android:layout_marginTop="@dimen/dimen_20"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:background="@drawable/bg_circle_btn"
+                android:src="@drawable/ic_right_arrow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -463,5 +463,9 @@
 
     <!--Ftue-->
     <string name="commun">commun</string>
+    <string name="get_you_first_points">Get you first points</string>
+    <string name="subscribe_to_3_communities">Subscribe to at least 3 communities
+and get your first Community Points</string>
+
 
 </resources>
