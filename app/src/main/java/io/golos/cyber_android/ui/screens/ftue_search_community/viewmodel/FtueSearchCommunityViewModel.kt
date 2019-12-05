@@ -1,7 +1,7 @@
-package io.golos.cyber_android.ui.screens.ftuesearchcommunity.viewmodel
+package io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel
 
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.model.FtueSearchCommunityModel
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueSearchCommunityModel
 import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 

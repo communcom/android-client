@@ -24,7 +24,8 @@ import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.di.FtueSearchCommunityComponent
+import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
@@ -65,7 +66,8 @@ interface UIComponent {
     val profileFragment: ProfileFragmentComponent.Builder
     val profilePostsFragment: ProfilePostsFragmentComponent.Builder
     val ftueFragment: FtueFragmentComponent.Builder
-    val ftueSearchCommunityFragment: FtueSearchCommunityComponent.Builder
+    val ftueSearchCommunityFragment: FtueSearchCommunityFragmentComponent.Builder
+    val ftueFinishFragmentComponent: FtueFinishFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)

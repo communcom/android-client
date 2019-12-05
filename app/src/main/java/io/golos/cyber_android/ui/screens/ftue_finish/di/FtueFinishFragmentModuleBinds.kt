@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.ftue.di
+package io.golos.cyber_android.ui.screens.ftue_finish.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
@@ -7,16 +7,16 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.ftue.viewmodel.FtueViewModel
+import io.golos.cyber_android.ui.screens.ftue_finish.view_model.FtueFinishViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Module
-interface FtueFragmentModuleBinds {
+interface FtueFinishFragmentModuleBinds {
 
     @Binds
-    @ViewModelKey(FtueViewModel::class)
+    @ViewModelKey(FtueFinishViewModel::class)
     @IntoMap
-    fun bindViewModel(viewModel: FtueViewModel): ViewModel
+    fun bindViewModel(viewModel: FtueFinishViewModel): ViewModel
 
     @Binds
     @FragmentScope

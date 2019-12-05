@@ -61,7 +61,8 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.di.FtueSearchCommunityComponent
+import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
@@ -277,8 +278,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 .ftueFragment
                 .build()
 
-            FtueSearchCommunityComponent::class -> get<UIComponent>()
+            FtueSearchCommunityFragmentComponent::class -> get<UIComponent>()
                 .ftueSearchCommunityFragment
+                .build()
+
+            FtueFinishFragmentComponent::class -> get<UIComponent>()
+                .ftueFinishFragmentComponent
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

@@ -13,16 +13,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
-import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
-import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
-import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
-import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.viewmodel.FtueViewModel
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.view.FtueSearchCommunityFragment
-import kotlinx.android.synthetic.main.fragment_community_page.*
+import io.golos.cyber_android.ui.screens.ftue_finish.view.FtueFinishFragment
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.FtueSearchCommunityFragment
 import kotlinx.android.synthetic.main.fragment_ftue.*
 
 class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
@@ -32,10 +26,6 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
     private val ftuePageAdapter by lazy {
 
         object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-
-            override fun getPageTitle(position: Int): CharSequence? {
-                return ""
-            }
 
             override fun getItem(position: Int): Fragment = fragmentPagesList[position]
 
@@ -68,11 +58,14 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
     private fun setupViewPage(){
         this.fragmentPagesList = createPagesList()
         viewPager.adapter = ftuePageAdapter
+        viewPager.isPagingEnabled = false
+        dotsIndicator.setViewPager(viewPager)
     }
 
     private fun createPagesList(): List<Fragment>{
         val fragmentPagesList = mutableListOf<Fragment>()
         fragmentPagesList.add(FtueSearchCommunityFragment.newInstance())
+        fragmentPagesList.add(FtueFinishFragment.newInstance())
         return fragmentPagesList
     }
 

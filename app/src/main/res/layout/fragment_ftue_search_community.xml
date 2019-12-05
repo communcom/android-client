@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.ftuesearchcommunity.viewmodel.FtueSearchCommunityViewModel" />
+            type="io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

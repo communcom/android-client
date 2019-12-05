@@ -1,13 +1,12 @@
-package io.golos.cyber_android.ui.screens.ftuesearchcommunity.view
+package io.golos.cyber_android.ui.screens.ftue_search_community.view
 
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueSearchCommunityBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.di.FtueSearchCommunityComponent
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.viewmodel.FtueSearchCommunityViewModel
+import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
 
 class FtueSearchCommunityFragment: FragmentBaseMVVM<FragmentFtueSearchCommunityBinding, FtueSearchCommunityViewModel>(){
 
@@ -15,12 +14,12 @@ class FtueSearchCommunityFragment: FragmentBaseMVVM<FragmentFtueSearchCommunityB
 
     override fun layoutResId(): Int = R.layout.fragment_ftue_search_community
 
-    override fun inject()  = App.injections.get<FtueSearchCommunityComponent>()
+    override fun inject()  = App.injections.get<FtueSearchCommunityFragmentComponent>()
         .inject(this)
 
 
     override fun releaseInjection() {
-        App.injections.release<FtueSearchCommunityComponent>()
+        App.injections.release<FtueSearchCommunityFragmentComponent>()
     }
 
     override fun linkViewModel(binding: FragmentFtueSearchCommunityBinding, viewModel: FtueSearchCommunityViewModel) {

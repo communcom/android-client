@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.ftuesearchcommunity.di
+package io.golos.cyber_android.ui.screens.ftue_search_community.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
@@ -7,13 +7,13 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.model.FtueSearchCommunityModel
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.model.FtueSearchCommunityModelImpl
-import io.golos.cyber_android.ui.screens.ftuesearchcommunity.viewmodel.FtueSearchCommunityViewModel
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueSearchCommunityModel
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueSearchCommunityModelImpl
+import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Module
-interface FtueSearchCommunityModuleBinds {
+interface FtueSearchCommunityFragmentModuleBinds {
 
     @Binds
     @ViewModelKey(FtueSearchCommunityViewModel::class)
