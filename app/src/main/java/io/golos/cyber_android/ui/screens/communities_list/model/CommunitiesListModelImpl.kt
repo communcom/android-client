@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
-import io.golos.cyber_android.ui.screens.communities_list.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.communities_list.dto.RetryListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -135,14 +135,21 @@ constructor(
         _items.value = loadedItems
     }
 
-    private fun addLoading() = updateData { loadedItems.add(LoadingListItem(IdUtil.generateLongId(), 0)) }
+    private fun addLoading() = updateData { loadedItems.add(
+        LoadingListItem(
+            IdUtil.generateLongId(),
+            0
+        )
+    ) }
 
     private fun replaceRetryByLoading() = updateData {
-        loadedItems[loadedItems.lastIndex] = LoadingListItem(IdUtil.generateLongId(), 0)
+        loadedItems[loadedItems.lastIndex] =
+            LoadingListItem(IdUtil.generateLongId(), 0)
     }
 
     private fun replaceLoadingByRetry() = updateData {
-        loadedItems[loadedItems.lastIndex] = RetryListItem(IdUtil.generateLongId(), 0)
+        loadedItems[loadedItems.lastIndex] =
+            RetryListItem(IdUtil.generateLongId(), 0)
     }
 
     private fun addLoadedData(data: List<CommunityListItem>) = updateData {

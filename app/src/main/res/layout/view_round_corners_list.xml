@@ -11,7 +11,7 @@
         android:background="@drawable/bcg_general_list_top" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainList"
+        android:id="@+id/list"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.communities_list.dto
+package io.golos.cyber_android.ui.common.recycler_view.versioned
 
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 
