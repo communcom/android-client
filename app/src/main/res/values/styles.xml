@@ -602,6 +602,11 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="Middle.Gray.TextStyle" parent="Middle.Bold.Title.TextStyle">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
     <style name="Small.Gray.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_12_sp</item>
         <item name="android:textColor">@color/dark_gray</item>

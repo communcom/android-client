@@ -464,10 +464,14 @@
     <dimen name="profile_followers_search_field_margin_top">16dp</dimen>
     <dimen name="profile_followers_filters_button_height">35dp</dimen>
     <dimen name="profile_followers_filters_button_margin">10dp</dimen>
+    <dimen name="profile_followers_no_data_height">133dp</dimen>
 
     <dimen name="white_header_height">44dp</dimen>
     <dimen name="white_header_buttons_margin">15dp</dimen>
 
+    <dimen name="profile_follow_join_button_height">35dp</dimen>
+    <dimen name="profile_follow_join_button_width">90dp</dimen>
+    <dimen name="profile_follow_list_item_height">@dimen/height_community_list_item</dimen>
     <!--SignUp-->
     <dimen name="sign_up_country_flag_size">24dp</dimen>
 </resources>

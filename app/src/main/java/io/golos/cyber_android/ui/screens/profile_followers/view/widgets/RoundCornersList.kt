@@ -9,9 +9,6 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAda
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_round_corners_list.view.*
 
-/**
- * Custom view for sms code input
- */
 abstract class RoundCornersList
 @JvmOverloads
 constructor(

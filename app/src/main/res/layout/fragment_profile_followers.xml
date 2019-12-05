@@ -173,10 +173,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
 
             android:paddingTop="@dimen/general_list_padding_top"
             android:paddingLeft="@dimen/general_list_padding"
@@ -187,23 +186,31 @@
 
             android:background="@color/window_background_light_gray">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/general_list_header_height"
-                android:background="@drawable/bcg_general_list_top" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mainList"
-
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersUnpagedList
+                android:id="@+id/mutualList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/general_list_bcg"
-                />
+            />
 
-            <View
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedList
+                android:id="@+id/followersList"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/general_list_header_height"
-                android:background="@drawable/bcg_general_list_bottom" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+            />
+
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedList
+                android:id="@+id/followingList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.NoDataStub
+                android:id="@+id/noDataStub"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_followers_no_data_height"
+
+                android:visibility = "invisible"
+            />
+        </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -10,5 +10,5 @@ fun GetProfileResult.ProfileCommonFriendItem.mapToUserDomain(): UserDomain =
         userName = username!!,
         userAvatar = avatarUrl,
         postsCount = 0,
-        followersCount = subscribersCount
+        followersCount = subscribersCount ?: 0
     )

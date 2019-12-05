@@ -9,6 +9,6 @@ fun SubscriberItem.mapToUserDomain(): UserDomain =
         userId = UserIdDomain(userId.name),
         userName = username!!,
         userAvatar = avatarUrl,
-        postsCount = postsCount,
-        followersCount = subscribersCount
+        postsCount = postsCount ?: 0,
+        followersCount = subscribersCount ?: 0
     )
