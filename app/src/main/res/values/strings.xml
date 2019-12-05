@@ -448,5 +448,7 @@
     <string name="sign_up_description_3">Blockchain Disclaimer</string>
     <string name="do_you_have_account">Do you have account?</string>
 
+    <!--Ftue-->
+    <string name="commun">commun</string>
 
 </resources>

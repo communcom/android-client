@@ -42,10 +42,13 @@
     <dimen name="text_size_10_sp">10sp</dimen>
 
     <dimen name="dimen_2">2dp</dimen>
+    <dimen name="dimen_4">4dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
+    <dimen name="dimen_14">14dp</dimen>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_26">26dp</dimen>
+    <dimen name="dimen_28">28dp</dimen>
     <dimen name="dimen_30">30dp</dimen>
     <dimen name="dimen_42">42dp</dimen>
     <dimen name="dimen_45">45dp</dimen>
