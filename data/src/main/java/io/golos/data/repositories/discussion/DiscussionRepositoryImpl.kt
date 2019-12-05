@@ -10,11 +10,9 @@ import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.mapToPostDomain
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.UserKeyStore
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CyberUser
-import io.golos.domain.dto.DiscussionCreationResultEntity
-import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.*
 import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
@@ -37,7 +35,8 @@ constructor(
     private val postToModelMapper: PostEntitiesToModelMapper,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val transactionsApi: TransactionsApi,
-    private val commun4j: Commun4j
+    private val commun4j: Commun4j,
+    private val userKeyStore: UserKeyStore
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,
     discussionsApi,
@@ -70,11 +69,12 @@ constructor(
     override suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String) {
         apiCallChain {
             commun4j.reportContent(
-                communityCode = CyberSymbolCode(communityId),
+                CyberSymbolCode(communityId),
                 messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
                 reason = reason,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE),
                 reporter = userId.toCyberName()
             )
         }
