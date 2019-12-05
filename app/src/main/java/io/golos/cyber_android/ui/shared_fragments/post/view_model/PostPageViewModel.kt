@@ -396,6 +396,7 @@ constructor(
                 val collectedReports = report.reasons
                 val reason = JSONArray(collectedReports).toString()
                 model.reportPost(
+                    report.contentId.userId,
                     report.contentId.communityId,
                     report.contentId.permlink,
                     reason

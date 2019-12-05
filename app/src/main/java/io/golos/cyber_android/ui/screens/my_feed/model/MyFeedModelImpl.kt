@@ -50,9 +50,9 @@ class MyFeedModelImpl @Inject constructor(
         }
     }
 
-    override suspend fun reportPost(communityId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(authorPostId: String, communityId: String, permlink: String, reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.reportPost(communityId, getLocalUser().userId, permlink, reason)
+            discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }
     }
 

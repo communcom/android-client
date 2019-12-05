@@ -33,6 +33,7 @@ interface MyFeedModel : ModelBase,
     )
 
     suspend fun reportPost(
+        authorPostId: String,
         communityId: String,
         permlink: String,
         reason: String

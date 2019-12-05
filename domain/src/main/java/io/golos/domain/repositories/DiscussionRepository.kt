@@ -17,7 +17,7 @@ interface DiscussionRepository {
 
     suspend fun downVote(communityId: String, userId: String, permlink: String)
 
-    suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String)
+    suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String)
 
     suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain
 

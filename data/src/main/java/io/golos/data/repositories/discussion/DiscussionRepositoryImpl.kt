@@ -5,6 +5,7 @@ import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.*
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
+import io.golos.commun4j.utils.StringSigner
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.mapToPostDomain
@@ -23,6 +24,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
+import org.spongycastle.crypto.tls.ConnectionEnd.client
 import java.util.*
 import javax.inject.Inject
 
@@ -66,16 +68,35 @@ constructor(
         }
     }
 
-    override suspend fun reportPost(communityId: String, userId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
+
+        val reporter = "cmn5bzqfmjtw".toCyberName()
+        val userName = "kirlin-lenita-iii"
+        val activeKey = "5JAGy2NbZTgDYMb59QKA5YdbSkzvhg9Y4YhriudPk8nvGFr8acs"
+        /*val secret = client.getAuthSecret().getOrThrow().secret
+        commun4j.authWithSecret(userName, secret, StringSigner.signString(secret, activeKey)).getOrThrow()
+        val post = client.getPosts(type = FeedType.NEW, limit = 1).getOrThrow().first()
+
+            .getOrThrow()*/
+
+        /*apiCallChain{
+            commun4j.reportContent(CyberSymbolCode( post.community.communityId),
+                MssgidCGalleryStruct(post.author.userId, post.contentId.permlink),
+                "[\"NSFW\"]",
+                BandWidthRequest.bandWidthFromComn,
+                ClientAuthRequest.empty,
+                reporter,
+                activeKey)
+        }*/
         apiCallChain {
             commun4j.reportContent(
                 CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                messageId = MssgidCGalleryStruct(authorId.toCyberName(), permlink),
                 reason = reason,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE),
-                reporter = userId.toCyberName()
+                reporter = currentUserRepository.user
             )
         }
     }

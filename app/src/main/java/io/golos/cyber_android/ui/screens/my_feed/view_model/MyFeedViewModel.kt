@@ -451,10 +451,10 @@ class MyFeedViewModel @Inject constructor(
                 val collectedReports = report.reasons
                 val reason = JSONArray(collectedReports).toString()
                 model.reportPost(
+                    report.contentId.userId,
                     report.contentId.communityId,
                     report.contentId.permlink,
-                    reason
-                )
+                    reason)
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageCommand(R.string.common_general_error)

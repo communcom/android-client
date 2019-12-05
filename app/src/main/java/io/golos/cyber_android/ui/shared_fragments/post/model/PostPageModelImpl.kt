@@ -39,7 +39,8 @@ constructor(
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
-    private val contentId: Post.ContentId?) : ModelBaseImpl(),
+    private val contentId: Post.ContentId?
+) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
@@ -76,13 +77,13 @@ constructor(
             contentId = Post.ContentId(
                 communityId = postDomain.community.communityId,
                 permlink = postId.permlink.value,
-                userId = currentUserRepository.userId
+                userId = postId.userId
             ),
             creationTime = postDomain.meta.creationTime,
             authorUsername = postDomain.author.username,
             authorUserId = postDomain.author.userId,
             shareUrl = postDomain.shareUrl,
-            isMyPost = currentUserRepository.userId == postToProcess.userId,
+            isMyPost = currentUserRepository.userId == postId.userId,
             isSubscribed = postDomain.community.isSubscribed,
             permlink = postId.permlink.value
         )
@@ -173,9 +174,13 @@ constructor(
         )
     }
 
-    override suspend fun reportPost(communityId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(
+        authorPostId: String,
+        communityId: String,
+        permlink: String,
+        reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.reportPost(communityId, currentUserRepository.userId, permlink, reason)
+            discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }
     }
 

@@ -48,6 +48,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     )
 
     suspend fun reportPost(
+        authorPostId: String,
         communityId: String,
         permlink: String,
         reason: String
