@@ -111,7 +111,6 @@
     <!--Welcome-->
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
-    <string name="next_slide">Next</string>
     <string name="welcome_slides_text_0_0">Welcome\n</string>
     <string name="welcome_slides_text_0_1">to Commun /</string>
     <string name="welcome_slides_text_1">All-in-One\n</string>
@@ -441,4 +440,13 @@
 
     <string name="see_all">see all</string>
     <string name="communities_count">{0} ({1} Mutual)</string>
+
+    <!--SignUp-->
+    <string name="sign_up_description">By clicking the “Sign up” button, you agree to the</string>
+    <string name="sign_up_description_1">Terms of use, Privacy Policy</string>
+    <string name="sign_up_description_2">and</string>
+    <string name="sign_up_description_3">Blockchain Disclaimer</string>
+    <string name="do_you_have_account">Do you have account?</string>
+
+
 </resources>
