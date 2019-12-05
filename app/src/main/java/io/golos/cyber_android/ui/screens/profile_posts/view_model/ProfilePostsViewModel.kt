@@ -2,8 +2,10 @@ package io.golos.cyber_android.ui.screens.profile_posts.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
@@ -12,6 +14,7 @@ import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
@@ -22,6 +25,7 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,6 +56,7 @@ class ProfilePostsViewModel @Inject constructor(
     private var loadPostsJob: Job? = null
 
     init {
+
         paginator.sideEffectListener = {
             when (it) {
                 is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
@@ -194,7 +199,7 @@ class ProfilePostsViewModel @Inject constructor(
         }
     }
 
-    fun reportPost(permlink: String) {
+    fun onSendReportClicked(permlink: String) {
         val post = getPostFromPostsListState(permlink)
         post?.let {
             _command.value = ReportPostCommand(post)
@@ -489,6 +494,27 @@ class ProfilePostsViewModel @Inject constructor(
             }
         }
         return state
+    }
+
+    fun sendReport(report: PostReportDialog.Report) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                val collectedReports = report.reasons
+                val reason = JSONArray(collectedReports).toString()
+                model.reportPost(
+                    report.contentId.userId,
+                    report.contentId.communityId,
+                    report.contentId.permlink,
+                    reason
+                )
+            } catch (e: Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     override fun onCleared() {

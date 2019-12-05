@@ -2,8 +2,10 @@ package io.golos.cyber_android.ui.screens.my_feed.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
@@ -14,6 +16,7 @@ import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -25,6 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,6 +37,42 @@ class MyFeedViewModel @Inject constructor(
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
+
+    private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
+
+    val postsListState = _postsListState.toLiveData()
+
+    private val _user: MutableLiveData<User> = MutableLiveData()
+
+    val user = _user.toLiveData()
+
+    private lateinit var postsConfigurationDomain: PostsConfigurationDomain
+
+    private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
+
+    private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
+
+    private var loadPostsJob: Job? = null
+
+    init {
+        applyFiltersListener()
+
+        paginator.sideEffectListener = {
+            when (it) {
+                is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
+                is Paginator.SideEffect.ErrorEvent -> {
+
+                }
+            }
+        }
+        paginator.render = {
+            _postsListState.value = it
+        }
+    }
 
     override fun onShareClicked(shareUrl: String) {
         _command.value = SharePostCommand(shareUrl)
@@ -85,42 +125,6 @@ class MyFeedViewModel @Inject constructor(
     override fun onCommentsClicked(postContentId: Post.ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
-    }
-
-    private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
-
-    val postsListState = _postsListState.toLiveData()
-
-    private val _user: MutableLiveData<User> = MutableLiveData()
-
-    val user = _user.toLiveData()
-
-    private lateinit var postsConfigurationDomain: PostsConfigurationDomain
-
-    private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
-
-    private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
-
-    private var loadPostsJob: Job? = null
-
-    init {
-        applyFiltersListener()
-
-        paginator.sideEffectListener = {
-            when (it) {
-                is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
-                is Paginator.SideEffect.ErrorEvent -> {
-
-                }
-            }
-        }
-        paginator.render = {
-            _postsListState.value = it
-        }
     }
 
     fun addToFavorite(permlink: String) {
@@ -199,7 +203,7 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun reportPost(permlink: String) {
+    fun onReportPostClicked(permlink: String) {
         val post = getPostFromPostsListState(permlink)
         post?.let {
             _command.value = ReportPostCommand(post)
@@ -436,6 +440,26 @@ class MyFeedViewModel @Inject constructor(
                         restartLoadPosts()
                     }
                 }
+            }
+        }
+    }
+
+    fun sendReport(report: PostReportDialog.Report){
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                val collectedReports = report.reasons
+                val reason = JSONArray(collectedReports).toString()
+                model.reportPost(
+                    report.contentId.userId,
+                    report.contentId.communityId,
+                    report.contentId.permlink,
+                    reason)
+            } catch (e: Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

@@ -137,7 +137,6 @@ class PostItem(
             author.username,
             author.userId,
             canJoinToCommunity = false,
-            canEdit = true,
             isBackFeatureEnabled = false,
             isJoinFeatureEnabled = false
         )

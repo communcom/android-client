@@ -25,6 +25,7 @@ import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
 
@@ -58,6 +59,7 @@ interface UIComponent {
     val communityPageRulesFragment: CommunityPageRulesFragmentComponent.Builder
     val feedFragment: FeedFragmentComponent.Builder
     val postFiltersFragment: PostFiltersFragmentComponent.Builder
+    val postReportFragment: PostReportFragmentComponent.Builder
     val postsListFragment: MyFeedFragmentComponent.Builder
     val profileFragment: ProfileFragmentComponent.Builder
     val profilePostsFragment: ProfilePostsFragmentComponent.Builder

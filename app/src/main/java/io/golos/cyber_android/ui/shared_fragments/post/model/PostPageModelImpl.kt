@@ -77,13 +77,13 @@ constructor(
             contentId = Post.ContentId(
                 communityId = postDomain.community.communityId,
                 permlink = postId.permlink.value,
-                userId = currentUserRepository.userId
+                userId = postId.userId
             ),
             creationTime = postDomain.meta.creationTime,
             authorUsername = postDomain.author.username,
             authorUserId = postDomain.author.userId,
             shareUrl = postDomain.shareUrl,
-            isMyPost = currentUserRepository.userId == postToProcess.userId,
+            isMyPost = currentUserRepository.userId == postId.userId,
             isSubscribed = postDomain.community.isSubscribed,
             permlink = postId.permlink.value
         )
@@ -99,7 +99,6 @@ constructor(
             postDomain.author.userId,
 
             false,
-            postDomain.author.userId == currentUserRepository.userId,
             postDomain.community.isSubscribed
         )
 
@@ -173,6 +172,16 @@ constructor(
                 commentsCount = totalComments - 1
             )
         )
+    }
+
+    override suspend fun reportPost(
+        authorPostId: String,
+        communityId: String,
+        permlink: String,
+        reason: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
+        }
     }
 
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =

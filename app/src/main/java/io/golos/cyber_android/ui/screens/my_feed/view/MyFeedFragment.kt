@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
@@ -115,12 +117,19 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
             is EditPostCommand -> editPost(command.post)
 
-            is ReportPostCommand -> reportPost(command.post)
+            is ReportPostCommand -> openPostReportDialog(command.post)
         }
     }
 
-    private fun reportPost(post: Post) {
-
+    private fun openPostReportDialog(post: Post) {
+        val tag = PostReportDialog::class.java.name
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.onPostReportCompleteCallback = {
+                viewModel.sendReport(it)
+            }
+            dialog.show(childFragmentManager, tag)
+        }
     }
 
     private fun editPost(post: Post) {
@@ -190,7 +199,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     PostPageMenuDialog.RESULT_REPORT -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         postMenu?.let {
-                            viewModel.reportPost(it.permlink)
+                            viewModel.onReportPostClicked(it.permlink)
                         }
                     }
                 }

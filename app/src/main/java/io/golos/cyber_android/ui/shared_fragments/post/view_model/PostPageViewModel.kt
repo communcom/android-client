@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -21,6 +22,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -217,8 +219,8 @@ constructor(
         _command.value = NavigationToEditPostViewCommand(contentId)
     }
 
-    fun reportPost() {
-        _command.value = ReportPostCommand()
+    fun reportPost(contentId: Post.ContentId) {
+        _command.value = ReportPostCommand(contentId)
     }
 
     fun deletePost() {
@@ -383,6 +385,27 @@ constructor(
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true
+            }
+        }
+    }
+
+    fun sendReport(report: PostReportDialog.Report){
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                val collectedReports = report.reasons
+                val reason = JSONArray(collectedReports).toString()
+                model.reportPost(
+                    report.contentId.userId,
+                    report.contentId.communityId,
+                    report.contentId.permlink,
+                    reason
+                )
+            } catch (e: Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
