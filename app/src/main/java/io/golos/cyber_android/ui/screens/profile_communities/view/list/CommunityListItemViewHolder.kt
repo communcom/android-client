@@ -7,15 +7,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.common.glide.clear
 import io.golos.cyber_android.ui.common.glide.transformations.RoundFrameTransformation
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
-import com.bumptech.glide.request.target.Target
-import io.golos.cyber_android.ui.common.glide.clear
 
 class CommunityListItemViewHolder(
     parentView: ViewGroup
@@ -28,7 +28,7 @@ class CommunityListItemViewHolder(
 
     @SuppressLint("SetTextI18n")
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {
-        if(listItem !is CommunityListItem) {
+        if (listItem !is CommunityListItem) {
             return
         }
 
@@ -39,7 +39,7 @@ class CommunityListItemViewHolder(
             val clarification = itemView.context.resources.getQuantityString(R.plurals.plural_members, community.subscribersCount)
             itemView.membersLabel.text = "$valuePart $clarification"
 
-            if(isJoined) {
+            if (isJoined) {
                 itemView.followingButton.visibility = View.VISIBLE
                 itemView.followButton.visibility = View.GONE
 
@@ -78,7 +78,7 @@ class CommunityListItemViewHolder(
         }
     }
 
-    private fun checkImageUrl(url: String?) = if(url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url
+    private fun checkImageUrl(url: String?) = if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url
 
     override fun release() {
         itemView.followingButton.setOnClickListener(null)

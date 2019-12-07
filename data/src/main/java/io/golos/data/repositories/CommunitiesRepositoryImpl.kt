@@ -14,7 +14,6 @@ import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.dto.UserKeyType
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
@@ -76,8 +75,12 @@ constructor(
     /**
      * [forCurrentUserOnly] if true the method returns only current users' communities (otherwise - all communities)
      */
-    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, forCurrentUserOnly: Boolean): List<CommunityDomain> {
-        if(forCurrentUserOnly) {
+    override suspend fun getCommunitiesList(
+        offset: Int,
+        pageSize: Int,
+        forCurrentUserOnly: Boolean
+    ): List<CommunityDomain> {
+        if (forCurrentUserOnly) {
             throw UnsupportedOperationException("Getting communities for current user is not supported now")
         }
 
@@ -87,7 +90,7 @@ constructor(
     }
 
     override suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain> =
-        apiCall { commun4j.getLeaders(communityId, 50, 0)}
+        apiCall { commun4j.getLeaders(communityId, 50, 0) }
             .items
             .map { it.mapToCommunityLeaderDomain() }
 }

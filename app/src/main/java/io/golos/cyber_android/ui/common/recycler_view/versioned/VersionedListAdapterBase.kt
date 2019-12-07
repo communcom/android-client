@@ -9,14 +9,17 @@ abstract class VersionedListAdapterBase<TListItemEventsProcessor>(
     private val pageSize: Int?
 ) : ListAdapterBase<TListItemEventsProcessor, VersionedListItem>(listItemEventsProcessor) {
 
-    override fun createDiffAlg(oldData: List<VersionedListItem>, newData: List<VersionedListItem>): DiffAlgBase<VersionedListItem> =
+    override fun createDiffAlg(
+        oldData: List<VersionedListItem>,
+        newData: List<VersionedListItem>
+    ): DiffAlgBase<VersionedListItem> =
         VersionedDiffAlg(oldData, newData)
 
     override fun onBindViewHolder(holder: ViewHolderBase<TListItemEventsProcessor, VersionedListItem>, position: Int) {
         super.onBindViewHolder(holder, position)
 
         pageSize?.let {
-            if(position > items.size - it/2) {
+            if (position > items.size - it / 2) {
                 onNextPageReached()
             }
         }
