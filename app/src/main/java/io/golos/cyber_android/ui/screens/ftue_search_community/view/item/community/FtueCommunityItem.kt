@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.ftue_search_community.view.item
+package io.golos.cyber_android.ui.screens.ftue_search_community.view.item.community
 
 import android.content.res.Resources
 import android.view.View
@@ -9,7 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
-import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.FtueCommunityListItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
 class FtueCommunityItem(
@@ -27,13 +27,13 @@ class FtueCommunityItem(
             itemView.followingButton.visibility = View.VISIBLE
             itemView.followButton.visibility = View.GONE
             itemView.followingButton.setOnClickListener {
-                listItemEventsProcessor.onFollowToCommunity(listItem.community.communityId)
+                listItemEventsProcessor.onUnFollowFromCommunity(listItem.community)
             }
         } else {
             itemView.followingButton.visibility = View.GONE
             itemView.followButton.visibility = View.VISIBLE
             itemView.followButton.setOnClickListener {
-                listItemEventsProcessor.onUnFollowFromCommunity(listItem.community.communityId)
+                listItemEventsProcessor.onFollowToCommunity(listItem.community)
             }
         }
 

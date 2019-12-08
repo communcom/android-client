@@ -1,11 +1,11 @@
-package io.golos.cyber_android.ui.screens.ftue_search_community.view.item
+package io.golos.cyber_android.ui.screens.ftue_search_community.view.item.community
 
 import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
-import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.FtueCommunityRetryListItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityRetryListItem
 import kotlinx.android.synthetic.main.item_progress_error.view.*
 
 class FtueCommunityRetryItem(

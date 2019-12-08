@@ -1,15 +1,22 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.model
 
+import io.golos.cyber_android.ui.dto.Community
+
 interface FtueItemListModelEventProcessor :
     FtueCommunityEventProcessor,
-    FtueCommunityProgressEventProcessor
+    FtueCommunityProgressEventProcessor,
+    FtueCommunityCollectionEventProcessor
 
 interface FtueCommunityEventProcessor {
-    fun onFollowToCommunity(communityId: String)
+    fun onFollowToCommunity(community: Community)
 
-    fun onUnFollowFromCommunity(communityId: String)
+    fun onUnFollowFromCommunity(community: Community)
 }
 
 interface FtueCommunityProgressEventProcessor {
     fun onRetryLoadCommunity()
+}
+
+interface FtueCommunityCollectionEventProcessor {
+    fun onDeleteCommunityFromCollection(community: Community)
 }

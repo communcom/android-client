@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.mappers.mapToCommunityList
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueSearchCommunityModel
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.CommunityCollection
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -29,11 +30,26 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
     val communityListState = _communityListState.toLiveData()
 
+    private val _collectionListState: MutableLiveData<List<CommunityCollection>> = MutableLiveData(
+        listOf(
+            CommunityCollection(),
+            CommunityCollection(),
+            CommunityCollection()
+        )
+    )
+
+    val collectionListState = _collectionListState.toLiveData()
+
+    private val _haveNeedCollections: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val haveNeedCollection = _haveNeedCollections.toLiveData()
+
     init {
         paginator.sideEffectListener = { sideEffect ->
             when (sideEffect) {
                 is Paginator.SideEffect.LoadPage -> loadCommunities(sideEffect.pageCount)
-                is Paginator.SideEffect.ErrorEvent -> {}
+                is Paginator.SideEffect.ErrorEvent -> {
+                }
             }
         }
         paginator.render = { state ->
@@ -43,22 +59,22 @@ class FtueSearchCommunityViewModel @Inject constructor(
         loadInitialCommunities()
     }
 
-    override fun onFollowToCommunity(communityId: String) {
+    override fun onFollowToCommunity(community: Community) {
         launch {
             try {
-                model.onFollowToCommunity(communityId)
-                //todo add to finish adapter
+                addCommunityToCollection(community)
+                model.onFollowToCommunity(community.communityId)
             } catch (e: Exception) {
                 Timber.e(e)
             }
         }
     }
 
-    override fun onUnFollowFromCommunity(communityId: String) {
+    override fun onUnFollowFromCommunity(community: Community) {
         launch {
             try {
-                model.onUnFollowFromCommunity(communityId)
-                //todo remove from finish adapter
+                onDeleteCommunityFromCollection(community)
+                model.onUnFollowFromCommunity(community.communityId)
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -69,8 +85,44 @@ class FtueSearchCommunityViewModel @Inject constructor(
         loadInitialCommunities()
     }
 
+    override fun onDeleteCommunityFromCollection(community: Community) {
+        val items = (_collectionListState.value as MutableList<CommunityCollection>)
+        val collection = items.toMutableList()
+        val replaceElement = collection.find { communityCollection ->
+            communityCollection.community == community
+        }
+        val replacePosition = collection.indexOf(replaceElement)
+        collection.removeAt(replacePosition)
+        collection.add(CommunityCollection(null))
+        _collectionListState.value = collection
+        updateStateOfNextButton()
+    }
+
     fun loadMoreCommunities() {
         paginator.proceed(Paginator.Action.LoadMore)
+    }
+
+    private fun addCommunityToCollection(community: Community) {
+        val items = (_collectionListState.value as MutableList<CommunityCollection>)
+        val collection = items.toMutableList()
+        val replaceElement = collection.find { communityCollection ->
+            communityCollection.community == null
+        }
+        val replacePosition = collection.indexOf(replaceElement)
+        if (replacePosition != -1) {
+            collection.removeAt(replacePosition)
+            collection.add(replacePosition, CommunityCollection(community))
+        } else {
+            collection.add(CommunityCollection(community))
+        }
+        _collectionListState.value = collection
+        updateStateOfNextButton()
+    }
+
+    private fun updateStateOfNextButton() {
+        val items = _collectionListState.value as MutableList<CommunityCollection>
+        val sizeOfHaveCollection = items.filter { it.community != null }.size >= 3
+        _haveNeedCollections.value = sizeOfHaveCollection
     }
 
     private fun loadCommunities(pageCount: Int) {
@@ -81,7 +133,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
                     offset = pageCount * PAGINATION_PAGE_SIZE,
                     pageCount = pageCount
                 )
-                val community = communityDomain.mapToCommunityList().sortedBy { it.subscribersCount }
+                val community = communityDomain.mapToCommunityList()
+                    .sortedByDescending { it.subscribersCount }
                 launch(Dispatchers.Main) {
                     paginator.proceed(Paginator.Action.NewPage(pageCount, community))
                 }

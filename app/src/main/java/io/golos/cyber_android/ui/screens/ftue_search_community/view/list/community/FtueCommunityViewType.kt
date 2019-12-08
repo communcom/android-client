@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.ftue_search_community.view.list
+package io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community
 
 object FtueCommunityViewType {
 

@@ -1,19 +1,19 @@
-package io.golos.cyber_android.ui.screens.ftue_search_community.view.list
+package io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
-import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.FtueCommunityListItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.FtueCommunityProgressListItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.FtueCommunityRetryListItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.FtueCommunityItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.FtueCommunityProgressItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.FtueCommunityRetryItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.FtueCommunityViewType.FTUE_COMMUNITY_ITEM
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.FtueCommunityViewType.FTUE_COMMUNITY_PROGRESS
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.FtueCommunityViewType.FTUE_COMMUNITY_RETRY
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityProgressListItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityRetryListItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.community.FtueCommunityItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.community.FtueCommunityProgressItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.community.FtueCommunityRetryItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityViewType.FTUE_COMMUNITY_ITEM
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityViewType.FTUE_COMMUNITY_PROGRESS
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityViewType.FTUE_COMMUNITY_RETRY
 
 class FtueCommunityAdapter(
     processor: FtueItemListModelEventProcessor
