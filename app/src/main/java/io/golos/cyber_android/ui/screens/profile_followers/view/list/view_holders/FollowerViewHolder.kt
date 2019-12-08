@@ -49,7 +49,7 @@ class FollowerViewHolder(
                 itemView.joinButton.text = itemView.context.resources.getString(R.string.join_to_community)
             }
 
-            itemView.joinButton.setOnClickListener { /*listItemEventsProcessor.onJoinClick(community.communityId)*/ }
+            itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(follower.userId, filter) }
 
             itemView.avatar.loadAvatar(follower.userAvatar)
         }

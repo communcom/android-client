@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.model
 
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
@@ -12,7 +13,13 @@ class ProfileModelImpl
 constructor(
     private val currentUserRepository: CurrentUserRepository,
     private val  usersRepository: UsersRepository
-) : ModelBaseImpl(), ProfileModel {
+) : ModelBaseImpl(),
+    ProfileModel {
+
+    private lateinit var userProfile: UserProfileDomain
+
+    override val mutualUsers: List<UserDomain>
+        get() = userProfile.commonFriends
 
     override suspend fun loadProfileInfo(): UserProfileDomain =
         usersRepository.getUserProfile(currentUserRepository.authState!!.user)

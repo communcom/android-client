@@ -69,6 +69,7 @@ import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.UserDomain
 import io.golos.domain.use_cases.model.CommunityModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlin.reflect.KClass
@@ -159,7 +160,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
             ProfileFollowersFragmentComponent::class ->
                 get<ProfileFragmentComponent>()
                     .followersFragment
-                    .init(ProfileFollowersFragmentModule(args[0] as FollowersFilter))
+                    .init(ProfileFollowersFragmentModule(args[0] as FollowersFilter, args[1] as Int, args[2] as List<UserDomain>))
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()

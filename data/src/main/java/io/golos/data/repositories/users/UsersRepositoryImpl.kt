@@ -6,6 +6,7 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
 import io.golos.data.mappers.mapToUserDomain
+import io.golos.data.mappers.mapToFollowingUserDomain
 import io.golos.data.mappers.mapToUserProfileDomain
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
@@ -32,17 +33,27 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun subscribeToFollower(userId: String) {
-        withContext(dispatchersProvider.ioDispatcher){
-            usersApi.subscribeToFollower(userId)
-        }
+    override suspend fun subscribeToFollower(userId: UserIdDomain) {
+        apiCallChain { commun4j.pinUser(
+            pinning = CyberName(userId.userId),
+            pinner = CyberName(currentUserRepository.userId.userId),
+            bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+            clientAuthRequest = ClientAuthRequest.empty,
+            key = userKeyStore.getKey(UserKeyType.ACTIVE)
+        )}
     }
 
     override suspend fun unsubscribeToFollower(userId: UserIdDomain) {
-        withContext(dispatchersProvider.ioDispatcher){
-            usersApi.unsubscribeToFollower(userId.userId)
-        }
+        apiCallChain {
+            commun4j.unpinUser(
+                unpinning = CyberName(userId.userId),
+                pinner = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+        )}
     }
+
 
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
         apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
@@ -50,8 +61,8 @@ class UsersRepositoryImpl @Inject constructor(
     override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> =
         apiCall { commun4j.getSubscribers(CyberName(userId.userId), null, pageSizeLimit, offset) }.items.map { it.mapToUserDomain() }
 
-    override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> =
-        apiCall { commun4j.getUserSubscriptions(CyberName(userId.userId), pageSizeLimit, offset) }.items.map { it.mapToUserDomain() }
+    override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> =
+        apiCall { commun4j.getUserSubscriptions(CyberName(userId.userId), pageSizeLimit, offset) }.items.map { it.mapToFollowingUserDomain() }
 
     /**
      * Update cover of current user profile

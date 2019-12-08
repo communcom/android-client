@@ -186,22 +186,37 @@
 
             android:background="@color/window_background_light_gray">
 
-            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersUnpagedList
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersUnpagedListWidget
                 android:id="@+id/mutualList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                tools:visibility="visible"
+
+                app:listItems="@{viewModel.mutualsItems}"
+                android:visibility="@{viewModel.mutualsVisibility}"
             />
 
-            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedList
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedListWidget
                 android:id="@+id/followersList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                tools:visibility="invisible"
+
+                app:listItems="@{viewModel.followersItems}"
+                android:visibility="@{viewModel.followersVisibility}"
             />
 
-            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedList
+            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedListWidget
                 android:id="@+id/followingList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                tools:visibility="invisible"
+
+                app:listItems="@{viewModel.followingsItems}"
+                android:visibility="@{viewModel.followingsVisibility}"
             />
 
             <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.NoDataStub
@@ -209,7 +224,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_followers_no_data_height"
 
-                android:visibility = "invisible"
+                tools:visibility = "invisible"
+                android:visibility="@{viewModel.noDataStubVisibility}"
             />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

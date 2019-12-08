@@ -6,13 +6,13 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAda
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersUnpagedListAdapter
 
-class RoundCornersUnpagedList
+class RoundCornersUnpagedListWidget
 @JvmOverloads
 constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : RoundCornersList(context, attrs, defStyleAttr) {
+) : RoundCornersListWidget(context, attrs, defStyleAttr) {
 
     private lateinit var listItemEventsProcessor: FollowersListItemEventsProcessor
 

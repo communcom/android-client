@@ -26,6 +26,7 @@ import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
+import io.golos.domain.dto.UserDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
 
@@ -80,7 +81,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             is ShowEditBioDialogCommand -> showEditBioDialog()
             is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place)
             is MoveToBioPageCommand -> moveToBioPage(command.text)
-            is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter)
+            is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
         }
     }
 
@@ -136,7 +137,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     private fun moveToBioPage(text: String?) =
         (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 
-    private fun moveToFollowersPage(filter: FollowersFilter) {
-        (requireActivity() as MainActivity).showFragment(ProfileFollowersFragment.newInstance(filter))
+    private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
+        (requireActivity() as MainActivity).showFragment(ProfileFollowersFragment.newInstance(filter, mutualUsers))
     }
 }

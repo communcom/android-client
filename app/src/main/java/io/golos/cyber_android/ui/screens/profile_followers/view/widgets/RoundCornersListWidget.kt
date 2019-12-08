@@ -5,17 +5,19 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.recycler_view.versioned.DynamicListWidget
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_round_corners_list.view.*
 
-abstract class RoundCornersList
+abstract class RoundCornersListWidget
 @JvmOverloads
 constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr),
+    DynamicListWidget {
 
     private lateinit var listAdapter: VersionedListAdapterBase<*>
     private lateinit var layoutManager: LinearLayoutManager
@@ -24,7 +26,7 @@ constructor(
         inflate(getContext(), R.layout.view_round_corners_list, this)
     }
 
-    fun updateList(data: List<VersionedListItem>) {
+    override fun updateList(data: List<VersionedListItem>) {
         if(!::listAdapter.isInitialized) {
             layoutManager = LinearLayoutManager(context)
 

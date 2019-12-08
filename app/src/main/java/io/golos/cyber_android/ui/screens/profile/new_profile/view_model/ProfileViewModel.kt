@@ -148,11 +148,11 @@ constructor(
     }
 
     fun onFollowersClick() {
-        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWERS)
+        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWERS, model.mutualUsers)
     }
 
     fun onFollowingsClick() {
-        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWING)
+        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
     }
 
     private fun loadPage() {

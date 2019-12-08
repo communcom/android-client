@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders.FollowerViewHolder
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders.LoadingViewHolder
@@ -13,7 +14,8 @@ import io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holder
 
 open class FollowersPagedListAdapter(
     private val listItemEventsProcessor: FollowersListItemEventsProcessor,
-    pageSize: Int?
+    pageSize: Int?,
+    private val filter: FollowersFilter
 ) : VersionedListAdapterBase<FollowersListItemEventsProcessor>(listItemEventsProcessor, pageSize) {
 
     protected companion object {
@@ -38,5 +40,5 @@ open class FollowersPagedListAdapter(
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 
-    override fun onNextPageReached() {}  //listItemEventsProcessor.onNextPageReached()
+    override fun onNextPageReached() {  listItemEventsProcessor.onNextPageReached(filter) }
 }
