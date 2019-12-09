@@ -16,6 +16,7 @@ import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -29,6 +30,10 @@ constructor(
     private val userKeyStore: UserKeyStore
 ) : RepositoryBase(dispatchersProvider),
     CommunitiesRepository {
+
+    override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
+        delay(5000)
+    }
 
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
         val community = apiCall { commun4j.getCommunity(communityId) }

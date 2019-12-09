@@ -21,4 +21,6 @@ interface CommunitiesRepository {
     suspend fun getCommunitiesList(offset: Int, pageSize: Int, forCurrentUserOnly: Boolean, searchQuery: String? = null): List<CommunityDomain>
 
     suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain>
+
+    suspend fun sendCommunitiesCollection(communityIds: List<String>)
 }

@@ -92,7 +92,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.onUnFollowFromCommunity(community.communityId)
-                val updatedCommunity = community.copy(isSubscribed = true)
+                val updatedCommunity = community.copy(isSubscribed = false)
                 changeFollowingStatus(updatedCommunity)
                 removeCommunityFromCollection(community)
             } catch (e: Exception) {
@@ -105,7 +105,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
 
-    private fun changeFollowingStatus(community: Community){
+    private fun changeFollowingStatus(community: Community) {
         val state: Paginator.State? = _communityListState.value
         val updatedState = updateFollowingStatusInState(state, community)
         _communityListState.value = updatedState
@@ -159,13 +159,14 @@ class FtueSearchCommunityViewModel @Inject constructor(
         communitiesSubscriptions.remove(communityForDelete)
         val collectionsItems = _collectionListState.value
         val communitiesCollection: MutableList<FtueCommunityCollectionListItem> = arrayListOf()
-        for (i in 0 until MAX_COLLECTION_LIST_SIZE){
-            if(communitiesSubscriptions.size - 1 >= i){
+        for (i in 0 until MAX_COLLECTION_LIST_SIZE) {
+            if (communitiesSubscriptions.size - 1 >= i) {
                 val collection = CommunityCollection(communitiesSubscriptions[i])
-                val finCommunityCollectionListItem= collectionsItems?.find { ftueCommunityCollectionListItem -> ftueCommunityCollectionListItem.collection == collection }
+                val finCommunityCollectionListItem =
+                    collectionsItems?.find { ftueCommunityCollectionListItem -> ftueCommunityCollectionListItem.collection == collection }
                 val id: Long = finCommunityCollectionListItem?.id ?: IdUtil.generateLongId()
                 communitiesCollection.add(collection.mapToCollectionListItem(id))
-            } else{
+            } else {
                 val id: Long = collectionsItems?.get(i)?.id ?: IdUtil.generateLongId()
                 communitiesCollection.add(CommunityCollection().mapToCollectionListItem(id))
             }
@@ -182,13 +183,14 @@ class FtueSearchCommunityViewModel @Inject constructor(
         communitiesSubscriptions.add(community)
         val collectionsItems = _collectionListState.value
         val communitiesCollection: MutableList<FtueCommunityCollectionListItem> = arrayListOf()
-        for (i in 0 until MAX_COLLECTION_LIST_SIZE){
-            if(communitiesSubscriptions.size - 1 >= i){
+        for (i in 0 until MAX_COLLECTION_LIST_SIZE) {
+            if (communitiesSubscriptions.size - 1 >= i) {
                 val collection = CommunityCollection(communitiesSubscriptions[i])
-                val finCommunityCollectionListItem= collectionsItems?.find { ftueCommunityCollectionListItem -> ftueCommunityCollectionListItem.collection == collection }
+                val finCommunityCollectionListItem =
+                    collectionsItems?.find { ftueCommunityCollectionListItem -> ftueCommunityCollectionListItem.collection == collection }
                 val id: Long = finCommunityCollectionListItem?.id ?: IdUtil.generateLongId()
                 communitiesCollection.add(collection.mapToCollectionListItem(id))
-            } else{
+            } else {
                 val id: Long = collectionsItems?.get(i)?.id ?: IdUtil.generateLongId()
                 communitiesCollection.add(CommunityCollection().mapToCollectionListItem(id))
             }
@@ -242,7 +244,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
     fun onCommunitiesSearchQueryChanged(query: String) {
-        if(communitiesSearchQuery != query){
+        if (communitiesSearchQuery != query) {
             communitiesSearchQuery = query
             loadCommunitiesJob?.cancel()
             paginator.proceed(Paginator.Action.Search)
@@ -250,10 +252,20 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
     fun sendCommunitiesCollection() {
-
+        launch {
+            val communitiyIds = _collectionListState.value!!
+                .filter { it.collection.community != null }
+                .map { it.collection.community?.communityId }
+            try {
+                model.sendCommunitiesCollection(communitiyIds as List<String>)
+                _command.value = SetLoadingVisibilityCommand(true)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
-    private companion object{
+    private companion object {
 
         private const val MAX_COLLECTION_LIST_SIZE = 3
     }

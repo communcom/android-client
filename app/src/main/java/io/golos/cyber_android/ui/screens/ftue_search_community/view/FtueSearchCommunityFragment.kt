@@ -14,10 +14,6 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueSearchCommunityBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.dto.Community
-import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
-import io.golos.cyber_android.ui.mappers.mapToCommunityListItem
-import io.golos.cyber_android.ui.screens.followers.Follower
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collection.FtueCommunityCollectionAdapter
@@ -25,7 +21,6 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.communi
 import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
 import io.golos.cyber_android.ui.utils.debounce
 import kotlinx.android.synthetic.main.fragment_ftue_search_community.*
-import kotlinx.android.synthetic.main.view_search_bar.*
 
 class FtueSearchCommunityFragment :
     FragmentBaseMVVM<FragmentFtueSearchCommunityBinding, FtueSearchCommunityViewModel>() {
@@ -60,7 +55,7 @@ class FtueSearchCommunityFragment :
 
     }
 
-    private fun setupSearchCommunities(){
+    private fun setupSearchCommunities() {
         etSearch.addTextChangedListener(object : TextWatcher {
 
             private val querySearchListener: (String) -> Unit = debounce({
@@ -135,6 +130,8 @@ class FtueSearchCommunityFragment :
                 is Paginator.State.FullData<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
+                    val items = (state.data as MutableList<FtueCommunityListItem>)
+                    cAdapter.update(items)
                     rvCommunitiesList.scrollToPosition(cAdapter.itemCount - 1)
                     emptyProgressLoading.visibility = View.INVISIBLE
                     pbSearchLoading.visibility = View.INVISIBLE

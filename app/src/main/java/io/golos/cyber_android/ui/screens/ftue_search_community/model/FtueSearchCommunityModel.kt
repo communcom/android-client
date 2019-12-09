@@ -11,4 +11,5 @@ interface FtueSearchCommunityModel : ModelBase {
 
     suspend fun onUnFollowFromCommunity(communityId: String)
 
+    suspend fun sendCommunitiesCollection(communityIds: List<String>)
 }

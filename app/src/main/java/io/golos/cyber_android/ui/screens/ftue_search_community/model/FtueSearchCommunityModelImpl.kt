@@ -13,6 +13,12 @@ class FtueSearchCommunityModelImpl
     private val dispatchersProvider: DispatchersProvider
 ) : ModelBaseImpl(), FtueSearchCommunityModel {
 
+    override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            repository.sendCommunitiesCollection(communityIds)
+        }
+    }
+
     override suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain> {
         return withContext(dispatchersProvider.ioDispatcher) {
             repository.getCommunitiesList(offset, pageSize, false, query)
