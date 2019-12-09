@@ -62,6 +62,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
+        <ProgressBar
+            android:id="@+id/pbSearchLoading"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateOnly="true"
+            android:padding="@dimen/padding_list_loading"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+            app:layout_constraintTop_toTopOf="@+id/etSearch"
+            app:layout_constraintEnd_toEndOf="@+id/etSearch"
+            tools:visibility="visible"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCommunitiesList"
@@ -83,7 +97,7 @@
             tools:listitem="@layout/view_profile_communities_community_list_item" />
 
         <Button
-            android:id="@+id/btnCommunityRetry"
+            android:id="@+id/btnRetry"
             style="@style/FindCommunityButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/subscriptions_btn_find_communities_height"
@@ -93,11 +107,22 @@
             android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
             android:text="@string/retry"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/clCommunitiesBoard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
             tools:visibility="visible" />
+
+        <include
+            android:id="@+id/emptyProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/clCommunitiesBoard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clCommunitiesBoard"

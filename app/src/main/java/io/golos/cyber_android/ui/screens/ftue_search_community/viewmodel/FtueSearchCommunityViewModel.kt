@@ -28,6 +28,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
     private val _communityListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
 
+    private var communitiesSearchQuery = ""
+
     val communityListState = _communityListState.toLiveData()
 
     private val _collectionListState: MutableLiveData<List<CommunityCollection>> = MutableLiveData(
@@ -128,7 +130,6 @@ class FtueSearchCommunityViewModel @Inject constructor(
     private fun loadCommunities(pageCount: Int) {
         loadCommunitiesJob = launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
                 val communityDomain = model.getCommunities(
                     offset = pageCount * PAGINATION_PAGE_SIZE,
                     pageCount = pageCount
@@ -141,10 +142,13 @@ class FtueSearchCommunityViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e)
                 paginator.proceed(Paginator.Action.PageError(e))
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
+    }
+
+    override fun onCleared() {
+        loadCommunitiesJob?.cancel()
+        super.onCleared()
     }
 
     private fun restartLoadCommunities() {
@@ -156,6 +160,14 @@ class FtueSearchCommunityViewModel @Inject constructor(
         val postsListState = _communityListState.value
         if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
             restartLoadCommunities()
+        }
+    }
+
+    fun onCommunitiesSearchQueryChanged(query: String) {
+        if(communitiesSearchQuery != query){
+            communitiesSearchQuery = query
+            loadCommunitiesJob?.cancel()
+            paginator.proceed(Paginator.Action.Search)
         }
     }
 }

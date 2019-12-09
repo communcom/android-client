@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.view
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,11 +17,14 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
 import io.golos.cyber_android.ui.mappers.mapToCommunityListItem
+import io.golos.cyber_android.ui.screens.followers.Follower
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collection.FtueCommunityCollectionAdapter
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityAdapter
 import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
+import io.golos.cyber_android.ui.utils.debounce
 import kotlinx.android.synthetic.main.fragment_ftue_search_community.*
+import kotlinx.android.synthetic.main.view_search_bar.*
 
 class FtueSearchCommunityFragment :
     FragmentBaseMVVM<FragmentFtueSearchCommunityBinding, FtueSearchCommunityViewModel>() {
@@ -44,10 +49,33 @@ class FtueSearchCommunityFragment :
         setupCommunitiesList()
         setupCommunityCollectionList()
         observeViewModel()
-
-        btnCommunityRetry.setOnClickListener {
+        setupSearchCommunities()
+        btnRetry.setOnClickListener {
             viewModel.onRetryLoadCommunity()
         }
+
+    }
+
+    private fun setupSearchCommunities(){
+        etSearch.addTextChangedListener(object : TextWatcher {
+
+            private val querySearchListener: (String) -> Unit = debounce({
+                viewModel.onCommunitiesSearchQueryChanged(it)
+            })
+
+            override fun afterTextChanged(s: Editable?) {
+                //implement if need
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //implement if need
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                querySearchListener(s.toString())
+            }
+
+        })
     }
 
     private fun setupCommunitiesList() {
@@ -96,12 +124,14 @@ class FtueSearchCommunityFragment :
                     cAdapter.removeRetry()
                     val items = (state.data as MutableList<Community>).mapToCommunityListItem()
                     cAdapter.update(items)
-                    btnCommunityRetry.visibility = View.INVISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                    emptyProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
                     rvCommunitiesList.scrollToPosition(cAdapter.itemCount - 1)
+                    emptyProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     cAdapter.removeProgress()
@@ -115,16 +145,28 @@ class FtueSearchCommunityFragment :
                 is Paginator.State.EmptyProgress -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
-                    btnCommunityRetry.visibility = View.VISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                    emptyProgressLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.Empty -> {
                     cAdapter.update(mutableListOf())
-                    btnCommunityRetry.visibility = View.INVISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                    emptyProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyError -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
-                    btnCommunityRetry.visibility = View.VISIBLE
+                    btnRetry.visibility = View.VISIBLE
+                    emptyProgressLoading.visibility = View.INVISIBLE
+                }
+                is Paginator.State.SearchProgress<*> -> {
+                    cAdapter.update((state.data as MutableList<Community>).mapToCommunityListItem())
+                    pbSearchLoading.visibility = View.VISIBLE
+                }
+                is Paginator.State.SearchPageError<*> -> {
+                    cAdapter.update((state.data as MutableList<Community>).mapToCommunityListItem())
+                    uiHelper.showMessage(R.string.loading_error)
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
             }
         })
