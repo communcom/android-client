@@ -19,6 +19,8 @@ class FtueCommunityItem(
     R.layout.view_profile_communities_community_list_item
 ) {
 
+
+
     override fun init(listItem: FtueCommunityListItem, listItemEventsProcessor: FtueItemListModelEventProcessor) {
         itemView.nameLabel.text = listItem.community.name
         itemView.membersLabel.text = getMembersCount(listItem.community.subscribersCount, itemView.context.resources)

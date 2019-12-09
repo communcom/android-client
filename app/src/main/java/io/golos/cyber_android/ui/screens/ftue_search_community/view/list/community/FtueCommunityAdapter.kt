@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import io.golos.cyber_android.ui.common.recycler_view.DiffAlgBase
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
@@ -35,6 +37,18 @@ class FtueCommunityAdapter(
                 FtueCommunityRetryItem(parent) as ViewHolderBase<FtueItemListModelEventProcessor, VersionedListItem>
             }
             else -> throw UnsupportedOperationException("This type of item is not supported")
+        }
+    }
+
+    override fun createDiffAlg(
+        oldData: List<VersionedListItem>,
+        newData: List<VersionedListItem>
+    ): DiffAlgBase<VersionedListItem> {
+        return object: DiffAlgBase<VersionedListItem>(oldData, newData) {
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean{
+                return oldList[oldItemPosition] == newList[newItemPosition]
+            }
         }
     }
 

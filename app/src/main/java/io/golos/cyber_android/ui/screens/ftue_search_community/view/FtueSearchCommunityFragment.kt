@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
 import io.golos.cyber_android.ui.mappers.mapToCommunityListItem
 import io.golos.cyber_android.ui.screens.followers.Follower
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collection.FtueCommunityCollectionAdapter
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityAdapter
 import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
@@ -52,6 +53,9 @@ class FtueSearchCommunityFragment :
         setupSearchCommunities()
         btnRetry.setOnClickListener {
             viewModel.onRetryLoadCommunity()
+        }
+        btnNext.setOnClickListener {
+            viewModel.sendCommunitiesCollection()
         }
 
     }
@@ -122,7 +126,7 @@ class FtueSearchCommunityFragment :
                 is Paginator.State.Data<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
-                    val items = (state.data as MutableList<Community>).mapToCommunityListItem()
+                    val items = (state.data as MutableList<FtueCommunityListItem>)
                     cAdapter.update(items)
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
@@ -160,11 +164,11 @@ class FtueSearchCommunityFragment :
                     emptyProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.SearchProgress<*> -> {
-                    cAdapter.update((state.data as MutableList<Community>).mapToCommunityListItem())
+                    cAdapter.update((state.data as MutableList<FtueCommunityListItem>))
                     pbSearchLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
-                    cAdapter.update((state.data as MutableList<Community>).mapToCommunityListItem())
+                    cAdapter.update((state.data as MutableList<FtueCommunityListItem>))
                     uiHelper.showMessage(R.string.loading_error)
                     pbSearchLoading.visibility = View.INVISIBLE
                 }
@@ -173,8 +177,7 @@ class FtueSearchCommunityFragment :
 
         viewModel.collectionListState.observe(viewLifecycleOwner, Observer { listOfCommunities ->
             val cAdapter = rvCommunitiesCollection.adapter as FtueCommunityCollectionAdapter
-            val listItems = listOfCommunities.mapToCollectionListItem().take(3)
-            cAdapter.update(listItems)
+            cAdapter.update(listOfCommunities)
         })
 
         viewModel.haveNeedCollection.observe(viewLifecycleOwner, Observer { isEnabled ->

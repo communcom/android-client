@@ -5,6 +5,7 @@ import io.golos.domain.utils.IdUtil
 
 data class FtueCommunityCollectionListItem(
     val collection: CommunityCollection,
-    override val version: Long = 0,
-    override val id: Long = IdUtil.generateLongId()
+    override val id: Long = IdUtil.generateLongId(),
+    override val version: Long = 0
+
 ) : VersionedListItem

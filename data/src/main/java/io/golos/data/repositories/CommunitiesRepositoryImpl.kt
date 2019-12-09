@@ -78,34 +78,13 @@ constructor(
     override suspend fun getCommunitiesList(
         offset: Int,
         pageSize: Int,
-        forCurrentUserOnly: Boolean
+        forCurrentUserOnly: Boolean,
+        searchQuery: String?
     ): List<CommunityDomain> {
         if (forCurrentUserOnly) {
             throw UnsupportedOperationException("Getting communities for current user is not supported now")
         }
-
-        //todo deleted after testing
-//        val community = CommunityDomain(
-//            "FAKE",
-//            "ALIAS",
-//            "NAME",
-//            "",
-//            "",
-//            12012,
-//            123,
-//            true
-//        )
-//
-//        return listOf(
-//            community,
-//            community.copy(subscribersCount = 16000, isSubscribed = false),
-//            community.copy(subscribersCount = 13000, isSubscribed = false),
-//            community.copy(subscribersCount = 12000, isSubscribed = true),
-//            community.copy(subscribersCount = 29000, isSubscribed = false),
-//            community.copy(subscribersCount = 1_000_000, isSubscribed = false)
-//        )
-
-        return apiCall { commun4j.getCommunitiesList(null, offset, pageSize) }
+        return apiCall { commun4j.getCommunitiesList(searchQuery, offset, pageSize) }
             .items
             .map { it.mapToCommunityDomain() }
     }

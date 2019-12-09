@@ -16,3 +16,12 @@ fun List<Community?>.mapToCollectionList(): List<CommunityCollection> = map { co
 fun List<CommunityCollection>.mapToCollectionListItem(): List<FtueCommunityCollectionListItem> = map { community ->
     FtueCommunityCollectionListItem(community)
 }
+
+fun CommunityCollection.mapToCollectionListItem(): FtueCommunityCollectionListItem{
+    return FtueCommunityCollectionListItem(this)
+}
+
+
+fun CommunityCollection.mapToCollectionListItem(id: Long): FtueCommunityCollectionListItem{
+    return FtueCommunityCollectionListItem(this, id)
+}

@@ -18,7 +18,7 @@ interface CommunitiesRepository {
     /**
      * [forCurrentUserOnly] if true the method returns only current users' communities (otherwise - all communities)
      */
-    suspend fun getCommunitiesList(offset: Int, pageSize: Int, forCurrentUserOnly: Boolean): List<CommunityDomain>
+    suspend fun getCommunitiesList(offset: Int, pageSize: Int, forCurrentUserOnly: Boolean, searchQuery: String? = null): List<CommunityDomain>
 
     suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain>
 }

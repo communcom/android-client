@@ -5,7 +5,7 @@ import io.golos.domain.dto.CommunityDomain
 
 interface FtueSearchCommunityModel : ModelBase {
 
-    suspend fun getCommunities(offset: Int, pageCount: Int): List<CommunityDomain>
+    suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain>
 
     suspend fun onFollowToCommunity(communityId: String)
 
