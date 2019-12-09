@@ -213,7 +213,7 @@ class FtueSearchCommunityFragment :
         })
 
         viewModel.haveNeedCollection.observe(viewLifecycleOwner, Observer { isEnabled ->
-            btnNext.isEnabled = true
+            btnNext.isEnabled = isEnabled
         })
     }
 
