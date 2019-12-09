@@ -32,6 +32,15 @@ constructor(
     CommunitiesRepository {
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
+        //todo for testing blocking transition to finish screen
+        //START TEST ERROR BLOCK FOR BACK TO PREV FRAGMENT AFTER ERROR
+//        getCommunityPageById("")
+        //END TEST BLOCK FOR BACK TO PREV FRAGMENT AFTER ERROR
+
+        //START TEST SUCCESS BLOCK FOR TRANSITION TO FINISH SCREEN
+//        getCommunitiesList(30, 30, false, "")
+        //END SUCCESS BLOCK FOR TRANSITION TO FINISH SCREEN
+
         delay(5000)
     }
 

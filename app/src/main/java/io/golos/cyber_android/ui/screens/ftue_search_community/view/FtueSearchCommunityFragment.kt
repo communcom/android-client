@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,17 +12,24 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueSearchCommunityBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collection.FtueCommunityCollectionAdapter
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityAdapter
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueSearchFragmentAfterError
 import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
 import io.golos.cyber_android.ui.utils.debounce
 import kotlinx.android.synthetic.main.fragment_ftue_search_community.*
 
 class FtueSearchCommunityFragment :
     FragmentBaseMVVM<FragmentFtueSearchCommunityBinding, FtueSearchCommunityViewModel>() {
+
+    var onCommunityCollectionSuccess: (() -> Unit)? = null
+
+    var onCommunityCollectionError: (() -> Unit)? = null
 
     override fun provideViewModelType(): Class<FtueSearchCommunityViewModel> = FtueSearchCommunityViewModel::class.java
 
@@ -53,6 +59,17 @@ class FtueSearchCommunityFragment :
             viewModel.sendCommunitiesCollection()
         }
 
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        when (command) {
+            is NavigationToFtueFinishFragment -> {
+                onCommunityCollectionSuccess?.invoke()
+            }
+            is NavigationToFtueSearchFragmentAfterError -> {
+                onCommunityCollectionError?.invoke()
+            }
+        }
     }
 
     private fun setupSearchCommunities() {
@@ -130,8 +147,11 @@ class FtueSearchCommunityFragment :
                 is Paginator.State.FullData<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
-                    val items = (state.data as MutableList<FtueCommunityListItem>)
-                    cAdapter.update(items)
+                    cAdapter.update(
+                        tryToGetNotNullItemsAfterRequest(
+                            (state.data as? MutableList<FtueCommunityListItem>)
+                        )
+                    )
                     rvCommunitiesList.scrollToPosition(cAdapter.itemCount - 1)
                     emptyProgressLoading.visibility = View.INVISIBLE
                     pbSearchLoading.visibility = View.INVISIBLE
@@ -168,11 +188,19 @@ class FtueSearchCommunityFragment :
                     pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.SearchProgress<*> -> {
-                    cAdapter.update((state.data as MutableList<FtueCommunityListItem>))
+                    cAdapter.update(
+                        tryToGetNotNullItemsAfterRequest(
+                            (state.data as? MutableList<FtueCommunityListItem>)
+                        )
+                    )
                     pbSearchLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchPageError<*> -> {
-                    cAdapter.update((state.data as MutableList<FtueCommunityListItem>))
+                    cAdapter.update(
+                        tryToGetNotNullItemsAfterRequest(
+                            (state.data as? MutableList<FtueCommunityListItem>)
+                        )
+                    )
                     uiHelper.showMessage(R.string.loading_error)
                     pbSearchLoading.visibility = View.INVISIBLE
                 }
@@ -185,11 +213,17 @@ class FtueSearchCommunityFragment :
         })
 
         viewModel.haveNeedCollection.observe(viewLifecycleOwner, Observer { isEnabled ->
-            btnNext.isEnabled = isEnabled
+            btnNext.isEnabled = true
         })
     }
 
+    private fun tryToGetNotNullItemsAfterRequest(
+        items: List<FtueCommunityListItem>?
+    ): List<FtueCommunityListItem> {
+        return if (items.isNullOrEmpty()) mutableListOf() else items
+    }
+
     companion object {
-        fun newInstance(): Fragment = FtueSearchCommunityFragment()
+        fun newInstance(): FtueSearchCommunityFragment = FtueSearchCommunityFragment()
     }
 }

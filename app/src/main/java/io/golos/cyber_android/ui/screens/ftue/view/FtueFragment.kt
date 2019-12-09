@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueBinding
@@ -53,18 +54,49 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setupCommunUrl()
         setupViewPage()
+
+        skipFinish.setOnClickListener {
+            //todo close fragment
+        }
+
+        doneFinish.setOnClickListener {
+            //todo close fragment
+        }
     }
 
     private fun setupViewPage(){
         this.fragmentPagesList = createPagesList()
         viewPager.adapter = ftuePageAdapter
         viewPager.isPagingEnabled = false
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageSelected(position: Int) {
+                val lastPage = ftuePageAdapter.count - 1
+                if (position == lastPage) {
+                    skipFinish.visibility = View.VISIBLE
+                    doneFinish.visibility = View.VISIBLE
+                } else {
+                    skipFinish.visibility = View.GONE
+                    doneFinish.visibility = View.GONE
+                }
+            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
         dotsIndicator.setViewPager(viewPager)
     }
 
     private fun createPagesList(): List<Fragment>{
         val fragmentPagesList = mutableListOf<Fragment>()
-        fragmentPagesList.add(FtueSearchCommunityFragment.newInstance())
+
+        val searchFragment = FtueSearchCommunityFragment.newInstance()
+        searchFragment.onCommunityCollectionSuccess = {
+            viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+        }
+        searchFragment.onCommunityCollectionError = {
+            viewPager.setCurrentItem(0, true)
+        }
+        fragmentPagesList.add(searchFragment)
+
         fragmentPagesList.add(FtueFinishFragment.newInstance())
         return fragmentPagesList
     }

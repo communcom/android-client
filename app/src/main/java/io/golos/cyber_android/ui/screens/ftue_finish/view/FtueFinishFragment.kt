@@ -1,12 +1,19 @@
 package io.golos.cyber_android.ui.screens.ftue_finish.view
 
-import androidx.fragment.app.Fragment
+import android.graphics.Typeface
+import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextUtils
+import android.text.style.StyleSpan
+import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueFinishBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.view_model.FtueFinishViewModel
+import kotlinx.android.synthetic.main.fragment_ftue_finish.*
 
 class FtueFinishFragment : FragmentBaseMVVM<FragmentFtueFinishBinding, FtueFinishViewModel>(){
 
@@ -25,8 +32,25 @@ class FtueFinishFragment : FragmentBaseMVVM<FragmentFtueFinishBinding, FtueFinis
         binding.viewModel = viewModel
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        finishText.text = getSpannableText()
+    }
+
+    private fun getSpannableText(): Spannable {
+        val ftueDescriptionStart = SpannableStringBuilder(getString(R.string.ftue_finish_description_1))
+        ftueDescriptionStart.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0,
+            ftueDescriptionStart.length,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        val ftueDescriptionEnd = SpannableStringBuilder(getString(R.string.ftue_finish_description_2))
+        return SpannableStringBuilder(TextUtils.concat(ftueDescriptionStart, ftueDescriptionEnd))
+    }
+
     companion object {
 
-        fun newInstance(): Fragment = FtueFinishFragment()
+        fun newInstance(): FtueFinishFragment = FtueFinishFragment()
     }
 }

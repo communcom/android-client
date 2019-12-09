@@ -15,6 +15,8 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueSearchC
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.CommunityCollection
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.FtueCommunityCollectionListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
+import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueSearchFragmentAfterError
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -253,14 +255,15 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
     fun sendCommunitiesCollection() {
         launch {
-            val communitiyIds = _collectionListState.value!!
+            val communityIds = _collectionListState.value!!
                 .filter { it.collection.community != null }
                 .map { it.collection.community?.communityId }
             try {
-                model.sendCommunitiesCollection(communitiyIds as List<String>)
-                _command.value = SetLoadingVisibilityCommand(true)
+                _command.value = NavigationToFtueFinishFragment()
+                model.sendCommunitiesCollection(communityIds as List<String>)
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = NavigationToFtueSearchFragmentAfterError()
             }
         }
     }
