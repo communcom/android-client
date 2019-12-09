@@ -130,38 +130,45 @@ class FtueSearchCommunityFragment :
                     cAdapter.update(items)
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
                     rvCommunitiesList.scrollToPosition(cAdapter.itemCount - 1)
                     emptyProgressLoading.visibility = View.INVISIBLE
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.addRetry()
                     rvCommunitiesList.scrollToPosition(cAdapter.itemCount - 1)
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.NewPageProgress<*> -> {
                     cAdapter.addProgress()
                     rvCommunitiesList.scrollToPosition(cAdapter.itemCount - 1)
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.VISIBLE
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.Empty -> {
                     cAdapter.update(mutableListOf())
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyError -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
                     btnRetry.visibility = View.VISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
+                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     cAdapter.update((state.data as MutableList<FtueCommunityListItem>))

@@ -200,6 +200,6 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
     private companion object{
 
-        const val MAX_COLLECTION_LIST_SIZE = 3
+        private const val MAX_COLLECTION_LIST_SIZE = 3
     }
 }
