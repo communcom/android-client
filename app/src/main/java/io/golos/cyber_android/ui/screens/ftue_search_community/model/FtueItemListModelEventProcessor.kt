@@ -18,5 +18,5 @@ interface FtueCommunityProgressEventProcessor {
 }
 
 interface FtueCommunityCollectionEventProcessor {
-    fun onDeleteCommunityFromCollection(community: Community)
+    fun removeCommunityFromCollection(community: Community)
 }

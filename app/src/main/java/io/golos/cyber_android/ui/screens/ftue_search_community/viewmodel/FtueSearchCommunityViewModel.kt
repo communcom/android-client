@@ -32,6 +32,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
     val communityListState = _communityListState.toLiveData()
 
+    private val communitiesSubscribstions = mutableListOf<Community>()
+
     private val _collectionListState: MutableLiveData<List<CommunityCollection>> = MutableLiveData(
         listOf(
             CommunityCollection(),
@@ -64,10 +66,13 @@ class FtueSearchCommunityViewModel @Inject constructor(
     override fun onFollowToCommunity(community: Community) {
         launch {
             try {
-                addCommunityToCollection(community)
+                _command.value = SetLoadingVisibilityCommand(true)
                 model.onFollowToCommunity(community.communityId)
+                addCommunityToCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -75,10 +80,13 @@ class FtueSearchCommunityViewModel @Inject constructor(
     override fun onUnFollowFromCommunity(community: Community) {
         launch {
             try {
-                onDeleteCommunityFromCollection(community)
+                _command.value = SetLoadingVisibilityCommand(true)
                 model.onUnFollowFromCommunity(community.communityId)
+                removeCommunityFromCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -87,16 +95,17 @@ class FtueSearchCommunityViewModel @Inject constructor(
         loadInitialCommunities()
     }
 
-    override fun onDeleteCommunityFromCollection(community: Community) {
-        val items = (_collectionListState.value as MutableList<CommunityCollection>)
-        val collection = items.toMutableList()
-        val replaceElement = collection.find { communityCollection ->
-            communityCollection.community == community
+    override fun removeCommunityFromCollection(community: Community) {
+        communitiesSubscribstions.remove(community)
+        val communitiesCollection: MutableList<CommunityCollection> = arrayListOf()
+        for (i in  0 .. 3){
+            if(communitiesSubscribstions.size - 1 >= i){
+                communitiesCollection.add(CommunityCollection(communitiesSubscribstions[i]))
+            } else{
+                communitiesCollection.add(CommunityCollection())
+            }
         }
-        val replacePosition = collection.indexOf(replaceElement)
-        collection.removeAt(replacePosition)
-        collection.add(CommunityCollection(null))
-        _collectionListState.value = collection
+        _collectionListState.value = communitiesCollection
         updateStateOfNextButton()
     }
 
@@ -105,19 +114,16 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
     private fun addCommunityToCollection(community: Community) {
-        val items = (_collectionListState.value as MutableList<CommunityCollection>)
-        val collection = items.toMutableList()
-        val replaceElement = collection.find { communityCollection ->
-            communityCollection.community == null
+        communitiesSubscribstions.add(community)
+        val communitiesCollection: MutableList<CommunityCollection> = arrayListOf()
+        for (i in  0 .. 3){
+            if(communitiesSubscribstions.size - 1 >= i){
+                communitiesCollection.add(CommunityCollection(communitiesSubscribstions[i]))
+            } else{
+                communitiesCollection.add(CommunityCollection())
+            }
         }
-        val replacePosition = collection.indexOf(replaceElement)
-        if (replacePosition != -1) {
-            collection.removeAt(replacePosition)
-            collection.add(replacePosition, CommunityCollection(community))
-        } else {
-            collection.add(CommunityCollection(community))
-        }
-        _collectionListState.value = collection
+        _collectionListState.value = communitiesCollection
         updateStateOfNextButton()
     }
 

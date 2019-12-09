@@ -29,7 +29,7 @@ class FtueCommunityCollectionItem(
             itemView.flCommunityCollection.isSelected = true
 
             itemView.ivCommunityCollectionDelete.setOnClickListener {
-                listItemEventsProcessor.onDeleteCommunityFromCollection(community)
+                listItemEventsProcessor.removeCommunityFromCollection(community)
             }
 
             Glide.with(itemView.context)
