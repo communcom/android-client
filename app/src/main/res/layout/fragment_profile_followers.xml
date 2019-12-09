@@ -60,7 +60,10 @@
 
                     app:layout_constraintBottom_toBottomOf="@+id/titleText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/titleText" />
+                    app:layout_constraintTop_toTopOf="@+id/titleText"
+
+                    android:onClick="@{() -> viewModel.onBackClick()}"
+                    />
 
                 <EditText
                     android:id="@+id/searchField"
@@ -115,7 +118,7 @@
 
                     tools:checked="true"
 
-                    android:tag="MUTUAL"
+                    android:tag="MUTUALS"
                     app:filter="@{viewModel.filter}"
                     />
 
@@ -155,7 +158,7 @@
                     app:layout_constraintStart_toEndOf="@+id/toggleFollowers"
                     app:layout_constraintTop_toTopOf="@+id/toggleFollowers"
 
-                    android:tag="FOLLOWING"
+                    android:tag="FOLLOWINGS"
                     app:filter="@{viewModel.filter}"
                     />
                 
@@ -175,7 +178,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
             android:paddingTop="@dimen/general_list_padding_top"
             android:paddingLeft="@dimen/general_list_padding"
@@ -226,6 +229,7 @@
 
                 tools:visibility = "invisible"
                 android:visibility="@{viewModel.noDataStubVisibility}"
+                app:noDataTitle="@{viewModel.noDataStubText}"
             />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

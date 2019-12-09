@@ -31,7 +31,7 @@ constructor(
     private val _maxTextLen = MutableLiveData(model.maxTextLen)
     val maxTextLen: LiveData<Int> get() = _maxTextLen
 
-    val text = MutableLiveData<String>(inputText)
+    val text = MutableLiveData<String>(inputText ?: "")
 
     init {
         text.observeForever {

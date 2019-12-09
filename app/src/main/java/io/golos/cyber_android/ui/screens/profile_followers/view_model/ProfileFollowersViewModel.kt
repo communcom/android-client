@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.FollowersFilter
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class ProfileFollowersViewModel
 @Inject
 constructor(
-    private val startFilter: FollowersFilter,
+    startFilter: FollowersFilter,
     dispatchersProvider: DispatchersProvider,
     model: ProfileFollowersModel,
     currentUserRepository: CurrentUserRepositoryRead
@@ -49,29 +50,59 @@ constructor(
     private val _noDataStubVisibility = MutableLiveData<Int>(false.toVisibility())
     val noDataStubVisibility: LiveData<Int> get() = _noDataStubVisibility
 
+    private val _noDataStubText = MutableLiveData<Int>()
+    val noDataStubText: LiveData<Int> get() = _noDataStubText
+
     val pageSize = model.pageSize
 
+    private var hasFollowersData: Boolean? = null
+    private var hasFollowingsData: Boolean? = null
+    private var hasMutualData: Boolean? = null
+
     init {
+        filter.observeForever {
+            switchTab(filter.value!!)
+            loadPage(it)
+        }
+
         followersItems.observeForever {
-            val hasData = it.isNotEmpty() && filter.value == FollowersFilter.FOLLOWERS
-            _followersVisibility.value = hasData.toVisibility()
-            _noDataStubVisibility.value = (!hasData).toVisibility()
+            hasFollowersData = it.isNotEmpty() && filter.value == FollowersFilter.FOLLOWERS
+            switchTab(filter.value!!)
         }
 
         followingsItems.observeForever {
-            val hasData = it.isNotEmpty() && filter.value == FollowersFilter.FOLLOWINGS
-            _followingsVisibility.value = hasData.toVisibility()
-            _noDataStubVisibility.value = (!hasData).toVisibility()
+            hasFollowingsData = it.isNotEmpty() && filter.value == FollowersFilter.FOLLOWINGS
+            switchTab(filter.value!!)
         }
 
         mutualsItems.observeForever {
-            val hasData = it.isNotEmpty() && filter.value == FollowersFilter.MUTUALS
-            _mutualsVisibility.value = hasData.toVisibility()
-            _noDataStubVisibility.value = (!hasData).toVisibility()
+            hasMutualData = it.isNotEmpty() && filter.value == FollowersFilter.MUTUALS
+            switchTab(filter.value!!)
         }
     }
 
-    fun onViewCreated() = loadPage(startFilter)
+    private fun switchTab(filter: FollowersFilter) {
+        when(filter) {
+            FollowersFilter.FOLLOWERS ->
+                hasFollowersData?.let {
+                    _followersVisibility.value = it.toVisibility()
+                    _noDataStubVisibility.value = (!it).toVisibility()
+                    _noDataStubText.value = R.string.no_followers
+                }
+            FollowersFilter.FOLLOWINGS ->
+                hasFollowingsData?.let {
+                    _followingsVisibility.value = it.toVisibility()
+                    _noDataStubVisibility.value = (!it).toVisibility()
+                    _noDataStubText.value = R.string.no_following
+                }
+            FollowersFilter.MUTUALS ->
+                hasMutualData?.let {
+                    _mutualsVisibility.value = it.toVisibility()
+                    _noDataStubVisibility.value = (!it).toVisibility()
+                    _noDataStubText.value = R.string.no_mutual
+                }
+        }
+    }
 
     override fun onNextPageReached(filter: FollowersFilter) = loadPage(filter)
 
@@ -87,6 +118,10 @@ constructor(
                 _command.value = ShowMessageCommand(R.string.common_general_error)
             }
         }
+    }
+
+    fun onBackClick() {
+        _command.value = BackCommand()
     }
 
     private fun loadPage(filter: FollowersFilter) {

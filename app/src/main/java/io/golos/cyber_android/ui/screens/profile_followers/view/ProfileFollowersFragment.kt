@@ -7,6 +7,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_followers.ProfileFollowersFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileFollowersBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.view_model.ProfileFollowersViewModel
 import io.golos.domain.dto.UserDomain
@@ -51,7 +53,11 @@ class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersBindin
         mutualList.setAdapterData(viewModel)
         followersList.setAdapterData(viewModel.pageSize, FollowersFilter.FOLLOWERS, viewModel)
         followingList.setAdapterData(viewModel.pageSize, FollowersFilter.FOLLOWINGS, viewModel)
+    }
 
-        viewModel.onViewCreated()
+    override fun processViewCommand(command: ViewCommand) {
+        when(command) {
+            is BackCommand -> requireActivity().onBackPressed()
+        }
     }
 }

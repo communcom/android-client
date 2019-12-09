@@ -2,12 +2,12 @@ package io.golos.cyber_android.ui.screens.profile_followers.view.list
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
-import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
+import io.golos.cyber_android.ui.screens.profile_followers.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.profile_followers.dto.RetryListItem
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders.FollowerViewHolder
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders.LoadingViewHolder
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders.RetryViewHolder

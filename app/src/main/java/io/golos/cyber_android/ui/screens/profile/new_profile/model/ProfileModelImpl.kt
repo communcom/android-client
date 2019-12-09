@@ -21,8 +21,10 @@ constructor(
     override val mutualUsers: List<UserDomain>
         get() = userProfile.commonFriends
 
-    override suspend fun loadProfileInfo(): UserProfileDomain =
-        usersRepository.getUserProfile(currentUserRepository.authState!!.user)
+    override suspend fun loadProfileInfo(): UserProfileDomain {
+        userProfile = usersRepository.getUserProfile(currentUserRepository.authState!!.user)
+        return userProfile
+    }
 
     /**
      * @return url of an avatar

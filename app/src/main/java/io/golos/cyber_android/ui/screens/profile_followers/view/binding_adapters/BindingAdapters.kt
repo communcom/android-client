@@ -3,11 +3,13 @@ package io.golos.cyber_android.ui.screens.profile_followers.view.binding_adapter
 import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import io.golos.cyber_android.ui.common.extensions.parentActivity
 import io.golos.cyber_android.ui.dto.FollowersFilter
+import io.golos.cyber_android.ui.screens.profile_followers.view.widgets.NoDataStub
 
 @BindingAdapter("filter")
 fun setFilterBinding(view: ToggleButton, dataSource: MutableLiveData<FollowersFilter>?) {
@@ -28,6 +30,15 @@ fun setFilterBinding(view: ToggleButton, dataSource: MutableLiveData<FollowersFi
             if(isChecked) {
                 source.value = viewValue
             }
+        }
+    }
+}
+
+@BindingAdapter("noDataTitle")
+fun setNoDataTextBinding(view: NoDataStub, dataSource: LiveData<Int>?) {
+    dataSource?.let { source ->
+        view.parentActivity?.let { activity ->
+            source.observe(activity, Observer { view.setTitle(it) })
         }
     }
 }
