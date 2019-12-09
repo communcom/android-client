@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.dto.Community
 import io.golos.domain.utils.IdUtil
 
 data class FtueCommunityListItem(
-    val community: Community,
-    override val version: Long = 0,
-    override val id: Long = IdUtil.generateLongId()
+    var community: Community,
+    override val id: Long = IdUtil.generateLongId(),
+    override val version: Long = 0
 ) : VersionedListItem

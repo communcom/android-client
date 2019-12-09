@@ -14,5 +14,5 @@ data class Community (
 
     val subscribersCount: Int,
     val postsCount: Int,
-    val isSubscribed: Boolean
+    var isSubscribed: Boolean
 ): Parcelable

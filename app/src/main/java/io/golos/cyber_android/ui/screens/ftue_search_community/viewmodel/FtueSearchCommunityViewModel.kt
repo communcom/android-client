@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
@@ -12,7 +14,7 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemLis
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueSearchCommunityModel
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.CommunityCollection
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.FtueCommunityCollectionListItem
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.collection.FtueCommunityCollectionItem
+import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -73,9 +75,12 @@ class FtueSearchCommunityViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.onFollowToCommunity(community.communityId)
+                val updatedCommunity = community.copy(isSubscribed = true)
+                changeFollowingStatus(updatedCommunity)
                 addCommunityToCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.loading_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -87,13 +92,62 @@ class FtueSearchCommunityViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.onUnFollowFromCommunity(community.communityId)
+                val updatedCommunity = community.copy(isSubscribed = true)
+                changeFollowingStatus(updatedCommunity)
                 removeCommunityFromCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.loading_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
+    }
+
+
+    private fun changeFollowingStatus(community: Community){
+        val state: Paginator.State? = _communityListState.value
+        val updatedState = updateFollowingStatusInState(state, community)
+        _communityListState.value = updatedState
+    }
+
+    private fun updateFollowingStatusInState(state: Paginator.State?, community: Community): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val communitiesList = state.data as ArrayList<FtueCommunityListItem>
+                val findCommunityItem = communitiesList.find { it.community.name == community.name }
+                findCommunityItem?.let {
+                    val index = communitiesList.indexOf(it)
+                    communitiesList[index] = FtueCommunityListItem(community, it.id)
+                }
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                val communitiesList = state.data as ArrayList<FtueCommunityListItem>
+                val findCommunityItem = communitiesList.find { it.community.name == community.name }
+                findCommunityItem?.let {
+                    val index = communitiesList.indexOf(it)
+                    communitiesList[index] = FtueCommunityListItem(community, it.id)
+                }
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val communitiesList = state.data as ArrayList<FtueCommunityListItem>
+                val findCommunityItem = communitiesList.find { it.community.name == community.name }
+                findCommunityItem?.let {
+                    val index = communitiesList.indexOf(it)
+                    communitiesList[index] = FtueCommunityListItem(community, it.id)
+                }
+            }
+            is Paginator.State.FullData<*> -> {
+                val communitiesList = state.data as ArrayList<FtueCommunityListItem>
+                val findCommunityItem = communitiesList.find { it.community.name == community.name }
+                findCommunityItem?.let {
+                    val index = communitiesList.indexOf(it)
+                    communitiesList[index] = FtueCommunityListItem(community, it.id)
+                }
+            }
+        }
+        return state
     }
 
     override fun onRetryLoadCommunity() {
@@ -101,7 +155,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
     override fun removeCommunityFromCollection(community: Community) {
-        communitiesSubscriptions.remove(community)
+        val communityForDelete = communitiesSubscriptions.find { it.communityId == community.communityId }
+        communitiesSubscriptions.remove(communityForDelete)
         val collectionsItems = _collectionListState.value
         val communitiesCollection: MutableList<FtueCommunityCollectionListItem> = arrayListOf()
         for (i in 0 until MAX_COLLECTION_LIST_SIZE){
