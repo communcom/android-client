@@ -42,7 +42,9 @@ constructor(
     }
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
-        //TODO kv 10/12/19 need add send communities collection
+        apiCall{
+            commun4j.onBoardingCommunitySubscriptions(currentUserRepository.user, communityIds)
+        }
     }
 
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
