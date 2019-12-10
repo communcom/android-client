@@ -26,3 +26,18 @@ fun CommunityCollection.mapToCollectionListItem(): FtueCommunityCollectionListIt
 fun CommunityCollection.mapToCollectionListItem(id: Long): FtueCommunityCollectionListItem{
     return FtueCommunityCollectionListItem(this, id)
 }
+
+fun List<Community>.mapToCommunityDomainList(): List<CommunityDomain> = map { community ->
+    community.mapToCommunityDomain()
+}
+
+fun Community.mapToCommunityDomain() =
+    CommunityDomain (
+        communityId = communityId,
+        alias = alias,
+        name = name,
+        avatarUrl = avatarUrl,
+        coverUrl = coverUrl,
+        subscribersCount = subscribersCount,
+        postsCount = postsCount,
+        isSubscribed = isSubscribed)

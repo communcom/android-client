@@ -11,11 +11,15 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueFinishBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_finish.view.view_command.FtueFinishCommand
 import io.golos.cyber_android.ui.screens.ftue_finish.view_model.FtueFinishViewModel
 import kotlinx.android.synthetic.main.fragment_ftue_finish.*
 
 class FtueFinishFragment : FragmentBaseMVVM<FragmentFtueFinishBinding, FtueFinishViewModel>(){
+
+    var onDoneClicked: (() -> Unit)? = null
 
     override fun provideViewModelType(): Class<FtueFinishViewModel> = FtueFinishViewModel::class.java
 
@@ -35,6 +39,16 @@ class FtueFinishFragment : FragmentBaseMVVM<FragmentFtueFinishBinding, FtueFinis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         finishText.text = getSpannableText()
+        doneFinish.setOnClickListener {
+            viewModel.onDoneClicked()
+        }
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is FtueFinishCommand){
+            onDoneClicked?.invoke()
+        }
     }
 
     private fun getSpannableText(): Spannable {

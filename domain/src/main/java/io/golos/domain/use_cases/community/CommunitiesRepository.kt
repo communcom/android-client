@@ -23,4 +23,8 @@ interface CommunitiesRepository {
     suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain>
 
     suspend fun sendCommunitiesCollection(communityIds: List<String>)
+
+    fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>)
+
+    suspend fun getCommunitySubscriptions(): List<CommunityDomain>
 }

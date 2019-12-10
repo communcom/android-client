@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.ftue.viewmodel.FtueViewModel" />
+            type="io.golos.cyber_android.ui.screens.ftue.view_model.FtueViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

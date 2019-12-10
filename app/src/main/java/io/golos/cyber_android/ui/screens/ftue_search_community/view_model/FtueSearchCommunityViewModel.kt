@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel
+package io.golos.cyber_android.ui.screens.ftue_search_community.view_model
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
+import io.golos.cyber_android.ui.mappers.mapToCommunityDomainList
 import io.golos.cyber_android.ui.mappers.mapToCommunityList
 import io.golos.cyber_android.ui.mappers.mapToCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
@@ -16,10 +17,10 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collec
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.FtueCommunityCollectionListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
-import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueSearchFragmentAfterError
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.FtueBoardStageDomain
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,7 +42,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
     val communityListState = _communityListState.toLiveData()
 
-    private val communitiesSubscriptions = mutableListOf<Community>()
+    private val communitySubscriptions = mutableListOf<Community>()
 
     private val _collectionListState: MutableLiveData<List<FtueCommunityCollectionListItem>> = MutableLiveData(
         listOf(
@@ -58,6 +59,10 @@ class FtueSearchCommunityViewModel @Inject constructor(
     val haveNeedCollection = _haveNeedCollections.toLiveData()
 
     init {
+        launch {
+            model.setFtueBoardStage(FtueBoardStageDomain.SEARCH_COMMUNITIES)
+        }
+
         paginator.sideEffectListener = { sideEffect ->
             when (sideEffect) {
                 is Paginator.SideEffect.LoadPage -> loadCommunities(sideEffect.pageCount)
@@ -69,7 +74,20 @@ class FtueSearchCommunityViewModel @Inject constructor(
             _communityListState.value = state
         }
 
+        loadCommunitySubscriptions()
         loadInitialCommunities()
+    }
+
+    private fun loadCommunitySubscriptions(){
+        launch {
+            try{
+                communitySubscriptions.clear()
+                communitySubscriptions.addAll(model.getCommunitySubscriptions().mapToCommunityList())
+                updateCommunityCollection(communitySubscriptions)
+            } catch (e: java.lang.Exception){
+                Timber.e(e)
+            }
+        }
     }
 
     override fun onFollowToCommunity(community: Community) {
@@ -157,24 +175,9 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
     override fun removeCommunityFromCollection(community: Community) {
-        val communityForDelete = communitiesSubscriptions.find { it.communityId == community.communityId }
-        communitiesSubscriptions.remove(communityForDelete)
-        val collectionsItems = _collectionListState.value
-        val communitiesCollection: MutableList<FtueCommunityCollectionListItem> = arrayListOf()
-        for (i in 0 until MAX_COLLECTION_LIST_SIZE) {
-            if (communitiesSubscriptions.size - 1 >= i) {
-                val collection = CommunityCollection(communitiesSubscriptions[i])
-                val finCommunityCollectionListItem =
-                    collectionsItems?.find { ftueCommunityCollectionListItem -> ftueCommunityCollectionListItem.collection == collection }
-                val id: Long = finCommunityCollectionListItem?.id ?: IdUtil.generateLongId()
-                communitiesCollection.add(collection.mapToCollectionListItem(id))
-            } else {
-                val id: Long = collectionsItems?.get(i)?.id ?: IdUtil.generateLongId()
-                communitiesCollection.add(CommunityCollection().mapToCollectionListItem(id))
-            }
-        }
-        _collectionListState.value = communitiesCollection
-        updateStateOfNextButton()
+        val communityForDelete = communitySubscriptions.find { it.communityId == community.communityId }
+        communitySubscriptions.remove(communityForDelete)
+        updateCommunityCollection(communitySubscriptions)
     }
 
     fun loadMoreCommunities() {
@@ -182,12 +185,17 @@ class FtueSearchCommunityViewModel @Inject constructor(
     }
 
     private fun addCommunityToCollection(community: Community) {
-        communitiesSubscriptions.add(community)
+        communitySubscriptions.add(community)
+        updateCommunityCollection(communitySubscriptions)
+    }
+
+    private fun updateCommunityCollection(communitySubscriptions: List<Community>){
+        model.saveCommunitySubscriptions(communitySubscriptions.mapToCommunityDomainList())
         val collectionsItems = _collectionListState.value
         val communitiesCollection: MutableList<FtueCommunityCollectionListItem> = arrayListOf()
         for (i in 0 until MAX_COLLECTION_LIST_SIZE) {
-            if (communitiesSubscriptions.size - 1 >= i) {
-                val collection = CommunityCollection(communitiesSubscriptions[i])
+            if (communitySubscriptions.size - 1 >= i) {
+                val collection = CommunityCollection(communitySubscriptions[i])
                 val finCommunityCollectionListItem =
                     collectionsItems?.find { ftueCommunityCollectionListItem -> ftueCommunityCollectionListItem.collection == collection }
                 val id: Long = finCommunityCollectionListItem?.id ?: IdUtil.generateLongId()

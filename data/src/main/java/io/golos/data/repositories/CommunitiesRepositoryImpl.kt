@@ -5,9 +5,8 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
-import io.golos.data.mappers.mapToCommunityDomain
-import io.golos.data.mappers.mapToCommunityLeaderDomain
-import io.golos.data.mappers.mapToCommunityPageDomain
+import io.golos.data.mappers.*
+import io.golos.data.persistence.PreferenceManager
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.CommunityDomain
@@ -27,9 +26,20 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val userKeyStore: UserKeyStore
+    private val userKeyStore: UserKeyStore,
+    private val preferenceManager: PreferenceManager
 ) : RepositoryBase(dispatchersProvider),
     CommunitiesRepository {
+
+    override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
+        preferenceManager.saveFtueCommunitySubscriptions(communitySubscriptions.mapToCommunityEntityList())
+    }
+
+    override suspend fun getCommunitySubscriptions(): List<CommunityDomain> {
+        return withContext(dispatchersProvider.ioDispatcher){
+            preferenceManager.getFtueCommunitySubscriptions().mapToCommunityDomainList()
+        }
+    }
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
         //TODO kv 10/12/19 need add send communities collection

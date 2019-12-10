@@ -3,15 +3,28 @@ package io.golos.cyber_android.ui.screens.ftue_search_community.model
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.FtueBoardStageDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import io.golos.domain.use_cases.user.UsersRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FtueSearchCommunityModelImpl
 @Inject constructor(
     private val repository: CommunitiesRepository,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val usersRepository: UsersRepository
 ) : ModelBaseImpl(), FtueSearchCommunityModel {
+
+    override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
+        repository.saveCommunitySubscriptions(communitySubscriptions)
+    }
+
+    override suspend fun getCommunitySubscriptions(): List<CommunityDomain> = repository.getCommunitySubscriptions()
+
+    override suspend fun setFtueBoardStage(stage: FtueBoardStageDomain) {
+        usersRepository.setFtueBoardStage(stage)
+    }
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
         withContext(dispatchersProvider.ioDispatcher) {

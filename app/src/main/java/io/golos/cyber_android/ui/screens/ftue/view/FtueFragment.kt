@@ -14,8 +14,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue.viewmodel.FtueViewModel
+import io.golos.cyber_android.ui.screens.ftue.view.view_command.FtueDoneCommand
+import io.golos.cyber_android.ui.screens.ftue.view.view_command.NavigateToFtuePageCommand
+import io.golos.cyber_android.ui.screens.ftue.view_model.FtueViewModel
 import io.golos.cyber_android.ui.screens.ftue_finish.view.FtueFinishFragment
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.FtueSearchCommunityFragment
 import kotlinx.android.synthetic.main.fragment_ftue.*
@@ -54,9 +57,18 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setupCommunUrl()
         setupViewPage()
-
         skipFinish.setOnClickListener {
-            //todo close fragment
+            viewModel.onSkipClicked()
+        }
+        viewModel.startToFirstScreen()
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is NavigateToFtuePageCommand){
+            viewPager.setCurrentItem(command.page.getPagePosition(), false)
+        } else if(command is FtueDoneCommand){
+
         }
     }
 
@@ -90,9 +102,14 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
             viewPager.setCurrentItem(0, true)
         }
 
-        fragmentPagesList.add(FtueFinishFragment.newInstance())
+        val ftueFinishFragment = FtueFinishFragment.newInstance()
+        ftueFinishFragment.onDoneClicked = {
+
+        }
 
         fragmentPagesList.add(searchFragment)
+
+        fragmentPagesList.add(ftueFinishFragment)
 
         return fragmentPagesList
     }

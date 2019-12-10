@@ -1,7 +1,9 @@
 package io.golos.domain.use_cases.user
 
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.FollowerDomain
+import io.golos.domain.dto.FtueBoardStageDomain
 import io.golos.domain.dto.UserProfileDomain
 import java.io.File
 
@@ -59,4 +61,23 @@ interface UsersRepository {
      * Clear bio of current user profile
      */
     suspend fun clearBio()
+
+    /**
+     * Set ftue board stage
+     */
+    suspend fun setFtueBoardStage(stage: FtueBoardStageDomain)
+
+    /**
+     * Get ftue board stage
+     *
+     * @return ftue board stage
+     */
+    suspend fun getFtueBoardStage(): FtueBoardStageDomain
+
+    /**
+     * Check that need show ftue board
+     *
+     * @return true if need show ftue board
+     */
+    suspend fun isNeedShowFtueBoard(): Boolean
 }

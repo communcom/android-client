@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collect
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.community.FtueCommunityAdapter
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueSearchFragmentAfterError
-import io.golos.cyber_android.ui.screens.ftue_search_community.viewmodel.FtueSearchCommunityViewModel
+import io.golos.cyber_android.ui.screens.ftue_search_community.view_model.FtueSearchCommunityViewModel
 import io.golos.cyber_android.ui.utils.debounce
 import kotlinx.android.synthetic.main.fragment_ftue_search_community.*
 
