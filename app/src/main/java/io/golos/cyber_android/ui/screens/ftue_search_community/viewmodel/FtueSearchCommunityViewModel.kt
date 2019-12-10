@@ -263,7 +263,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 model.sendCommunitiesCollection(communityIds as List<String>)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = NavigationToFtueSearchFragmentAfterError()
+                //if need processing, error need uncomment
+                //_command.value = NavigationToFtueSearchFragmentAfterError()
             }
         }
     }

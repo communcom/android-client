@@ -72,21 +72,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCommunUrl"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/doneFinish"
-            style="@style/SignUpStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="@dimen/margin_top_welcome_buttons"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="40dp"
-            android:text="@string/done"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            tools:visibility="visible" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

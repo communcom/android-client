@@ -58,10 +58,6 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
         skipFinish.setOnClickListener {
             //todo close fragment
         }
-
-        doneFinish.setOnClickListener {
-            //todo close fragment
-        }
     }
 
     private fun setupViewPage(){
@@ -73,10 +69,8 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
                 val lastPage = ftuePageAdapter.count - 1
                 if (position == lastPage) {
                     skipFinish.visibility = View.VISIBLE
-                    doneFinish.visibility = View.VISIBLE
                 } else {
                     skipFinish.visibility = View.GONE
-                    doneFinish.visibility = View.GONE
                 }
             }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -95,9 +89,11 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
         searchFragment.onCommunityCollectionError = {
             viewPager.setCurrentItem(0, true)
         }
-        fragmentPagesList.add(searchFragment)
 
         fragmentPagesList.add(FtueFinishFragment.newInstance())
+
+        fragmentPagesList.add(searchFragment)
+
         return fragmentPagesList
     }
 
