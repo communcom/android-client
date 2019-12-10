@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
             android:name=".application.App"
@@ -99,6 +100,11 @@
                 android:name="io.golos.cyber_android.services.feedback_service.FeedbackService"
                 android:enabled="true"
                 android:exported="false">
+        </service>
+        <service
+            android:name="io.golos.cyber_android.services.restart.RestartService"
+            android:enabled="true"
+            android:exported="false">
         </service>
 
         <meta-data

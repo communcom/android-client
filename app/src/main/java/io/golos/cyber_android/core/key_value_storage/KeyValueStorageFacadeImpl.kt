@@ -129,6 +129,11 @@ constructor(
         }
     }
 
+    override fun removeLastUsedCommunityId() =
+        keyValueStorage.update {
+            it.remove("LAST_USED_COMMUNITY_ID")
+        }
+
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =
         when(keyType) {
             UserKeyType.POSTING -> "USER_KEY_TYPE_POSTING"

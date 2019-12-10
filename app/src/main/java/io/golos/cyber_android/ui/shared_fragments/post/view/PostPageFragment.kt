@@ -209,6 +209,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                         viewModel.deleteComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
                 }
             }
+            ConfirmationDialog.REQUEST -> {
+                if(resultCode == ConfirmationDialog.RESULT_OK) {
+                    viewModel.deletePost()
+                }
+            }
         }
     }
 
@@ -227,12 +232,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         }
     }
 
-    private fun deletePost() {
-        ConfirmationDialog.newInstance(getString(R.string.delete_post_confirmation)).run {
-            listener = viewModel::deletePost
-            show(this@PostPageFragment.requireFragmentManager(), "confirm")
-        }
-    }
+    private fun deletePost() =
+        ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
+            .show(requireFragmentManager(), "menu")
 
     private fun moveToUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
 

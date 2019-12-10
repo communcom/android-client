@@ -2,9 +2,11 @@ package io.golos.cyber_android.ui.screens.profile.new_profile.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.R
@@ -14,11 +16,15 @@ import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
+import io.golos.cyber_android.ui.dialogs.ProfileSettingsDialog
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
@@ -79,9 +85,11 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         when(command) {
             is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
             is ShowEditBioDialogCommand -> showEditBioDialog()
-            is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place)
+            is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
             is MoveToBioPageCommand -> moveToBioPage(command.text)
             is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
+            is ShowSettingsDialogCommand -> showSettingsDialog()
+            is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
         }
     }
 
@@ -103,6 +111,16 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             }
             ProfileBioFragment.REQUEST -> {
                 viewModel.updateBio(data!!.extras.getString(ProfileBioFragment.RESULT)!!)
+            }
+            ProfileSettingsDialog.REQUEST -> {
+                when(resultCode) {
+                    ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
+                }
+            }
+            ConfirmationDialog.REQUEST -> {
+                if(resultCode == ConfirmationDialog.RESULT_OK) {
+                    viewModel.onLogoutConfirmed()
+                }
             }
         }
     }
@@ -126,12 +144,18 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     private fun showEditBioDialog() =
         ProfileMenuDialog.newInstance(ProfileItem.BIO, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
-    private fun moveToSelectPhotoPage(place: ProfileItem) =
+    private fun showSettingsDialog() =
+        ProfileSettingsDialog.newInstance(this@ProfileFragment).show(requireFragmentManager(), "menu")
+
+    private fun showConfirmationDialog(@StringRes textResId: Int) =
+        ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")
+
+    private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
         (requireActivity() as MainActivity)
             .showFragment(
                 ProfilePhotosFragment.newInstance(
                     place,
-                    "https://images.unsplash.com/photo-1506598417715-e3c191368ac0?ixlib=rb-1.2.1&w=1000&q=80",
+                    imageUrl,
                     this@ProfileFragment))
 
     private fun moveToBioPage(text: String?) =

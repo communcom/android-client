@@ -233,6 +233,7 @@
 
     <string name="select_cover">Select cover</string>
     <string name="select_photo">Select photo</string>
+    <string name="liked">Liked</string>
     <string name="edit_description">Edit</string>
     <string name="delete_current_cover">Delete current cover</string>
     <string name="delete_current_photo">Delete current photo</string>
@@ -274,6 +275,7 @@
     <string name="change_profile_photo">Change profile photo</string>
     <string name="change_profile_cover">Change profile cover</string>
     <string name="change_profile_description">Change profile description</string>
+    <string name="profile_settings">Profile settings</string>
 
     <!--Notifications-->
     <string name="event_time_and_actor_format">%1$s in %2$s</string>
@@ -305,6 +307,7 @@
 
     <string name="edit_comment">Edit comment</string>
     <string name="delete_comment">Delete comment</string>
+    <string name="blacklist">Blacklist</string>
 
     <string name="edit_comment_send">Edit Comment</string>
     <string name="edit_comment_reply">Reply to comment</string>

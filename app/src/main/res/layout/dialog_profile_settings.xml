@@ -17,10 +17,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/change_profile_photo"
+        android:text="@string/profile_settings"
         app:layout_constraintEnd_toStartOf="@+id/closeButton"
 
-        app:layout_constraintStart_toStartOf="@+id/select"
+        app:layout_constraintStart_toStartOf="@+id/liked"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -33,41 +33,57 @@
         app:layout_constraintTop_toTopOf="@+id/title"
         app:layout_constraintBottom_toBottomOf="@+id/title"
 
-        app:layout_constraintEnd_toEndOf="@+id/select"
+        app:layout_constraintEnd_toEndOf="@+id/liked"
         tools:ignore="ContentDescription" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/select"
+        android:id="@+id/liked"
 
         style="@style/BottomSheetMenuItem"
-        android:layout_width="match_parent"
 
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
 
         android:layout_marginTop="20dp"
 
-        android:text="@string/select_photo"
+        android:gravity="center_vertical"
 
-        app:drawableEndCompat="@drawable/ic_photo"
+        android:text="@string/liked"
+
+        app:drawableEndCompat="@drawable/ic_settings_liked"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/delete"
+        android:id="@+id/blacklist"
+
+        style="@style/BottomSheetMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
+
+        android:text="@string/blacklist"
+
+        app:drawableEndCompat="@drawable/ic_settings_blacklist"
+        app:layout_constraintEnd_toEndOf="@+id/liked"
+        app:layout_constraintStart_toStartOf="@+id/liked"
+        app:layout_constraintTop_toBottomOf="@+id/liked" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/logout"
 
         style="@style/BottomSheetMenuItem.Dangerous"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
 
-        android:layout_height="wrap_content"
+        android:text="@string/log_out"
 
-        android:text="@string/delete_comment"
+        android:gravity="center"
 
-        app:drawableEndCompat="@drawable/ic_delete"
-        app:layout_constraintEnd_toEndOf="@+id/select"
-        app:layout_constraintStart_toStartOf="@+id/select"
-        app:layout_constraintTop_toBottomOf="@+id/select" />
+        android:layout_marginTop="20dp"
 
-
+        app:layout_constraintEnd_toEndOf="@+id/blacklist"
+        app:layout_constraintStart_toStartOf="@+id/blacklist"
+        app:layout_constraintTop_toBottomOf="@+id/blacklist" />
 </androidx.constraintlayout.widget.ConstraintLayout>

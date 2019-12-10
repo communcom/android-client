@@ -24,4 +24,9 @@ interface UserKeyStore {
      * Updates keys in a storage
      */
     fun updateKeys(keys: List<UserKey>)
+
+    /**
+     * Removes all keys
+     */
+    fun clearAllKeys()
 }

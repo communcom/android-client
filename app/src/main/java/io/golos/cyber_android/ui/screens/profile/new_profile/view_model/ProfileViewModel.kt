@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
@@ -89,8 +91,8 @@ constructor(
 
     fun onSelectMenuChosen(item: ProfileItem) {
         _command.value = when(item) {
-            ProfileItem.AVATAR,
-            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item)
+            ProfileItem.AVATAR -> MoveToSelectPhotoPageCommand(item, model.avatarUrl)
+            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item, model.coverUrl)
             ProfileItem.BIO -> MoveToBioPageCommand(_bio.value)
         }
     }
@@ -153,6 +155,35 @@ constructor(
 
     fun onFollowingsClick() {
         _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
+    }
+
+    fun onSettingsClick() {
+        _command.value = ShowSettingsDialogCommand()
+    }
+
+    fun onLogoutSelected() {
+        _command.value = ShowConfirmationDialog(R.string.log_out_question)
+    }
+
+    fun onLogoutConfirmed() {
+        launch {
+            var isSuccess = true
+
+            _command.value = SetLoadingVisibilityCommand(true)
+            try {
+                model.logout()
+            } catch (ex: Exception) {
+                isSuccess = false
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+
+            if(isSuccess) {
+                model.restartApp()
+            }
+        }
     }
 
     private fun loadPage() {

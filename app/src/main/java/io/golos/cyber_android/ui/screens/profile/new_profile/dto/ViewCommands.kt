@@ -9,8 +9,10 @@ class ShowSelectPhotoDialogCommand(val place: ProfileItem): ViewCommand
 
 class ShowEditBioDialogCommand(): ViewCommand
 
-class MoveToSelectPhotoPageCommand(val place: ProfileItem): ViewCommand
+class MoveToSelectPhotoPageCommand(val place: ProfileItem, val imageUrl: String?): ViewCommand
 
 class MoveToBioPageCommand(val text: String?): ViewCommand
 
 class MoveToFollowersPageCommand(val filter: FollowersFilter, val mutualUsers: List<UserDomain>): ViewCommand
+
+class ShowSettingsDialogCommand : ViewCommand
