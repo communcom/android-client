@@ -165,6 +165,10 @@ constructor(
         _command.value = ShowConfirmationDialog(R.string.log_out_question)
     }
 
+    fun onLikedSelected() {
+        _command.value = MoveToLikedPageCommand()
+    }
+
     fun onLogoutConfirmed() {
         launch {
             var isSuccess = true

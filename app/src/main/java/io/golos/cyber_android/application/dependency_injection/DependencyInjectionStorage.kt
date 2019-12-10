@@ -67,8 +67,11 @@ import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.use_cases.model.CommunityModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -161,6 +164,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 get<ProfileFragmentComponent>()
                     .followersFragment
                     .init(ProfileFollowersFragmentModule(args[0] as FollowersFilter, args[1] as Int, args[2] as List<UserDomain>))
+                    .build()
+
+            ProfilePostsLikedFragmentComponent::class ->
+                get<UIComponent>()
+                    .likedFragment
+                    .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                     .build()
 
             InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()
@@ -279,6 +288,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             ProfilePostsFragmentComponent::class -> get<UIComponent>()
                 .profilePostsFragment
+                .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

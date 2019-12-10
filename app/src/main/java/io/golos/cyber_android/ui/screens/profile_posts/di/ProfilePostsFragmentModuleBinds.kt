@@ -24,7 +24,6 @@ import io.golos.domain.use_cases.user.GetLocalUserUseCaseImpl
 
 @Module
 interface ProfilePostsFragmentModuleBinds {
-
     @Binds
     @ViewModelKey(ProfilePostsViewModel::class)
     @IntoMap

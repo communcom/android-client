@@ -31,6 +31,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileV
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
+import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.domain.dto.UserDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
@@ -90,6 +91,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
             is ShowSettingsDialogCommand -> showSettingsDialog()
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
+            is MoveToLikedPageCommand -> moveToLikedPage()
         }
     }
 
@@ -115,6 +117,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             ProfileSettingsDialog.REQUEST -> {
                 when(resultCode) {
                     ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
+                    ProfileSettingsDialog.RESULT_LIKED -> viewModel.onLikedSelected()
                 }
             }
             ConfirmationDialog.REQUEST -> {
@@ -164,4 +167,6 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
         (requireActivity() as MainActivity).showFragment(ProfileFollowersFragment.newInstance(filter, mutualUsers))
     }
+
+    private fun moveToLikedPage() = (requireActivity() as MainActivity).showFragment(ProfileLikedFragment.newInstance())
 }

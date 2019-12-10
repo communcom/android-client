@@ -15,4 +15,7 @@ class MoveToBioPageCommand(val text: String?): ViewCommand
 
 class MoveToFollowersPageCommand(val filter: FollowersFilter, val mutualUsers: List<UserDomain>): ViewCommand
 
+class MoveToLikedPageCommand(): ViewCommand
+
 class ShowSettingsDialogCommand : ViewCommand
+

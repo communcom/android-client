@@ -101,12 +101,6 @@
                 android:enabled="true"
                 android:exported="false">
         </service>
-        <service
-            android:name="io.golos.cyber_android.services.restart.RestartService"
-            android:enabled="true"
-            android:exported="false">
-        </service>
-
         <meta-data
                 android:name="com.google.android.backup.api_key"
                 android:value="AEdPqrEAAAAI6F7XYqx_4KxHxqbJTsqE4dT7-ESMDAbF9gH9ag"/>

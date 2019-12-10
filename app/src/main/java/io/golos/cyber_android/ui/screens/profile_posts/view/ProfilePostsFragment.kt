@@ -32,11 +32,12 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
-class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
+open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
 
     override fun linkViewModel(binding: FragmentProfilePostsBinding, viewModel: ProfilePostsViewModel) {
         binding.viewModel = viewModel
@@ -47,7 +48,9 @@ class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, Profi
     override fun layoutResId(): Int = R.layout.fragment_profile_posts
 
     override fun inject() {
-        App.injections.get<ProfilePostsFragmentComponent>().inject(this)
+        App.injections
+            .get<ProfilePostsFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.BY_USER)
+            .inject(this)
     }
 
     override fun releaseInjection() {

@@ -32,7 +32,8 @@ import javax.inject.Inject
 class ProfilePostsViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
-    private val paginator: Paginator.Store<Post>
+    private val paginator: Paginator.Store<Post>,
+    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -353,7 +354,7 @@ class ProfilePostsViewModel @Inject constructor(
                     offset = 0,
                     sortBy = PostsConfigurationDomain.SortByDomain.TIME_DESC,
                     timeFrame = PostsConfigurationDomain.TimeFrameDomain.ALL,
-                    typeFeed = PostsConfigurationDomain.TypeFeedDomain.BY_USER
+                    typeFeed = startFeedType
                 )
                 isUserLoad.invoke(true)
             } catch (e: Exception) {
