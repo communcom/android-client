@@ -133,4 +133,8 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
         )
         tvCommunUrl.text = SpannableStringBuilder(TextUtils.concat(commun, slash))
     }
+
+    companion object{
+        fun newInstance(): Fragment = FtueFragment()
+    }
 }

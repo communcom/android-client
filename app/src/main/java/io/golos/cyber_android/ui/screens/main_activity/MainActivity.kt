@@ -12,8 +12,13 @@ import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.ActivityBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
+import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue.view.FtueFragment
+import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.ContentPage
+import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.NavigateToContentCommand
 import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
 import javax.inject.Inject
 
@@ -40,7 +45,17 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         App.injections.get<MainActivityComponent>().inject(this)
-        showFragment(DashboardFragment.newInstance(), false)
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is NavigateToContentCommand){
+            if(command.contentPage == ContentPage.FTUE){
+                showFragment(FtueFragment.newInstance(), false)
+            } else if(command.contentPage == ContentPage.DASHBOARD){
+                showFragment(DashboardFragment.newInstance(), false)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
