@@ -14,7 +14,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feed
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
+import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
@@ -23,6 +23,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subs
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
+import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
@@ -68,6 +69,7 @@ interface UIComponent {
     val ftueFragment: FtueFragmentComponent.Builder
     val ftueSearchCommunityFragment: FtueSearchCommunityFragmentComponent.Builder
     val ftueFinishFragmentComponent: FtueFinishFragmentComponent.Builder
+    val dashboardFragmentComponent: DashboardFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)

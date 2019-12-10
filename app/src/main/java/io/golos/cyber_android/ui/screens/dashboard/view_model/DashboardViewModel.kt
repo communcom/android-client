@@ -1,7 +1,13 @@
-package io.golos.cyber_android.ui.screens.main_activity
+package io.golos.cyber_android.ui.screens.dashboard.view_model
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.UpdateOption
@@ -10,13 +16,13 @@ import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.use_cases.sign.SignInUseCase
 import javax.inject.Inject
 
-class MainViewModel
-@Inject
-constructor(
-    private val signInUseCase: SignInUseCase,
-    private val eventsUseCase: EventsUseCase,
-    private val pushesUseCase: PushNotificationsSettingsUseCase
-) : ViewModel(), NavigationBottomMenuWidget.Listener {
+class DashboardViewModel @Inject constructor(dispatchersProvider: DispatchersProvider,
+                                             dashboardModel: DashboardModel,
+                                             private val signInUseCase: SignInUseCase,
+                                             private val eventsUseCase: EventsUseCase,
+                                             private val pushesUseCase: PushNotificationsSettingsUseCase):
+    ViewModelBase<DashboardModel>(dispatchersProvider, dashboardModel),
+    NavigationBottomMenuWidget.Listener{
 
     private val currentTabLiveData =
         MutableLiveData(NavigationBottomMenuWidget.Tab.FEED)

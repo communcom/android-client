@@ -7,8 +7,8 @@ import io.golos.domain.dto.UserProfileDomain
 fun GetProfileResult.mapToUserProfileDomain(): UserProfileDomain {
     return UserProfileDomain(
         userId = userId,
-        coverUrl = personal?.coverUrl,
-        avatarUrl = personal?.avatarUrl,
+        coverUrl = coverUrl,
+        avatarUrl = avatarUrl,
         bio = personal?.biography,
         name = username!!,
         joinDate = registration!!.time,
@@ -22,8 +22,8 @@ fun GetProfileResult.mapToUserProfileDomain(): UserProfileDomain {
 fun GetProfileResult.mapToUserProfileDomain(fakeCommunities: GetCommunitiesResponse): UserProfileDomain {
     return UserProfileDomain(
         userId = userId,
-        coverUrl = personal?.coverUrl,
-        avatarUrl = personal?.avatarUrl,
+        coverUrl = coverUrl,
+        avatarUrl = avatarUrl,
         bio = personal?.biography,
         name = username!!,
         joinDate = registration!!.time,
