@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -65,14 +66,14 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
 
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
-        if(command is NavigateToFtuePageCommand){
+        if (command is NavigateToFtuePageCommand) {
             viewPager.setCurrentItem(command.page.getPagePosition(), false)
-        } else if(command is FtueDoneCommand){
-
+        } else if (command is FtueDoneCommand) {
+            findNavController().navigate(command.navigationId)
         }
     }
 
-    private fun setupViewPage(){
+    private fun setupViewPage() {
         this.fragmentPagesList = createPagesList()
         viewPager.adapter = ftuePageAdapter
         viewPager.isPagingEnabled = false
@@ -85,13 +86,14 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
                     skipFinish.visibility = View.GONE
                 }
             }
+
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageScrollStateChanged(state: Int) {}
         })
         dotsIndicator.setViewPager(viewPager)
     }
 
-    private fun createPagesList(): List<Fragment>{
+    private fun createPagesList(): List<Fragment> {
         val fragmentPagesList = mutableListOf<Fragment>()
 
         val searchFragment = FtueSearchCommunityFragment.newInstance()
@@ -102,19 +104,14 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
             viewPager.setCurrentItem(0, true)
         }
 
-        val ftueFinishFragment = FtueFinishFragment.newInstance()
-        ftueFinishFragment.onDoneClicked = {
-
-        }
-
         fragmentPagesList.add(searchFragment)
 
-        fragmentPagesList.add(ftueFinishFragment)
+        fragmentPagesList.add(FtueFinishFragment.newInstance())
 
         return fragmentPagesList
     }
 
-    private fun setupCommunUrl(){
+    private fun setupCommunUrl() {
         val commun = SpannableStringBuilder(getString(R.string.commun))
         val slash = SpannableStringBuilder(" /")
         val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
@@ -132,9 +129,5 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
             Spannable.SPAN_INCLUSIVE_EXCLUSIVE
         )
         tvCommunUrl.text = SpannableStringBuilder(TextUtils.concat(commun, slash))
-    }
-
-    companion object{
-        fun newInstance(): Fragment = FtueFragment()
     }
 }

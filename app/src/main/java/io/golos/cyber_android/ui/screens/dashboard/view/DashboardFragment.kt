@@ -149,9 +149,4 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
             }
         })
     }
-
-    companion object{
-
-        fun newInstance(): Fragment = DashboardFragment()
-    }
 }

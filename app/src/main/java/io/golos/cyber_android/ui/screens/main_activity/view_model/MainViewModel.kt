@@ -15,12 +15,12 @@ class MainViewModel @Inject constructor(dispatchersProvider: DispatchersProvider
     init {
         launch {
             try {
-                if(model.isNeedShowFtueBoard()){
+                if (model.isNeedShowFtueBoard()) {
                     _command.value = NavigateToContentCommand(ContentPage.FTUE)
-                } else{
+                } else {
                     _command.value = NavigateToContentCommand(ContentPage.DASHBOARD)
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Timber.e(e)
             }
         }

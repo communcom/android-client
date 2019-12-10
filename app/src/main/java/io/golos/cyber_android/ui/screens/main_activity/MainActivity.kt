@@ -3,24 +3,17 @@ package io.golos.cyber_android.ui.screens.main_activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.ActivityMainBinding
-import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.common.mvvm.ActivityBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
-import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
-import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue.view.FtueFragment
-import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.ContentPage
+import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.NavigateToContentCommand
 import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
@@ -40,21 +33,19 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
         binding.viewModel = viewModel
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         App.injections.get<MainActivityComponent>().inject(this)
     }
 
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
-        if(command is NavigateToContentCommand){
-            if(command.contentPage == ContentPage.FTUE){
-                showFragment(FtueFragment.newInstance(), false)
-            } else if(command.contentPage == ContentPage.DASHBOARD){
-                showFragment(DashboardFragment.newInstance(), false)
-            }
+        val navigationController = mainNavHost.findNavController()
+        if (command is NavigateToContentCommand) {
+            val inflater = navigationController.navInflater
+            val graph = inflater.inflate(R.navigation.graph_main)
+            graph.startDestination = command.contentPage.navigationId
+            navigationController.graph = graph
         }
     }
 
@@ -86,7 +77,8 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
                 R.anim.nav_slide_in_right,
                 R.anim.nav_slide_out_left,
                 R.anim.nav_slide_in_left,
-                R.anim.nav_slide_out_right)
+                R.anim.nav_slide_out_right
+            )
 
             beginTransaction
                 .add(R.id.rootContainer, fragment, tag)

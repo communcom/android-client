@@ -7,21 +7,22 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
-import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
-import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
+import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.screens.followers.FollowersFragment
@@ -82,7 +83,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         if (command is BackCommand) {
-            requireFragmentManager().popBackStack()
+            findNavController().navigateUp()
         }
     }
 
@@ -188,7 +189,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     companion object {
 
-        private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
+        const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
 
         fun newInstance(communityId: String): CommunityPageFragment {
 

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.ftue.view_model
 
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.screens.ftue.model.FtueModel
 import io.golos.cyber_android.ui.screens.ftue.view.view_command.FtueDoneCommand
@@ -15,11 +16,11 @@ class FtueViewModel @Inject constructor(dispatchersProvider: DispatchersProvider
 
     fun startToFirstScreen() {
         launch {
-            when(model.getFtueBoardStage()){
+            when (model.getFtueBoardStage()) {
                 FtueBoardStageDomain.NEED_SHOW -> _command.value = NavigateToFtuePageCommand(FtuePage.SEARCH_COMMUNITIES)
                 FtueBoardStageDomain.SEARCH_COMMUNITIES -> _command.value = NavigateToFtuePageCommand(FtuePage.SEARCH_COMMUNITIES)
                 FtueBoardStageDomain.FINISH -> _command.value = NavigateToFtuePageCommand(FtuePage.FINISH)
-                else -> _command.value = FtueDoneCommand()
+                else -> _command.value = FtueDoneCommand(R.id.action_ftueFragment_to_dashboardFragment)
             }
         }
     }
@@ -27,7 +28,7 @@ class FtueViewModel @Inject constructor(dispatchersProvider: DispatchersProvider
     fun onSkipClicked() {
         launch {
             model.setFtueBoardStage(FtueBoardStageDomain.PASSED)
-            _command.value = FtueDoneCommand()
+            _command.value = FtueDoneCommand(R.id.action_ftueFragment_to_dashboardFragment)
         }
     }
 }
