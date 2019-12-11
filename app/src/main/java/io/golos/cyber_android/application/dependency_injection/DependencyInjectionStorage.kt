@@ -33,7 +33,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
+import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentTabComponent
@@ -60,6 +60,10 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subs
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
@@ -269,6 +273,22 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             ProfilePostsFragmentComponent::class -> get<UIComponent>()
                 .profilePostsFragment
+                .build()
+
+            FtueFragmentComponent::class -> get<UIComponent>()
+                .ftueFragment
+                .build()
+
+            FtueSearchCommunityFragmentComponent::class -> get<UIComponent>()
+                .ftueSearchCommunityFragment
+                .build()
+
+            FtueFinishFragmentComponent::class -> get<UIComponent>()
+                .ftueFinishFragmentComponent
+                .build()
+
+            DashboardFragmentComponent::class -> get<UIComponent>()
+                .dashboardFragmentComponent
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

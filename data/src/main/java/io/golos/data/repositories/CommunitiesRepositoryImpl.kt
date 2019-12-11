@@ -5,18 +5,17 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
-import io.golos.data.mappers.mapToCommunityDomain
-import io.golos.data.mappers.mapToCommunityLeaderDomain
-import io.golos.data.mappers.mapToCommunityPageDomain
+import io.golos.data.mappers.*
+import io.golos.data.persistence.PreferenceManager
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.dto.UserKeyType
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,9 +26,26 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val userKeyStore: UserKeyStore
+    private val userKeyStore: UserKeyStore,
+    private val preferenceManager: PreferenceManager
 ) : RepositoryBase(dispatchersProvider),
     CommunitiesRepository {
+
+    override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
+        preferenceManager.saveFtueCommunitySubscriptions(communitySubscriptions.mapToCommunityEntityList())
+    }
+
+    override suspend fun getCommunitySubscriptions(): List<CommunityDomain> {
+        return withContext(dispatchersProvider.ioDispatcher){
+            preferenceManager.getFtueCommunitySubscriptions().mapToCommunityDomainList()
+        }
+    }
+
+    override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
+        apiCall{
+            commun4j.onBoardingCommunitySubscriptions(currentUserRepository.user, communityIds)
+        }
+    }
 
     override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
         val community = apiCall { commun4j.getCommunity(communityId) }
@@ -76,18 +92,22 @@ constructor(
     /**
      * [forCurrentUserOnly] if true the method returns only current users' communities (otherwise - all communities)
      */
-    override suspend fun getCommunitiesList(offset: Int, pageSize: Int, forCurrentUserOnly: Boolean): List<CommunityDomain> {
-        if(forCurrentUserOnly) {
+    override suspend fun getCommunitiesList(
+        offset: Int,
+        pageSize: Int,
+        forCurrentUserOnly: Boolean,
+        searchQuery: String?
+    ): List<CommunityDomain> {
+        if (forCurrentUserOnly) {
             throw UnsupportedOperationException("Getting communities for current user is not supported now")
         }
-
-        return apiCall { commun4j.getCommunitiesList(null, offset, pageSize) }
+        return apiCall { commun4j.getCommunitiesList(searchQuery, offset, pageSize) }
             .items
             .map { it.mapToCommunityDomain() }
     }
 
     override suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain> =
-        apiCall { commun4j.getLeaders(communityId, 50, 0)}
+        apiCall { commun4j.getLeaders(communityId, 50, 0) }
             .items
             .map { it.mapToCommunityLeaderDomain() }
 }

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity
+package io.golos.cyber_android.ui.screens.main_activity.di
 
 import dagger.Subcomponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentComponent

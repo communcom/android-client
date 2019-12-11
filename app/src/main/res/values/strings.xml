@@ -461,5 +461,15 @@
     <string name="sign_up_description_3">Blockchain Disclaimer</string>
     <string name="do_you_have_account">Do you have account?</string>
 
+    <!--Ftue-->
+    <string name="commun">commun</string>
+    <string name="get_you_first_points">Get you first points</string>
+    <string name="subscribe_to_3_communities">Subscribe to at least 3 communities
+and get your first Community Points</string>
+    <string name="ftue_finish_description_1">Authorize on web\n</string>
+    <string name="ftue_finish_description_2">Triple your points</string>
+    <string name="ftue_finish_sub_description">Right after you authorize on the Website\n We triple your welcome points</string>
+    <string name="done">Done</string>
+
 
 </resources>

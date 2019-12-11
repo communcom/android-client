@@ -139,9 +139,9 @@ object Paginator {
                     }
                     is State.SearchProgress<*> -> {
                         if (items.isEmpty()) {
-                            State.FullData(state.pageCount, emptyList<T>())
+                            State.FullData(0, emptyList<T>())
                         } else {
-                            State.Data(state.pageCount + 1, items)
+                            State.Data(0, items)
                         }
                     }
                     else -> state

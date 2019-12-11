@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.common.recycler_view
 
-import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 
 /**
  * Updatable list adapter
@@ -19,7 +19,11 @@ abstract class ListAdapterBase<TListItemEventsProcessor, TItem: ListItem>(
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
         items = newItems.toList()
-        diffResult.dispatchUpdatesTo(this)
+        try{
+            diffResult.dispatchUpdatesTo(this)
+        } catch (e: Exception){
+            Timber.e(e)
+        }
     }
 
     override fun getItemId(position: Int): Long = items[getItemPosition(position)].id
