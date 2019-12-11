@@ -16,9 +16,9 @@ class MainViewModel @Inject constructor(dispatchersProvider: DispatchersProvider
         launch {
             try {
                 if (model.isNeedShowFtueBoard()) {
-                    _command.value = NavigationCommand(null, R.id.ftueFragment)
+                    _command.value = NavigationCommand(null, R.id.ftueFragment, R.navigation.graph_main)
                 } else {
-                    _command.value = NavigationCommand(null, R.id.dashboardFragment)
+                    _command.value = NavigationCommand(null, R.id.dashboardFragment, R.navigation.graph_main)
                 }
             } catch (e: Exception) {
                 Timber.e(e)

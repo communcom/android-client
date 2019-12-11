@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -15,9 +14,10 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel
-import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import kotlinx.android.synthetic.main.fragment_communities.*
 
 open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesListViewModel>() {
@@ -59,14 +59,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         super.processViewCommand(command)
 
         when(command) {
-            is NavigateToCommunityPageCommand -> {
-                findNavController().navigate(
-                    R.id.action_dashboardFragment_to_communityPageFragment,
-                    Bundle().apply {
-                        putString(CommunityPageFragment.ARG_COMMUNITY_ID, command.communityId)
-                    }
-                )
-            }
+            is NavigateToCommunityPageCommand -> moveToCommunityPage(command.communityId)
             is BackCommand -> requireActivity().onBackPressed()
         }
     }
@@ -87,4 +80,6 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         communitiesListAdapter.update(data)
     }
 
+    private fun moveToCommunityPage(communityId: String) =
+        (requireActivity() as? MainActivity)?.showFragment(CommunityPageFragment.newInstance(communityId))
 }

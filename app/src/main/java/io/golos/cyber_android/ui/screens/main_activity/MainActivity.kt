@@ -42,11 +42,13 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
         super.processViewCommand(command)
         val navigationController = mainNavHost.findNavController()
         if (command is NavigationCommand) {
-            command.startDestination?.let {
+            command.graphId?.let {
                 val inflater = navigationController.navInflater
                 val graph = inflater.inflate(R.navigation.graph_main)
-                graph.startDestination = command.startDestination
                 navigationController.graph = graph
+            }
+            command.startDestination?.let {
+                navigationController.graph.startDestination = command.startDestination
             }
             command.navigationId?.let {
                 navigationController.navigate(it)

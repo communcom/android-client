@@ -134,6 +134,5 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                     this@ProfileFragment))
 
     private fun moveToBioPage(text: String?) =
-        (requireActivity() as MainActivity)
-            .showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
+        (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 }

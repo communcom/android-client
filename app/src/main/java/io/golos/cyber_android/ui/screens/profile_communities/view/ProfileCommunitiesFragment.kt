@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -16,7 +15,9 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPa
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileCommunities
+import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragment
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel
 import kotlinx.android.synthetic.main.fragment_profile_communities.*
@@ -68,19 +69,8 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is NavigateToCommunityPageCommand -> {
-                findNavController().navigate(
-                    R.id.action_dashboardFragment_to_communityPageFragment,
-                    Bundle().apply {
-                        putString(CommunityPageFragment.ARG_COMMUNITY_ID, command.communityId)
-                    }
-                )
-//                moveToCommunity(command.communityId)
-            }
-            is NavigateToCommunitiesListPageCommand -> {
-
-//                moveToCommunitiesList()
-            }
+            is NavigateToCommunityPageCommand -> moveToCommunity(command.communityId)
+            is NavigateToCommunitiesListPageCommand -> moveToCommunitiesList()
         }
     }
 
@@ -101,9 +91,9 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
         communitiesListAdapter.update(data)
     }
 
-//    private fun moveToCommunity(communityId: String) =
-//        (requireActivity() as? MainActivity)?.showFragment(CommunityPageFragment.newInstance(communityId))
+    private fun moveToCommunity(communityId: String) =
+        (requireActivity() as? MainActivity)?.showFragment(CommunityPageFragment.newInstance(communityId))
 
-//    private fun moveToCommunitiesList() =
-//        (requireActivity() as? MainActivity)?.showFragment(CommunitiesListFragment.newInstance())
+    private fun moveToCommunitiesList() =
+        (requireActivity() as? MainActivity)?.showFragment(CommunitiesListFragment.newInstance())
 }
