@@ -49,7 +49,7 @@
 
     <TextView
         android:id="@+id/authorAndTime"
-        style="@style/PostCardAuthorTextStyle"
+        style="@style/PostCardHeaderAuthorTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/post_viewer_header_vertical_margin"

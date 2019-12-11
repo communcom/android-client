@@ -10,7 +10,7 @@ class VideoPostItem(val videoBlock: VideoBlock, widgetListener: EmbedVideoWidget
     BasePostBlockItem<VideoBlock, EmbedVideoWidgetListener, EmbedVideoWidget>(videoBlock, widgetListener) {
 
     override fun createWidgetView(context: Context): EmbedVideoWidget =
-        EmbedVideoWidget(context)
+        EmbedVideoWidget(context).apply { disableHtmlContent() }
 
     override fun areItemsTheSame(): Int = videoBlock.hashCode()
 

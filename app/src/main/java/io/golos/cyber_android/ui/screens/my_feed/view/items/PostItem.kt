@@ -117,7 +117,7 @@ class PostItem(
 
             is WebsiteBlock -> WebSitePostItem(block, listener)
 
-            is ParagraphBlock -> ParagraphPostItem(block, listener)
+            is ParagraphBlock -> ParagraphPostItem(block, listener, post.contentId)
 
             is RichBlock -> RichPostItem(block, listener)
 

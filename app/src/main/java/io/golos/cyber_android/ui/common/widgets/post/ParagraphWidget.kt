@@ -4,11 +4,16 @@ import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -16,6 +21,7 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
@@ -31,6 +37,8 @@ constructor(
     PostBlockWidget<ParagraphBlock, ParagraphWidgetListener> {
 
     private var onClickProcessor: ParagraphWidgetListener? = null
+    private var isSeeMoreEnabled: Boolean = false
+    private var contentId: Post.ContentId? = null
 
     @ColorInt
     private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
@@ -48,6 +56,14 @@ constructor(
         setUp()
     }
 
+    fun setSeeMoreEnabled(isEnabled: Boolean) {
+        isSeeMoreEnabled = isEnabled
+    }
+
+    fun setContentId(postContentId: Post.ContentId) {
+        contentId = postContentId
+    }
+
     private fun setUp() {
         setTextColor(Color.BLACK)
 
@@ -57,7 +73,7 @@ constructor(
             setPadding(it, 0, it, 0)
         }
 
-        context.resources.getDimension(R.dimen.margin_block).toInt().also {
+        context.resources.getDimension(R.dimen.margin_block_6dp).toInt().also {
             val params = this.layoutParams as ViewGroup.MarginLayoutParams
             params.topMargin = it
             params.bottomMargin = it
@@ -77,6 +93,36 @@ constructor(
                 is MentionBlock -> addMention(blockItem,builder)
                 is LinkBlock -> addLink(blockItem, builder)
             }
+        }
+
+        if (builder.length > 600 && isSeeMoreEnabled) {
+            val withSeeMore = SpannableStringBuilder(builder.substring(0, 400))
+            val seeMoreSpannable = SpannableStringBuilder(context.getString(R.string.see_more))
+            val seeMoreClick = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    contentId?.let { id ->
+                        onClickProcessor?.onSeeMoreClicked(id)
+                    }
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    ds.isUnderlineText = false
+                }
+            }
+            seeMoreSpannable.setSpan(
+                seeMoreClick,
+                0,
+                seeMoreSpannable.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            seeMoreSpannable.setSpan(
+                ForegroundColorSpan(spansColor),
+                0,
+                seeMoreSpannable.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            builder.clear()
+            builder.append(SpannableStringBuilder(TextUtils.concat(withSeeMore, "... ", seeMoreSpannable)))
         }
 
         this.text = builder

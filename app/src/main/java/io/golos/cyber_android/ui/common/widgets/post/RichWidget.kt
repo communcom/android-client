@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.utils.dp
 import io.golos.domain.use_cases.post.post_dto.RichBlock
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 
@@ -37,8 +38,8 @@ constructor(
         linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl
         if (thumbnailUrl != null) {
-            val width = block.thumbnailWidth ?: 640
-            val height = block.thumbnailHeight ?: 640
+            val width = if (block.thumbnailWidth == null) 350.dp else block.thumbnailWidth!!.div(2).dp
+            val height = if (block.thumbnailHeight == null) 350.dp else block.thumbnailWidth!!.div(2).dp
             richImage.visibility = View.VISIBLE
             richDescription.visibility = View.GONE
             Glide.with(context)

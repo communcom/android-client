@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.common.widgets.post
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -27,7 +28,7 @@ constructor(
     }
 
     override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
-        if(processor != null) {
+        if (processor != null) {
             setOnClickListener {
                 imageUri?.let {
                     this.onClickProcessor?.onImageClicked(it)
@@ -42,7 +43,12 @@ constructor(
     override fun render(block: ImageBlock) {
         imageUri = block.content
 
-        description.text = block.description
+        if (block.description.isNullOrEmpty()) {
+            description.visibility = View.GONE
+        } else {
+            description.text = block.description
+            description.visibility = View.VISIBLE
+        }
 
         Glide
             .with(this)

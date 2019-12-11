@@ -114,6 +114,11 @@ class MyFeedViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
+    override fun onSeeMoreClicked(postContentId: Post.ContentId) {
+        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+    }
+
     override fun onUserClicked(userId: String) {
         _command.value = NavigateToUserProfileViewCommand(userId)
     }

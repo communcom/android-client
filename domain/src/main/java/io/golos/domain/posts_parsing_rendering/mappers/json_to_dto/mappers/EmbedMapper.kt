@@ -20,8 +20,8 @@ class EmbedMapper(
             attributes?.tryString(Attribute.PROVIDER_NAME),
             attributes?.tryString(Attribute.DESCRIPTION),
             attributes?.tryUri(Attribute.THUMBNAIL_URL),
-            attributes?.tryInt(Attribute.THUMBNAIL_WIDTH),
-            attributes?.tryInt(Attribute.THUMBNAIL_HEIGHT),
+            attributes?.tryInt(Attribute.HEIGHT) ?: attributes?.tryInt(Attribute.THUMBNAIL_WIDTH),
+            attributes?.tryInt(Attribute.HEIGHT) ?:attributes?.tryInt(Attribute.THUMBNAIL_HEIGHT),
             attributes?.tryString(Attribute.HTML)
         )
     }

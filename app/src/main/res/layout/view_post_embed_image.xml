@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_block"
-    android:layout_marginBottom="@dimen/margin_block">
+    android:layout_marginBottom="6dp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_embed_image_view"
-
-        tools:src="@drawable/img_sign_up_key"
         tools:ignore="ContentDescription"
-    />
+        tools:src="@drawable/img_sign_up_key" />
 
     <TextView
         android:id="@+id/description"
+        style="@style/Post.Image.Description.TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text=""
-        tools:text = "Some description"
-
+        android:layout_marginTop="@dimen/margin_image_description"
+        android:gravity="center"
         android:paddingStart="@dimen/post_content_border_horizontal"
         android:paddingEnd="@dimen/post_content_border_horizontal"
-
-        style = "@style/Post.Image.Description.TextStyle"
-
-        android:layout_marginTop="@dimen/margin_image_description"
-
-        android:gravity="center"
-    />
+        android:visibility="gone"
+        tools:text="Some description"
+        tools:visibility="visible" />
 </LinearLayout>

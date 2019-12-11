@@ -113,6 +113,7 @@
     <dimen name="post_content_border_horizontal">15dp</dimen>
     <dimen name="margin_bottom_post_control">9dp</dimen>
 
+    <dimen name="margin_block_6dp">6dp</dimen>
     <dimen name="margin_block">10dp</dimen>
     <dimen name="margin_image_description">5dp</dimen>
     <dimen name="height_embed_video_view">210dp</dimen>
