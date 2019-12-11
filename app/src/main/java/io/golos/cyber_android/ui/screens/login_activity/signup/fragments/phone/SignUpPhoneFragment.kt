@@ -113,7 +113,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         signUpViewModel.stateLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let {
                 when (it) {
-                    is UnregisteredUserModel -> viewModel.getFieldIfValid()?.let { phone ->
+                    is UnregisteredUserModel -> viewModel.field.let { phone ->
                         signUpViewModel.sendCodeOn(phone)
                     }
                     is UnverifiedUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpVerificationFragment)
