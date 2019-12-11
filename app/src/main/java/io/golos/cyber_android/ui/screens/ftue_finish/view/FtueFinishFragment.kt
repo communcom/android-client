@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.view_model.FtueFinishViewModel
+import io.golos.cyber_android.ui.utils.navigate
 import kotlinx.android.synthetic.main.fragment_ftue_finish.*
 
 class FtueFinishFragment : FragmentBaseMVVM<FragmentFtueFinishBinding, FtueFinishViewModel>(){
@@ -46,7 +47,7 @@ class FtueFinishFragment : FragmentBaseMVVM<FragmentFtueFinishBinding, FtueFinis
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         if(command is NavigationCommand){
-            findNavController().navigate(command.navigationId)
+            findNavController().navigate(command)
         }
     }
 

@@ -22,4 +22,4 @@ class ShowMessageCommand(@StringRes val textResId: Int): ViewCommand
 
 class ShowPostFiltersCommand : ViewCommand
 
-class NavigationCommand(val navigationId: Int): ViewCommand
+class NavigationCommand(val navigationId: Int?, val startDestination: Int? = null): ViewCommand
