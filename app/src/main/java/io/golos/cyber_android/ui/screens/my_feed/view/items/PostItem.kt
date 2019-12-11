@@ -111,17 +111,17 @@ class PostItem(
                 }
             }
 
-            is ImageBlock -> ImagePostItem(block, listener)
+            is ImageBlock -> ImagePostItem(block, post.contentId, listener)
 
-            is VideoBlock -> VideoPostItem(block, listener)
+            is VideoBlock -> VideoPostItem(block, post.contentId, listener)
 
             is WebsiteBlock -> WebSitePostItem(block, listener)
 
             is ParagraphBlock -> ParagraphPostItem(block, listener, post.contentId)
 
-            is RichBlock -> RichPostItem(block, listener)
+            is RichBlock -> RichPostItem(block, post.contentId, listener)
 
-            is EmbedBlock -> EmbedPostItem(block, listener)
+            is EmbedBlock -> EmbedPostItem(block, post.contentId, listener)
 
             else -> null
         }

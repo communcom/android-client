@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_video.view.*
@@ -20,6 +21,7 @@ constructor(
     PostBlockWidget<VideoBlock, EmbedVideoWidgetListener> {
 
     private var isNeedToShowHtmlContent: Boolean = true
+    private var postContentId: Post.ContentId? = null
 
     init {
         inflate(context, R.layout.view_post_embed_video, this)
@@ -27,6 +29,21 @@ constructor(
 
     fun disableHtmlContent() {
         isNeedToShowHtmlContent = false
+    }
+
+    fun setContentId(contentId: Post.ContentId) {
+        postContentId = contentId
+    }
+
+    override fun setOnClickProcessor(processor: EmbedVideoWidgetListener?) {
+        super.setOnClickProcessor(processor)
+        if (!isNeedToShowHtmlContent) {
+            setOnClickListener {
+                postContentId?.let { id ->
+                    processor?.onItemClicked(id)
+                }
+            }
+        }
     }
 
     override fun render(block: VideoBlock) {
@@ -85,6 +102,8 @@ constructor(
         if (image.visibility == View.VISIBLE) {
             Glide.with(this).clear(image)
         }
+
+        setOnClickListener(null)
     }
 
     private fun correctHtml(html: String): String {

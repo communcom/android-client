@@ -6,15 +6,22 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 
 interface BasePostBlockWidgetListener
 
-interface RichWidgetListener: BasePostBlockWidgetListener{
+interface RichWidgetListener : BasePostBlockWidgetListener {
 
     fun onLinkClicked(linkUri: Uri)
+
+    fun onImageClicked(imageUri: Uri)
+
+    fun onItemClicked(postContentId: Post.ContentId)
 }
 
-interface EmbedWidgetListener: BasePostBlockWidgetListener{
+interface EmbedWidgetListener : BasePostBlockWidgetListener {
 
     fun onLinkClicked(linkUri: Uri)
 
+    fun onImageClicked(imageUri: Uri)
+
+    fun onItemClicked(postContentId: Post.ContentId)
 }
 
 interface AttachmentWidgetListener : BasePostBlockWidgetListener
@@ -22,14 +29,18 @@ interface AttachmentWidgetListener : BasePostBlockWidgetListener
 interface EmbedImageWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
+
+    fun onItemClicked(postContentId: Post.ContentId)
 }
 
-interface EmbedVideoWidgetListener: BasePostBlockWidgetListener
+interface EmbedVideoWidgetListener : BasePostBlockWidgetListener {
+    fun onItemClicked(postContentId: Post.ContentId)
+}
 
-interface EmbedWebsiteWidgetListener: BasePostBlockWidgetListener,
+interface EmbedWebsiteWidgetListener : BasePostBlockWidgetListener,
     LinkListener
 
-interface ParagraphWidgetListener: BasePostBlockWidgetListener,
+interface ParagraphWidgetListener : BasePostBlockWidgetListener,
     LinkListener, SeeMoreListener {
 
     fun onUserClicked(userId: String)
@@ -39,7 +50,7 @@ interface MenuListener {
     fun onMenuClicked(postMenu: PostMenu)
 }
 
-interface LinkListener{
+interface LinkListener {
 
     fun onLinkClicked(linkUri: Uri)
 }

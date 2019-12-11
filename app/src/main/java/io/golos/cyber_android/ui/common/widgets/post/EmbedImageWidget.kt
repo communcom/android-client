@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 
@@ -23,21 +24,35 @@ constructor(
     private var onClickProcessor: EmbedImageWidgetListener? = null
     private var imageUri: Uri? = null
 
+    private var postContentId: Post.ContentId? = null
+
     init {
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
+    fun setContentId(contentId: Post.ContentId) {
+        postContentId = contentId
+    }
+
     override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
-        if (processor != null) {
+        if (postContentId != null) {
             setOnClickListener {
-                imageUri?.let {
-                    this.onClickProcessor?.onImageClicked(it)
+                postContentId?.let { id ->
+                    processor?.onItemClicked(id)
                 }
             }
         } else {
-            setOnClickListener(null)
+            if (processor != null) {
+                setOnClickListener {
+                    imageUri?.let {
+                        this.onClickProcessor?.onImageClicked(it)
+                    }
+                }
+            } else {
+                setOnClickListener(null)
+            }
+            this.onClickProcessor = processor
         }
-        this.onClickProcessor = processor
     }
 
     override fun render(block: ImageBlock) {
@@ -60,5 +75,6 @@ constructor(
     override fun release() {
         Glide.with(this).clear(image)
         setOnClickProcessor(null)
+        setOnClickListener(null)
     }
 }

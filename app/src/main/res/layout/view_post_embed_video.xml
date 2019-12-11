@@ -60,6 +60,8 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_15_sp"
             tools:text="Title" />
@@ -68,6 +70,8 @@
             android:id="@+id/subDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/blue_button_disabled"
             android:textSize="@dimen/text_size_12_sp"
             tools:text="Link" />
