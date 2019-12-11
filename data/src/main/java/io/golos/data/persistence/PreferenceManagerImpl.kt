@@ -9,6 +9,13 @@ import javax.inject.Inject
 
 class PreferenceManagerImpl @Inject constructor(context: Context, private val moshi: Moshi) : PreferenceManager {
 
+    override fun clearFtueState() {
+        preferences.edit()
+            .remove(KEY_FTUE_BOARD_STAGE)
+            .remove(KEY_FTUE_COMMUNITY_SUBSCRIPTIONS)
+            .apply()
+    }
+
     private val preferences = context.getSharedPreferences("app", Context.MODE_PRIVATE)
 
     override fun saveFtueCommunitySubscriptions(communitySubscriptions: List<CommunityEntity>) {
@@ -24,11 +31,11 @@ class PreferenceManagerImpl @Inject constructor(context: Context, private val mo
         return communitySubscriptionsJson?.let { adapter.fromJson(it)?.communities } ?: listOf()
     }
 
-    override suspend fun setFtueBoardStage(stage: FtueBoardStageEntity) {
+    override fun setFtueBoardStage(stage: FtueBoardStageEntity) {
         preferences.edit().putString(KEY_FTUE_BOARD_STAGE, stage.name).apply()
     }
 
-    override suspend fun getFtueBoardStage(): FtueBoardStageEntity = FtueBoardStageEntity.valueOf(preferences.getString(KEY_FTUE_BOARD_STAGE, FtueBoardStageEntity.IDLE.name))
+    override fun getFtueBoardStage(): FtueBoardStageEntity = FtueBoardStageEntity.valueOf(preferences.getString(KEY_FTUE_BOARD_STAGE, FtueBoardStageEntity.IDLE.name))
 
     private companion object{
 

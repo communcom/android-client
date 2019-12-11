@@ -32,6 +32,10 @@ class UsersRepositoryImpl @Inject constructor(
 ) : RepositoryBase(dispatchersProvider),
     UsersRepository {
 
+    override suspend fun clearCurrentUserData() {
+        preferenceManager.clearFtueState()
+    }
+
     override suspend fun isNeedShowFtueBoard(): Boolean {
         val ftueBoardStage = getFtueBoardStage()
         return (ftueBoardStage == FtueBoardStageDomain.NEED_SHOW ||

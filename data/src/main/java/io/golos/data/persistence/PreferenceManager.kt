@@ -8,17 +8,22 @@ interface PreferenceManager {
     /**
      * Mark that user pass ftue board
      */
-    suspend fun setFtueBoardStage(stage: FtueBoardStageEntity)
+    fun setFtueBoardStage(stage: FtueBoardStageEntity)
 
     /**
      * Get ftue board stage
      *
      * @return ftue board stage
      */
-    suspend fun getFtueBoardStage(): FtueBoardStageEntity
+    fun getFtueBoardStage(): FtueBoardStageEntity
 
     fun saveFtueCommunitySubscriptions(communitySubscriptions: List<CommunityEntity>)
 
     fun getFtueCommunitySubscriptions(): List<CommunityEntity>
+
+    /**
+     * Clear ftue data
+     */
+    fun clearFtueState()
 
 }

@@ -80,4 +80,9 @@ interface UsersRepository {
      * @return true if need show ftue board
      */
     suspend fun isNeedShowFtueBoard(): Boolean
+
+    /**
+     * Clear current user data, need use this method for logout
+     */
+    suspend fun clearCurrentUserData()
 }
