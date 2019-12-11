@@ -473,4 +473,9 @@
     <!--Ftue-->
     <dimen name="communities_board_height">114dp</dimen>
     <dimen name="communities_board_next_btn_size">50dp</dimen>
+
+    <!--Feed-->
+    <dimen name="feed_tab_height">76dp</dimen>
+    <dimen name="feed_tab_text_normal">21sp</dimen>
+    <dimen name="feed_tab_text_selected">30sp</dimen>
 </resources>
