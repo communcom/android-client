@@ -3,7 +3,7 @@
 
     <dimen name="padding_global">8dp</dimen>
 
-    <dimen name="tool_button_size">35dp</dimen>
+    <dimen name="tool_button_size">32dp</dimen>
     <dimen name="tool_button_icon_size">18dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
