@@ -64,22 +64,10 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
             findNavController().navigateUp()
         }
 
-        //TODO kv 29.10/2019 раскоментировать блок когда понадобиться капча в приложении
         signUp.setOnClickListener {
-            viewModel.getFieldIfValid()?.let {
-                /*val captchaClient: SafetyNetClient = SafetyNet.getClient(requireActivity())
-                captchaClient
-                    .verifyWithRecaptcha("6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S")
-                    .addOnSuccessListener { successEvent ->
-                        val tokenCaptcha: String = successEvent.tokenResult
-                        signUpViewModel.updateRegisterState(it)
-
-                        // More code here
-                    }
-                    .addOnFailureListener {
-                        Timber.e(it)
-                    }*/
-                signUpViewModel.updateRegisterState(it)
+            val phone = viewModel.field
+            if(!TextUtils.isEmpty(phone)){
+                signUpViewModel.updateRegisterState(phone)
             }
         }
         listOf(country, country).forEach {

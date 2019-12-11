@@ -17,7 +17,7 @@ abstract class SignUpScreenViewModelBase: ViewModel() {
      */
     val getValidnessLiveData = validnessLiveData as LiveData<Boolean>
 
-    private var field = ""
+    var field = ""
 
     /**
      * Returns current username if it's valid, otherwise returns null
