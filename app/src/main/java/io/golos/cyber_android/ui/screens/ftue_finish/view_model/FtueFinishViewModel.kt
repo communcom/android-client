@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.ftue_finish.view_model
 
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.screens.ftue_finish.model.FtueFinishModel
-import io.golos.cyber_android.ui.screens.ftue_finish.view.view_command.FtueFinishCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.FtueBoardStageDomain
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ class FtueFinishViewModel @Inject constructor(
     fun onDoneClicked() {
         launch {
             model.setFtueBoardStage(FtueBoardStageDomain.PASSED)
-            _command.value = FtueFinishCommand(R.id.action_ftueFragment_to_dashboardFragment)
+            _command.value = NavigationCommand(R.id.action_ftueFragment_to_dashboardFragment)
         }
     }
 

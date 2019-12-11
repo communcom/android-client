@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.main_activity.view_model
 
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.screens.main_activity.model.MainModel
-import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.ContentPage
-import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.NavigateToContentCommand
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -16,9 +16,9 @@ class MainViewModel @Inject constructor(dispatchersProvider: DispatchersProvider
         launch {
             try {
                 if (model.isNeedShowFtueBoard()) {
-                    _command.value = NavigateToContentCommand(ContentPage.FTUE)
+                    _command.value = NavigationCommand(R.id.ftueFragment)
                 } else {
-                    _command.value = NavigateToContentCommand(ContentPage.DASHBOARD)
+                    _command.value = NavigationCommand(R.id.dashboardFragment)
                 }
             } catch (e: Exception) {
                 Timber.e(e)

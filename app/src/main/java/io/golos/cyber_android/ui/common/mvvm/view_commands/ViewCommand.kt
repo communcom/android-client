@@ -21,3 +21,5 @@ class SetLoadingVisibilityCommand(val isVisible: Boolean) : ViewCommand
 class ShowMessageCommand(@StringRes val textResId: Int): ViewCommand
 
 class ShowPostFiltersCommand : ViewCommand
+
+class NavigationCommand(val navigationId: Int): ViewCommand

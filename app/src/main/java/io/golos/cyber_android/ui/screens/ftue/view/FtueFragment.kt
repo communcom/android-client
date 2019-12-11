@@ -15,9 +15,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue.view.view_command.FtueDoneCommand
 import io.golos.cyber_android.ui.screens.ftue.view.view_command.NavigateToFtuePageCommand
 import io.golos.cyber_android.ui.screens.ftue.view_model.FtueViewModel
 import io.golos.cyber_android.ui.screens.ftue_finish.view.FtueFinishFragment
@@ -68,7 +68,7 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
         super.processViewCommand(command)
         if (command is NavigateToFtuePageCommand) {
             viewPager.setCurrentItem(command.page.getPagePosition(), false)
-        } else if (command is FtueDoneCommand) {
+        } else if (command is NavigationCommand) {
             findNavController().navigate(command.navigationId)
         }
     }

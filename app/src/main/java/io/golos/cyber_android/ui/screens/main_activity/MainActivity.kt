@@ -9,9 +9,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.ActivityMainBinding
 import io.golos.cyber_android.ui.common.mvvm.ActivityBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.ui.screens.main_activity.view.viewCommand.NavigateToContentCommand
 import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,10 +41,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         val navigationController = mainNavHost.findNavController()
-        if (command is NavigateToContentCommand) {
+        if (command is NavigationCommand) {
             val inflater = navigationController.navInflater
             val graph = inflater.inflate(R.navigation.graph_main)
-            graph.startDestination = command.contentPage.navigationId
+            graph.startDestination = command.navigationId
             navigationController.graph = graph
         }
     }
