@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/dimen_44"
         android:background="@color/white"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:liftOnScroll="true">
@@ -95,8 +95,8 @@
             android:layout_marginTop="@dimen/dimen_30"
             android:layout_marginEnd="@dimen/dimen_42"
             android:gravity="center"
-            android:textSize="@dimen/text_size_10_sp"
             android:lineSpacingExtra="2dp"
+            android:textSize="@dimen/text_size_10_sp"
             tools:text="@string/sign_up_description" />
 
         <TextView
