@@ -114,6 +114,16 @@ class ProfilePostsViewModel @Inject constructor(
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
+    override fun onSeeMoreClicked(postContentId: Post.ContentId) {
+        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+    }
+
+    override fun onItemClicked(postContentId: Post.ContentId) {
+        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+    }
+
     override fun onMenuClicked(postMenu: PostMenu) {
         _command.value = NavigationToPostMenuViewCommand(postMenu)
     }

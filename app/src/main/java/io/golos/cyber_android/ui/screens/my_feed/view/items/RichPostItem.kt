@@ -4,17 +4,23 @@ import android.content.Context
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post.RichWidget
 import io.golos.cyber_android.ui.common.widgets.post.RichWidgetListener
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.RichBlock
 
 class RichPostItem(
     val richBlock: RichBlock,
+    val contentId: Post.ContentId,
     widgetListener: RichWidgetListener? = null
 ) : BasePostBlockItem<RichBlock, RichWidgetListener, RichWidget>(
     richBlock,
     widgetListener
 ) {
 
-    override fun createWidgetView(context: Context): RichWidget = RichWidget(context)
+    override fun createWidgetView(
+        context: Context
+    ): RichWidget = RichWidget(context).apply {
+        setContentId(contentId)
+    }
 
     override fun areItemsTheSame(): Int = richBlock.hashCode()
 

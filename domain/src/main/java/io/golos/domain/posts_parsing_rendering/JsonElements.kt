@@ -27,6 +27,7 @@ enum class Attribute(val value: String) {
     THUMBNAIL_SIZE("thumbnail_size"),
     THUMBNAIL_WIDTH("thumbnailWidth"),
     THUMBNAIL_HEIGHT("thumbnailHeight"),
+    HEIGHT("height"),
     DESCRIPTION("description"),
     PROVIDER_NAME("providerName"),
     HTML("html"),

@@ -8,6 +8,8 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.utils.dp
 import io.golos.domain.use_cases.post.post_dto.EmbedBlock
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 
@@ -24,8 +26,14 @@ constructor(
 
     private var linkUri: Uri? = null
 
+    private var contentId: Post.ContentId? = null
+
     init {
         inflate(context, R.layout.view_attachment_rich, this)
+    }
+
+    fun setContentId(postContentId: Post.ContentId) {
+        contentId = postContentId
     }
 
     override fun setOnClickProcessor(processor: EmbedWidgetListener?) {
@@ -36,8 +44,8 @@ constructor(
         linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl
         if (thumbnailUrl != null) {
-            val width = block.thumbnailWidth ?: 640
-            val height = block.thumbnailHeight ?: 640
+            val width = if (block.thumbnailWidth == null) 350.dp else block.thumbnailWidth!!.div(2).dp
+            val height = if (block.thumbnailHeight == null) 350.dp else block.thumbnailWidth!!.div(2).dp
             richImage.visibility = View.VISIBLE
             richDescription.visibility = View.GONE
             Glide.with(context)
@@ -56,6 +64,15 @@ constructor(
         richUrl.text = block.authorUrl?.authority
 
         if(onClickProcessor != null) {
+            richImage.setOnClickListener {
+                if (contentId != null) {
+                    onClickProcessor?.onItemClicked(contentId!!)
+                } else {
+                    thumbnailUrl?.let { uri ->
+                        onClickProcessor?.onImageClicked(uri)
+                    }
+                }
+            }
             llLinkProvider.setOnClickListener {
                 linkUri?.let {
                     this.onClickProcessor?.onLinkClicked(it)
@@ -63,6 +80,7 @@ constructor(
             }
         } else {
             llLinkProvider.setOnClickListener(null)
+            richImage.setOnClickListener(null)
         }
     }
 
