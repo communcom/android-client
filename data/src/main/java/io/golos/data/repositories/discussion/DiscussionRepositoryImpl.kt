@@ -96,7 +96,7 @@ constructor(
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE),
-                reporter = currentUserRepository.user
+                reporter = CyberName(currentUserRepository.userId.userId)
             )
         }
     }

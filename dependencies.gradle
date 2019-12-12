@@ -12,10 +12,6 @@ ext.versions = [
         annotation            : '1.1.0',
         legacySupport         : '1.0.0',
 
-        appcompat           : '1.1.0',
-        annotation          : '1.1.0',
-        legacySupport       : '1.0.0',
-
         commun4jVersion     : '1.0.5',
 
         //Network
