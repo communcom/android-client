@@ -18,27 +18,27 @@
             android:id="@+id/rvComments"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/postComment"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/postComment"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
             android:id="@+id/postComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
         <io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
             android:id="@+id/postCommentEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="gone" />
 
         <Button
             android:id="@+id/btnRetry"
@@ -67,7 +67,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

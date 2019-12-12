@@ -5,7 +5,6 @@ import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.*
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
-import io.golos.commun4j.utils.StringSigner
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.mapToPostDomain
@@ -24,7 +23,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
-import org.spongycastle.crypto.tls.ConnectionEnd.client
+import kotlinx.coroutines.delay
 import java.util.*
 import javax.inject.Inject
 
@@ -66,6 +65,11 @@ constructor(
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId)
         }
+    }
+
+    override suspend fun getComments(): List<CommentDomain> {
+        delay(1000)
+        return arrayListOf() //todo replace this method from commun4j lib
     }
 
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
