@@ -57,6 +57,7 @@
     <dimen name="dimen_48">48dp</dimen>
     <dimen name="dimen_40">40dp</dimen>
     <dimen name="dimen_50">50dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -470,6 +471,7 @@
 
     <!--SignUp-->
     <dimen name="sign_up_country_flag_size">24dp</dimen>
+    <dimen name="sign_up_field_height">56dp</dimen>
 
     <!--Ftue-->
     <dimen name="communities_board_height">114dp</dimen>
