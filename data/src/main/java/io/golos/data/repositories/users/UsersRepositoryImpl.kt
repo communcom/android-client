@@ -14,9 +14,11 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
+import kotlin.random.Random
 
 class UsersRepositoryImpl @Inject constructor(
     private val usersApi: UsersApi,
@@ -114,6 +116,31 @@ class UsersRepositoryImpl @Inject constructor(
      */
     override suspend fun clearBio() {
         updateCurrentUserMetadata { it.copy(biography = "") }
+    }
+
+    override suspend fun getUsersInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<UserDomain> =
+        apiCall { commun4j.getBlacklistedUsers(CyberName(userId.userId)) }.items.map { it.mapToUserDomain() }
+
+    override suspend fun moveUserToBlackList(userId: UserIdDomain) {
+        apiCallChain {
+            commun4j.block(
+                blocking = CyberName(userId.userId),
+                blocker = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
+
+    override suspend fun moveUserFromBlackList(userId: UserIdDomain) {
+        apiCallChain {
+            commun4j.unBlock(
+                blocking = CyberName(userId.userId),
+                blocker = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
     }
 
     private suspend fun updateCurrentUserMetadata(requestAction: (UserMetadataRequest) -> UserMetadataRequest) =

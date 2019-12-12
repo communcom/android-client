@@ -11,14 +11,13 @@ import io.golos.data.mappers.mapToCommunityLeaderDomain
 import io.golos.data.mappers.mapToCommunityPageDomain
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.CommunityLeaderDomain
-import io.golos.domain.dto.CommunityPageDomain
-import io.golos.domain.dto.UserKeyType
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.random.Random
 
 class CommunitiesRepositoryImpl
 @Inject
@@ -90,4 +89,29 @@ constructor(
         apiCall { commun4j.getLeaders(communityId, 50, 0)}
             .items
             .map { it.mapToCommunityLeaderDomain() }
+
+    override suspend fun getCommunitiesInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<CommunityDomain> =
+        apiCall { commun4j.getBlacklistedCommunities(CyberName(userId.userId)) }.items.map { it.mapToCommunityDomain() }
+
+    override suspend fun moveCommunityToBlackList(communityId: String) {
+        apiCallChain {
+            commun4j.hide(
+                communCode = CyberSymbolCode(communityId),
+                user = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
+
+    override suspend fun moveCommunityFromBlackList(communityId: String) {
+        apiCallChain {
+            commun4j.unHide(
+                communCode = CyberSymbolCode(communityId),
+                user = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
 }

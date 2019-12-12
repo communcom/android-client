@@ -169,6 +169,10 @@ constructor(
         _command.value = MoveToLikedPageCommand()
     }
 
+    fun onBlackListSelected() {
+        _command.value = MoveToBlackListPageCommand()
+    }
+
     fun onLogoutConfirmed() {
         launch {
             var isSuccess = true

@@ -1,10 +1,11 @@
 package io.golos.cyber_android.ui.screens.communities_list.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
 import io.golos.domain.DispatchersProvider
@@ -78,7 +79,7 @@ constructor(
 
         val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
             try {
-                if(community.isJoined) {
+                if(community.isInPositiveState) {
                     communitiesRepository.unsubscribeToCommunity(communityId)
                 } else {
                     communitiesRepository.subscribeToCommunity(communityId)
@@ -97,7 +98,14 @@ constructor(
         return isSuccess
     }
 
-    protected fun CommunityDomain.map() = CommunityListItem(MurmurHash.hash64(this.communityId), 0, this, this.isSubscribed, false)
+    protected fun CommunityDomain.map() =
+        CommunityListItem(
+            MurmurHash.hash64(this.communityId),
+            0,
+            this,
+            this.isSubscribed,
+            false
+        )
 
     private suspend fun loadData(isRetry: Boolean) {
         currentLoadingState = LoadingState.LOADING
@@ -109,6 +117,9 @@ constructor(
         }
 
         val data = getData(loadedItems.size-1)
+        data?.forEach {
+            Log.d("COMMUNITY_TEST", it.community.toString())
+        }
 
         currentLoadingState = if(data != null) {
             addLoadedData(data)
@@ -162,7 +173,7 @@ constructor(
             oldCommunity.copy(
                 version = oldCommunity.version + 1,
                 isProgress = true,
-                isJoined = !oldCommunity.isJoined)
+                isInPositiveState = !oldCommunity.isInPositiveState)
         }
 
     private fun completeCommunityInProgress(communityId: String, isSuccess: Boolean) =
@@ -170,7 +181,7 @@ constructor(
             oldCommunity.copy(
                 version = oldCommunity.version + 1,
                 isProgress = false,
-                isJoined = if(isSuccess) oldCommunity.isJoined else !oldCommunity.isJoined
+                isInPositiveState = if(isSuccess) oldCommunity.isInPositiveState else !oldCommunity.isInPositiveState
             )
         }
 

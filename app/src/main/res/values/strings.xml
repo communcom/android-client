@@ -254,6 +254,7 @@
     <string name="followings">Followings</string>
     <string name="all">All</string>
     <string name="mutual">Mutual</string>
+    <string name="users">Users</string>
     <string name="subscribes">Subscribes</string>
     <string name="posts">Posts</string>
     <string name="comments">Comments</string>
@@ -472,4 +473,11 @@
     <string name="no_followers">No Followers</string>
     <string name="no_following">No Following</string>
     <string name="no_mutual">No Mutual</string>
+    <string name="no_users">No users</string>
+    <string name="no_users_explanation">You have no users in the black list</string>
+    <string name="no_communities">No communities</string>
+    <string name="no_communities_explanation">You have no communities in the black list</string>
+
+    <string name="block">Block</string>
+    <string name="unblock">Unblock</string>
 </resources>

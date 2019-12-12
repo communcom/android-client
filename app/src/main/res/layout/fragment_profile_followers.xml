@@ -119,7 +119,7 @@
                     tools:checked="true"
 
                     android:tag="MUTUALS"
-                    app:filter="@{viewModel.filter}"
+                    app:filterFollowers="@{viewModel.filter}"
                     />
 
                 <ToggleButton
@@ -139,7 +139,7 @@
                     app:layout_constraintTop_toTopOf="@+id/toggleMutual"
 
                     android:tag="FOLLOWERS"
-                    app:filter="@{viewModel.filter}"
+                    app:filterFollowers="@{viewModel.filter}"
                     />
 
                 <ToggleButton
@@ -159,7 +159,7 @@
                     app:layout_constraintTop_toTopOf="@+id/toggleFollowers"
 
                     android:tag="FOLLOWINGS"
-                    app:filter="@{viewModel.filter}"
+                    app:filterFollowers="@{viewModel.filter}"
                     />
                 
                 <View
@@ -222,7 +222,7 @@
                 android:visibility="@{viewModel.followingsVisibility}"
             />
 
-            <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.NoDataStub
+            <io.golos.cyber_android.ui.common.widgets.lists.NoDataStub
                 android:id="@+id/noDataStub"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_followers_no_data_height"

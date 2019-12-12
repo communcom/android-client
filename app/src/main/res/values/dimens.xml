@@ -466,6 +466,9 @@
     <dimen name="profile_followers_filters_button_height">35dp</dimen>
     <dimen name="profile_followers_filters_button_margin">10dp</dimen>
     <dimen name="profile_followers_no_data_height">133dp</dimen>
+    <dimen name="profile_blacklist_block_button_width">90dp</dimen>
+    <dimen name="profile_blacklist_filters_margin_horizontal">14dp</dimen>
+    <dimen name="profile_blacklist_filters_padding_horizontal">20dp</dimen>
 
     <dimen name="white_header_height">44dp</dimen>
     <dimen name="white_header_buttons_margin">15dp</dimen>

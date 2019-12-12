@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_followers.view.widgets
+package io.golos.cyber_android.ui.common.widgets.lists
 
 import android.content.Context
 import android.util.AttributeSet

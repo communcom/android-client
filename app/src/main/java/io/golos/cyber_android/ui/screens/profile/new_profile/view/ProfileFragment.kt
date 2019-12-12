@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
 import io.golos.cyber_android.ui.dialogs.ProfileSettingsDialog
+import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
@@ -29,6 +30,7 @@ import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
+import io.golos.cyber_android.ui.screens.profile_black_list.view.ProfileBlackListFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommunitiesFragment
 import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
 import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
@@ -92,6 +94,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
             is ShowSettingsDialogCommand -> showSettingsDialog()
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
             is MoveToLikedPageCommand -> moveToLikedPage()
+            is MoveToBlackListPageCommand -> moveToBlackListPage()
         }
     }
 
@@ -118,6 +121,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                 when(resultCode) {
                     ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
                     ProfileSettingsDialog.RESULT_LIKED -> viewModel.onLikedSelected()
+                    ProfileSettingsDialog.RESULT_BLACK_LIST -> viewModel.onBlackListSelected()
                 }
             }
             ConfirmationDialog.REQUEST -> {
@@ -169,4 +173,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
     }
 
     private fun moveToLikedPage() = (requireActivity() as MainActivity).showFragment(ProfileLikedFragment.newInstance())
+
+    private fun moveToBlackListPage() =
+        (requireActivity() as MainActivity).showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 }

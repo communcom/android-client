@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.screens.communities_list.view.list.view_holders.CommunityListItemViewHolder

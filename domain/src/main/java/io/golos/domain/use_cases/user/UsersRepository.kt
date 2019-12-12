@@ -62,4 +62,10 @@ interface UsersRepository {
      * Clear bio of current user profile
      */
     suspend fun clearBio()
+
+    suspend fun getUsersInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<UserDomain>
+
+    suspend fun moveUserToBlackList(userId: UserIdDomain)
+
+    suspend fun moveUserFromBlackList(userId: UserIdDomain)
 }

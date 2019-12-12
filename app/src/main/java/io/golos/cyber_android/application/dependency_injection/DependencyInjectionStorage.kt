@@ -59,13 +59,12 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
-import io.golos.cyber_android.ui.dto.FollowersFilter
-import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.dto.ProfileCommunities
-import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.dto.*
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
+import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
@@ -164,6 +163,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 get<ProfileFragmentComponent>()
                     .followersFragment
                     .init(ProfileFollowersFragmentModule(args[0] as FollowersFilter, args[1] as Int, args[2] as List<UserDomain>))
+                    .build()
+
+            ProfileBlackListFragmentComponent::class ->
+                get<ProfileFragmentComponent>()
+                    .blackListFragment
+                    .init(ProfileBlackListFragmentModule(args[0] as BlackListFilter, args[1] as Int))
                     .build()
 
             ProfilePostsLikedFragmentComponent::class ->

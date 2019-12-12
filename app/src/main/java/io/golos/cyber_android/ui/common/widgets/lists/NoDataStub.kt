@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_followers.view.widgets
+package io.golos.cyber_android.ui.common.widgets.lists
 
 import android.content.Context
 import android.util.AttributeSet
@@ -21,5 +21,9 @@ constructor(
 
     fun setTitle(@StringRes titleResId: Int) {
         noDataTitle.text = context.resources.getString(titleResId)
+    }
+
+    fun setExplanation(@StringRes explanationResIdd: Int) {
+        noDataExplanation.text = context.resources.getString(explanationResIdd)
     }
 }

@@ -66,17 +66,17 @@ constructor(
         }
 
         followersItems.observeForever {
-            hasFollowersData = it.isNotEmpty() && filter.value == FollowersFilter.FOLLOWERS
+            hasFollowersData = it.isNotEmpty()
             switchTab(filter.value!!)
         }
 
         followingsItems.observeForever {
-            hasFollowingsData = it.isNotEmpty() && filter.value == FollowersFilter.FOLLOWINGS
+            hasFollowingsData = it.isNotEmpty()
             switchTab(filter.value!!)
         }
 
         mutualsItems.observeForever {
-            hasMutualData = it.isNotEmpty() && filter.value == FollowersFilter.MUTUALS
+            hasMutualData = it.isNotEmpty()
             switchTab(filter.value!!)
         }
     }
@@ -85,19 +85,31 @@ constructor(
         when(filter) {
             FollowersFilter.FOLLOWERS ->
                 hasFollowersData?.let {
-                    _followersVisibility.value = it.toVisibility()
+                    if(it) {
+                        _followersVisibility.value = it.toVisibility()
+                        _followingsVisibility.value = (!it).toVisibility()
+                        _mutualsVisibility.value = (!it).toVisibility()
+                    }
                     _noDataStubVisibility.value = (!it).toVisibility()
                     _noDataStubText.value = R.string.no_followers
                 }
             FollowersFilter.FOLLOWINGS ->
                 hasFollowingsData?.let {
-                    _followingsVisibility.value = it.toVisibility()
+                    if(it) {
+                        _followingsVisibility.value = it.toVisibility()
+                        _followersVisibility.value = (!it).toVisibility()
+                        _mutualsVisibility.value = (!it).toVisibility()
+                    }
                     _noDataStubVisibility.value = (!it).toVisibility()
                     _noDataStubText.value = R.string.no_following
                 }
             FollowersFilter.MUTUALS ->
                 hasMutualData?.let {
-                    _mutualsVisibility.value = it.toVisibility()
+                    if(it) {
+                        _mutualsVisibility.value = it.toVisibility()
+                        _followersVisibility.value = (!it).toVisibility()
+                        _followingsVisibility.value = (!it).toVisibility()
+                    }
                     _noDataStubVisibility.value = (!it).toVisibility()
                     _noDataStubText.value = R.string.no_mutual
                 }
