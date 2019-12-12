@@ -63,6 +63,7 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
         }
     }
 
+    // note[AS] remove in a future
     fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
         val tag = fragment::class.simpleName
         if (supportFragmentManager.findFragmentByTag(tag) == null) {

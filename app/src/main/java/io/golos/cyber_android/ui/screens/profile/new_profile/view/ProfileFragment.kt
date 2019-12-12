@@ -25,6 +25,7 @@ import io.golos.cyber_android.ui.dialogs.ProfileSettingsDialog
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
@@ -158,7 +159,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
     private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
-        (requireActivity() as MainActivity)
+        (parentFragment as DashboardFragment)
             .showFragment(
                 ProfilePhotosFragment.newInstance(
                     place,
@@ -166,14 +167,14 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                     this@ProfileFragment))
 
     private fun moveToBioPage(text: String?) =
-        (requireActivity() as MainActivity).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
+        (parentFragment as DashboardFragment).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 
     private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
-        (requireActivity() as MainActivity).showFragment(ProfileFollowersFragment.newInstance(filter, mutualUsers))
+        (parentFragment as DashboardFragment).showFragment(ProfileFollowersFragment.newInstance(filter, mutualUsers))
     }
 
-    private fun moveToLikedPage() = (requireActivity() as MainActivity).showFragment(ProfileLikedFragment.newInstance())
+    private fun moveToLikedPage() = (parentFragment as DashboardFragment).showFragment(ProfileLikedFragment.newInstance())
 
     private fun moveToBlackListPage() =
-        (requireActivity() as MainActivity).showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
+        (parentFragment as DashboardFragment).showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 }

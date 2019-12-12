@@ -13,10 +13,8 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.random.Random
 
 class CommunitiesRepositoryImpl
 @Inject
@@ -42,7 +40,7 @@ constructor(
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
         apiCall{
-            commun4j.onBoardingCommunitySubscriptions(currentUserRepository.user, communityIds)
+            commun4j.onBoardingCommunitySubscriptions(CyberName(currentUserRepository.userId.userId), communityIds)
         }
     }
 

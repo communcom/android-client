@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragme
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import kotlinx.android.synthetic.main.fragment_communities.*
 
 open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesListViewModel>() {
@@ -81,5 +82,5 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
     }
 
     private fun moveToCommunityPage(communityId: String) =
-        (requireActivity() as? MainActivity)?.showFragment(CommunityPageFragment.newInstance(communityId))
+        (parentFragment as DashboardFragment).showFragment(CommunityPageFragment.newInstance(communityId))
 }

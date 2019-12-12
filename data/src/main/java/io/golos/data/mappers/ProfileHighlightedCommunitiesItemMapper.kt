@@ -3,15 +3,17 @@ package io.golos.data.mappers
 import io.golos.commun4j.services.model.GetProfileResult
 import io.golos.domain.dto.CommunityDomain
 
-fun GetProfileResult.ProfileHighlightedCommunitiesItem.mapToCommunityDomain(): CommunityDomain{
-    return CommunityDomain(
-        this.communityId,
-        this.alias,
-        this.name ?: "",
-        this.avatarUrl,
-        this.coverUrl,
-        this.subscribersCount ?: 0,
-        this.postsCount ?: 0,
-        this.isSubscribed ?: false
+fun GetProfileResult.ProfileHighlightedCommunitiesItem.mapToCommunityDomain(): CommunityDomain =
+    CommunityDomain(
+        communityId = communityId,
+
+        alias = alias,
+        name = name!!,
+
+        avatarUrl = avatarUrl,
+        coverUrl = coverUrl,
+
+        subscribersCount = subscribersCount ?: 0,
+        postsCount = postsCount ?: 0,
+        isSubscribed = isSubscribed ?: false
     )
-}
