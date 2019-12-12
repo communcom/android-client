@@ -56,7 +56,9 @@
     <dimen name="dimen_45">45dp</dimen>
     <dimen name="dimen_48">48dp</dimen>
     <dimen name="dimen_40">40dp</dimen>
+    <dimen name="dimen_44">44dp</dimen>
     <dimen name="dimen_50">50dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -213,7 +215,7 @@
     <dimen name="height_welcome_pager_indicator">3dp</dimen>
     <dimen name="corners_welcome_pager_indicator">2dp</dimen>
     <dimen name="padding_welcome_pager_indicator">4dp</dimen>
-    <dimen name="margin_top_sign_in_caption">10dp</dimen>
+    <dimen name="margin_top_sign_in_caption">8dp</dimen>
     <dimen name="margin_horizontal_sign_in_caption">16dp</dimen>
     <dimen name="text_size_welcome_slide">@dimen/text_size_22_sp</dimen>
     <dimen name="buttons_text_size_welcome_slide">@dimen/text_size_14_sp</dimen>
@@ -470,6 +472,7 @@
 
     <!--SignUp-->
     <dimen name="sign_up_country_flag_size">24dp</dimen>
+    <dimen name="sign_up_field_height">56dp</dimen>
 
     <!--Ftue-->
     <dimen name="communities_board_height">114dp</dimen>

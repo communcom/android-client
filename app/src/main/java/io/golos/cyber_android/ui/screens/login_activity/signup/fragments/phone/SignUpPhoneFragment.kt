@@ -204,6 +204,12 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
 
     private fun formSignUpDescription() {
         val descriptionSpannable = SpannableStringBuilder(getString(R.string.sign_up_description))
+        val descriptionColor= ContextCompat.getColor(requireContext(), R.color.grey)
+        descriptionSpannable.setSpan(
+            ForegroundColorSpan(descriptionColor),
+            0,
+            descriptionSpannable.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         val linkColor = ContextCompat.getColor(requireContext(), R.color.blue)
 
         val privacyPolicySpannable = SpannableStringBuilder(getString(R.string.sign_up_description_1))
