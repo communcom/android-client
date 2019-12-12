@@ -67,6 +67,7 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchComm
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
+import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
@@ -289,6 +290,10 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             DashboardFragmentComponent::class -> get<UIComponent>()
                 .dashboardFragmentComponent
+                .build()
+
+            ProfileCommentsFragmentComponent::class -> get<UIComponent>()
+                .profileCommentsFragmentComponent
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

@@ -29,6 +29,7 @@ import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentCompon
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
 
@@ -70,6 +71,7 @@ interface UIComponent {
     val ftueSearchCommunityFragment: FtueSearchCommunityFragmentComponent.Builder
     val ftueFinishFragmentComponent: FtueFinishFragmentComponent.Builder
     val dashboardFragmentComponent: DashboardFragmentComponent.Builder
+    val profileCommentsFragmentComponent: ProfileCommentsFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)

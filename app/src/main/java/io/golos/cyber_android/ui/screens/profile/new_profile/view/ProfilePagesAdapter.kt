@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.profile_comments.ProfileCommentsFragment
+import io.golos.cyber_android.ui.screens.profile_comments.view.ProfileCommentsFragment
 import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsFragment
 
 class ProfilePagesAdapter(
