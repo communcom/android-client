@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,17 +10,64 @@
             type="io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="#C7C7FF">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/postComment"/>
+
+
+        <io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
+            android:id="@+id/postComment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Commenst list'll be here" />
-    </FrameLayout>
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
+            android:id="@+id/postCommentEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:text="@string/retry"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/emptyProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
