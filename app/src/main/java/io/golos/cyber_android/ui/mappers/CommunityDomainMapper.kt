@@ -18,6 +18,7 @@ fun PostDomain.CommunityDomain.mapToCommunity(): Post.Community {
 fun CommunityDomain.mapToCommunity() =
     Community (
         communityId = communityId,
+        alias = alias,
         name = name,
         avatarUrl = avatarUrl,
         coverUrl = coverUrl,

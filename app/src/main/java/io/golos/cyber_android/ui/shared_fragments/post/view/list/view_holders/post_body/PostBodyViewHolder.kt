@@ -75,6 +75,7 @@ class PostBodyViewHolder constructor(
 
             is ParagraphBlock -> ParagraphWidget(itemView.context).apply {
                 render(block)
+                setSeeMoreEnabled(false)
                 setOnClickProcessor(listItemEventsProcessor)
             }
 

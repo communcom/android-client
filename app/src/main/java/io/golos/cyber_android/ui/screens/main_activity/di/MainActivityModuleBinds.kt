@@ -1,14 +1,15 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity
+package io.golos.cyber_android.ui.screens.main_activity.di
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.main_activity.MainViewModel
+import io.golos.cyber_android.ui.screens.main_activity.model.MainModel
+import io.golos.cyber_android.ui.screens.main_activity.model.MainModelImpl
+import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Module
@@ -16,6 +17,10 @@ abstract class MainActivityModuleBinds {
     @Binds
     @ActivityScope
     abstract fun bindViewModelFactory(factory: ActivityViewModelFactoryImpl): ActivityViewModelFactory
+
+    @Binds
+    @ActivityScope
+    abstract fun bindModel(model: MainModelImpl): MainModel
 
     @Binds
     @IntoMap

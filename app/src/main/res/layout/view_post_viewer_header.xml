@@ -49,7 +49,7 @@
 
     <TextView
         android:id="@+id/authorAndTime"
-        style="@style/PostCardAuthorTextStyle"
+        style="@style/PostCardHeaderAuthorTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/post_viewer_header_vertical_margin"
@@ -75,7 +75,6 @@
         android:id="@+id/menuButton"
         android:layout_width="@dimen/post_viewer_header_tool_button_size"
         android:layout_height="@dimen/post_viewer_header_tool_button_size"
-        android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
         android:background="@null"
         app:imageButton_icon="@drawable/ic_more"
         app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"

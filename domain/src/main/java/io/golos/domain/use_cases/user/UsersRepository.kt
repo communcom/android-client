@@ -68,4 +68,27 @@ interface UsersRepository {
     suspend fun moveUserToBlackList(userId: UserIdDomain)
 
     suspend fun moveUserFromBlackList(userId: UserIdDomain)
+    /**
+     * Set ftue board stage
+     */
+    suspend fun setFtueBoardStage(stage: FtueBoardStageDomain)
+
+    /**
+     * Get ftue board stage
+     *
+     * @return ftue board stage
+     */
+    suspend fun getFtueBoardStage(): FtueBoardStageDomain
+
+    /**
+     * Check that need show ftue board
+     *
+     * @return true if need show ftue board
+     */
+    suspend fun isNeedShowFtueBoard(): Boolean
+
+    /**
+     * Clear current user data, need use this method for logout
+     */
+    suspend fun clearCurrentUserData()
 }

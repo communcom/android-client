@@ -9,7 +9,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.InAppAuthActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.MainActivityComponent
+import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent

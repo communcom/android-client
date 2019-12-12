@@ -63,6 +63,8 @@ import io.golos.data.api.vote.VoteApi
 import io.golos.data.api.vote.VoteApiImpl
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
+import io.golos.data.persistence.PreferenceManager
+import io.golos.data.persistence.PreferenceManagerImpl
 import io.golos.data.repositories.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
@@ -373,4 +375,8 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCurrentUserRepositoryRead(repository: CurrentUserRepositoryImpl): CurrentUserRepositoryRead
+
+    @Binds
+    @ApplicationScope
+    abstract fun providePreferenceManager(preferenceManager: PreferenceManagerImpl): PreferenceManager
 }

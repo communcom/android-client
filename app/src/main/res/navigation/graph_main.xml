@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_main">
+
+    <fragment
+        android:id="@+id/ftueFragment"
+        android:name="io.golos.cyber_android.ui.screens.ftue.view.FtueFragment"
+        android:label="fragment_ftue"
+        tools:layout="@layout/fragment_ftue">
+        <action
+            android:id="@+id/action_ftueFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/graph_main"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardFragment_to_communityPageFragment"
+            app:destination="@id/communityPageFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/dashboardFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_communityListFragment"
+            app:destination="@id/communityListFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/dashboardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/communityPageFragment"
+        android:name="io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment"
+        android:label="fragment_community_page"
+        tools:layout="@layout/fragment_community_page" />
+
+    <fragment
+        android:id="@+id/communityListFragment"
+        android:name="io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragment"
+        android:label="fragment_community_list"
+        tools:layout="@layout/fragment_communities" />
+
+
+</navigation>

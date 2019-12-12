@@ -178,6 +178,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="PostCardHeaderAuthorTextStyle" parent="PostCardAuthorTextStyle">
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+    </style>
+
     <style name="PostCardPreviewTextStyle" parent="StandardText16spStyle" />
 
     <style name="PostCardCountersTextStyle" parent="Common.Base.TextStyle">

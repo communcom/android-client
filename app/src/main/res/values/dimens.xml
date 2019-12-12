@@ -27,6 +27,7 @@
     <dimen name="text_size_36_sp">36sp</dimen>
     <dimen name="text_size_34_sp">34sp</dimen>
     <dimen name="text_size_30_sp">30sp</dimen>
+    <dimen name="text_size_32_sp">32sp</dimen>
     <dimen name="text_size_26_sp">26sp</dimen>
     <dimen name="text_size_24_sp">24sp</dimen>
     <dimen name="text_size_22_sp">22sp</dimen>
@@ -42,17 +43,23 @@
     <dimen name="text_size_10_sp">10sp</dimen>
 
     <dimen name="dimen_2">2dp</dimen>
+    <dimen name="dimen_4">4dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
+    <dimen name="dimen_14">14dp</dimen>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_26">26dp</dimen>
+    <dimen name="dimen_28">28dp</dimen>
     <dimen name="dimen_30">30dp</dimen>
+    <dimen name="dimen_34">34dp</dimen>
     <dimen name="dimen_42">42dp</dimen>
     <dimen name="dimen_45">45dp</dimen>
     <dimen name="dimen_48">48dp</dimen>
     <dimen name="dimen_40">40dp</dimen>
+    <dimen name="dimen_44">44dp</dimen>
     <dimen name="dimen_50">50dp</dimen>
     <dimen name="dimen_55">55dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -109,6 +116,7 @@
     <dimen name="post_content_border_horizontal">15dp</dimen>
     <dimen name="margin_bottom_post_control">9dp</dimen>
 
+    <dimen name="margin_block_6dp">6dp</dimen>
     <dimen name="margin_block">10dp</dimen>
     <dimen name="margin_image_description">5dp</dimen>
     <dimen name="height_embed_video_view">210dp</dimen>
@@ -208,7 +216,7 @@
     <dimen name="height_welcome_pager_indicator">3dp</dimen>
     <dimen name="corners_welcome_pager_indicator">2dp</dimen>
     <dimen name="padding_welcome_pager_indicator">4dp</dimen>
-    <dimen name="margin_top_sign_in_caption">10dp</dimen>
+    <dimen name="margin_top_sign_in_caption">8dp</dimen>
     <dimen name="margin_horizontal_sign_in_caption">16dp</dimen>
     <dimen name="text_size_welcome_slide">@dimen/text_size_22_sp</dimen>
     <dimen name="buttons_text_size_welcome_slide">@dimen/text_size_14_sp</dimen>
@@ -478,4 +486,14 @@
     <dimen name="profile_follow_list_item_height">@dimen/height_community_list_item</dimen>
     <!--SignUp-->
     <dimen name="sign_up_country_flag_size">24dp</dimen>
+    <dimen name="sign_up_field_height">56dp</dimen>
+
+    <!--Ftue-->
+    <dimen name="communities_board_height">114dp</dimen>
+    <dimen name="communities_board_next_btn_size">50dp</dimen>
+
+    <!--Feed-->
+    <dimen name="feed_tab_height">76dp</dimen>
+    <dimen name="feed_tab_text_normal">21sp</dimen>
+    <dimen name="feed_tab_text_selected">30sp</dimen>
 </resources>

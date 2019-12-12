@@ -113,7 +113,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         signUpViewModel.stateLiveData.observe(this, Observer { event ->
             event.getIfNotHandled()?.let {
                 when (it) {
-                    is UnregisteredUserModel -> viewModel.getFieldIfValid()?.let { phone ->
+                    is UnregisteredUserModel -> viewModel.field.let { phone ->
                         signUpViewModel.sendCodeOn(phone)
                     }
                     is UnverifiedUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpVerificationFragment)
@@ -204,6 +204,12 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
 
     private fun formSignUpDescription() {
         val descriptionSpannable = SpannableStringBuilder(getString(R.string.sign_up_description))
+        val descriptionColor= ContextCompat.getColor(requireContext(), R.color.grey)
+        descriptionSpannable.setSpan(
+            ForegroundColorSpan(descriptionColor),
+            0,
+            descriptionSpannable.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         val linkColor = ContextCompat.getColor(requireContext(), R.color.blue)
 
         val privacyPolicySpannable = SpannableStringBuilder(getString(R.string.sign_up_description_1))
