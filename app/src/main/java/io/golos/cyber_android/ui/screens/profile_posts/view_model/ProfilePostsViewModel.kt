@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
@@ -75,7 +76,7 @@ class ProfilePostsViewModel @Inject constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-    override fun onUpVoteClicked(post: Post.ContentId) {
+    override fun onUpVoteClicked(post: ContentId) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -89,7 +90,7 @@ class ProfilePostsViewModel @Inject constructor(
         }
     }
 
-    override fun onDownVoteClicked(post: Post.ContentId) {
+    override fun onDownVoteClicked(post: ContentId) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -115,12 +116,12 @@ class ProfilePostsViewModel @Inject constructor(
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
-    override fun onSeeMoreClicked(postContentId: Post.ContentId) {
+    override fun onSeeMoreClicked(postContentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
     }
 
-    override fun onItemClicked(postContentId: Post.ContentId) {
+    override fun onItemClicked(postContentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
     }
@@ -129,7 +130,7 @@ class ProfilePostsViewModel @Inject constructor(
         _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
 
-    override fun onCommentsClicked(postContentId: Post.ContentId) {
+    override fun onCommentsClicked(postContentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
     }

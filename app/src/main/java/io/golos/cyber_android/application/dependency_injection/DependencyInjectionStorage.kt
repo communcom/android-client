@@ -135,7 +135,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                         EditorPageFragmentModule(
                             args[0] as CommunityModel?,
                             args[1] as DiscussionIdModel?,
-                            args[2] as Post.ContentId?
+                            args[2] as ContentId?
                         )
                     )
                     .build()
@@ -231,7 +231,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(
                         PostPageFragmentModule(
                             args[0] as DiscussionIdModel,
-                            args[1] as Post.ContentId?
+                            args[1] as ContentId?
                         )
                     ).build()
 
@@ -289,7 +289,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostReportFragmentComponent::class -> get<UIComponent>()
                 .postReportFragment
-                .init(PostReportModule(args[0] as Post.ContentId))
+                .init(PostReportModule(args[0] as ContentId))
                 .build()
 
             MyFeedFragmentComponent::class -> get<UIComponent>()

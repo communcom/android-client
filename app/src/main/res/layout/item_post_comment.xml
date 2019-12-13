@@ -19,6 +19,21 @@
         app:srcCompat="@drawable/ic_empty_user"
         tools:ignore="ContentDescription" />
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCommentContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/post_comments_text_margin"
+        android:background="@drawable/bcg_post_card_comment"
+        android:padding="@dimen/post_comments_text_padding"
+        android:clipToPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/userAvatar"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
         android:id="@+id/mainCommentText"
         style="@style/CommentsTextStyle"
@@ -27,6 +42,7 @@
         android:layout_marginStart="@dimen/post_comments_text_margin"
         android:background="@drawable/bcg_post_card_comment"
         android:padding="@dimen/post_comments_text_padding"
+        android:visibility="gone"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -39,8 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"
         android:layout_marginTop="@dimen/post_comments_voting_margin"
-        app:layout_constraintStart_toStartOf="@+id/mainCommentText"
-        app:layout_constraintTop_toBottomOf="@+id/mainCommentText" />
+        app:layout_constraintStart_toStartOf="@+id/rvCommentContent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCommentContent" />
 
     <TextView
         android:id="@+id/replyAndTimeText"

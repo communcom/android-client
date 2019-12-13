@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.utils.dp
 import io.golos.domain.use_cases.post.post_dto.RichBlock
@@ -26,13 +27,13 @@ constructor(
 
     private var linkUri: Uri? = null
 
-    private var contentId: Post.ContentId? = null
+    private var contentId: ContentId? = null
 
     init {
         inflate(context, R.layout.view_attachment_rich, this)
     }
 
-    fun setContentId(postContentId: Post.ContentId) {
+    fun setContentId(postContentId: ContentId) {
         contentId = postContentId
     }
 

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.my_feed.view_model
 
 import io.golos.cyber_android.ui.common.widgets.post.*
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 
 interface MyFeedListListener :
@@ -18,7 +19,7 @@ interface MyFeedListListener :
 
 interface PostCommentsListener {
 
-    fun onCommentsClicked(postContentId: Post.ContentId)
+    fun onCommentsClicked(postContentId: ContentId)
 }
 
 interface PostShareListener {
@@ -28,7 +29,7 @@ interface PostShareListener {
 
 interface PostVotesListener {
 
-    fun onUpVoteClicked(post: Post.ContentId)
+    fun onUpVoteClicked(post: ContentId)
 
-    fun onDownVoteClicked(post: Post.ContentId)
+    fun onDownVoteClicked(post: ContentId)
 }

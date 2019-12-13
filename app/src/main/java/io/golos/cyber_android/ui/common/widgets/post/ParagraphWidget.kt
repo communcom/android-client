@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
@@ -38,7 +39,7 @@ constructor(
 
     private var onClickProcessor: ParagraphWidgetListener? = null
     private var isSeeMoreEnabled: Boolean = false
-    private var contentId: Post.ContentId? = null
+    private var contentId: ContentId? = null
 
     @ColorInt
     private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
@@ -60,7 +61,7 @@ constructor(
         isSeeMoreEnabled = isEnabled
     }
 
-    fun setContentId(postContentId: Post.ContentId) {
+    fun setContentId(postContentId: ContentId) {
         contentId = postContentId
     }
 

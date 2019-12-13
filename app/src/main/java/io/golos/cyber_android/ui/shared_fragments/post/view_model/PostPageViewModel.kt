@@ -10,7 +10,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
@@ -33,7 +33,7 @@ constructor(
     model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val postToProcess: DiscussionIdModel,
-    private val contentId: Post.ContentId?
+    private val contentId: ContentId?
 ) : ViewModelBase<PostPageModel>(dispatchersProvider, model),
     PostPageViewModelListEventsProcessor {
 
@@ -107,9 +107,9 @@ constructor(
         _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
-    override fun onSeeMoreClicked(postContentId: Post.ContentId) {}
+    override fun onSeeMoreClicked(postContentId: ContentId) {}
 
-    override fun onItemClicked(postContentId: Post.ContentId) {}
+    override fun onItemClicked(postContentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
         launch {
@@ -219,11 +219,11 @@ constructor(
         _command.value = StartEditPostViewCommand(model.postId)
     }
 
-    fun editPost(contentId: Post.ContentId) {
+    fun editPost(contentId: ContentId) {
         _command.value = NavigationToEditPostViewCommand(contentId)
     }
 
-    fun reportPost(contentId: Post.ContentId) {
+    fun reportPost(contentId: ContentId) {
         _command.value = ReportPostCommand(contentId)
     }
 

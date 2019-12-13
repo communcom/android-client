@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
@@ -46,7 +47,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
-        val contentId: Post.ContentId? = null,
+        val contentId: ContentId? = null,
         val scrollToComments: Boolean = false
     ) : Parcelable
 
@@ -221,7 +222,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         requireContext().shareMessage(shareUrl)
     }
 
-    private fun showReportPost(contentId: Post.ContentId) {
+    private fun showReportPost(contentId: ContentId) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val dialog = PostReportDialog.newInstance(PostReportDialog.Args(contentId))
@@ -253,7 +254,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     private fun moveToEditPost(postId: DiscussionIdModel) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
 
-    private fun openEditPost(contentId: Post.ContentId) {
+    private fun openEditPost(contentId: ContentId) {
         startActivity(
             EditorPageActivity.getIntent(
                 requireContext(),

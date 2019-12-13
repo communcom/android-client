@@ -26,6 +26,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
@@ -56,7 +57,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     data class Args(
         val postToEdit: DiscussionIdModel? = null,
         val community: CommunityModel? = null,
-        val contentId: Post.ContentId? = null,
+        val contentId: ContentId? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
     ) : Parcelable
 

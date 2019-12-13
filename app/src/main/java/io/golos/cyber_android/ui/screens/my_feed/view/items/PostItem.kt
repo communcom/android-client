@@ -10,7 +10,9 @@ import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.widgets.post.VotingWidget
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.Votes
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
@@ -150,7 +152,7 @@ class PostItem(
                     communityId = community.communityId,
                     communityName = community.name,
                     communityAvatarUrl = community.avatarUrl,
-                    contentId = Post.ContentId(
+                    contentId = ContentId(
                         communityId = community.communityId,
                         permlink = post.contentId.permlink,
                         userId = author.userId
@@ -173,7 +175,7 @@ class PostItem(
         view.votesArea.release()
     }
 
-    private fun setVotesCounter(view: View, votes: Post.Votes) {
+    private fun setVotesCounter(view: View, votes: Votes) {
         val votesCounter = votes.upCount - votes.downCount
         val votingWidget = view.findViewById<VotingWidget>(R.id.votesArea)
         votingWidget.setVoteBalance(votesCounter.positiveValue())

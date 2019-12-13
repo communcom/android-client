@@ -83,7 +83,10 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                 is Paginator.State.FullData<*> -> {
                     cAdapter.removeProgress()
                     cAdapter.removeRetry()
+                    val items = (state.data as MutableList<ProfileCommentListItem>)
+                    cAdapter.update(items)
                     rvComments.scrollToPosition(cAdapter.itemCount - 1)
+                    btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
@@ -92,6 +95,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     rvComments.scrollToPosition(cAdapter.itemCount - 1)
                 }
                 is Paginator.State.NewPageProgress<*> -> {
+                    cAdapter.removeRetry()
                     cAdapter.addProgress()
                     rvComments.scrollToPosition(cAdapter.itemCount - 1)
                 }
@@ -103,6 +107,8 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                 }
                 is Paginator.State.Empty -> {
                     cAdapter.update(mutableListOf())
+                    cAdapter.removeProgress()
+                    cAdapter.removeRetry()
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
                 }

@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
@@ -296,7 +297,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
         }.show(requireFragmentManager(), "show")
     }
 
-    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: Post.ContentId) {
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
         startActivity(
             PostActivity.getIntent(
                 requireContext(),

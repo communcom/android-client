@@ -4,12 +4,13 @@ import android.content.Context
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post.EmbedWidget
 import io.golos.cyber_android.ui.common.widgets.post.EmbedWidgetListener
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.EmbedBlock
 
 class EmbedPostItem(
     val embedBlock: EmbedBlock,
-    val contentId: Post.ContentId,
+    val contentId: ContentId,
     widgetListener: EmbedWidgetListener? = null
 ) : BasePostBlockItem<EmbedBlock, EmbedWidgetListener, EmbedWidget>(
     embedBlock,

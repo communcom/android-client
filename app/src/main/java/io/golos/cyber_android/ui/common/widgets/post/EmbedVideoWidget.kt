@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.posts_editor.utilities.post.PostStubs
@@ -21,7 +22,7 @@ constructor(
     PostBlockWidget<VideoBlock, EmbedVideoWidgetListener> {
 
     private var isNeedToShowHtmlContent: Boolean = true
-    private var postContentId: Post.ContentId? = null
+    private var postContentId: ContentId? = null
 
     init {
         inflate(context, R.layout.view_post_embed_video, this)
@@ -31,7 +32,7 @@ constructor(
         isNeedToShowHtmlContent = false
     }
 
-    fun setContentId(contentId: Post.ContentId) {
+    fun setContentId(contentId: ContentId) {
         postContentId = contentId
     }
 

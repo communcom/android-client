@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.common.widgets.post
 
 import android.net.Uri
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 
@@ -12,7 +13,7 @@ interface RichWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
 
-    fun onItemClicked(postContentId: Post.ContentId)
+    fun onItemClicked(postContentId: ContentId)
 }
 
 interface EmbedWidgetListener : BasePostBlockWidgetListener {
@@ -21,7 +22,7 @@ interface EmbedWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
 
-    fun onItemClicked(postContentId: Post.ContentId)
+    fun onItemClicked(postContentId: ContentId)
 }
 
 interface AttachmentWidgetListener : BasePostBlockWidgetListener
@@ -30,11 +31,11 @@ interface EmbedImageWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
 
-    fun onItemClicked(postContentId: Post.ContentId)
+    fun onItemClicked(postContentId: ContentId)
 }
 
 interface EmbedVideoWidgetListener : BasePostBlockWidgetListener {
-    fun onItemClicked(postContentId: Post.ContentId)
+    fun onItemClicked(postContentId: ContentId)
 }
 
 interface EmbedWebsiteWidgetListener : BasePostBlockWidgetListener,
@@ -56,5 +57,5 @@ interface LinkListener {
 }
 
 interface SeeMoreListener {
-    fun onSeeMoreClicked(postContentId: Post.ContentId)
+    fun onSeeMoreClicked(postContentId: ContentId)
 }

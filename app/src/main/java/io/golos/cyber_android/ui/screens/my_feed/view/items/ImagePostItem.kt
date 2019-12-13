@@ -4,12 +4,12 @@ import android.content.Context
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post.EmbedImageWidget
 import io.golos.cyber_android.ui.common.widgets.post.EmbedImageWidgetListener
-import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 
 class ImagePostItem(
     val imageBlock: ImageBlock,
-    val contentId: Post.ContentId,
+    val contentId: ContentId,
     widgetListener: EmbedImageWidgetListener?
 ) :
     BasePostBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener) {

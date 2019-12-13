@@ -1,9 +1,7 @@
 package io.golos.cyber_android.ui.dto
 
-import android.os.Parcelable
+import io.golos.commun4j.services.model.IFramelyEmbedResult
 import io.golos.domain.use_cases.post.post_dto.PostBlock
-import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 data class Post(
 
@@ -18,16 +16,6 @@ data class Post(
     var votes: Votes,
     val isMyPost: Boolean
 ) {
-    data class Votes(
-        var downCount: Long,
-        var upCount: Long,
-        val hasUpVote: Boolean,
-        val hasDownVote: Boolean
-    )
-
-    data class Meta(
-        val creationTime: Date
-    )
 
     data class Community(
         val alias: String?,
@@ -35,23 +23,5 @@ data class Post(
         val name: String?,
         val avatarUrl: String?,
         var isSubscribed: Boolean
-    )
-
-    data class Stats(
-        val commentsCount: Int,
-        val viewCount: Int
-    )
-
-    @Parcelize
-    data class ContentId(
-        val communityId: String,
-        val permlink: String,
-        val userId: String
-    ): Parcelable
-
-    data class Author(
-        val avatarUrl: String?,
-        val userId: String,
-        val username: String?
     )
 }

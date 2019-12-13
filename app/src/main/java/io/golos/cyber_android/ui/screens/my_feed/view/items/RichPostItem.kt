@@ -4,12 +4,13 @@ import android.content.Context
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post.RichWidget
 import io.golos.cyber_android.ui.common.widgets.post.RichWidgetListener
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.RichBlock
 
 class RichPostItem(
     val richBlock: RichBlock,
-    val contentId: Post.ContentId,
+    val contentId: ContentId,
     widgetListener: RichWidgetListener? = null
 ) : BasePostBlockItem<RichBlock, RichWidgetListener, RichWidget>(
     richBlock,

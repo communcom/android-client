@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
@@ -24,13 +25,13 @@ constructor(
     private var onClickProcessor: EmbedImageWidgetListener? = null
     private var imageUri: Uri? = null
 
-    private var postContentId: Post.ContentId? = null
+    private var postContentId: ContentId? = null
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
-    fun setContentId(contentId: Post.ContentId) {
+    fun setContentId(contentId: ContentId) {
         postContentId = contentId
     }
 

@@ -5,6 +5,7 @@ import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
@@ -40,7 +41,7 @@ constructor(
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
-    private val contentId: Post.ContentId?
+    private val contentId: ContentId?
 ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
@@ -75,7 +76,7 @@ constructor(
             communityId = postDomain.community.communityId,
             communityName = postDomain.community.name,
             communityAvatarUrl = postDomain.community.avatarUrl,
-            contentId = Post.ContentId(
+            contentId = ContentId(
                 communityId = postDomain.community.communityId,
                 permlink = postId.permlink.value,
                 userId = currentUserRepository.userId.userId

@@ -4,13 +4,14 @@ import android.content.Context
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post.ParagraphWidget
 import io.golos.cyber_android.ui.common.widgets.post.ParagraphWidgetListener
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 
 class ParagraphPostItem(
     val paragraphBlock: ParagraphBlock,
     widgetListener: ParagraphWidgetListener?,
-    val contentId: Post.ContentId
+    val contentId: ContentId
 ) : BasePostBlockItem<ParagraphBlock, ParagraphWidgetListener, ParagraphWidget>(
     paragraphBlock,
     widgetListener
