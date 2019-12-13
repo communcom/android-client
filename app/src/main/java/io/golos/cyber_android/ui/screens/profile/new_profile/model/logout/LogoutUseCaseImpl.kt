@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
+import io.golos.domain.use_cases.user.UsersRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.system.exitProcess
@@ -19,6 +20,7 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val userKeyStore: UserKeyStore,
     private val keyValueStorage: KeyValueStorageFacade,
+    private val usersRepository: UsersRepository,
     private val appContext: Context
 ) : LogoutUseCase {
     override suspend fun logout() {
@@ -29,6 +31,7 @@ constructor(
             keyValueStorage.removePinCode()
             keyValueStorage.removeAppUnlockWay()
             keyValueStorage.removeLastUsedCommunityId()
+            usersRepository.clearCurrentUserData()
         }
     }
 
