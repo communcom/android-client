@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
+import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -91,12 +92,12 @@ class ProfileCommentsViewModel @Inject constructor(
     private fun loadPostComments(pageCount: Int) {
         loadCommentsJob = launch {
             try {
-                val communityDomain = model.getComments(
+                val commentsDomain = model.getComments(
                     offset = pageCount * PAGINATION_PAGE_SIZE,
                     pageSize = PAGINATION_PAGE_SIZE
-                )
+                ).map { ProfileCommentListItem(it) }
                 launch(Dispatchers.Main) {
-                    paginator.proceed(Paginator.Action.NewPage(pageCount, communityDomain))
+                    paginator.proceed(Paginator.Action.NewPage(pageCount, commentsDomain))
                 }
             } catch (e: Exception) {
                 Timber.e(e)

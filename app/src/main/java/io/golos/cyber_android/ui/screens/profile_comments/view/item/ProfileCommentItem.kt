@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
+import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 
 class ProfileCommentItem(
@@ -20,8 +21,8 @@ class ProfileCommentItem(
         listItem: ProfileCommentListItem,
         listItemEventsProcessor: ProfileCommentsModelEventProcessor
     ) {
-        itemView.userAvatar.loadAvatar(listItem.comments.avatarUrl)
-        itemView.mainCommentText.text = listItem.comments.commentText //todo need to create spannable text
+        itemView.userAvatar.loadAvatar(listItem.comments.authorDomain.avatarUrl)
+        //itemView.mainCommentText.text = listItem.comments.commentText //todo need to create spannable text
 
         setupVoting(listItem, listItemEventsProcessor)
 
@@ -35,15 +36,19 @@ class ProfileCommentItem(
         listItemEventsProcessor: ProfileCommentsModelEventProcessor
     ) {
         with(itemView) {
-            voting.setVoteBalance(listItem.comments.voteCount)
-            voting.setUpVoteButtonSelected(listItem.comments.hasUpVote)
-            voting.setDownVoteButtonSelected(listItem.comments.hasDownVote)
+            val votes = listItem.comments.votes
+            val votesCounter = votes.upCount - votes.downCount
+            voting.setVoteBalance(votesCounter.positiveValue())
+            voting.setUpVoteButtonSelected(votes.hasUpVote)
+            voting.setDownVoteButtonSelected(votes.hasDownVote)
 
             voting.setOnUpVoteButtonClickListener {
-                listItemEventsProcessor.onCommentUpVoteClick(listItem.comments.commentId)
+                //TODO kv need add right call
+                //listItemEventsProcessor.onCommentUpVoteClick(listItem.comments.contentId)
             }
             voting.setOnDownVoteButtonClickListener {
-                listItemEventsProcessor.onCommentDownVoteClick(listItem.comments.commentId)
+                //TODO kv need add right call
+                //listItemEventsProcessor.onCommentDownVoteClick(listItem.comments.contentId)
             }
         }
     }

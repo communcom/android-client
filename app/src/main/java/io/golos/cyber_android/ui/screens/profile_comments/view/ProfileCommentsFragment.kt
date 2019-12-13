@@ -90,12 +90,10 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     cAdapter.removeProgress()
                     cAdapter.addRetry()
                     rvComments.scrollToPosition(cAdapter.itemCount - 1)
-                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.NewPageProgress<*> -> {
                     cAdapter.addProgress()
                     rvComments.scrollToPosition(cAdapter.itemCount - 1)
-                    pbSearchLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
                     cAdapter.removeProgress()

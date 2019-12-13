@@ -14,10 +14,10 @@ interface DiscussionRepository {
     suspend fun getComments(offset: Int,
                             pageSize: Int,
                             commentType: CommentDomain.CommentTypeDomain,
-                            permlink: String?,
-                            communityId: String?,
-                            communityAlias: String?,
-                            parentComment: ParentCommentDomain
+                            permlink: String? = null,
+                            communityId: String? = null,
+                            communityAlias: String? = null,
+                            parentComment: ParentCommentIdentifierDomain? = null
     ): List<CommentDomain>
 
     suspend fun upVote(communityId: String, userId: String, permlink: String)

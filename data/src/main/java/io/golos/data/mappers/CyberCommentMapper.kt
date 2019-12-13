@@ -1,11 +1,18 @@
 package io.golos.data.mappers
 
-import io.golos.commun4j.services.model.CyberComment
+import io.golos.commun4j.services.model.CyberCommentRaw
 import io.golos.domain.dto.CommentDomain
+import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 
-/*
-fun CyberComment.mapToCommentDomain(): CommentDomain{
+fun CyberCommentRaw.mapToCommentDomain(): CommentDomain {
     return CommentDomain(
-        this.
-    )
-}*/
+        contentId = this.contentId.mapToContentIdDomain(),
+        authorDomain = this.author.mapToAuthorDomain(),
+        votes = this.votes.mapToVotesDomain(),
+        body = this.document?.let { JsonToDtoMapper().map(it) },
+childCommentsCount = this.childCommentsCount,
+        community = this.community.mapToCommunityDomain(),
+        meta = this.meta.mapToMetaDomain(),
+        parent = this.parents.mapToParentCommentParent(),
+        type = this.type)
+}

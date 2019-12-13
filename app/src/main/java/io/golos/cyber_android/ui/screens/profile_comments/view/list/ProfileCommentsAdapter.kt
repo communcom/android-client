@@ -70,7 +70,7 @@ class ProfileCommentsAdapter(
         val item = items.find { it is ProfileCommentProgressListItem }
         if (item == null) {
             val adapterItemsList: ArrayList<VersionedListItem> = ArrayList(items)
-            adapterItemsList.add(FtueCommunityProgressListItem())
+            adapterItemsList.add(ProfileCommentProgressListItem())
             update(adapterItemsList)
         }
     }
@@ -88,7 +88,7 @@ class ProfileCommentsAdapter(
         val item = items.find { it is ProfileCommentErrorListItem }
         if (item == null) {
             val adapterItemsList: ArrayList<VersionedListItem> = ArrayList(items)
-            adapterItemsList.add(FtueCommunityRetryListItem())
+            adapterItemsList.add(ProfileCommentErrorListItem())
             update(adapterItemsList)
         }
     }

@@ -233,15 +233,15 @@
 //
 //        assertTrue(
 //            "new root comment was erased",
-//            comments!!.items.any { it.contentId == rootCommentCreationId.commentId })
+//            comments!!.items.any { it.contentId == rootCommentCreationId.contentId })
 //        assertTrue(
 //            "new secondLevle comment was erased",
-//            comments!!.items.any { it.contentId == commentCreationId.commentId })
+//            comments!!.items.any { it.contentId == commentCreationId.contentId })
 //
 //        assertEquals("root comment duplicated", 1,
 //            comments!!.items
 //                .filter {
-//                    it.contentId == rootCommentCreationId.commentId
+//                    it.contentId == rootCommentCreationId.contentId
 //                }
 //                .map { 1 }
 //                .sum())
@@ -250,7 +250,7 @@
 //        assertEquals("second level comment duplicated", 1,
 //            comments!!.items
 //                .filter {
-//                    it.contentId == commentCreationId.commentId
+//                    it.contentId == commentCreationId.contentId
 //                }
 //                .map { 1 }
 //                .sum())

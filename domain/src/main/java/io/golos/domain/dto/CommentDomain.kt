@@ -1,16 +1,19 @@
 package io.golos.domain.dto
 
+import io.golos.domain.use_cases.post.post_dto.PostBlock
+
 data class CommentDomain(
-    val commentId:String,
-    val avatarUrl: String?,
-    val userId: String,
-    val username: String?,
-    val voteCount: Long,
-    val hasUpVote: Boolean,
-    val hasDownVote: Boolean,
-    val commentText: String
+    val contentId: ContentIdDomain,
+    val authorDomain: AuthorDomain,
+    val votes: VotesDomain,
+    val body: PostBlock?,
+    val childCommentsCount: Int,
+    val community: PostDomain.CommunityDomain,
+    val meta: MetaDomain,
+    val parent: ParentCommentDomain,
+    val type: String
 ) {
-    enum class CommentTypeDomain{
+    enum class CommentTypeDomain {
         USER,
         POST,
         REPLIES

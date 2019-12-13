@@ -4,15 +4,11 @@ import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.*
 import io.golos.commun4j.services.model.CommentsSortBy
-import io.golos.commun4j.services.model.CommentsSortType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.data.mappers.mapToCommentSortType
-import io.golos.data.mappers.mapToCyberName
-import io.golos.data.mappers.mapToParentComment
-import io.golos.data.mappers.mapToPostDomain
+import io.golos.data.mappers.*
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
@@ -28,7 +24,6 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
-import kotlinx.coroutines.delay
 import java.util.*
 import javax.inject.Inject
 
@@ -78,9 +73,9 @@ constructor(
                                      permlink: String?,
                                      communityId: String?,
                                      communityAlias: String?,
-                                     parentComment: ParentCommentDomain): List<CommentDomain> {
-        /*return apiCall {
-            commun4j.getComments(sortBy = CommentsSortBy.TIME,
+                                     parentComment: ParentCommentIdentifierDomain?): List<CommentDomain> {
+        return apiCall {
+            commun4j.getCommentsRaw(sortBy = CommentsSortBy.TIME,
                 offset = offset,
                 limit = pageSize,
                 type = commentType.mapToCommentSortType(),
@@ -88,10 +83,9 @@ constructor(
                 permlink = permlink,
                 communityId = communityId,
                 communityAlias = communityAlias,
-                parentComment = parentComment.mapToParentComment())
+                parentComment = parentComment?.mapToParentComment())
         }.items
-            .map()*/
-        return listOf()
+            .map{ it.mapToCommentDomain()}
     }
 
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {

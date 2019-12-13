@@ -14,8 +14,9 @@ class ProfileCommentsModelImpl @Inject constructor(
 
     override suspend fun getComments(offset: Int, pageSize: Int): List<CommentDomain> {
         return withContext(dispatchersProvider.ioDispatcher) {
-            //discussionRepository.getComments()
-            listOf<CommentDomain>()
+            discussionRepository.getComments(offset,
+                pageSize,
+                CommentDomain.CommentTypeDomain.USER)
         }
     }
 

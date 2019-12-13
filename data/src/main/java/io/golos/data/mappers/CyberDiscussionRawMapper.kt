@@ -8,7 +8,7 @@ import io.golos.utils.toAbsoluteUrl
 fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean): PostDomain {
     return PostDomain(
         this.author.mapToAuthorDomain(),
-        this.community.mapToCommunityDomainMapper(),
+        this.community.mapToCommunityDomain(),
         this.contentId.mapToContentIdDomain(),
         this.document?.let { JsonToDtoMapper().map(it) },
         this.meta.mapToMetaDomain(),
