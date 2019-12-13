@@ -57,6 +57,9 @@
                         app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
                         app:imageButton_tint="@color/white"
                         android:background="@null"
+
+                        tools:visibility="visible"
+                        android:visibility="@{viewModel.backButtonVisibility}"
                     />
 
                     <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
@@ -93,6 +96,10 @@
                         android:onClick="@{() -> viewModel.onUpdatePhotoClick(ProfileItem.COVER)}"
 
                         android:tint="@color/white"
+
+                        tools:visibility="visible"
+                        android:visibility="@{viewModel.photoButtonsVisibility}"
+
                         tools:ignore="ContentDescription" />
 
                     <!--White area-->
@@ -135,6 +142,10 @@
                             app:layout_constraintStart_toStartOf="@+id/userAvatar"
 
                             app:layout_constraintTop_toTopOf="@+id/userAvatar"
+
+                            tools:visibility="visible"
+                            android:visibility="@{viewModel.photoButtonsVisibility}"
+
                             tools:ignore="ContentDescription" />
 
                         <TextView
@@ -149,7 +160,7 @@
 
                             android:text="@{viewModel.name}"
                             app:layout_constraintBottom_toTopOf="@+id/joinTime"
-                            app:layout_constraintEnd_toStartOf="@+id/ctvJoin"
+                            app:layout_constraintEnd_toStartOf="@+id/followButton"
                             app:layout_constraintStart_toEndOf="@+id/userAvatar"
 
                             app:layout_constraintTop_toTopOf="@+id/userAvatar"
@@ -168,35 +179,21 @@
                             app:layout_constraintTop_toBottomOf="@+id/userName"
                             tools:text="Joined April 12, 2018" />
 
-                        <ImageView
-                            android:id="@+id/ivNotificationCommunityControl"
-                            android:layout_width="@dimen/community_notification_control_size"
-                            android:layout_height="@dimen/community_notification_control_size"
-                            android:layout_marginEnd="@dimen/gap"
-                            android:background="@drawable/bg_grey_circle"
-                            android:foreground="?selectableItemBackgroundBorderless"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_notification"
-                            android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="@+id/ctvJoin"
-                            app:layout_constraintEnd_toStartOf="@+id/ctvJoin"
-                            app:layout_constraintTop_toTopOf="@+id/ctvJoin"
-                            tools:visibility="visible" />
-
                         <CheckedTextView
-                            android:id="@+id/ctvJoin"
+                            android:id="@+id/followButton"
                             style="@style/CommunityJoinButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/margin_default"
                             android:gravity="center_vertical|center_horizontal"
                             android:minWidth="@dimen/community_btn_join_min_width"
-                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@+id/userAvatar"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/userAvatar"
 
-                            tools:text="@string/join_to_community"
+                            tools:text="@string/follow"
+
+                            android:visibility="@{viewModel.followButtonVisibility}"
                             tools:visibility="visible" />
 
                         <FrameLayout

@@ -69,12 +69,25 @@ constructor(
     private val _loadingProgressVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
     val loadingProgressVisibility: LiveData<Int> get() = _loadingProgressVisibility
 
+    val backButtonVisibility = if(model.isCurrentUser) View.INVISIBLE else View.VISIBLE
+    val followButtonVisibility = if(model.isCurrentUser) View.GONE else View.VISIBLE
+    val photoButtonsVisibility = if(model.isCurrentUser) View.VISIBLE else View.INVISIBLE
+
     private var bioUpdateInProgress = false
 
     init {
         _bio.observeForever {
             _bioVisibility.value = if(it.isNullOrEmpty()) View.GONE else View.VISIBLE
-            _addBioVisibility.value = if(it.isNullOrEmpty()) View.VISIBLE else View.GONE
+
+            _addBioVisibility.value =
+                if(!model.isCurrentUser) {
+                    View.GONE
+                } else {
+                    if(it.isNullOrEmpty())
+                        View.VISIBLE
+                    else
+                        View.GONE
+                }
         }
     }
 
@@ -144,7 +157,7 @@ constructor(
     }
 
     fun onBioClick() {
-        if(bioUpdateInProgress) {
+        if(bioUpdateInProgress || !model.isCurrentUser) {
             return
         }
         _command.value = ShowEditBioDialogCommand()
@@ -204,8 +217,6 @@ constructor(
                     _name.value = name
                     _joinDate.value = joinDate
                     _bio.value = bio
-                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
-                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
                     _followersCount.value = followersCount
                     _followingsCount.value = followingsCount
 

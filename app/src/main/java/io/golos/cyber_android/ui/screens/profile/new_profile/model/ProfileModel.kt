@@ -6,6 +6,8 @@ import io.golos.domain.dto.UserProfileDomain
 import java.io.File
 
 interface ProfileModel: ModelBase {
+    val isCurrentUser: Boolean
+
     val mutualUsers: List<UserDomain>
 
     val avatarUrl: String?
