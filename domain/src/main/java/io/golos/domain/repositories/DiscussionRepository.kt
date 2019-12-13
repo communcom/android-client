@@ -2,10 +2,7 @@ package io.golos.domain.repositories
 
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommentDomain
-import io.golos.domain.dto.DiscussionCreationResultEntity
-import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.*
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -14,7 +11,14 @@ import io.golos.domain.use_cases.model.PostModel
 interface DiscussionRepository {
     fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
 
-    suspend fun getComments(): List<CommentDomain>
+    suspend fun getComments(offset: Int,
+                            pageSize: Int,
+                            commentType: CommentDomain.CommentTypeDomain,
+                            permlink: String?,
+                            communityId: String?,
+                            communityAlias: String?,
+                            parentComment: ParentCommentDomain
+    ): List<CommentDomain>
 
     suspend fun upVote(communityId: String, userId: String, permlink: String)
 

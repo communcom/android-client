@@ -12,9 +12,10 @@ class ProfileCommentsModelImpl @Inject constructor(
     private val dispatchersProvider: DispatchersProvider
 ): ProfileCommentsModel, ModelBaseImpl() {
 
-    override suspend fun getComments(): List<CommentDomain> {
+    override suspend fun getComments(offset: Int, pageSize: Int): List<CommentDomain> {
         return withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.getComments()
+            //discussionRepository.getComments()
+            listOf<CommentDomain>()
         }
     }
 

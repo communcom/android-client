@@ -5,7 +5,7 @@ import io.golos.domain.dto.CommentDomain
 
 interface ProfileCommentsModel : ModelBase {
 
-    suspend fun getComments(): List<CommentDomain>
+    suspend fun getComments(offset: Int, pageSize: Int): List<CommentDomain>
 
     suspend fun upVote(commentId: String)
 

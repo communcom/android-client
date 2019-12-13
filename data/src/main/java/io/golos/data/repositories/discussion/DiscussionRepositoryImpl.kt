@@ -3,10 +3,15 @@ package io.golos.data.repositories.discussion
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.*
+import io.golos.commun4j.services.model.CommentsSortBy
+import io.golos.commun4j.services.model.CommentsSortType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.mappers.mapToCommentSortType
+import io.golos.data.mappers.mapToCyberName
+import io.golos.data.mappers.mapToParentComment
 import io.golos.data.mappers.mapToPostDomain
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
@@ -67,9 +72,26 @@ constructor(
         }
     }
 
-    override suspend fun getComments(): List<CommentDomain> {
-        delay(1000)
-        return arrayListOf() //todo replace this method from commun4j lib
+    override suspend fun getComments(offset: Int,
+                                     pageSize: Int,
+                                     commentType: CommentDomain.CommentTypeDomain,
+                                     permlink: String?,
+                                     communityId: String?,
+                                     communityAlias: String?,
+                                     parentComment: ParentCommentDomain): List<CommentDomain> {
+        /*return apiCall {
+            commun4j.getComments(sortBy = CommentsSortBy.TIME,
+                offset = offset,
+                limit = pageSize,
+                type = commentType.mapToCommentSortType(),
+                userId = currentUserRepository.userId.mapToCyberName(),
+                permlink = permlink,
+                communityId = communityId,
+                communityAlias = communityAlias,
+                parentComment = parentComment.mapToParentComment())
+        }.items
+            .map()*/
+        return listOf()
     }
 
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
