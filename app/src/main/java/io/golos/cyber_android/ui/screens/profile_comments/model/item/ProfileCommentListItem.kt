@@ -6,7 +6,7 @@ import io.golos.domain.dto.CommentDomain
 import io.golos.domain.utils.IdUtil
 
 class ProfileCommentListItem(
-    val comments: Comment,
+    val comment: Comment,
     override val id: Long = IdUtil.generateLongId(),
     override val version: Long = 0
 ) : VersionedListItem

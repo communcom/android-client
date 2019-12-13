@@ -37,7 +37,7 @@ class PostItem(
 
     override fun getLayoutId(): Int = R.layout.item_post_content
 
-    private var recycledViewPool: RecyclerView.RecycledViewPool? = null
+    private var contentViewPool: RecyclerView.RecycledViewPool? = null
 
     private val feedAdapter: RecyclerAdapter = RecyclerAdapter()
 
@@ -55,11 +55,12 @@ class PostItem(
         view.feedContent.apply {
             adapter = feedAdapter
             layoutManager = LinearLayoutManager(view.context)
+            setRecycledViewPool(contentViewPool)
         }
     }
 
     fun setRecycledViewPool(recycledViewPool: RecyclerView.RecycledViewPool) {
-        this.recycledViewPool = recycledViewPool
+        this.contentViewPool = recycledViewPool
     }
 
     override fun renderView(context: Context, view: View) {

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view.list
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.ui.common.recycler_view.DiffAlgBase
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
@@ -20,6 +21,8 @@ class ProfileCommentsAdapter(
     processor: ProfileCommentsModelEventProcessor
 ) : VersionedListAdapterBase<ProfileCommentsModelEventProcessor>(processor, null) {
 
+    private val rvViewPool = RecyclerView.RecycledViewPool()
+
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,7 +31,8 @@ class ProfileCommentsAdapter(
         return when (viewType) {
             PROFILE_VIEW_COMMENTS -> {
                 ProfileCommentItem(
-                    parent
+                    parent,
+                    rvViewPool
                 ) as ViewHolderBase<ProfileCommentsModelEventProcessor, VersionedListItem>
             }
             PROFILE_VIEW_PROGRESS -> {

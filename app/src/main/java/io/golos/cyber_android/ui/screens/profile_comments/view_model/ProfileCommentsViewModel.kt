@@ -1,9 +1,11 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view_model
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
@@ -23,6 +25,26 @@ class ProfileCommentsViewModel @Inject constructor(
     model: ProfileCommentsModel,
     private val paginator: Paginator.Store<CommentDomain>
 ) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model), ProfileCommentsModelEventProcessor {
+
+    override fun onLinkClicked(linkUri: Uri) {
+        //TODO need implement
+    }
+
+    override fun onImageClicked(imageUri: Uri) {
+        //TODO need implement
+    }
+
+    override fun onItemClicked(postContentId: ContentId) {
+        //TODO need implement
+    }
+
+    override fun onUserClicked(userId: String) {
+        //TODO need implement
+    }
+
+    override fun onSeeMoreClicked(postContentId: ContentId) {
+        //TODO need implement
+    }
 
     private var loadCommentsJob: Job? = null
 
