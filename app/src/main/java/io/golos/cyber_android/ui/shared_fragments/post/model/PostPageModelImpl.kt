@@ -16,6 +16,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -198,7 +199,7 @@ constructor(
         val votes = postDomain.votes
         if (!votes.hasUpVote) {
             postDomain = postDomain.copy(
-                votes = PostDomain.VotesDomain(
+                votes = VotesDomain(
                     downCount = votes.downCount,
                     upCount = votes.upCount + 1,
                     hasDownVote = false,
@@ -213,7 +214,7 @@ constructor(
         val votes = postDomain.votes
         if (!votes.hasDownVote) {
             postDomain = postDomain.copy(
-                votes = PostDomain.VotesDomain(
+                votes = VotesDomain(
                     downCount = votes.downCount + 1,
                     upCount = votes.upCount,
                     hasDownVote = true,
