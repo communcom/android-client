@@ -2,16 +2,16 @@ package io.golos.cyber_android.ui.screens.profile.new_profile.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
@@ -24,10 +24,9 @@ import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
 import io.golos.cyber_android.ui.dialogs.ProfileSettingsDialog
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
+import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
-import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
-import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
@@ -37,24 +36,23 @@ import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowers
 import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
 
-class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
+open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
     companion object {
-        fun newInstance(userId: String) = ProfileFragment().apply {
-            arguments = Bundle().apply { putString(Tags.USER_ID, userId) }
+        fun newInstance(userId: UserIdDomain) = ProfileFragment().apply {
+            arguments = Bundle().apply { putParcelable(Tags.USER_ID, userId) }
         }
     }
-
-    private val user: CyberName
-        get()= (arguments?.getString(Tags.USER_ID) ?: "").toCyberName()
 
     override fun provideViewModelType(): Class<ProfileViewModel> = ProfileViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_profile_new
 
-    override fun inject() = App.injections.get<ProfileFragmentComponent>(user).inject(this)
+    override fun inject() =
+        App.injections.get<ProfileFragmentComponent>(arguments!!.getParcelable<UserIdDomain>(Tags.USER_ID)).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<ProfileFragmentComponent>()
@@ -70,7 +68,7 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
                 it?.let {
                     fragmentManager
                         ?.beginTransaction()
-                        ?.add(R.id.communitiesContainer, ProfileCommunitiesFragment.newInstance(it))
+                        ?.add(R.id.communitiesContainer, getCommunitiesFragment(it))
                         ?.commit()
                 }
             }
@@ -133,6 +131,12 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         }
     }
 
+    protected open fun getCommunitiesFragment(sourceData: ProfileCommunities): Fragment =
+        ProfileCommunitiesFragment.newInstance(sourceData)
+
+    protected open fun getFollowersFragment(filter: FollowersFilter, mutualUsers: List<UserDomain>): Fragment =
+        ProfileFollowersFragment.newInstance(filter, mutualUsers)
+
     private fun initPages() {
         tabLayout.apply {
             setupWithViewPager(vpContent)
@@ -159,22 +163,22 @@ class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewM
         ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
     private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
-        (parentFragment as DashboardFragment)
-            .showFragment(
+        getDashboardFragment(this)
+            ?.showFragment(
                 ProfilePhotosFragment.newInstance(
                     place,
                     imageUrl,
                     this@ProfileFragment))
 
     private fun moveToBioPage(text: String?) =
-        (parentFragment as DashboardFragment).showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
+        getDashboardFragment(this)?.showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 
     private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
-        (parentFragment as DashboardFragment).showFragment(ProfileFollowersFragment.newInstance(filter, mutualUsers))
+        getDashboardFragment(this)?.showFragment(getFollowersFragment(filter, mutualUsers))
     }
 
-    private fun moveToLikedPage() = (parentFragment as DashboardFragment).showFragment(ProfileLikedFragment.newInstance())
+    private fun moveToLikedPage() = getDashboardFragment(this)?.showFragment(ProfileLikedFragment.newInstance())
 
     private fun moveToBlackListPage() =
-        (parentFragment as DashboardFragment).showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
+        getDashboardFragment(this)?.showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 }

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities
+package io.golos.cyber_android.ui.screens.profile_communities.di
 
 import dagger.Module
 import dagger.Provides

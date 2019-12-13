@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_followers.ProfileFollowersFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileFollowersBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.screens.profile_followers.view_model.ProfileFol
 import io.golos.domain.dto.UserDomain
 import kotlinx.android.synthetic.main.fragment_profile_followers.*
 
-class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersBinding, ProfileFollowersViewModel>() {
+open class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersBinding, ProfileFollowersViewModel>() {
     companion object {
         private const val FILTER = "FILTER"
         private const val MUTUAL_USERS = "MUTUAL_USERS"

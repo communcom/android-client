@@ -17,7 +17,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
@@ -29,6 +29,7 @@ import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentCompon
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
@@ -72,6 +73,7 @@ interface UIComponent {
     val ftueSearchCommunityFragment: FtueSearchCommunityFragmentComponent.Builder
     val ftueFinishFragmentComponent: FtueFinishFragmentComponent.Builder
     val dashboardFragmentComponent: DashboardFragmentComponent.Builder
+    val profileExternalUserFragment: ProfileExternalUserFragmentComponent.Builder
 
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)

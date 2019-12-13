@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment
+package io.golos.cyber_android.ui.screens.profile.new_profile.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

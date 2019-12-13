@@ -47,14 +47,14 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.ProfileFragmentModule
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities.ProfileCommunitiesFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities.ProfileCommunitiesFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_followers.ProfileFollowersFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_followers.ProfileFollowersFragmentModule
+import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentModule
+import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
@@ -67,8 +67,11 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchComm
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
+import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesExternalUserFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
@@ -76,6 +79,7 @@ import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.CommunityModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlin.reflect.KClass
@@ -142,7 +146,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
             ProfileFragmentComponent::class ->
                 get<UIComponent>()
                     .profileFragment
-                    .init(ProfileFragmentModule(args[0] as CyberName))
+                    .init(ProfileFragmentModule(args[0] as UserIdDomain))
+                    .build()
+
+            ProfileExternalUserFragmentComponent::class ->
+                get<UIComponent>()
+                    .profileExternalUserFragment
+                    .init(ProfileFragmentModule(args[0] as UserIdDomain))
                     .build()
 
             ProfilePhotosFragmentComponent::class ->
@@ -163,10 +173,34 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(ProfileCommunitiesFragmentModule(args[0] as ProfileCommunities))
                     .build()
 
+            ProfileCommunitiesExternalUserFragmentComponent::class ->
+                get<ProfileExternalUserFragmentComponent>()
+                    .communitiesFragment
+                    .init(ProfileCommunitiesFragmentModule(args[0] as ProfileCommunities))
+                    .build()
+
             ProfileFollowersFragmentComponent::class ->
                 get<ProfileFragmentComponent>()
                     .followersFragment
-                    .init(ProfileFollowersFragmentModule(args[0] as FollowersFilter, args[1] as Int, args[2] as List<UserDomain>))
+                    .init(
+                        ProfileFollowersFragmentModule(
+                            args[0] as FollowersFilter,
+                            args[1] as Int,
+                            args[2] as List<UserDomain>
+                        )
+                    )
+                    .build()
+
+            ProfileFollowersExternalUserFragmentComponent::class ->
+                get<ProfileExternalUserFragmentComponent>()
+                    .followersFragment
+                    .init(
+                        ProfileFollowersFragmentModule(
+                            args[0] as FollowersFilter,
+                            args[1] as Int,
+                            args[2] as List<UserDomain>
+                        )
+                    )
                     .build()
 
             ProfileBlackListFragmentComponent::class ->

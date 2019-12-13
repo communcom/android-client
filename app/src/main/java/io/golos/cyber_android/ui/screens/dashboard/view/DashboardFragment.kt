@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 
@@ -120,7 +121,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                         NotificationsFragment.newInstance()
                     }
                     NavigationBottomMenuWidget.Tab.PROFILE -> {
-                        ProfileFragment.newInstance(user.name)
+                        ProfileFragment.newInstance(UserIdDomain(user.name))
                     }
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
