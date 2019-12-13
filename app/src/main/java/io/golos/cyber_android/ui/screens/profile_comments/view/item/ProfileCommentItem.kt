@@ -4,14 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.screens.my_feed.view.items.*
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
-import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 
@@ -34,7 +32,7 @@ class ProfileCommentItem(
         listItem: ProfileCommentListItem,
         listItemEventsProcessor: ProfileCommentsModelEventProcessor
     ) {
-        itemView.userAvatar.loadAvatar(listItem.comments.authorDomain.avatarUrl)
+        itemView.userAvatar.loadAvatar(listItem.comments.author.avatarUrl)
         //itemView.mainCommentText.text = listItem.comments.commentText //todo need to create spannable text
 
         setupVoting(listItem, listItemEventsProcessor)
@@ -45,11 +43,11 @@ class ProfileCommentItem(
         setupCommentContent(listItem)
     }
 
-    private fun setupCommentContent(listItem: ProfileCommentListItem){
-        with(itemView){
+    private fun setupCommentContent(listItem: ProfileCommentListItem) {
+        with(itemView) {
             rvCommentContent.adapter = commentContentAdapter
             val body = listItem.comments.body
-            val contentList : ArrayList<Block> = body?.content as? ArrayList<Block> ?: arrayListOf()
+            val contentList: ArrayList<Block> = body?.content as? ArrayList<Block> ?: arrayListOf()
             val newContentList = ArrayList<Block>(contentList)
             ((body?.attachments) as? Block)?.let {
                 newContentList.add(it)

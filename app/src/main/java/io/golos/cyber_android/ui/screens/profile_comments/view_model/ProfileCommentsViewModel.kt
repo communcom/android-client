@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
@@ -95,7 +96,8 @@ class ProfileCommentsViewModel @Inject constructor(
                 val commentsDomain = model.getComments(
                     offset = pageCount * PAGINATION_PAGE_SIZE,
                     pageSize = PAGINATION_PAGE_SIZE
-                ).map { ProfileCommentListItem(it) }
+                ).map { it.mapToComment() }
+                    .map { ProfileCommentListItem(it) }
                 launch(Dispatchers.Main) {
                     paginator.proceed(Paginator.Action.NewPage(pageCount, commentsDomain))
                 }

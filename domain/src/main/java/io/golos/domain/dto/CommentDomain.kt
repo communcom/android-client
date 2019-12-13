@@ -4,7 +4,7 @@ import io.golos.domain.use_cases.post.post_dto.PostBlock
 
 data class CommentDomain(
     val contentId: ContentIdDomain,
-    val authorDomain: AuthorDomain,
+    val author: AuthorDomain,
     val votes: VotesDomain,
     val body: PostBlock?,
     val childCommentsCount: Int,
