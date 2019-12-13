@@ -1,8 +1,8 @@
 package io.golos.data.repositories.current_user_repository
 
-import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
@@ -16,11 +16,11 @@ class CurrentUserRepositoryImpl
 constructor() : CurrentUserRepository, CurrentUserRepositoryRead {
     override var authState: AuthState? = null
 
-    override val userId: String
-        get() = authState?.user?.name ?: ""
+    override val userId: UserIdDomain
+        get() = authState!!.user
+
+    override val userName: String
+        get() = authState!!.userName
 
     override var userAvatarUrl: String? = null
-
-    override val user: CyberName
-        get() = authState!!.user
 }

@@ -2,6 +2,7 @@ package io.golos.cyber_android.application
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
@@ -111,7 +112,7 @@ constructor(
             .observeForever { metadataCollection ->
                 val authState = authRepository.getAsLiveData(authRepository.allDataRequest).value
                 authState ?: return@observeForever
-                val activeUserMetadata = metadataCollection[authState.user]
+                val activeUserMetadata = metadataCollection[CyberName(authState.user.userId)]
                 activeUserMetadata ?: return@observeForever
                 if (savedMetadata != activeUserMetadata) {
                     savedMetadata = activeUserMetadata

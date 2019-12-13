@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,15 +39,22 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        Log.d("LOGIN_BUG", "LoginActivity::onCreate")
+
         App.injections.get<LoginActivityComponent>().inject(this)
+
+        Log.d("LOGIN_BUG", "LoginActivity::onCreate::injected")
 
         setContentView(R.layout.activity_login)
         setupViewModel()
+        Log.d("LOGIN_BUG", "LoginActivity::onCreate::setupViewModel() called")
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
+
+        Log.d("LOGIN_BUG", "LoginActivity::onDestroy()")
 
         splashAnimationManager.clear()
         splashAnimator.clear()
@@ -60,6 +68,8 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
         val viewModel = ViewModelProviders.of(this, viewModelFactory).get(AuthViewModel::class.java)
 
         viewModel.authLiveData.observe(this, Observer {
+            Log.d("LOGIN_BUG", "LoginActivity::setupViewModel()::observe($it)")
+
             splashAnimationManager.processEvent(it)
 
             when(it) {

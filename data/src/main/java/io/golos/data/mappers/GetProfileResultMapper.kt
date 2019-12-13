@@ -15,7 +15,8 @@ fun GetProfileResult.mapToUserProfileDomain(): UserProfileDomain {
         followersCount = subscribers?.usersCount ?: 0,
         followingsCount = subscriptions?.usersCount ?: 0,
         communitiesSubscribedCount = subscriptions?.communitiesCount ?: 0,
-        highlightCommunities = highlightCommunities?.map { it.mapToCommunityDomain() } ?: listOf()
+        highlightCommunities = highlightCommunities?.map { it.mapToCommunityDomain() } ?: listOf(),
+        commonFriends = commonFriends?.map { it.mapToUserDomain() } ?: listOf()
     )
 }
 
@@ -30,6 +31,7 @@ fun GetProfileResult.mapToUserProfileDomain(fakeCommunities: GetCommunitiesRespo
         followersCount = subscribers?.usersCount ?: 0,
         followingsCount = subscriptions?.usersCount ?: 0,
         communitiesSubscribedCount = subscriptions?.communitiesCount ?: 0,
-        highlightCommunities = fakeCommunities.items.map { it.mapToCommunityDomain() }
+        highlightCommunities = fakeCommunities.items.map { it.mapToCommunityDomain() },
+        commonFriends = listOf()
     )
 }

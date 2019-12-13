@@ -71,9 +71,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
 
-            android:paddingTop="@dimen/communities_list_padding_top"
-            android:paddingLeft="@dimen/communities_list_padding"
-            android:paddingRight="@dimen/communities_list_padding"
+            android:paddingTop="@dimen/general_list_padding_top"
+            android:paddingLeft="@dimen/general_list_padding"
+            android:paddingRight="@dimen/general_list_padding"
 
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:overScrollMode="never"
@@ -82,21 +82,21 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/select_community_dialog_list_header_height"
-                android:background="@drawable/bcg_communities_select_dialog_list_top" />
+                android:layout_height="@dimen/general_list_header_height"
+                android:background="@drawable/bcg_general_list_top" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mainList"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/select_community_dialog_list_bcg"
+                android:background="@color/general_list_bcg"
                 />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/select_community_dialog_list_header_height"
-                android:background="@drawable/bcg_communities_select_dialog_list_bottom" />
+                android:layout_height="@dimen/general_list_header_height"
+                android:background="@drawable/bcg_general_list_bottom" />
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

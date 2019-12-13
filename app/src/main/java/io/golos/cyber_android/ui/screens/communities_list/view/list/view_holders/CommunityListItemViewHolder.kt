@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.communities_list.dto.CommunityListItem
+import io.golos.cyber_android.ui.common.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
 
@@ -43,7 +43,7 @@ class CommunityListItemViewHolder(
 
             itemView.setOnClickListener { listItemEventsProcessor.onItemClick(community) }
 
-            if(isJoined) {
+            if(isInPositiveState) {
                 itemView.joinButton.text = itemView.context.resources.getString(R.string.joined_to_community)
             } else {
                 itemView.joinButton.text = itemView.context.resources.getString(R.string.join_to_community)

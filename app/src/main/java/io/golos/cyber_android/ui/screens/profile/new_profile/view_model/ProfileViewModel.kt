@@ -5,14 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.dto.Community
+import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToBioPageCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.MoveToSelectPhotoPageCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowEditBioDialogCommand
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.ShowSelectPhotoDialogCommand
+import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
@@ -91,8 +92,8 @@ constructor(
 
     fun onSelectMenuChosen(item: ProfileItem) {
         _command.value = when(item) {
-            ProfileItem.AVATAR,
-            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item)
+            ProfileItem.AVATAR -> MoveToSelectPhotoPageCommand(item, model.avatarUrl)
+            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item, model.coverUrl)
             ProfileItem.BIO -> MoveToBioPageCommand(_bio.value)
         }
     }
@@ -147,6 +148,51 @@ constructor(
             return
         }
         _command.value = ShowEditBioDialogCommand()
+    }
+
+    fun onFollowersClick() {
+        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWERS, model.mutualUsers)
+    }
+
+    fun onFollowingsClick() {
+        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
+    }
+
+    fun onSettingsClick() {
+        _command.value = ShowSettingsDialogCommand()
+    }
+
+    fun onLogoutSelected() {
+        _command.value = ShowConfirmationDialog(R.string.log_out_question)
+    }
+
+    fun onLikedSelected() {
+        _command.value = MoveToLikedPageCommand()
+    }
+
+    fun onBlackListSelected() {
+        _command.value = MoveToBlackListPageCommand()
+    }
+
+    fun onLogoutConfirmed() {
+        launch {
+            var isSuccess = true
+
+            _command.value = SetLoadingVisibilityCommand(true)
+            try {
+                model.logout()
+            } catch (ex: Exception) {
+                isSuccess = false
+                Timber.e(ex)
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+
+            if(isSuccess) {
+                model.restartApp()
+            }
+        }
     }
 
     private fun loadPage() {

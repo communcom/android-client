@@ -16,6 +16,7 @@ import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserKey
 import io.golos.domain.dto.UserKeyType
 import kotlinx.coroutines.*
@@ -109,12 +110,12 @@ constructor(
             }
         }
 
-    private suspend fun getUser(): CyberName =
+    private suspend fun getUser(): UserIdDomain =
         withContext(dispatchersProvider.ioDispatcher) {
             keyValueStorage.getAuthState()!!.user
         }
 
-    private suspend fun getUserMetadata(user: CyberName): GetProfileResult =
+    private suspend fun getUserMetadata(user: UserIdDomain): GetProfileResult =
         withContext(dispatchersProvider.ioDispatcher) {
             metadadataApi.getUserMetadata(user).profile
         }

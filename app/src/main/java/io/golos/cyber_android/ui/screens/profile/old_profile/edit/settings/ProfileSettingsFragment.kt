@@ -87,9 +87,9 @@ class ProfileSettingsFragment : FragmentBase() {
         ivBack.setOnClickListener { requireActivity().finish() }
 
         logOut.setOnClickListener {
-            ConfirmationDialog.newInstance(getString(R.string.log_out_question)).apply {
-                listener = ::logOut
-            }.show(requireFragmentManager(), "logOut")
+//            ConfirmationDialog.newInstance(getString(R.string.log_out_question)).apply {
+//                listener = ::logOut
+//            }.show(requireFragmentManager(), "logOut")
         }
 
         pushNotifsSwitch.setOnCheckedChangeListener { _, isChecked ->

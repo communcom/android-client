@@ -39,4 +39,5 @@ interface KeyValueStorageFacade {
 
     fun getLastUsedCommunityId(): String?
     fun saveLastUsedCommunityId(communityId: String)
+    fun removeLastUsedCommunityId()
 }

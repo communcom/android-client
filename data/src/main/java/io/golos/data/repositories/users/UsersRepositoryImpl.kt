@@ -5,6 +5,8 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
+import io.golos.data.mappers.mapToUserDomain
+import io.golos.data.mappers.mapToFollowingUserDomain
 import io.golos.data.mappers.mapToFtueBoardStageDomain
 import io.golos.data.mappers.mapToFtueBoardStageEntity
 import io.golos.data.mappers.mapToUserProfileDomain
@@ -12,15 +14,14 @@ import io.golos.data.persistence.PreferenceManager
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.FollowerDomain
-import io.golos.domain.dto.FtueBoardStageDomain
-import io.golos.domain.dto.UserKeyType
-import io.golos.domain.dto.UserProfileDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
+import kotlin.random.Random
 
 class UsersRepositoryImpl @Inject constructor(
     private val usersApi: UsersApi,
@@ -59,29 +60,44 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun subscribeToFollower(userId: String) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            usersApi.subscribeToFollower(userId)
-        }
+    override suspend fun subscribeToFollower(userId: UserIdDomain) {
+        apiCallChain { commun4j.pinUser(
+            pinning = CyberName(userId.userId),
+            pinner = CyberName(currentUserRepository.userId.userId),
+            bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+            clientAuthRequest = ClientAuthRequest.empty,
+            key = userKeyStore.getKey(UserKeyType.ACTIVE)
+        )}
     }
 
-    override suspend fun unsubscribeToFollower(userId: String) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            usersApi.unsubscribeToFollower(userId)
-        }
+    override suspend fun unsubscribeToFollower(userId: UserIdDomain) {
+        apiCallChain {
+            commun4j.unpinUser(
+                unpinning = CyberName(userId.userId),
+                pinner = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+        )}
     }
 
-    override suspend fun getUserProfile(user: CyberName): UserProfileDomain {
-        // This code is correct but it's temporary commented for debug purpose
-        // (because highlightCommunities lis is always empty for a current user profile)
-        //--------------------------------------
-        //apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain()
-        //--------------------------------------
 
-        // Code for debugging only - see an explanation above
-        val fakeCommunities = apiCall { commun4j.getCommunitiesList(null, 0, 10) }
-        return apiCall { commun4j.getUserProfile(user, null) }.mapToUserProfileDomain(fakeCommunities)
+    override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
+        apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
+
+    override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+        return apiCall {
+            commun4j.getSubscribers(
+                CyberName(userId.userId),
+                null,
+                pageSizeLimit,
+                offset
+            )
+        }.items.map { it.mapToUserDomain() }
     }
+
+    override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> =
+        apiCall { commun4j.getUserSubscriptions(CyberName(userId.userId), pageSizeLimit, offset) }.items.map { it.mapToFollowingUserDomain() }
 
     /**
      * Update cover of current user profile
@@ -127,6 +143,31 @@ class UsersRepositoryImpl @Inject constructor(
         updateCurrentUserMetadata { it.copy(biography = "") }
     }
 
+    override suspend fun getUsersInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<UserDomain> =
+        apiCall { commun4j.getBlacklistedUsers(CyberName(userId.userId)) }.items.map { it.mapToUserDomain() }
+
+    override suspend fun moveUserToBlackList(userId: UserIdDomain) {
+        apiCallChain {
+            commun4j.block(
+                blocking = CyberName(userId.userId),
+                blocker = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
+
+    override suspend fun moveUserFromBlackList(userId: UserIdDomain) {
+        apiCallChain {
+            commun4j.unBlock(
+                blocking = CyberName(userId.userId),
+                blocker = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
+
     private suspend fun updateCurrentUserMetadata(requestAction: (UserMetadataRequest) -> UserMetadataRequest) =
         requestAction(
             UserMetadataRequest(
@@ -139,9 +180,8 @@ class UsersRepositoryImpl @Inject constructor(
                 wechat = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                user = currentUserRepository.user,
-                key = userKeyStore.getKey(UserKeyType.ACTIVE)
-            )
+                user = CyberName(currentUserRepository.authState!!.user.userId),
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
         )
             .let {
                 apiCallChain {

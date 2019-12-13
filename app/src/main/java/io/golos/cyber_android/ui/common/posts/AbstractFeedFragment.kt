@@ -157,11 +157,11 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
     }
 
     private fun deleteDiscussion(id: DiscussionIdModel) {
-        ConfirmationDialog.newInstance(getString(io.golos.cyber_android.R.string.delete_post_confirmation))
-            .run {
-                listener = { viewModel.deleteDiscussion(id) }
-                show(this@AbstractFeedFragment.requireFragmentManager(), "confirmDelete")
-            }
+//        ConfirmationDialog.newInstance(getString(io.golos.cyber_android.R.string.delete_post_confirmation))
+//            .run {
+//                listener = { viewModel.deleteDiscussion(id) }
+//                show(this@AbstractFeedFragment.requireFragmentManager(), "confirmDelete")
+//            }
     }
 
     private fun editDiscussion(id: DiscussionIdModel) {

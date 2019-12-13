@@ -20,7 +20,8 @@ data class PostsConfigurationDomain(
         TOP_LIKES,
         TOP_COMMENTS,
         TOP_REWARDS,
-        HOT
+        HOT,
+        VOTED
     }
 
     enum class SortByDomain {

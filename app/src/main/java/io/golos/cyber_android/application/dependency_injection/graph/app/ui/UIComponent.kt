@@ -31,6 +31,7 @@ import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -67,6 +68,7 @@ interface UIComponent {
     val postsListFragment: MyFeedFragmentComponent.Builder
     val profileFragment: ProfileFragmentComponent.Builder
     val profilePostsFragment: ProfilePostsFragmentComponent.Builder
+    val likedFragment: ProfilePostsLikedFragmentComponent.Builder
     val ftueFragment: FtueFragmentComponent.Builder
     val ftueSearchCommunityFragment: FtueSearchCommunityFragmentComponent.Builder
     val ftueFinishFragmentComponent: FtueFinishFragmentComponent.Builder

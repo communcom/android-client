@@ -3,19 +3,16 @@ package io.golos.data.repositories
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
+import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.*
 import io.golos.data.persistence.PreferenceManager
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.CommunityLeaderDomain
-import io.golos.domain.dto.CommunityPageDomain
-import io.golos.domain.dto.UserKeyType
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -43,7 +40,7 @@ constructor(
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
         apiCall{
-            commun4j.onBoardingCommunitySubscriptions(currentUserRepository.user, communityIds)
+            commun4j.onBoardingCommunitySubscriptions(CyberName(currentUserRepository.userId.userId), communityIds)
         }
     }
 
@@ -59,7 +56,7 @@ constructor(
                 communityCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                follower = currentUserRepository.user,
+                follower = CyberName(currentUserRepository.authState!!.user.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
@@ -71,7 +68,7 @@ constructor(
                 communityCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                follower = currentUserRepository.user,
+                follower = CyberName(currentUserRepository.authState!!.user.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
@@ -110,4 +107,29 @@ constructor(
         apiCall { commun4j.getLeaders(communityId, 50, 0) }
             .items
             .map { it.mapToCommunityLeaderDomain() }
+
+    override suspend fun getCommunitiesInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<CommunityDomain> =
+        apiCall { commun4j.getBlacklistedCommunities(CyberName(userId.userId)) }.items.map { it.mapToCommunityDomain() }
+
+    override suspend fun moveCommunityToBlackList(communityId: String) {
+        apiCallChain {
+            commun4j.hide(
+                communCode = CyberSymbolCode(communityId),
+                user = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
+
+    override suspend fun moveCommunityFromBlackList(communityId: String) {
+        apiCallChain {
+            commun4j.unHide(
+                communCode = CyberSymbolCode(communityId),
+                user = CyberName(currentUserRepository.userId.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE))
+        }
+    }
 }

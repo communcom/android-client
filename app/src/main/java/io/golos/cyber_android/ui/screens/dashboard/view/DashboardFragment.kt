@@ -149,4 +149,25 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
             }
         })
     }
+
+    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
+        val tag = fragment::class.simpleName
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val beginTransaction = childFragmentManager.beginTransaction()
+            if (isAddToBackStack) {
+                beginTransaction.addToBackStack(tag)
+            }
+
+            beginTransaction.setCustomAnimations(
+                R.anim.nav_slide_in_right,
+                R.anim.nav_slide_out_left,
+                R.anim.nav_slide_in_left,
+                R.anim.nav_slide_out_right
+            )
+
+            beginTransaction
+                .add(R.id.rootContainer, fragment, tag)
+                .commit()
+        }
+    }
 }

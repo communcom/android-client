@@ -77,13 +77,13 @@ constructor(
             contentId = Post.ContentId(
                 communityId = postDomain.community.communityId,
                 permlink = postId.permlink.value,
-                userId = postId.userId
+                userId = currentUserRepository.userId.userId
             ),
             creationTime = postDomain.meta.creationTime,
             authorUsername = postDomain.author.username,
             authorUserId = postDomain.author.userId,
             shareUrl = postDomain.shareUrl,
-            isMyPost = currentUserRepository.userId == postId.userId,
+            isMyPost = currentUserRepository.userId.userId == postToProcess.userId,
             isSubscribed = postDomain.community.isSubscribed,
             permlink = postId.permlink.value
         )
@@ -99,6 +99,7 @@ constructor(
             postDomain.author.userId,
 
             false,
+            postDomain.author.userId == currentUserRepository.userId.userId,
             postDomain.community.isSubscribed
         )
 

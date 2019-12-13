@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_header_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/BottomSheetMenuTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/profile_settings"
+        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+
+        app:layout_constraintStart_toStartOf="@+id/liked"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_close_white"
+
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+
+        app:layout_constraintEnd_toEndOf="@+id/liked"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/liked"
+
+        style="@style/BottomSheetMenuItem"
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
+
+        android:layout_marginTop="20dp"
+
+        android:gravity="center_vertical"
+
+        android:text="@string/liked"
+
+        app:drawableEndCompat="@drawable/ic_settings_liked"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/blacklist"
+
+        style="@style/BottomSheetMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
+
+        android:text="@string/blacklist"
+
+        app:drawableEndCompat="@drawable/ic_settings_blacklist"
+        app:layout_constraintEnd_toEndOf="@+id/liked"
+        app:layout_constraintStart_toStartOf="@+id/liked"
+        app:layout_constraintTop_toBottomOf="@+id/liked" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/logout"
+
+        style="@style/BottomSheetMenuItem.Dangerous"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
+
+        android:text="@string/log_out"
+
+        android:gravity="center"
+
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintEnd_toEndOf="@+id/blacklist"
+        app:layout_constraintStart_toStartOf="@+id/blacklist"
+        app:layout_constraintTop_toBottomOf="@+id/blacklist" />
+</androidx.constraintlayout.widget.ConstraintLayout>

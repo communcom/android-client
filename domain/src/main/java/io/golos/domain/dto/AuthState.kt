@@ -1,6 +1,5 @@
 package io.golos.domain.dto
 
-import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.Entity
 
 /**
@@ -8,7 +7,7 @@ import io.golos.domain.Entity
  */
 data class AuthState(
     val userName: String,
-    val user: CyberName,
+    val user: UserIdDomain,
     val isUserLoggedIn: Boolean,
     val isPinCodeSettingsPassed: Boolean,
     val isFingerprintSettingsPassed: Boolean,

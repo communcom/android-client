@@ -12,4 +12,10 @@ object Clarification {
     const val IMAGE_URL = "IMAGE_URL"
     const val TEXT = "TEXT"
     const val BACK_BUTTON = "BACK_BUTTON"
+
+    const val PAGE_SIZE = "PAGE_SIZE"
+
+    const val MUTUAL = "MUTUAL"
+    const val FOLLOWING = "FOLLOWING"
+    const val FOLLOWERS = "FOLLOWERS"
 }

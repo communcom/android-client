@@ -3,7 +3,7 @@
 
     <dimen name="padding_global">8dp</dimen>
 
-    <dimen name="tool_button_size">32dp</dimen>
+    <dimen name="tool_button_size">35dp</dimen>
     <dimen name="tool_button_icon_size">18dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
@@ -56,7 +56,10 @@
     <dimen name="dimen_45">45dp</dimen>
     <dimen name="dimen_48">48dp</dimen>
     <dimen name="dimen_40">40dp</dimen>
+    <dimen name="dimen_44">44dp</dimen>
     <dimen name="dimen_50">50dp</dimen>
+    <dimen name="dimen_55">55dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -213,7 +216,7 @@
     <dimen name="height_welcome_pager_indicator">3dp</dimen>
     <dimen name="corners_welcome_pager_indicator">2dp</dimen>
     <dimen name="padding_welcome_pager_indicator">4dp</dimen>
-    <dimen name="margin_top_sign_in_caption">10dp</dimen>
+    <dimen name="margin_top_sign_in_caption">8dp</dimen>
     <dimen name="margin_horizontal_sign_in_caption">16dp</dimen>
     <dimen name="text_size_welcome_slide">@dimen/text_size_22_sp</dimen>
     <dimen name="buttons_text_size_welcome_slide">@dimen/text_size_14_sp</dimen>
@@ -381,12 +384,11 @@
     <dimen name="select_community_dialog_padding_small">10dp</dimen>
     <dimen name="select_community_dialog_padding_large">15dp</dimen>
     <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>
-    <dimen name="select_community_dialog_padding">12dp</dimen>
+    <dimen name="select_community_dialog_padding">10dp</dimen>
     <dimen name="select_community_dialog_drawable_padding">8dp</dimen>
     <dimen name="select_community_dialog_search_margin">15dp</dimen>
     <dimen name="select_community_dialog_search_margin_small">10dp</dimen>
     <dimen name="select_community_dialog_search_margin_tiny">5dp</dimen>
-    <dimen name="select_community_dialog_list_header_height">7dp</dimen>
     <dimen name="select_community_dialog_progress_size">15dp</dimen>
 
     <!-- Button Join -->
@@ -411,9 +413,10 @@
     <dimen name="community_notification_control_size">36dp</dimen>
     <dimen name="community_btn_join_min_width">70dp</dimen>
 
-    <!--Communities list-->
-    <dimen name="communities_list_padding">10dp</dimen>
-    <dimen name="communities_list_padding_top">20dp</dimen>
+    <!-- List (Communities, Followers) -->
+    <dimen name="general_list_padding">10dp</dimen>
+    <dimen name="general_list_padding_top">20dp</dimen>
+    <dimen name="general_list_header_height">7dp</dimen>
 
     <!--TabLayout-->
     <dimen name="tab_layout_height_default">46dp</dimen>
@@ -464,12 +467,26 @@
     <dimen name="profile_communities_list_item_title_margin">70dp</dimen>
     <dimen name="profile_communities_list_item_members_margin">52dp</dimen>
     <dimen name="profile_communities_list_item_bcg_corner">15dp</dimen>
+    <dimen name="profile_followers_title_margin">20dp</dimen>
+    <dimen name="profile_followers_search_field_height">40dp</dimen>
+    <dimen name="profile_followers_search_field_margin_horizontal">14dp</dimen>
+    <dimen name="profile_followers_search_field_margin_top">16dp</dimen>
+    <dimen name="profile_followers_filters_button_height">35dp</dimen>
+    <dimen name="profile_followers_filters_button_margin">10dp</dimen>
+    <dimen name="profile_followers_no_data_height">133dp</dimen>
+    <dimen name="profile_blacklist_block_button_width">90dp</dimen>
+    <dimen name="profile_blacklist_filters_margin_horizontal">14dp</dimen>
+    <dimen name="profile_blacklist_filters_padding_horizontal">20dp</dimen>
 
     <dimen name="white_header_height">44dp</dimen>
     <dimen name="white_header_buttons_margin">15dp</dimen>
 
+    <dimen name="profile_follow_join_button_height">35dp</dimen>
+    <dimen name="profile_follow_join_button_width">90dp</dimen>
+    <dimen name="profile_follow_list_item_height">@dimen/height_community_list_item</dimen>
     <!--SignUp-->
     <dimen name="sign_up_country_flag_size">24dp</dimen>
+    <dimen name="sign_up_field_height">56dp</dimen>
 
     <!--Ftue-->
     <dimen name="communities_board_height">114dp</dimen>

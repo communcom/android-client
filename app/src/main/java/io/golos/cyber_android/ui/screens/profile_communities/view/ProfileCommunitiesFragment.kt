@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -17,6 +18,7 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragment
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel
@@ -92,8 +94,15 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
     }
 
     private fun moveToCommunity(communityId: String) =
-        (requireActivity() as? MainActivity)?.showFragment(CommunityPageFragment.newInstance(communityId))
+        getDashboardFragment(this)?.showFragment(CommunityPageFragment.newInstance(communityId))
 
     private fun moveToCommunitiesList() =
-        (requireActivity() as? MainActivity)?.showFragment(CommunitiesListFragment.newInstance())
+        getDashboardFragment(this)?.showFragment(CommunitiesListFragment.newInstance())
+
+    private fun getDashboardFragment(fragment : Fragment?) : DashboardFragment? =
+        when (fragment) {
+            null -> null
+            is DashboardFragment -> fragment
+            else -> getDashboardFragment(fragment.parentFragment)
+        }
 }
