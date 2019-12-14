@@ -31,6 +31,18 @@ import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
+    companion object {
+        private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
+        fun newInstance(communityId: String): CommunityPageFragment {
+            val communityPageFragment = CommunityPageFragment()
+            val bundle = Bundle()
+            bundle.putString(ARG_COMMUNITY_ID, communityId)
+            communityPageFragment.arguments = bundle
+            return communityPageFragment
+        }
+
+        private const val FRIENDS_COUNT_MAX = 3
+    }
 
     override fun layoutResId(): Int = R.layout.fragment_community_page
 
@@ -185,20 +197,4 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)
-
-    companion object {
-
-        private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
-
-        fun newInstance(communityId: String): CommunityPageFragment {
-
-            val communityPageFragment = CommunityPageFragment()
-            val bundle = Bundle()
-            bundle.putString(ARG_COMMUNITY_ID, communityId)
-            communityPageFragment.arguments = bundle
-            return communityPageFragment
-        }
-
-        private const val FRIENDS_COUNT_MAX = 3
-    }
 }

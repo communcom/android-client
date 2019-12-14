@@ -9,17 +9,23 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.CommunityListIte
 import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.utils.IdUtil
 import io.golos.domain.utils.MurmurHash
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 open class CommunitiesListModelImpl
 @Inject
 constructor(
+    private val userId: UserIdDomain,
+    @Named(Clarification.SHOW_ALL)
+    private val showAll: Boolean,
     private val communitiesRepository: CommunitiesRepository,
     private val dispatchersProvider: DispatchersProvider
 ) : ModelBaseImpl(), CommunitiesListModel {
@@ -38,8 +44,6 @@ constructor(
     private var loadedItems: MutableList<VersionedListItem> = mutableListOf()
 
     private val _items = MutableLiveData<List<VersionedListItem>>(listOf())
-
-    protected open val showUserCommunityOnly: Boolean = false
 
     override val items: LiveData<List<VersionedListItem>>
         get() = _items
@@ -134,7 +138,7 @@ constructor(
     private suspend fun getData(offset: Int): List<CommunityListItem>? =
         try {
             communitiesRepository
-                .getCommunitiesList(offset, pageSize, showUserCommunityOnly)
+                .getCommunitiesList(userId, offset, pageSize, showAll)
                 .map { rawItem -> rawItem.map() }
         } catch (ex: Exception) {
             Timber.e(ex)

@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.FtueBoardStageDomain
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.use_cases.user.UsersRepository
 import kotlinx.coroutines.withContext
@@ -13,7 +14,8 @@ class FtueSearchCommunityModelImpl
 @Inject constructor(
     private val repository: CommunitiesRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val usersRepository: UsersRepository
+    private val usersRepository: UsersRepository,
+    private val currentUserRepository: CurrentUserRepository
 ) : ModelBaseImpl(), FtueSearchCommunityModel {
 
     override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
@@ -34,7 +36,7 @@ class FtueSearchCommunityModelImpl
 
     override suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain> {
         return withContext(dispatchersProvider.ioDispatcher) {
-            repository.getCommunitiesList(offset, pageSize, false, query)
+            repository.getCommunitiesList(currentUserRepository.userId, offset, pageSize, true, query)
         }
     }
 

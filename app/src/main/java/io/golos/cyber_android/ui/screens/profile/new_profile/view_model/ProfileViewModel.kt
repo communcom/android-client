@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -26,6 +27,7 @@ import javax.inject.Inject
 class ProfileViewModel
 @Inject
 constructor(
+    val profileUserId: UserIdDomain,
     dispatchersProvider: DispatchersProvider,
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {

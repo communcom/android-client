@@ -19,7 +19,8 @@ class ProfileCommunitiesExternalUserFragment : ProfileCommunitiesFragment() {
 
     override fun inject() =
         App.injections
-            .get<ProfileCommunitiesExternalUserFragmentComponent>(arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
+            .get<ProfileCommunitiesExternalUserFragmentComponent>(
+                arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
             .inject(this)
 
     override fun releaseInjection() {

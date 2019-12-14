@@ -115,7 +115,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                         FeedFragment.newInstance("gls", user.name)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                        CommunitiesListFragmentTab.newInstance()
+                        CommunitiesListFragmentTab.newInstance(UserIdDomain(user.name))
                     }
                     NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
                         NotificationsFragment.newInstance()

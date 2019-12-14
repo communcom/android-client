@@ -1,4 +1,4 @@
-package io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment
+package io.golos.cyber_android.ui.screens.communities_list.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

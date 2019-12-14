@@ -85,7 +85,7 @@ class UsersRepositoryImpl @Inject constructor(
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
         apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
 
-    override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+    override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> {
         return apiCall {
             commun4j.getSubscribers(
                 CyberName(userId.userId),
@@ -93,7 +93,7 @@ class UsersRepositoryImpl @Inject constructor(
                 pageSizeLimit,
                 offset
             )
-        }.items.map { it.mapToUserDomain() }
+        }.items.map { it.mapToFollowingUserDomain() }
     }
 
     override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> =

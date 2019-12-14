@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragme
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_communities.*
 
 open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBinding, ProfileCommunitiesViewModel>() {
@@ -44,7 +45,8 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
 
     override fun inject() =
         App.injections
-        .get<ProfileCommunitiesFragmentComponent>(arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
+        .get<ProfileCommunitiesFragmentComponent>(
+            arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
         .inject(this)
 
     override fun releaseInjection() {
@@ -71,7 +73,7 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateToCommunityPageCommand -> moveToCommunity(command.communityId)
-            is NavigateToCommunitiesListPageCommand -> moveToCommunitiesList()
+            is NavigateToCommunitiesListPageCommand -> moveToCommunitiesList(command.userId)
         }
     }
 
@@ -95,6 +97,6 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
     private fun moveToCommunity(communityId: String) =
         getDashboardFragment(this)?.showFragment(CommunityPageFragment.newInstance(communityId))
 
-    private fun moveToCommunitiesList() =
-        getDashboardFragment(this)?.showFragment(CommunitiesListFragment.newInstance())
+    private fun moveToCommunitiesList(userId: UserIdDomain) =
+        getDashboardFragment(this)?.showFragment(CommunitiesListFragment.newInstance(userId))
 }

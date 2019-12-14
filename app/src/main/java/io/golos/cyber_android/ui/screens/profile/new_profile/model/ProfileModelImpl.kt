@@ -36,7 +36,7 @@ constructor(
         get() = userProfile.coverUrl
 
     override suspend fun loadProfileInfo(): UserProfileDomain {
-        userProfile = usersRepository.getUserProfile(currentUserRepository.authState!!.user)
+        userProfile = usersRepository.getUserProfile(profileUserId)
         return userProfile
     }
 

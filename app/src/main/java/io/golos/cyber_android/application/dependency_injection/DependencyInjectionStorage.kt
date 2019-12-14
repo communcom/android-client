@@ -34,9 +34,9 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.logi
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.communities_list_fragment.CommunitiesListFragmentTabComponent
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.OldProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.profile_fragment.OldProfileFragmentModule
@@ -271,13 +271,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunitiesListFragmentComponent::class ->
                 get<MainActivityComponent>()
                     .communitiesFragmentComponent
-                    .init(CommunitiesListFragmentModule(args[0] as Boolean))
+                    .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
                     .build()
 
             CommunitiesListFragmentTabComponent::class ->
                 get<MainActivityComponent>()
                     .communitiesFragmentTabComponent
-                    .init(CommunitiesListFragmentModule(args[0] as Boolean))
+                    .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
                     .build()
 
             ProfileSettingsActivityComponent::class -> get<UIComponent>().profileSettingsActivity.build()

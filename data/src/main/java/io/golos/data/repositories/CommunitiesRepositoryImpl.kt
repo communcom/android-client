@@ -86,18 +86,14 @@ constructor(
         }
     }
 
-    /**
-     * [forCurrentUserOnly] if true the method returns only current users' communities (otherwise - all communities)
-     */
     override suspend fun getCommunitiesList(
+        userId: UserIdDomain,
         offset: Int,
         pageSize: Int,
-        forCurrentUserOnly: Boolean,
+        showAll: Boolean,
         searchQuery: String?
     ): List<CommunityDomain> {
-        if (forCurrentUserOnly) {
-            throw UnsupportedOperationException("Getting communities for current user is not supported now")
-        }
+        // showAll & userId is not used so far
         return apiCall { commun4j.getCommunitiesList(searchQuery, offset, pageSize) }
             .items
             .map { it.mapToCommunityDomain() }
