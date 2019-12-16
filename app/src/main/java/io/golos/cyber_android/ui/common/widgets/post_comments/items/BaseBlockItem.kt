@@ -5,11 +5,11 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post_comments.BasePostBlockWidgetListener
-import io.golos.cyber_android.ui.common.widgets.post_comments.PostBlockWidget
+import io.golos.cyber_android.ui.common.widgets.post_comments.BlockWidget
 import io.golos.domain.use_cases.post.post_dto.Block
 import kotlinx.android.synthetic.main.item_post_block.view.*
 
-abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlockWidgetListener, WIDGET : PostBlockWidget<POST_BLOCK, WIDGET_LISTENER>>(
+abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlockWidgetListener, WIDGET : BlockWidget<POST_BLOCK, WIDGET_LISTENER>>(
     private val postBlock: POST_BLOCK,
     private val widgetListener: WIDGET_LISTENER? = null
 ) :

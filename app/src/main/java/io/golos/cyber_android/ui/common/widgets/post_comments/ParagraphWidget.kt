@@ -34,7 +34,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr),
-    PostBlockWidget<ParagraphBlock, ParagraphWidgetListener> {
+    BlockWidget<ParagraphBlock, ParagraphWidgetListener> {
 
     private var onClickProcessor: ParagraphWidgetListener? = null
     private var isSeeMoreEnabled: Boolean = false

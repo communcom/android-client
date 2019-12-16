@@ -20,7 +20,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<EmbedBlock, EmbedWidgetListener> {
+    BlockWidget<EmbedBlock, EmbedWidgetListener> {
 
     private var onClickProcessor: EmbedWidgetListener? = null
 

@@ -20,7 +20,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<WebsiteBlock, EmbedWebsiteWidgetListener> {
+    BlockWidget<WebsiteBlock, EmbedWebsiteWidgetListener> {
 
     private var onClickProcessor: EmbedWebsiteWidgetListener? = null
     private var siteUri: Uri? = null

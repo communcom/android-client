@@ -20,7 +20,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<RichBlock, RichWidgetListener> {
+    BlockWidget<RichBlock, RichWidgetListener> {
 
     private var onClickProcessor: RichWidgetListener? = null
 

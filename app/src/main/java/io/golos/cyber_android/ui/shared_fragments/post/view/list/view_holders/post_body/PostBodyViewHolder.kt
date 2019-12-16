@@ -38,7 +38,7 @@ class PostBodyViewHolder constructor(
     override fun release() {
         with(itemView.postWidgetContainer) {
             for(i in 0 until childCount) {
-                getChildAt(i).let {it as? PostBlockWidget<*, *> }?.release()
+                getChildAt(i).let {it as? BlockWidget<*, *> }?.release()
             }
         }
     }
@@ -51,7 +51,7 @@ class PostBodyViewHolder constructor(
         itemView.errorHolder.visibility = View.VISIBLE
     }
 
-    private fun createWidget(block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor): PostBlockWidget<*, *> =
+    private fun createWidget(block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor): BlockWidget<*, *> =
         when(block) {
             is AttachmentsBlock -> {
                 if(block.content.size == 1) {

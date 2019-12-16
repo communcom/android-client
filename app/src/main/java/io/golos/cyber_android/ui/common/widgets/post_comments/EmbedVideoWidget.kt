@@ -18,7 +18,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<VideoBlock, EmbedVideoWidgetListener> {
+    BlockWidget<VideoBlock, EmbedVideoWidgetListener> {
 
     private var isNeedToShowHtmlContent: Boolean = true
     private var postContentId: ContentId? = null

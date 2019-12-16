@@ -19,7 +19,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<ImageBlock, EmbedImageWidgetListener> {
+    BlockWidget<ImageBlock, EmbedImageWidgetListener> {
 
     private var onClickProcessor: EmbedImageWidgetListener? = null
     private var imageUri: Uri? = null

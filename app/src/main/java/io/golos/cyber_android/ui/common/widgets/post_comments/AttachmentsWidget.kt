@@ -20,7 +20,7 @@ constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<AttachmentsBlock, AttachmentWidgetListener> {
+    BlockWidget<AttachmentsBlock, AttachmentWidgetListener> {
 
     private var images = mutableListOf<ImageView>()
 
