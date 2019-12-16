@@ -43,7 +43,6 @@ class MyFeedViewModel @Inject constructor(
     val postsListState = _postsListState.toLiveData()
 
     private val _user: MutableLiveData<User> = MutableLiveData()
-
     val user = _user.toLiveData()
 
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain

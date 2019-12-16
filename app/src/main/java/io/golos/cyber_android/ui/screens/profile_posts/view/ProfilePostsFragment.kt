@@ -38,6 +38,9 @@ import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
 open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
+    companion object {
+        fun newInstance() = ProfilePostsFragment()
+    }
 
     override fun linkViewModel(binding: FragmentProfilePostsBinding, viewModel: ProfilePostsViewModel) {
         binding.viewModel = viewModel
@@ -323,9 +326,5 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
     private fun openImageView(imageUri: Uri) {
         startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
-    }
-
-    companion object {
-        fun newInstance() = ProfilePostsFragment()
     }
 }

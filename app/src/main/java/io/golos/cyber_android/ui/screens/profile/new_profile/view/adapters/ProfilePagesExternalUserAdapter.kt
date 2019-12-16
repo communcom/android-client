@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.view
+package io.golos.cyber_android.ui.screens.profile.new_profile.view.adapters
 
 import android.content.Context
 import androidx.fragment.app.Fragment
@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile_comments.ProfileCommentsFragment
-import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsFragment
+import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsExternalUserFragment
 
-class ProfilePagesAdapter(
+open class ProfilePagesExternalUserAdapter(
     context: Context,
     fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(
@@ -18,7 +18,7 @@ class ProfilePagesAdapter(
     private val tabTitles = context.resources.getStringArray(R.array.profile_page_tab_titles)
 
     private var pagesList = mutableListOf(
-        ProfilePostsFragment.newInstance(),
+        ProfilePostsExternalUserFragment.newInstance(),
         ProfileCommentsFragment.newInstance()
     )
 

@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.commun4j.utils.toCyberName
+import androidx.fragment.app.FragmentPagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
@@ -26,8 +25,8 @@ import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
-import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
+import io.golos.cyber_android.ui.screens.profile.new_profile.view.adapters.ProfilePagesAdapter
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile_black_list.view.ProfileBlackListFragment
@@ -68,7 +67,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
                 it?.let {
                     fragmentManager
                         ?.beginTransaction()
-                        ?.add(R.id.communitiesContainer, getCommunitiesFragment(it))
+                        ?.add(R.id.communitiesContainer, provideCommunitiesFragment(it))
                         ?.commit()
                 }
             }
@@ -131,11 +130,16 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         }
     }
 
-    protected open fun getCommunitiesFragment(sourceData: ProfileCommunities): Fragment =
+    protected open fun provideCommunitiesFragment(sourceData: ProfileCommunities): Fragment =
         ProfileCommunitiesFragment.newInstance(sourceData)
 
-    protected open fun getFollowersFragment(filter: FollowersFilter, mutualUsers: List<UserDomain>): Fragment =
+    protected open fun provideFollowersFragment(filter: FollowersFilter, mutualUsers: List<UserDomain>): Fragment =
         ProfileFollowersFragment.newInstance(filter, mutualUsers)
+
+    protected open fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesAdapter(
+        context!!.applicationContext,
+        childFragmentManager
+    )
 
     private fun initPages() {
         tabLayout.apply {
@@ -145,7 +149,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         }
 
         vpContent.post{
-            vpContent.adapter = ProfilePagesAdapter(context!!.applicationContext, childFragmentManager)
+            vpContent.adapter = providePagesAdapter()
             vpContent.offscreenPageLimit = 2
         }
     }
@@ -174,7 +178,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         getDashboardFragment(this)?.showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 
     private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
-        getDashboardFragment(this)?.showFragment(getFollowersFragment(filter, mutualUsers))
+        getDashboardFragment(this)?.showFragment(provideFollowersFragment(filter, mutualUsers))
     }
 
     private fun moveToLikedPage() = getDashboardFragment(this)?.showFragment(ProfileLikedFragment.newInstance())

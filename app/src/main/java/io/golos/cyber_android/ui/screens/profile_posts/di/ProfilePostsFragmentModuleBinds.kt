@@ -30,10 +30,6 @@ interface ProfilePostsFragmentModuleBinds {
     fun bindViewModel(viewModel: ProfilePostsViewModel): ViewModel
 
     @Binds
-    @FragmentScope
-    fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
-
-    @Binds
     fun bindModel(model: MyFeedModelImpl): MyFeedModel
 
     @Binds

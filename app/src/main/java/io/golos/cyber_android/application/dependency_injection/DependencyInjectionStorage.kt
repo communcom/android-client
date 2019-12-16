@@ -72,6 +72,7 @@ import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListF
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersExternalUserFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
@@ -203,6 +204,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     )
                     .build()
 
+            ProfilePostsExternalUserFragmentComponent::class ->
+                get<ProfileExternalUserFragmentComponent>()
+                    .profilePostsFragment
+                    .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
+                    .build()
+
             ProfileBlackListFragmentComponent::class ->
                 get<ProfileFragmentComponent>()
                     .blackListFragment
@@ -210,7 +217,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             ProfilePostsLikedFragmentComponent::class ->
-                get<UIComponent>()
+                get<ProfileFragmentComponent>()
                     .likedFragment
                     .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                     .build()
@@ -329,7 +336,8 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 .postsListFragment
                 .build()
 
-            ProfilePostsFragmentComponent::class -> get<UIComponent>()
+            ProfilePostsFragmentComponent::class ->
+                get<ProfileFragmentComponent>()
                 .profilePostsFragment
                 .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                 .build()

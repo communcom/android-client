@@ -30,8 +30,6 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragm
     FeedbackActivityComponent::class,
     SelectCommunityDialogComponent::class,
     ProfileFragmentComponent::class,
-    ProfilePostsFragmentComponent::class,
-    ProfilePostsLikedFragmentComponent::class,
     ProfileExternalUserFragmentComponent::class
 ])
 class UIModuleChilds

@@ -67,8 +67,6 @@ interface UIComponent {
     val postReportFragment: PostReportFragmentComponent.Builder
     val postsListFragment: MyFeedFragmentComponent.Builder
     val profileFragment: ProfileFragmentComponent.Builder
-    val profilePostsFragment: ProfilePostsFragmentComponent.Builder
-    val likedFragment: ProfilePostsLikedFragmentComponent.Builder
     val ftueFragment: FtueFragmentComponent.Builder
     val ftueSearchCommunityFragment: FtueSearchCommunityFragmentComponent.Builder
     val ftueFinishFragmentComponent: FtueFinishFragmentComponent.Builder
