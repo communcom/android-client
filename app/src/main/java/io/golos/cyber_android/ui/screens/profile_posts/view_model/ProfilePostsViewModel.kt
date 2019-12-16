@@ -22,6 +22,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,7 +36,8 @@ class ProfilePostsViewModel @Inject constructor(
     model: MyFeedModel,
     private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<Post>,
-    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain
+    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain,
+    private val currentUserRepositor: CurrentUserRepositoryRead
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -112,7 +114,9 @@ class ProfilePostsViewModel @Inject constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        _command.value = NavigateToUserProfileViewCommand(userId)
+        if(currentUserRepositor.userId.userId != userId) {
+            _command.value = NavigateToUserProfileViewCommand(userId)
+        }
     }
 
     override fun onSeeMoreClicked(postContentId: Post.ContentId) {

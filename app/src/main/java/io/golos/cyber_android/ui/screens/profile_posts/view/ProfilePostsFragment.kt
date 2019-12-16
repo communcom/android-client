@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
@@ -33,6 +34,7 @@ import io.golos.cyber_android.ui.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -312,7 +314,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openUserProfile(userId: String) {
-        startActivity(ProfileActivity.getIntent(requireContext(), userId))
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     private fun openLinkView(link: Uri) {

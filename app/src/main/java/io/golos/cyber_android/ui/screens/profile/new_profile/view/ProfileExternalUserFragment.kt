@@ -38,5 +38,4 @@ class ProfileExternalUserFragment : ProfileFragment() {
         context!!.applicationContext,
         childFragmentManager
     )
-
 }

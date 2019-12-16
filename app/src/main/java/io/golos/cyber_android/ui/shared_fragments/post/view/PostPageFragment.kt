@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -34,6 +35,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.utils.shareMessage
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
@@ -236,7 +238,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
             .show(requireFragmentManager(), "menu")
 
-    private fun moveToUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
+    private fun moveToUserProfile(userId: String) =
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
 
     private fun moveToImageView(imageUri: Uri) =
         startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
