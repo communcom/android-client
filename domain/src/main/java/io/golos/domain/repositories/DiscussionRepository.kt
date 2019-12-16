@@ -11,13 +11,14 @@ import io.golos.domain.use_cases.model.PostModel
 interface DiscussionRepository {
     fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
 
-    suspend fun getComments(offset: Int,
-                            pageSize: Int,
-                            commentType: CommentDomain.CommentTypeDomain,
-                            permlink: String? = null,
-                            communityId: String? = null,
-                            communityAlias: String? = null,
-                            parentComment: ParentCommentIdentifierDomain? = null
+    suspend fun getComments(
+        offset: Int,
+        pageSize: Int,
+        commentType: CommentDomain.CommentTypeDomain,
+        permlink: String? = null,
+        communityId: String? = null,
+        communityAlias: String? = null,
+        parentComment: ParentCommentIdentifierDomain? = null
     ): List<CommentDomain>
 
     suspend fun upVote(communityId: String, userId: String, permlink: String)
@@ -27,6 +28,22 @@ interface DiscussionRepository {
     suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String)
 
     suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain
+
+    suspend fun deletePostOrComment(
+        userId: String,
+        permlink: String,
+        communityId: String
+    )
+
+    suspend fun editPostOrComment(
+        userId: String,
+        permlink: String,
+        communityId: String,
+        header: String,
+        body: String,
+        tags: List<String>,
+        metadata: String
+    )
 
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel

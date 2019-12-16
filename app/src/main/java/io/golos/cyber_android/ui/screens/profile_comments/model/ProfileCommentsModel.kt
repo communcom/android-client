@@ -12,4 +12,16 @@ interface ProfileCommentsModel : ModelBase {
 
     suspend fun commentDownVote(commentId: ContentIdDomain)
 
+    suspend fun deleteComment(userId: String, permlink: String, communityId: String)
+
+    suspend fun editComment(
+        userId: String,
+        permlink: String,
+        communityId: String,
+        header: String,
+        body: String,
+        tags: List<String>,
+        metadata: String
+    )
+
 }

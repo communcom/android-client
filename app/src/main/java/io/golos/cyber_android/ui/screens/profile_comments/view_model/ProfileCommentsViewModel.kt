@@ -3,11 +3,9 @@ package io.golos.cyber_android.ui.screens.profile_comments.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
@@ -38,17 +36,13 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onItemClicked(contentId: ContentId) {
-
-    }
+    override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
-    override fun onSeeMoreClicked(contentId: ContentId) {
-
-    }
+    override fun onSeeMoreClicked(contentId: ContentId) {}
 
     private var loadCommentsJob: Job? = null
 
@@ -70,12 +64,42 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
+    fun editComment() {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                //todo call model.editComment() method
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun deleteComment(userId: String, permlink: String, communityId: String) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.deleteComment(userId, permlink, communityId)
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
     fun loadMoreComments() {
         paginator.proceed(Paginator.Action.LoadMore)
     }
 
     override fun onRetryLoadComments() {
         loadInitialComments()
+    }
+
+    override fun onCommentLongClick(comment: Comment) {
+        _command.value = NavigateToProfileCommentMenuDialogViewCommand(comment)
     }
 
     override fun onCommentUpVoteClick(commentId: ContentId) {

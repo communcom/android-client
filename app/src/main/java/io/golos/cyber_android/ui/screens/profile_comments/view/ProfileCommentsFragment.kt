@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -8,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.Comment
+import io.golos.cyber_android.ui.mappers.mapToCommentMenu
+import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.CommentMenu
+import io.golos.cyber_android.ui.screens.profile_comment_page_menu.view.CommentPageMenuDialog
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
@@ -79,7 +82,43 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
             is NavigateToUserProfileViewCommand -> requireContext().openUserProfile(command.userId)
+
+            is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            CommentPageMenuDialog.REQUEST -> {
+                when (resultCode) {
+                    CommentPageMenuDialog.RESULT_EDIT -> {
+                        val commentMenu: CommentMenu? = data?.extras?.getParcelable(Tags.COMMENT_MENU)
+                        commentMenu?.let { comment ->
+                            //todo start open logic
+                        }
+                    }
+                    CommentPageMenuDialog.RESULT_DELETE -> {
+                        val commentMenu: CommentMenu? = data?.extras?.getParcelable(Tags.COMMENT_MENU)
+                        commentMenu?.let { comment ->
+                            viewModel.deleteComment(
+                                comment.authorUserId,
+                                comment.permlink,
+                                comment.communityId
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun openProfileCommentMenu(comment: Comment) {
+        CommentPageMenuDialog.newInstance(
+            comment.mapToCommentMenu()
+        ).apply {
+            setTargetFragment(this@ProfileCommentsFragment, CommentPageMenuDialog.REQUEST)
+        }.show(requireFragmentManager(), "show")
     }
 
     private fun observeViewModel() {

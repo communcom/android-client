@@ -92,6 +92,46 @@ constructor(
             .map { it.mapToCommentDomain() }
     }
 
+    override suspend fun deletePostOrComment(
+        userId: String,
+        permlink: String,
+        communityId: String
+    ) {
+        apiCallChain {
+            commun4j.deletePostOrComment(
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                communCode = CyberSymbolCode(communityId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = userId.toCyberName()
+            )
+        }
+    }
+
+    override suspend fun editPostOrComment(
+        userId: String,
+        permlink: String,
+        communityId: String,
+        header: String,
+        body: String,
+        tags: List<String>,
+        metadata: String
+    ) {
+        apiCallChain {
+            commun4j.updatePostOrComment(
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                communCode = CyberSymbolCode(communityId),
+                header = header,
+                body = body,
+                tags = tags,
+                metadata = metadata,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = userId.toCyberName()
+            )
+        }
+    }
+
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
 
         val reporter = "cmn5bzqfmjtw".toCyberName()

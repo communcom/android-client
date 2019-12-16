@@ -11,8 +11,8 @@ import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
@@ -36,6 +36,11 @@ class ProfileCommentItem(
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
         setupCommentContent(listItem, listItemEventsProcessor)
+
+        itemView.setOnLongClickListener {
+            listItemEventsProcessor.onCommentLongClick(listItem.comment)
+            true
+        }
     }
 
     private fun setupCommentContent(listItem: ProfileCommentListItem, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {

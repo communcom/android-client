@@ -42,4 +42,36 @@ class ProfileCommentsModelImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun deleteComment(userId: String, permlink: String, communityId: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.deletePostOrComment(
+                userId,
+                permlink,
+                communityId
+            )
+        }
+    }
+
+    override suspend fun editComment(
+        userId: String,
+        permlink: String,
+        communityId: String,
+        header: String,
+        body: String,
+        tags: List<String>,
+        metadata: String
+    ) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.editPostOrComment(
+                userId,
+                permlink,
+                communityId,
+                header,
+                body,
+                tags,
+                metadata
+            )
+        }
+    }
 }
