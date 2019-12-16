@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
-class BlockContentItem(
+class PostItem(
     val post: Post,
     private val type: Type,
     private val listener: MyFeedListListener
@@ -44,7 +44,7 @@ class BlockContentItem(
     override fun areItemsTheSame(): Int = post.contentId.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if (item is BlockContentItem) {
+        if (item is PostItem) {
             return post == item.post
         }
         return false

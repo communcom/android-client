@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_posts.view
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -11,7 +10,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
@@ -21,12 +19,11 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.common.widgets.post_comments.items.BlockContentItem
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
@@ -153,11 +150,11 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun setupPostsList() {
-        val profilePostAdapter = MyFeedAdapter(viewModel, BlockContentItem.Type.PROFILE)
+        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE)
         val lManager = LinearLayoutManager(context)
 
         profilePostAdapter.click = { item ->
-            item as BlockContentItem
+            item as PostItem
             val contentId = item.post.contentId
             val discussionIdModel = DiscussionIdModel(
                 contentId.userId,

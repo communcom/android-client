@@ -10,8 +10,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
+import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
-import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
@@ -27,7 +27,8 @@ class ProfileCommentsViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: ProfileCommentsModel,
     private val paginator: Paginator.Store<CommentDomain>
-) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model), ProfileCommentsModelEventProcessor {
+) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model),
+    ProfileCommentsModelEventProcessor {
 
     override fun onLinkClicked(linkUri: Uri) {
         _command.value = NavigateToLinkViewCommand(linkUri)
@@ -77,11 +78,11 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
-    override fun onCommentUpVoteClick(commentId: String) {
+    override fun onCommentUpVoteClick(commentId: ContentId) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(commentId)
+                model.commentUpVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
@@ -90,11 +91,11 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
-    override fun onCommentDownVoteClick(commentId: String) {
+    override fun onCommentDownVoteClick(commentId: ContentId) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.downVote(commentId)
+                model.commentDownVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {

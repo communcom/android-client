@@ -1,6 +1,7 @@
-package io.golos.cyber_android.ui.screens.profile_comments.model
+package io.golos.cyber_android.ui.screens.profile_comments.view_model
 
 import io.golos.cyber_android.ui.common.widgets.post_comments.*
+import io.golos.cyber_android.ui.dto.ContentId
 
 interface ProfileCommentsModelEventProcessor :
     ProfileCommentsProgressEventProcessor,
@@ -19,8 +20,8 @@ interface ProfileCommentsProgressEventProcessor {
 
 interface ProfileCommentsVoteListener {
 
-    fun onCommentUpVoteClick(commentId: String)
+    fun onCommentUpVoteClick(commentId: ContentId)
 
-    fun onCommentDownVoteClick(commentId: String)
+    fun onCommentDownVoteClick(commentId: ContentId)
 
 }

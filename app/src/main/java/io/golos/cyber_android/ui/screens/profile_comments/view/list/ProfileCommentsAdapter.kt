@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.common.recycler_view.DiffAlgBase
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentErrorListItem
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentProgressListItem

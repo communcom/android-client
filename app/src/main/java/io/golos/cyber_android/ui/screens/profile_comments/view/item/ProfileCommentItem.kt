@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
@@ -121,12 +121,10 @@ class ProfileCommentItem(
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
             voting.setOnUpVoteButtonClickListener {
-                //TODO kv need add right call
-                //listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
+                listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
             }
             voting.setOnDownVoteButtonClickListener {
-                //TODO kv need add right call
-                //listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
+                listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
             }
         }
     }
