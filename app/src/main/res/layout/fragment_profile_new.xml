@@ -192,9 +192,16 @@
                             app:layout_constraintTop_toTopOf="@+id/userAvatar"
 
                             tools:text="@string/follow"
+                            android:text="@{viewModel.followButtonText}"
 
                             android:visibility="@{viewModel.followButtonVisibility}"
-                            tools:visibility="visible" />
+                            tools:visibility="visible"
+
+                            tools:checked="false"
+                            android:checked="@{viewModel.followButtonState}"
+
+                            android:onClick="@{() -> viewModel.onFollowButtonClick()}"
+                            />
 
                         <FrameLayout
                             android:id="@+id/bioContainer"

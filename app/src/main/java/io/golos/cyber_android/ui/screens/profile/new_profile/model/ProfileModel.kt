@@ -8,6 +8,8 @@ import java.io.File
 interface ProfileModel: ModelBase {
     val isCurrentUser: Boolean
 
+    val isSubscription: Boolean
+
     val mutualUsers: List<UserDomain>
 
     val avatarUrl: String?
@@ -37,4 +39,6 @@ interface ProfileModel: ModelBase {
     suspend fun logout()
 
     fun restartApp()
+
+    suspend fun subscribeUnsubscribe()
 }

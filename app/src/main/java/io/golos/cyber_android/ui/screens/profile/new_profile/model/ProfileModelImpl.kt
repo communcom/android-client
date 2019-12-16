@@ -8,7 +8,9 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
+import timber.log.Timber
 import java.io.File
+import java.lang.Exception
 import javax.inject.Inject
 
 class ProfileModelImpl
@@ -21,8 +23,13 @@ constructor(
 ) : ModelBaseImpl(),
     ProfileModel {
 
+    private var isSubscriptionInProgress = false
+
     override val isCurrentUser: Boolean
         get() = profileUserId == currentUserRepository.userId
+
+    override val isSubscription: Boolean
+        get() = userProfile.isSubscription
 
     private lateinit var userProfile: UserProfileDomain
 
@@ -61,4 +68,26 @@ constructor(
     override suspend fun logout() = logout.get().logout()
 
     override fun restartApp() = logout.get().restartApp()
+
+    override suspend fun subscribeUnsubscribe() {
+        if(isSubscriptionInProgress) {
+            return
+        }
+
+        isSubscriptionInProgress = true
+
+        try {
+            if(userProfile.isSubscription) {
+                usersRepository.unsubscribeToFollower(userProfile.userId)
+            } else {
+                usersRepository.subscribeToFollower(userProfile.userId)
+            }
+            userProfile = userProfile.copy(isSubscription = !userProfile.isSubscription)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            throw ex
+        } finally {
+            isSubscriptionInProgress = false
+        }
+    }
 }

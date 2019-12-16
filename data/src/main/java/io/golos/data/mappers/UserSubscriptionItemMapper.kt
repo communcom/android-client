@@ -14,5 +14,7 @@ fun UserSubscriptionItem.mapToFollowingUserDomain(): FollowingUserDomain =
             postsCount = 0,
             followersCount = 0
         ),
-        isFollowed = this.isSubscribed ?: false
+        isSubscribed = this.isSubscribed ?: false,
+        isBlocked = true,
+        isInBlacklist = true
     )

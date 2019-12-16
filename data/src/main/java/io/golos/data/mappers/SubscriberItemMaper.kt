@@ -12,4 +12,11 @@ fun SubscriberItem.mapToFollowingUserDomain(): FollowingUserDomain =
         userAvatar = avatarUrl,
         postsCount = postsCount ?: 0,
         followersCount = subscribersCount ?: 0
-    ).let { FollowingUserDomain(it, isSubscribed ?: false) }
+    ).let {
+        FollowingUserDomain(
+            user = it,
+            isSubscribed = isSubscribed ?: false,
+            isBlocked = false,
+            isInBlacklist = false
+        )
+    }

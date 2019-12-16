@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
@@ -27,7 +28,6 @@ import javax.inject.Inject
 class ProfileViewModel
 @Inject
 constructor(
-    val profileUserId: UserIdDomain,
     dispatchersProvider: DispatchersProvider,
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
@@ -74,6 +74,12 @@ constructor(
     val backButtonVisibility = if(model.isCurrentUser) View.INVISIBLE else View.VISIBLE
     val followButtonVisibility = if(model.isCurrentUser) View.GONE else View.VISIBLE
     val photoButtonsVisibility = if(model.isCurrentUser) View.VISIBLE else View.INVISIBLE
+
+    private val _followButtonText = MutableLiveData<Int>()
+    val followButtonText get() = _followButtonText.toLiveData()
+
+    private val _followButtonState = MutableLiveData<Boolean>()
+    val followButtonState get() = _followButtonState.toLiveData()
 
     private var bioUpdateInProgress = false
 
@@ -210,6 +216,22 @@ constructor(
         }
     }
 
+    fun onFollowButtonClick() {
+        launch {
+            try {
+                _followButtonText.value = if(!model.isSubscription) R.string.followed else R.string.follow
+                _followButtonState.value = !model.isSubscription
+
+                model.subscribeUnsubscribe()
+            } catch(ex: java.lang.Exception) {
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+
+                _followButtonText.value = if(model.isSubscription) R.string.followed else R.string.follow
+                _followButtonState.value = model.isSubscription
+            }
+        }
+    }
+
     private fun loadPage() {
         launch {
             try {
@@ -225,6 +247,9 @@ constructor(
                     if(highlightCommunities.isNotEmpty()) {
                         _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
                     }
+
+                    _followButtonText.value = if(isSubscription) R.string.followed else R.string.follow
+                    _followButtonState.value = isSubscription
                 }
 
                 _pageContentVisibility.value = View.VISIBLE
