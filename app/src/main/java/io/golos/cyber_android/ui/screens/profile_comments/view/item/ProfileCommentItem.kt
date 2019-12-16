@@ -9,8 +9,8 @@ import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.screens.my_feed.view.items.*
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.domain.use_cases.post.post_dto.*
@@ -66,21 +66,44 @@ class ProfileCommentItem(
                 if (block.content.size == 1) {
                     createPostBodyItem(comment, block.content.single(), listItemEventsProcessor) // A single attachment is shown as embed block
                 } else {
-                    AttachmentPostItem(block, listItemEventsProcessor)
+                    AttachmentBlockItem(block, listItemEventsProcessor)
                 }
             }
 
-            is ImageBlock -> ImagePostItem(block, comment.contentId, listItemEventsProcessor)
+            is ImageBlock -> ImageBlockItem(
+                block,
+                comment.contentId,
+                listItemEventsProcessor
+            )
 
-            is VideoBlock -> VideoPostItem(block, comment.contentId, listItemEventsProcessor)
+            is VideoBlock -> VideoBlockItem(
+                block,
+                comment.contentId,
+                listItemEventsProcessor
+            )
 
-            is WebsiteBlock -> WebSitePostItem(block, listItemEventsProcessor)
+            is WebsiteBlock -> WebSiteBlockItem(
+                block,
+                listItemEventsProcessor
+            )
 
-            is ParagraphBlock -> ParagraphPostItem(block, listItemEventsProcessor, comment.contentId)
+            is ParagraphBlock -> ParagraphBlockItem(
+                block,
+                listItemEventsProcessor,
+                comment.contentId
+            )
 
-            is RichBlock -> RichPostItem(block, comment.contentId, listItemEventsProcessor)
+            is RichBlock -> RichBlockItem(
+                block,
+                comment.contentId,
+                listItemEventsProcessor
+            )
 
-            is EmbedBlock -> EmbedPostItem(block, comment.contentId, listItemEventsProcessor)
+            is EmbedBlock -> EmbedBlockItem(
+                block,
+                comment.contentId,
+                listItemEventsProcessor
+            )
 
             else -> null
         }

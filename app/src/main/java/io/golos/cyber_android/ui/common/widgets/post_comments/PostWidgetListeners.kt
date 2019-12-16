@@ -1,8 +1,7 @@
-package io.golos.cyber_android.ui.common.widgets.post
+package io.golos.cyber_android.ui.common.widgets.post_comments
 
 import android.net.Uri
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 
 interface BasePostBlockWidgetListener

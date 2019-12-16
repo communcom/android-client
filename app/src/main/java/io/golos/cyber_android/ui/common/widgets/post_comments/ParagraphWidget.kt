@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.widgets.post
+package io.golos.cyber_android.ui.common.widgets.post_comments
 
 import android.content.Context
 import android.graphics.Color
@@ -22,7 +22,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*

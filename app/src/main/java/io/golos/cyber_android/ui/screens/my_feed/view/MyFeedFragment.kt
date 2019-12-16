@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +20,7 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
-import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.BlockContentItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
@@ -65,9 +64,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun setupPostsList() {
-        val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED)
+        val myFeedAdapter = MyFeedAdapter(viewModel, BlockContentItem.Type.FEED)
         myFeedAdapter.click = { item ->
-            item as PostItem
+            item as BlockContentItem
             val contentId = item.post.contentId
             val discussionIdModel = DiscussionIdModel(
                 contentId.userId,

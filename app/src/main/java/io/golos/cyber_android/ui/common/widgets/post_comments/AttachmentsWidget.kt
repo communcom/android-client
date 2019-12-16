@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.widgets.post
+package io.golos.cyber_android.ui.common.widgets.post_comments
 
 import android.content.Context
 import android.net.Uri

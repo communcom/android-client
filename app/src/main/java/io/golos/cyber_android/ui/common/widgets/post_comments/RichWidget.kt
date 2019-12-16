@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.widgets.post
+package io.golos.cyber_android.ui.common.widgets.post_comments
 
 import android.content.Context
 import android.net.Uri
@@ -9,21 +9,20 @@ import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.utils.dp
-import io.golos.domain.use_cases.post.post_dto.EmbedBlock
+import io.golos.domain.use_cases.post.post_dto.RichBlock
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 
-class EmbedWidget
+class RichWidget
 @JvmOverloads
 constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr),
-    PostBlockWidget<EmbedBlock, EmbedWidgetListener> {
+    PostBlockWidget<RichBlock, RichWidgetListener> {
 
-    private var onClickProcessor: EmbedWidgetListener? = null
+    private var onClickProcessor: RichWidgetListener? = null
 
     private var linkUri: Uri? = null
 
@@ -37,11 +36,11 @@ constructor(
         contentId = postContentId
     }
 
-    override fun setOnClickProcessor(processor: EmbedWidgetListener?) {
+    override fun setOnClickProcessor(processor: RichWidgetListener?) {
         this.onClickProcessor = processor
     }
 
-    override fun render(block: EmbedBlock) {
+    override fun render(block: RichBlock) {
         linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl
         if (thumbnailUrl != null) {
@@ -64,7 +63,7 @@ constructor(
         richName.text = block.author
         richUrl.text = block.authorUrl?.authority
 
-        if(onClickProcessor != null) {
+        if (onClickProcessor != null) {
             richImage.setOnClickListener {
                 if (contentId != null) {
                     onClickProcessor?.onItemClicked(contentId!!)

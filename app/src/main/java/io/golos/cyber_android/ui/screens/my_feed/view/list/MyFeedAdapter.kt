@@ -9,12 +9,12 @@ import io.golos.cyber_android.ui.common.base.adapter.base_items.ProgressItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.my_feed.view.items.CreatePostItem
-import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.BlockContentItem
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 
 open class MyFeedAdapter(
     private val eventsProcessor: MyFeedListListener,
-    private val type: PostItem.Type
+    private val type: BlockContentItem.Type
 ) : RecyclerAdapter() {
 
     private val rvViewPool = RecyclerView.RecycledViewPool()
@@ -23,7 +23,7 @@ open class MyFeedAdapter(
 
     fun updateMyFeedPosts(posts: List<Post>) {
         val postsItems = posts.map {
-            val postItem = PostItem(it, type, eventsProcessor)
+            val postItem = BlockContentItem(it, type, eventsProcessor)
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }

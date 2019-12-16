@@ -27,23 +27,23 @@ class ProfileCommentsViewModel @Inject constructor(
 ) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model), ProfileCommentsModelEventProcessor {
 
     override fun onLinkClicked(linkUri: Uri) {
-        //TODO need implement
+
     }
 
     override fun onImageClicked(imageUri: Uri) {
-        //TODO need implement
+
     }
 
     override fun onItemClicked(postContentId: ContentId) {
-        //TODO need implement
+
     }
 
     override fun onUserClicked(userId: String) {
-        //TODO need implement
+
     }
 
     override fun onSeeMoreClicked(postContentId: ContentId) {
-        //TODO need implement
+
     }
 
     private var loadCommentsJob: Job? = null

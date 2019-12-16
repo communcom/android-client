@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.widgets.post
+package io.golos.cyber_android.ui.common.widgets.post_comments
 
 import android.content.Context
 import android.net.Uri
@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 

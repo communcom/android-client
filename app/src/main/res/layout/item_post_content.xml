@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/window_background">
 
-    <io.golos.cyber_android.ui.common.widgets.post.PostPageHeaderWidget
+    <io.golos.cyber_android.ui.common.widgets.post_comments.PostPageHeaderWidget
         android:id="@+id/postHeader"
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_viewer_header_height"/>

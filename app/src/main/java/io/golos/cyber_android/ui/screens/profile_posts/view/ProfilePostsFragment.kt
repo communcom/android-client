@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.BlockContentItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
@@ -151,11 +151,11 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun setupPostsList() {
-        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE)
+        val profilePostAdapter = MyFeedAdapter(viewModel, BlockContentItem.Type.PROFILE)
         val lManager = LinearLayoutManager(context)
 
         profilePostAdapter.click = { item ->
-            item as PostItem
+            item as BlockContentItem
             val contentId = item.post.contentId
             val discussionIdModel = DiscussionIdModel(
                 contentId.userId,

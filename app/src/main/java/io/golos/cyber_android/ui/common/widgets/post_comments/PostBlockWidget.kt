@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.common.widgets.post
+package io.golos.cyber_android.ui.common.widgets.post_comments
 
 import io.golos.domain.use_cases.post.post_dto.Block
 

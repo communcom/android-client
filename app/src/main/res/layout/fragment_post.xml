@@ -34,7 +34,7 @@
 
                 app:liftOnScroll="true">
 
-                <io.golos.cyber_android.ui.common.widgets.post.PostPageHeaderWidget
+                <io.golos.cyber_android.ui.common.widgets.post_comments.PostPageHeaderWidget
                     android:id="@+id/postHeader"
 
                     android:layout_width="match_parent"
