@@ -82,6 +82,7 @@ class ProfileCommentsViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.deleteComment(userId, permlink, communityId)
+                _commentListState.value = deletePostInState(_commentListState.value, permlink)
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
@@ -273,6 +274,42 @@ class ProfileCommentsViewModel @Inject constructor(
                         )
                     }
                 }
+            }
+        }
+        return state
+    }
+
+    private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val comments = (state).data as MutableList<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.permlink == permlink
+                }
+                comments.remove(foundedComment)
+            }
+            is Paginator.State.Refresh<*> -> {
+                val comments = (state).data as MutableList<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.permlink == permlink
+                }
+                comments.remove(foundedComment)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val comments = (state).data as MutableList<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.permlink == permlink
+                }
+                comments.remove(foundedComment)
+
+            }
+            is Paginator.State.FullData<*> -> {
+                val comments = (state).data as MutableList<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.permlink == permlink
+                }
+                comments.remove(foundedComment)
             }
         }
         return state
