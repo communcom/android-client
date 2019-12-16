@@ -83,6 +83,7 @@ class ProfileCommentsViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.commentUpVote(commentId.mapToContentIdDomain())
+                _commentListState.value = updateUpVoteCountOfVotes(_commentListState.value, commentId)
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
@@ -96,12 +97,161 @@ class ProfileCommentsViewModel @Inject constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.commentDownVote(commentId.mapToContentIdDomain())
+                _commentListState.value = updateDownVoteCountOfVotes(_commentListState.value, commentId)
             } catch (e: Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
+    }
+
+    private fun updateUpVoteCountOfVotes(
+        state: Paginator.State?,
+        contentId: ContentId
+    ): Paginator.State? {
+        val communityId = contentId.communityId
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasUpVote) {
+                        comment.comment.votes = votes.copy(
+                            upCount = votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+            is Paginator.State.Refresh<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasUpVote) {
+                        comment.comment.votes = votes.copy(
+                            upCount = votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasUpVote) {
+                        comment.comment.votes = votes.copy(
+                            upCount = votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+            is Paginator.State.FullData<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasUpVote) {
+                        comment.comment.votes = votes.copy(
+                            upCount = votes.upCount + 1,
+                            hasUpVote = true,
+                            hasDownVote = false
+                        )
+                    }
+                }
+            }
+        }
+        return state
+    }
+
+    private fun updateDownVoteCountOfVotes(
+        state: Paginator.State?,
+        contentId: ContentId
+    ): Paginator.State? {
+        val communityId = contentId.communityId
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasDownVote) {
+                        comment.comment.votes = votes.copy(
+                            downCount = votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+            is Paginator.State.Refresh<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasDownVote) {
+                        comment.comment.votes = votes.copy(
+                            downCount = votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasDownVote) {
+                        comment.comment.votes = votes.copy(
+                            downCount = votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+            is Paginator.State.FullData<*> -> {
+                val comments = (state).data as List<ProfileCommentListItem>
+                val foundedComment = comments.find { comment ->
+                    comment.comment.contentId.communityId == communityId
+                }
+                foundedComment?.let { comment ->
+                    val votes = comment.comment.votes
+                    if (!votes.hasDownVote) {
+                        comment.comment.votes = votes.copy(
+                            downCount = votes.downCount + 1,
+                            hasUpVote = false,
+                            hasDownVote = true
+                        )
+                    }
+                }
+            }
+        }
+        return state
     }
 
     private fun loadInitialComments() {

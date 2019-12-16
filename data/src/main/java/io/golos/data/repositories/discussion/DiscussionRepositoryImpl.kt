@@ -67,15 +67,18 @@ constructor(
         }
     }
 
-    override suspend fun getComments(offset: Int,
-                                     pageSize: Int,
-                                     commentType: CommentDomain.CommentTypeDomain,
-                                     permlink: String?,
-                                     communityId: String?,
-                                     communityAlias: String?,
-                                     parentComment: ParentCommentIdentifierDomain?): List<CommentDomain> {
+    override suspend fun getComments(
+        offset: Int,
+        pageSize: Int,
+        commentType: CommentDomain.CommentTypeDomain,
+        permlink: String?,
+        communityId: String?,
+        communityAlias: String?,
+        parentComment: ParentCommentIdentifierDomain?
+    ): List<CommentDomain> {
         return apiCall {
-            commun4j.getCommentsRaw(sortBy = CommentsSortBy.TIME,
+            commun4j.getCommentsRaw(
+                sortBy = CommentsSortBy.TIME,
                 offset = offset,
                 limit = pageSize,
                 type = commentType.mapToCommentSortType(),
@@ -83,9 +86,10 @@ constructor(
                 permlink = permlink,
                 communityId = communityId,
                 communityAlias = communityAlias,
-                parentComment = parentComment?.mapToParentComment())
+                parentComment = parentComment?.mapToParentComment()
+            )
         }.items
-            .map{ it.mapToCommentDomain()}
+            .map { it.mapToCommentDomain() }
     }
 
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
