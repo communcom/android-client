@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu

@@ -9,15 +9,19 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
-import kotlinx.android.synthetic.main.fragment_ftue_search_community.*
+import io.golos.cyber_android.ui.utils.openImageView
+import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.cyber_android.ui.utils.openUserProfile
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
-import kotlinx.android.synthetic.main.fragment_profile_comments.btnRetry
-import kotlinx.android.synthetic.main.fragment_profile_comments.emptyProgressLoading
 
 class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding, ProfileCommentsViewModel>() {
 
@@ -66,6 +70,16 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
         })
 
         rvComments.adapter = communityAdapter
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        when (command) {
+            is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
+
+            is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
+
+            is NavigateToUserProfileViewCommand -> requireContext().openUserProfile(command.userId)
+        }
     }
 
     private fun observeViewModel() {

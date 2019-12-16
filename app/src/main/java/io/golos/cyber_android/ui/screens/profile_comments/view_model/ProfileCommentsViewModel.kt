@@ -3,6 +3,9 @@ package io.golos.cyber_android.ui.screens.profile_comments.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
@@ -27,11 +30,11 @@ class ProfileCommentsViewModel @Inject constructor(
 ) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model), ProfileCommentsModelEventProcessor {
 
     override fun onLinkClicked(linkUri: Uri) {
-
+        _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
     override fun onImageClicked(imageUri: Uri) {
-
+        _command.value = NavigateToImageViewCommand(imageUri)
     }
 
     override fun onItemClicked(postContentId: ContentId) {
@@ -39,7 +42,7 @@ class ProfileCommentsViewModel @Inject constructor(
     }
 
     override fun onUserClicked(userId: String) {
-
+        _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
     override fun onSeeMoreClicked(postContentId: ContentId) {

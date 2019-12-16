@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.mvvm.view_commands
 
+import android.net.Uri
 import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
@@ -28,3 +29,9 @@ class ShowConfirmationDialog(@StringRes val textRes: Int) : ViewCommand
 class NavigationCommand(@IdRes val navigationId: Int?,
                         @IdRes val startDestination: Int? = null,
                         @NavigationRes val graphId: Int? = null): ViewCommand
+
+class NavigateToImageViewCommand(val imageUri: Uri): ViewCommand
+
+class NavigateToLinkViewCommand(val link: Uri): ViewCommand
+
+class NavigateToUserProfileViewCommand(val userId: String): ViewCommand

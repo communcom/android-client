@@ -17,8 +17,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
@@ -34,6 +33,9 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
+import io.golos.cyber_android.ui.utils.openImageView
+import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.cyber_android.ui.utils.openUserProfile
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
@@ -106,11 +108,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         when (command) {
             is NavigateToMainScreenCommand -> activity?.finish()
 
-            is NavigateToImageViewCommand -> moveToImageView(command.imageUri)
+            is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
 
-            is NavigateToLinkViewCommand -> moveToLinkView(command.link)
+            is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
+            is NavigateToUserProfileViewCommand -> requireContext().openUserProfile(command.userId)
 
             is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
@@ -236,20 +238,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     private fun deletePost() =
         ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
             .show(requireFragmentManager(), "menu")
-
-    private fun moveToUserProfile(userId: String) = startActivity(ProfileActivity.getIntent(requireContext(), userId))
-
-    private fun moveToImageView(imageUri: Uri) =
-        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
-
-    private fun moveToLinkView(link: Uri) {
-        Intent(Intent.ACTION_VIEW, link)
-            .also { intent ->
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
-                }
-            }
-    }
 
     private fun moveToEditPost(postId: DiscussionIdModel) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
