@@ -12,7 +12,7 @@ interface RichWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
 
-    fun onItemClicked(postContentId: ContentId)
+    fun onItemClicked(contentId: ContentId)
 }
 
 interface EmbedWidgetListener : BasePostBlockWidgetListener {
@@ -21,7 +21,7 @@ interface EmbedWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
 
-    fun onItemClicked(postContentId: ContentId)
+    fun onItemClicked(contentId: ContentId)
 }
 
 interface AttachmentWidgetListener : BasePostBlockWidgetListener
@@ -30,11 +30,11 @@ interface EmbedImageWidgetListener : BasePostBlockWidgetListener {
 
     fun onImageClicked(imageUri: Uri)
 
-    fun onItemClicked(postContentId: ContentId)
+    fun onItemClicked(contentId: ContentId)
 }
 
 interface EmbedVideoWidgetListener : BasePostBlockWidgetListener {
-    fun onItemClicked(postContentId: ContentId)
+    fun onItemClicked(contentId: ContentId)
 }
 
 interface EmbedWebsiteWidgetListener : BasePostBlockWidgetListener,
@@ -56,5 +56,5 @@ interface LinkListener {
 }
 
 interface SeeMoreListener {
-    fun onSeeMoreClicked(postContentId: ContentId)
+    fun onSeeMoreClicked(contentId: ContentId)
 }

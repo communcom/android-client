@@ -105,9 +105,9 @@ constructor(
         _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
-    override fun onSeeMoreClicked(postContentId: ContentId) {}
+    override fun onSeeMoreClicked(contentId: ContentId) {}
 
-    override fun onItemClicked(postContentId: ContentId) {}
+    override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
         launch {

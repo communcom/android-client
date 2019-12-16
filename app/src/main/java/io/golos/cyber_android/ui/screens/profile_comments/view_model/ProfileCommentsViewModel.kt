@@ -37,7 +37,7 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onItemClicked(postContentId: ContentId) {
+    override fun onItemClicked(contentId: ContentId) {
 
     }
 
@@ -45,7 +45,7 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
-    override fun onSeeMoreClicked(postContentId: ContentId) {
+    override fun onSeeMoreClicked(contentId: ContentId) {
 
     }
 
