@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_comments.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
@@ -109,9 +110,10 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.commentUpVote(commentId.mapToContentIdDomain())
                 _commentListState.value = updateUpVoteCountOfVotes(_commentListState.value, commentId)
+                _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-            } finally {
+                _command.value = ShowMessageCommand(R.string.unknown_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
@@ -123,9 +125,10 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.commentDownVote(commentId.mapToContentIdDomain())
                 _commentListState.value = updateDownVoteCountOfVotes(_commentListState.value, commentId)
+                _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-            } finally {
+                _command.value = ShowMessageCommand(R.string.unknown_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

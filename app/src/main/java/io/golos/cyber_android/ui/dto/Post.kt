@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.dto
 
-import io.golos.commun4j.services.model.IFramelyEmbedResult
 import io.golos.domain.use_cases.post.post_dto.PostBlock
 
 data class Post(
