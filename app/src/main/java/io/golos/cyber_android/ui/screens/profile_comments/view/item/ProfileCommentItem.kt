@@ -1,13 +1,16 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view.item
 
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.vision.text.Text
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
-import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.*
@@ -15,6 +18,7 @@ import io.golos.cyber_android.ui.dto.Author
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
+import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
@@ -69,10 +73,11 @@ class ProfileCommentItem(
             }
 
             if(newContentList.isEmpty() && comment.isDeleted ){
-                val emptyBlock = ParagraphBlock(arrayListOf(TextBlock( labelCommentDeleted, null, null))) as Block
-                newContentList.add(emptyBlock)
+                val deleteBlock = ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
+                newContentList.add(deleteBlock)
+            } else{
+                addAuthorNameToContent(newContentList, comment)
             }
-
             val contentItems = newContentList
                 .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor) != null }
                 .map {
@@ -80,6 +85,60 @@ class ProfileCommentItem(
                 }
             commentContentAdapter.updateAdapter(contentItems)
         }
+    }
+
+    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, comment: Comment){
+        val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
+        // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
+        //TODO need write this code better
+        val authorBlock = ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))) as Block
+        if(findBlock == null){
+            newContentList.add(0, authorBlock)
+        } else{
+            val indexOf = newContentList.indexOf(findBlock)
+            if(indexOf == 0){
+                if(findBlock is TextBlock){
+                    newContentList[0] = ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
+                } else{
+                    if(findBlock is ParagraphBlock){
+                        if(findBlock.content.isNotEmpty()){
+                            val paragraphContent = mutableListOf<ParagraphItemBlock>()
+                            for(i in findBlock.content.indices){
+                                val block: ParagraphItemBlock
+                                if(i == 0){
+                                    val paragraphItemBlock = findBlock.content[0]
+                                    if (paragraphItemBlock is TextBlock){
+                                        block = SpanableBlock(getAuthorAndText(comment.author, paragraphItemBlock.content))
+                                    } else{
+                                        block = SpanableBlock(getAuthorAndText(comment.author, ""))
+                                    }
+                                } else{
+                                    block = findBlock.content[0]
+                                }
+                                paragraphContent.add(block)
+                            }
+                            val newParagraph = ParagraphBlock(paragraphContent)
+                            newContentList[0] = newParagraph
+                        } else{
+                            newContentList[0] = authorBlock
+                        }
+                    }
+                }
+            } else{
+                newContentList.add(0, authorBlock)
+            }
+        }
+    }
+
+    private fun getAuthorAndText(author: Author, text: String): SpannableStringBuilder{
+        val result = SpannableStringBuilder()
+        author.username?.let {
+            result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.blue)))
+        }
+
+        result.append(" ")
+        result.append(text)
+        return result
     }
 
     private fun createPostBodyItem(comment: Comment, block: Block, listItemEventsProcessor: ProfileCommentsModelEventProcessor): BaseRecyclerItem? {

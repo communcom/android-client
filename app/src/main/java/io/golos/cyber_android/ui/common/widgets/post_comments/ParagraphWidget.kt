@@ -87,11 +87,12 @@ constructor(
         val builder = SpannableStringBuilder()
 
         block.content.forEach { blockItem ->
-            when(blockItem) {
+            when (blockItem) {
                 is TextBlock -> addText(blockItem, builder)
-                is TagBlock -> addTag(blockItem,builder)
-                is MentionBlock -> addMention(blockItem,builder)
+                is TagBlock -> addTag(blockItem, builder)
+                is MentionBlock -> addMention(blockItem, builder)
                 is LinkBlock -> addLink(blockItem, builder)
+                is SpanableBlock -> addSpannable(blockItem, builder)
             }
         }
 
@@ -128,6 +129,10 @@ constructor(
         this.text = builder
     }
 
+    private fun addSpannable(block: SpanableBlock, builder: SpannableStringBuilder) {
+        builder.append(block.content)
+    }
+
     private fun addText(block: TextBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText(block.content)
 
@@ -145,7 +150,7 @@ constructor(
         val textInterval = builder.appendText("@${block.content}")
 
         // Click on the link
-        builder.setSpan(object: ColorTextClickableSpan(block.content, spansColor) {
+        builder.setSpan(object : ColorTextClickableSpan(block.content, spansColor) {
             override fun onClick(spanData: String) {
                 onClickProcessor?.onUserClicked(spanData)           // User's name
             }
@@ -156,7 +161,7 @@ constructor(
         val textInterval = builder.appendText(block.content)
 
         // Click on the link
-        builder.setSpan(object: LinkClickableSpan(block.url, spansColor) {
+        builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
                 onClickProcessor?.onLinkClicked(spanData)
             }
