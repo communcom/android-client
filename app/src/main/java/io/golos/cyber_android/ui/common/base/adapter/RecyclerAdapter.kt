@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.common.base.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,10 +43,9 @@ open class RecyclerAdapter(
     override fun getItemViewType(position: Int): Int = getItem(position).getLayoutId()
 
     fun updateAdapter(newItems: List<RecyclerItem>) {
-        Timber.d(" items = $items, newItems = $newItems")
         if (items.isEmpty()) {
             items = newItems.toMutableList()
-            notifyDataSetChanged()
+            notifyItemRangeInserted(0, newItems.size)
         } else {
             val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
                 override fun getOldListSize(): Int {
@@ -72,7 +70,7 @@ open class RecyclerAdapter(
             items = newItems.toMutableList()
             try {
                 result.dispatchUpdatesTo(this)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Timber.e(e)
             }
         }
