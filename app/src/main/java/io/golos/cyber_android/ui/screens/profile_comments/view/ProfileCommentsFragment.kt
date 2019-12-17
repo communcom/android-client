@@ -138,7 +138,6 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     cAdapter.removeRetry()
                     val items = (state.data as MutableList<ProfileCommentListItem>)
                     cAdapter.update(items)
-                    rvComments.scrollToPosition(cAdapter.itemCount - 1)
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
                 }
