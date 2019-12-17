@@ -67,15 +67,18 @@ constructor(
         }
     }
 
-    override suspend fun getComments(offset: Int,
-                                     pageSize: Int,
-                                     commentType: CommentDomain.CommentTypeDomain,
-                                     permlink: String?,
-                                     communityId: String?,
-                                     communityAlias: String?,
-                                     parentComment: ParentCommentIdentifierDomain?): List<CommentDomain> {
+    override suspend fun getComments(
+        offset: Int,
+        pageSize: Int,
+        commentType: CommentDomain.CommentTypeDomain,
+        permlink: String?,
+        communityId: String?,
+        communityAlias: String?,
+        parentComment: ParentCommentIdentifierDomain?
+    ): List<CommentDomain> {
         return apiCall {
-            commun4j.getCommentsRaw(sortBy = CommentsSortBy.TIME,
+            commun4j.getCommentsRaw(
+                sortBy = CommentsSortBy.TIME,
                 offset = offset,
                 limit = pageSize,
                 type = commentType.mapToCommentSortType(),
@@ -83,9 +86,50 @@ constructor(
                 permlink = permlink,
                 communityId = communityId,
                 communityAlias = communityAlias,
-                parentComment = parentComment?.mapToParentComment())
+                parentComment = parentComment?.mapToParentComment()
+            )
         }.items
-            .map{ it.mapToCommentDomain()}
+            .map { it.mapToCommentDomain() }
+    }
+
+    override suspend fun deletePostOrComment(
+        userId: String,
+        permlink: String,
+        communityId: String
+    ) {
+        apiCallChain {
+            commun4j.deletePostOrComment(
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                communCode = CyberSymbolCode(communityId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = userId.toCyberName()
+            )
+        }
+    }
+
+    override suspend fun editPostOrComment(
+        userId: String,
+        permlink: String,
+        communityId: String,
+        header: String,
+        body: String,
+        tags: List<String>,
+        metadata: String
+    ) {
+        apiCallChain {
+            commun4j.updatePostOrComment(
+                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                communCode = CyberSymbolCode(communityId),
+                header = header,
+                body = body,
+                tags = tags,
+                metadata = metadata,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = userId.toCyberName()
+            )
+        }
     }
 
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {

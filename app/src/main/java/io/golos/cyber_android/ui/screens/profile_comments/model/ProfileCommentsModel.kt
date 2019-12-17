@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_comments.model
 
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
 
@@ -12,5 +11,17 @@ interface ProfileCommentsModel : ModelBase {
     suspend fun commentUpVote(commentId: ContentIdDomain)
 
     suspend fun commentDownVote(commentId: ContentIdDomain)
+
+    suspend fun deleteComment(userId: String, permlink: String, communityId: String)
+
+    suspend fun editComment(
+        userId: String,
+        permlink: String,
+        communityId: String,
+        header: String,
+        body: String,
+        tags: List<String>,
+        metadata: String
+    )
 
 }
