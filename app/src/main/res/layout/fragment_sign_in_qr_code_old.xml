@@ -6,7 +6,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.QrCodeSignInFragment">
+        tools:context="io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.QrCodeSignInFragment">
 
     <TextView
             android:id="@+id/stubText"

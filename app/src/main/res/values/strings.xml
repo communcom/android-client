@@ -124,6 +124,7 @@
     <!--Welcome-->
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
+    <string name="welcome">Welcome</string>
     <string name="welcome_slides_text_0_0">Welcome\n</string>
     <string name="welcome_slides_text_0_1">to Commun /</string>
     <string name="welcome_slides_text_1">All-in-One\n</string>
@@ -132,6 +133,7 @@
     <string name="welcome_slides_text_2_1">your socialization</string>
     <string name="welcome_slides_text_3">Owned</string>
     <string name="welcome_slides_text_3_1">by users</string>
+    <string name="account_query">Don\'t have an account?</string>
 
     <string name="welcome_slides_sub_text_1">Social platform based on blockchain\nand for the first time, it’s easy</string>
     <string name="welcome_slides_sub_text_2">Create, share, and evaluate content\nDecide yourself what deserves\nthe attention</string>
@@ -142,7 +144,7 @@
     <!--Sign In-->
     <string name="sign_in_title_0">Welcome</string>
     <string name="login">User\'s name</string>
-    <string name="key">Master password</string>
+    <string name="key">Password</string>
     <string name="ok">Ok</string>
     <string name="sign_in_scan_qr">Scan QR</string>
     <string name="sign_in_scan_qr_hint">Go to commun.com and scan QR</string>

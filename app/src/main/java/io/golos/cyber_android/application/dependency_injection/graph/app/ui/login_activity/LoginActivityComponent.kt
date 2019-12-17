@@ -3,8 +3,8 @@ package io.golos.cyber_android.application.dependency_injection.graph.app.ui.log
 import dagger.Subcomponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
 import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.QrCodeSignInFragment
-import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.UserNameSignInFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.QrCodeSignInFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name.UserNameSignInFragment
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.country.SignUpCountryFragment
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.fingerprint.FingerprintFragment
 import io.golos.cyber_android.ui.screens.login_activity.signup.fragments.key.SignUpKeyFragment

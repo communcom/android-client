@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin.user_name
+package io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name
 
 import android.os.Bundle
 import android.text.Editable
@@ -15,12 +15,12 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInArgs
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInChildFragment
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInParentFragment
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInArgs
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInChildFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInParentFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInTab
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import kotlinx.android.synthetic.main.fragment_sign_in_user_name.*
+import kotlinx.android.synthetic.main.fragment_sign_in_user_name_old.*
 import javax.inject.Inject
 
 class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
@@ -47,7 +47,7 @@ class UserNameSignInFragment : FragmentBase(), SignInChildFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_sign_in_user_name, container, false)
+        inflater.inflate(R.layout.fragment_sign_in_user_name_old, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

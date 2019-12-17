@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code
+package io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code
 
 import android.Manifest
 import android.content.Context
@@ -17,13 +17,13 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInArgs
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInChildFragment
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInParentFragment
-import io.golos.cyber_android.ui.screens.login_activity.signin.SignInTab
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDetector
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDetectorErrorCode
-import kotlinx.android.synthetic.main.fragment_sign_in_qr_code.*
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInArgs
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInChildFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInParentFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.SignInTab
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.detector.QrCodeDetector
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.detector.QrCodeDetectorErrorCode
+import kotlinx.android.synthetic.main.fragment_sign_in_qr_code_old.*
 import javax.inject.Inject
 
 class QrCodeSignInFragment : FragmentBase(), SignInChildFragment {
@@ -80,7 +80,7 @@ class QrCodeSignInFragment : FragmentBase(), SignInChildFragment {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_sign_in_qr_code, container, false)
+        inflater.inflate(R.layout.fragment_sign_in_qr_code_old, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

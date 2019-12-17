@@ -1,67 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        tools:context=".ui.screens.login_activity.signin.SignInFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.screens.login_activity.signup.fragments.phone.SignUpPhoneFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/actionBar"
-            android:background="@color/white"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            app:liftOnScroll="true"
-            android:theme="@style/AppTheme.AppBarOverlay">
+        android:id="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_44"
+        android:background="@color/white"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:liftOnScroll="true">
 
         <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <ImageView
-                    android:padding="@dimen/margin_default"
-                    android:id="@+id/ivBack"
-                    android:layout_gravity="start|center_vertical"
-                    app:srcCompat="@drawable/ic_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/margin_default"
+                app:srcCompat="@drawable/ic_left_arrow"
+                tools:ignore="ContentDescription" />
         </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.appcompat.widget.AppCompatTextView
-                style="@style/SignInCaptionTextStyle"
-                android:layout_marginTop="@dimen/margin_top_sign_in_caption"
-                android:layout_marginStart="@dimen/margin_horizontal_sign_in_caption"
-                android:layout_marginEnd="@dimen/margin_horizontal_sign_in_caption"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/sign_in_title_0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-        <com.google.android.material.tabs.TabLayout
-                android:id="@+id/signInTabs"
-                app:tabMode="fixed"
-                app:tabTextColor="@color/text_color_feed_tabs"
-                app:tabRippleColor="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_top_sign_in_caption"
+            android:layout_marginEnd="@dimen/margin_default"
 
-        <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/signInPager"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:overScrollMode="never"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:text="@string/welcome"
+
+            style="@style/SignInCaptionTextStyle"
+        />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sign_up_field_height"
+
+            android:layout_marginTop="@dimen/dimen_48"
+
+            style="@style/SignIn.InputField"
+
+            android:hint="@string/login"
+            />
+
+        <io.golos.cyber_android.ui.common.widgets.PrefixTextInputEditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sign_up_field_height"
+
+            android:layout_marginTop="@dimen/margin_default"
+
+            style="@style/SignIn.InputField"
+
+            android:hint="@string/key"
+            />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="@dimen/dimen_42"
+            android:layout_marginTop="@dimen/dimen_40"
+            android:layout_marginEnd="@dimen/dimen_42">
+
+            <TextView
+                android:id="@+id/signIn"
+                style="@style/SignUpButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dimen_56"
+
+                android:enabled="false"
+                android:text="@string/sign_in"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/qrCode"
+
+                android:layout_marginEnd="@dimen/dimen_4"
+            />
+
+            <Button
+                android:id="@+id/qrCode"
+
+                android:layout_width="@dimen/dimen_56"
+                android:layout_height="@dimen/dimen_56"
+
+                android:background="@drawable/bg_sign_up_button"
+                android:drawableStart="@drawable/ic_qr_code"
+
+                android:paddingStart="18dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="ContentDescription,RtlSymmetry" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/dimen_24"
+
+            style="@style/SignIn.Query.Link"
+
+            android:text="@string/account_query"
+
+            android:layout_gravity="center_horizontal"
+            />
+
+
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin
+package io.golos.cyber_android.ui.screens.login_activity.signin_old
 
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R

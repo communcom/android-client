@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin
+package io.golos.cyber_android.ui.screens.login_activity.signin_old
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +11,15 @@ import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.QrCodeSignInFragment
-import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.UserNameSignInFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.QrCodeSignInFragment
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name.UserNameSignInFragment
 import io.golos.cyber_android.ui.utils.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_in_old.*
 
 
 class SignInFragment : FragmentBase(), SignInParentFragment {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+        return inflater.inflate(R.layout.fragment_sign_in_old, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

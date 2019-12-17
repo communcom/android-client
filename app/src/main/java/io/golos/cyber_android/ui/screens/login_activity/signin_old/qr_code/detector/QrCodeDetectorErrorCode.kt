@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector
+package io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.detector
 
 enum class QrCodeDetectorErrorCode {
     /**

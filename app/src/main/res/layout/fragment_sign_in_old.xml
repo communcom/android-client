@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context=".ui.screens.login_activity.signin_old.SignInFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            android:background="@color/white"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            app:liftOnScroll="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                    android:padding="@dimen/margin_default"
+                    android:id="@+id/ivBack"
+                    android:layout_gravity="start|center_vertical"
+                    app:srcCompat="@drawable/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                style="@style/SignInCaptionTextStyle"
+                android:layout_marginTop="@dimen/margin_top_sign_in_caption"
+                android:layout_marginStart="@dimen/margin_horizontal_sign_in_caption"
+                android:layout_marginEnd="@dimen/margin_horizontal_sign_in_caption"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sign_in_title_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/signInTabs"
+                app:tabMode="fixed"
+                app:tabTextColor="@color/text_color_feed_tabs"
+                app:tabRippleColor="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/signInPager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

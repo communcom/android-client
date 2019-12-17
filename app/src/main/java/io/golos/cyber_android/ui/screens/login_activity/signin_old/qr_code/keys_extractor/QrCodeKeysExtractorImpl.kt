@@ -1,7 +1,7 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor
+package io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.keys_extractor
 
 import io.golos.commun4j.sharedmodel.Either
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.detector.QrCodeDecrypted
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.detector.QrCodeDecrypted
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.AuthType

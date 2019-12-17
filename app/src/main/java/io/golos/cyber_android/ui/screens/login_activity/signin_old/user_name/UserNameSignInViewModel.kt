@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.signin.user_name
+package io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
+import io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name.keys_extractor.MasterPassKeysExtractor
 import io.golos.cyber_android.ui.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CyberUser
