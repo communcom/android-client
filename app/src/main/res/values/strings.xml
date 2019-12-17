@@ -309,6 +309,8 @@
     <string name="edit_comment">Edit comment</string>
     <string name="delete_comment">Delete comment</string>
     <string name="blacklist">Blacklist</string>
+    <string name="block_user">Block the user</string>
+    <string name="unblock_user">Unblock the user</string>
 
     <string name="edit_comment_send">Edit Comment</string>
     <string name="edit_comment_reply">Reply to comment</string>
@@ -472,8 +474,7 @@
     <!--Ftue-->
     <string name="commun">commun</string>
     <string name="get_you_first_points">Get you first points</string>
-    <string name="subscribe_to_3_communities">Subscribe to at least 3 communities
-and get your first Community Points</string>
+    <string name="subscribe_to_3_communities">Subscribe to at least 3 communities and get your first Community Points</string>
     <string name="ftue_finish_description_1">Authorize on web\n</string>
     <string name="ftue_finish_description_2">Triple your points</string>
     <string name="ftue_finish_sub_description">Right after you authorize on the Website\n We triple your welcome points</string>
@@ -481,6 +482,7 @@ and get your first Community Points</string>
 
 
     <string name="no_followers_yet">You have no followers yet</string>
+    <string name="no_followers_yet_external_user">This user has no followers yet</string>
     <string name="no_followers">No Followers</string>
     <string name="no_following">No Following</string>
     <string name="no_mutual">No Mutual</string>

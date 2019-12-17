@@ -60,6 +60,7 @@
 
                         tools:visibility="visible"
                         android:visibility="@{viewModel.backButtonVisibility}"
+                        android:onClick="@{() -> viewModel.onBackButtonClick()}"
                     />
 
                     <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize

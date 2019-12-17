@@ -15,10 +15,12 @@ import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.ProfileExternalUserSettingsDialog
 import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
 import io.golos.cyber_android.ui.dialogs.ProfileSettingsDialog
 import io.golos.cyber_android.ui.dto.BlackListFilter
@@ -90,9 +92,11 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is MoveToBioPageCommand -> moveToBioPage(command.text)
             is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
             is ShowSettingsDialogCommand -> showSettingsDialog()
+            is ShowExternalUserSettingsDialogCommand -> showExternalUserSettingsDialog(command.isBlocked)
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
             is MoveToLikedPageCommand -> moveToLikedPage()
             is MoveToBlackListPageCommand -> moveToBlackListPage()
+            is BackCommand -> requireActivity().onBackPressed()
         }
     }
 
@@ -120,6 +124,11 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
                     ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
                     ProfileSettingsDialog.RESULT_LIKED -> viewModel.onLikedSelected()
                     ProfileSettingsDialog.RESULT_BLACK_LIST -> viewModel.onBlackListSelected()
+                }
+            }
+            ProfileExternalUserSettingsDialog.REQUEST -> {
+                when(resultCode) {
+                    ProfileExternalUserSettingsDialog.RESULT_BLACK_LIST -> viewModel.onMoveToBlackListSelected()
                 }
             }
             ConfirmationDialog.REQUEST -> {
@@ -162,6 +171,9 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     private fun showSettingsDialog() =
         ProfileSettingsDialog.newInstance(this@ProfileFragment).show(requireFragmentManager(), "menu")
+
+    private fun showExternalUserSettingsDialog(isBlocked: Boolean) =
+        ProfileExternalUserSettingsDialog.newInstance(this@ProfileFragment, isBlocked).show(requireFragmentManager(), "menu")
 
     private fun showConfirmationDialog(@StringRes textResId: Int) =
         ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")

@@ -2,11 +2,11 @@ package io.golos.cyber_android.ui.screens.profile.new_profile.view_model
 
 import android.content.Context
 import android.view.View
-import androidx.core.content.contentValuesOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
@@ -180,7 +180,11 @@ constructor(
     }
 
     fun onSettingsClick() {
-        _command.value = ShowSettingsDialogCommand()
+        _command.value = if(model.isCurrentUser) {
+            ShowSettingsDialogCommand()
+        } else {
+            ShowExternalUserSettingsDialogCommand(model.isInBlackList)
+        }
     }
 
     fun onLogoutSelected() {
@@ -193,6 +197,16 @@ constructor(
 
     fun onBlackListSelected() {
         _command.value = MoveToBlackListPageCommand()
+    }
+
+    fun onMoveToBlackListSelected() {
+        launch {
+            try {
+                model.moveToBlackList()
+            } catch (ex: Exception) {
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
     }
 
     fun onLogoutConfirmed() {
@@ -220,16 +234,16 @@ constructor(
         launch {
             try {
                 _followButtonText.value =
-                    appContext.resources.getString(if(!model.isSubscription) R.string.followed else R.string.follow)
-                _followButtonState.value = !model.isSubscription
+                    appContext.resources.getString(if(!model.isSubscribed) R.string.followed else R.string.follow)
+                _followButtonState.value = !model.isSubscribed
 
                 model.subscribeUnsubscribe()
             } catch(ex: java.lang.Exception) {
                 _command.value = ShowMessageCommand(R.string.common_general_error)
 
                 _followButtonText.value =
-                    appContext.resources.getString(if(model.isSubscription) R.string.followed else R.string.follow)
-                _followButtonState.value = model.isSubscription
+                    appContext.resources.getString(if(model.isSubscribed) R.string.followed else R.string.follow)
+                _followButtonState.value = model.isSubscribed
             }
         }
     }
@@ -251,8 +265,8 @@ constructor(
                     }
 
                     _followButtonText.value =
-                        appContext.resources.getString(if(isSubscription) R.string.followed else R.string.follow)
-                    _followButtonState.value = isSubscription
+                        appContext.resources.getString(if(isSubscribed) R.string.followed else R.string.follow)
+                    _followButtonState.value = isSubscribed
                 }
 
                 _pageContentVisibility.value = View.VISIBLE
@@ -264,6 +278,10 @@ constructor(
                 _loadingProgressVisibility.value = View.INVISIBLE
             }
         }
+    }
+
+    fun onBackButtonClick() {
+        _command.value = BackCommand()
     }
 
     private suspend fun updateAvatar(avatarFile: File) {

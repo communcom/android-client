@@ -26,12 +26,12 @@ data class UserProfileDomain(
     val isInBlacklist: Boolean,
 
     /**
-     * To current user
+     * Is a current user subscribed to the user
      */
     val isSubscribed: Boolean,
 
     /**
-     * Is a current user subscribed to the user
+     * Is the user subscribed to current user
      */
     val isSubscription: Boolean
 )

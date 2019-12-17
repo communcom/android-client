@@ -53,6 +53,9 @@ constructor(
     private val _noDataStubText = MutableLiveData<Int>()
     val noDataStubText: LiveData<Int> get() = _noDataStubText
 
+    private val _noDataStubExplanation = MutableLiveData<Int>(if(model.isCurrentUser) R.string.no_followers_yet else R.string.no_followers_yet_external_user)
+    val noDataStubExplanation: LiveData<Int> get() = _noDataStubExplanation
+
     val pageSize = model.pageSize
 
     private var hasFollowersData: Boolean? = null

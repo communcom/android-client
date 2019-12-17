@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.model
 
+import android.util.Log
 import dagger.Lazy
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.logout.LogoutUseCase
@@ -10,7 +11,6 @@ import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
 import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 import javax.inject.Inject
 
 class ProfileModelImpl
@@ -23,13 +23,17 @@ constructor(
 ) : ModelBaseImpl(),
     ProfileModel {
 
-    private var isSubscriptionInProgress = false
+    private var isSubscribingInProgress = false
+    private var isBlockingInProgress = false
 
     override val isCurrentUser: Boolean
         get() = profileUserId == currentUserRepository.userId
 
-    override val isSubscription: Boolean
-        get() = userProfile.isSubscription
+    override val isSubscribed: Boolean
+        get() = userProfile.isSubscribed
+
+    override val isInBlackList: Boolean
+        get() = userProfile.isInBlacklist
 
     private lateinit var userProfile: UserProfileDomain
 
@@ -44,6 +48,7 @@ constructor(
 
     override suspend fun loadProfileInfo(): UserProfileDomain {
         userProfile = usersRepository.getUserProfile(profileUserId)
+        Log.d("SUBSC555", userProfile.toString())
         return userProfile
     }
 
@@ -70,24 +75,46 @@ constructor(
     override fun restartApp() = logout.get().restartApp()
 
     override suspend fun subscribeUnsubscribe() {
-        if(isSubscriptionInProgress) {
+        if(isSubscribingInProgress) {
             return
         }
 
-        isSubscriptionInProgress = true
+        isSubscribingInProgress = true
 
         try {
-            if(userProfile.isSubscription) {
+            if(userProfile.isSubscribed) {
                 usersRepository.unsubscribeToFollower(userProfile.userId)
             } else {
                 usersRepository.subscribeToFollower(userProfile.userId)
             }
-            userProfile = userProfile.copy(isSubscription = !userProfile.isSubscription)
+            userProfile = userProfile.copy(isSubscribed = !userProfile.isSubscribed)
         } catch (ex: Exception) {
             Timber.e(ex)
             throw ex
         } finally {
-            isSubscriptionInProgress = false
+            isSubscribingInProgress = false
+        }
+    }
+
+    override suspend fun moveToBlackList() {
+        if(isBlockingInProgress) {
+            return
+        }
+
+        isBlockingInProgress = true
+
+        try {
+            if(userProfile.isInBlacklist) {
+                usersRepository.moveUserFromBlackList(profileUserId)
+            } else {
+                usersRepository.moveUserToBlackList(profileUserId)
+            }
+            userProfile = userProfile.copy(isInBlacklist = !userProfile.isInBlacklist)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            throw ex
+        } finally {
+            isBlockingInProgress = false
         }
     }
 }

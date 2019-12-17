@@ -7,12 +7,15 @@ import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.ListWorker
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
 import javax.inject.Named
 
 class ProfileFollowersModelImpl
 @Inject
 constructor(
+    private val profileUserId: UserIdDomain,
+    private val currentUserRepository: CurrentUserRepositoryRead,
     @Named(Clarification.PAGE_SIZE)
     override val pageSize: Int,
     @Named(Clarification.FOLLOWERS)
@@ -23,6 +26,9 @@ constructor(
     private val mutualListWorker: ListWorker
 ) : ProfileFollowersModel,
     ModelBaseImpl() {
+
+    override val isCurrentUser: Boolean
+        get() = profileUserId == currentUserRepository.userId
 
     override fun getItems(filter: FollowersFilter): LiveData<List<VersionedListItem>> = getWorker(filter).items
 

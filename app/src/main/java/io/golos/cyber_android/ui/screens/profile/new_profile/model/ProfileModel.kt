@@ -8,7 +8,9 @@ import java.io.File
 interface ProfileModel: ModelBase {
     val isCurrentUser: Boolean
 
-    val isSubscription: Boolean
+    val isSubscribed: Boolean
+
+    val isInBlackList: Boolean
 
     val mutualUsers: List<UserDomain>
 
@@ -41,4 +43,6 @@ interface ProfileModel: ModelBase {
     fun restartApp()
 
     suspend fun subscribeUnsubscribe()
+
+    suspend fun moveToBlackList()
 }
