@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_comment_page_menu.model
+package io.golos.cyber_android.ui.screens.comment_page_menu.model
 
 interface CommentMenuModelListEventProcessor : CommentMenuListener
 

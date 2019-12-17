@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.*
+import io.golos.cyber_android.ui.dto.Author
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
@@ -30,16 +32,23 @@ class ProfileCommentItem(
         listItem: ProfileCommentListItem,
         listItemEventsProcessor: ProfileCommentsModelEventProcessor
     ) {
-        itemView.userAvatar.loadAvatar(listItem.comment.author.avatarUrl)
+        setupUserAvatar(listItem.comment.author, listItemEventsProcessor)
         setupVoting(listItem, listItemEventsProcessor)
         itemView.processingProgressBar.visibility = View.INVISIBLE
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
         setupCommentContent(listItem, listItemEventsProcessor)
-
         itemView.setOnLongClickListener {
             listItemEventsProcessor.onCommentLongClick(listItem.comment)
             true
+        }
+    }
+
+    private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor){
+        val userAvatarView = itemView.userAvatar
+        userAvatarView.loadAvatar(author.avatarUrl)
+        userAvatarView.setOnClickListener {
+            listItemEventsProcessor.onUserClicked(author.userId)
         }
     }
 
@@ -50,18 +59,26 @@ class ProfileCommentItem(
                 setRecycledViewPool(commentsViewPool)
                 layoutManager = LinearLayoutManager(itemView.context)
             }
-            val body = listItem.comment.body
+            val comment = listItem.comment
+            val body = comment.body
+            val labelCommentDeleted = itemView.context.getString(R.string.comment_deleted)
             val contentList: ArrayList<Block> = body?.content as? ArrayList<Block> ?: arrayListOf()
             val newContentList = ArrayList<Block>(contentList)
             ((body?.attachments) as? Block)?.let {
                 newContentList.add(it)
             }
-            val postContentItems = newContentList
+
+            if(newContentList.isEmpty() && comment.isDeleted ){
+                val emptyBlock = ParagraphBlock(arrayListOf(TextBlock( labelCommentDeleted, null, null))) as Block
+                newContentList.add(emptyBlock)
+            }
+
+            val contentItems = newContentList
                 .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor) != null }
                 .map {
                     createPostBodyItem(listItem.comment, it, listItemEventsProcessor)!!
                 }
-            commentContentAdapter.updateAdapter(postContentItems)
+            commentContentAdapter.updateAdapter(contentItems)
         }
     }
 

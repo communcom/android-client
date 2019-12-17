@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_comment_page_menu.model
+package io.golos.cyber_android.ui.screens.comment_page_menu.model
 
 import android.os.Parcelable
 import io.golos.cyber_android.ui.dto.ContentId

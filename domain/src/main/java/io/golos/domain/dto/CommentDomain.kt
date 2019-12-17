@@ -11,7 +11,8 @@ data class CommentDomain(
     val community: PostDomain.CommunityDomain,
     val meta: MetaDomain,
     val parent: ParentCommentDomain,
-    val type: String
+    val type: String,
+    val isDeleted: Boolean
 ) {
     enum class CommentTypeDomain {
         USER,

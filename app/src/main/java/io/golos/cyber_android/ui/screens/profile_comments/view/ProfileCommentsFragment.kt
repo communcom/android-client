@@ -15,8 +15,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.CommentMenu
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.view.CommentPageMenuDialog
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
+import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter

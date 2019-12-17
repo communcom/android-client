@@ -491,4 +491,5 @@ and get your first Community Points</string>
 
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>
+    <string name="comment_deleted">This comment was deleted</string>
 </resources>

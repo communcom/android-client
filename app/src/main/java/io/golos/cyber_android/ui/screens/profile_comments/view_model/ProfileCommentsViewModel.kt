@@ -286,14 +286,32 @@ class ProfileCommentsViewModel @Inject constructor(
                 val foundedComment = comments.find { comment ->
                     comment.comment.contentId.permlink == permlink
                 }
-                comments.remove(foundedComment)
+                val elementDeletedIndex = comments.indexOf(foundedComment)
+
+                if(elementDeletedIndex != -1 && foundedComment != null){
+                    val updatedComment = foundedComment.comment.copy(
+                        body = null,
+                        isDeleted = true
+                    )
+
+                    comments[elementDeletedIndex] = ProfileCommentListItem(updatedComment)
+                }
             }
             is Paginator.State.Refresh<*> -> {
                 val comments = (state).data as MutableList<ProfileCommentListItem>
                 val foundedComment = comments.find { comment ->
                     comment.comment.contentId.permlink == permlink
                 }
-                comments.remove(foundedComment)
+                val elementDeletedIndex = comments.indexOf(foundedComment)
+
+                if(elementDeletedIndex != -1 && foundedComment != null){
+                    val updatedComment = foundedComment.comment.copy(
+                        body = null,
+                        isDeleted = true
+                    )
+
+                    comments[elementDeletedIndex] = ProfileCommentListItem(updatedComment)
+                }
 
             }
             is Paginator.State.NewPageProgress<*> -> {
@@ -301,7 +319,16 @@ class ProfileCommentsViewModel @Inject constructor(
                 val foundedComment = comments.find { comment ->
                     comment.comment.contentId.permlink == permlink
                 }
-                comments.remove(foundedComment)
+                val elementDeletedIndex = comments.indexOf(foundedComment)
+
+                if(elementDeletedIndex != -1 && foundedComment != null){
+                    val updatedComment = foundedComment.comment.copy(
+                        body = null,
+                        isDeleted = true
+                    )
+
+                    comments[elementDeletedIndex] = ProfileCommentListItem(updatedComment)
+                }
 
             }
             is Paginator.State.FullData<*> -> {
@@ -309,7 +336,16 @@ class ProfileCommentsViewModel @Inject constructor(
                 val foundedComment = comments.find { comment ->
                     comment.comment.contentId.permlink == permlink
                 }
-                comments.remove(foundedComment)
+                val elementDeletedIndex = comments.indexOf(foundedComment)
+
+                if(elementDeletedIndex != -1 && foundedComment != null){
+                    val updatedComment = foundedComment.comment.copy(
+                        body = null,
+                        isDeleted = true
+                    )
+
+                    comments[elementDeletedIndex] = ProfileCommentListItem(updatedComment)
+                }
             }
         }
         return state

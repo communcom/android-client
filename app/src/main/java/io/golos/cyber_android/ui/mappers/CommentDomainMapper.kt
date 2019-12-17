@@ -13,6 +13,7 @@ fun CommentDomain.mapToComment(): Comment {
         community = this.community.mapToCommunity(),
         meta = this.meta.mapToMeta(),
         parent = this.parent.mapToParentComment(),
-        type = this.type
+        type = this.type,
+        isDeleted =  isDeleted
     )
 }

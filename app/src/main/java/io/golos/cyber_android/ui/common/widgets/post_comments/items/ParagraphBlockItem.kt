@@ -1,15 +1,16 @@
 package io.golos.cyber_android.ui.common.widgets.post_comments.items
 
 import android.content.Context
+import android.view.View
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.common.widgets.post_comments.ParagraphWidget
 import io.golos.cyber_android.ui.common.widgets.post_comments.ParagraphWidgetListener
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 
-class ParagraphBlockItem(
+data class ParagraphBlockItem(
     val paragraphBlock: ParagraphBlock,
-    widgetListener: ParagraphWidgetListener?,
+    val widgetListener: ParagraphWidgetListener?,
     val contentId: ContentId
 ) : BaseBlockItem<ParagraphBlock, ParagraphWidgetListener, ParagraphWidget>(
     paragraphBlock,

@@ -11,5 +11,6 @@ data class Comment(
     val community: Post.Community,
     val meta: Meta,
     val parent: ParentComment,
-    val type: String
+    val type: String,
+    val isDeleted: Boolean
 )

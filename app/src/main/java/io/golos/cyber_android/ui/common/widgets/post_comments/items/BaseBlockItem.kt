@@ -36,7 +36,8 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
     }
 
     override fun onViewRecycled(view: View) {
-        super.onViewRecycled(view)
         (view.postWidgetContainer.findViewById<View>(widgetViewId) as WIDGET).release()
+        view.postWidgetContainer.removeAllViews()
+        super.onViewRecycled(view)
     }
 }

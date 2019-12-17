@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_comment_page_menu.view.list
+package io.golos.cyber_android.ui.screens.comment_page_menu.view.list
 
 object CommentMenuViewType {
 

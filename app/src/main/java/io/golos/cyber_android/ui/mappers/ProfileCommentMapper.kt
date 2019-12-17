@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.mappers
 
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.CommentMenu
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 
 fun Comment.mapToCommentMenu(): CommentMenu = CommentMenu(
     contentId = contentId,

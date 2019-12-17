@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile_comment_page_menu.view
+package io.golos.cyber_android.ui.screens.comment_page_menu.view
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,11 +7,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.BottomSheetDialogFragmentBase
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.CommentMenu
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.CommentMenuModelListEventProcessor
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.item.CommentDeleteListItem
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.model.item.CommentEditListItem
-import io.golos.cyber_android.ui.screens.profile_comment_page_menu.view.list.CommentMenuAdapter
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuModelListEventProcessor
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentDeleteListItem
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentEditListItem
+import io.golos.cyber_android.ui.screens.comment_page_menu.view.list.CommentMenuAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import kotlinx.android.synthetic.main.dialog_profile_comment_menu.*
 
