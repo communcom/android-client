@@ -202,10 +202,14 @@ class ProfileCommentItem(
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
             voting.setOnUpVoteButtonClickListener {
-                listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
+                if(!listItem.comment.votes.hasUpVote){
+                    listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
+                }
             }
             voting.setOnDownVoteButtonClickListener {
-                listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
+                if(!listItem.comment.votes.hasDownVote){
+                    listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
+                }
             }
         }
     }

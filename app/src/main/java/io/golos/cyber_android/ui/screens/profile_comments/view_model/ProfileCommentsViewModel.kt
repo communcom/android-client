@@ -135,148 +135,88 @@ class ProfileCommentsViewModel @Inject constructor(
         state: Paginator.State?,
         contentId: ContentId
     ): Paginator.State? {
-        val communityId = contentId.communityId
         when (state) {
             is Paginator.State.Data<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasUpVote) {
-                        comment.comment.votes = votes.copy(
-                            upCount = votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateUpVoteInMessagesByContentId(contentId, comments)
             }
             is Paginator.State.Refresh<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasUpVote) {
-                        comment.comment.votes = votes.copy(
-                            upCount = votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateUpVoteInMessagesByContentId(contentId, comments)
             }
             is Paginator.State.NewPageProgress<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasUpVote) {
-                        comment.comment.votes = votes.copy(
-                            upCount = votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateUpVoteInMessagesByContentId(contentId, comments)
             }
             is Paginator.State.FullData<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasUpVote) {
-                        comment.comment.votes = votes.copy(
-                            upCount = votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateUpVoteInMessagesByContentId(contentId, comments)
             }
         }
         return state
+    }
+
+    private fun updateUpVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>){
+        val foundedComment = comments.find { comment ->
+            comment.comment.contentId == contentId
+        }
+        val updateCommentItem = foundedComment?.copy()
+        updateCommentItem?.let {
+            val oldVotes = it.comment.votes
+            it.comment = it.comment.copy(
+                votes = oldVotes.copy(
+                    upCount = oldVotes.upCount + 1,
+                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
+                    hasUpVote = true,
+                    hasDownVote = false
+                )
+            )
+            comments[comments.indexOf(foundedComment)] = updateCommentItem
+        }
     }
 
     private fun updateDownVoteCountOfVotes(
         state: Paginator.State?,
         contentId: ContentId
     ): Paginator.State? {
-        val communityId = contentId.communityId
         when (state) {
             is Paginator.State.Data<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasDownVote) {
-                        comment.comment.votes = votes.copy(
-                            downCount = votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateDownVoteInMessagesByContentId(contentId, comments)
             }
             is Paginator.State.Refresh<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasDownVote) {
-                        comment.comment.votes = votes.copy(
-                            downCount = votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateDownVoteInMessagesByContentId(contentId, comments)
             }
             is Paginator.State.NewPageProgress<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasDownVote) {
-                        comment.comment.votes = votes.copy(
-                            downCount = votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateDownVoteInMessagesByContentId(contentId, comments)
             }
             is Paginator.State.FullData<*> -> {
-                val comments = (state).data as List<ProfileCommentListItem>
-                val foundedComment = comments.find { comment ->
-                    comment.comment.contentId.communityId == communityId
-                }
-                foundedComment?.let { comment ->
-                    val votes = comment.comment.votes
-                    if (!votes.hasDownVote) {
-                        comment.comment.votes = votes.copy(
-                            downCount = votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateDownVoteInMessagesByContentId(contentId, comments)
             }
         }
         return state
+    }
+
+    private fun updateDownVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>){
+        val foundedComment = comments.find { comment ->
+            comment.comment.contentId == contentId
+        }
+        val updateCommentItem = foundedComment?.copy()
+        updateCommentItem?.let {
+            val oldVotes = it.comment.votes
+            it.comment = it.comment.copy(
+                votes = oldVotes.copy(
+                    downCount = oldVotes.downCount + 1,
+                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
+                    hasUpVote = false,
+                    hasDownVote = true
+                )
+            )
+            comments[comments.indexOf(foundedComment)] = updateCommentItem
+        }
     }
 
     private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State? {
