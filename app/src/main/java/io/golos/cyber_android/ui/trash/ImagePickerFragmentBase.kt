@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.old_profile.edit
+package io.golos.cyber_android.ui.trash
 
 import android.app.Activity
 import android.content.Context

@@ -6,8 +6,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.comm
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_rules.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dialogs.select_community_dialog.SelectCommunityDialogComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_avatar_activity.EditProfileAvatarActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.edit_profile_cover_activity.EditProfileCoverActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feed.FeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
@@ -18,7 +16,6 @@ import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_settings_activity.ProfileSettingsActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
@@ -30,8 +27,6 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchComm
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileExternalUserFragmentComponent
-import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
-import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
 import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(modules = [
@@ -47,13 +42,10 @@ interface UIComponent {
     }
 
     val bioFragment: BioFragmentComponent.Builder
-    val editProfileAvatarActivity: EditProfileAvatarActivityComponent.Builder
-    val editProfileCoverActivity: EditProfileCoverActivityComponent.Builder
     val editorPageFragment: EditorPageFragmentComponent.Builder
     val loginActivity: LoginActivityComponent.Builder
     val mainActivity: MainActivityComponent.Builder
     val postPageFragment: PostPageFragmentComponent.Builder
-    val profileSettingsActivity: ProfileSettingsActivityComponent.Builder
     val inAppAuthActivity: InAppAuthActivityComponent.Builder
     val feedbackActivity: FeedbackActivityComponent.Builder
     val selectCommunityDialog: SelectCommunityDialogComponent.Builder

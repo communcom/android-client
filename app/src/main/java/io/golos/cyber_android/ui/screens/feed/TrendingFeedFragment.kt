@@ -26,8 +26,7 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.community.CommunityFeedViewModel
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
@@ -119,7 +118,7 @@ class TrendingFeedFragment :
                 }
 
                 override fun onAuthorClick(post: PostModel) {
-                    startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
+                    //startActivity(ProfileActivity.getIntent(requireContext(), post.author.userId.userId))
                 }
 
                 override fun onPostMenuClick(postModel: PostModel) {

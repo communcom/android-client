@@ -17,7 +17,6 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.utils.PaginationScrollListener
 import io.golos.domain.requestmodel.*
 import kotlinx.android.synthetic.main.fragment_notifications.*
@@ -92,7 +91,7 @@ class NotificationsFragment : FragmentBase() {
     }
 
     private fun showActor(actor: EventActorModel) {
-        startActivity(ProfileActivity.getIntent(requireContext(), actor.id.name))
+        //startActivity(ProfileActivity.getIntent(requireContext(), actor.id.name))
     }
 
     private fun showPost(eventPostModel: EventPostModel?) {

@@ -27,7 +27,7 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
@@ -35,7 +35,6 @@ import io.golos.cyber_android.ui.shared_fragments.editor.view.post_to_editor_loa
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.utils.PostConstants
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.data.errors.AppError

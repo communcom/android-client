@@ -21,9 +21,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.avatar.EditProfileAvatarActivity
-import io.golos.cyber_android.ui.screens.profile.old_profile.edit.avatar.EditProfileAvatarFragment
+import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize
@@ -119,13 +117,13 @@ class OnboardingUserImageFragment : FragmentBase() {
                     ImagePickerFragmentBase.ImageSource.CAMERA
                 else -> null
             }
-            if (target != null) startActivityForResult(
-                EditProfileAvatarActivity
-                    .getIntent(
-                        requireContext(),
-                        EditProfileAvatarFragment.Args(getArgs().userCyberName, target, forOnboarding = true)
-                    ), REQUEST_UPDATE_PHOTO
-            )
+//            if (target != null) startActivityForResult(
+//                EditProfileAvatarActivity
+//                    .getIntent(
+//                        requireContext(),
+//                        EditProfileAvatarFragment.Args(getArgs().userCyberName, target, forOnboarding = true)
+//                    ), REQUEST_UPDATE_PHOTO
+//            )
         }
     }
 

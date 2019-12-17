@@ -23,7 +23,6 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
