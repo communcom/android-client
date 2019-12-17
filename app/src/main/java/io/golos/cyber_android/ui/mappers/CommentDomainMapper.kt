@@ -14,6 +14,7 @@ fun CommentDomain.mapToComment(): Comment {
         meta = this.meta.mapToMeta(),
         parent = this.parent.mapToParentComment(),
         type = this.type,
-        isDeleted =  isDeleted
+        isDeleted =  isDeleted,
+        isMyComment = isMyComment
     )
 }

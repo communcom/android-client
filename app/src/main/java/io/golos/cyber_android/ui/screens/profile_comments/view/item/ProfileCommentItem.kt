@@ -36,15 +36,22 @@ class ProfileCommentItem(
         listItem: ProfileCommentListItem,
         listItemEventsProcessor: ProfileCommentsModelEventProcessor
     ) {
-        setupUserAvatar(listItem.comment.author, listItemEventsProcessor)
+        val comment = listItem.comment
+        setupUserAvatar(comment.author, listItemEventsProcessor)
         setupVoting(listItem, listItemEventsProcessor)
         itemView.processingProgressBar.visibility = View.INVISIBLE
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
         setupCommentContent(listItem, listItemEventsProcessor)
-        itemView.setOnLongClickListener {
-            listItemEventsProcessor.onCommentLongClick(listItem.comment)
-            true
+        if(!comment.isMyComment){
+            itemView.setOnLongClickListener {
+                listItemEventsProcessor.onCommentLongClick(comment)
+                true
+            }
+            itemView.rvCommentContent.setOnLongClickListener {
+                listItemEventsProcessor.onCommentLongClick(comment)
+                true
+            }
         }
     }
 

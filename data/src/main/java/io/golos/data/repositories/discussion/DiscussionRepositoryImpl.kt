@@ -76,6 +76,7 @@ constructor(
         communityAlias: String?,
         parentComment: ParentCommentIdentifierDomain?
     ): List<CommentDomain> {
+        val currentUserId = currentUserRepository.userId.userId
         return apiCall {
             commun4j.getCommentsRaw(
                 sortBy = CommentsSortBy.TIME,
@@ -89,7 +90,7 @@ constructor(
                 parentComment = parentComment?.mapToParentComment()
             )
         }.items
-            .map { it.mapToCommentDomain() }
+            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
     }
 
     override suspend fun deletePostOrComment(

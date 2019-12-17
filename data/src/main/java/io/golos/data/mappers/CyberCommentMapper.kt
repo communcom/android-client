@@ -4,7 +4,7 @@ import io.golos.commun4j.services.model.CyberCommentRaw
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 
-fun CyberCommentRaw.mapToCommentDomain(): CommentDomain {
+fun CyberCommentRaw.mapToCommentDomain(isMyComment: Boolean): CommentDomain {
     val bodyBlock = this.document?.let { JsonToDtoMapper().map(it) }
     return CommentDomain(
         contentId = this.contentId.mapToContentIdDomain(),
@@ -16,5 +16,6 @@ childCommentsCount = this.childCommentsCount,
         meta = this.meta.mapToMetaDomain(),
         parent = this.parents.mapToParentCommentDomain(),
         type = this.type,
-        isDeleted = bodyBlock == null)
+        isDeleted = bodyBlock == null,
+        isMyComment = isMyComment)
 }
