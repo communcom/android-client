@@ -7,10 +7,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.glide.transformations.GradientTransformation
 import io.golos.cyber_android.ui.common.glide.transformations.PercentageRoundVectorFrameTransformation
-import com.bumptech.glide.request.target.Target
 
 fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
 
@@ -19,7 +19,7 @@ fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.d
 fun ImageView.loadLeader(url: String?, percentage: Float) =
     Glide
         .with(this)
-        .load(if(url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
+        .load(if (url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
         .transform(
             CircleCrop(),
             PercentageRoundVectorFrameTransformation(
@@ -35,7 +35,7 @@ fun ImageView.loadLeader(url: String?, percentage: Float) =
         .into(this)
 
 fun ImageView.loadCover(url: String?) {
-    val urlToLoad = if(url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url
+    val urlToLoad = if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url
 
     Glide
         .with(this)
@@ -54,7 +54,7 @@ fun ImageView.loadCover(url: String?) {
 fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
     Glide
         .with(this)
-        .load(if(url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
+        .load(if (url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
         .apply(RequestOptions.circleCropTransform())
         .fallback(defaultRes)
         .error(defaultRes)
@@ -62,14 +62,13 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
 }
 
 fun ImageView.loadCommentAttachment(url: String?) {
-    Glide
-        .with(this)
-        .load(url.isNullOrEmpty())
+    Glide.with(context)
+        .load(url.orEmpty())
         .apply(RequestOptions.circleCropTransform())
         .into(this)
 }
 
-fun ImageView.release(){
+fun ImageView.release() {
     Glide.with(this).clear(this)
 }
 
