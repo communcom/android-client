@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.my_feed.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import com.squareup.moshi.Moshi
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.*
@@ -36,8 +35,7 @@ import javax.inject.Inject
 class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
-    private val paginator: Paginator.Store<Post>,
-    private val moshi: Moshi
+    private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
