@@ -42,7 +42,7 @@ class ProfileCommentItem(
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
         setupCommentContent(listItem, listItemEventsProcessor)
-        if(comment.isMyComment){
+        if (comment.isMyComment) {
             itemView.setOnLongClickListener {
                 listItemEventsProcessor.onCommentLongClick(comment)
                 true
@@ -54,7 +54,7 @@ class ProfileCommentItem(
         }
     }
 
-    private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor){
+    private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
         val userAvatarView = itemView.ivAttachImage
         userAvatarView.loadAvatar(author.avatarUrl)
         userAvatarView.setOnClickListener {
@@ -62,7 +62,10 @@ class ProfileCommentItem(
         }
     }
 
-    private fun setupCommentContent(listItem: ProfileCommentListItem, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
+    private fun setupCommentContent(
+        listItem: ProfileCommentListItem,
+        listItemEventsProcessor: ProfileCommentsModelEventProcessor
+    ) {
         with(itemView) {
             rvCommentContent.apply {
                 adapter = commentContentAdapter
@@ -72,16 +75,17 @@ class ProfileCommentItem(
             val comment = listItem.comment
             val body = comment.body
             val labelCommentDeleted = itemView.context.getString(R.string.comment_deleted)
-            val contentList: ArrayList<Block> = body?.content as? ArrayList<Block> ?: arrayListOf()
+            val contentList: List<Block> = body?.content ?: arrayListOf()
             val newContentList = ArrayList<Block>(contentList)
             ((body?.attachments) as? Block)?.let {
                 newContentList.add(it)
             }
 
-            if(newContentList.isEmpty() && comment.isDeleted ){
-                val deleteBlock = ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
+            if (newContentList.isEmpty() && comment.isDeleted) {
+                val deleteBlock =
+                    ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
                 newContentList.add(deleteBlock)
-            } else{
+            } else {
                 addAuthorNameToContent(newContentList, comment)
             }
             val contentItems = newContentList
@@ -93,50 +97,53 @@ class ProfileCommentItem(
         }
     }
 
-    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, comment: Comment){
+    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, comment: Comment) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
         // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
         //TODO need write this code better
-        val authorBlock = ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))) as Block
-        if(findBlock == null){
+        val authorBlock = ParagraphBlock(
+            arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))
+        ) as Block
+        if (findBlock == null) {
             newContentList.add(0, authorBlock)
-        } else{
+        } else {
             val indexOf = newContentList.indexOf(findBlock)
-            if(indexOf == 0){
-                if(findBlock is TextBlock){
-                    newContentList[0] = ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
-                } else{
-                    if(findBlock is ParagraphBlock){
-                        if(findBlock.content.isNotEmpty()){
+            if (indexOf == 0) {
+                if (findBlock is TextBlock) {
+                    newContentList[0] =
+                        ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
+                } else {
+                    if (findBlock is ParagraphBlock) {
+                        if (findBlock.content.isNotEmpty()) {
                             val paragraphContent = mutableListOf<ParagraphItemBlock>()
-                            for(i in findBlock.content.indices){
+                            for (i in findBlock.content.indices) {
                                 val block: ParagraphItemBlock
-                                if(i == 0){
+                                if (i == 0) {
                                     val paragraphItemBlock = findBlock.content[0]
-                                    if (paragraphItemBlock is TextBlock){
-                                        block = SpanableBlock(getAuthorAndText(comment.author, paragraphItemBlock.content))
-                                    } else{
-                                        block = SpanableBlock(getAuthorAndText(comment.author, ""))
+                                    block = if (paragraphItemBlock is TextBlock) {
+                                        SpanableBlock(getAuthorAndText(comment.author, paragraphItemBlock.content))
+                                    } else {
+                                        SpanableBlock(getAuthorAndText(comment.author, ""))
                                     }
-                                } else{
+                                } else {
                                     block = findBlock.content[0]
                                 }
                                 paragraphContent.add(block)
                             }
                             val newParagraph = ParagraphBlock(paragraphContent)
                             newContentList[0] = newParagraph
-                        } else{
+                        } else {
                             newContentList[0] = authorBlock
                         }
                     }
                 }
-            } else{
+            } else {
                 newContentList.add(0, authorBlock)
             }
         }
     }
 
-    private fun getAuthorAndText(author: Author, text: String): SpannableStringBuilder{
+    private fun getAuthorAndText(author: Author, text: String): SpannableStringBuilder {
         val result = SpannableStringBuilder()
         author.username?.let {
             result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.blue)))
@@ -147,11 +154,19 @@ class ProfileCommentItem(
         return result
     }
 
-    private fun createPostBodyItem(comment: Comment, block: Block, listItemEventsProcessor: ProfileCommentsModelEventProcessor): BaseRecyclerItem? {
+    private fun createPostBodyItem(
+        comment: Comment,
+        block: Block,
+        listItemEventsProcessor: ProfileCommentsModelEventProcessor
+    ): BaseRecyclerItem? {
         return when (block) {
             is AttachmentsBlock -> {
                 if (block.content.size == 1) {
-                    createPostBodyItem(comment, block.content.single(), listItemEventsProcessor) // A single attachment is shown as embed block
+                    createPostBodyItem(
+                        comment,
+                        block.content.single(),
+                        listItemEventsProcessor
+                    ) // A single attachment is shown as embed block
                 } else {
                     AttachmentBlockItem(block, listItemEventsProcessor)
                 }
@@ -208,12 +223,12 @@ class ProfileCommentItem(
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
             voting.setOnUpVoteButtonClickListener {
-                if(!listItem.comment.votes.hasUpVote){
+                if (!listItem.comment.votes.hasUpVote) {
                     listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
                 }
             }
             voting.setOnDownVoteButtonClickListener {
-                if(!listItem.comment.votes.hasDownVote){
+                if (!listItem.comment.votes.hasDownVote) {
                     listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
                 }
             }

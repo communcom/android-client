@@ -10,7 +10,6 @@ import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
-import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
@@ -18,6 +17,7 @@ import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -67,21 +67,34 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
+    fun onEditComment(comment: Comment) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.editComment(
+                    userId = comment.author.userId,
+                    permlink = comment.contentId.permlink,
+                    communityId = comment.community.communityId,
+                    body = comment.body
+                )
+                _commentListState.value = updateCommentAfterEdit(
+                    _commentListState.value,
+                    comment.contentId,
+                    comment.body
+                )
+                _command.value = SetLoadingVisibilityCommand(false)
+            } catch (e: Exception) {
+                Timber.e(e)
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
     fun editComment(contentId: ContentId) {
         val comment = getCommentFromStateByContentId(_commentListState.value, contentId)
         comment?.let {
             _command.value = NavigateToEditComment(it)
         }
-        /*launch {
-            try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                //todo call model.editComment() method
-            } catch (e: Exception) {
-                Timber.e(e)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
-            }
-        }*/
     }
 
     fun deleteComment(userId: String, permlink: String, communityId: String) {
@@ -166,29 +179,29 @@ class ProfileCommentsViewModel @Inject constructor(
     }
 
 
-    private fun getCommentFromStateByContentId(state: Paginator.State?, contentId: ContentId): Comment?{
+    private fun getCommentFromStateByContentId(state: Paginator.State?, contentId: ContentId): Comment? {
         return when (state) {
             is Paginator.State.Data<*> -> {
                 val comments = (state).data as ArrayList<ProfileCommentListItem>
-                comments.find { it.comment.contentId ==  contentId}?.comment
+                comments.find { it.comment.contentId == contentId }?.comment
             }
             is Paginator.State.Refresh<*> -> {
                 val comments = (state).data as ArrayList<ProfileCommentListItem>
-                comments.find { it.comment.contentId ==  contentId}?.comment
+                comments.find { it.comment.contentId == contentId }?.comment
             }
             is Paginator.State.NewPageProgress<*> -> {
                 val comments = (state).data as ArrayList<ProfileCommentListItem>
-                comments.find { it.comment.contentId ==  contentId}?.comment
+                comments.find { it.comment.contentId == contentId }?.comment
             }
             is Paginator.State.FullData<*> -> {
                 val comments = (state).data as ArrayList<ProfileCommentListItem>
-                comments.find { it.comment.contentId ==  contentId}?.comment
+                comments.find { it.comment.contentId == contentId }?.comment
             }
             else -> null
         }
     }
 
-    private fun updateUpVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>){
+    private fun updateUpVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>) {
         val foundedComment = comments.find { comment ->
             comment.comment.contentId == contentId
         }
@@ -232,7 +245,7 @@ class ProfileCommentsViewModel @Inject constructor(
         return state
     }
 
-    private fun updateDownVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>){
+    private fun updateDownVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>) {
         val foundedComment = comments.find { comment ->
             comment.comment.contentId == contentId
         }
@@ -251,6 +264,47 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
+    private fun updateCommentAfterEdit(
+        state: Paginator.State?,
+        contentId: ContentId,
+        body: ContentBlock?
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateCommentByContentId(contentId, comments, body)
+            }
+            is Paginator.State.Refresh<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateCommentByContentId(contentId, comments, body)
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateCommentByContentId(contentId, comments, body)
+            }
+            is Paginator.State.FullData<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                updateCommentByContentId(contentId, comments, body)
+            }
+        }
+        return state
+    }
+
+    private fun updateCommentByContentId(
+        contentId: ContentId,
+        comments: ArrayList<ProfileCommentListItem>,
+        body: ContentBlock?
+    ) {
+        val foundedComment = comments.find { comment ->
+            comment.comment.contentId == contentId
+        }
+        val updatedCommentItem = foundedComment?.copy()
+        updatedCommentItem?.let { item ->
+            item.comment = item.comment.copy(body = body)
+            comments[comments.indexOf(foundedComment)] = item
+        }
+    }
+
     private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -260,7 +314,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 }
                 val elementDeletedIndex = comments.indexOf(foundedComment)
 
-                if(elementDeletedIndex != -1 && foundedComment != null){
+                if (elementDeletedIndex != -1 && foundedComment != null) {
                     val updatedComment = foundedComment.comment.copy(
                         body = null,
                         isDeleted = true
@@ -276,7 +330,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 }
                 val elementDeletedIndex = comments.indexOf(foundedComment)
 
-                if(elementDeletedIndex != -1 && foundedComment != null){
+                if (elementDeletedIndex != -1 && foundedComment != null) {
                     val updatedComment = foundedComment.comment.copy(
                         body = null,
                         isDeleted = true
@@ -293,7 +347,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 }
                 val elementDeletedIndex = comments.indexOf(foundedComment)
 
-                if(elementDeletedIndex != -1 && foundedComment != null){
+                if (elementDeletedIndex != -1 && foundedComment != null) {
                     val updatedComment = foundedComment.comment.copy(
                         body = null,
                         isDeleted = true
@@ -310,7 +364,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 }
                 val elementDeletedIndex = comments.indexOf(foundedComment)
 
-                if(elementDeletedIndex != -1 && foundedComment != null){
+                if (elementDeletedIndex != -1 && foundedComment != null) {
                     val updatedComment = foundedComment.comment.copy(
                         body = null,
                         isDeleted = true

@@ -19,10 +19,7 @@ interface ProfileCommentsModel : ModelBase {
         userId: String,
         permlink: String,
         communityId: String,
-        header: ContentBlock?,
-        body: String,
-        tags: List<String>,
-        metadata: String
+        body: ContentBlock?
     )
 
 }

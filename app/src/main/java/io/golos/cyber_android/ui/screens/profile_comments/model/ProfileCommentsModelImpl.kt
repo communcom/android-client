@@ -62,24 +62,21 @@ class ProfileCommentsModelImpl @Inject constructor(
         userId: String,
         permlink: String,
         communityId: String,
-        header: ContentBlock?,
-        body: String,
-        tags: List<String>,
-        metadata: String
+        body: ContentBlock?
     ) {
-        val contentEntity = header?.mapToContentBlock()
+        val contentEntity = body?.mapToContentBlock()
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
-        val json = adapter.toJson(contentEntity)
+        val jsonBody = adapter.toJson(contentEntity)
 
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.editPostOrComment(
                 userId,
                 permlink,
                 communityId,
-                json,
-                body,
-                tags,
-                metadata
+                "", //todo
+                jsonBody,
+                arrayListOf(), //todo
+                ""//todo
             )
         }
     }

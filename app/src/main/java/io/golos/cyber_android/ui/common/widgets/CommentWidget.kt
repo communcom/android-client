@@ -1,18 +1,17 @@
 package io.golos.cyber_android.ui.common.widgets
 
 import android.content.Context
+import android.net.Uri
 import android.text.Editable
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.view.isVisible
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.glide.loadCommentAttachment
 import io.golos.cyber_android.ui.common.glide.release
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 import io.golos.domain.use_cases.post.post_dto.TextBlock
@@ -25,22 +24,26 @@ import kotlin.properties.Delegates
 
 
 class CommentWidget @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var onSendClickListener: ((ContentBlock) -> Unit)? = null
+    private var onSendClickListener: ((Comment) -> Unit)? = null
 
     //private var currentContentBlock: ContentBlock? = null
 
     private var editComment: Comment? = null
 
+    private var editTextComment: String = ""
+
     private var attachmentImageUrl by Delegates.observable<String?>(null) { _, oldUrl, newUrl ->
         if (newUrl != oldUrl) {
-            if(TextUtils.isEmpty(newUrl)){
+            if (TextUtils.isEmpty(newUrl)) {
                 commentAttachment.visibility = View.GONE
                 sendButton.visibility = if (comment.text.isNullOrBlank()) View.GONE else View.VISIBLE
                 ivEditAttachment.visibility = View.GONE
-            } else{
+            } else {
                 commentAttachment.visibility = View.VISIBLE
                 ivEditAttachment.visibility = View.VISIBLE
                 sendButton.visibility = View.VISIBLE
@@ -60,23 +63,54 @@ class CommentWidget @JvmOverloads constructor(
                 super.afterTextChanged(s)
 
                 sendButton.visibility = if (s.isNullOrBlank() && attachmentImageUrl == null) View.GONE else View.VISIBLE
+                editTextComment = s.toString()
             }
         })
         sendButton.setOnClickListener {
-            /*currentContentBlock?.let {
-                onSendClickListener?.invoke(it)
-            }*/
+            val block = editComment?.body?.content?.firstOrNull()
+            if (block is ParagraphBlock) {
+                val paragraphBlock = block.content.firstOrNull()
+                if (paragraphBlock != null && paragraphBlock is TextBlock) {
+                    val editBlock = paragraphBlock.copy(content = editTextComment)
+                    editComment = editComment?.copy(
+                        body = editComment?.body?.copy(
+                            content = listOf(
+                                ParagraphBlock(content = listOf(editBlock))
+                            )
+                        )
+                    )
+                }
+            }
+
+            attachmentImageUrl?.let { url ->
+                val mediaBlock = editComment?.body?.attachments?.content?.firstOrNull()
+                if (mediaBlock is ImageBlock) {
+                    val editUri = Uri.parse(url)
+                    val editBlock = mediaBlock.copy(content = editUri)
+                    editComment = editComment?.copy(
+                        body = editComment?.body?.copy(
+                            attachments = editComment?.body?.attachments?.copy(
+                                content = listOf(editBlock)
+                            )
+                        )
+                    )
+                }
+            }
+
+            editComment?.let { comment ->
+                onSendClickListener?.invoke(comment)
+            }
         }
         closeButton.setOnClickListener {
             clear()
             visibility = View.GONE
         }
-        deleteAttachment.setOnClickListener{
+        deleteAttachment.setOnClickListener {
             attachmentImageUrl = null
         }
     }
 
-    fun clear(){
+    fun clear() {
         //currentContentBlock = null
         editComment = null
         attachmentImageUrl = null
@@ -85,44 +119,44 @@ class CommentWidget @JvmOverloads constructor(
         clearAttachmentState()
     }
 
-    fun setCommentForEdit(comment: Comment){
+    fun setCommentForEdit(comment: Comment) {
         editComment = comment
         val body = comment.body
         val content = body?.content ?: listOf()
-        if(content.isNotEmpty()){
+        if (content.isNotEmpty()) {
             val block = content[0]
-            if(block is ParagraphBlock){
+            if (block is ParagraphBlock) {
                 val paragraphItemBlock = block.content.firstOrNull()
-                if(paragraphItemBlock != null && paragraphItemBlock is TextBlock){
+                if (paragraphItemBlock != null && paragraphItemBlock is TextBlock) {
                     val text = paragraphItemBlock.content
                     oldText.text = text
                     this.comment.setText(text)
-                } else{
+                } else {
                     oldText.text = null
                 }
-            } else{
+            } else {
                 oldText.text = null
             }
         }
         val mediaBlock = body?.attachments?.content?.firstOrNull()
-        if(mediaBlock is ImageBlock){
+        if (mediaBlock is ImageBlock) {
             attachmentImageUrl = mediaBlock.content.toString()
         }
         commentEdit.visibility = View.VISIBLE
     }
 
-    fun setOnSendClickListener(listener: ((ContentBlock) -> Unit)?) {
+    fun setOnSendClickListener(listener: ((Comment) -> Unit)?) {
         onSendClickListener = listener
     }
 
-    private fun clearEditState(){
+    private fun clearEditState() {
         editComment = null
         commentEdit.visibility = View.GONE
         ivAttachment.release()
         ivEditAttachment.release()
     }
 
-    private fun clearAttachmentState(){
+    private fun clearAttachmentState() {
         commentAttachment.visibility = View.GONE
         ivAttachment.release()
     }
