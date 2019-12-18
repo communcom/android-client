@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="56dp"
-            android:src="@drawable/selector_notification_menu"
+            android:src="@drawable/selector_followers_menu"
             tools:ignore="ContentDescription" />
 
         <ImageView

@@ -9,6 +9,8 @@ import io.golos.domain.dto.UserIdDomain
 interface ProfileFollowersModel : ModelBase {
     val pageSize: Int
 
+    val isCurrentUser: Boolean
+
     fun getItems(filter: FollowersFilter) : LiveData<List<VersionedListItem>>
 
     suspend fun loadPage(filter: FollowersFilter)

@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunitiesCoun
 import io.golos.cyber_android.ui.screens.profile_communities.model.ProfileCommunitiesModel
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class ProfileCommunitiesViewModel
 @Inject
 constructor(
+    private val userId: UserIdDomain,
     dispatchersProvider: DispatchersProvider,
     model: ProfileCommunitiesModel,
     sourceData: ProfileCommunities
@@ -34,7 +36,7 @@ constructor(
     fun onViewCreated() = model.loadPage()
 
     fun onSeeAllClick() {
-        _command.value = NavigateToCommunitiesListPageCommand()
+        _command.value = NavigateToCommunitiesListPageCommand(userId)
     }
 
     override fun onItemClick(communityId: String) {

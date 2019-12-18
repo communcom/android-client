@@ -5,11 +5,7 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
-import io.golos.data.mappers.mapToUserDomain
-import io.golos.data.mappers.mapToFollowingUserDomain
-import io.golos.data.mappers.mapToFtueBoardStageDomain
-import io.golos.data.mappers.mapToFtueBoardStageEntity
-import io.golos.data.mappers.mapToUserProfileDomain
+import io.golos.data.mappers.*
 import io.golos.data.persistence.PreferenceManager
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
@@ -17,11 +13,9 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.user.UsersRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
-import kotlin.random.Random
 
 class UsersRepositoryImpl @Inject constructor(
     private val usersApi: UsersApi,
@@ -85,7 +79,7 @@ class UsersRepositoryImpl @Inject constructor(
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
         apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
 
-    override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+    override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> {
         return apiCall {
             commun4j.getSubscribers(
                 CyberName(userId.userId),
@@ -93,7 +87,7 @@ class UsersRepositoryImpl @Inject constructor(
                 pageSizeLimit,
                 offset
             )
-        }.items.map { it.mapToUserDomain() }
+        }.items.map { it.mapToFollowingUserDomain() }
     }
 
     override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> =

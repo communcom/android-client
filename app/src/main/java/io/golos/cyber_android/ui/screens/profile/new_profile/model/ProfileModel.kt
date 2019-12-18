@@ -6,6 +6,12 @@ import io.golos.domain.dto.UserProfileDomain
 import java.io.File
 
 interface ProfileModel: ModelBase {
+    val isCurrentUser: Boolean
+
+    val isSubscribed: Boolean
+
+    val isInBlackList: Boolean
+
     val mutualUsers: List<UserDomain>
 
     val avatarUrl: String?
@@ -35,4 +41,8 @@ interface ProfileModel: ModelBase {
     suspend fun logout()
 
     fun restartApp()
+
+    suspend fun subscribeUnsubscribe()
+
+    suspend fun moveToBlackList()
 }

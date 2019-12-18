@@ -22,12 +22,11 @@ import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
+import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
@@ -35,8 +34,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
-import io.golos.cyber_android.ui.utils.openUserProfile
 import io.golos.cyber_android.ui.utils.shareMessage
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
@@ -112,7 +111,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> requireContext().openUserProfile(command.userId)
+            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
             is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
@@ -134,6 +133,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
+    }
+
+    private fun openUserProfile(userId: String){
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -238,6 +241,21 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     private fun deletePost() =
         ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
             .show(requireFragmentManager(), "menu")
+
+    private fun moveToUserProfile(userId: String) =
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+
+    private fun moveToImageView(imageUri: Uri) =
+        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
+
+    private fun moveToLinkView(link: Uri) {
+        Intent(Intent.ACTION_VIEW, link)
+            .also { intent ->
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+    }
 
     private fun moveToEditPost(postId: DiscussionIdModel) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))

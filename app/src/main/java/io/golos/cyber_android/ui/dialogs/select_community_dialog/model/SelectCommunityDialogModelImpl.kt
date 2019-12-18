@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.search.Co
 import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModelImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.extensions.mapSuccess
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import javax.inject.Inject
 
@@ -13,14 +14,15 @@ class SelectCommunityDialogModelImpl
 @Inject
 constructor(
     private val search: CommunitiesSearch,
+    currentUserRepository: CurrentUserRepository,
     dispatchersProvider: DispatchersProvider,
     communitiesRepository: CommunitiesRepository
 ) : CommunitiesListModelImpl(
+    currentUserRepository.userId,
+    true,
     communitiesRepository,
     dispatchersProvider
 ), SelectCommunityDialogModel {
-
-    override val showUserCommunityOnly: Boolean = true
 
     override fun search(searchText: String) = search.search(searchText)
 

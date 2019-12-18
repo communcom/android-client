@@ -1,31 +1,33 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.view_model
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
-import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
+import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
-import java.lang.UnsupportedOperationException
 import java.util.*
 import javax.inject.Inject
 
 class ProfileViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
@@ -69,12 +71,31 @@ constructor(
     private val _loadingProgressVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
     val loadingProgressVisibility: LiveData<Int> get() = _loadingProgressVisibility
 
+    val backButtonVisibility = if(model.isCurrentUser) View.INVISIBLE else View.VISIBLE
+    val followButtonVisibility = if(model.isCurrentUser) View.GONE else View.VISIBLE
+    val photoButtonsVisibility = if(model.isCurrentUser) View.VISIBLE else View.INVISIBLE
+
+    private val _followButtonText = MutableLiveData<String>()
+    val followButtonText get() = _followButtonText.toLiveData()
+
+    private val _followButtonState = MutableLiveData<Boolean>()
+    val followButtonState get() = _followButtonState.toLiveData()
+
     private var bioUpdateInProgress = false
 
     init {
         _bio.observeForever {
             _bioVisibility.value = if(it.isNullOrEmpty()) View.GONE else View.VISIBLE
-            _addBioVisibility.value = if(it.isNullOrEmpty()) View.VISIBLE else View.GONE
+
+            _addBioVisibility.value =
+                if(!model.isCurrentUser) {
+                    View.GONE
+                } else {
+                    if(it.isNullOrEmpty())
+                        View.VISIBLE
+                    else
+                        View.GONE
+                }
         }
     }
 
@@ -144,7 +165,7 @@ constructor(
     }
 
     fun onBioClick() {
-        if(bioUpdateInProgress) {
+        if(bioUpdateInProgress || !model.isCurrentUser) {
             return
         }
         _command.value = ShowEditBioDialogCommand()
@@ -159,7 +180,11 @@ constructor(
     }
 
     fun onSettingsClick() {
-        _command.value = ShowSettingsDialogCommand()
+        _command.value = if(model.isCurrentUser) {
+            ShowSettingsDialogCommand()
+        } else {
+            ShowExternalUserSettingsDialogCommand(model.isInBlackList)
+        }
     }
 
     fun onLogoutSelected() {
@@ -172,6 +197,16 @@ constructor(
 
     fun onBlackListSelected() {
         _command.value = MoveToBlackListPageCommand()
+    }
+
+    fun onMoveToBlackListSelected() {
+        launch {
+            try {
+                model.moveToBlackList()
+            } catch (ex: Exception) {
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+            }
+        }
     }
 
     fun onLogoutConfirmed() {
@@ -195,6 +230,24 @@ constructor(
         }
     }
 
+    fun onFollowButtonClick() {
+        launch {
+            try {
+                _followButtonText.value =
+                    appContext.resources.getString(if(!model.isSubscribed) R.string.followed else R.string.follow)
+                _followButtonState.value = !model.isSubscribed
+
+                model.subscribeUnsubscribe()
+            } catch(ex: java.lang.Exception) {
+                _command.value = ShowMessageCommand(R.string.common_general_error)
+
+                _followButtonText.value =
+                    appContext.resources.getString(if(model.isSubscribed) R.string.followed else R.string.follow)
+                _followButtonState.value = model.isSubscribed
+            }
+        }
+    }
+
     private fun loadPage() {
         launch {
             try {
@@ -204,14 +257,16 @@ constructor(
                     _name.value = name
                     _joinDate.value = joinDate
                     _bio.value = bio
-                    _bioVisibility.value = if(bio.isNullOrEmpty()) View.GONE else View.VISIBLE
-                    _addBioVisibility.value = if(bio.isNullOrEmpty()) View.VISIBLE else View.GONE
                     _followersCount.value = followersCount
                     _followingsCount.value = followingsCount
 
                     if(highlightCommunities.isNotEmpty()) {
                         _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
                     }
+
+                    _followButtonText.value =
+                        appContext.resources.getString(if(isSubscribed) R.string.followed else R.string.follow)
+                    _followButtonState.value = isSubscribed
                 }
 
                 _pageContentVisibility.value = View.VISIBLE
@@ -223,6 +278,10 @@ constructor(
                 _loadingProgressVisibility.value = View.INVISIBLE
             }
         }
+    }
+
+    fun onBackButtonClick() {
+        _command.value = BackCommand()
     }
 
     private suspend fun updateAvatar(avatarFile: File) {

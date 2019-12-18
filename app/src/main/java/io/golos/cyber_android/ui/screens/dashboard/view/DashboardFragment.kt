@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.view_notification_badge.*
 
@@ -114,13 +115,13 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                         FeedFragment.newInstance("gls", user.name)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                        CommunitiesListFragmentTab.newInstance()
+                        CommunitiesListFragmentTab.newInstance(UserIdDomain(user.name))
                     }
                     NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
                         NotificationsFragment.newInstance()
                     }
                     NavigationBottomMenuWidget.Tab.PROFILE -> {
-                        ProfileFragment.newInstance(user.name)
+                        ProfileFragment.newInstance(UserIdDomain(user.name))
                     }
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
@@ -150,8 +151,8 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
-    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
-        val tag = fragment::class.simpleName
+    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true, tagFragment: String? = null) {
+        val tag = tagFragment ?: fragment::class.simpleName
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val beginTransaction = childFragmentManager.beginTransaction()
             if (isAddToBackStack) {

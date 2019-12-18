@@ -21,6 +21,8 @@ import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,16 +34,16 @@ import javax.inject.Inject
 class ProfilePostsViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
+    private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<Post>,
-    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain
+    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain,
+    private val currentUserRepositor: CurrentUserRepositoryRead
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
-
     val postsListState = _postsListState.toLiveData()
 
     private val _user: MutableLiveData<User> = MutableLiveData()
-
     val user = _user.toLiveData()
 
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain
@@ -112,7 +114,9 @@ class ProfilePostsViewModel @Inject constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        _command.value = NavigateToUserProfileViewCommand(userId)
+        if(currentUserRepositor.userId.userId != userId) {
+            _command.value = NavigateToUserProfileViewCommand(userId)
+        }
     }
 
     override fun onSeeMoreClicked(contentId: ContentId) {
@@ -359,7 +363,7 @@ class ProfilePostsViewModel @Inject constructor(
                 val userProfile = model.getLocalUser().mapToUser()
                 _user.value = userProfile
                 postsConfigurationDomain = PostsConfigurationDomain(
-                    userId = userProfile.id,
+                    userId = profileUserId.userId,
                     communityId = null,
                     communityAlias = null,
                     limit = PAGINATION_PAGE_SIZE,

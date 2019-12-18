@@ -17,13 +17,14 @@ import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
+import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
 import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
-import io.golos.cyber_android.ui.utils.openUserProfile
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
 class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding, ProfileCommentsViewModel>() {
@@ -81,10 +82,14 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> requireContext().openUserProfile(command.userId)
+            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
         }
+    }
+
+    private fun openUserProfile(userId: String){
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

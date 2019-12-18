@@ -1,10 +1,9 @@
 package io.golos.domain.dto
 
-import io.golos.commun4j.sharedmodel.CyberName
 import java.util.*
 
 data class UserProfileDomain(
-    val userId: CyberName,
+    val userId: UserIdDomain,
     val coverUrl: String?,
     val avatarUrl: String?,
     val bio: String?,
@@ -14,5 +13,25 @@ data class UserProfileDomain(
     val followingsCount: Int,
     val communitiesSubscribedCount: Int,
     val highlightCommunities: List<CommunityDomain>,
-    val commonFriends: List<UserDomain>
+    val commonFriends: List<UserDomain>,
+
+    /**
+     * By current user
+     */
+    val isBlocked: Boolean,
+
+    /**
+     * Of current user
+     */
+    val isInBlacklist: Boolean,
+
+    /**
+     * Is a current user subscribed to the user
+     */
+    val isSubscribed: Boolean,
+
+    /**
+     * Is the user subscribed to current user
+     */
+    val isSubscription: Boolean
 )

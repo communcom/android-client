@@ -24,6 +24,7 @@ import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
@@ -33,11 +34,15 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.*
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
 open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
+    companion object {
+        fun newInstance() = ProfilePostsFragment()
+    }
 
     override fun linkViewModel(binding: FragmentProfilePostsBinding, viewModel: ProfilePostsViewModel) {
         binding.viewModel = viewModel
@@ -70,7 +75,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> requireContext().openUserProfile(command.userId)
+            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
 
@@ -82,6 +87,10 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
             is ReportPostCommand -> openPostReport(command.post)
         }
+    }
+
+    private fun openUserProfile(userId: String){
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -307,9 +316,5 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 )
             )
         )
-    }
-
-    companion object {
-        fun newInstance() = ProfilePostsFragment()
     }
 }

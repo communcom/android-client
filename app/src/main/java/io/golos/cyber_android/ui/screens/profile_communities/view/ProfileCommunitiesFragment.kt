@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_communities.ProfileCommunitiesFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileCommunitiesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunitiesListPageCommand
@@ -19,12 +19,12 @@ import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragment
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
-import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_communities.*
 
-class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBinding, ProfileCommunitiesViewModel>() {
+open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBinding, ProfileCommunitiesViewModel>() {
     companion object {
         private const val SOURCE_DATA = "SOURCE_DATA"
 
@@ -45,7 +45,8 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
 
     override fun inject() =
         App.injections
-        .get<ProfileCommunitiesFragmentComponent>(arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
+        .get<ProfileCommunitiesFragmentComponent>(
+            arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
         .inject(this)
 
     override fun releaseInjection() {
@@ -72,7 +73,7 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateToCommunityPageCommand -> moveToCommunity(command.communityId)
-            is NavigateToCommunitiesListPageCommand -> moveToCommunitiesList()
+            is NavigateToCommunitiesListPageCommand -> moveToCommunitiesList(command.userId)
         }
     }
 
@@ -96,13 +97,6 @@ class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunitiesBi
     private fun moveToCommunity(communityId: String) =
         getDashboardFragment(this)?.showFragment(CommunityPageFragment.newInstance(communityId))
 
-    private fun moveToCommunitiesList() =
-        getDashboardFragment(this)?.showFragment(CommunitiesListFragment.newInstance())
-
-    private fun getDashboardFragment(fragment : Fragment?) : DashboardFragment? =
-        when (fragment) {
-            null -> null
-            is DashboardFragment -> fragment
-            else -> getDashboardFragment(fragment.parentFragment)
-        }
+    private fun moveToCommunitiesList(userId: UserIdDomain) =
+        getDashboardFragment(this)?.showFragment(CommunitiesListFragment.newInstance(userId))
 }

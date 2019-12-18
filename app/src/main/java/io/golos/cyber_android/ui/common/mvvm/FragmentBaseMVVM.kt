@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -100,6 +101,13 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
 
     protected open fun processViewCommand(command: ViewCommand) {}
+
+    protected fun getDashboardFragment(fragment : Fragment?) : DashboardFragment? =
+        when (fragment) {
+            null -> null
+            is DashboardFragment -> fragment
+            else -> getDashboardFragment(fragment.parentFragment)
+        }
 
     /**
      * Process input _command

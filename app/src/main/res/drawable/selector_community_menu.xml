@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/ic_community" android:state_selected="true" />
-
-    <item android:drawable="@drawable/ic_community_grey" android:state_selected="false" />
-
-    <item android:drawable="@drawable/ic_community_grey" />
-
+    <item android:drawable="@drawable/ic_discovery" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_discovery_gray" android:state_selected="false" />
+    <item android:drawable="@drawable/ic_discovery_gray" />
 </selector>

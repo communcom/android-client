@@ -110,6 +110,10 @@ constructor(
     override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
+        if(currentUserRepository.userId.userId == userId) {
+            return
+        }
+
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -168,8 +172,10 @@ constructor(
     override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
 
     fun onUserInHeaderClick(userId: String) {
-        wasMovedToChild = true
-        _command.value = NavigateToUserProfileViewCommand(userId)
+        if(currentUserRepository.userId.userId != userId) {
+            wasMovedToChild = true
+            _command.value = NavigateToUserProfileViewCommand(userId)
+        }
     }
 
     fun onPostMenuClick() {

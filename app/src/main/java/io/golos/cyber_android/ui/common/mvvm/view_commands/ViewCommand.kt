@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
+import io.golos.domain.dto.UserIdDomain
 
 interface ViewCommand
 
@@ -12,7 +13,7 @@ class BackCommand : ViewCommand
 
 data class NavigateToCommunityPageCommand(val communityId: String) : ViewCommand
 
-class NavigateToCommunitiesListPageCommand : ViewCommand
+class NavigateToCommunitiesListPageCommand(val userId: UserIdDomain) : ViewCommand
 
 class NavigateToInAppAuthScreenCommand : ViewCommand
 

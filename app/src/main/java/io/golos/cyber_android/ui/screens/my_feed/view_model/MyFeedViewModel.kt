@@ -22,6 +22,8 @@ import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,7 +37,8 @@ import javax.inject.Inject
 class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
-    private val paginator: Paginator.Store<Post>
+    private val paginator: Paginator.Store<Post>,
+    private val currentUserRepository: CurrentUserRepositoryRead
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -43,7 +46,6 @@ class MyFeedViewModel @Inject constructor(
     val postsListState = _postsListState.toLiveData()
 
     private val _user: MutableLiveData<User> = MutableLiveData()
-
     val user = _user.toLiveData()
 
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain
@@ -127,7 +129,9 @@ class MyFeedViewModel @Inject constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        _command.value = NavigateToUserProfileViewCommand(userId)
+        if(currentUserRepository.userId.userId != userId) {
+            _command.value = NavigateToUserProfileViewCommand(userId)
+        }
     }
 
     override fun onMenuClicked(postMenu: PostMenu) {

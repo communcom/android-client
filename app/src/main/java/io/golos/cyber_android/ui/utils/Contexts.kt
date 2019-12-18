@@ -6,7 +6,6 @@ import android.net.Uri
 import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.ImageViewerActivity
-import io.golos.cyber_android.ui.screens.profile.old_profile.ProfileActivity
 import timber.log.Timber
 
 
@@ -25,7 +24,7 @@ fun Context.shareMessage(string: String) {
     }
 }
 
-fun Context.openImageView(imageUri: Uri){
+fun Context.openImageView(imageUri: Uri) {
     startActivity(ImageViewerActivity.getIntent(this, imageUri.toString()))
 }
 
@@ -36,8 +35,4 @@ fun Context.openLinkView(link: Uri) {
                 startActivity(intent)
             }
         }
-}
-
-fun Context.openUserProfile(userId: String){
-    startActivity(ProfileActivity.getIntent(this, userId))
 }

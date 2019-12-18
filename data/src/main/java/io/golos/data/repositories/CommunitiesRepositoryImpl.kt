@@ -3,6 +3,7 @@ package io.golos.data.repositories
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
+import io.golos.commun4j.services.model.CommunitiesRequestType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
@@ -86,19 +87,21 @@ constructor(
         }
     }
 
-    /**
-     * [forCurrentUserOnly] if true the method returns only current users' communities (otherwise - all communities)
-     */
     override suspend fun getCommunitiesList(
+        userId: UserIdDomain,
         offset: Int,
         pageSize: Int,
-        forCurrentUserOnly: Boolean,
+        showAll: Boolean,
         searchQuery: String?
     ): List<CommunityDomain> {
-        if (forCurrentUserOnly) {
-            throw UnsupportedOperationException("Getting communities for current user is not supported now")
-        }
-        return apiCall { commun4j.getCommunitiesList(searchQuery, offset, pageSize) }
+        return apiCall {
+            commun4j.getCommunitiesList(
+                type = if(showAll) CommunitiesRequestType.ALL else CommunitiesRequestType.USER,
+                userId = CyberName(userId.userId),
+                search = searchQuery,
+                offset = offset,
+                limit = pageSize)
+            }
             .items
             .map { it.mapToCommunityDomain() }
     }

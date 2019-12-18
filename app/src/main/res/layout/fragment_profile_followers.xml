@@ -230,6 +230,7 @@
                 tools:visibility = "invisible"
                 android:visibility="@{viewModel.noDataStubVisibility}"
                 app:noDataTitle="@{viewModel.noDataStubText}"
+                app:noDataExplanation="@{viewModel.noDataStubExplanation}"
             />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
