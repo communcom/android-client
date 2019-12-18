@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_sign_in_username.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.Lazy
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.HideSoftKeyboardCommand
@@ -12,6 +13,7 @@ import io.golos.cyber_android.ui.screens.login_activity.validators.password.vali
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.vizualizer.UserNameValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToQrCodeCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToSignUpCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
@@ -81,5 +83,13 @@ constructor(
 
     fun onMoveToSignUpClick() {
         _command.value = MoveToSignUpCommand()
+    }
+
+    fun onQrCodeClick() {
+        _command.value = MoveToQrCodeCommand()
+    }
+
+    fun onQrCodeCameraPermissionsDenied() {
+        _command.value = ShowMessageResCommand(R.string.qr_no_camera_permissions)
     }
 }

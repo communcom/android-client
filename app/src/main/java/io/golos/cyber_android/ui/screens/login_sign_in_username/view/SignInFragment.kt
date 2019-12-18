@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.login_sign_in_username.view
 
+import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +18,17 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.HideSoftKeyboardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToQrCodeCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToSignUpCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.view_model.SignInViewModel
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.OnPermissionDenied
+import permissions.dispatcher.RuntimePermissions
 
+@RuntimePermissions
 class SignInFragment : FragmentBaseMVVM<FragmentSignInBinding, SignInViewModel>() {
     companion object {
         fun newInstance() = SignInFragment()
@@ -55,6 +62,20 @@ class SignInFragment : FragmentBaseMVVM<FragmentSignInBinding, SignInViewModel>(
             is SetUserNameFocusCommand -> login.requestFocus()
             is SetPasswordFocusCommand -> password.requestFocus()
             is MoveToSignUpCommand -> findNavController().navigate(R.id.action_signInFragment_to_signUpPhoneFragment)
+            is MoveToQrCodeCommand -> moveToQrCodeWithPermissionCheck()
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    @NeedsPermission(Manifest.permission.CAMERA)
+    fun moveToQrCode() {
+        Log.d("QR_CODE", "Done!")
+    }
+
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    internal fun onCameraPermissionsDenied() = viewModel.onQrCodeCameraPermissionsDenied()
 }

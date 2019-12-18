@@ -136,6 +136,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:ignore="ContentDescription,RtlSymmetry"
+
+                    android:onClick="@{() -> viewModel.onQrCodeClick()}"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

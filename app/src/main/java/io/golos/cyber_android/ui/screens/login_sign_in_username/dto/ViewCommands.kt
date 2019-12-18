@@ -7,3 +7,5 @@ class SetUserNameFocusCommand: ViewCommand
 class SetPasswordFocusCommand: ViewCommand
 
 class MoveToSignUpCommand: ViewCommand
+
+class MoveToQrCodeCommand: ViewCommand

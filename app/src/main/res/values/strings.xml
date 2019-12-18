@@ -154,6 +154,8 @@
     <string name="sign_in_login_and_key">Login &amp; key</string>
     <string name="no_master_password">There is no Master password for this user</string>
 
+    <string name="qr_no_camera_permissions">You need permissions to a camera for scanning qr-code. Open the application settings and grant permission.</string>
+
     <!--Editor Page-->
     <string name="create_post">Create Post</string>
     <string name="you_will_post_in">You will post in</string>
