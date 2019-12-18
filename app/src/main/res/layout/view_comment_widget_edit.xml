@@ -55,7 +55,7 @@
         style="@style/CommentsInputField"
 
         android:layout_marginStart="@dimen/send_comment_side_margin"
-        android:layout_marginEnd="@dimen/send_comment_horizontal_margin"
+        android:layout_marginEnd="@dimen/dimen_4"
         android:layout_marginTop="@dimen/send_comment_vertical_margin"
         android:layout_marginBottom="@dimen/send_comment_vertical_margin"
         app:layout_goneMarginEnd="@dimen/send_comment_side_margin"

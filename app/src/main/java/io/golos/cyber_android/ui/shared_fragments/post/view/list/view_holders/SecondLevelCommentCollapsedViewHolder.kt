@@ -41,7 +41,7 @@ class SecondLevelCommentCollapsedViewHolder(
             Glide.with(itemView).load(R.drawable.ic_empty_user)
         }.apply {
             apply(RequestOptions.circleCropTransform())
-            into(itemView.userAvatar)
+            into(itemView.ivAttachImage)
         }
     }
 

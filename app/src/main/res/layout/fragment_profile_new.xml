@@ -112,7 +112,7 @@
                         android:clipToPadding="false">
 
                         <ImageView
-                            android:id="@+id/userAvatar"
+                            android:id="@+id/ivAttachImage"
                             android:layout_width="@dimen/community_page_logo"
                             android:layout_height="@dimen/community_page_logo"
 
@@ -140,9 +140,9 @@
                             android:onClick="@{() -> viewModel.onUpdatePhotoClick(ProfileItem.AVATAR)}"
 
                             android:tint="@color/grey"
-                            app:layout_constraintStart_toStartOf="@+id/userAvatar"
+                            app:layout_constraintStart_toStartOf="@+id/ivAttachImage"
 
-                            app:layout_constraintTop_toTopOf="@+id/userAvatar"
+                            app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
 
                             tools:visibility="visible"
                             android:visibility="@{viewModel.photoButtonsVisibility}"
@@ -162,9 +162,9 @@
                             android:text="@{viewModel.name}"
                             app:layout_constraintBottom_toTopOf="@+id/joinTime"
                             app:layout_constraintEnd_toStartOf="@+id/followButton"
-                            app:layout_constraintStart_toEndOf="@+id/userAvatar"
+                            app:layout_constraintStart_toEndOf="@+id/ivAttachImage"
 
-                            app:layout_constraintTop_toTopOf="@+id/userAvatar"
+                            app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
 
                             app:layout_constraintVertical_chainStyle="packed"
                             tools:text="Selim" />
@@ -175,7 +175,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/grey"
                             app:joined="@{viewModel.joinDate}"
-                            app:layout_constraintBottom_toBottomOf="@+id/userAvatar"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
                             app:layout_constraintStart_toStartOf="@+id/userName"
                             app:layout_constraintTop_toBottomOf="@+id/userName"
                             tools:text="Joined April 12, 2018" />
@@ -188,9 +188,9 @@
                             android:layout_marginEnd="@dimen/margin_default"
                             android:gravity="center_vertical|center_horizontal"
                             android:minWidth="@dimen/community_btn_join_min_width"
-                            app:layout_constraintBottom_toBottomOf="@+id/userAvatar"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/userAvatar"
+                            app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
 
                             tools:text="@string/follow"
                             android:text="@{viewModel.followButtonText}"
@@ -215,7 +215,7 @@
 
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/userAvatar">
+                            app:layout_constraintTop_toBottomOf="@+id/ivAttachImage">
 
                             <TextView
                                 android:id="@+id/bioInfo"

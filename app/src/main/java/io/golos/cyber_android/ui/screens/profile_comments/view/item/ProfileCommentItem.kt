@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.vision.text.Text
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
@@ -56,7 +55,7 @@ class ProfileCommentItem(
     }
 
     private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor){
-        val userAvatarView = itemView.userAvatar
+        val userAvatarView = itemView.ivAttachImage
         userAvatarView.loadAvatar(author.avatarUrl)
         userAvatarView.setOnClickListener {
             listItemEventsProcessor.onUserClicked(author.userId)

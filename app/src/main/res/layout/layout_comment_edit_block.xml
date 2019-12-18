@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/root"
+    android:animateLayoutChanges="true"
+    android:paddingTop="@dimen/gap"
+    android:paddingBottom="@dimen/gap">
+
+    <View
+        android:id="@+id/blueLine"
+        android:layout_width="@dimen/stroke_normal"
+        android:layout_height="0dp"
+        android:background="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/oldText"
+        app:layout_constraintTop_toTopOf="@+id/editCommentLabel"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/editCommentLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_comment_send"
+        android:layout_marginBottom="@dimen/send_comment_text_gap"
+        android:layout_marginStart="@dimen/send_comment_old_text_start_margin"
+        app:layout_constraintBottom_toTopOf="@+id/oldText"
+        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+        app:layout_constraintStart_toEndOf="@+id/ivAttachment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        style="@style/CommentInput.Edit" />
+
+    <TextView
+        android:id="@+id/oldText"
+        style="@style/CommentInput.Edit.OldText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/send_comment_text_gap"
+        android:layout_marginBottom="2dp"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+        app:layout_constraintStart_toStartOf="@+id/editCommentLabel"
+        app:layout_constraintTop_toBottomOf="@+id/editCommentLabel"
+        tools:text="Some old text" />
+
+    <ImageView
+        android:id="@+id/ivAttachment"
+        android:layout_width="@dimen/send_comment_edit_image_size"
+        android:layout_height="@dimen/send_comment_edit_image_size"
+        android:scaleType="centerCrop"
+        android:layout_marginStart="@dimen/gap"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="@+id/blueLine"
+        app:layout_constraintBottom_toBottomOf="@+id/blueLine"
+        app:layout_constraintStart_toEndOf="@+id/blueLine"
+        tools:src="@tools:sample/backgrounds/scenic"
+        tools:ignore="ContentDescription"
+        tools:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="@dimen/dimen_20"
+        android:layout_height="@dimen/dimen_20"
+        android:background="@null"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/oldText"
+        app:layout_constraintTop_toTopOf="@+id/editCommentLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_close_mini"
+        tools:ignore="ContentDescription"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

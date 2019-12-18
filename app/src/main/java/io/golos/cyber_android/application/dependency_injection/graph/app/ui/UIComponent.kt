@@ -17,6 +17,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.common.widgets.CommentWidget
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
 import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
@@ -70,4 +71,5 @@ interface UIComponent {
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)
     fun inject(widget: CommentWidgetEdit)
+    fun inject(widget: CommentWidget)
 }

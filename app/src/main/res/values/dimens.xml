@@ -44,8 +44,11 @@
 
     <dimen name="dimen_2">2dp</dimen>
     <dimen name="dimen_4">4dp</dimen>
+    <dimen name="dimen_10">10dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
     <dimen name="dimen_14">14dp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="dimen_17">17dp</dimen>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_26">26dp</dimen>
@@ -189,14 +192,15 @@
 
     <!-- Send comment -->
     <dimen name="send_comment_avatar_icon_size">35dp</dimen>
-    <dimen name="send_comment_side_margin">15dp</dimen>
+    <dimen name="send_comment_side_margin">10dp</dimen>
     <dimen name="send_comment_button_size">35dp</dimen>
     <dimen name="send_comment_vertical_margin">10dp</dimen>
-    <dimen name="send_comment_horizontal_margin">5dp</dimen>
     <dimen name="send_comment_text_field_horizontal_padding">10dp</dimen>
     <dimen name="send_comment_text_field_vertical_padding">8dp</dimen>
     <dimen name="send_comment_text_gap">5dp</dimen>
     <dimen name="send_comment_old_text_start_margin">10dp</dimen>
+    <dimen name="send_comment_edit_image_size">35dp</dimen>
+    <dimen name="send_comment_attachment_image_size">80dp</dimen>
 
     <!--Login - general -->
     <dimen name="margin_horizontal_login_next_button">16dp</dimen>

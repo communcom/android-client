@@ -1,102 +1,61 @@
 package io.golos.cyber_android.ui.common.widgets
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.Editable
-import android.text.InputFilter
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.StyleSpan
 import android.util.AttributeSet
-import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
+import android.view.View
+import android.widget.FrameLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.utils.*
-import kotlinx.android.synthetic.main.view_comment_widget.view.*
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.common.glide.loadAvatar
+import io.golos.cyber_android.ui.utils.TextWatcherBase
+import io.golos.domain.repositories.CurrentUserRepositoryRead
+import kotlinx.android.synthetic.main.layout_comment_input.view.*
+import javax.inject.Inject
 
 
 class CommentWidget @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
-    interface Listener {
-        fun onSendClick(text: CharSequence)
-        fun onGalleryClick()
-        fun onUserNameCleared()
-        fun onCommentChanged(text: CharSequence)
-    }
+    private var onSendClickListener: ((String) -> Unit)? = null
 
-    var listener: Listener? = null
-
-    var isSendEnabled: Boolean = false
-        set(value) {
-            field = value
-        }
+    @Inject
+    internal lateinit var currentUserRepository: CurrentUserRepositoryRead
 
     init {
-        inflate(context, R.layout.view_comment_widget, this)
+        App.injections.get<UIComponent>().inject(this)
+
+        inflate(context, R.layout.widget_comment, this)
+
+        root.layoutTransition.setDuration(context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
 
         comment.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
-                s?.let {
-                    listener?.onCommentChanged(it)
-                }
-                s?.colorizeHashTags()
-                s?.colorizeLinks()
+
+                sendButton.visibility = if (s.isNullOrBlank()) View.GONE else View.VISIBLE
             }
         })
 
-        comment.setOnEditorActionListener { v, actionId, event ->
-            if(actionId == EditorInfo.IME_ACTION_DONE){
-                listener?.onSendClick(comment.text ?: "")
-            }
-            false
-        }
+        ivAttachImage.loadAvatar(currentUserRepository.userAvatarUrl)
 
-//        comment.movementMethod = MultilineLinkMovementMethod()
-        comment.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_COMMENT_CONTENT_LENGTH))
+        sendButton.setOnClickListener { onSendClickListener?.invoke(comment.text.toString()) }
     }
 
-    /**
-     * Clears comment text. Typically needs to be called when comment was sent successfully
-     */
+    fun setOnSendClickListener(listener: ((String) -> Unit)?) {
+        onSendClickListener = listener
+    }
+
     fun clearText() {
-        userName = null
         comment.setText("")
-        comment.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_COMMENT_CONTENT_LENGTH))
     }
 
-    private var userName: String? = null
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
 
-    fun setUserToReply(userName: String?) {
-        val prevUserName = this.userName
-        this.userName = userName
-        //if there is previous username then remove it
-        if (prevUserName != null && comment.text?.startsWith(prevUserName) == true)
-            comment.setText(comment.text?.replaceRange(0, "$prevUserName ".length, ""))
-
-        if (userName != null) {
-            if (comment.text?.startsWith(userName) == false)
-                addUserName(userName)
-            comment.filters = arrayOf(InputFilter { source, _, _, dest, _, _ ->
-                if (dest.length > source.length) {
-                    if (dest.toString().compareTo(userName) == 0) {
-                        listener?.onUserNameCleared()
-                        return@InputFilter ""
-                    }
-                }
-                return@InputFilter source
-            }, InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_COMMENT_CONTENT_LENGTH + userName.length))
-
-            ViewUtils.showKeyboard(comment)
-        }
-    }
-
-    private fun addUserName(userName: String) {
-        val newText = SpannableStringBuilder("$userName ${comment.text}")
-        newText.setSpan(StyleSpan(Typeface.BOLD), 0, userName.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        comment.text = newText
-        comment.setSelection(newText.length)
+        comment.isEnabled = enabled
+        sendButton.isEnabled = enabled
     }
 }

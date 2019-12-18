@@ -24,21 +24,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
+        <io.golos.cyber_android.ui.common.widgets.CommentWidget
             android:id="@+id/postComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
-
-        <io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
-            android:id="@+id/postCommentEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <Button
             android:id="@+id/btnRetry"
