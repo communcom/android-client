@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModel
@@ -89,7 +89,7 @@ constructor(
                 _searchResultVisibility.value = false
             }                                               // Fail
         }, {
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
             _searchResultItems.value = listOf()
             _searchResultVisibility.value = false
         })

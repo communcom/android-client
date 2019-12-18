@@ -290,7 +290,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SignIn.InputField" parent="Common.Base.TextStyle">
+    <style name="SignUp.InputField" parent="Common.Base.TextStyle">
         <item name="android:layout_marginStart">@dimen/dimen_42</item>
         <item name="android:layout_marginEnd">@dimen/dimen_42</item>
         <item name="android:background">@drawable/bg_input_field</item>
@@ -302,6 +302,11 @@
         <item name="android:paddingEnd">@dimen/margin_default</item>
         <item name="android:singleLine">true</item>
         <item name="android:textSize">@dimen/text_size_17_sp</item>
+    </style>
+
+    <style name="SignIn.InputField" parent="SignUp.InputField">
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 
     <style name="SignIn.Query" parent="Common.Base.TextStyle">

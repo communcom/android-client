@@ -6,10 +6,9 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
-import io.golos.utils.EMPTY
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
@@ -207,7 +206,7 @@ class SubscriptionsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.loading_error)
+                _command.value = ShowMessageResCommand(R.string.loading_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

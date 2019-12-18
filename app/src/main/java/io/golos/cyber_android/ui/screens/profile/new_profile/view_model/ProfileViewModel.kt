@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
@@ -156,7 +156,7 @@ constructor(
                 model.sendBio(text)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
 
                 _bio.value = oldValue
             } finally {
@@ -205,7 +205,7 @@ constructor(
             try {
                 model.moveToBlackList()
             } catch (ex: Exception) {
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }
@@ -220,7 +220,7 @@ constructor(
             } catch (ex: Exception) {
                 isSuccess = false
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -240,7 +240,7 @@ constructor(
 
                 model.subscribeUnsubscribe()
             } catch(ex: java.lang.Exception) {
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
 
                 _followButtonText.value =
                     appContext.resources.getString(if(model.isSubscribed) R.string.followed else R.string.follow)
@@ -293,7 +293,7 @@ constructor(
             model.sendAvatar(avatarFile)
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
             _avatarUrl.value = oldValue
         }
     }
@@ -306,7 +306,7 @@ constructor(
             model.sendCover(coverFile)
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
             _coverUrl.value = oldValue
         }
     }
@@ -318,7 +318,7 @@ constructor(
             model.clearAvatar()
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
             _avatarUrl.value = oldValue
         }
     }
@@ -330,7 +330,7 @@ constructor(
             model.clearCover()
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
             _coverUrl.value = oldValue
         }
     }
@@ -347,7 +347,7 @@ constructor(
                 model.clearBio()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
 
                 _bio.value = oldValue
             } finally {

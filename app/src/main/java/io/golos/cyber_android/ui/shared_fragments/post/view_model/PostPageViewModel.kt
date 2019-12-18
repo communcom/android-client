@@ -86,7 +86,7 @@ constructor(
                 model.loadStartFirstLevelCommentsPage()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
                 _command.value = NavigateToMainScreenCommand()
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -124,7 +124,7 @@ constructor(
                 _command.value = NavigateToUserProfileViewCommand(userId)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -142,7 +142,7 @@ constructor(
                 )
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -160,7 +160,7 @@ constructor(
                 )
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -238,7 +238,7 @@ constructor(
                 model.deletePost()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = NavigateToMainScreenCommand()
@@ -252,7 +252,7 @@ constructor(
                 model.updateCommentsSorting(sortingType)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }
@@ -314,7 +314,7 @@ constructor(
                 model.sendComment(commentText)
                 _command.value = ClearCommentTextViewCommand()
             } catch (ex: Exception) {
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _commentFieldEnabled.value = true
             }
@@ -363,7 +363,7 @@ constructor(
                 action()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }
@@ -376,7 +376,7 @@ constructor(
             _commentEditFieldVisibility.value = View.VISIBLE
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
 
             _commentFieldVisibility.value = View.VISIBLE
             _commentEditFieldVisibility.value = View.GONE
@@ -390,7 +390,7 @@ constructor(
                 commentAction()
                 cancelReplyOrEditComment()
             } catch (ex: Exception) {
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _commentEditFieldEnabled.value = true
             }
@@ -411,7 +411,7 @@ constructor(
                 )
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

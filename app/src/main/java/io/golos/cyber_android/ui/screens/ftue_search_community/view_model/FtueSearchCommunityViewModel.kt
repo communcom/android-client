@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
@@ -100,7 +100,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 addCommunityToCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.loading_error)
+                _command.value = ShowMessageResCommand(R.string.loading_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -117,7 +117,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 removeCommunityFromCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.loading_error)
+                _command.value = ShowMessageResCommand(R.string.loading_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

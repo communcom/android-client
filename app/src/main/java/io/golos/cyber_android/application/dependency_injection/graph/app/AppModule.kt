@@ -15,8 +15,8 @@ import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.core.logger.Cyber4JLogger
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
-import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepository
-import io.golos.cyber_android.ui.screens.login_activity.signup.countries.CountriesRepositoryImpl
+import io.golos.cyber_android.ui.screens.login_sign_up.countries.CountriesRepository
+import io.golos.cyber_android.ui.screens.login_sign_up.countries.CountriesRepositoryImpl
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.CoroutineDispatcher
@@ -94,7 +94,8 @@ class AppModule(private val appContext: Context) {
     internal fun provideCountriesRepository(
         moshi: Moshi,
         deviceInfoProvider: DeviceInfoProvider
-    ): CountriesRepository = CountriesRepositoryImpl(appContext, moshi, deviceInfoProvider)
+    ): CountriesRepository =
+        CountriesRepositoryImpl(appContext, moshi, deviceInfoProvider)
 
     @Provides
     internal fun provideTimberTree(crashlytics: CrashlyticsFacade): Timber.Tree =

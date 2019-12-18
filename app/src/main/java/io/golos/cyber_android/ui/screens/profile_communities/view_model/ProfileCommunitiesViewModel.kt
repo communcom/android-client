@@ -6,7 +6,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunitiesListPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunitiesCount
@@ -47,11 +47,11 @@ constructor(
         launch {
             try {
                 if(!model.subscribeUnsubscribe(communityId)) {
-                    _command.value = ShowMessageCommand(R.string.common_general_error)
+                    _command.value = ShowMessageResCommand(R.string.common_general_error)
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }

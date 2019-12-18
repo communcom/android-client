@@ -28,10 +28,10 @@ import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.services.fcm.FcmTokenProviderImpl
-import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.keys_extractor.QrCodeKeysExtractor
-import io.golos.cyber_android.ui.screens.login_activity.signin_old.qr_code.keys_extractor.QrCodeKeysExtractorImpl
-import io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name.keys_extractor.MasterPassKeysExtractor
-import io.golos.cyber_android.ui.screens.login_activity.signin_old.user_name.keys_extractor.MasterPassKeysExtractorImpl
+import io.golos.cyber_android.ui.screens.login_sign_in_old.qr_code.keys_extractor.QrCodeKeysExtractor
+import io.golos.cyber_android.ui.screens.login_sign_in_old.qr_code.keys_extractor.QrCodeKeysExtractorImpl
+import io.golos.cyber_android.ui.screens.login_sign_in_old.user_name.keys_extractor.MasterPassKeysExtractor
+import io.golos.cyber_android.ui.screens.login_sign_in_old.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.ui.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.utils.ImageCompressorImpl

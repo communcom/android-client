@@ -182,7 +182,7 @@ constructor(
                     uploadResult = model.uploadLocalImage(content)
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    _command.value = ShowMessageCommand(R.string.error_upload_file)
+                    _command.value = ShowMessageResCommand(R.string.error_upload_file)
                     return@launch
                 }
 
@@ -213,8 +213,8 @@ constructor(
 
     private fun showValidationResult(validationResult: ValidationResult) =
         when(validationResult) {
-            ValidationResult.ERROR_POST_IS_TOO_LONG -> _command.value = ShowMessageCommand(R.string.error_post_too_long)
-            ValidationResult.ERROR_POST_IS_EMPTY -> _command.value = ShowMessageCommand(R.string.error_post_empty)
+            ValidationResult.ERROR_POST_IS_TOO_LONG -> _command.value = ShowMessageResCommand(R.string.error_post_too_long)
+            ValidationResult.ERROR_POST_IS_EMPTY -> _command.value = ShowMessageResCommand(R.string.error_post_empty)
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
@@ -270,9 +270,9 @@ constructor(
 
                 is Either.Failure -> {
                     when(linkInfo.value) {
-                        ExternalLinkError.GENERAL_ERROR -> _command.value = ShowMessageCommand(R.string.common_general_error)
-                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> _command.value = ShowMessageCommand(R.string.post_edit_invalid_resource_type)
-                        ExternalLinkError.INVALID_URL -> _command.value = ShowMessageCommand(R.string.post_edit_invalid_url)
+                        ExternalLinkError.GENERAL_ERROR -> _command.value = ShowMessageResCommand(R.string.common_general_error)
+                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> _command.value = ShowMessageResCommand(R.string.post_edit_invalid_resource_type)
+                        ExternalLinkError.INVALID_URL -> _command.value = ShowMessageResCommand(R.string.post_edit_invalid_url)
                     }
                 }
             }
@@ -309,7 +309,7 @@ constructor(
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
                 _command.value = NavigateToMainScreenCommand()
             }  finally {
                 _command.value = SetLoadingVisibilityCommand(false)

@@ -23,11 +23,17 @@ class NavigateToSearchCommunitiesCommand : ViewCommand
 
 class SetLoadingVisibilityCommand(val isVisible: Boolean) : ViewCommand
 
-class ShowMessageCommand(@StringRes val textResId: Int) : ViewCommand
+class ShowMessageResCommand(@StringRes val textResId: Int): ViewCommand
+class ShowMessageTextCommand(val text: String): ViewCommand
 
 class ShowPostFiltersCommand : ViewCommand
 
 class ShowConfirmationDialog(@StringRes val textRes: Int) : ViewCommand
+class NavigationCommand(@IdRes val navigationId: Int?,
+                        @IdRes val startDestination: Int? = null,
+                        @NavigationRes val graphId: Int? = null): ViewCommand
+
+class HideSoftKeyboardCommand: ViewCommand
 
 class NavigationCommand(
     @IdRes val navigationId: Int?,

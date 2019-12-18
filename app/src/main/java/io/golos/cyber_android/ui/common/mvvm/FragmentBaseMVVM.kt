@@ -14,7 +14,8 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
@@ -115,8 +116,12 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
      */
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when(command) {
-            is ShowMessageCommand -> {
+            is ShowMessageResCommand -> {
                 uiHelper.showMessage(command.textResId)
+                true
+            }
+            is ShowMessageTextCommand -> {
+                uiHelper.showMessage(command.text)
                 true
             }
             is SetLoadingVisibilityCommand -> {

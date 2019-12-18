@@ -22,7 +22,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
@@ -262,7 +262,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             when (command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
 
-                is ShowMessageCommand -> uiHelper.showMessage(command.textResId)
+                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
 
                 is NavigateToMainScreenCommand -> activity?.finish()
 

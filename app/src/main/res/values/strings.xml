@@ -195,12 +195,23 @@
     <string name="keys_saved_successfully">Keys saved successfully</string>
     <string name="setup_passcode">Set up Passcode</string>
     <string name="add_short_pin">Add short PIN code</string>
+
     <string name="user_name_short">Username cannot be shorter than 5 characters</string>
     <string name="user_name_long">Username cannot exceed 32 characters</string>
-    <string name="user_name_contain_characters">You can use latin letters, numbers, and special characters</string>
+    <string name="user_name_contain_characters">You must use latin letters in lower case, numbers, dot and dash</string>
     <string name="user_name_begin_not_correct">Username can\'t start with a dash</string>
     <string name="user_name_end_not_correct">Username can\'t end with a dash</string>
+    <string name="user_name_begin_not_correct_dot">Username can\'t start with a dot</string>
+    <string name="user_name_end_not_correct_dot">Username can\'t end with a dot</string>
     <string name="user_name_two_dot">Username can\'t have two consecutive dot characters</string>
+    <string name="user_name_two_dash">Username can\'t have two consecutive dash characters</string>
+    <string name="user_name_two_dash_dot">Username can\'t have two consecutive dash and dot characters</string>
+    <string name="user_name_short_new">Username cannot be shorter than {0} characters</string>
+    <string name="user_name_long_new">Username cannot exceed {0} characters</string>
+
+    <string name="password_name_short">Password cannot be shorter than {0} characters</string>
+    <string name="password_name_long">Password cannot exceed {0} characters</string>
+    <string name="password_contain_characters">You must use latin letters in lower case and numbers</string>
 
     <!--Settings-->
     <string name="general">General</string>

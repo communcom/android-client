@@ -12,7 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.LogTags
@@ -95,7 +95,7 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
      */
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when (command) {
-            is ShowMessageCommand -> {
+            is ShowMessageResCommand -> {
                 uiHelper.showMessage(command.textResId)
                 true
             }

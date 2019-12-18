@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".ui.screens.login_activity.signup.fragments.phone.SignUpPhoneFragment">
+    tools:context=".ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/actionBar"
@@ -56,7 +56,7 @@
 
             android:layout_marginTop="@dimen/dimen_48"
 
-            style="@style/SignIn.InputField"
+            style="@style/SignUp.InputField"
 
             android:hint="@string/select_country"
             />
@@ -68,7 +68,7 @@
 
             android:layout_marginTop="@dimen/margin_default"
 
-            style="@style/SignIn.InputField"
+            style="@style/SignUp.InputField"
 
             android:hint="@string/phone_number"
         />

@@ -8,7 +8,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -58,6 +58,6 @@ constructor(
 
     protected fun handleError(error: Throwable){
         Timber.e(error)
-        _command.value = ShowMessageCommand(R.string.loading_error)
+        _command.value = ShowMessageResCommand(R.string.loading_error)
     }
 }
