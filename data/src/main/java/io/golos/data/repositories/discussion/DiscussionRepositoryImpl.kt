@@ -61,10 +61,11 @@ constructor(
                 postsConfigurationDomain.offset
             )
         }.items
-        return items.map {
+        val a = items.map {
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId.userId)
         }
+        return a
     }
 
     override suspend fun getComments(

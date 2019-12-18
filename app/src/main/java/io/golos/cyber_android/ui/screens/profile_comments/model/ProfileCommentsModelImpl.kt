@@ -1,16 +1,21 @@
 package io.golos.cyber_android.ui.screens.profile_comments.model
 
+import com.squareup.moshi.Moshi
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.data.dto.block.ListContentBlockEntity
+import io.golos.data.mappers.mapToContentBlock
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.use_cases.post.post_dto.PostBlock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ProfileCommentsModelImpl @Inject constructor(
     private val discussionRepository: DiscussionRepository,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val moshi: Moshi
 ) : ProfileCommentsModel, ModelBaseImpl() {
 
     override suspend fun getComments(offset: Int, pageSize: Int): List<CommentDomain> {
@@ -57,17 +62,21 @@ class ProfileCommentsModelImpl @Inject constructor(
         userId: String,
         permlink: String,
         communityId: String,
-        header: String,
+        header: PostBlock?,
         body: String,
         tags: List<String>,
         metadata: String
     ) {
+        val contentEntity = header?.mapToContentBlock()
+        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+        val json = adapter.toJson(contentEntity)
+
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.editPostOrComment(
                 userId,
                 permlink,
                 communityId,
-                header,
+                json,
                 body,
                 tags,
                 metadata
