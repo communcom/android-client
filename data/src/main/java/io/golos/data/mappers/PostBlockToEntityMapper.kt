@@ -7,7 +7,7 @@ import io.golos.data.dto.block.ListContentBlockEntity
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.post_dto.*
 
-fun PostBlock.mapToContentBlock(): ListContentBlockEntity {
+fun ContentBlock.mapToContentBlock(): ListContentBlockEntity {
     val contentBlock = mutableListOf<ContentBlockEntity>()
 
     if (content.isNotEmpty()) {
@@ -39,10 +39,10 @@ fun List<Block>.mapToBlockEntity(): List<ContentEntity> {
                     is MentionBlock -> paragraphBlock.mapToEntity()
                     is TagBlock -> paragraphBlock.mapToEntity()
                     is TextBlock -> paragraphBlock.mapToEntity()
-                    else -> throw RuntimeException("Error with PostBlock mapper")
+                    else -> throw RuntimeException("Error with ContentBlock mapper")
                 }
             }
-            else -> throw RuntimeException("Error with PostBlock mapper")
+            else -> throw RuntimeException("Error with ContentBlock mapper")
         }
     }
 }

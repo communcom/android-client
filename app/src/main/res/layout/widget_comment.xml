@@ -7,6 +7,7 @@
     android:background="@drawable/bcg_editor_toolbar">
 
     <include layout="@layout/layout_comment_edit_block"
+        android:id="@+id/commentEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
@@ -16,6 +17,7 @@
         tools:visibility="visible"/>
 
     <include layout="@layout/layout_comment_attachment"
+        android:id="@+id/commentAttachment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"

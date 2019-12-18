@@ -89,7 +89,7 @@ class PostItem(
         }
     }
 
-    private fun setUpFeedContent(view: View, postBlock: PostBlock?) {
+    private fun setUpFeedContent(view: View, postBlock: ContentBlock?) {
         view.feedContent.adapter = feedAdapter
         val contentList : ArrayList<Block> = postBlock?.content as? ArrayList<Block> ?: arrayListOf()
         val newContentList = ArrayList<Block>(contentList)

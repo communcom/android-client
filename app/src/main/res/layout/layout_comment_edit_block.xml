@@ -28,7 +28,7 @@
         android:layout_marginStart="@dimen/send_comment_old_text_start_margin"
         app:layout_constraintBottom_toTopOf="@+id/oldText"
         app:layout_constraintEnd_toStartOf="@+id/closeButton"
-        app:layout_constraintStart_toEndOf="@+id/ivAttachment"
+        app:layout_constraintStart_toEndOf="@+id/ivEditAttachment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         style="@style/CommentInput.Edit" />
@@ -47,7 +47,7 @@
         tools:text="Some old text" />
 
     <ImageView
-        android:id="@+id/ivAttachment"
+        android:id="@+id/ivEditAttachment"
         android:layout_width="@dimen/send_comment_edit_image_size"
         android:layout_height="@dimen/send_comment_edit_image_size"
         android:scaleType="centerCrop"

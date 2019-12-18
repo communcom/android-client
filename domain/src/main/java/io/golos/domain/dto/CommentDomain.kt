@@ -1,12 +1,12 @@
 package io.golos.domain.dto
 
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 data class CommentDomain(
     val contentId: ContentIdDomain,
     val author: AuthorDomain,
     var votes: VotesDomain,
-    val body: PostBlock?,
+    val body: ContentBlock?,
     val childCommentsCount: Int,
     val community: PostDomain.CommunityDomain,
     val meta: MetaDomain,

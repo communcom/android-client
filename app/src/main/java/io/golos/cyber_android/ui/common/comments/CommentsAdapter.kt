@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.utils.colorizeUsernames
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.ContentBodyModel
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlin.math.pow
 
@@ -188,5 +188,5 @@ abstract class CommentsAdapter(protected var values: List<CommentModel>, private
         fun onUsernameClick(userId: String)
     }
 
-    private fun ContentBodyModel.toCommentContent(): PostBlock  = this.postBlock
+    private fun ContentBodyModel.toCommentContent(): ContentBlock  = this.postBlock
 }

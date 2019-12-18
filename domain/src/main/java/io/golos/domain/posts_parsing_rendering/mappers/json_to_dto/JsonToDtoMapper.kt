@@ -1,6 +1,6 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto
 
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
@@ -13,7 +13,7 @@ class JsonToDtoMapper() {
     private val mappersFactory = MappersFactory()
 
     @Suppress("RemoveExplicitTypeArguments")
-    fun map(rawJson: String): PostBlock =
+    fun map(rawJson: String): ContentBlock =
         try {
             mappersFactory.getMapper<PostMapper>(PostMapper::class).map(JSONObject(rawJson))
         } catch (ex: IncompatibleVersionsException) {

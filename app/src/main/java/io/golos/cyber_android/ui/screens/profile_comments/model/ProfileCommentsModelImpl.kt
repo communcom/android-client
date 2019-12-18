@@ -8,7 +8,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.repositories.DiscussionRepository
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -62,7 +62,7 @@ class ProfileCommentsModelImpl @Inject constructor(
         userId: String,
         permlink: String,
         communityId: String,
-        header: PostBlock?,
+        header: ContentBlock?,
         body: String,
         tags: List<String>,
         metadata: String

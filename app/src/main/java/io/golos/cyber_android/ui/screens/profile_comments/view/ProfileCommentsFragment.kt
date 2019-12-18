@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExterna
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
+import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
 import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
@@ -51,6 +52,9 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
         btnRetry.setOnClickListener {
             viewModel.onRetryLoadComments()
+        }
+        commentWidget.setOnSendClickListener{
+
         }
     }
 
@@ -85,6 +89,11 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
+
+            is NavigateToEditComment -> {
+                commentWidget.setCommentForEdit(command.comment)
+                commentWidget.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -100,7 +109,9 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     CommentPageMenuDialog.RESULT_EDIT -> {
                         val commentMenu: CommentMenu? = data?.extras?.getParcelable(Tags.COMMENT_MENU)
                         commentMenu?.let { comment ->
-                            //todo start open logic
+                            comment.contentId?.let {
+                                viewModel.editComment(it)
+                            }
                         }
                     }
                     CommentPageMenuDialog.RESULT_DELETE -> {

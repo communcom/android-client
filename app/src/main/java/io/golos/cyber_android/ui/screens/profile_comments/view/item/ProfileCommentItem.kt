@@ -42,7 +42,7 @@ class ProfileCommentItem(
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
         setupCommentContent(listItem, listItemEventsProcessor)
-        if(!comment.isMyComment){
+        if(comment.isMyComment){
             itemView.setOnLongClickListener {
                 listItemEventsProcessor.onCommentLongClick(comment)
                 true

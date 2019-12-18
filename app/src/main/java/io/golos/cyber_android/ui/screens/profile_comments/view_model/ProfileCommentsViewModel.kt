@@ -10,8 +10,10 @@ import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
+import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
+import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -65,8 +67,12 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
-    fun editComment() {
-        launch {
+    fun editComment(contentId: ContentId) {
+        val comment = getCommentFromStateByContentId(_commentListState.value, contentId)
+        comment?.let {
+            _command.value = NavigateToEditComment(it)
+        }
+        /*launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 //todo call model.editComment() method
@@ -75,7 +81,7 @@ class ProfileCommentsViewModel @Inject constructor(
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
-        }
+        }*/
     }
 
     fun deleteComment(userId: String, permlink: String, communityId: String) {
@@ -157,6 +163,29 @@ class ProfileCommentsViewModel @Inject constructor(
             }
         }
         return state
+    }
+
+
+    private fun getCommentFromStateByContentId(state: Paginator.State?, contentId: ContentId): Comment?{
+        return when (state) {
+            is Paginator.State.Data<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                comments.find { it.comment.contentId ==  contentId}?.comment
+            }
+            is Paginator.State.Refresh<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                comments.find { it.comment.contentId ==  contentId}?.comment
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                comments.find { it.comment.contentId ==  contentId}?.comment
+            }
+            is Paginator.State.FullData<*> -> {
+                val comments = (state).data as ArrayList<ProfileCommentListItem>
+                comments.find { it.comment.contentId ==  contentId}?.comment
+            }
+            else -> null
+        }
     }
 
     private fun updateUpVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>){

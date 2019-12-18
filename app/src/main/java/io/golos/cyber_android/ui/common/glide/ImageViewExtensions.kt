@@ -61,4 +61,16 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
         .into(this)
 }
 
+fun ImageView.loadCommentAttachment(url: String?) {
+    Glide
+        .with(this)
+        .load(url.isNullOrEmpty())
+        .apply(RequestOptions.circleCropTransform())
+        .into(this)
+}
+
+fun ImageView.release(){
+    Glide.with(this).clear(this)
+}
+
 fun Target<*>.clear(context: Context) = Glide.with(context).clear(this)

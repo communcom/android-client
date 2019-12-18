@@ -71,5 +71,4 @@ interface UIComponent {
     fun inject(pinDigit: PinDigit)
     fun inject(widget: CommentWidgetNew)
     fun inject(widget: CommentWidgetEdit)
-    fun inject(widget: CommentWidget)
 }

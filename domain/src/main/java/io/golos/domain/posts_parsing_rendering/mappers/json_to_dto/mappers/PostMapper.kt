@@ -6,11 +6,11 @@ import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.IncompatibleVersionsException
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import org.json.JSONObject
 
-class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersFactory) {
-    override fun map(source: JSONObject): PostBlock {
+class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappersFactory) {
+    override fun map(source: JSONObject): ContentBlock {
         val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
 
         val metadata = PostMetadataMapper().map(source)
@@ -73,6 +73,6 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<PostBlock>(mappersF
 
         }
 
-        return PostBlock(metadata, title, content, attachments)
+        return ContentBlock(metadata, title, content, attachments)
     }
 }

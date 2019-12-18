@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.profile_comments.model
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 interface ProfileCommentsModel : ModelBase {
 
@@ -19,7 +19,7 @@ interface ProfileCommentsModel : ModelBase {
         userId: String,
         permlink: String,
         communityId: String,
-        header: PostBlock?,
+        header: ContentBlock?,
         body: String,
         tags: List<String>,
         metadata: String

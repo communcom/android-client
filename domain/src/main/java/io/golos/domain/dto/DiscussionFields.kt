@@ -1,7 +1,7 @@
 package io.golos.domain.dto
 
 import io.golos.domain.Entity
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import java.math.BigInteger
 import java.util.*
 
@@ -15,7 +15,7 @@ data class PostContent(
 data class CommentContent(val body: ContentBody) : Entity
 
 data class ContentBody(
-    val postBlock: PostBlock
+    val postBlock: ContentBlock
 ) : Entity
 
 data class EmbedEntity(

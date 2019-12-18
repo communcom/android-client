@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 data class SecondLevelCommentListItem(
     override val id: Long,
@@ -16,7 +16,7 @@ data class SecondLevelCommentListItem(
     override val currentUserId: String,
     val repliedCommentLevel: Int,
 
-    override val content: PostBlock,
+    override val content: ContentBlock,
 
     override val voteBalance: Long,
     override val isUpVoteActive: Boolean,

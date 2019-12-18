@@ -2,31 +2,55 @@ package io.golos.cyber_android.ui.common.widgets
 
 import android.content.Context
 import android.text.Editable
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
-import io.golos.cyber_android.ui.common.glide.loadAvatar
+import io.golos.cyber_android.ui.common.glide.loadCommentAttachment
+import io.golos.cyber_android.ui.common.glide.release
+import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
+import io.golos.domain.use_cases.post.post_dto.TextBlock
+import kotlinx.android.synthetic.main.layout_comment_edit_block.view.*
+import kotlinx.android.synthetic.main.layout_comment_image_attachment.view.*
 import kotlinx.android.synthetic.main.layout_comment_input.view.*
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.layout_comment_input.view.root
+import kotlinx.android.synthetic.main.widget_comment.view.*
+import kotlin.properties.Delegates
 
 
 class CommentWidget @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var onSendClickListener: ((String) -> Unit)? = null
+    private var onSendClickListener: ((ContentBlock) -> Unit)? = null
 
-    @Inject
-    internal lateinit var currentUserRepository: CurrentUserRepositoryRead
+    //private var currentContentBlock: ContentBlock? = null
+
+    private var editComment: Comment? = null
+
+    private var attachmentImageUrl by Delegates.observable<String?>(null) { _, oldUrl, newUrl ->
+        if (newUrl != oldUrl) {
+            if(TextUtils.isEmpty(newUrl)){
+                commentAttachment.visibility = View.GONE
+                sendButton.visibility = if (comment.text.isNullOrBlank()) View.GONE else View.VISIBLE
+                ivEditAttachment.visibility = View.GONE
+            } else{
+                commentAttachment.visibility = View.VISIBLE
+                ivEditAttachment.visibility = View.VISIBLE
+                sendButton.visibility = View.VISIBLE
+                ivEditAttachment.loadCommentAttachment(newUrl)
+                ivAttachment.loadCommentAttachment(newUrl)
+            }
+        }
+    }
 
     init {
-        App.injections.get<UIComponent>().inject(this)
-
         inflate(context, R.layout.widget_comment, this)
 
         root.layoutTransition.setDuration(context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
@@ -35,27 +59,75 @@ class CommentWidget @JvmOverloads constructor(
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
 
-                sendButton.visibility = if (s.isNullOrBlank()) View.GONE else View.VISIBLE
+                sendButton.visibility = if (s.isNullOrBlank() && attachmentImageUrl == null) View.GONE else View.VISIBLE
             }
         })
-
-        ivAttachImage.loadAvatar(currentUserRepository.userAvatarUrl)
-
-        sendButton.setOnClickListener { onSendClickListener?.invoke(comment.text.toString()) }
+        sendButton.setOnClickListener {
+            /*currentContentBlock?.let {
+                onSendClickListener?.invoke(it)
+            }*/
+        }
+        closeButton.setOnClickListener {
+            clear()
+            visibility = View.GONE
+        }
+        deleteAttachment.setOnClickListener{
+            attachmentImageUrl = null
+        }
     }
 
-    fun setOnSendClickListener(listener: ((String) -> Unit)?) {
+    fun clear(){
+        //currentContentBlock = null
+        editComment = null
+        attachmentImageUrl = null
+        clearComment()
+        clearEditState()
+        clearAttachmentState()
+    }
+
+    fun setCommentForEdit(comment: Comment){
+        editComment = comment
+        val body = comment.body
+        val content = body?.content ?: listOf()
+        if(content.isNotEmpty()){
+            val block = content[0]
+            if(block is ParagraphBlock){
+                val paragraphItemBlock = block.content.firstOrNull()
+                if(paragraphItemBlock != null && paragraphItemBlock is TextBlock){
+                    val text = paragraphItemBlock.content
+                    oldText.text = text
+                    this.comment.setText(text)
+                } else{
+                    oldText.text = null
+                }
+            } else{
+                oldText.text = null
+            }
+        }
+        val mediaBlock = body?.attachments?.content?.firstOrNull()
+        if(mediaBlock is ImageBlock){
+            attachmentImageUrl = mediaBlock.content.toString()
+        }
+        commentEdit.visibility = View.VISIBLE
+    }
+
+    fun setOnSendClickListener(listener: ((ContentBlock) -> Unit)?) {
         onSendClickListener = listener
     }
 
-    fun clearText() {
-        comment.setText("")
+    private fun clearEditState(){
+        editComment = null
+        commentEdit.visibility = View.GONE
+        ivAttachment.release()
+        ivEditAttachment.release()
     }
 
-    override fun setEnabled(enabled: Boolean) {
-        super.setEnabled(enabled)
+    private fun clearAttachmentState(){
+        commentAttachment.visibility = View.GONE
+        ivAttachment.release()
+    }
 
-        comment.isEnabled = enabled
-        sendButton.isEnabled = enabled
+    private fun clearComment() {
+        comment.setText("")
     }
 }

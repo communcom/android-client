@@ -1,7 +1,7 @@
 package io.golos.domain.use_cases.model
 
 import io.golos.domain.Model
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import java.math.BigInteger
 import java.util.*
 
@@ -78,7 +78,7 @@ data class EmbedModel(
 
 @Deprecated("Not need use, use Domain model")
 data class ContentBodyModel(
-    val postBlock: PostBlock
+    val postBlock: ContentBlock
 ) : Model
 
 

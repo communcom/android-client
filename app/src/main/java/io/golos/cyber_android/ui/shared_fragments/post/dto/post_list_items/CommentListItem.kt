@@ -4,7 +4,7 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 interface CommentListItem : VersionedListItem {
     val externalId: DiscussionIdModel          // Id of an entity on the backend
@@ -12,7 +12,7 @@ interface CommentListItem : VersionedListItem {
     val author: DiscussionAuthorModel
     val currentUserId: String
 
-    val content: PostBlock
+    val content: ContentBlock
 
     val voteBalance: Long
     val isUpVoteActive: Boolean

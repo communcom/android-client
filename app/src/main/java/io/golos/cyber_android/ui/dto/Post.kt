@@ -1,13 +1,13 @@
 package io.golos.cyber_android.ui.dto
 
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 data class Post(
 
     val author: Author,
     val community: Community,
     val contentId: ContentId,
-    val body: PostBlock?,
+    val body: ContentBlock?,
     val meta: Meta,
     val stats: Stats?,
     val type: String?,
