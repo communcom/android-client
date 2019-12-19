@@ -103,8 +103,10 @@ class CommentWidget @JvmOverloads constructor(
             }
         }
         val mediaBlock = body?.attachments?.content?.firstOrNull()
-        if (mediaBlock is ImageBlock) {
-            attachmentImageUrl = mediaBlock.content.toString()
+        attachmentImageUrl = if (mediaBlock is ImageBlock) {
+            mediaBlock.content.toString()
+        } else{
+            null
         }
         commentEdit.visibility = View.VISIBLE
     }
