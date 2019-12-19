@@ -91,6 +91,31 @@
                 android:text="@={viewModel.password}"
                 />
 
+            <TextView
+                android:id="@+id/pastePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/dimen_12"
+
+                style="@style/SignIn.Query.Link"
+                android:singleLine="true"
+                android:ellipsize="end"
+
+                tools:text="Paste fdfkldlkfladkfdjlatierklfjdkflkalklflkflkalkfldlfalflkdkdflkdfkajlkfjdlkflajdakldf"
+                android:text="@{viewModel.pastePasswordText}"
+
+                android:layout_marginStart="@dimen/dimen_42"
+                android:layout_marginEnd="@dimen/dimen_42"
+
+                android:layout_gravity="center_horizontal"
+
+                android:onClick="@{() -> viewModel.onPastePasswordClick()}"
+
+                android:visibility="@{viewModel.pastePasswordVisibility}"
+                tools:visibility="visible"
+                />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

@@ -1,9 +1,12 @@
 package io.golos.cyber_android.ui.screens.login_sign_in_username.view_model
 
+import android.content.Context
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.Lazy
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.extensions.getFormattedString
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.HideSoftKeyboardCommand
@@ -27,7 +30,8 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: SignInModel,
     private val userNameValidationVisualizer: Lazy<UserNameValidationVisualizer>,
-    private val passwordValidationVisualizer: Lazy<PasswordValidationVisualizer>
+    private val passwordValidationVisualizer: Lazy<PasswordValidationVisualizer>,
+    private val appContext: Context
 ) : ViewModelBase<SignInModel>(dispatchersProvider, model) {
 
     private val _signInButtonEnabled = MutableLiveData<Boolean>(false)
@@ -35,6 +39,13 @@ constructor(
 
     val userName = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
+
+    private val _pastePasswordVisibility = MutableLiveData<Int>(View.GONE)
+    val pastePasswordVisibility: LiveData<Int> get() = _pastePasswordVisibility
+
+    private val _pastePasswordText = MutableLiveData<String>()
+    val pastePasswordText: LiveData<String> get() = _pastePasswordText
+
 
     val maxUserNameLen: Int
         get() = model.maxUserNameLen
@@ -52,8 +63,28 @@ constructor(
         }
     }
 
+    fun tryToGetPassFromClipboard() {
+        val clipPassword = model.getPasswordFromClipboard()
+
+        if(clipPassword != null) {
+            _pastePasswordVisibility.value = View.VISIBLE
+            _pastePasswordText.value = appContext.resources.getFormattedString(R.string.paste_something, clipPassword)
+        } else {
+            _pastePasswordVisibility.value = View.GONE
+            _pastePasswordText.value = ""
+        }
+    }
+
     fun onBackButtonClick() {
         _command.value = BackCommand()
+    }
+
+    fun onPastePasswordClick() {
+        val clipPassword = model.getPasswordFromClipboard()
+        if(clipPassword != null) {
+            password.value = clipPassword
+        }
+        _pastePasswordVisibility.value = View.GONE
     }
 
     fun onSignInClick() {

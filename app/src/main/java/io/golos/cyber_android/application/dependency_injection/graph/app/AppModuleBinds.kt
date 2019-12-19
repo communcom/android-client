@@ -6,6 +6,8 @@ import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4JDagger
+import io.golos.cyber_android.core.clipboard.ClipboardUtils
+import io.golos.cyber_android.core.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
@@ -379,4 +381,7 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun providePreferenceManager(preferenceManager: PreferenceManagerImpl): PreferenceManager
+
+    @Binds
+    abstract fun provideClipboardUtils(utils: ClipboardUtilsImpl): ClipboardUtils
 }

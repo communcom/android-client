@@ -7,16 +7,16 @@ class PasswordValidatorImpl
 @Inject
 constructor() : PasswordValidator {
     override val minLen: Int
-        get() = 5
+        get() = 52
     override val maxLen: Int
-        get() = 5
+        get() = 52
 
     override fun validate(validatedValue: String): PasswordValidationResult =
         when {
             validatedValue.length < minLen -> PasswordValidationResult.LEN_IS_TOO_SHORT
             validatedValue.length > maxLen -> PasswordValidationResult.LEN_IS_TOO_LONG
 
-            !"^[a-z0-9]+$".isMatch(validatedValue) -> PasswordValidationResult.INVALID_CHARACTER
+            !"^[a-zA-Z0-9]+$".isMatch(validatedValue) -> PasswordValidationResult.INVALID_CHARACTER
 
             else -> PasswordValidationResult.SUCCESS
         }

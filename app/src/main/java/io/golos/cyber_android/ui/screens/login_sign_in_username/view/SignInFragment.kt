@@ -3,11 +3,7 @@ package io.golos.cyber_android.ui.screens.login_sign_in_username.view
 import android.Manifest
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -69,6 +65,11 @@ class SignInFragment : FragmentBaseMVVM<FragmentSignInBinding, SignInViewModel>(
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        login.post {viewModel.tryToGetPassFromClipboard()}      // Don't move it from "post" call - it'll not work in Android Q
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)

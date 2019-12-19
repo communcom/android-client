@@ -14,4 +14,6 @@ interface  SignInModel : ModelBase {
     fun validateUserName(userName: String): UserNameValidationResult
 
     fun validatePassword(password: String): PasswordValidationResult
+
+    fun getPasswordFromClipboard(): String?
 }

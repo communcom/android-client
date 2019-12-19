@@ -509,5 +509,7 @@
 
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>
+
+    <string name="paste_something">Paste {0}</string>
     <string name="comment_deleted">This comment was deleted</string>
 </resources>
