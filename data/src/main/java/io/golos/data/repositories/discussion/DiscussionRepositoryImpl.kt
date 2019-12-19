@@ -95,7 +95,7 @@ constructor(
             )
         }.items
             .map {
-                val bodyBlock = it?.document?.let { block -> JsonToDtoMapper().map(block) }
+                val bodyBlock = it.document?.let { block -> JsonToDtoMapper().map(block) }
                 val contentEntity = bodyBlock?.mapToContentBlock()
                 val adapter = moshi.adapter(ListContentBlockEntity::class.java)
                 val jsonBody = adapter.toJson(contentEntity)
