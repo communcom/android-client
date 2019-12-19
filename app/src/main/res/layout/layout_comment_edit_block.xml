@@ -50,7 +50,6 @@
         android:id="@+id/ivEditAttachment"
         android:layout_width="@dimen/send_comment_edit_image_size"
         android:layout_height="@dimen/send_comment_edit_image_size"
-        android:scaleType="centerCrop"
         android:layout_marginStart="@dimen/gap"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="@+id/blueLine"

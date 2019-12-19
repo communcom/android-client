@@ -5,7 +5,9 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
@@ -61,10 +63,10 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
         .into(this)
 }
 
-fun ImageView.loadCommentAttachment(url: String?) {
+fun ImageView.loadCommentAttachment(url: String?, cornerRadiusInPixels: Int = 0) {
     Glide.with(context)
         .load(url.orEmpty())
-        .apply(RequestOptions.circleCropTransform())
+        .transform(CenterCrop(), RoundedCorners(cornerRadiusInPixels))
         .into(this)
 }
 

@@ -44,8 +44,8 @@ class CommentWidget @JvmOverloads constructor(
                 commentAttachment.visibility = View.VISIBLE
                 ivEditAttachment.visibility = View.VISIBLE
                 sendButton.visibility = View.VISIBLE
-                ivEditAttachment.loadCommentAttachment(newUrl)
-                ivAttachment.loadCommentAttachment(newUrl)
+                ivEditAttachment.loadCommentAttachment(newUrl, resources.getDimension(R.dimen.dimen_4).toInt())
+                ivAttachment.loadCommentAttachment(newUrl, resources.getDimension(R.dimen.dimen_15).toInt())
             }
         }
     }

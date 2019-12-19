@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
+import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -75,11 +76,12 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 val contentId = commentContent.contentId
                 if (contentId != null) {
+                    val currentContentAppVersion = PostGlobalConstants.postFormatVersion.toString()
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
                     val content = commentContent.message?.let { message ->
-                        listOf(ParagraphBlock(null, listOf(TextBlock(null, message, null, null))))
+                        listOf(ParagraphBlock(null, listOf(TextBlock(currentContentAppVersion, message, null, null))))
                     } ?: listOf()
-                    val attachments = commentContent.imageUri?.let { uri -> AttachmentsBlock(null, listOf(ImageBlock(null, uri, null))) }
+                    val attachments = commentContent.imageUri?.let { uri -> AttachmentsBlock(currentContentAppVersion, listOf(ImageBlock(null, uri, null))) }
                     val contentBlock = commentFromState?.body?.copy(
                         content = content,
                         attachments = attachments
