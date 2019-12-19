@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.login_sign_in_username.model
 
-import android.util.Log
 import io.golos.cyber_android.core.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
@@ -9,14 +8,14 @@ import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.val
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidator
 import javax.inject.Inject
 
-class SignInModelImpl
+class SignInUserNameModelImpl
 @Inject
 constructor(
     private val userNameValidator: UserNameValidator,
     private val passwordValidator: PasswordValidator,
     private val clipboardUtils: ClipboardUtils
 ) : ModelBaseImpl(),
-    SignInModel {
+    SignInUserNameModel {
 
     override val minUserNameLen: Int
         get() = userNameValidator.minLen

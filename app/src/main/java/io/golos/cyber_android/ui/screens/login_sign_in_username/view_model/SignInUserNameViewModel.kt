@@ -20,19 +20,19 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToQrCode
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToSignUpCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
-import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInModel
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInUserNameModel
 import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 
-class SignInViewModel
+class SignInUserNameViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: SignInModel,
+    model: SignInUserNameModel,
     private val userNameValidationVisualizer: Lazy<UserNameValidationVisualizer>,
     private val passwordValidationVisualizer: Lazy<PasswordValidationVisualizer>,
     private val appContext: Context
-) : ViewModelBase<SignInModel>(dispatchersProvider, model) {
+) : ViewModelBase<SignInUserNameModel>(dispatchersProvider, model) {
 
     private val _signInButtonEnabled = MutableLiveData<Boolean>(false)
     val signInButtonEnabled: LiveData<Boolean> get() = _signInButtonEnabled

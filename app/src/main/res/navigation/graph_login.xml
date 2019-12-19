@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="io.golos.cyber_android.ui.screens.login_sign_in_username.view.SignInFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_in_username.view.SignInUserNameFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in_old">
         <action
@@ -47,6 +47,13 @@
             app:popEnterAnim="@anim/nav_slide_in_left"
             app:popExitAnim="@anim/nav_slide_out_right"
             app:popUpTo="@+id/welcomeFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_signInQrCodeFragment"
+            app:destination="@id/signInQrCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/signUpPhoneFragment"
@@ -198,4 +205,8 @@
             app:popExitAnim="@anim/nav_slide_out_right"
             app:popUpTo="@+id/graph_login" />
     </fragment>
+    <fragment
+        android:id="@+id/signInQrCodeFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view.SignInQrCodeFragment"
+        android:label="SignInQrCodeFragment" />
 </navigation>

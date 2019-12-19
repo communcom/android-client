@@ -48,7 +48,8 @@ import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
@@ -325,6 +326,12 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 .dashboardFragmentComponent
                 .build()
 
+            SignInUserNameFragmentComponent::class -> get<LoginActivityComponent>()
+                .signInUserNameFragmentComponent
+                .build()
+
+            SignInQrCodeFragmentComponent::class -> get<LoginActivityComponent>()
+                .signInQrCodeFragmentComponent
             ProfileCommentsFragmentComponent::class -> get<UIComponent>()
                 .profileCommentsFragmentComponent
                 .init(ProfileCommentsModule(args[0] as UserIdDomain))

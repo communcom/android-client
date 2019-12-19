@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.login_sign_in_username.view_model.SignInViewModel" />
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.login_sign_in_username.view_model.SignInUserNameViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context="io.golos.cyber_android.ui.screens.login_sign_in_username.view.SignInFragment">
+        tools:context="io.golos.cyber_android.ui.screens.login_sign_in_username.view.SignInUserNameFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"

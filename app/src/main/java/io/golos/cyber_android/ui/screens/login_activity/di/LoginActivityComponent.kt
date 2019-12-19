@@ -3,9 +3,10 @@ package io.golos.cyber_android.ui.screens.login_activity.di
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
 import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
-import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_old.qr_code.QrCodeSignInFragment
 import io.golos.cyber_android.ui.screens.login_sign_in_old.user_name.UserNameSignInFragment
+import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.key.SignUpKeyFragment
@@ -28,7 +29,8 @@ interface LoginActivityComponent {
     }
 
     val onBoardingFragmentComponent: OnBoardingFragmentComponent.Builder
-    val signInFragmentComponent: SignInFragmentComponent.Builder
+    val signInUserNameFragmentComponent: SignInUserNameFragmentComponent.Builder
+    val signInQrCodeFragmentComponent: SignInQrCodeFragmentComponent.Builder
 
     fun inject(activity: LoginActivity)
     fun inject(fragment: QrCodeSignInFragment)
