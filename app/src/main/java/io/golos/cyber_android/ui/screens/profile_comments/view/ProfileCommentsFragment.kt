@@ -26,16 +26,21 @@ import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileComm
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
 class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding, ProfileCommentsViewModel>() {
+
+    private var collapseListener: (() -> Unit)? = null
 
     override fun provideViewModelType(): Class<ProfileCommentsViewModel> = ProfileCommentsViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_profile_comments
 
-    override fun inject() = App.injections.get<ProfileCommentsFragmentComponent>()
-        .inject(this)
+    override fun inject() =
+        App.injections.get<ProfileCommentsFragmentComponent>(
+            arguments!!.getParcelable<UserIdDomain>(USER_ID_EXTRA)
+        ).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<ProfileCommentsFragmentComponent>()
@@ -43,6 +48,10 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
     override fun linkViewModel(binding: FragmentProfileCommentsBinding, viewModel: ProfileCommentsViewModel) {
         binding.viewModel = viewModel
+    }
+
+    fun setCollapseListener(listener: () -> Unit) {
+        collapseListener = listener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -129,7 +138,6 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                         val commentMenu: CommentMenu? = data?.extras?.getParcelable(Tags.COMMENT_MENU)
                         commentMenu?.let { comment ->
                             viewModel.deleteComment(
-                                comment.authorUserId,
                                 comment.permlink,
                                 comment.communityId
                             )
@@ -207,6 +215,15 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
     companion object {
-        fun newInstance() = ProfileCommentsFragment()
+
+        private const val USER_ID_EXTRA = "user_id"
+
+        fun newInstance(
+            userId: UserIdDomain
+        ) = ProfileCommentsFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(USER_ID_EXTRA, userId)
+            }
+        }
     }
 }

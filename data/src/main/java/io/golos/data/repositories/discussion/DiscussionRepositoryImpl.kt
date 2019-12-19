@@ -81,6 +81,7 @@ constructor(
         offset: Int,
         pageSize: Int,
         commentType: CommentDomain.CommentTypeDomain,
+        userId: UserIdDomain,
         permlink: String?,
         communityId: String?,
         communityAlias: String?,
@@ -93,7 +94,7 @@ constructor(
                 offset = offset,
                 limit = pageSize,
                 type = commentType.mapToCommentSortType(),
-                userId = currentUserRepository.userId.mapToCyberName(),
+                userId = userId.mapToCyberName(),
                 permlink = permlink,
                 communityId = communityId,
                 communityAlias = communityAlias,
@@ -111,17 +112,16 @@ constructor(
     }
 
     override suspend fun deletePostOrComment(
-        userId: String,
         permlink: String,
         communityId: String
     ) {
         apiCallChain {
             commun4j.deletePostOrComment(
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
                 communCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                author = userId.toCyberName()
+                author = currentUserRepository.userId.mapToCyberName()
             )
         }
     }
@@ -180,36 +180,34 @@ constructor(
         }
     }
 
-    override suspend fun upVote(
-        communityId: String,
-        userId: String,
-        permlink: String
-    ) {
-        apiCallChain {
+    override suspend fun upVote(communityId: String, permlink: String, userId: String?) {
+        val validUserId =
+            if (userId.isNullOrEmpty()) currentUserRepository.userId.userId.toCyberName()
+            else userId.toCyberName()
+         apiCallChain {
             commun4j.upVote(
                 communCode = CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                messageId = MssgidCGalleryStruct(validUserId, permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = userId.toCyberName()
+                voter = validUserId
             )
         }
     }
 
-    override suspend fun downVote(
-        communityId: String,
-        userId: String,
-        permlink: String
-    ) {
+    override suspend fun downVote(communityId: String, permlink: String, userId: String?) {
+        val validUserId =
+            if (userId.isNullOrEmpty()) currentUserRepository.userId.userId.toCyberName()
+            else userId.toCyberName()
         apiCallChain {
             commun4j.downVote(
                 communCode = CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                messageId = MssgidCGalleryStruct(validUserId, permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = userId.toCyberName()
+                voter = validUserId
             )
         }
     }

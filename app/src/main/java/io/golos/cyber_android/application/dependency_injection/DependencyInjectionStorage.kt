@@ -58,6 +58,7 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentM
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsModule
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentModule
@@ -325,6 +326,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             ProfileCommentsFragmentComponent::class -> get<UIComponent>()
                 .profileCommentsFragmentComponent
+                .init(ProfileCommentsModule(args[0] as UserIdDomain))
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

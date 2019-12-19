@@ -52,7 +52,9 @@ class CommentWidget @JvmOverloads constructor(
     init {
         inflate(context, R.layout.widget_comment, this)
 
-        root.layoutTransition.setDuration(context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
+        root.layoutTransition.setDuration(
+            context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+        )
 
         comment.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {
@@ -62,7 +64,12 @@ class CommentWidget @JvmOverloads constructor(
             }
         })
         sendButton.setOnClickListener {
-            onSendClickListener?.invoke(CommentContent(editComment?.contentId, comment.text.toString(), attachmentImageUrl?.let { Uri.parse(it) }))
+            onSendClickListener?.invoke(
+                CommentContent(
+                    editComment?.contentId,
+                    comment.text.toString(),
+                    attachmentImageUrl?.let { Uri.parse(it) })
+            )
         }
         closeButton.setOnClickListener {
             clear()
@@ -113,10 +120,10 @@ class CommentWidget @JvmOverloads constructor(
         commentEdit.visibility = View.VISIBLE
     }
 
-    private fun setupEditLayout(attachmentImageUrl: String?){
-        if(TextUtils.isEmpty(attachmentImageUrl)){
+    private fun setupEditLayout(attachmentImageUrl: String?) {
+        if (TextUtils.isEmpty(attachmentImageUrl)) {
             ivEditAttachment.visibility = View.GONE
-        } else{
+        } else {
             ivEditAttachment.visibility = View.VISIBLE
             ivEditAttachment.loadCommentAttachment(attachmentImageUrl, resources.getDimension(R.dimen.dimen_4).toInt())
         }

@@ -120,11 +120,11 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
-    fun deleteComment(userId: String, permlink: String, communityId: String) {
+    fun deleteComment(permlink: String, communityId: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.deleteComment(userId, permlink, communityId)
+                model.deleteComment(permlink, communityId)
                 _commentListState.value = deletePostInState(_commentListState.value, permlink)
             } catch (e: Exception) {
                 Timber.e(e)

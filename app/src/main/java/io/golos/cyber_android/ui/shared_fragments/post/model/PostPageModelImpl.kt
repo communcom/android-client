@@ -125,14 +125,14 @@ constructor(
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.upVote(communityId, userId, permlink)
+            discussionRepository.upVote(communityId, permlink, userId)
             updateUpVote()
         }
     }
 
     override suspend fun downVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.downVote(communityId, userId, permlink)
+            discussionRepository.downVote(communityId, permlink, userId)
             updateDownVote()
         }
     }

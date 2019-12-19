@@ -16,22 +16,22 @@ interface DiscussionRepository {
         offset: Int,
         pageSize: Int,
         commentType: CommentDomain.CommentTypeDomain,
+        userId: UserIdDomain,
         permlink: String? = null,
         communityId: String? = null,
         communityAlias: String? = null,
         parentComment: ParentCommentIdentifierDomain? = null
     ): List<CommentDomain>
 
-    suspend fun upVote(communityId: String, userId: String, permlink: String)
+    suspend fun upVote(communityId: String, permlink: String, userId: String? = null)
 
-    suspend fun downVote(communityId: String, userId: String, permlink: String)
+    suspend fun downVote(communityId: String, permlink: String, userId: String? = null)
 
     suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String)
 
     suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain
 
     suspend fun deletePostOrComment(
-        userId: String,
         permlink: String,
         communityId: String
     )

@@ -14,7 +14,7 @@ interface ProfileCommentsModel : ModelBase {
 
     suspend fun commentDownVote(commentId: ContentIdDomain)
 
-    suspend fun deleteComment(userId: String, permlink: String, communityId: String)
+    suspend fun deleteComment(permlink: String, communityId: String)
 
     suspend fun updateComment(comment: CommentDomain)
 

@@ -16,13 +16,21 @@ import io.golos.domain.dto.UserIdDomain
 
 class ProfileExternalUserFragment : ProfileFragment() {
     companion object {
-        fun newInstance(userId: UserIdDomain) = ProfileExternalUserFragment().apply {
-            arguments = Bundle().apply { putParcelable(Tags.USER_ID, userId) }
+        fun newInstance(
+            userId: UserIdDomain
+        ) = ProfileExternalUserFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(Tags.USER_ID, userId)
+            }
         }
     }
 
     override fun inject() =
-        App.injections.get<ProfileExternalUserFragmentComponent>(arguments!!.getParcelable<UserIdDomain>(Tags.USER_ID)).inject(this)
+        App.injections.get<ProfileExternalUserFragmentComponent>(
+            arguments!!.getParcelable<UserIdDomain>(
+                Tags.USER_ID
+            )
+        ).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<ProfileExternalUserFragmentComponent>()
@@ -36,6 +44,7 @@ class ProfileExternalUserFragment : ProfileFragment() {
 
     override fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesExternalUserAdapter(
         context!!.applicationContext,
-        getDashboardFragment(this)!!.childFragmentManager
+        getDashboardFragment(this)!!.childFragmentManager,
+        arguments?.getParcelable(Tags.USER_ID)!!
     )
 }
