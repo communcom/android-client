@@ -88,7 +88,7 @@ class ProfileCommentsViewModel @Inject constructor(
                         body = contentBlock
                     )
                     commentForUpdate?.let {
-                        model.editComment(it)
+                        model.updateComment(it)
                         _commentListState.value = updateCommentAfterEdit(
                             _commentListState.value,
                             contentId,
@@ -99,6 +99,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.unknown_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

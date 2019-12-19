@@ -26,6 +26,8 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
+import io.golos.utils.toServerFormat
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -113,12 +115,13 @@ constructor(
         }
     }
 
-    override suspend fun editComment(commentDomain: CommentDomain) {
+    override suspend fun updateComment(commentDomain: CommentDomain) {
         val body = commentDomain.body
         val contentEntity = body?.mapToContentBlock()
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val contentId = commentDomain.contentId
+        Timber.d("jsonBody = $jsonBody, date format = ${commentDomain.meta.creationTime.toServerFormat()}")
         apiCallChain {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentId.userId.toCyberName(), contentId.permlink),
@@ -126,7 +129,7 @@ constructor(
                 header = "",
                 body = jsonBody,
                 tags = listOf(),
-                metadata = "",
+                metadata = commentDomain.meta.creationTime.toServerFormat(),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = commentDomain.author.userId.toCyberName()

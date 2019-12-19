@@ -35,7 +35,7 @@ interface DiscussionRepository {
         communityId: String
     )
 
-    suspend fun editComment(commentDomain: CommentDomain)
+    suspend fun updateComment(commentDomain: CommentDomain)
 
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
@@ -46,6 +46,7 @@ interface DiscussionRepository {
 
     fun deleteComment(commentId: DiscussionIdModel)
 
+    @Deprecated("Need use method updateComment")
     fun updateCommentText(comment: CommentModel, newCommentText: String): CommentModel
 
     fun createReplyComment(repliedCommentId: DiscussionIdModel, newCommentText: String): CommentModel

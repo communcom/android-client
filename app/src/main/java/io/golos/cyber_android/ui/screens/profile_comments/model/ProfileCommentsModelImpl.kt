@@ -42,7 +42,7 @@ class ProfileCommentsModelImpl @Inject constructor(
         )
     }
 
-    override suspend fun editComment(comment: CommentDomain) {
-        discussionRepository.editComment(comment)
+    override suspend fun updateComment(comment: CommentDomain) {
+        discussionRepository.updateComment(comment)
     }
 }
