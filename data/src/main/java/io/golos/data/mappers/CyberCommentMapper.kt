@@ -16,6 +16,6 @@ childCommentsCount = this.childCommentsCount,
         meta = this.meta.mapToMetaDomain(),
         parent = this.parents.mapToParentCommentDomain(),
         type = this.type,
-        isDeleted = bodyBlock == null,
+        isDeleted = this.isDeleted ?: false,
         isMyComment = isMyComment)
 }

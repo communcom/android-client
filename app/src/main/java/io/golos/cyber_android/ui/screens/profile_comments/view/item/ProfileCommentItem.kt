@@ -225,7 +225,7 @@ class ProfileCommentItem(
             voting.setUpVoteButtonSelected(votes.hasUpVote)
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
-            if(listItem.comment.isMyComment){
+            if(!listItem.comment.isMyComment){
                 itemView.voting.upvoteButton.visibility = View.VISIBLE
                 itemView.voting.downvoteButton.visibility = View.VISIBLE
                 voting.setOnUpVoteButtonClickListener {
