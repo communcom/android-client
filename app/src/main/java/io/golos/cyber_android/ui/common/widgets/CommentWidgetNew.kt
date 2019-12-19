@@ -14,6 +14,7 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.android.synthetic.main.layout_comment_input.view.*
 import javax.inject.Inject
 
+@Deprecated("Need use CommentWidget")
 class CommentWidgetNew
 @JvmOverloads
 constructor(
