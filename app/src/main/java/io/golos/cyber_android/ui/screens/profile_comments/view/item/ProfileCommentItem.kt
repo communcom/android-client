@@ -21,6 +21,9 @@ import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
+import kotlinx.android.synthetic.main.item_post_controls.view.*
+import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
+import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class ProfileCommentItem(
     parentView: ViewGroup,
@@ -222,16 +225,24 @@ class ProfileCommentItem(
             voting.setUpVoteButtonSelected(votes.hasUpVote)
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
-            voting.setOnUpVoteButtonClickListener {
-                if (!listItem.comment.votes.hasUpVote) {
-                    listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
+            if(listItem.comment.isMyComment){
+                itemView.voting.upvoteButton.visibility = View.VISIBLE
+                itemView.voting.downvoteButton.visibility = View.VISIBLE
+                voting.setOnUpVoteButtonClickListener {
+                    if (!listItem.comment.votes.hasUpVote) {
+                        listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
+                    }
                 }
-            }
-            voting.setOnDownVoteButtonClickListener {
-                if (!listItem.comment.votes.hasDownVote) {
-                    listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
+                voting.setOnDownVoteButtonClickListener {
+                    if (!listItem.comment.votes.hasDownVote) {
+                        listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
+                    }
                 }
+            } else{
+                itemView.voting.upvoteButton.visibility = View.INVISIBLE
+                itemView.voting.downvoteButton.visibility = View.INVISIBLE
             }
+
         }
     }
 

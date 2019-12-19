@@ -17,8 +17,6 @@ constructor(
     private var onUpVoteButtonClickListener: (() -> Unit)? = null
     private var onDownVoteButtonClickListener: (() -> Unit)? = null
 
-    private lateinit var userId: String
-
     init {
         inflate(getContext(), R.layout.view_post_voting, this)
 
