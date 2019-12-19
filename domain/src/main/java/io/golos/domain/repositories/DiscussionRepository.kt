@@ -7,6 +7,7 @@ import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
+import java.io.File
 
 interface DiscussionRepository {
     fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
@@ -52,4 +53,6 @@ interface DiscussionRepository {
     fun createReplyComment(repliedCommentId: DiscussionIdModel, newCommentText: String): CommentModel
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain>
+
+    suspend fun uploadContentAttachment(file: File): String
 }

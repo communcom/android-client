@@ -11,5 +11,5 @@ interface ProfilePhotosModel : ModelBase {
 
     fun addCameraImageToGallery(cameraImageUri: Uri): List<VersionedListItem>
 
-    suspend fun saveSelectedPhoto(imageInfo: PhotoViewImageInfo): File
+    suspend fun saveSelectedPhoto(imageInfo: PhotoViewImageInfo, isNeedCropVisibleArea: Boolean = true): File
 }

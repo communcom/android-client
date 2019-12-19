@@ -13,7 +13,9 @@ import io.golos.cyber_android.ui.common.glide.release
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
+import io.golos.domain.use_cases.post.post_dto.TextBlock
 import kotlinx.android.synthetic.main.layout_comment_edit_block.view.*
 import kotlinx.android.synthetic.main.layout_comment_image_attachment.view.*
 import kotlinx.android.synthetic.main.layout_comment_input.view.*
@@ -30,21 +32,18 @@ class CommentWidget @JvmOverloads constructor(
 
     private var onSendClickListener: ((CommentContent) -> Unit)? = null
 
-    private var editComment: Comment? = null
+    var onAttachImageListener: ((String?) -> Unit)? = null
 
-    private var editTextComment: String = ""
+    private var editComment: Comment? = null
 
     private var attachmentImageUrl by Delegates.observable<String?>(null) { _, oldUrl, newUrl ->
         if (newUrl != oldUrl) {
             if (TextUtils.isEmpty(newUrl)) {
                 commentAttachment.visibility = View.GONE
                 sendButton.visibility = if (comment.text.isNullOrBlank()) View.GONE else View.VISIBLE
-                ivEditAttachment.visibility = View.GONE
             } else {
                 commentAttachment.visibility = View.VISIBLE
-                ivEditAttachment.visibility = View.VISIBLE
                 sendButton.visibility = View.VISIBLE
-                ivEditAttachment.loadCommentAttachment(newUrl, resources.getDimension(R.dimen.dimen_4).toInt())
                 ivAttachment.loadCommentAttachment(newUrl, resources.getDimension(R.dimen.dimen_15).toInt())
             }
         }
@@ -60,7 +59,6 @@ class CommentWidget @JvmOverloads constructor(
                 super.afterTextChanged(s)
 
                 sendButton.visibility = if (s.isNullOrBlank() && attachmentImageUrl == null) View.GONE else View.VISIBLE
-                editTextComment = s.toString()
             }
         })
         sendButton.setOnClickListener {
@@ -72,6 +70,9 @@ class CommentWidget @JvmOverloads constructor(
         }
         deleteAttachment.setOnClickListener {
             attachmentImageUrl = null
+        }
+        ivAttachImage.setOnClickListener {
+            onAttachImageListener?.invoke(attachmentImageUrl)
         }
     }
 
@@ -105,10 +106,20 @@ class CommentWidget @JvmOverloads constructor(
         val mediaBlock = body?.attachments?.content?.firstOrNull()
         attachmentImageUrl = if (mediaBlock is ImageBlock) {
             mediaBlock.content.toString()
-        } else{
+        } else {
             null
         }
+        setupEditLayout(attachmentImageUrl)
         commentEdit.visibility = View.VISIBLE
+    }
+
+    private fun setupEditLayout(attachmentImageUrl: String?){
+        if(TextUtils.isEmpty(attachmentImageUrl)){
+            ivEditAttachment.visibility = View.GONE
+        } else{
+            ivEditAttachment.visibility = View.VISIBLE
+            ivEditAttachment.loadCommentAttachment(attachmentImageUrl, resources.getDimension(R.dimen.dimen_4).toInt())
+        }
     }
 
     fun setOnSendClickListener(listener: ((CommentContent) -> Unit)?) {
@@ -131,7 +142,13 @@ class CommentWidget @JvmOverloads constructor(
         comment.setText("")
     }
 
-    data class CommentContent(val contentId: ContentId?,
-                             val message: String?,
-                             val imageUri: Uri?)
+    fun updateImageAttachment(photoFilePath: String?) {
+        attachmentImageUrl = photoFilePath
+    }
+
+    data class CommentContent(
+        val contentId: ContentId?,
+        val message: String?,
+        val imageUri: Uri?
+    )
 }

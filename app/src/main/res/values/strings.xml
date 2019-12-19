@@ -277,6 +277,7 @@
     <string name="change_profile_cover">Change profile cover</string>
     <string name="change_profile_description">Change profile description</string>
     <string name="profile_settings">Profile settings</string>
+    <string name="change_photo">Change photo</string>
 
     <!--Notifications-->
     <string name="event_time_and_actor_format">%1$s in %2$s</string>

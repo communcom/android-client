@@ -80,6 +80,7 @@
                         android:onClick="@{() -> viewModel.onSettingsClick()}"
                     />
 
+                    <!--White area-->
                     <ImageView
                         android:id="@+id/updateCoverButton"
                         android:layout_width="@dimen/size_image_button"
@@ -91,19 +92,18 @@
 
                         android:background="@drawable/bcg_profile_cover_button"
 
-                        android:padding="@dimen/profile_update_cover_button_padding"
-                        android:src="@drawable/ic_editor_widget_camera"
-
                         android:onClick="@{() -> viewModel.onUpdatePhotoClick(ProfileItem.COVER)}"
+                        android:padding="@dimen/profile_update_cover_button_padding"
+
+                        android:src="@drawable/ic_editor_widget_camera"
 
                         android:tint="@color/white"
 
-                        tools:visibility="visible"
                         android:visibility="@{viewModel.photoButtonsVisibility}"
+                        tools:ignore="ContentDescription"
 
-                        tools:ignore="ContentDescription" />
+                        tools:visibility="visible" />
 
-                    <!--White area-->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

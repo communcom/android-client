@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 class ProfileCommentsViewModel @Inject constructor(
@@ -81,7 +82,12 @@ class ProfileCommentsViewModel @Inject constructor(
                     val content = commentContent.message?.let { message ->
                         listOf(ParagraphBlock(null, listOf(TextBlock(currentContentAppVersion, message, null, null))))
                     } ?: listOf()
-                    val attachments = commentContent.imageUri?.let { uri -> AttachmentsBlock(currentContentAppVersion, listOf(ImageBlock(null, uri, null))) }
+                    var imageUri = commentContent.imageUri
+                    if(imageUri != null && (commentFromState?.body?.attachments?.content?.firstOrNull() as? ImageBlock)?.content != imageUri){
+                        //Обновилось изображение и нужно его загрузить на сервер
+                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
+                    }
+                    val attachments = imageUri?.let { uri -> AttachmentsBlock(currentContentAppVersion, listOf(ImageBlock(null, uri, null))) }
                     val contentBlock = commentFromState?.body?.copy(
                         content = content,
                         attachments = attachments

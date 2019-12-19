@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import java.io.File
 
 interface ProfileCommentsModel : ModelBase {
 
@@ -17,4 +18,5 @@ interface ProfileCommentsModel : ModelBase {
 
     suspend fun updateComment(comment: CommentDomain)
 
+    suspend fun uploadAttachmentContent(file: File): String
 }

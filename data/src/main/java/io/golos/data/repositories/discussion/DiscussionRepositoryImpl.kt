@@ -28,6 +28,7 @@ import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
 import io.golos.utils.toServerFormat
 import timber.log.Timber
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -48,6 +49,11 @@ constructor(
     discussionsApi,
     transactionsApi
 ), DiscussionRepository {
+
+
+    override suspend fun uploadContentAttachment(file: File): String {
+        return apiCallChain { commun4j.uploadImage(file) }
+    }
 
     override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> {
         val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)

@@ -116,6 +116,7 @@ constructor(
             ProfileItem.AVATAR -> MoveToSelectPhotoPageCommand(item, model.avatarUrl)
             ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item, model.coverUrl)
             ProfileItem.BIO -> MoveToBioPageCommand(_bio.value)
+            else -> return
         }
     }
 

@@ -14,18 +14,18 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Comment
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
-import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
+import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
-import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
 class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding, ProfileCommentsViewModel>() {
@@ -53,9 +53,12 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
         btnRetry.setOnClickListener {
             viewModel.onRetryLoadComments()
         }
-        commentWidget.setOnSendClickListener{ comment ->
+        commentWidget.setOnSendClickListener { comment ->
             viewModel.onSendComment(comment)
             commentWidget.visibility = View.GONE
+        }
+        commentWidget.onAttachImageListener = {
+            openSelectPhotoView(it)
         }
     }
 
@@ -87,7 +90,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
+            is NavigateToUserProfileViewCommand -> openSelectPhotoView(command.userId)
 
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
 
@@ -98,8 +101,15 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
         }
     }
 
-    private fun openUserProfile(userId: String){
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+    private fun openSelectPhotoView(imageUrl: String?) {
+        getDashboardFragment(this)
+            ?.showFragment(
+                ProfilePhotosFragment.newInstance(
+                    ProfileItem.COMMENT,
+                    imageUrl,
+                    this@ProfileCommentsFragment
+                )
+            )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -127,8 +137,13 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     }
                 }
             }
+            ProfilePhotosFragment.REQUEST -> {
+                val result = data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
+                commentWidget.updateImageAttachment(result?.photoFilePath)
+            }
         }
     }
+
 
     private fun openProfileCommentMenu(comment: Comment) {
         CommentPageMenuDialog.newInstance(

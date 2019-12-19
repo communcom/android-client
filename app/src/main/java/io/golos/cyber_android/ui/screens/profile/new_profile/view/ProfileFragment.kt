@@ -147,7 +147,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     protected open fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesAdapter(
         context!!.applicationContext,
-        childFragmentManager
+        getDashboardFragment(this)?.childFragmentManager!!
     )
 
     private fun initPages() {

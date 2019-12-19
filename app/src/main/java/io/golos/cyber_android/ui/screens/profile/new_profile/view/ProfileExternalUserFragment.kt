@@ -36,6 +36,6 @@ class ProfileExternalUserFragment : ProfileFragment() {
 
     override fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesExternalUserAdapter(
         context!!.applicationContext,
-        childFragmentManager
+        getDashboardFragment(this)!!.childFragmentManager
     )
 }
