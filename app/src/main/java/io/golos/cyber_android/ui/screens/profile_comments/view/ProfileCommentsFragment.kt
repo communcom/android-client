@@ -54,7 +54,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             viewModel.onRetryLoadComments()
         }
         commentWidget.setOnSendClickListener{ comment ->
-            viewModel.onEditComment(comment)
+            viewModel.onSendComment(comment)
             commentWidget.visibility = View.GONE
         }
     }

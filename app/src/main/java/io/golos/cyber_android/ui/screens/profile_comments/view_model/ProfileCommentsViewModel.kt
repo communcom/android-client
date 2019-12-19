@@ -6,9 +6,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.common.widgets.CommentWidget
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
+import io.golos.cyber_android.ui.mappers.mapToCommentDomain
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
@@ -17,7 +19,7 @@ import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -67,21 +69,33 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
-    fun onEditComment(comment: Comment) {
+    fun onSendComment(commentContent: CommentWidget.CommentContent) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.editComment(
-                    userId = comment.author.userId,
-                    permlink = comment.contentId.permlink,
-                    communityId = comment.community.communityId,
-                    body = comment.body
-                )
-                _commentListState.value = updateCommentAfterEdit(
-                    _commentListState.value,
-                    comment.contentId,
-                    comment.body
-                )
+                val contentId = commentContent.contentId
+                if (contentId != null) {
+                    val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
+                    val content = commentContent.message?.let { message ->
+                        listOf(ParagraphBlock(listOf(TextBlock(message, null, null))))
+                    } ?: listOf()
+                    val attachments = commentContent.imageUri?.let { uri -> AttachmentsBlock(listOf(ImageBlock(uri, null))) }
+                    val contentBlock = commentFromState?.body?.copy(
+                        content = content,
+                        attachments = attachments
+                    )
+                    val commentForUpdate = commentFromState?.mapToCommentDomain()?.copy(
+                        body = contentBlock
+                    )
+                    commentForUpdate?.let {
+                        model.editComment(it)
+                        _commentListState.value = updateCommentAfterEdit(
+                            _commentListState.value,
+                            contentId,
+                            it.body
+                        )
+                    }
+                }
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)

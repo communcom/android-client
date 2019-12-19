@@ -11,10 +11,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.glide.loadCommentAttachment
 import io.golos.cyber_android.ui.common.glide.release
 import io.golos.cyber_android.ui.dto.Comment
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
-import io.golos.domain.use_cases.post.post_dto.TextBlock
+import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.android.synthetic.main.layout_comment_edit_block.view.*
 import kotlinx.android.synthetic.main.layout_comment_image_attachment.view.*
 import kotlinx.android.synthetic.main.layout_comment_input.view.*
@@ -29,9 +28,7 @@ class CommentWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var onSendClickListener: ((Comment) -> Unit)? = null
-
-    //private var currentContentBlock: ContentBlock? = null
+    private var onSendClickListener: ((CommentContent) -> Unit)? = null
 
     private var editComment: Comment? = null
 
@@ -67,39 +64,7 @@ class CommentWidget @JvmOverloads constructor(
             }
         })
         sendButton.setOnClickListener {
-            val block = editComment?.body?.content?.firstOrNull()
-            if (block is ParagraphBlock) {
-                val paragraphBlock = block.content.firstOrNull()
-                if (paragraphBlock != null && paragraphBlock is TextBlock) {
-                    val editBlock = paragraphBlock.copy(content = editTextComment)
-                    editComment = editComment?.copy(
-                        body = editComment?.body?.copy(
-                            content = listOf(
-                                ParagraphBlock(content = listOf(editBlock))
-                            )
-                        )
-                    )
-                }
-            }
-
-            attachmentImageUrl?.let { url ->
-                val mediaBlock = editComment?.body?.attachments?.content?.firstOrNull()
-                if (mediaBlock is ImageBlock) {
-                    val editUri = Uri.parse(url)
-                    val editBlock = mediaBlock.copy(content = editUri)
-                    editComment = editComment?.copy(
-                        body = editComment?.body?.copy(
-                            attachments = editComment?.body?.attachments?.copy(
-                                content = listOf(editBlock)
-                            )
-                        )
-                    )
-                }
-            }
-
-            editComment?.let { comment ->
-                onSendClickListener?.invoke(comment)
-            }
+            onSendClickListener?.invoke(CommentContent(editComment?.contentId, comment.text.toString(), attachmentImageUrl?.let { Uri.parse(it) }))
         }
         closeButton.setOnClickListener {
             clear()
@@ -111,7 +76,6 @@ class CommentWidget @JvmOverloads constructor(
     }
 
     fun clear() {
-        //currentContentBlock = null
         editComment = null
         attachmentImageUrl = null
         clearComment()
@@ -145,7 +109,7 @@ class CommentWidget @JvmOverloads constructor(
         commentEdit.visibility = View.VISIBLE
     }
 
-    fun setOnSendClickListener(listener: ((Comment) -> Unit)?) {
+    fun setOnSendClickListener(listener: ((CommentContent) -> Unit)?) {
         onSendClickListener = listener
     }
 
@@ -164,4 +128,8 @@ class CommentWidget @JvmOverloads constructor(
     private fun clearComment() {
         comment.setText("")
     }
+
+    data class CommentContent(val contentId: ContentId?,
+                             val message: String?,
+                             val imageUri: Uri?)
 }

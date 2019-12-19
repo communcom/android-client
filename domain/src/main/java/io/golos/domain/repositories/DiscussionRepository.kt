@@ -35,15 +35,7 @@ interface DiscussionRepository {
         communityId: String
     )
 
-    suspend fun editPostOrComment(
-        userId: String,
-        permlink: String,
-        communityId: String,
-        header: String,
-        body: String,
-        tags: List<String>,
-        metadata: String
-    )
+    suspend fun editComment(commentDomain: CommentDomain)
 
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel

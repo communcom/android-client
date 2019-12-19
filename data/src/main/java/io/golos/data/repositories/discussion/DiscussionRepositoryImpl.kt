@@ -1,5 +1,6 @@
 package io.golos.data.repositories.discussion
 
+import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.*
@@ -8,6 +9,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
+import io.golos.data.dto.block.ListContentBlockEntity
 import io.golos.data.mappers.*
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
@@ -37,7 +39,8 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val transactionsApi: TransactionsApi,
     private val commun4j: Commun4j,
-    private val userKeyStore: UserKeyStore
+    private val userKeyStore: UserKeyStore,
+    private val moshi: Moshi
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,
     discussionsApi,
@@ -110,26 +113,23 @@ constructor(
         }
     }
 
-    override suspend fun editPostOrComment(
-        userId: String,
-        permlink: String,
-        communityId: String,
-        header: String,
-        body: String,
-        tags: List<String>,
-        metadata: String
-    ) {
+    override suspend fun editComment(commentDomain: CommentDomain) {
+        val body = commentDomain.body
+        val contentEntity = body?.mapToContentBlock()
+        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+        val jsonBody = adapter.toJson(contentEntity)
+        val contentId = commentDomain.contentId
         apiCallChain {
             commun4j.updatePostOrComment(
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
-                communCode = CyberSymbolCode(communityId),
-                header = header,
-                body = body,
-                tags = tags,
-                metadata = metadata,
+                messageId = MssgidCGalleryStruct(contentId.userId.toCyberName(), contentId.permlink),
+                communCode = CyberSymbolCode(contentId.communityId),
+                header = "",
+                body = jsonBody,
+                tags = listOf(),
+                metadata = "",
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                author = userId.toCyberName()
+                author = commentDomain.author.userId.toCyberName()
             )
         }
     }
