@@ -53,7 +53,7 @@ constructor(
         val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
         val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
         val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
-        val items = apiCall {
+       return apiCall {
             commun4j.getPostsRaw(
                 postsConfigurationDomain.userId.toCyberName(),
                 postsConfigurationDomain.communityId,
@@ -65,12 +65,10 @@ constructor(
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
             )
-        }.items
-        val a = items.map {
+        }.items.map {
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId.userId)
         }
-        return a
     }
 
     override suspend fun getComments(
@@ -96,7 +94,14 @@ constructor(
                 parentComment = parentComment?.mapToParentComment()
             )
         }.items
-            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
+            .map {
+                val bodyBlock = it?.document?.let { block -> JsonToDtoMapper().map(block) }
+                val contentEntity = bodyBlock?.mapToContentBlock()
+                val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+                val jsonBody = adapter.toJson(contentEntity)
+                Timber.d("bodyRaw = {${it.document}, bodyParserRevert = $jsonBody")
+                it.mapToCommentDomain(it.author.userId.name == currentUserId)
+            }
     }
 
     override suspend fun deletePostOrComment(
@@ -121,7 +126,6 @@ constructor(
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val contentId = commentDomain.contentId
-        Timber.d("jsonBody = $jsonBody, date format = ${commentDomain.meta.creationTime.toServerFormat()}")
         apiCallChain {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentId.userId.toCyberName(), contentId.permlink),

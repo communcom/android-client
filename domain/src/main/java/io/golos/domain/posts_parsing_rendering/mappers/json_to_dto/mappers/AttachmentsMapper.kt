@@ -1,6 +1,7 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
 import io.golos.domain.posts_parsing_rendering.BlockType
+import io.golos.domain.posts_parsing_rendering.CommonType
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.MediaBlock
 import org.json.JSONObject
@@ -38,6 +39,7 @@ class AttachmentsMapper(mappersFactory: MappersFactory) : MapperBase<Attachments
                 }
         }
 
-        return AttachmentsBlock(content)
+        return AttachmentsBlock(source.tryString(CommonType.ID),
+            content)
     }
 }

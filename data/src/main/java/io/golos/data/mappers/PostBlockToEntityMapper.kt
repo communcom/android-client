@@ -1,9 +1,6 @@
 package io.golos.data.mappers
 
-import io.golos.data.dto.block.ContentAttribute
-import io.golos.data.dto.block.ContentBlockEntity
-import io.golos.data.dto.block.ContentEntity
-import io.golos.data.dto.block.ListContentBlockEntity
+import io.golos.data.dto.block.*
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.post_dto.*
 
@@ -11,15 +8,22 @@ fun ContentBlock.mapToContentBlock(): ListContentBlockEntity {
     val contentBlock = mutableListOf<ContentBlockEntity>()
 
     if (content.isNotEmpty()) {
-        contentBlock.add(ContentBlockEntity("paragraph", content.mapToBlockEntity()))
+        val contentBlocks = content.map { ContentBlockEntity((it as? ParagraphBlock)?.id, "paragraph", content.mapToBlockEntity()) }
+        contentBlock.addAll(contentBlocks)
     }
 
     attachments?.content?.let { content ->
-        contentBlock.add(ContentBlockEntity("attributes", content.mapToBlockEntity()))
+        contentBlock.add(ContentBlockEntity(attachments?.id,"attachments", content.mapToBlockEntity()))
     }
 
-    return ListContentBlockEntity(contentBlock)
+    return ListContentBlockEntity(
+        this.id,
+        this.type,
+        this.metadata.mapToDocumentAttributes(),
+        contentBlock)
 }
+
+fun PostMetadata.mapToDocumentAttributes(): DocumentAttributeEntity = DocumentAttributeEntity(this.version.toString(), this.type.name.toLowerCase())
 
 fun List<Block>.mapToBlockEntity(): List<ContentEntity> {
     return map { block ->
@@ -50,7 +54,7 @@ fun List<Block>.mapToBlockEntity(): List<ContentEntity> {
 
 fun TextBlock.mapToEntity(): ContentEntity {
     val attribute = if (style != null || textColor != null) {
-        ContentAttribute(
+        ContentAttributeEntity(
             style = style?.let { style ->
                 when (style) {
                     TextStyle.BOLD -> listOf("bold")
@@ -64,6 +68,7 @@ fun TextBlock.mapToEntity(): ContentEntity {
         )
     } else null
     return ContentEntity(
+        id = id,
         content = content,
         attributes = attribute,
         type = "text"
@@ -71,26 +76,28 @@ fun TextBlock.mapToEntity(): ContentEntity {
 }
 
 fun TagBlock.mapToEntity(): ContentEntity {
-    return ContentEntity(content = content, type = "tag")
+    return ContentEntity(id = id, content = content, type = "tag")
 }
 
 fun MentionBlock.mapToEntity(): ContentEntity {
-    return ContentEntity(content = content, type = "mention")
+    return ContentEntity(id = id, content = content, type = "mention")
 }
 
 fun LinkBlock.mapToEntity(): ContentEntity {
     return ContentEntity(
+        id = id,
         content = content,
         type = "link",
-        attributes = ContentAttribute(url = url.toString())
+        attributes = ContentAttributeEntity(url = url.toString())
     )
 }
 
 fun WebsiteBlock.mapToEntity(): ContentEntity {
     return ContentEntity(
+        id = id,
         content = content.toString(),
         type = "website",
-        attributes = ContentAttribute(
+        attributes = ContentAttributeEntity(
             thumbnailUrl = thumbnailUrl?.toString(),
             title = title,
             providerName = providerName,
@@ -101,9 +108,10 @@ fun WebsiteBlock.mapToEntity(): ContentEntity {
 
 fun EmbedBlock.mapToEntity(): ContentEntity {
     return ContentEntity(
+        id = id,
         content = content.toString(),
         type = "embed",
-        attributes = ContentAttribute(
+        attributes = ContentAttributeEntity(
             title = title,
             url = url?.toString(),
             author = author,
@@ -120,17 +128,19 @@ fun EmbedBlock.mapToEntity(): ContentEntity {
 
 fun ImageBlock.mapToEntity(): ContentEntity {
     return ContentEntity(
+        id = id,
         content = content.toString(),
         type = "image",
-        attributes = ContentAttribute(description = description)
+        attributes = description?.let { ContentAttributeEntity(description = description) }
     )
 }
 
 fun VideoBlock.mapToEntity(): ContentEntity {
     return ContentEntity(
+        id = id,
         content = content.toString(),
         type = "video",
-        attributes = ContentAttribute(
+        attributes = ContentAttributeEntity(
             title = title,
             url = content.toString(),
             author = author,
@@ -147,9 +157,10 @@ fun VideoBlock.mapToEntity(): ContentEntity {
 
 fun RichBlock.mapToEntity(): ContentEntity {
     return ContentEntity(
+        id = id,
         content = content.toString(),
         type = "rich",
-        attributes = ContentAttribute(
+        attributes = ContentAttributeEntity(
             title = title,
             url = url?.toString(),
             author = author,

@@ -1,6 +1,6 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import io.golos.domain.use_cases.post.post_dto.PostFormatVersion
+import io.golos.domain.use_cases.post.post_dto.DocumentFormatVersion
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import io.golos.domain.use_cases.post.post_dto.PostType
 import io.golos.domain.posts_parsing_rendering.Attribute
@@ -11,7 +11,7 @@ class PostMetadataMapper : MapperJsonUtils() {
     fun map(source: JSONObject): PostMetadata {
         val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
 
-        val version = PostFormatVersion.parse(jsonAttributes.getString(Attribute.VERSION))
+        val version = DocumentFormatVersion.parse(jsonAttributes.getString(Attribute.VERSION))
 
         val postType = jsonAttributes.getString(Attribute.TYPE).toPostType()
 

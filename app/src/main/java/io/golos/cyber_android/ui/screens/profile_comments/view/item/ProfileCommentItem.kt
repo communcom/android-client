@@ -83,7 +83,7 @@ class ProfileCommentItem(
 
             if (newContentList.isEmpty() && comment.isDeleted) {
                 val deleteBlock =
-                    ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
+                    ParagraphBlock("", arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
                 newContentList.add(deleteBlock)
             } else {
                 addAuthorNameToContent(newContentList, comment)
@@ -101,7 +101,7 @@ class ProfileCommentItem(
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
         // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
         //TODO need write this code better
-        val authorBlock = ParagraphBlock(
+        val authorBlock = ParagraphBlock(null,
             arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))
         ) as Block
         if (findBlock == null) {
@@ -111,7 +111,7 @@ class ProfileCommentItem(
             if (indexOf == 0) {
                 if (findBlock is TextBlock) {
                     newContentList[0] =
-                        ParagraphBlock(arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
+                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
                 } else {
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
@@ -130,7 +130,7 @@ class ProfileCommentItem(
                                 }
                                 paragraphContent.add(block)
                             }
-                            val newParagraph = ParagraphBlock(paragraphContent)
+                            val newParagraph = ParagraphBlock(null, paragraphContent)
                             newContentList[0] = newParagraph
                         } else {
                             newContentList[0] = authorBlock

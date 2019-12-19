@@ -2,7 +2,7 @@ package io.golos.data.dto.block
 
 import com.squareup.moshi.Json
 
-data class ContentAttribute(
+data class ContentAttributeEntity(
     @Json(name = "title") val title: String? = null,
     @Json(name = "url") val url: String? = null,
     @Json(name = "author") val author: String? = null,

@@ -2,6 +2,7 @@ package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
+import io.golos.domain.posts_parsing_rendering.CommonType
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.IncompatibleVersionsException
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
@@ -22,6 +23,9 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappe
         val title = jsonAttributes.tryString(Attribute.TITLE)
 
         val jsonContent = source.getContentAsArray()
+
+        val commonId = source.tryString(CommonType.ID)
+        val commonType = source.tryString(CommonType.TYPE)
 
         val content = mutableListOf<Block>()
         var attachments: AttachmentsBlock? = null
@@ -73,6 +77,6 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappe
 
         }
 
-        return ContentBlock(metadata, title, content, attachments)
+        return ContentBlock(commonId, commonType, metadata, title, content, attachments)
     }
 }

@@ -77,9 +77,9 @@ class ProfileCommentsViewModel @Inject constructor(
                 if (contentId != null) {
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
                     val content = commentContent.message?.let { message ->
-                        listOf(ParagraphBlock(listOf(TextBlock(message, null, null))))
+                        listOf(ParagraphBlock(null, listOf(TextBlock(null, message, null, null))))
                     } ?: listOf()
-                    val attachments = commentContent.imageUri?.let { uri -> AttachmentsBlock(listOf(ImageBlock(uri, null))) }
+                    val attachments = commentContent.imageUri?.let { uri -> AttachmentsBlock(null, listOf(ImageBlock(null, uri, null))) }
                     val contentBlock = commentFromState?.body?.copy(
                         content = content,
                         attachments = attachments

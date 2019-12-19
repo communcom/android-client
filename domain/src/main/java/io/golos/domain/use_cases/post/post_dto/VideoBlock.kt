@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Size
 
 data class VideoBlock(
+    val id: String?,
     val content: Uri,
     val title: String?,
     val providerName: String?,

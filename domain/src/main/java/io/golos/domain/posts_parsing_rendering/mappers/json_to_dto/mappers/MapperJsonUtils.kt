@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Size
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
+import io.golos.domain.posts_parsing_rendering.CommonType
 import io.golos.domain.use_cases.post.TextStyle
 import org.json.JSONArray
 import org.json.JSONObject
@@ -58,6 +59,8 @@ abstract class MapperJsonUtils {
     protected fun JSONObject.tryUri(attr: Attribute): Uri? = this.tryUri(attr.value)
 
     protected fun JSONObject.tryString(attr: Attribute): String? = this.tryString(attr.value)
+
+    protected fun JSONObject.tryString(attr: CommonType): String? = this.tryString(attr.value)
 
     protected fun JSONObject.tryInt(attr: Attribute): Int? = this.tryInt(attr.value)
 
