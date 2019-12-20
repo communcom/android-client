@@ -12,7 +12,7 @@ import io.golos.domain.dto.UserIdDomain
 class ProfilePagesAdapter(
     context: Context,
     fragmentManager: FragmentManager,
-    private val userId: UserIdDomain,
+    userId: UserIdDomain,
     private val collapseListener: () -> Unit
 ) : FragmentPagerAdapter(
     fragmentManager,
