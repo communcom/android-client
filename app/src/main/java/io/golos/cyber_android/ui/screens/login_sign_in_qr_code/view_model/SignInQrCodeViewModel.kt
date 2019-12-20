@@ -45,4 +45,8 @@ constructor(
             }
         }
     }
+
+    fun onBackButtonClick() {
+        _command.value = BackCommand()
+    }
 }

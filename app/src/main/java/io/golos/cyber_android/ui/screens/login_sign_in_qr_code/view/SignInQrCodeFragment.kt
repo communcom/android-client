@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignInQrCodeBinding
@@ -51,7 +52,7 @@ class SignInQrCodeFragment : FragmentBaseMVVM<FragmentSignInQrCodeBinding, SignI
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is BackCommand -> requireActivity().onBackPressed()
+            is BackCommand -> findNavController().navigateUp()
         }
     }
 }
