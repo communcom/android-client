@@ -189,7 +189,7 @@ class PostItem(
     }
 
     private fun setUpVotesButton(view: View, isMyPost: Boolean) {
-        if (isMyPost) {
+        if (!isMyPost) {
             view.votesArea.upvoteButton.visibility = View.VISIBLE
             view.votesArea.downvoteButton.visibility = View.VISIBLE
             view.votesArea.setOnUpVoteButtonClickListener {
