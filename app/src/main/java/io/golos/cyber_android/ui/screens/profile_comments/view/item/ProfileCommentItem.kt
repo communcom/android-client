@@ -43,13 +43,13 @@ class ProfileCommentItem(
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
         val longClickListener = View.OnLongClickListener {
-            listItemEventsProcessor.onCommentLongClick(comment)
+            if (comment.isMyComment && !comment.isDeleted) {
+                listItemEventsProcessor.onCommentLongClick(comment)
+            }
             true
         }
         setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
-        if (comment.isMyComment && !comment.isDeleted) {
-            itemView.setOnLongClickListener(longClickListener)
-        }
+        itemView.setOnLongClickListener(longClickListener)
     }
 
     private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
