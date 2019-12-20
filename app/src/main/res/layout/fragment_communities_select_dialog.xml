@@ -67,37 +67,6 @@
             android:lines="1"
             tools:ignore="Autofill,LabelFor" />
 
-        <!--<FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/select_community_dialog_search_margin"
-            android:paddingStart="@dimen/select_community_dialog_padding_small"
-            android:paddingEnd="@dimen/select_community_dialog_padding_small"
-            android:paddingBottom="@dimen/select_community_dialog_padding_small"
-            android:paddingTop="@dimen/dimen_20"
-            android:background="@color/light_gray"
-            app:layout_constraintTop_toBottomOf="@+id/searchField"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-
-            <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
-                android:id="@+id/communitiesList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:has_paging="true"/>
-
-            <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
-                android:id="@+id/communitiesSearchList"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:has_paging="false"
-                android:visibility="invisible"
-                tools:visibility="visible" />
-        </FrameLayout>-->
-
 
         <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
             android:id="@+id/communitiesList"
