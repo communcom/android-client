@@ -389,8 +389,8 @@
     <dimen name="select_community_dialog_padding_small">10dp</dimen>
     <dimen name="select_community_dialog_padding_large">15dp</dimen>
     <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>
-    <dimen name="select_community_dialog_padding">10dp</dimen>
-    <dimen name="select_community_dialog_drawable_padding">8dp</dimen>
+    <dimen name="select_community_dialog_padding">12dp</dimen>
+    <dimen name="select_community_dialog_drawable_padding">12dp</dimen>
     <dimen name="select_community_dialog_search_margin">15dp</dimen>
     <dimen name="select_community_dialog_search_margin_small">10dp</dimen>
     <dimen name="select_community_dialog_search_margin_tiny">5dp</dimen>

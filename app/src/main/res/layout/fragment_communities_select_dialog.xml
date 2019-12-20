@@ -16,76 +16,120 @@
         android:layout_height="wrap_content"
         android:id="@+id/root"
         android:animateLayoutChanges="true"
-
-        android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
-
-        android:paddingStart="@dimen/select_community_dialog_padding_small"
-        android:paddingEnd="@dimen/select_community_dialog_padding_small"
-        android:paddingTop="@dimen/select_community_dialog_padding_large"
-        android:paddingBottom="@dimen/select_community_dialog_padding_small"
-
+        android:background="@drawable/bg_top_round_corners"
         tools:context=".ui.dialogs.select_community_dialog.view.SelectCommunityDialog">
+
+        <TextView
+            android:id="@+id/tvCommunitiesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_15_sp"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:text="@string/communities"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_gray"
+            android:padding="@dimen/dimen_15"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
             android:id="@+id/searchField"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_34"
             android:imeOptions="actionDone"
             android:inputType="text"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
+            app:layout_constraintTop_toBottomOf="@+id/tvCommunitiesLabel"
+            android:layout_marginTop="@dimen/margin_default"
             android:drawableStart="@drawable/ic_search_small"
-
             android:drawablePadding="@dimen/select_community_dialog_drawable_padding"
-            android:padding="@dimen/select_community_dialog_padding"
-
+            android:paddingStart="@dimen/select_community_dialog_padding"
+            android:paddingEnd="@dimen/select_community_dialog_padding"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:layout_marginEnd="@dimen/dimen_15"
             android:background="@drawable/bcg_common_white_round_rect"
-
             android:enabled="@{viewModel.isSearchStringEnabled}"
-
+            android:textColor="@color/grey"
             android:hint="@string/hint_search"
             android:textSize="@dimen/text_size_17_sp"
-
             android:maxLength="16"
             android:maxLines="1"
             android:lines="1"
-
             tools:ignore="Autofill,LabelFor" />
+
+        <!--<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/select_community_dialog_search_margin"
+            android:paddingStart="@dimen/select_community_dialog_padding_small"
+            android:paddingEnd="@dimen/select_community_dialog_padding_small"
+            android:paddingBottom="@dimen/select_community_dialog_padding_small"
+            android:paddingTop="@dimen/dimen_20"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@+id/searchField"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
+                android:id="@+id/communitiesList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:has_paging="true"/>
+
+            <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
+                android:id="@+id/communitiesSearchList"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:has_paging="false"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+        </FrameLayout>-->
+
 
         <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
             android:id="@+id/communitiesList"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="@dimen/select_community_dialog_search_margin"
-
-            app:has_paging="true"
-
+            android:paddingStart="@dimen/select_community_dialog_padding_small"
+            android:paddingEnd="@dimen/select_community_dialog_padding_small"
+            android:paddingBottom="@dimen/select_community_dialog_padding_small"
+            android:paddingTop="@dimen/dimen_20"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@+id/searchField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchField"
-            />
+            app:has_paging="true"/>
 
         <io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialogList
             android:id="@+id/communitiesSearchList"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="@dimen/select_community_dialog_search_margin"
-
             app:has_paging="false"
-
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/select_community_dialog_search_margin"
+            android:paddingStart="@dimen/select_community_dialog_padding_small"
+            android:paddingEnd="@dimen/select_community_dialog_padding_small"
+            android:paddingBottom="@dimen/select_community_dialog_padding_small"
+            android:paddingTop="@dimen/dimen_20"
+            android:background="@color/light_gray"
+            app:layout_constraintTop_toBottomOf="@+id/searchField"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchField"
+            tools:visibility="visible" />
 
-            android:visibility="invisible"
-            tools:visibility="visible"
-            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
