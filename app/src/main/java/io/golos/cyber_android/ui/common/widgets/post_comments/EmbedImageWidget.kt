@@ -30,7 +30,7 @@ constructor(
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
-    fun setContentId(contentId: ContentId) {
+    fun setContentId(contentId: ContentId?) {
         postContentId = contentId
     }
 

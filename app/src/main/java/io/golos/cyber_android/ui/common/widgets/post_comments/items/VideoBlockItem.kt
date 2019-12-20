@@ -9,8 +9,8 @@ import io.golos.domain.use_cases.post.post_dto.VideoBlock
 
 class VideoBlockItem(
     val videoBlock: VideoBlock,
-    val contentId: ContentId,
-    widgetListener: EmbedVideoWidgetListener?
+    val contentId: ContentId? = null,
+    widgetListener: EmbedVideoWidgetListener? = null
 ) : BaseBlockItem<VideoBlock, EmbedVideoWidgetListener, EmbedVideoWidget>(videoBlock, widgetListener) {
 
     override fun createWidgetView(context: Context): EmbedVideoWidget =

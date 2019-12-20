@@ -50,10 +50,6 @@ class ProfileCommentItem(
                 listItemEventsProcessor.onCommentLongClick(comment)
                 true
             }
-            itemView.rvCommentContent.setOnLongClickListener {
-                listItemEventsProcessor.onCommentLongClick(comment)
-                true
-            }
         }
     }
 
@@ -176,15 +172,13 @@ class ProfileCommentItem(
             }
 
             is ImageBlock -> ImageBlockItem(
-                block,
-                comment.contentId,
-                listItemEventsProcessor
+                imageBlock = block,
+                widgetListener = listItemEventsProcessor
             )
 
             is VideoBlock -> VideoBlockItem(
-                block,
-                comment.contentId,
-                listItemEventsProcessor
+                videoBlock = block,
+                widgetListener = listItemEventsProcessor
             )
 
             is WebsiteBlock -> WebSiteBlockItem(

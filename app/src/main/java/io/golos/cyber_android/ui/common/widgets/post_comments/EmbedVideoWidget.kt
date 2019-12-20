@@ -31,7 +31,7 @@ constructor(
         isNeedToShowHtmlContent = false
     }
 
-    fun setContentId(contentId: ContentId) {
+    fun setContentId(contentId: ContentId?) {
         postContentId = contentId
     }
 

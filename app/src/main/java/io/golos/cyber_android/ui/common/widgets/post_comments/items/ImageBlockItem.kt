@@ -9,8 +9,8 @@ import io.golos.domain.use_cases.post.post_dto.ImageBlock
 
 class ImageBlockItem(
     val imageBlock: ImageBlock,
-    val contentId: ContentId,
-    widgetListener: EmbedImageWidgetListener?
+    val contentId: ContentId? = null,
+    widgetListener: EmbedImageWidgetListener? = null
 ) :
     BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener) {
 
