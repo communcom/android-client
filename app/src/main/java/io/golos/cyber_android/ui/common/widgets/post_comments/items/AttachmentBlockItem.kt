@@ -14,7 +14,7 @@ class AttachmentBlockItem(
     widgetListener
 ) {
 
-    override fun createWidgetView(context: Context): AttachmentsWidget = AttachmentsWidget(context)
+    override fun createWidget(context: Context): AttachmentsWidget = AttachmentsWidget(context)
 
     override fun areItemsTheSame(): Int = attachmentsBlock.hashCode()
 

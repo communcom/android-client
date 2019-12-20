@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.item_post_block.view.*
 
 abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlockWidgetListener, WIDGET : BlockWidget<POST_BLOCK, WIDGET_LISTENER>>(
     private val postBlock: POST_BLOCK,
-    private val widgetListener: WIDGET_LISTENER? = null
+    private val widgetListener: WIDGET_LISTENER? = null,
+    private val onLongClickLister: View.OnLongClickListener? = null
 ) :
     BaseRecyclerItem() {
 
@@ -19,14 +20,16 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
 
     private var widgetViewId: Int = -1
 
-    protected abstract fun createWidgetView(context: Context): WIDGET
+    protected abstract fun createWidget(context: Context): WIDGET
 
     override fun initView(context: Context, view: View) {
         super.initView(context, view)
         widgetViewId = View.generateViewId()
-        val widgetView = createWidgetView(context)
-        widgetView.setOnClickProcessor(widgetListener)
-        (widgetView as View).id = widgetViewId
+        val widget = createWidget(context)
+        widget.setOnClickProcessor(widgetListener)
+        val widgetView = widget as View
+        widgetView.id = widgetViewId
+        widget.setOnLongClickListener(onLongClickLister)
         view.postWidgetContainer.addView(widgetView)
     }
 

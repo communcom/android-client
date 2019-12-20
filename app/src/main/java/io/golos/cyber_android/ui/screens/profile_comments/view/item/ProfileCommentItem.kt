@@ -21,8 +21,6 @@ import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
-import kotlinx.android.synthetic.main.item_post_controls.view.*
-import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class ProfileCommentItem(
@@ -44,12 +42,13 @@ class ProfileCommentItem(
         itemView.processingProgressBar.visibility = View.INVISIBLE
         itemView.warningIcon.visibility = View.INVISIBLE
         itemView.replyAndTimeText.visibility = View.INVISIBLE
-        setupCommentContent(listItem, listItemEventsProcessor)
+        val longClickListener = View.OnLongClickListener {
+            listItemEventsProcessor.onCommentLongClick(comment)
+            true
+        }
+        setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
         if (comment.isMyComment && !comment.isDeleted) {
-            itemView.setOnLongClickListener {
-                listItemEventsProcessor.onCommentLongClick(comment)
-                true
-            }
+            itemView.setOnLongClickListener(longClickListener)
         }
     }
 
@@ -63,7 +62,8 @@ class ProfileCommentItem(
 
     private fun setupCommentContent(
         listItem: ProfileCommentListItem,
-        listItemEventsProcessor: ProfileCommentsModelEventProcessor
+        listItemEventsProcessor: ProfileCommentsModelEventProcessor,
+        longClickListener: View.OnLongClickListener
     ) {
         with(itemView) {
             rvCommentContent.apply {
@@ -88,9 +88,9 @@ class ProfileCommentItem(
                 addAuthorNameToContent(newContentList, comment)
             }
             val contentItems = newContentList
-                .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor) != null }
+                .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener) != null }
                 .map {
-                    createPostBodyItem(listItem.comment, it, listItemEventsProcessor)!!
+                    createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener)!!
                 }
             commentContentAdapter.updateAdapter(contentItems)
         }
@@ -156,7 +156,8 @@ class ProfileCommentItem(
     private fun createPostBodyItem(
         comment: Comment,
         block: Block,
-        listItemEventsProcessor: ProfileCommentsModelEventProcessor
+        listItemEventsProcessor: ProfileCommentsModelEventProcessor,
+        longClickListener: View.OnLongClickListener
     ): BaseRecyclerItem? {
         return when (block) {
             is AttachmentsBlock -> {
@@ -164,7 +165,8 @@ class ProfileCommentItem(
                     createPostBodyItem(
                         comment,
                         block.content.single(),
-                        listItemEventsProcessor
+                        listItemEventsProcessor,
+                        longClickListener
                     ) // A single attachment is shown as embed block
                 } else {
                     AttachmentBlockItem(block, listItemEventsProcessor)
@@ -173,7 +175,8 @@ class ProfileCommentItem(
 
             is ImageBlock -> ImageBlockItem(
                 imageBlock = block,
-                widgetListener = listItemEventsProcessor
+                widgetListener = listItemEventsProcessor,
+                onLongClickListener = longClickListener
             )
 
             is VideoBlock -> VideoBlockItem(
@@ -189,7 +192,8 @@ class ProfileCommentItem(
             is ParagraphBlock -> ParagraphBlockItem(
                 block,
                 listItemEventsProcessor,
-                comment.contentId
+                comment.contentId,
+                onLongClickListener = longClickListener
             )
 
             is RichBlock -> RichBlockItem(

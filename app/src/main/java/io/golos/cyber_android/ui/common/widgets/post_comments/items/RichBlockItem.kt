@@ -16,7 +16,7 @@ class RichBlockItem(
     widgetListener
 ) {
 
-    override fun createWidgetView(
+    override fun createWidget(
         context: Context
     ): RichWidget = RichWidget(context).apply {
         setContentId(contentId)

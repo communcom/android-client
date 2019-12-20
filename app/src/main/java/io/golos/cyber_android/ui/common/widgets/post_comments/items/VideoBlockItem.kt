@@ -13,7 +13,7 @@ class VideoBlockItem(
     widgetListener: EmbedVideoWidgetListener? = null
 ) : BaseBlockItem<VideoBlock, EmbedVideoWidgetListener, EmbedVideoWidget>(videoBlock, widgetListener) {
 
-    override fun createWidgetView(context: Context): EmbedVideoWidget =
+    override fun createWidget(context: Context): EmbedVideoWidget =
         EmbedVideoWidget(context).apply {
             disableHtmlContent()
             setContentId(contentId)

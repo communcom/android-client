@@ -11,13 +11,14 @@ import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 data class ParagraphBlockItem(
     val paragraphBlock: ParagraphBlock,
     val widgetListener: ParagraphWidgetListener?,
-    val contentId: ContentId
+    val contentId: ContentId,
+    val onLongClickListener: View.OnLongClickListener? = null
 ) : BaseBlockItem<ParagraphBlock, ParagraphWidgetListener, ParagraphWidget>(
     paragraphBlock,
-    widgetListener
-) {
+    widgetListener,
+    onLongClickListener) {
 
-    override fun createWidgetView(
+    override fun createWidget(
         context: Context
     ): ParagraphWidget = ParagraphWidget(context).apply {
         setSeeMoreEnabled(true)

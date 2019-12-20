@@ -9,7 +9,7 @@ import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
 class WebSiteBlockItem(val websiteBlock: WebsiteBlock, widgetListener: EmbedWebsiteWidgetListener?) :
     BaseBlockItem<WebsiteBlock, EmbedWebsiteWidgetListener, EmbedWebsiteWidget>(websiteBlock, widgetListener) {
 
-    override fun createWidgetView(context: Context): EmbedWebsiteWidget =
+    override fun createWidget(context: Context): EmbedWebsiteWidget =
         EmbedWebsiteWidget(context)
 
     override fun areItemsTheSame(): Int = websiteBlock.hashCode()

@@ -16,7 +16,7 @@ class EmbedBlockItem(
     widgetListener
 ) {
 
-    override fun createWidgetView(
+    override fun createWidget(
         context: Context
     ): EmbedWidget = EmbedWidget(context).apply {
         setContentId(contentId)
