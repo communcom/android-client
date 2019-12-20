@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachin
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -125,14 +126,14 @@ constructor(
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.upVote(communityId, permlink, userId)
+            discussionRepository.upVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
             updateUpVote()
         }
     }
 
     override suspend fun downVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.downVote(communityId, permlink, userId)
+            discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
             updateDownVote()
         }
     }

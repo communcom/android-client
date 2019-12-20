@@ -25,17 +25,11 @@ class ProfileCommentsModelImpl @Inject constructor(
     }
 
     override suspend fun commentUpVote(commentId: ContentIdDomain) {
-        discussionRepository.upVote(
-            commentId.communityId,
-            commentId.permlink
-        )
+        discussionRepository.upVote(commentId)
     }
 
     override suspend fun commentDownVote(commentId: ContentIdDomain) {
-        discussionRepository.downVote(
-            commentId.communityId,
-            commentId.permlink
-        )
+        discussionRepository.downVote(commentId)
     }
 
     override suspend fun deleteComment(permlink: String, communityId: String) {

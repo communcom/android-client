@@ -23,9 +23,9 @@ interface DiscussionRepository {
         parentComment: ParentCommentIdentifierDomain? = null
     ): List<CommentDomain>
 
-    suspend fun upVote(communityId: String, permlink: String, userId: String? = null)
+    suspend fun upVote(contentIdDomain: ContentIdDomain)
 
-    suspend fun downVote(communityId: String, permlink: String, userId: String? = null)
+    suspend fun downVote(contentIdDomain: ContentIdDomain)
 
     suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String)
 

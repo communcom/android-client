@@ -101,14 +101,7 @@ constructor(
                 parentComment = parentComment?.mapToParentComment()
             )
         }.items
-            .map {
-                val bodyBlock = it.document?.let { block -> JsonToDtoMapper().map(block) }
-                val contentEntity = bodyBlock?.mapToContentBlock()
-                val adapter = moshi.adapter(ListContentBlockEntity::class.java)
-                val jsonBody = adapter.toJson(contentEntity)
-                Timber.d("bodyRaw = {${it.document}, bodyParserRevert = $jsonBody")
-                it.mapToCommentDomain(it.author.userId.name == currentUserId)
-            }
+            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId)}
     }
 
     override suspend fun deletePostOrComment(
@@ -148,25 +141,6 @@ constructor(
     }
 
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
-
-        val reporter = "cmn5bzqfmjtw".toCyberName()
-        val userName = "kirlin-lenita-iii"
-        val activeKey = "5JAGy2NbZTgDYMb59QKA5YdbSkzvhg9Y4YhriudPk8nvGFr8acs"
-        /*val secret = client.getAuthSecret().getOrThrow().secret
-        commun4j.authWithSecret(userName, secret, StringSigner.signString(secret, activeKey)).getOrThrow()
-        val post = client.getPosts(type = FeedType.NEW, limit = 1).getOrThrow().first()
-
-            .getOrThrow()*/
-
-        /*apiCallChain{
-            commun4j.reportContent(CyberSymbolCode( post.community.communityId),
-                MssgidCGalleryStruct(post.author.userId, post.contentId.permlink),
-                "[\"NSFW\"]",
-                BandWidthRequest.bandWidthFromComn,
-                ClientAuthRequest.empty,
-                reporter,
-                activeKey)
-        }*/
         apiCallChain {
             commun4j.reportContent(
                 CyberSymbolCode(communityId),
@@ -180,34 +154,30 @@ constructor(
         }
     }
 
-    override suspend fun upVote(communityId: String, permlink: String, userId: String?) {
-        val validUserId =
-            if (userId.isNullOrEmpty()) currentUserRepository.userId.userId.toCyberName()
-            else userId.toCyberName()
-         apiCallChain {
+    override suspend fun upVote(contentIdDomain: ContentIdDomain) {
+        val currentUser = currentUserRepository.userId.userId.toCyberName()
+        apiCallChain {
             commun4j.upVote(
-                communCode = CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(validUserId, permlink),
+                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = validUserId
+                voter = currentUser
             )
         }
     }
 
-    override suspend fun downVote(communityId: String, permlink: String, userId: String?) {
-        val validUserId =
-            if (userId.isNullOrEmpty()) currentUserRepository.userId.userId.toCyberName()
-            else userId.toCyberName()
+    override suspend fun downVote(contentIdDomain: ContentIdDomain) {
+        val currentUser = currentUserRepository.userId.userId.toCyberName()
         apiCallChain {
             commun4j.downVote(
-                communCode = CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(validUserId, permlink),
+                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = validUserId
+                voter = currentUser
             )
         }
     }
