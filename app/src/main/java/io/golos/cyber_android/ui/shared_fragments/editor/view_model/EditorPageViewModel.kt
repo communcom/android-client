@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
@@ -56,7 +57,7 @@ constructor(
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCaseImpl?,
-    private val contentId: Post.ContentId?,
+    private val contentId: ContentId?,
     model: EditorPageModel
 ) : ViewModelBase<EditorPageModel>(
     dispatchersProvider,

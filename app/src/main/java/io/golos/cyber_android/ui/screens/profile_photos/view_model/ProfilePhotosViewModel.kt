@@ -78,7 +78,7 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
 
-                val imageFile = model.saveSelectedPhoto(imageInfo)
+                val imageFile = model.saveSelectedPhoto(imageInfo, profileItem != ProfileItem.COMMENT)
 
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = PassResultCommand(imageFile, profileItem)

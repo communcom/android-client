@@ -1,14 +1,13 @@
 package io.golos.domain.dto
 
-import io.golos.domain.use_cases.post.post_dto.PostBlock
-import java.util.*
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 data class PostDomain(
 
     val author: AuthorDomain,
     val community: CommunityDomain,
     val contentId: ContentIdDomain,
-    val body: PostBlock?,
+    val body: ContentBlock?,
     val meta: MetaDomain,
     val stats: StatsDomain?,
     val type: String?,
@@ -16,16 +15,6 @@ data class PostDomain(
     val votes: VotesDomain,
     val isMyPost: Boolean
 ) {
-    data class VotesDomain(
-        val downCount: Long,
-        val upCount: Long,
-        val hasUpVote: Boolean,
-        val hasDownVote: Boolean
-    )
-
-    data class MetaDomain(
-        val creationTime: Date
-    )
 
     data class CommunityDomain(
         val alias: String?,
@@ -33,22 +22,5 @@ data class PostDomain(
         val name: String?,
         val avatarUrl: String?,
         val isSubscribed: Boolean
-    )
-
-    data class StatsDomain(
-        val commentsCount: Int,
-        val viewCount: Int
-    )
-
-    data class ContentIdDomain(
-        val communityId: String,
-        val permlink: String,
-        val userId: String
-    )
-
-    data class AuthorDomain(
-        val avatarUrl: String?,
-        val userId: String,
-        val username: String?
     )
 }

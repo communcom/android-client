@@ -62,6 +62,7 @@ constructor(
         when(photoPlace) {
             ProfileItem.AVATAR -> setMeasuredDimension(width, width)
             ProfileItem.COVER -> setMeasuredDimension(width, (width*coverHeightFactor).toInt())
+            ProfileItem.COMMENT -> setMeasuredDimension(width, (width*coverHeightFactor).toInt())
         }
     }
 

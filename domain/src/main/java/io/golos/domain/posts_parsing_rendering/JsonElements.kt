@@ -35,6 +35,11 @@ enum class Attribute(val value: String) {
     AUTHOR_URL("authorUrl")
 }
 
+enum class CommonType(val value: String) {
+    ID("id"),
+    TYPE("type"),
+}
+
 object PostTypeJson {
     const val BASIC = "basic"
     const val ARTICLE = "article"

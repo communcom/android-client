@@ -4,9 +4,9 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
@@ -80,28 +80,30 @@ class MyFeedViewModel @Inject constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-    override fun onUpVoteClicked(post: Post.ContentId) {
+    override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(post.communityId, post.userId, post.permlink)
-                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, post.communityId)
+                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
 
-    override fun onDownVoteClicked(post: Post.ContentId) {
+    override fun onDownVoteClicked(contentId: ContentId) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.downVote(post.communityId, post.userId, post.permlink)
-                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, post.communityId)
+                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -116,14 +118,14 @@ class MyFeedViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onSeeMoreClicked(postContentId: Post.ContentId) {
-        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
-        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+    override fun onSeeMoreClicked(contentId: ContentId) {
+        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
 
-    override fun onItemClicked(postContentId: Post.ContentId) {
-        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
-        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+    override fun onItemClicked(contentId: ContentId) {
+        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
 
     override fun onUserClicked(userId: String) {
@@ -136,7 +138,7 @@ class MyFeedViewModel @Inject constructor(
         _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
 
-    override fun onCommentsClicked(postContentId: Post.ContentId) {
+    override fun onCommentsClicked(postContentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
     }
@@ -226,132 +228,86 @@ class MyFeedViewModel @Inject constructor(
 
     private fun updateUpVoteCountOfVotes(
         state: Paginator.State?,
-        communityId: String
+        contentId: ContentId
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasUpVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
             }
             is Paginator.State.Refresh<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasUpVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
             }
             is Paginator.State.NewPageProgress<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasUpVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
             is Paginator.State.FullData<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasUpVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.upCount + 1,
-                            hasUpVote = true,
-                            hasDownVote = false
-                        )
-                    }
-                }
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
         }
         return state
     }
 
+    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId){
+        val foundedPost = posts.find { post ->
+            post.contentId == contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            if (!post.votes.hasUpVote) {
+                val oldVotes = post.votes
+                post.votes = post.votes.copy(
+                    upCount = post.votes.upCount + 1,
+                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
+                    hasUpVote = true,
+                    hasDownVote = false
+                )
+            }
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+    }
+
     private fun updateDownVoteCountOfVotes(
         state: Paginator.State?,
-        communityId: String
+        contentId: ContentId
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasDownVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
             is Paginator.State.Refresh<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasDownVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
             }
             is Paginator.State.NewPageProgress<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasDownVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
             }
             is Paginator.State.FullData<*> -> {
-                val foundedPost = ((state).data as List<Post>).find { post ->
-                    post.community.communityId == communityId
-                }
-                foundedPost?.let { post ->
-                    if (!post.votes.hasDownVote) {
-                        post.votes = post.votes.copy(
-                            upCount = post.votes.downCount + 1,
-                            hasUpVote = false,
-                            hasDownVote = true
-                        )
-                    }
-                }
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
         }
         return state
+    }
+
+    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId){
+        val foundedPost = posts.find { post ->
+            post.contentId == contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            if (!post.votes.hasDownVote) {
+                val oldVotes = post.votes
+                post.votes = post.votes.copy(
+                    downCount = post.votes.downCount + 1,
+                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
+                    hasUpVote = false,
+                    hasDownVote = true
+                )
+                posts[posts.indexOf(foundedPost)] = updatedPost
+            }
+        }
     }
 
     private fun changeCommunitySubscriptionStatusInState(

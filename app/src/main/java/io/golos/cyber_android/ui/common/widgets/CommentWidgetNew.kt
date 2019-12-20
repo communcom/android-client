@@ -11,9 +11,10 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UICo
 import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.domain.repositories.CurrentUserRepositoryRead
-import kotlinx.android.synthetic.main.view_comment_widget.view.*
+import kotlinx.android.synthetic.main.layout_comment_input.view.*
 import javax.inject.Inject
 
+@Deprecated("Need use CommentWidget")
 class CommentWidgetNew
 @JvmOverloads
 constructor(
@@ -30,7 +31,7 @@ constructor(
     init {
         App.injections.get<UIComponent>().inject(this)
 
-        inflate(context, R.layout.view_comment_widget, this)
+        inflate(context, R.layout.layout_comment_input, this)
 
         root.layoutTransition.setDuration(context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
 
@@ -42,7 +43,7 @@ constructor(
             }
         })
 
-        userAvatar.loadAvatar(currentUserRepository.userAvatarUrl)
+        ivAttachImage.loadAvatar(currentUserRepository.userAvatarUrl)
 
         sendButton.setOnClickListener { onSendClickListener?.invoke(comment.text.toString()) }
     }

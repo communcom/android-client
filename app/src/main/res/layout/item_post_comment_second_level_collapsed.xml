@@ -11,7 +11,7 @@
     android:paddingBottom="@dimen/post_comments_vertical_padding">
 
     <ImageView
-        android:id="@+id/userAvatar"
+        android:id="@+id/ivAttachImage"
 
         android:layout_width="@dimen/post_comments_collapsed_avatar_size"
         android:layout_height="@dimen/post_comments_collapsed_avatar_size"
@@ -42,7 +42,7 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/userAvatar"
+        app:layout_constraintStart_toEndOf="@+id/ivAttachImage"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

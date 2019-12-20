@@ -70,7 +70,7 @@ open class RecyclerAdapter(
             items = newItems.toMutableList()
             try {
                 result.dispatchUpdatesTo(this)
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Timber.e(e)
             }
         }

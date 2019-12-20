@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_posts.view
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -11,13 +10,16 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
@@ -29,8 +31,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsVi
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.utils.DividerPostDecoration
-import io.golos.cyber_android.ui.utils.shareMessage
+import io.golos.cyber_android.ui.utils.*
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserIdDomain
@@ -70,9 +71,9 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
-            is NavigateToImageViewCommand -> openImageView(command.imageUri)
+            is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
 
-            is NavigateToLinkViewCommand -> openLinkView(command.link)
+            is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
@@ -86,6 +87,10 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
             is ReportPostCommand -> openPostReport(command.post)
         }
+    }
+
+    private fun openUserProfile(userId: String){
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -208,6 +213,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()
+                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
@@ -300,7 +306,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
         }.show(requireFragmentManager(), "show")
     }
 
-    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: Post.ContentId) {
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
         startActivity(
             PostActivity.getIntent(
                 requireContext(),
@@ -310,22 +316,5 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 )
             )
         )
-    }
-
-    private fun openUserProfile(userId: String) {
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
-    }
-
-    private fun openLinkView(link: Uri) {
-        Intent(Intent.ACTION_VIEW, link)
-            .also { intent ->
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
-                }
-            }
-    }
-
-    private fun openImageView(imageUri: Uri) {
-        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
     }
 }

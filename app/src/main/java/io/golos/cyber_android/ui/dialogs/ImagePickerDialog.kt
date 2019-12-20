@@ -31,8 +31,8 @@ class ImagePickerDialog : BottomSheetDialogFragment() {
         COVER(R.string.delete_current_cover),
         AVATAR(R.string.delete_current_photo),
         ONBOARDING(0),
-        EDITOR_PAGE(0)
-
+        EDITOR_PAGE(0),
+        PROFILE_COMMENTS(0)
     }
 
     override fun onCreateView(

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivAttachment"
+        android:layout_width="@dimen/send_comment_attachment_image_size"
+        android:layout_height="@dimen/send_comment_attachment_image_size"
+        android:layout_marginTop="@dimen/dimen_4"
+        android:layout_marginEnd="@dimen/dimen_4"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <ImageView
+        android:id="@+id/deleteAttachment"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="top|end"
+        android:src="@drawable/ic_close_gray"
+        android:scaleType="center"
+        android:background="@drawable/bg_circle_white"/>
+
+</FrameLayout>

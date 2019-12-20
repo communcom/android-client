@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.my_feed.model
 
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
@@ -40,13 +41,13 @@ class MyFeedModelImpl @Inject constructor(
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.upVote(communityId, userId, permlink)
+            discussionRepository.upVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
         }
     }
 
     override suspend fun downVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.downVote(communityId, userId, permlink)
+            discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
         }
     }
 

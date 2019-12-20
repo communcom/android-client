@@ -16,7 +16,7 @@ import io.golos.posts_editor.utilities.post.spans.PostSpansTextFactory
  * Loads data from post to the editor
  */
 object PostToEditorLoader {
-    fun load(editor: EditorDataLoader, post: PostBlock) {
+    fun load(editor: EditorDataLoader, post: ContentBlock) {
         post.content.forEach { block ->
             when(block) {
                 is ParagraphBlock -> editor.insertParagraph(getParagraphText(block))

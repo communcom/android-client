@@ -1,14 +1,16 @@
 package io.golos.data.repositories.discussion
 
+import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.*
+import io.golos.commun4j.services.model.CommentsSortBy
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
-import io.golos.commun4j.utils.StringSigner
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.data.mappers.mapToPostDomain
+import io.golos.data.dto.block.ListContentBlockEntity
+import io.golos.data.mappers.*
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
@@ -24,7 +26,9 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
-import org.spongycastle.crypto.tls.ConnectionEnd.client
+import io.golos.utils.toServerFormat
+import timber.log.Timber
+import java.io.File
 import java.util.*
 import javax.inject.Inject
 
@@ -38,18 +42,24 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val transactionsApi: TransactionsApi,
     private val commun4j: Commun4j,
-    private val userKeyStore: UserKeyStore
+    private val userKeyStore: UserKeyStore,
+    private val moshi: Moshi
 ) : DiscussionCreationRepositoryBase(
     dispatchersProvider,
     discussionsApi,
     transactionsApi
 ), DiscussionRepository {
 
+
+    override suspend fun uploadContentAttachment(file: File): String {
+        return apiCallChain { commun4j.uploadImage(file) }
+    }
+
     override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> {
         val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
         val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
         val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
-        val items = apiCall {
+       return apiCall {
             commun4j.getPostsRaw(
                 postsConfigurationDomain.userId.toCyberName(),
                 postsConfigurationDomain.communityId,
@@ -61,33 +71,76 @@ constructor(
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
             )
-        }.items
-        return items.map {
+        }.items.map {
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId.userId)
         }
     }
 
+    override suspend fun getComments(
+        offset: Int,
+        pageSize: Int,
+        commentType: CommentDomain.CommentTypeDomain,
+        userId: UserIdDomain,
+        permlink: String?,
+        communityId: String?,
+        communityAlias: String?,
+        parentComment: ParentCommentIdentifierDomain?
+    ): List<CommentDomain> {
+        val currentUserId = currentUserRepository.userId.userId
+        return apiCall {
+            commun4j.getCommentsRaw(
+                sortBy = CommentsSortBy.TIME,
+                offset = offset,
+                limit = pageSize,
+                type = commentType.mapToCommentSortType(),
+                userId = userId.mapToCyberName(),
+                permlink = permlink,
+                communityId = communityId,
+                communityAlias = communityAlias,
+                parentComment = parentComment?.mapToParentComment()
+            )
+        }.items
+            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId)}
+    }
+
+    override suspend fun deletePostOrComment(
+        permlink: String,
+        communityId: String
+    ) {
+        apiCallChain {
+            commun4j.deletePostOrComment(
+                messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
+                communCode = CyberSymbolCode(communityId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = currentUserRepository.userId.mapToCyberName()
+            )
+        }
+    }
+
+    override suspend fun updateComment(commentDomain: CommentDomain) {
+        val body = commentDomain.body
+        val contentEntity = body?.mapToContentBlock()
+        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+        val jsonBody = adapter.toJson(contentEntity)
+        val contentId = commentDomain.contentId
+        apiCallChain {
+            commun4j.updatePostOrComment(
+                messageId = MssgidCGalleryStruct(contentId.userId.toCyberName(), contentId.permlink),
+                communCode = CyberSymbolCode(contentId.communityId),
+                header = "",
+                body = jsonBody,
+                tags = listOf(),
+                metadata = commentDomain.meta.creationTime.toServerFormat(),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = commentDomain.author.userId.toCyberName()
+            )
+        }
+    }
+
     override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
-
-        val reporter = "cmn5bzqfmjtw".toCyberName()
-        val userName = "kirlin-lenita-iii"
-        val activeKey = "5JAGy2NbZTgDYMb59QKA5YdbSkzvhg9Y4YhriudPk8nvGFr8acs"
-        /*val secret = client.getAuthSecret().getOrThrow().secret
-        commun4j.authWithSecret(userName, secret, StringSigner.signString(secret, activeKey)).getOrThrow()
-        val post = client.getPosts(type = FeedType.NEW, limit = 1).getOrThrow().first()
-
-            .getOrThrow()*/
-
-        /*apiCallChain{
-            commun4j.reportContent(CyberSymbolCode( post.community.communityId),
-                MssgidCGalleryStruct(post.author.userId, post.contentId.permlink),
-                "[\"NSFW\"]",
-                BandWidthRequest.bandWidthFromComn,
-                ClientAuthRequest.empty,
-                reporter,
-                activeKey)
-        }*/
         apiCallChain {
             commun4j.reportContent(
                 CyberSymbolCode(communityId),
@@ -101,36 +154,30 @@ constructor(
         }
     }
 
-    override suspend fun upVote(
-        communityId: String,
-        userId: String,
-        permlink: String
-    ) {
+    override suspend fun upVote(contentIdDomain: ContentIdDomain) {
+        val currentUser = currentUserRepository.userId.userId.toCyberName()
         apiCallChain {
             commun4j.upVote(
-                communCode = CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = userId.toCyberName()
+                voter = currentUser
             )
         }
     }
 
-    override suspend fun downVote(
-        communityId: String,
-        userId: String,
-        permlink: String
-    ) {
+    override suspend fun downVote(contentIdDomain: ContentIdDomain) {
+        val currentUser = currentUserRepository.userId.userId.toCyberName()
         apiCallChain {
             commun4j.downVote(
-                communCode = CyberSymbolCode(communityId),
-                messageId = MssgidCGalleryStruct(userId.toCyberName(), permlink),
+                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = userId.toCyberName()
+                voter = currentUser
             )
         }
     }

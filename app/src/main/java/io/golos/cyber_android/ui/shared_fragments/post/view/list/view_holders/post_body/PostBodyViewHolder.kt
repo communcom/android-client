@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.widgets.post.*
+import io.golos.cyber_android.ui.common.widgets.post_comments.*
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.use_cases.post.post_dto.*
@@ -38,7 +38,7 @@ class PostBodyViewHolder constructor(
     override fun release() {
         with(itemView.postWidgetContainer) {
             for(i in 0 until childCount) {
-                getChildAt(i).let {it as? PostBlockWidget<*, *> }?.release()
+                getChildAt(i).let {it as? BlockWidget<*, *> }?.release()
             }
         }
     }
@@ -51,7 +51,7 @@ class PostBodyViewHolder constructor(
         itemView.errorHolder.visibility = View.VISIBLE
     }
 
-    private fun createWidget(block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor): PostBlockWidget<*, *> =
+    private fun createWidget(block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor): BlockWidget<*, *> =
         when(block) {
             is AttachmentsBlock -> {
                 if(block.content.size == 1) {

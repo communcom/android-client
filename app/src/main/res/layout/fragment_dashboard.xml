@@ -22,11 +22,12 @@
                 android:id="@+id/mainPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/navigation_bottom_menu_widget_height"
                 android:overScrollMode="never" />
 
             <io.golos.cyber_android.ui.common.widgets.RoundedView
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="@dimen/navigation_bottom_menu_widget_height"
                 android:layout_gravity="bottom"
                 app:topLeftCornerRadius="32dp"
                 app:topRightCornerRadius="32dp">
@@ -43,7 +44,7 @@
         <FrameLayout
             android:id="@+id/rootContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

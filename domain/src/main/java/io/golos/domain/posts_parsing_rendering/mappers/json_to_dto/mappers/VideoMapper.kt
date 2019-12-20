@@ -2,6 +2,7 @@ package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.domain.posts_parsing_rendering.Attribute
+import io.golos.domain.posts_parsing_rendering.CommonType
 import org.json.JSONObject
 
 class VideoMapper(mappersFactory: MappersFactory): MapperBase<VideoBlock>(mappersFactory) {
@@ -9,6 +10,7 @@ class VideoMapper(mappersFactory: MappersFactory): MapperBase<VideoBlock>(mapper
         val attributes = source.getAttributes()
 
         return VideoBlock(
+            source.tryString(CommonType.ID),
             source.getContentAsUri(),
             attributes?.tryString(Attribute.TITLE),
             attributes?.tryString(Attribute.PROVIDER_NAME),

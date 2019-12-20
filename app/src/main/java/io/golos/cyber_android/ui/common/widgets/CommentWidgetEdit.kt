@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
 import kotlinx.android.synthetic.main.view_comment_widget_edit.view.*
 
+@Deprecated("Need use CommentWidget")
 class CommentWidgetEdit
 @JvmOverloads
 constructor(

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
@@ -27,6 +26,7 @@ import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
+import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.new_profile.view.adapters.ProfilePagesAdapter
 import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
@@ -42,6 +42,7 @@ import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
 
 open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
+
     companion object {
         fun newInstance(userId: UserIdDomain) = ProfileFragment().apply {
             arguments = Bundle().apply { putParcelable(Tags.USER_ID, userId) }
@@ -65,7 +66,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
-            communities.observe({viewLifecycleOwner.lifecycle}) {
+            communities.observe({ viewLifecycleOwner.lifecycle }) {
                 it?.let {
                     fragmentManager
                         ?.beginTransaction()
@@ -85,7 +86,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     }
 
     override fun processViewCommand(command: ViewCommand) {
-        when(command) {
+        when (command) {
             is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
             is ShowEditBioDialogCommand -> showEditBioDialog()
             is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
@@ -108,8 +109,12 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             ProfileMenuDialog.REQUEST -> {
                 val item = ProfileItem.create(data!!.extras.getInt(ProfileMenuDialog.ITEM))
                 when (resultCode) {
-                    ProfileMenuDialog.RESULT_SELECT -> { viewModel.onSelectMenuChosen(item)}
-                    ProfileMenuDialog.RESULT_DELETE -> { viewModel.onDeleteMenuChosen(item) }
+                    ProfileMenuDialog.RESULT_SELECT -> {
+                        viewModel.onSelectMenuChosen(item)
+                    }
+                    ProfileMenuDialog.RESULT_DELETE -> {
+                        viewModel.onDeleteMenuChosen(item)
+                    }
                 }
             }
             ProfilePhotosFragment.REQUEST -> {
@@ -120,19 +125,19 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
                 viewModel.updateBio(data!!.extras.getString(ProfileBioFragment.RESULT)!!)
             }
             ProfileSettingsDialog.REQUEST -> {
-                when(resultCode) {
+                when (resultCode) {
                     ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
                     ProfileSettingsDialog.RESULT_LIKED -> viewModel.onLikedSelected()
                     ProfileSettingsDialog.RESULT_BLACK_LIST -> viewModel.onBlackListSelected()
                 }
             }
             ProfileExternalUserSettingsDialog.REQUEST -> {
-                when(resultCode) {
+                when (resultCode) {
                     ProfileExternalUserSettingsDialog.RESULT_BLACK_LIST -> viewModel.onMoveToBlackListSelected()
                 }
             }
             ConfirmationDialog.REQUEST -> {
-                if(resultCode == ConfirmationDialog.RESULT_OK) {
+                if (resultCode == ConfirmationDialog.RESULT_OK) {
                     viewModel.onLogoutConfirmed()
                 }
             }
@@ -147,8 +152,11 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     protected open fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesAdapter(
         context!!.applicationContext,
-        childFragmentManager
-    )
+        getDashboardFragment(this)?.childFragmentManager!!,
+        arguments?.getParcelable(Tags.USER_ID)!!
+    ) {
+        appbar.setExpanded(false, true)
+    }
 
     private fun initPages() {
         tabLayout.apply {
@@ -157,7 +165,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             setSelectedTabIndicatorColor(context.resources.getColorRes(R.color.blue))
         }
 
-        vpContent.post{
+        vpContent.post {
             vpContent.adapter = providePagesAdapter()
             vpContent.offscreenPageLimit = 2
         }
@@ -184,7 +192,9 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
                 ProfilePhotosFragment.newInstance(
                     place,
                     imageUrl,
-                    this@ProfileFragment))
+                    this@ProfileFragment
+                )
+            )
 
     private fun moveToBioPage(text: String?) =
         getDashboardFragment(this)?.showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))

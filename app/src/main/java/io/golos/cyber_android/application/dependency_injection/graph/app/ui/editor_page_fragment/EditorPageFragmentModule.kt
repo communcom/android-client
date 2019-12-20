@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
@@ -30,7 +30,7 @@ import io.golos.domain.use_cases.publish.EmbedsUseCase
 class EditorPageFragmentModule(
     private val community: CommunityModel?,
     private val postToEdit: DiscussionIdModel?,
-    private val contentId: Post.ContentId?
+    private val contentId: ContentId?
 ) {
     @Provides
     internal fun provideCommunity(): CommunityModel? = community
@@ -39,7 +39,7 @@ class EditorPageFragmentModule(
     internal fun providePostToEdit(): DiscussionIdModel? = postToEdit
 
     @Provides
-    internal fun provideContentId(): Post.ContentId? = contentId
+    internal fun provideContentId(): ContentId? = contentId
 
     @Provides
     @IntoMap
@@ -49,7 +49,7 @@ class EditorPageFragmentModule(
         posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
         postToEdit: DiscussionIdModel?,
-        contentId: Post.ContentId?,
+        contentId: ContentId?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,

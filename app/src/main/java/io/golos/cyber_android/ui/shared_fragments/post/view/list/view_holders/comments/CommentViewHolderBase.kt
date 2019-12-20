@@ -23,12 +23,12 @@ import io.golos.cyber_android.ui.common.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.shared_fragments.post.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.shared_fragments.post.helpers.CommentTextRenderer
-import io.golos.cyber_android.ui.common.widgets.post.VotingWidget
+import io.golos.cyber_android.ui.common.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.use_cases.post.post_dto.PostBlock
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -115,7 +115,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         author: DiscussionAuthorModel,
         parentAuthor: DiscussionAuthorModel?,
         currentUserId: String,
-        content: PostBlock,
+        content: ContentBlock,
         cutIfNeeded: Boolean): SpannableStringBuilder {
 
         val result = SpannableStringBuilder()

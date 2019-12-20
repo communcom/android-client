@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -151,8 +152,8 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
-    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
-        val tag = fragment::class.simpleName
+    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true, tagFragment: String? = null) {
+        val tag = tagFragment ?: fragment::class.simpleName
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val beginTransaction = childFragmentManager.beginTransaction()
             if (isAddToBackStack) {

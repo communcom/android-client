@@ -5,7 +5,7 @@ import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
@@ -15,7 +15,9 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachin
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -39,7 +41,7 @@ constructor(
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
-    private val contentId: Post.ContentId?
+    private val contentId: ContentId?
 ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
@@ -74,7 +76,7 @@ constructor(
             communityId = postDomain.community.communityId,
             communityName = postDomain.community.name,
             communityAvatarUrl = postDomain.community.avatarUrl,
-            contentId = Post.ContentId(
+            contentId = ContentId(
                 communityId = postDomain.community.communityId,
                 permlink = postId.permlink.value,
                 userId = currentUserRepository.userId.userId
@@ -124,14 +126,14 @@ constructor(
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.upVote(communityId, userId, permlink)
+            discussionRepository.upVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
             updateUpVote()
         }
     }
 
     override suspend fun downVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.downVote(communityId, userId, permlink)
+            discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
             updateDownVote()
         }
     }
@@ -198,7 +200,7 @@ constructor(
         val votes = postDomain.votes
         if (!votes.hasUpVote) {
             postDomain = postDomain.copy(
-                votes = PostDomain.VotesDomain(
+                votes = VotesDomain(
                     downCount = votes.downCount,
                     upCount = votes.upCount + 1,
                     hasDownVote = false,
@@ -213,7 +215,7 @@ constructor(
         val votes = postDomain.votes
         if (!votes.hasDownVote) {
             postDomain = postDomain.copy(
-                votes = PostDomain.VotesDomain(
+                votes = VotesDomain(
                     downCount = votes.downCount + 1,
                     upCount = votes.upCount,
                     hasDownVote = true,

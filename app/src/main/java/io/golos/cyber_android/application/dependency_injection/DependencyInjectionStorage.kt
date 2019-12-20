@@ -57,6 +57,8 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentC
 import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentModule
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
+import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsModule
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentModule
@@ -117,7 +119,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                         EditorPageFragmentModule(
                             args[0] as CommunityModel?,
                             args[1] as DiscussionIdModel?,
-                            args[2] as Post.ContentId?
+                            args[2] as ContentId?
                         )
                     )
                     .build()
@@ -237,7 +239,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(
                         PostPageFragmentModule(
                             args[0] as DiscussionIdModel,
-                            args[1] as Post.ContentId?
+                            args[1] as ContentId?
                         )
                     ).build()
 
@@ -293,7 +295,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostReportFragmentComponent::class -> get<UIComponent>()
                 .postReportFragment
-                .init(PostReportModule(args[0] as Post.ContentId))
+                .init(PostReportModule(args[0] as ContentId))
                 .build()
 
             MyFeedFragmentComponent::class -> get<UIComponent>()
@@ -320,6 +322,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             DashboardFragmentComponent::class -> get<UIComponent>()
                 .dashboardFragmentComponent
+                .build()
+
+            ProfileCommentsFragmentComponent::class -> get<UIComponent>()
+                .profileCommentsFragmentComponent
+                .init(ProfileCommentsModule(args[0] as UserIdDomain))
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

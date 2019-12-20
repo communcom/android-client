@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.profile_comments.ProfileCommentsFragment
+import io.golos.cyber_android.ui.screens.profile_comments.view.ProfileCommentsFragment
 import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsExternalUserFragment
+import io.golos.domain.dto.UserIdDomain
 
 open class ProfilePagesExternalUserAdapter(
     context: Context,
-    fragmentManager: FragmentManager
+    fragmentManager: FragmentManager,
+    userId: UserIdDomain
 ) : FragmentPagerAdapter(
     fragmentManager,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
@@ -19,7 +21,7 @@ open class ProfilePagesExternalUserAdapter(
 
     private var pagesList = mutableListOf(
         ProfilePostsExternalUserFragment.newInstance(),
-        ProfileCommentsFragment.newInstance()
+        ProfileCommentsFragment.newInstance(userId)
     )
 
     override fun getPageTitle(position: Int): CharSequence? = tabTitles.getOrNull(position)

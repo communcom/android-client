@@ -17,12 +17,11 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
-import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
@@ -33,6 +32,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.shared_fragments.post.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel
+import io.golos.cyber_android.ui.utils.openImageView
+import io.golos.cyber_android.ui.utils.openLinkView
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -47,7 +48,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
-        val contentId: Post.ContentId? = null,
+        val contentId: ContentId? = null,
         val scrollToComments: Boolean = false
     ) : Parcelable
 
@@ -106,11 +107,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         when (command) {
             is NavigateToMainScreenCommand -> activity?.finish()
 
-            is NavigateToImageViewCommand -> moveToImageView(command.imageUri)
+            is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
 
-            is NavigateToLinkViewCommand -> moveToLinkView(command.link)
+            is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> moveToUserProfile(command.userId)
+            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
             is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
@@ -132,6 +133,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
+    }
+
+    private fun openUserProfile(userId: String){
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -222,7 +227,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         requireContext().shareMessage(shareUrl)
     }
 
-    private fun showReportPost(contentId: Post.ContentId) {
+    private fun showReportPost(contentId: ContentId) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val dialog = PostReportDialog.newInstance(PostReportDialog.Args(contentId))
@@ -255,7 +260,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     private fun moveToEditPost(postId: DiscussionIdModel) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
 
-    private fun openEditPost(contentId: Post.ContentId) {
+    private fun openEditPost(contentId: ContentId) {
         startActivity(
             EditorPageActivity.getIntent(
                 requireContext(),

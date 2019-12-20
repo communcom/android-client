@@ -1,6 +1,7 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
 import io.golos.domain.posts_parsing_rendering.Attribute
+import io.golos.domain.posts_parsing_rendering.CommonType
 import io.golos.domain.use_cases.post.post_dto.RichBlock
 import org.json.JSONObject
 
@@ -12,6 +13,7 @@ class RichMapper(
         val attributes = source.getAttributes()
 
         return RichBlock(
+            source.tryString(CommonType.ID),
             source.getContentAsUri(),
             attributes?.tryString(Attribute.TITLE),
             attributes?.tryUri(Attribute.URL),

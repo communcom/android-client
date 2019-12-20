@@ -58,9 +58,11 @@ constructor(
         return galleryItems
     }
 
-    override suspend fun saveSelectedPhoto(imageInfo: PhotoViewImageInfo): File {
-        val bitmap  = withContext(dispatchersProvider.calculationsDispatcher) {
+    override suspend fun saveSelectedPhoto(imageInfo: PhotoViewImageInfo, isNeedCropVisibleArea: Boolean): File {
+        val bitmap  = if(isNeedCropVisibleArea) withContext(dispatchersProvider.calculationsDispatcher) {
             resultBitmapCalculator.get().calculateVisibleArea(imageInfo)
+        } else {
+            imageInfo.source
         }
 
         return withContext(dispatchersProvider.ioDispatcher) {

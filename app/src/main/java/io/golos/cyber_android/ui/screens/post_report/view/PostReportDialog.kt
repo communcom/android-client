@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand
@@ -26,7 +27,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
 
     @Parcelize
     data class Args(
-        val contentId: Post.ContentId
+        val contentId: ContentId
     ) : Parcelable
 
     companion object {
@@ -179,7 +180,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         behaviour?.state = state
     }
 
-    data class Report(val reasons: List<String>, val contentId: Post.ContentId)
+    data class Report(val reasons: List<String>, val contentId: ContentId)
 
     enum class Type {
         SPAM,

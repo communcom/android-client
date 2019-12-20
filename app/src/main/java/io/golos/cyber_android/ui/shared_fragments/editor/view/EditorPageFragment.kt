@@ -26,19 +26,22 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
-import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.shared_fragments.editor.view.post_to_editor_loader.PostToEditorLoader
+import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
+import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.data.errors.AppError
-import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.model.CommunityModel
+import io.golos.domain.use_cases.model.DiscussionCreationResultModel
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.PostCreationResultModel
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
@@ -55,7 +58,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     data class Args(
         val postToEdit: DiscussionIdModel? = null,
         val community: CommunityModel? = null,
-        val contentId: Post.ContentId? = null,
+        val contentId: ContentId? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
     ) : Parcelable
 

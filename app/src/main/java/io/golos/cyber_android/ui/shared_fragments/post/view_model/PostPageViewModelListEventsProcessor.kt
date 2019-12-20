@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view_model
 
-import io.golos.cyber_android.ui.common.widgets.post.*
+import io.golos.cyber_android.ui.common.widgets.post_comments.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 /**

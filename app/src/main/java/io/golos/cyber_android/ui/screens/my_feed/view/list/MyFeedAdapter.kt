@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.common.base.adapter.base_items.ProgressItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.my_feed.view.items.CreatePostItem
-import io.golos.cyber_android.ui.screens.my_feed.view.items.PostItem
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 
 open class MyFeedAdapter(
