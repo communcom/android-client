@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared_fragments.editor.view.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.glide.loadCommunity
@@ -33,7 +34,8 @@ constructor(
         }
 
         communityName.text = community.name
-
+        communityName.visibility = View.VISIBLE
+        emptyCommunityName.visibility = View.INVISIBLE
         communityAvatar.loadCommunity(community.avatarUrl)
     }
 

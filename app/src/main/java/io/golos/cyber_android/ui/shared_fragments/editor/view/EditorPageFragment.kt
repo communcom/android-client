@@ -142,6 +142,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         }
 
         val possibleEditorActions = editorWidget.getPossibleActions()
+            .filter { editorAction -> editorAction == EditorAction.LOCAL_IMAGE }
 
         possibleEditorActions.forEach { possibleAction ->
             when (possibleAction) {
