@@ -8,6 +8,8 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.login_activity.AuthViewModel
+import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPassImpl
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidator
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidatorImpl
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizer
@@ -120,4 +122,8 @@ abstract class LoginActivityModuleBinds {
 
     @Binds
     abstract fun providePasswordValidationVisualizer(visualizer: PasswordValidationVisualizerImpl): PasswordValidationVisualizer
+
+    @Binds
+    @ActivityScope
+    abstract fun provideLoginActivityFragmentsDataPass(dataPass: LoginActivityFragmentsDataPassImpl): LoginActivityFragmentsDataPass
 }

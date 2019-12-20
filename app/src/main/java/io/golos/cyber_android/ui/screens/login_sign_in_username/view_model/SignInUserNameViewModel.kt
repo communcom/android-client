@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.HideSoftKeyboardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidationResult
@@ -31,7 +32,8 @@ constructor(
     model: SignInUserNameModel,
     private val userNameValidationVisualizer: Lazy<UserNameValidationVisualizer>,
     private val passwordValidationVisualizer: Lazy<PasswordValidationVisualizer>,
-    private val appContext: Context
+    private val appContext: Context,
+    private val dataPass: LoginActivityFragmentsDataPass
 ) : ViewModelBase<SignInUserNameModel>(dispatchersProvider, model) {
 
     private val _signInButtonEnabled = MutableLiveData<Boolean>(false)
@@ -63,16 +65,9 @@ constructor(
         }
     }
 
-    fun tryToGetPassFromClipboard() {
-        val clipPassword = model.getPasswordFromClipboard()
-
-        if(clipPassword != null) {
-            _pastePasswordVisibility.value = View.VISIBLE
-            _pastePasswordText.value = appContext.resources.getFormattedString(R.string.paste_something, clipPassword)
-        } else {
-            _pastePasswordVisibility.value = View.GONE
-            _pastePasswordText.value = ""
-        }
+    fun processResumedActions() {
+        tryToGetPassFromClipboard()
+        tryToGetQrCode()
     }
 
     fun onBackButtonClick() {
@@ -122,5 +117,25 @@ constructor(
 
     fun onQrCodeCameraPermissionsDenied() {
         _command.value = ShowMessageResCommand(R.string.qr_no_camera_permissions)
+    }
+
+    private fun tryToGetPassFromClipboard() {
+        val clipPassword = model.getPasswordFromClipboard()
+
+        if(clipPassword != null) {
+            _pastePasswordVisibility.value = View.VISIBLE
+            _pastePasswordText.value = appContext.resources.getFormattedString(R.string.paste_something, clipPassword)
+        } else {
+            _pastePasswordVisibility.value = View.GONE
+            _pastePasswordText.value = ""
+        }
+    }
+
+    private fun tryToGetQrCode() {
+        dataPass.getQrCode()
+            ?.let {
+                userName.value = it.userName
+                password.value = it.password
+            }
     }
 }

@@ -148,9 +148,9 @@
     <string name="ok">Ok</string>
     <string name="sign_in_scan_qr">Scan QR</string>
     <string name="sign_in_scan_qr_hint">Go to commun.com and scan QR</string>
-    <string name="sign_in_scan_qr_no_permissions">You have not permissions to use the camera.</string>
+    <string name="sign_in_scan_qr_no_permissions">You have not permissions to use the camera</string>
     <string name="sign_in_scan_qr_invalid_format">Invalid code format</string>
-    <string name="sign_in_scan_qr_detector_error">Code detector is not operational</string>
+    <string name="sign_in_scan_qr_detector_error">An error occurred while scanning the code</string>
     <string name="sign_in_login_and_key">Login &amp; key</string>
     <string name="no_master_password">There is no Master password for this user</string>
 
