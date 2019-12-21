@@ -350,7 +350,7 @@ abstract class AppModuleBinds {
     @ApplicationScope
     abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
 
-    @Bindsø
+    @Binds
     @ApplicationScope
     abstract fun provideUIMonitor(monitor: UIMonitorImpl): UIMonitor
 
