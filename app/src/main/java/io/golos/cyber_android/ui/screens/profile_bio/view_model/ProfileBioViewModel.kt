@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.profile_bio.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.PassResultCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.PrepareToCloseCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.TextLenInfo
@@ -44,7 +44,7 @@ constructor(
 
     fun onCloseClick() {
         _command.value = PrepareToCloseCommand()
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onPostClick() {
@@ -52,7 +52,7 @@ constructor(
             ?.let {
                 _command.value = PrepareToCloseCommand()
                 _command.value = PassResultCommand(it)
-                _command.value = BackCommand()
+                _command.value = NavigateBackwardCommand()
             }
     }
 }

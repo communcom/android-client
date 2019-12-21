@@ -7,7 +7,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileFollowersBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.view_model.ProfileFollowersViewModel
@@ -57,7 +57,7 @@ open class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersB
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is BackCommand -> requireActivity().onBackPressed()
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
         }
     }
 }

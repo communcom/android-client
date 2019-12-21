@@ -16,4 +16,6 @@ interface  SignInUserNameModel : ModelBase {
     fun validatePassword(password: String): PasswordValidationResult
 
     fun getPasswordFromClipboard(): String?
+
+    suspend fun auth(userName: String, password: String)
 }

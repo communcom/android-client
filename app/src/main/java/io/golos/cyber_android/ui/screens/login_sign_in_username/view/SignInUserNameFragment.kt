@@ -9,8 +9,9 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignInUserNameBinding
 import io.golos.cyber_android.ui.common.extensions.setSoftDoneButtonListener
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.HideSoftKeyboardCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateForwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToQrCodeCommand
@@ -48,12 +49,13 @@ class SignInUserNameFragment : FragmentBaseMVVM<FragmentSignInUserNameBinding, S
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is BackCommand -> requireActivity().onBackPressed()
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is HideSoftKeyboardCommand -> uiHelper.setSoftKeyboardVisibility(login, false)
             is SetUserNameFocusCommand -> login.requestFocus()
             is SetPasswordFocusCommand -> password.requestFocus()
             is MoveToSignUpCommand -> findNavController().navigate(R.id.action_signInFragment_to_signUpPhoneFragment)
             is MoveToQrCodeCommand -> moveToQrCodeWithPermissionCheck()
+            is NavigateForwardCommand -> findNavController().navigate(R.id.action_signInFragment_to_signUpKeyFragment)
         }
     }
 

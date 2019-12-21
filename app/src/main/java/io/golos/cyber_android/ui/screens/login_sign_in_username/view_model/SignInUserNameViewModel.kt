@@ -8,10 +8,7 @@ import dagger.Lazy
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.extensions.getFormattedString
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.HideSoftKeyboardCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizer
@@ -22,7 +19,11 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToSignUp
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInUserNameModel
+import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.view_commands.NavigateToKeysCommand
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 class SignInUserNameViewModel
@@ -71,7 +72,7 @@ constructor(
     }
 
     fun onBackButtonClick() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onPastePasswordClick() {
@@ -88,6 +89,7 @@ constructor(
             return
         }
 
+        // User's name validation
         val userNameValidation = model.validateUserName(userName.value!!)
         if(userNameValidation != UserNameValidationResult.SUCCESS) {
             _command.value = SetUserNameFocusCommand()
@@ -95,6 +97,7 @@ constructor(
             return
         }
 
+        // Password validation
         val passwordValidation = model.validatePassword(password.value!!)
         if(passwordValidation != PasswordValidationResult.SUCCESS) {
             _command.value = SetPasswordFocusCommand()
@@ -104,7 +107,8 @@ constructor(
 
         _command.value = HideSoftKeyboardCommand()
 
-        // Start login here
+        // Authentication
+        auth(userName.value!!, password.value!!)
     }
 
     fun onMoveToSignUpClick() {
@@ -137,5 +141,28 @@ constructor(
                 userName.value = it.userName
                 password.value = it.password
             }
+    }
+
+    private fun auth(userName: String, password: String) {
+        launch {
+            var authSuccess = true
+
+            _command.value = SetLoadingVisibilityCommand(true)
+
+            try {
+                model.auth(userName, password)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                authSuccess = false
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+
+            if(authSuccess) {
+                _command.value = NavigateForwardCommand()
+            } else {
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            }
+        }
     }
 }

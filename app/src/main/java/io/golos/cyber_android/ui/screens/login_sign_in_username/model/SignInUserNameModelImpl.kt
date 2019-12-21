@@ -1,11 +1,13 @@
 package io.golos.cyber_android.ui.screens.login_sign_in_username.model
 
+import dagger.Lazy
 import io.golos.cyber_android.core.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidator
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidator
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.auth.AuthUseCase
 import javax.inject.Inject
 
 class SignInUserNameModelImpl
@@ -13,7 +15,8 @@ class SignInUserNameModelImpl
 constructor(
     private val userNameValidator: UserNameValidator,
     private val passwordValidator: PasswordValidator,
-    private val clipboardUtils: ClipboardUtils
+    private val clipboardUtils: ClipboardUtils,
+    private val authUseCase: Lazy<AuthUseCase>
 ) : ModelBaseImpl(),
     SignInUserNameModel {
 
@@ -38,4 +41,6 @@ constructor(
             ?.let {
             if (passwordValidator.validate(it) == PasswordValidationResult.SUCCESS) it else null
         }
+
+    override suspend fun auth(userName: String, password: String) = authUseCase.get().auth(userName, password)
 }

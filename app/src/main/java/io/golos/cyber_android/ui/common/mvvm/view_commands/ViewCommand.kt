@@ -9,7 +9,8 @@ import io.golos.domain.dto.UserIdDomain
 
 interface ViewCommand
 
-class BackCommand : ViewCommand
+class NavigateBackwardCommand: ViewCommand
+class NavigateForwardCommand: ViewCommand
 
 data class NavigateToCommunityPageCommand(val communityId: String) : ViewCommand
 

@@ -11,7 +11,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.DialogPostReportBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
@@ -93,7 +93,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         when (command) {
-            is BackCommand -> dismiss()
+            is NavigateBackwardCommand -> dismiss()
             is SendReportCommand -> {
                 onPostReportCompleteCallback?.invoke(command.report)
                 dismiss()

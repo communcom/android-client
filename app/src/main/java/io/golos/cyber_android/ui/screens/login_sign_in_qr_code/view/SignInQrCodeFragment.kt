@@ -7,7 +7,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignInQrCodeBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view.detector.QrCodeDetector
@@ -52,7 +52,7 @@ class SignInQrCodeFragment : FragmentBaseMVVM<FragmentSignInQrCodeBinding, SignI
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is BackCommand -> findNavController().navigateUp()
+            is NavigateBackwardCommand -> findNavController().navigateUp()
         }
     }
 }

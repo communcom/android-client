@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.RetryListItem
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.utils.IdUtil
 import timber.log.Timber
 

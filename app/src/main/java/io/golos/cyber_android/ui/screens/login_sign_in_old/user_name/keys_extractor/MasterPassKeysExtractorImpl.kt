@@ -6,6 +6,7 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.api.AuthApi
 import io.golos.domain.dto.AuthType
 import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.requestmodel.AuthRequestModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -26,7 +27,7 @@ constructor (
         withContext(dispatchersProvider.ioDispatcher) {
             try {
                 val userId = authApi.getUserProfile(userName).userId.name
-                val activeKey = userKeyStore.createKeys(userId, userName, masterKey).activePrivateKey
+                val activeKey = userKeyStore.createKeys(UserIdDomain(userId), userName, masterKey).activePrivateKey
                 val model = AuthRequestModel(userName, CyberUser(userId), activeKey, AuthType.SIGN_IN)
                 Either.Success<AuthRequestModel, Exception>(model)
             } catch(ex: Exception) {

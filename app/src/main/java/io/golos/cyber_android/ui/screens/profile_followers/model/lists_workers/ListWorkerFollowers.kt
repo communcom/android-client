@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.FollowingUserDomain
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.utils.MurmurHash
 import timber.log.Timber
 import javax.inject.Inject

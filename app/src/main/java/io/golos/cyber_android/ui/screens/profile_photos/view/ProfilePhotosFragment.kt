@@ -14,7 +14,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.prof
 import io.golos.cyber_android.core.camera.CameraHelper
 import io.golos.cyber_android.databinding.FragmentProfilePhotosBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileItem
@@ -85,7 +85,7 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is BackCommand -> requireActivity().onBackPressed()
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is InitPhotoPreviewCommand -> initPhotoPreview(command.profileItem, command.imageUrl, command.isImageFromCamera)
             is StartCameraCommand -> startCameraWithPermissionCheck()
             is RequestResultImageCommand -> requestResultImage()

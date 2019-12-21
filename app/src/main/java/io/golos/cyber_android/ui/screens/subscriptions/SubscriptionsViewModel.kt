@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.subscriptions
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToSearchCommunitiesCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
@@ -236,7 +236,7 @@ class SubscriptionsViewModel @Inject constructor(
     }
 
     fun back() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     enum class SubscriptionsState {

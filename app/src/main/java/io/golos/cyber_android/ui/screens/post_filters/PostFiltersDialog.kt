@@ -12,7 +12,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.databinding.DialogPostFiltersBinding
 import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.dialog_post_filters.*
 
@@ -66,7 +66,7 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         when (command) {
-            is BackCommand -> dismiss()
+            is NavigateBackwardCommand -> dismiss()
         }
     }
 

@@ -7,6 +7,7 @@ import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserKey
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.use_cases.model.GeneratedUserKeys
@@ -25,12 +26,13 @@ constructor(
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userId: String, userName: String): GeneratedUserKeys = createKeys(userId, userName, generateMasterKey())
+    override fun createKeys(userId: UserIdDomain, userName: String): GeneratedUserKeys =
+        createKeys(userId, userName, generateMasterKey())
 
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
+    override fun createKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys {
         val keys = generateKeys(userId, userName, masterKey)
 
         listOf(
@@ -84,10 +86,10 @@ constructor(
         .replace("-", "")
         .substring(0..50)
 
-    private fun generateKeys(userId: String, userName: String, masterKey: String): GeneratedUserKeys {
+    private fun generateKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys {
 
-        val publicKeys = AuthUtils.generatePublicWiFs(userId,  masterKey, AuthType.values())
-        val privateKeys = AuthUtils.generatePrivateWiFs(userId, masterKey, AuthType.values())
+        val publicKeys = AuthUtils.generatePublicWiFs(userId.userId,  masterKey, AuthType.values())
+        val privateKeys = AuthUtils.generatePrivateWiFs(userId.userId, masterKey, AuthType.values())
 
         return GeneratedUserKeys(
             userName,

@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view_model
 
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.QrCodeContent
 import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
@@ -30,7 +30,7 @@ constructor(
 
         dataPass.putQrCode(code)
 
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onError(errorCode: QrCodeDetectorErrorCode) {
@@ -41,12 +41,12 @@ constructor(
 
             QrCodeDetectorErrorCode.DETECTOR_IS_NOT_OPERATIONAL -> {
                 _command.value = ShowMessageResCommand(R.string.sign_in_scan_qr_detector_error)
-                _command.value = BackCommand()
+                _command.value = NavigateBackwardCommand()
             }
         }
     }
 
     fun onBackButtonClick() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 }

@@ -10,7 +10,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunitiesBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
@@ -71,7 +71,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
 
         when(command) {
             is NavigateToCommunityPageCommand -> moveToCommunityPage(command.communityId)
-            is BackCommand -> requireActivity().onBackPressed()
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
         }
     }
 

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
@@ -87,7 +87,7 @@ class FollowersViewModel @Inject constructor(
     }
 
     fun back() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun changeFollowingStatus(follower: Follower) {

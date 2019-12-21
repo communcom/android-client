@@ -11,7 +11,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.followers.FollowersFragmentComponent
 import io.golos.cyber_android.databinding.FragmentFollowersBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.utils.debounce
@@ -54,7 +54,7 @@ class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersVi
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
         when (command) {
-            is BackCommand -> {
+            is NavigateBackwardCommand -> {
                 fragmentManager?.popBackStack()
             }
         }

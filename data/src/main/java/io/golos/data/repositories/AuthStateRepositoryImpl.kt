@@ -180,8 +180,8 @@ constructor(
 
 
             try {
-                val authResult =
-                    auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
+                val authResult = auth(newParams.userName, newParams.user.userId.toCyberName(), newParams.activeKey, newParams.type)!!
+
                 withContext(dispatchersProvider.ioDispatcher) {
                     authApi.setActiveUserCreds(authResult.userId, newParams.activeKey)
                 }

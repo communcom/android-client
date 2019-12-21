@@ -1,7 +1,7 @@
-package io.golos.domain.use_cases.user
+package io.golos.domain.repositories
 
-import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dto.*
+import io.golos.domain.dto.bc_profile.BCProfileDomain
 import java.io.File
 
 interface UsersRepository {
@@ -26,6 +26,8 @@ interface UsersRepository {
     suspend fun unsubscribeToFollower(userId: UserIdDomain)
 
     suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain
+
+    suspend fun getUserProfile(userName: String): UserProfileDomain
 
     suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain>
 
