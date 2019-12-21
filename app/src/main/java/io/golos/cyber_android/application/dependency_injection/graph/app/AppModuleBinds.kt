@@ -30,10 +30,6 @@ import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.services.fcm.FcmTokenProviderImpl
-import io.golos.cyber_android.ui.screens.login_sign_in_old.qr_code.keys_extractor.QrCodeKeysExtractor
-import io.golos.cyber_android.ui.screens.login_sign_in_old.qr_code.keys_extractor.QrCodeKeysExtractorImpl
-import io.golos.cyber_android.ui.screens.login_sign_in_old.user_name.keys_extractor.MasterPassKeysExtractor
-import io.golos.cyber_android.ui.screens.login_sign_in_old.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.ui.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.utils.ImageCompressorImpl
@@ -339,16 +335,7 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideAuthRepository(repository: AuthRepositoryImpl): AuthRepository
-
     // endregion
-
-    // ------------- Sign In -----------
-    @Binds
-    abstract fun provideMasterPassKeysExtractor(extractor: MasterPassKeysExtractorImpl): MasterPassKeysExtractor
-
-    @Binds
-    abstract fun provideQrCodeKeysExtractor(extractor: QrCodeKeysExtractorImpl): QrCodeKeysExtractor
-    // ------------ Sign In ------------
 
     @Binds
     abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacadeSync
@@ -363,7 +350,7 @@ abstract class AppModuleBinds {
     @ApplicationScope
     abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
 
-    @Binds
+    @Bindsø
     @ApplicationScope
     abstract fun provideUIMonitor(monitor: UIMonitorImpl): UIMonitor
 

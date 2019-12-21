@@ -31,7 +31,7 @@
         android:id="@+id/signInFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_in_username.view.SignInUserNameFragment"
         android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in_old">
+        tools:layout="@layout/fragment_sign_in_user_name">
         <action
             android:id="@+id/action_signInFragment_to_signUpKeyFragment"
             app:destination="@id/signUpKeyFragment"

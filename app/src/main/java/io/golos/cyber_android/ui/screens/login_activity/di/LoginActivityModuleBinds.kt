@@ -18,8 +18,6 @@ import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.val
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidatorImpl
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.vizualizer.UserNameValidationVisualizerImpl
-import io.golos.cyber_android.ui.screens.login_sign_in_old.qr_code.QrCodeSignInViewModel
-import io.golos.cyber_android.ui.screens.login_sign_in_old.user_name.UserNameSignInViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.SignUpCountryModel
@@ -59,11 +57,6 @@ abstract class LoginActivityModuleBinds {
 
     @Binds
     @IntoMap
-    @ViewModelKey(UserNameSignInViewModel::class)
-    abstract fun provideUserNameSignInViewModel(model: UserNameSignInViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @ViewModelKey(SignUpViewModel::class)
     @ActivityScope
     abstract fun provideSignUpViewModel(model: SignUpViewModel): ViewModel
@@ -87,11 +80,6 @@ abstract class LoginActivityModuleBinds {
     @IntoMap
     @ViewModelKey(SignUpProtectionKeysViewModel::class)
     abstract fun provideSignUpProtectionKeysViewModel(model: SignUpProtectionKeysViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(QrCodeSignInViewModel::class)
-    abstract fun provideQrCodeSignInViewModel(model: QrCodeSignInViewModel): ViewModel
 
     @Binds
     @IntoMap
