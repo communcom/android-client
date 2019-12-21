@@ -10,9 +10,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult

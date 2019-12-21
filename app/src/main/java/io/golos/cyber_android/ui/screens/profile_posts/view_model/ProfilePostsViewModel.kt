@@ -158,7 +158,7 @@ class ProfilePostsViewModel @Inject constructor(
                 model.removeFromFavorite(permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -181,7 +181,7 @@ class ProfilePostsViewModel @Inject constructor(
                 _postsListState.value = deletePostInState(_postsListState.value, permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

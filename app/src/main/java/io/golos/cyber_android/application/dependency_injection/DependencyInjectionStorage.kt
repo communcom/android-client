@@ -332,11 +332,10 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             SignInQrCodeFragmentComponent::class -> get<LoginActivityComponent>()
                 .signInQrCodeFragmentComponent
+
             ProfileCommentsFragmentComponent::class -> get<UIComponent>()
                 .profileCommentsFragmentComponent
                 .init(ProfileCommentsModule(args[0] as UserIdDomain))
-            SignInFragmentComponent::class -> get<LoginActivityComponent>()
-                .signInFragmentComponent
                 .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

@@ -87,7 +87,7 @@ class MyFeedViewModel @Inject constructor(
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -102,7 +102,7 @@ class MyFeedViewModel @Inject constructor(
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
