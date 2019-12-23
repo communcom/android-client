@@ -19,7 +19,6 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToSignUp
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInUserNameModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.view_commands.NavigateToKeysCommand
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import timber.log.Timber

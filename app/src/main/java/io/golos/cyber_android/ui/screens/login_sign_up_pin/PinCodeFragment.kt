@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin
+package io.golos.cyber_android.ui.screens.login_sign_up_pin
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,8 +17,8 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.view_commands.NavigateToFingerprintCommand
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.view_commands.NavigateToKeysCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_commands.NavigateToFingerprintCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_pin_code.*
 import javax.inject.Inject

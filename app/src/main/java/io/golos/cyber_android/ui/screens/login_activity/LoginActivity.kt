@@ -75,23 +75,20 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
             when(it) {
                 SignInState.LOG_IN_NEEDED ->
                     if(postNavHost.findNavController().currentDestination == null) {
-                        splashAnimator.executeWhenCompleted {
-                            initAuthFlow(AuthStage.BEGINNING)
-                        }
+                        splashAnimator.executeWhenCompleted { initAuthFlow(AuthStage.BEGINNING) }
                     }
 
                 SignInState.LOADING -> splashAnimator.executeWhenCompleted { onLoading() }
 
                 SignInState.USER_LOGGED_IN_SETUP_COMPLETED ->
                     if(postNavHost.findNavController().currentDestination == null) {
-                        splashAnimator.executeWhenCompleted { navigateToMainScreen() }
+                        //splashAnimator.executeWhenCompleted { navigateToMainScreen() }
+                        splashAnimator.executeWhenCompleted { initAuthFlow(AuthStage.BEGINNING) }
                     }
 
                 SignInState.USER_LOGGED_IN_SETUP_NOT_COMPLETED ->
                     if(postNavHost.findNavController().currentDestination == null) {
-                        splashAnimator.executeWhenCompleted {
-                            initAuthFlow(AuthStage.PIN_CODE)
-                        }
+                        splashAnimator.executeWhenCompleted { initAuthFlow(AuthStage.PIN_CODE) }
                     }
 
                 else -> {  }
@@ -112,7 +109,7 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
 
         val graph = inflater.inflate(R.navigation.graph_login)
         graph.startDestination = when(stage) {
-            AuthStage.BEGINNING -> R.id.pinCodeFragment
+            AuthStage.BEGINNING -> R.id.signUpProtectionKeysFragment
             AuthStage.PIN_CODE -> R.id.signUpKeyFragment
         }
 

@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up.fragments.key.SignUpKeyFr
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.keys_backup.SignUpProtectionKeysFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.PinCodeFragment
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification.SignUpVerificationFragment
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 

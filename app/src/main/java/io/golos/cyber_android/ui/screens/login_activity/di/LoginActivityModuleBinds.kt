@@ -28,9 +28,9 @@ import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.Fin
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.keys_backup.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.PinCodeModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.PinCodeModelImpl
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.pin.PinCodeViewModel
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeModel
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeModelImpl
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification.SignUpVerificationViewModel
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
