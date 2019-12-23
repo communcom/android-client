@@ -295,14 +295,19 @@ constructor(
                     isSelectCommunityEnabled.value = !isInEditMode
                 } else {
                     // Updated post
-                    val lastUsedCommunityCall = async { model.getLastUsedCommunity() }
                     val postToEditCall = async { model.getPostToEdit(contentId) }
 
-                    val lastUsedCommunity = lastUsedCommunityCall.await()
                     val postToEdit = postToEditCall.await()
-
-                    community.value = lastUsedCommunity
-                    isPostEnabled.value = lastUsedCommunity != null
+                    val communityDomain = postToEdit.community
+                    community.value = CommunityDomain(communityDomain.communityId,
+                        communityDomain.alias,
+                        communityDomain.name ?: "",
+                        communityDomain.avatarUrl,
+                        null,
+                        0,
+                        0,
+                        communityDomain.isSubscribed)
+                    isPostEnabled.value = true
                     isSelectCommunityEnabled.value = !isInEditMode
 
                     editingPost.value = postToEdit

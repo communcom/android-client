@@ -40,9 +40,7 @@ import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.CommunityModel
-import io.golos.domain.use_cases.model.DiscussionCreationResultModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.model.PostCreationResultModel
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
