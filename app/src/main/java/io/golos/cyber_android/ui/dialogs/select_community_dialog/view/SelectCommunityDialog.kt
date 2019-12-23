@@ -100,8 +100,10 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         searchField.setTextChangeListener { viewModel.onSearchStringUpdated(it) }
+        ivClose.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onDestroy() {

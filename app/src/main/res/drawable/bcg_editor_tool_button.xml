@@ -5,9 +5,4 @@
             <solid android:color="@color/light_gray" />
         </shape>
     </item>
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="@color/middle_gray_2" />
-        </shape>
-    </item>
 </selector>

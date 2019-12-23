@@ -35,23 +35,14 @@
                     android:orientation="horizontal"
                     app:layout_scrollFlags="scroll|enterAlways">
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <ImageView
                         android:id="@+id/close"
-
-                        android:layout_width="@dimen/size_editor_tool_button"
-                        android:layout_height="@dimen/size_editor_tool_button"
-
-                        android:background="@drawable/bcg_editor_tool_button"
-
-                        android:scaleX="@dimen/scale_editor_tool_buttons_small"
-                        android:scaleY="@dimen/scale_editor_tool_buttons_small"
-
-                        app:imageButton_icon="@drawable/ic_close"
-                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
-                        app:imageButton_tint="@color/tint_editor_tool_button"
-
-                        android:layout_marginStart="@dimen/margin_size_editor_tool_button_side_small"
-
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_5"
+                        android:src="@drawable/ic_close_gray"
+                        android:padding="@dimen/dimen_10"
+                        android:background="?selectableItemBackgroundBorderless"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -77,9 +68,9 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.core.widget.NestedScrollView
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,13 +79,12 @@
 
                     <!-- Community area -->
                     <io.golos.cyber_android.ui.shared_fragments.editor.view.widgets.CommunityContainer
+                        android:id="@+id/postCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_community_area"
-                        android:id="@+id/postCommunity"
 
                         app:community="@{viewModel.community}"
-                        app:select_community_enabled="@{viewModel.isSelectCommunityEnabled}"
-                        />
+                        app:select_community_enabled="@{viewModel.isSelectCommunityEnabled}" />
 
                     <!--Title-->
                     <EditText
@@ -108,28 +98,27 @@
                         android:background="@color/white"
                         android:hint="@string/title"
 
+                        android:inputType="textFilter"
                         android:visibility="gone"
-                        tools:visibility="visible"
 
-                        android:inputType="textFilter" />
+                        tools:visibility="visible" />
 
                     <io.golos.posts_editor.Editor
+                        android:id="@+id/editorWidget"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
 
-                        android:minHeight="@dimen/min_height_editor"
+                        android:layout_height="wrap_content"
 
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_marginTop="@dimen/margin_top_editor_page_title"
                         android:layout_marginEnd="@dimen/margin_default"
 
-                        android:id="@+id/editorWidget"
+                        android:minHeight="@dimen/min_height_editor"
 
-                        app:render_type="Editor"
-                        app:placeholder="@string/start_writing_here"
-                        app:is_simple = "true"
-                        app:is_text_styles_supported = "false"
-                    />
+                        app:is_simple="true"
+                        app:is_text_styles_supported="false"
+                        app:placeholder="@string/write_text_with_points"
+                        app:render_type="Editor" />
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
@@ -164,7 +153,8 @@
 
                 android:text="@string/adult_only"
                 android:textSize="@dimen/text_size_13_sp"
-                />
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <HorizontalScrollView
                 android:layout_width="0dp"
