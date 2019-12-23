@@ -35,6 +35,7 @@ interface EditorPageModel : ModelBase {
     ): ContentIdDomain
 
     suspend fun updatePost(
+        contentIdDomain: ContentIdDomain,
         content: List<ControlMetadata>,
         permlink: Permlink,
         adultOnly: Boolean,

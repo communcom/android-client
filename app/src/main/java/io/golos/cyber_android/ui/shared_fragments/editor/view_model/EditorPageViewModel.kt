@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
+import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
@@ -20,7 +21,9 @@ import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
@@ -191,10 +194,12 @@ constructor(
                 val adultOnly = nsfwLiveData.value == true
 
                 try {
-                    val callResult = if(postToEdit == null) {
+                    val callResult = if(isEditPost()) {
                         model.createPost(content, adultOnly, CommunityId(community.value!!.communityId), images)
                     } else {
-                        model.updatePost(content, postToEdit.permlink, adultOnly, images)
+                        val permlink = postToEdit?.permlink?.value ?: contentId!!.permlink
+                        postToEdit?.let { ContentIdDomain(it.) }
+                        model.updatePost(contentId?.mapToContentIdDomain(), content, Permlink(permlink), adultOnly, images)
                     }
                     _command.value = PostCreatedViewCommand(callResult.mapToContentId())
                 } catch (ex: Exception) {
@@ -210,6 +215,8 @@ constructor(
             }
         }
     }
+
+    private fun isEditPost(): Boolean = postToEdit != null || contentId != null
 
     private fun showValidationResult(validationResult: ValidationResult) =
         when(validationResult) {

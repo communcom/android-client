@@ -23,16 +23,18 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.requestmodel.PostCreationRequestEntity
 import io.golos.domain.requestmodel.PostUpdateRequestEntity
-import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.posts_editor.utilities.post.PostStubs
@@ -123,31 +125,32 @@ constructor(
             remoteImagesUrl.add(uploadContentAttachment)
         }
 
-        if(remoteImagesUrl.isNotEmpty()){
+        if (remoteImagesUrl.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val blockVersion = PostGlobalConstants.postFormatVersion.toString()
             val imageBlockList = remoteImagesUrl.map { ImageBlock(blockVersion, Uri.parse(it), null) }
-            contentBlockEntityList.add(ContentBlockEntity(blockVersion,"attachments", imageBlockList.mapToBlockEntity()))
+            contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
             body = adapter.toJson(listContentBlockEntity)
         }
         val tags = extractTags(content, adultOnly)
-       return discussionRepository.createPost(communityId.id, body, tags.toList())
+        return discussionRepository.createPost(communityId.id, body, tags.toList())
     }
 
     override suspend fun updatePost(
+        contentIdDomain: ContentIdDomain,
         content: List<ControlMetadata>,
         permlink: Permlink,
         adultOnly: Boolean,
         localImagesUri: List<String>
-    ) : ContentIdDomain {
-        val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
+    ): ContentIdDomain {
+        val body = EditorOutputToJsonMapper.map(content, localImagesUri)
 
         val tags = extractTags(content, adultOnly)
 
-        val postRequest = PostUpdateRequestEntity(permlink, "", postText, postText, tags.toList(), localImagesUri)
+        val postRequest = PostUpdateRequestEntity(permlink, "", body, body, tags.toList(), localImagesUri)
 
         /*return withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
@@ -156,7 +159,8 @@ constructor(
                     UpdatePostResultModel(DiscussionIdModel(it.id.userId, it.id.permlink))
                 }
         }*/
-        return ContentIdDomain("", "", "")
+        //return ContentIdDomain("", "", "")
+        return discussionRepository.updatePost(contentIdDomain, body, tags.toList())
     }
 
     override suspend fun getLastUsedCommunity(): CommunityDomain? =
