@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
@@ -195,7 +196,7 @@ constructor(
                     } else {
                         model.updatePost(content, postToEdit.permlink, adultOnly, images)
                     }
-                    _command.value = PostCreatedViewCommand(callResult)
+                    _command.value = PostCreatedViewCommand(callResult.mapToContentId())
                 } catch (ex: Exception) {
                     Timber.e(ex)
                     _command.value = PostErrorViewCommand(ex)

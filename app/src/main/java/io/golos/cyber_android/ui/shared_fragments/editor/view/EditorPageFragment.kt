@@ -38,6 +38,7 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.data.errors.AppError
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.CommunityModel
 import io.golos.domain.use_cases.model.DiscussionCreationResultModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -282,7 +283,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                     }
 
                 is PostErrorViewCommand -> onPostError(command.result)
-                is PostCreatedViewCommand -> onPostResult(command.result)
+                is PostCreatedViewCommand -> onPostResult(command.contentId)
 
                 is PastedLinkIsValidViewCommand -> editorWidget.pastedLinkIsValid(command.uri)
 
@@ -323,19 +324,18 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         hideLoading()
     }
 
-    private fun onPostResult(result: DiscussionCreationResultModel) {
+    private fun onPostResult(contentId: ContentId) {
         hideLoading()
         activity?.setResult(Activity.RESULT_OK)
         activity?.finish()
-        if (result is PostCreationResultModel) {
-            startActivity(
-                PostActivity.getIntent(
-                    requireContext(), PostPageFragment.Args(
-                        result.postId
-                    )
+        startActivity(
+            PostActivity.getIntent(
+                requireContext(), PostPageFragment.Args(
+                    DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)),
+                    contentId
                 )
             )
-        }
+        )
     }
 
     override fun getInitialImageSource() = getArgs().initialImageSource

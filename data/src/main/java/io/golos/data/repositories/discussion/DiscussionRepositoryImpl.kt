@@ -27,7 +27,6 @@ import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
 import io.golos.utils.toServerFormat
-import timber.log.Timber
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -50,6 +49,29 @@ constructor(
     transactionsApi
 ), DiscussionRepository {
 
+    override suspend fun createPost(communityId: String, body: String, tags: List<String>): ContentIdDomain {
+
+        val createPostResult = apiCallChain {
+            commun4j.createPost(
+                communCode = CyberSymbolCode(communityId),
+                header = "",
+                body = body,
+                tags = listOf(),
+                metadata = "",
+                weight = null,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = currentUserRepository.userId.userId.toCyberName(),
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }.resolvedResponse
+        return ContentIdDomain(
+            communityId,
+            createPostResult!!.getMessageId.getPermlink,
+            createPostResult.getMessageId.getAuthor.name
+        )
+    }
+
 
     override suspend fun uploadContentAttachment(file: File): String {
         return apiCallChain { commun4j.uploadImage(file) }
@@ -59,7 +81,7 @@ constructor(
         val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
         val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
         val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
-       return apiCall {
+        return apiCall {
             commun4j.getPostsRaw(
                 postsConfigurationDomain.userId.toCyberName(),
                 postsConfigurationDomain.communityId,
@@ -101,7 +123,7 @@ constructor(
                 parentComment = parentComment?.mapToParentComment()
             )
         }.items
-            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId)}
+            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
     }
 
     override suspend fun deletePostOrComment(

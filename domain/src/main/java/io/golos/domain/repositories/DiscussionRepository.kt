@@ -10,6 +10,8 @@ import io.golos.domain.use_cases.model.PostModel
 import java.io.File
 
 interface DiscussionRepository {
+
+    @Deprecated("For create post need use createPost")
     fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
 
     suspend fun getComments(
@@ -55,4 +57,6 @@ interface DiscussionRepository {
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain>
 
     suspend fun uploadContentAttachment(file: File): String
+
+    suspend fun createPost(communityId: String, body: String, tags: List<String>): ContentIdDomain
 }

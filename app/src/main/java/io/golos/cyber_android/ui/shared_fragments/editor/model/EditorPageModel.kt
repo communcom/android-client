@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.use_cases.model.DiscussionCreationResultModel
@@ -22,7 +23,7 @@ interface EditorPageModel : ModelBase {
     fun validatePost(title: String, content: List<ControlMetadata>): ValidationResult
 
     /**
-     * @return null if no image to upload otherwise - operation result
+     * @return null if no image to upload otherwise - operation contentId
      */
     suspend fun uploadLocalImage(content: List<ControlMetadata>): UploadedImageEntity?
 
@@ -31,14 +32,14 @@ interface EditorPageModel : ModelBase {
         adultOnly: Boolean,
         communityId: CommunityId,
         localImagesUri: List<String> = emptyList()
-    ): DiscussionCreationResultModel
+    ): ContentIdDomain
 
     suspend fun updatePost(
         content: List<ControlMetadata>,
         permlink: Permlink,
         adultOnly: Boolean,
         localImagesUri: List<String> = emptyList()
-    ): DiscussionCreationResultModel
+    ): ContentIdDomain
 
     suspend fun getLastUsedCommunity(): CommunityDomain?
 
