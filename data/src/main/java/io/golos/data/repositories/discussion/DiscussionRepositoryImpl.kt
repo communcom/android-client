@@ -50,14 +50,13 @@ constructor(
 ), DiscussionRepository {
 
     override suspend fun createPost(communityId: String, body: String, tags: List<String>): ContentIdDomain {
-
         val createPostResult = apiCallChain {
             commun4j.createPost(
                 communCode = CyberSymbolCode(communityId),
                 header = "",
                 body = body,
                 tags = listOf(),
-                metadata = "",
+                metadata = Date().toServerFormat(),
                 weight = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
