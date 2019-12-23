@@ -50,8 +50,6 @@ constructor(
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
 
-    override val postId: ContentIdDomain = postDomain.contentId
-
     override val postMetadata: PostMetadata
         get() = postDomain.body!!.metadata
 
@@ -76,7 +74,7 @@ constructor(
             communityAvatarUrl = postDomain.community.avatarUrl,
             contentId = ContentId(
                 communityId = postDomain.community.communityId,
-                permlink = postId.permlink,
+                permlink = postDomain.contentId.permlink,
                 userId = currentUserRepository.userId.userId
             ),
             creationTime = postDomain.meta.creationTime,
@@ -85,7 +83,7 @@ constructor(
             shareUrl = postDomain.shareUrl,
             isMyPost = currentUserRepository.userId.userId == postToProcess.userId,
             isSubscribed = postDomain.community.isSubscribed,
-            permlink = postId.permlink
+            permlink = postDomain.contentId.permlink
         )
     }
 
@@ -118,7 +116,10 @@ constructor(
 
     override suspend fun deletePost() =
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.deletePost(postId)
+            discussionRepository.deletePostOrComment(
+                postDomain.contentId.permlink,
+                postDomain.contentId.communityId
+            )
         }
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
@@ -178,7 +179,8 @@ constructor(
         authorPostId: String,
         communityId: String,
         permlink: String,
-        reason: String) {
+        reason: String
+    ) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }

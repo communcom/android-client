@@ -120,8 +120,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         postCommunity.setOnShowCommunitiesClickListener {
             SelectCommunityDialog.newInstance(uiHelper, postCommunity) { community ->
                 community?.let { viewModel.setCommunity(it) }
-            }
-                .show(requireFragmentManager(), "followers")
+            }.show(requireFragmentManager(), "followers")
         }
 
         leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)

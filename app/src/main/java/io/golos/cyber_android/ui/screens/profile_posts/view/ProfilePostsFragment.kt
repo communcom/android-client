@@ -125,8 +125,8 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                     }
                     PostPageMenuDialog.RESULT_DELETE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.deletePost(it.permlink)
+                        postMenu?.let { menu ->
+                            viewModel.deletePost(menu.permlink, menu.communityId)
                         }
                     }
                     PostPageMenuDialog.RESULT_SUBSCRIBE -> {

@@ -33,7 +33,6 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.requestmodel.PostUpdateRequestEntity
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
@@ -98,7 +97,9 @@ constructor(
     @Suppress("IfThenToElvis")
     override suspend fun uploadLocalImage(content: List<ControlMetadata>): UploadedImageEntity? =
         withContext(dispatchersProvider.ioDispatcher) {
-            val firstLocalImage = content.firstOrNull { it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE }
+            val firstLocalImage = content.firstOrNull {
+                it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE
+            }
 
             if (firstLocalImage == null) {
                 return@withContext null
@@ -107,7 +108,9 @@ constructor(
                     .let { metadata -> (metadata as EmbedMetadata).sourceUri }
                     .let { uri ->
                         val file = File(URI.create(uri.toString()))
-                        imageUploadRepository.upload(ImageUploadRequest(file, uri, CompressionParams.DirectCompressionParams))
+                        imageUploadRepository.upload(
+                            ImageUploadRequest(file, uri, CompressionParams.DirectCompressionParams)
+                        )
                     }
             }
         }
@@ -119,18 +122,14 @@ constructor(
         localImagesUri: List<String>
     ): ContentIdDomain {
         var body = EditorOutputToJsonMapper.map(content, localImagesUri)
-        val remoteImagesUrl = mutableListOf<String>()
-        for (localImageUrl in localImagesUri) {
-            val uploadContentAttachment = discussionRepository.uploadContentAttachment(File(localImageUrl))
-            remoteImagesUrl.add(uploadContentAttachment)
-        }
-
-        if (remoteImagesUrl.isNotEmpty()) {
+        if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val blockVersion = PostGlobalConstants.postFormatVersion.toString()
-            val imageBlockList = remoteImagesUrl.map { ImageBlock(blockVersion, Uri.parse(it), null) }
+            val imageBlockList = localImagesUri.map { uri ->
+                ImageBlock(blockVersion, Uri.parse(uri), null)
+            }
             contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
             body = adapter.toJson(listContentBlockEntity)
@@ -147,22 +146,15 @@ constructor(
         localImagesUri: List<String>
     ): ContentIdDomain {
         var body = EditorOutputToJsonMapper.map(content, localImagesUri)
-
         val tags = extractTags(content, adultOnly).toList()
-
-        val remoteImagesUrl = mutableListOf<String>()
-
-        for (localImageUrl in localImagesUri) {
-            val uploadContentAttachment = discussionRepository.uploadContentAttachment(File(localImageUrl))
-            remoteImagesUrl.add(uploadContentAttachment)
-        }
-
-        if (remoteImagesUrl.isNotEmpty()) {
+        if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val blockVersion = PostGlobalConstants.postFormatVersion.toString()
-            val imageBlockList = remoteImagesUrl.map { ImageBlock(blockVersion, Uri.parse(it), null) }
+            val imageBlockList = localImagesUri.map { uri ->
+                ImageBlock(blockVersion, Uri.parse(uri), null)
+            }
             contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
             body = adapter.toJson(listContentBlockEntity)

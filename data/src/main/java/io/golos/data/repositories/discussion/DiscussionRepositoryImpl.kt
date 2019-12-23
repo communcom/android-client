@@ -240,6 +240,7 @@ constructor(
             .let { postEntity -> postToModelMapper.map(postEntity) }
     }
 
+    @Deprecated("")
     override fun deletePost(postId: ContentIdDomain) {
         val request = DeleteDiscussionRequestEntity(Permlink(postId.permlink))
         createOrUpdate(request)

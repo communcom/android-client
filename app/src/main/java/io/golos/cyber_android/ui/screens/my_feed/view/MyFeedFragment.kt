@@ -17,11 +17,11 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCom
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
-import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
@@ -32,7 +32,10 @@ import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExterna
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.utils.*
+import io.golos.cyber_android.ui.utils.DividerPostDecoration
+import io.golos.cyber_android.ui.utils.openImageView
+import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -184,8 +187,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     }
                     PostPageMenuDialog.RESULT_DELETE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.deletePost(it.permlink)
+                        postMenu?.let { menu ->
+                            viewModel.deletePost(menu.permlink, menu.communityId)
                         }
                     }
                     PostPageMenuDialog.RESULT_SUBSCRIBE -> {

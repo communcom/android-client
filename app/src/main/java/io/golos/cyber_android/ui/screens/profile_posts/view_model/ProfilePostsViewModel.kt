@@ -173,11 +173,11 @@ class ProfilePostsViewModel @Inject constructor(
         }
     }
 
-    fun deletePost(permlink: String) {
+    fun deletePost(permlink: String, communityId: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.deletePost(permlink)
+                model.deletePost(permlink, communityId)
                 _postsListState.value = deletePostInState(_postsListState.value, permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
