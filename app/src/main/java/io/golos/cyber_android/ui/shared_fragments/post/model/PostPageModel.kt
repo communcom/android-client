@@ -6,13 +6,14 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
-    val postId: DiscussionIdModel
+    val postId: ContentIdDomain
 
     val postMetadata: PostMetadata
 

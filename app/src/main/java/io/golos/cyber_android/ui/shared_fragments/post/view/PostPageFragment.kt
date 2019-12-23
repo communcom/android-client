@@ -257,7 +257,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             }
     }
 
-    private fun moveToEditPost(postId: DiscussionIdModel) =
+    private fun moveToEditPost(postId: ContentId) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
 
     private fun openEditPost(contentId: ContentId) {

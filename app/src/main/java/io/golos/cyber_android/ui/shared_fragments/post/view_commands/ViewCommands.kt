@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 @Deprecated("")
-class StartEditPostViewCommand(val postId: DiscussionIdModel) : ViewCommand
+class StartEditPostViewCommand(val postId: ContentId) : ViewCommand
 
 class NavigationToEditPostViewCommand(val contentId: ContentId) : ViewCommand
 

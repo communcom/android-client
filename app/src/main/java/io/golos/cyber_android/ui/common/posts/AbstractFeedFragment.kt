@@ -15,11 +15,14 @@ import io.golos.cyber_android.ui.common.AbstractFeedViewModel
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.utils.PaginationScrollListener
 import io.golos.data.errors.AppError
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.DiscussionEntity
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.DiscussionModel
@@ -141,10 +144,10 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
         if (requestCode == POST_MENU_REQUEST && data != null) {
             when (resultCode) {
                 PostPageMenuDialog.RESULT_EDIT -> {
-                    val id = moshi
-                        .adapter(DiscussionIdModel::class.java)
-                        .fromJson(data.getStringExtra(Tags.DISCUSSION_ID)!!)
-                    editDiscussion(id!!)
+                    val postMenu = data.getParcelableExtra<PostMenu>(Tags.POST_MENU)
+                    postMenu?.contentId?.let {
+                        editDiscussion(it)
+                    }
                 }
                 PostPageMenuDialog.RESULT_DELETE -> {
                     val id = moshi
@@ -164,7 +167,7 @@ abstract class AbstractFeedFragment<out R : FeedUpdateRequest,
 //            }
     }
 
-    private fun editDiscussion(id: DiscussionIdModel) {
+    private fun editDiscussion(id: ContentId) {
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(id)))
     }
 

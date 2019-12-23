@@ -39,7 +39,6 @@ import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.use_cases.model.CommunityModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
@@ -55,8 +54,6 @@ const val GALLERY_REQUEST = 101
 class EditorPageFragment : ImagePickerFragmentBase() {
     @Parcelize
     data class Args(
-        val postToEdit: DiscussionIdModel? = null,
-        val community: CommunityModel? = null,
         val contentId: ContentId? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
     ) : Parcelable
@@ -73,8 +70,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         val args = getArgs()
         App.injections.get<EditorPageFragmentComponent>(
-            args.community,
-            args.postToEdit,
             args.contentId
         ).inject(this)
 

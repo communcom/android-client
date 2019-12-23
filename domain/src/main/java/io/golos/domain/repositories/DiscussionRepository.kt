@@ -43,7 +43,7 @@ interface DiscussionRepository {
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
 
-    fun deletePost(postId: DiscussionIdModel)
+    fun deletePost(postId: ContentIdDomain)
 
     fun createCommentForPost(postId: DiscussionIdModel, commentText: String): CommentModel
 

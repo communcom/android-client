@@ -14,7 +14,6 @@ import io.golos.cyber_android.ui.shared_fragments.post.model.post_list_data_sour
 import io.golos.cyber_android.ui.shared_fragments.post.model.voting.VotingMachine
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
-import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.VotesDomain
@@ -51,8 +50,7 @@ constructor(
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
 
-    override val postId: DiscussionIdModel
-        get() = DiscussionIdModel(postDomain.contentId.userId, Permlink(postDomain.contentId.permlink))
+    override val postId: ContentIdDomain = postDomain.contentId
 
     override val postMetadata: PostMetadata
         get() = postDomain.body!!.metadata
@@ -78,7 +76,7 @@ constructor(
             communityAvatarUrl = postDomain.community.avatarUrl,
             contentId = ContentId(
                 communityId = postDomain.community.communityId,
-                permlink = postId.permlink.value,
+                permlink = postId.permlink,
                 userId = currentUserRepository.userId.userId
             ),
             creationTime = postDomain.meta.creationTime,
@@ -87,7 +85,7 @@ constructor(
             shareUrl = postDomain.shareUrl,
             isMyPost = currentUserRepository.userId.userId == postToProcess.userId,
             isSubscribed = postDomain.community.isSubscribed,
-            permlink = postId.permlink.value
+            permlink = postId.permlink
         )
     }
 
@@ -120,7 +118,6 @@ constructor(
 
     override suspend fun deletePost() =
         withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
             discussionRepository.deletePost(postId)
         }
 

@@ -58,7 +58,6 @@ constructor(
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
-    private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCaseImpl?,
     private val contentId: ContentId?,
     model: EditorPageModel
@@ -136,7 +135,7 @@ constructor(
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { }
 
-    val isInEditMode = postToEdit != null
+    val isInEditMode = contentId != null
 
     init {
         embedsUseCase.subscribe()
@@ -194,12 +193,11 @@ constructor(
                 val adultOnly = nsfwLiveData.value == true
 
                 try {
-                    val callResult = if(isEditPost()) {
+                    val callResult = if(!isInEditMode) {
                         model.createPost(content, adultOnly, CommunityId(community.value!!.communityId), images)
                     } else {
-                        val permlink = postToEdit?.permlink?.value ?: contentId!!.permlink
-                        postToEdit?.let { ContentIdDomain(it.) }
-                        model.updatePost(contentId?.mapToContentIdDomain(), content, Permlink(permlink), adultOnly, images)
+
+                        model.updatePost(contentId!!.mapToContentIdDomain(), content, Permlink(contentId.permlink), adultOnly, images)
                     }
                     _command.value = PostCreatedViewCommand(callResult.mapToContentId())
                 } catch (ex: Exception) {
@@ -215,8 +213,6 @@ constructor(
             }
         }
     }
-
-    private fun isEditPost(): Boolean = postToEdit != null || contentId != null
 
     private fun showValidationResult(validationResult: ValidationResult) =
         when(validationResult) {
@@ -292,14 +288,13 @@ constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
+                isSelectCommunityEnabled.value = !isInEditMode
 
                 if(contentId == null) {
                     // New post
                     val lastUsedCommunity = model.getLastUsedCommunity()
-
                     community.value = lastUsedCommunity
                     isPostEnabled.value = lastUsedCommunity != null
-                    isSelectCommunityEnabled.value = !isInEditMode
                 } else {
                     // Updated post
                     val postToEditCall = async { model.getPostToEdit(contentId) }
@@ -315,8 +310,6 @@ constructor(
                         0,
                         communityDomain.isSubscribed)
                     isPostEnabled.value = true
-                    isSelectCommunityEnabled.value = !isInEditMode
-
                     editingPost.value = postToEdit
                 }
             } catch (ex: Exception) {

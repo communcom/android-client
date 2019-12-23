@@ -146,21 +146,28 @@ constructor(
         adultOnly: Boolean,
         localImagesUri: List<String>
     ): ContentIdDomain {
-        val body = EditorOutputToJsonMapper.map(content, localImagesUri)
+        var body = EditorOutputToJsonMapper.map(content, localImagesUri)
 
-        val tags = extractTags(content, adultOnly)
+        val tags = extractTags(content, adultOnly).toList()
 
-        val postRequest = PostUpdateRequestEntity(permlink, "", body, body, tags.toList(), localImagesUri)
+        val remoteImagesUrl = mutableListOf<String>()
 
-        /*return withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-            (discussionRepository.createOrUpdate(postRequest) as UpdatePostResultEntity)
-                .let {
-                    UpdatePostResultModel(DiscussionIdModel(it.id.userId, it.id.permlink))
-                }
-        }*/
-        //return ContentIdDomain("", "", "")
-        return discussionRepository.updatePost(contentIdDomain, body, tags.toList())
+        for (localImageUrl in localImagesUri) {
+            val uploadContentAttachment = discussionRepository.uploadContentAttachment(File(localImageUrl))
+            remoteImagesUrl.add(uploadContentAttachment)
+        }
+
+        if (remoteImagesUrl.isNotEmpty()) {
+            val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+            val listContentBlockEntity = adapter.fromJson(body)
+            val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
+            val blockVersion = PostGlobalConstants.postFormatVersion.toString()
+            val imageBlockList = remoteImagesUrl.map { ImageBlock(blockVersion, Uri.parse(it), null) }
+            contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
+            listContentBlockEntity.copy(content = contentBlockEntityList)
+            body = adapter.toJson(listContentBlockEntity)
+        }
+        return discussionRepository.updatePost(contentIdDomain, body, tags)
     }
 
     override suspend fun getLastUsedCommunity(): CommunityDomain? =
