@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.system.exitProcess

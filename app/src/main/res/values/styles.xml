@@ -284,6 +284,39 @@
     <style name="SignInCaptionTextStyle" parent="WelcomeSlidesTextStyle">
         <item name="android:gravity">start</item>
         <item name="android:textSize">@dimen/text_size_34_sp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SignUp.InputField" parent="Common.Base.TextStyle">
+        <item name="android:layout_marginStart">@dimen/dimen_42</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_42</item>
+        <item name="android:background">@drawable/bg_input_field</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:inputType">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">@dimen/margin_default</item>
+        <item name="android:paddingEnd">@dimen/margin_default</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
+    </style>
+
+    <style name="SignIn.InputField" parent="SignUp.InputField">
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="SignIn.Query" parent="Common.Base.TextStyle">
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SignIn.Query.Link" parent="SignIn.Query">
+        <item name="android:textColor">@color/blue</item>
     </style>
 
     <style name="SignInBlueCaptionTextStyle" parent="SignInCaptionTextStyle">

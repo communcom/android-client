@@ -9,7 +9,8 @@ import io.golos.domain.dto.UserIdDomain
 
 interface ViewCommand
 
-class BackCommand : ViewCommand
+class NavigateBackwardCommand: ViewCommand
+class NavigateForwardCommand: ViewCommand
 
 data class NavigateToCommunityPageCommand(val communityId: String) : ViewCommand
 
@@ -23,11 +24,14 @@ class NavigateToSearchCommunitiesCommand : ViewCommand
 
 class SetLoadingVisibilityCommand(val isVisible: Boolean) : ViewCommand
 
-class ShowMessageCommand(@StringRes val textResId: Int) : ViewCommand
+class ShowMessageResCommand(@StringRes val textResId: Int): ViewCommand
+class ShowMessageTextCommand(val text: String): ViewCommand
 
 class ShowPostFiltersCommand : ViewCommand
 
 class ShowConfirmationDialog(@StringRes val textRes: Int) : ViewCommand
+
+class HideSoftKeyboardCommand: ViewCommand
 
 class NavigationCommand(
     @IdRes val navigationId: Int?,

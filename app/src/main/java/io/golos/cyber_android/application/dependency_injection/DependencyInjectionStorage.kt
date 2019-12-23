@@ -26,9 +26,9 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.fingerprint_auth_fragment.FingerprintAuthFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.pin_code_auth_fragment.PinCodeAuthFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.pin_code_auth_fragment.PinCodeAuthFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.LoginActivityComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentComponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.login_activity.on_boarding.OnBoardingFragmentModule
+import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
+import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
+import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
@@ -48,6 +48,8 @@ import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
@@ -323,6 +325,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
             DashboardFragmentComponent::class -> get<UIComponent>()
                 .dashboardFragmentComponent
                 .build()
+
+            SignInUserNameFragmentComponent::class -> get<LoginActivityComponent>()
+                .signInUserNameFragmentComponent
+                .build()
+
+            SignInQrCodeFragmentComponent::class -> get<LoginActivityComponent>()
+                .signInQrCodeFragmentComponent
 
             ProfileCommentsFragmentComponent::class -> get<UIComponent>()
                 .profileCommentsFragmentComponent

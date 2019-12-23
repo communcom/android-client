@@ -1,120 +1,187 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    android:paddingStart="@dimen/margin_default"
-    android:paddingEnd="@dimen/margin_default"
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.login_sign_in_username.view_model.SignInUserNameViewModel" />
+    </data>
 
-    tools:context="io.golos.cyber_android.ui.screens.login_activity.signin.user_name.UserNameSignInFragment">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context="io.golos.cyber_android.ui.screens.login_sign_in_username.view.SignInUserNameFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/loginInputLayout"
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-        android:background="@drawable/bg_login_input_state"
-
-        android:paddingStart="@dimen/margin_default"
-        android:paddingEnd="@dimen/margin_default"
-        android:layout_marginTop="@dimen/margin_top_sign_in_login"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        android:hint="@string/login">
-
-        <EditText
-            android:id="@+id/login"
-
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_44"
+            android:background="@color/white"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:liftOnScroll="true">
 
-            tools:text = "Login"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            android:inputType="text"
+                <ImageButton
+                    android:id="@+id/ivBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="@dimen/margin_default"
+                    app:srcCompat="@drawable/ic_left_arrow"
+                    tools:ignore="ContentDescription"
+                    android:onClick="@{() -> viewModel.onBackButtonClick()}"
+                    />
+            </FrameLayout>
 
-            android:paddingTop="@dimen/padding_top_sign_in_edit_text"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:background="@android:color/transparent"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
-            android:textSize="@dimen/text_size_16_sp"
-            tools:ignore="Autofill,LabelFor"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/keyInputLayout"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/bg_login_input_state"
-            android:paddingStart="@dimen/margin_default"
-            android:paddingEnd="@dimen/margin_default"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/margin_small"
-
-            app:layout_constraintTop_toBottomOf="@id/loginInputLayout"
-            app:layout_constraintStart_toStartOf="parent"
-
-            android:hint="@string/key"
-            app:layout_constraintEnd_toStartOf="@+id/restoreFromCloudButton">
-
-        <EditText
-                android:id="@+id/key"
-
-                android:paddingTop="@dimen/padding_top_sign_in_edit_text"
-                android:maxLines="1"
-                android:imeOptions="actionDone"
-                android:singleLine="true"
-                android:background="@android:color/transparent"
-                android:gravity="bottom"
-                android:layout_gravity="bottom"
-                android:inputType="text"
-                android:textSize="@dimen/text_size_16_sp"
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:ignore="Autofill,LabelFor"
-        />
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/signIn"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_top_sign_in_caption"
+                android:layout_marginEnd="@dimen/margin_default"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+                android:text="@string/welcome"
 
-        android:enabled="false"
-        style="@style/SignUpButtonStyle"
-        android:layout_marginTop="@dimen/margin_top_sign_in_button"
-        android:text="@string/sign_in"
-        android:layout_gravity="center_horizontal"
+                style="@style/SignInCaptionTextStyle"
+                />
 
-        app:layout_constraintTop_toBottomOf="@id/keyInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_up_field_height"
+
+                android:layout_marginTop="@dimen/dimen_48"
+
+                style="@style/SignIn.InputField"
+
+                android:hint="@string/login"
+                android:maxLength="@{viewModel.maxUserNameLen}"
+
+                android:text="@={viewModel.userName}"
+                />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_up_field_height"
+
+                android:layout_marginTop="@dimen/margin_default"
+
+                style="@style/SignIn.InputField"
+
+                android:hint="@string/key"
+                android:maxLength="@{viewModel.maxPasswordLen}"
+
+                android:text="@={viewModel.password}"
+                />
+
+            <TextView
+                android:id="@+id/pastePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/dimen_12"
+
+                style="@style/SignIn.Query.Link"
+                android:singleLine="true"
+                android:ellipsize="end"
+
+                tools:text="Paste fdfkldlkfladkfdjlatierklfjdkflkalklflkflkalkfldlfalflkdkdflkdfkajlkfjdlkflajdakldf"
+                android:text="@{viewModel.pastePasswordText}"
+
+                android:layout_marginStart="@dimen/dimen_42"
+                android:layout_marginEnd="@dimen/dimen_42"
+
+                android:layout_gravity="center_horizontal"
+
+                android:onClick="@{() -> viewModel.onPastePasswordClick()}"
+
+                android:visibility="@{viewModel.pastePasswordVisibility}"
+                tools:visibility="visible"
+                />
 
 
-    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
-            android:id="@+id/restoreFromCloudButton"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            android:layout_width="@dimen/size_image_button"
-            android:layout_height="@dimen/size_image_button"
+                android:layout_marginStart="@dimen/dimen_42"
+                android:layout_marginTop="@dimen/dimen_40"
+                android:layout_marginEnd="@dimen/dimen_42">
 
-            android:background="@null"
+                <TextView
+                    android:id="@+id/signIn"
+                    style="@style/SignUpButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_56"
 
-            app:imageButton_tint="@color/tint_login_screen_button"
-            app:imageButton_icon="@drawable/ic_cloud_download"
-            app:imageButton_iconInscribeSize="@dimen/size_image_button_icon"
+                    tools:enabled="true"
+                    android:enabled="@{viewModel.signInButtonEnabled}"
 
-            app:layout_constraintTop_toTopOf="@+id/keyInputLayout"
-            app:layout_constraintBottom_toBottomOf="@+id/keyInputLayout"
-            app:layout_constraintEnd_toEndOf="parent"/>
+                    android:text="@string/sign_in"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/qrCode"
+
+                    android:layout_marginEnd="@dimen/dimen_4"
+
+                    android:onClick="@{() -> viewModel.onSignInClick()}"
+                />
+
+                <Button
+                    android:id="@+id/qrCode"
+
+                    android:layout_width="@dimen/dimen_56"
+                    android:layout_height="@dimen/dimen_56"
+
+                    android:background="@drawable/bg_sign_up_button"
+                    android:drawableStart="@drawable/ic_qr_code"
+
+                    android:paddingStart="18dp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="ContentDescription,RtlSymmetry"
+
+                    android:onClick="@{() -> viewModel.onQrCodeClick()}"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/dimen_24"
+
+                style="@style/SignIn.Query.Link"
+
+                android:text="@string/account_query"
+
+                android:layout_gravity="center_horizontal"
+
+                android:onClick="@{() -> viewModel.onMoveToSignUpClick()}"
+                />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

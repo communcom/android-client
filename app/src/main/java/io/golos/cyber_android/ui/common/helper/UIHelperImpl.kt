@@ -16,6 +16,12 @@ constructor(private val appContext: Context): UIHelper {
             .also { lastMessage = it }
             .show()
 
+    override fun showMessage(message: String) =
+        Toast
+            .makeText(appContext, message, Toast.LENGTH_SHORT)
+            .also { lastMessage = it }
+            .show()
+
     override fun hideMessage() {
         lastMessage?.cancel()
     }

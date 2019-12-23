@@ -14,7 +14,7 @@ import io.golos.cyber_android.databinding.FragmentProfileNewBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
@@ -97,7 +97,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
             is MoveToLikedPageCommand -> moveToLikedPage()
             is MoveToBlackListPageCommand -> moveToBlackListPage()
-            is BackCommand -> requireActivity().onBackPressed()
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
         }
     }
 

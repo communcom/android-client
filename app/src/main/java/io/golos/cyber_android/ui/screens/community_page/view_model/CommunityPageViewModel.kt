@@ -3,13 +3,12 @@ package io.golos.cyber_android.ui.screens.community_page.view_model
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
-import io.golos.utils.EMPTY
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
@@ -61,7 +60,7 @@ class CommunityPageViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onNotificationCommunityControlClicked() {
@@ -83,7 +82,7 @@ class CommunityPageViewModel @Inject constructor(
                 communityPageMutableLiveData.value = communityPage
                 communityPageIsErrorMutableLiveData.value = false
             } catch (e: Exception){
-                _command.value = ShowMessageCommand(R.string.loading_error)
+                _command.value = ShowMessageResCommand(R.string.loading_error)
                 communityPageIsErrorMutableLiveData.value = true
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)

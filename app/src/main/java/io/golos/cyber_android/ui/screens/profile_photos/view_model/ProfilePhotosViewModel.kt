@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.*
@@ -59,14 +59,14 @@ constructor(
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
-                _command.value = BackCommand()
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = NavigateBackwardCommand()
             }
         }
     }
 
     fun onCancelClick() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onSaveClick() {
@@ -82,10 +82,10 @@ constructor(
 
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = PassResultCommand(imageFile, profileItem)
-                _command.value = BackCommand()
+                _command.value = NavigateBackwardCommand()
             } catch (ex: Exception) {
                 _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }
@@ -96,8 +96,8 @@ constructor(
     }
 
     fun onStoragePermissionDenied() {
-        _command.value = ShowMessageCommand(R.string.profile_photos_storage_permissions_denied)
-        _command.value = BackCommand()
+        _command.value = ShowMessageResCommand(R.string.profile_photos_storage_permissions_denied)
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onCameraImageCaptured(cameraImageUri: Uri) {
@@ -105,7 +105,7 @@ constructor(
             _galleryItems.value = model.addCameraImageToGallery(cameraImageUri)
             selectPhoto(cameraImageUri.toString(), true)
         } catch (ex: Exception) {
-            _command.value = ShowMessageCommand(R.string.common_general_error)
+            _command.value = ShowMessageResCommand(R.string.common_general_error)
         }
     }
 

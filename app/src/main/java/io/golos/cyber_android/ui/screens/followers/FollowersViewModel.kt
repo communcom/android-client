@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.screens.followers.mappers.FollowersDomainListToFollowersListMapper
 import io.golos.cyber_android.ui.screens.subscriptions.Community
@@ -87,7 +87,7 @@ class FollowersViewModel @Inject constructor(
     }
 
     fun back() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     fun changeFollowingStatus(follower: Follower) {
@@ -108,7 +108,7 @@ class FollowersViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.loading_error)
+                _command.value = ShowMessageResCommand(R.string.loading_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

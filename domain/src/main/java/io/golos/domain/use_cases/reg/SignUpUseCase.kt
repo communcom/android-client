@@ -173,7 +173,7 @@ constructor(
                 is WriteUserToBlockChainRequestModel -> {
                     val userId = param.userId
                     // Keys are generated and sent to server (public parts only)
-                    val userKeys = userKeyStore.createKeys(userId, param.userName)
+                    val userKeys = userKeyStore.createKeys(UserIdDomain(userId), param.userName)
                     SetUserKeysRequest(
                         param.phone,
                         userId,

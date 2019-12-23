@@ -234,6 +234,10 @@
     <dimen name="margin_top_sign_in_login">40dp</dimen>
     <dimen name="margin_top_sign_in_button">48dp</dimen>
     <dimen name="margin_sign_in_qr_code">22dp</dimen>
+    <dimen name="scan_qr_frame_size">260dp</dimen>
+    <dimen name="scan_qr_frame_margin">172dp</dimen>
+    <dimen name="scan_qr_label_margin">497dp</dimen>
+    <dimen name="go_to_qr_label_margin">548dp</dimen>
 
    <!-- Shield-->
     <dimen name="margin_top_shield_image">8dp</dimen>

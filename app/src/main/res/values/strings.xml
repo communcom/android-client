@@ -124,6 +124,7 @@
     <!--Welcome-->
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
+    <string name="welcome">Welcome</string>
     <string name="welcome_slides_text_0_0">Welcome\n</string>
     <string name="welcome_slides_text_0_1">to Commun /</string>
     <string name="welcome_slides_text_1">All-in-One\n</string>
@@ -132,6 +133,7 @@
     <string name="welcome_slides_text_2_1">your socialization</string>
     <string name="welcome_slides_text_3">Owned</string>
     <string name="welcome_slides_text_3_1">by users</string>
+    <string name="account_query">Don\'t have an account?</string>
 
     <string name="welcome_slides_sub_text_1">Social platform based on blockchain\nand for the first time, it’s easy</string>
     <string name="welcome_slides_sub_text_2">Create, share, and evaluate content\nDecide yourself what deserves\nthe attention</string>
@@ -142,15 +144,17 @@
     <!--Sign In-->
     <string name="sign_in_title_0">Welcome</string>
     <string name="login">User\'s name</string>
-    <string name="key">Master password</string>
+    <string name="key">Password</string>
     <string name="ok">Ok</string>
     <string name="sign_in_scan_qr">Scan QR</string>
     <string name="sign_in_scan_qr_hint">Go to commun.com and scan QR</string>
-    <string name="sign_in_scan_qr_no_permissions">You have not permissions to use the camera.</string>
+    <string name="sign_in_scan_qr_no_permissions">You have not permissions to use the camera</string>
     <string name="sign_in_scan_qr_invalid_format">Invalid code format</string>
-    <string name="sign_in_scan_qr_detector_error">Code detector is not operational</string>
+    <string name="sign_in_scan_qr_detector_error">An error occurred while scanning the code</string>
     <string name="sign_in_login_and_key">Login &amp; key</string>
     <string name="no_master_password">There is no Master password for this user</string>
+
+    <string name="qr_no_camera_permissions">You need permissions to a camera for scanning qr-code. Open the application settings and grant permission.</string>
 
     <!--Editor Page-->
     <string name="create_post">Create Post</string>
@@ -193,12 +197,23 @@
     <string name="keys_saved_successfully">Keys saved successfully</string>
     <string name="setup_passcode">Set up Passcode</string>
     <string name="add_short_pin">Add short PIN code</string>
+
     <string name="user_name_short">Username cannot be shorter than 5 characters</string>
     <string name="user_name_long">Username cannot exceed 32 characters</string>
-    <string name="user_name_contain_characters">You can use latin letters, numbers, and special characters</string>
+    <string name="user_name_contain_characters">You must use latin letters in lower case, numbers, dot and dash</string>
     <string name="user_name_begin_not_correct">Username can\'t start with a dash</string>
     <string name="user_name_end_not_correct">Username can\'t end with a dash</string>
+    <string name="user_name_begin_not_correct_dot">Username can\'t start with a dot</string>
+    <string name="user_name_end_not_correct_dot">Username can\'t end with a dot</string>
     <string name="user_name_two_dot">Username can\'t have two consecutive dot characters</string>
+    <string name="user_name_two_dash">Username can\'t have two consecutive dash characters</string>
+    <string name="user_name_two_dash_dot">Username can\'t have two consecutive dash and dot characters</string>
+    <string name="user_name_short_new">Username cannot be shorter than {0} characters</string>
+    <string name="user_name_long_new">Username cannot exceed {0} characters</string>
+
+    <string name="password_name_short">Password cannot be shorter than {0} characters</string>
+    <string name="password_name_long">Password cannot exceed {0} characters</string>
+    <string name="password_contain_characters">You must use latin letters in lower case and numbers</string>
 
     <!--Settings-->
     <string name="general">General</string>
@@ -494,6 +509,8 @@
 
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>
+
+    <string name="paste_something">Paste {0}</string>
     <string name="comment_deleted">This comment was deleted</string>
     <string name="choose_community">Choose a community</string>
 </resources>

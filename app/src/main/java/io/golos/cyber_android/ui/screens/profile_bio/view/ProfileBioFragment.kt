@@ -9,7 +9,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileBioBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.PrepareToCloseCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.PassResultCommand
@@ -48,7 +48,7 @@ class ProfileBioFragment : FragmentBaseMVVM<FragmentProfileBioBinding, ProfileBi
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is BackCommand -> requireActivity().onBackPressed()
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is PassResultCommand -> passResult(command.text)
             is PrepareToCloseCommand -> prepareToClose()
         }

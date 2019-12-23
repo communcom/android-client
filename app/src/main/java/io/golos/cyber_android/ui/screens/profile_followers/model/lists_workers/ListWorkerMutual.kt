@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.domain.dto.UserDomain
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.utils.MurmurHash
 import javax.inject.Inject
 

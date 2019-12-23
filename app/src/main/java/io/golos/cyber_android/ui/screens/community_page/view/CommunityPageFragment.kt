@@ -16,7 +16,7 @@ import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
@@ -93,7 +93,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
-        if (command is BackCommand) {
+        if (command is NavigateBackwardCommand) {
             requireFragmentManager().popBackStack()
         }
     }

@@ -11,8 +11,9 @@ import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
+import io.golos.domain.dto.bc_profile.BCProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
@@ -75,9 +76,11 @@ class UsersRepositoryImpl @Inject constructor(
         )}
     }
 
-
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
         apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
+
+    override suspend fun getUserProfile(userName: String): UserProfileDomain =
+        apiCall { commun4j.getUserProfile(null, userName) }.mapToUserProfileDomain()
 
     override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> {
         return apiCall {

@@ -107,7 +107,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
@@ -155,7 +155,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
@@ -170,7 +170,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

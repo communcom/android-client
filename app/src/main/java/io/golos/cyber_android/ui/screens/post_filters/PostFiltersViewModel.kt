@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.post_filters
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.flow.first
@@ -43,11 +43,11 @@ class PostFiltersViewModel @Inject constructor(
         val currentPeriodTimeFilter: PostFiltersHolder.PeriodTimeFilter = _periodTimeFilter.value!!
         launch {
             model.updateFilters(PostFiltersHolder.FeedFilters(currentUpdateTimeFilter, currentPeriodTimeFilter))
-            _command.value = BackCommand()
+            _command.value = NavigateBackwardCommand()
         }
     }
 
     fun onClosedClicked() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 }

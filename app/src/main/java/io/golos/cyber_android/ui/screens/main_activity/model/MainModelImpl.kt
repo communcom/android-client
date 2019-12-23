@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.main_activity.model
 
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import javax.inject.Inject
 
 class MainModelImpl @Inject constructor(private val usersRepository: UsersRepository): MainModel, ModelBaseImpl() {

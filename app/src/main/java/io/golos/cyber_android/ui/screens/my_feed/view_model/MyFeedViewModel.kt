@@ -22,7 +22,6 @@ import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
-import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
@@ -88,7 +87,7 @@ class MyFeedViewModel @Inject constructor(
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -103,7 +102,7 @@ class MyFeedViewModel @Inject constructor(
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.unknown_error)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -427,7 +426,7 @@ class MyFeedViewModel @Inject constructor(
                     reason)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

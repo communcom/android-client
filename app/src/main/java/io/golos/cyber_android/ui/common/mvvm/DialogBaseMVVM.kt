@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.common.helper.UIHelper
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -102,7 +102,7 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
      */
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when (command) {
-            is ShowMessageCommand -> {
+            is ShowMessageResCommand -> {
                 uiHelper.showMessage(command.textResId)
                 true
             }

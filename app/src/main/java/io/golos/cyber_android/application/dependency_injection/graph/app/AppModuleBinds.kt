@@ -6,6 +6,8 @@ import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.dependency_injection.wrappers.Cyber4JDagger
+import io.golos.cyber_android.core.clipboard.ClipboardUtils
+import io.golos.cyber_android.core.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
@@ -28,10 +30,6 @@ import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.services.fcm.FcmTokenProviderImpl
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractor
-import io.golos.cyber_android.ui.screens.login_activity.signin.qr_code.keys_extractor.QrCodeKeysExtractorImpl
-import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractor
-import io.golos.cyber_android.ui.screens.login_activity.signin.user_name.keys_extractor.MasterPassKeysExtractorImpl
 import io.golos.cyber_android.ui.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.utils.ImageCompressorImpl
@@ -66,10 +64,7 @@ import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.persistence.PreferenceManager
 import io.golos.data.persistence.PreferenceManagerImpl
 import io.golos.data.repositories.*
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
-import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
 import io.golos.data.repositories.discussion.live_data.DiscussionCreationRepositoryLiveData
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
@@ -85,11 +80,8 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.domain.use_cases.user.UsersRepository
 import io.golos.domain.mappers.*
-import io.golos.domain.repositories.AuthStateRepository
-import io.golos.domain.repositories.DiscussionsFeedRepository
-import io.golos.domain.repositories.Repository
+import io.golos.domain.repositories.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import javax.inject.Named
@@ -300,7 +292,7 @@ abstract class AppModuleBinds {
 
     @Binds
     @ApplicationScope
-    abstract fun provideAuthRepository(repository: AuthStateRepositoryImpl): AuthStateRepository
+    abstract fun provideAuthStateRepository(repository: AuthStateRepositoryImpl): AuthStateRepository
 
     @Binds
     @ApplicationScope
@@ -341,15 +333,9 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideUserRepository(repository: UsersRepositoryImpl): UsersRepository
 
+    @Binds
+    abstract fun provideAuthRepository(repository: AuthRepositoryImpl): AuthRepository
     // endregion
-
-    // ------------- Sign In -----------
-    @Binds
-    abstract fun provideMasterPassKeysExtractor(extractor: MasterPassKeysExtractorImpl): MasterPassKeysExtractor
-
-    @Binds
-    abstract fun provideQrCodeKeysExtractor(extractor: QrCodeKeysExtractorImpl): QrCodeKeysExtractor
-    // ------------ Sign In ------------
 
     @Binds
     abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacadeSync
@@ -379,4 +365,7 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun providePreferenceManager(preferenceManager: PreferenceManagerImpl): PreferenceManager
+
+    @Binds
+    abstract fun provideClipboardUtils(utils: ClipboardUtilsImpl): ClipboardUtils
 }

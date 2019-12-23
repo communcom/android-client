@@ -8,7 +8,7 @@ import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.use_cases.user.UsersRepository
+import io.golos.domain.repositories.UsersRepository
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject

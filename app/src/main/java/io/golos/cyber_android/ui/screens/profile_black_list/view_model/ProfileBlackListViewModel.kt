@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.BackCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.model.ProfileBlackListModel
@@ -105,7 +105,7 @@ constructor(
     override fun onHideUserClick(userId: UserIdDomain) {
         launch {
             if(!model.switchUserState(userId)) {
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }
@@ -113,13 +113,13 @@ constructor(
     override fun onHideCommunityClick(communityId: String) {
         launch {
             if(!model.switchCommunityState(communityId)) {
-                _command.value = ShowMessageCommand(R.string.common_general_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }
 
     fun onBackClick() {
-        _command.value = BackCommand()
+        _command.value = NavigateBackwardCommand()
     }
 
     private fun loadPage(filter: BlackListFilter) {
