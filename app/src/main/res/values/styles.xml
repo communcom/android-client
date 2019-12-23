@@ -381,7 +381,8 @@
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:focusable">false</item>
         <item name="android:cursorVisible">false</item>
-        <item name="android:background">@drawable/bg_pin_digit_text_view</item>
+        <item name="android:textColor">@color/text_color_pin_digit</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="NotificationBadgeTextStyle" parent="Common.Base.TextStyle">
@@ -482,9 +483,17 @@
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
-    <style name="NumericKeypadButtonStyle" parent="StandardText16spStyle">
+    <style name="NumericKeypadButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/text_size_pin_keypad</item>
         <item name="android:background">@drawable/bg_numeric_keypad_digit</item>
+        <item name="android:layout_marginTop">@dimen/gap_buttons_pin_keypad</item>
+        <item name="android:layout_marginBottom">@dimen/gap_buttons_pin_keypad</item>
+        <item name="android:layout_marginStart">@dimen/gap_buttons_pin_keypad</item>
+        <item name="android:layout_marginEnd">@dimen/gap_buttons_pin_keypad</item>
+    </style>
+
+    <style name="NumericKeypadButtonStyle.Clear" parent="NumericKeypadButtonStyle">
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
     </style>
 
     <style name="CommunityListItemTitleText" parent="Common.Base.TextStyle">

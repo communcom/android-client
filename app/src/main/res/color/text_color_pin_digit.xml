@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:drawable_state="http://schemas.android.com/apk/res-auto">
+    <item android:color="@color/light_gray" drawable_state:state_empty="true" />
+    <item android:color="@color/blue" drawable_state:state_fill="true" />
+</selector>

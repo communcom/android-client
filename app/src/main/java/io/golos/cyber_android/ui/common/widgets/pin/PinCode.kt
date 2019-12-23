@@ -17,30 +17,13 @@ constructor(
     private var currentActiveDigitIndex = 0
     private val digitWidgets: List<PinDigit>
 
-    var isInErrorMode = false
-    set(value) {
-        field = value
-        updateState()
-    }
-
     var isActive = false
-    set(value) {
-        field = value
-        updateState()
-    }
 
     init {
         inflate(getContext(), R.layout.view_pin_code_widget, this)
 
         digitWidgets = listOf(digit1, digit2, digit3, digit4)
-
-        digitWidgets.forEach {
-            it.setOnClickListener { digit ->
-                setActiveDigit(digit.tag.toString().toInt())
-            }
-        }
-
-        updateState()
+        reset()
     }
 
     /**
@@ -54,7 +37,9 @@ constructor(
         }
 
         if(currentActiveDigitIndex < digitWidgets.indices.last) {
-            setActiveDigit(++currentActiveDigitIndex)
+            digitWidgets[currentActiveDigitIndex++].setDrawableState(PinDigit.DrawableState.FILL)
+        } else {
+            digitWidgets[currentActiveDigitIndex].setDrawableState(PinDigit.DrawableState.FILL)
         }
 
         return calculatePinCode()
@@ -64,26 +49,8 @@ constructor(
         currentActiveDigitIndex = 0
         digitWidgets.forEach {
             it.digit = null
+            it.setDrawableState(PinDigit.DrawableState.EMPTY)
         }
-        updateState()
-    }
-
-    private fun updateState() {
-        if(isActive) {
-            digitWidgets.forEachIndexed { index, widget ->
-                val state = if (index == currentActiveDigitIndex) getActiveMode() else getNormalModeMode()
-                widget.setDrawableState(state)
-            }
-        } else {
-            digitWidgets.forEach { widget ->
-                widget.setDrawableState(getNormalModeMode())
-            }
-        }
-    }
-
-    private fun setActiveDigit(index: Int) {
-        currentActiveDigitIndex = index
-        updateState()
     }
 
     /**
@@ -95,8 +62,4 @@ constructor(
         } else {
             digitWidgets.joinToString("") { it.digit!!.value.toString() }
         }
-
-    private fun getActiveMode() = if(isInErrorMode) PinDigit.DrawableState.ACTIVE_ERROR else PinDigit.DrawableState.ACTIVE
-
-    private fun getNormalModeMode() = if(isInErrorMode) PinDigit.DrawableState.NORMAL_ERROR else PinDigit.DrawableState.NORMAL
 }

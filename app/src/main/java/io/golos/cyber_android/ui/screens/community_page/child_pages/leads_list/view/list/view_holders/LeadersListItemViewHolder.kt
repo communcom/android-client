@@ -51,7 +51,7 @@ class LeadersListItemViewHolder(
             result.append( pointsFormatter.format(rating.toInt()))
 
             result.append(" ")
-            result.append(" ${SpecialChars.bullet} ")
+            result.append(" ${SpecialChars.BULLET} ")
             result.append(" ")
 
             result.appendSpannedText(

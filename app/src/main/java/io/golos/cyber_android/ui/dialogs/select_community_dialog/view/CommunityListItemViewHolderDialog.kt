@@ -39,7 +39,7 @@ class CommunityListItemViewHolderDialog(
         val followers = followersFormatter.format(listItem.community.subscribersCount)
         val posts = postsFormatter.format(listItem.community.postsCount)
 
-        itemView.leaderPoints.text = "$followers ${SpecialChars.bullet} $posts"
+        itemView.leaderPoints.text = "$followers ${SpecialChars.BULLET} $posts"
 
         itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community) }
 

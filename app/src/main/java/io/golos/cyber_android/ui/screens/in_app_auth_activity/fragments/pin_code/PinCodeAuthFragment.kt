@@ -53,8 +53,7 @@ class PinCodeAuthFragment : FragmentBaseMVVM<FragmentPinCodeAuthBinding, PinCode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        keypad.setOnKeyPressListener { viewModel.onDigitPressed(it) }
-        pinCode.isActive = true
+        keypad.setOnDigitKeyPressListener { viewModel.onDigitPressed(it) }
     }
 
     override fun onPause() {

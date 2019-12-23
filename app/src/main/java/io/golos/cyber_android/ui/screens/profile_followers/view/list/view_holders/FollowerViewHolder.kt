@@ -39,7 +39,7 @@ class FollowerViewHolder(
             val followers = followersFormatter.format(follower.followersCount!!)
             val posts = postsFormatter.format(follower.postsCount!!)
 
-            itemView.info.text = "$followers ${SpecialChars.bullet} $posts"
+            itemView.info.text = "$followers ${SpecialChars.BULLET} $posts"
 
             itemView.setOnClickListener { /*listItemEventsProcessor.onItemClick(community)*/ }
 

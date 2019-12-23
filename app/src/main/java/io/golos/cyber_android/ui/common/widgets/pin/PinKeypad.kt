@@ -14,24 +14,30 @@ constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var onKeyPressListener: ((Digit) -> Unit)? = null
+    private var onDigitKeyPressListener: ((Digit) -> Unit)? = null
+    private var onClearKeyPressListener: (() -> Unit)? = null
 
     init {
         inflate(getContext(), R.layout.view_pin_keypad_widget, this)
 
-        button1.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_1) }
-        button2.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_2) }
-        button3.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_3) }
-        button4.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_4) }
-        button5.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_5) }
-        button6.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_6) }
-        button7.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_7) }
-        button8.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_8) }
-        button9.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_9) }
-        button0.setOnClickListener { onKeyPressListener?.invoke(Digit.DIGIT_0) }
+        button1.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_1) }
+        button2.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_2) }
+        button3.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_3) }
+        button4.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_4) }
+        button5.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_5) }
+        button6.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_6) }
+        button7.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_7) }
+        button8.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_8) }
+        button9.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_9) }
+        button0.setOnClickListener { onDigitKeyPressListener?.invoke(Digit.DIGIT_0) }
+        buttonClear.setOnClickListener { onClearKeyPressListener?.invoke() }
     }
 
-    fun setOnKeyPressListener(listener: ((Digit) -> Unit)?) {
-        onKeyPressListener = listener
+    fun setOnDigitKeyPressListener(listener: ((Digit) -> Unit)?) {
+        onDigitKeyPressListener = listener
+    }
+
+    fun setOnClearKeyPressListener(listener: (() -> Unit)?) {
+        onClearKeyPressListener = listener
     }
 }

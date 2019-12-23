@@ -162,7 +162,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             val cutResult = SpannableStringBuilder()
             cutResult.append(result.subSequence(0 until maxStringLenToCutNeeded))
 
-            cutResult.append("${SpecialChars.ellipsis} ")
+            cutResult.append("${SpecialChars.ELLIPSIS} ")
 
             val style = object : StyledColorTextClickableSpan("", Typeface.DEFAULT_BOLD, moreLabelColor) {
                 override fun onClick(spanData: String) {
@@ -199,7 +199,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         // Time
         val time = TimeEstimationFormatter(context).format(metadata.time)
-        result.append(" ${SpecialChars.bullet} ")
+        result.append(" ${SpecialChars.BULLET} ")
         result.append(time)
 
         return result

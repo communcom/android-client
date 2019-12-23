@@ -21,10 +21,8 @@
     </declare-styleable>
 
     <declare-styleable name="PinDigit">
-        <attr name="state_normal" format="boolean" />
-        <attr name="state_active" format="boolean" />
-        <attr name="state_normal_error" format="boolean" />
-        <attr name="state_active_error" format="boolean" />
+        <attr name="state_empty" format="boolean" />
+        <attr name="state_fill" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ImageButtonFixedIconSize">

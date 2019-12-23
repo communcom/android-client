@@ -36,10 +36,9 @@ constructor(
 
     val codeState = MutableLiveData(
         CodeState(
-            true,
-            false,
-            false,
-            false
+            isPrimaryCodeActive = true,
+            isRepeatedCodeActive = false,
+            resetNeeded = false
         )
     )
 
@@ -51,10 +50,9 @@ constructor(
         if(model.isPrimaryCodeCompleted()) {
             isInExtendedMode.value = true
             codeState.value = CodeState(
-                false,
-                true,
-                codeState.value!!.isInErrorState,
-                false
+                isPrimaryCodeActive = false,
+                isRepeatedCodeActive = true,
+                resetNeeded = false
             )
         }
     }
@@ -65,10 +63,9 @@ constructor(
         if(model.isRepeatedCodeCompleted()) {
             if(model.validate()) {
                 codeState.value = CodeState(
-                    false,
-                    true,
-                    false,
-                    false
+                    isPrimaryCodeActive = false,
+                    isRepeatedCodeActive = true,
+                    resetNeeded = false
                 )
 
                 launch {
@@ -93,13 +90,22 @@ constructor(
 
                 command.value = ShowMessageResCommand(R.string.codes_not_match)
                 codeState.value = CodeState(
-                    true,
-                    false,
-                    true,
-                    true
+                    isPrimaryCodeActive = true,
+                    isRepeatedCodeActive = false,
+                    resetNeeded = true
                 )
+                isInExtendedMode.value = false
             }
         }
+    }
+
+    fun onClearButtonClick() {
+        codeState.value = CodeState(
+            isPrimaryCodeActive = true,
+            isRepeatedCodeActive = false,
+            resetNeeded = true
+        )
+        isInExtendedMode.value = false
     }
 
     override fun onCleared() {

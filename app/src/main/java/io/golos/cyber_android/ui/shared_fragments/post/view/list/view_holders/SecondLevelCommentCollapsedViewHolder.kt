@@ -54,7 +54,7 @@ class SecondLevelCommentCollapsedViewHolder(
             result.append(" ")
             result.append(context.resources.getString(R.string.comment_answer))
 
-            result.append(" ${SpecialChars.bullet} ")
+            result.append(" ${SpecialChars.BULLET} ")
 
             result.append(totalChild.toString())
             result.append(" ")

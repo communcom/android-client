@@ -111,7 +111,7 @@ constructor(
         val time = postHeader.actionDateTime.toTimeEstimateFormat(context)
         result.append(time)
 
-        result.append(" ${SpecialChars.bullet} ")
+        result.append(" ${SpecialChars.BULLET} ")
         postHeader.userName?.let {
             result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(context, R.color.blue)))
         }

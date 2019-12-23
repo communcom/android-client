@@ -2,11 +2,13 @@ package io.golos.cyber_android.ui.common.widgets.pin
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -20,18 +22,19 @@ constructor(
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr), CoroutineScope  {
 
-    private val passwordChar = intArrayOf(0x25CF).let { String(it, 0, it.size) }    // Large dot
+    private val passwordChar = SpecialChars.BLACK_CIRCLE
 
     private val digitVisibilityDelay = 500L      // ms
 
+    private val emptyTextSize = context.resources.getDimension(R.dimen.text_size_12_sp)
+    private val fillTextSize = context.resources.getDimension(R.dimen.text_size_12_sp)
+
     enum class DrawableState(@AttrRes val resId: Int) {
-        NORMAL(R.attr.state_normal),
-        ACTIVE(R.attr.state_active),
-        NORMAL_ERROR(R.attr.state_normal_error),
-        ACTIVE_ERROR(R.attr.state_active_error)
+        EMPTY(R.attr.state_empty),
+        FILL(R.attr.state_fill),
     }
 
-    private var currentDrawableState: DrawableState? = DrawableState.NORMAL
+    private var currentDrawableState: DrawableState? = DrawableState.EMPTY
 
     @Inject
     internal lateinit var dispatchersProvider: DispatchersProvider
@@ -80,7 +83,9 @@ constructor(
     private fun startDigitVisualization(digit: Digit?) {
         childJob?.takeIf { it.isActive }?.cancel()
 
-        text = digit?.value?.toString() ?: ""
+        val textValue = digit?.value?.toString() ?: passwordChar
+        textSize = if(textValue == passwordChar) emptyTextSize else fillTextSize
+        text = textValue
 
         if(digit == null) {
             return                  // Reset case
@@ -89,12 +94,13 @@ constructor(
         childJob = launch {
             try {
                 delay(digitVisibilityDelay)
-                text = this@PinDigit.digit?.let { passwordChar } ?: ""
+                text = passwordChar
             } catch (ex: CancellationException) {
                 if(parentJob.isActive) {
-                    text = this@PinDigit.digit?.let { passwordChar } ?: ""
+                    text = passwordChar
                 }
             }
+            textSize = emptyTextSize
         }
     }
 }

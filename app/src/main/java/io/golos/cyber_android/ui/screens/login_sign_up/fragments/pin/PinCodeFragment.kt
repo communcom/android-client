@@ -44,11 +44,15 @@ class PinCodeFragment : FragmentBase() {
         setupViewModel()
         observeViewModel()
 
-        keypad.setOnKeyPressListener { digit ->
+        keypad.setOnDigitKeyPressListener { digit ->
             when {
                 primaryCode.isActive -> viewModel.onPrimaryCodeUpdated(primaryCode.setDigit(digit))
                 repeatedCode.isActive  -> viewModel.onRepeatedCodeUpdated(repeatedCode.setDigit(digit))
             }
+        }
+
+        keypad.setOnClearKeyPressListener {
+            viewModel.onClearButtonClick()
         }
     }
 
@@ -60,15 +64,14 @@ class PinCodeFragment : FragmentBase() {
         viewModel.isInExtendedMode.observe(this, Observer { isInExtendedMode ->
             if(isInExtendedMode) {
                 moveToExtendedMode()        // Show widget for password validation
+            } else {
+                moveToSimpleMode()
             }
         })
 
         viewModel.codeState.observe(this, Observer { codeState ->
             primaryCode.isActive = codeState.isPrimaryCodeActive
             repeatedCode.isActive = codeState.isRepeatedCodeActive
-
-            primaryCode.isInErrorMode = codeState.isInErrorState
-            repeatedCode.isInErrorMode = codeState.isInErrorState
 
             if(codeState.resetNeeded) {
                 primaryCode.reset()
@@ -101,5 +104,16 @@ class PinCodeFragment : FragmentBase() {
 
         primaryCode.isActive = false
         repeatedCode.isActive = true
+    }
+
+    private fun moveToSimpleMode() {
+        val newMode = ConstraintSet()
+        newMode.clone(requireContext(), R.layout.fragment_pin_code)
+
+        TransitionManager.beginDelayedTransition(root)
+        newMode.applyTo(root)
+
+        primaryCode.isActive = true
+        repeatedCode.isActive = false
     }
 }
