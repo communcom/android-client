@@ -218,11 +218,6 @@ constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-//    @Deprecated("")
-//    fun editPost() {
-//        _command.value = StartEditPostViewCommand(model.postId.mapToContentId())
-//    }
-
     fun editPost(contentId: ContentId) {
         _command.value = NavigationToEditPostViewCommand(contentId)
     }
