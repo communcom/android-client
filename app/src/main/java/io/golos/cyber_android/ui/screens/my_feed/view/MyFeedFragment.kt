@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.my_feed.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -125,7 +126,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         }
     }
 
-    private fun openUserProfile(userId: String){
+    private fun openUserProfile(userId: String) {
         getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
@@ -212,6 +213,22 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     }
                 }
             }
+            UPDATED_REQUEST_CODE -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_DELETE -> {
+                                    val permlink = data.getStringExtra(Tags.PERMLINK_EXTRA)
+                                    if (permlink.isNotEmpty()) {
+                                        viewModel.deleteLocalPostByPermlink(permlink)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -225,14 +242,15 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        startActivity(
+        startActivityForResult(
             PostActivity.getIntent(
                 requireContext(),
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
-            )
+            ),
+            UPDATED_REQUEST_CODE
         )
     }
 
@@ -318,6 +336,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     companion object {
+
+        private const val UPDATED_REQUEST_CODE = 41245
 
         fun newInstance(): Fragment {
 

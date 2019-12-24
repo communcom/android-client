@@ -20,6 +20,8 @@ class NavigateToInAppAuthScreenCommand : ViewCommand
 
 class NavigateToMainScreenCommand : ViewCommand
 
+class NavigationToParentScreenWithStringResultCommand(val permlink: String) : ViewCommand
+
 class NavigateToSearchCommunitiesCommand : ViewCommand
 
 class SetLoadingVisibilityCommand(val isVisible: Boolean) : ViewCommand

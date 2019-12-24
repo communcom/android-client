@@ -30,7 +30,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun removeFromFavorite(permlink: String)
 
-    suspend fun deletePost()
+    suspend fun deletePost(): String
 
     suspend fun upVote(
         communityId: String,

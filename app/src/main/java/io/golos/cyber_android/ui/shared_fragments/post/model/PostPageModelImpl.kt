@@ -114,13 +114,15 @@ constructor(
             authApi.get().getUserProfile(userName).userId.name
         }
 
-    override suspend fun deletePost() =
+    override suspend fun deletePost(): String {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.deletePostOrComment(
                 postDomain.contentId.permlink,
                 postDomain.contentId.communityId
             )
         }
+        return postDomain.contentId.permlink
+    }
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {

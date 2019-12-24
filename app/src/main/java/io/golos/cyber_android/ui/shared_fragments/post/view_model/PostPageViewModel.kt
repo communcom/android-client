@@ -230,11 +230,12 @@ constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.deletePost()
+                val permlink = model.deletePost()
+                _command.value = SetLoadingVisibilityCommand(false)
+                _command.value = NavigationToParentScreenWithStringResultCommand(permlink)
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
-            } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = NavigateToMainScreenCommand()
             }

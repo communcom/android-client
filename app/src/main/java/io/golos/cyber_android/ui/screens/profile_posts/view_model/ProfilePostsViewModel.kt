@@ -188,6 +188,10 @@ class ProfilePostsViewModel @Inject constructor(
         }
     }
 
+    fun deleteLocalPostByPermlink(permlink: String) {
+        _postsListState.value = deletePostInState(_postsListState.value, permlink)
+    }
+
     fun subscribeToCommunity(communityId: String) {
         launch {
             try {
