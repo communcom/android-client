@@ -11,13 +11,13 @@ import androidx.fragment.app.Fragment
 import com.obsez.android.lib.filechooser.ChooserDialog
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserKey
 import timber.log.Timber
 import java.io.File
 
-class PdfKeysExporter(private val fragment: FragmentBase) {
+class PdfKeysExporter(private val fragment: Fragment) {
     companion object {
         private const val PERMISSION_REQUEST = 100
         private const val VIEW_PDF_REQUEST = 101
@@ -49,8 +49,8 @@ class PdfKeysExporter(private val fragment: FragmentBase) {
         }
     }
 
-    fun processDataToExport(userName: String, userId: String, keys: List<UserKey>) {
-        val keysSummary = PdfKeysUtils.getKeysSummary(fragment.requireContext(), userName, userId, keys)
+    fun processDataToExport(userName: String, userId: UserIdDomain, keys: List<UserKey>) {
+        val keysSummary = PdfKeysUtils.getKeysSummary(fragment.requireContext(), userName, userId.userId, keys)
         val saveResult = PdfKeysUtils.saveTextAsPdfDocument(keysSummary, selectedPath)
 
         if (saveResult) {

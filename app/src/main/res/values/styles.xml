@@ -557,6 +557,17 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="DialogFragment.RoundCorners" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="FindCommunityButton" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_16_sp</item>
         <item name="android:textAllCaps">false</item>
@@ -671,6 +682,7 @@
         <item name="android:text">@string/post_button</item>
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="GrayBlue.RoundCorners.Button" parent="Widget.AppCompat.Button.Borderless">
@@ -678,6 +690,7 @@
         <item name="android:textColor">@color/blue</item>
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="BlueWhite.RoundCorners.Toggle" parent="Widget.AppCompat.Button.Borderless">

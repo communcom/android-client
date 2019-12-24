@@ -82,8 +82,7 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
 
                 SignInState.USER_LOGGED_IN_SETUP_COMPLETED ->
                     if(postNavHost.findNavController().currentDestination == null) {
-                        //splashAnimator.executeWhenCompleted { navigateToMainScreen() }
-                        splashAnimator.executeWhenCompleted { initAuthFlow(AuthStage.BEGINNING) }
+                        splashAnimator.executeWhenCompleted { navigateToMainScreen() }
                     }
 
                 SignInState.USER_LOGGED_IN_SETUP_NOT_COMPLETED ->
@@ -109,7 +108,7 @@ class LoginActivity : ActivityBase(), SplashAnimationManagerTarget, SplashAnimat
 
         val graph = inflater.inflate(R.navigation.graph_login)
         graph.startDestination = when(stage) {
-            AuthStage.BEGINNING -> R.id.signUpProtectionKeysFragment
+            AuthStage.BEGINNING -> R.id.welcomeFragment
             AuthStage.PIN_CODE -> R.id.signUpKeyFragment
         }
 

@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.dialogs
 import android.app.Activity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_comments_sorting_menu.*
 
 /**

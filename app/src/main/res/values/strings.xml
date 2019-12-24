@@ -364,7 +364,10 @@
     <string name="passcode">Passcode</string>
     <string name="later">Later</string>
     <string name="backup">Backup</string>
+    <string name="back">Back</string>
     <string name="master_password">Master password</string>
+    <string name="has_been_generated">has been generated</string>
+    <string name="need_password">You need the master password to Log in.\nWe don\'t keep and can\'t restore passwords.\nSave it!</string>
     <string name="posting_key">Posting key</string>
     <string name="active_key">Active key</string>
     <string name="memo_key">Memo key</string>
@@ -514,4 +517,10 @@
     <string name="comment_deleted">This comment was deleted</string>
     <string name="choose_community">Choose a community</string>
     <string name="clear">Clear</string>
+    <string name="save_it">I save it</string>
+    <string name="download_pdf">Download PDF</string>
+    <string name="continue_without_backup">Continue without backup</string>
+    <string name="attention">Attention</string>
+    <string name="master_pass_backup_sub_header">We do not keep master passwords and have no opportunity to restore them.</string>
+    <string name="master_pass_backup_explanation">Unfortunately for our comfort, blockchain doesn\’t allow us to restore passwords. It means that it’s every user’s responsibility to keep the password in a safe place and be able to access it anytime.\nWe strongly recommend you to save your password and make a copy of it.</string>
 </resources>

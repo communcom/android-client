@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dialogs.BottomSheetDialogFragmentBase
+import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuModelListEventProcessor
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentDeleteListItem

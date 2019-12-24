@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.dialogs
+package io.golos.cyber_android.ui.dialogs.base
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +13,7 @@ import io.golos.cyber_android.R
 /**
  * Base class for all BottomSheetDialogs
  */
-abstract class BottomSheetDialogFragmentBase() : BottomSheetDialogFragment() {
+abstract class BottomSheetDialogFragmentBase : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogFragment_RoundCorners)

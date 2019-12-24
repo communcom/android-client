@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.dialogs
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_profile_settings.*
 
 class ProfileSettingsDialog : BottomSheetDialogFragmentBase() {

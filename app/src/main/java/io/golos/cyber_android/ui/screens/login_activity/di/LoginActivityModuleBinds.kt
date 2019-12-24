@@ -25,7 +25,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.S
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintModelImpl
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.keys_backup.SignUpProtectionKeysViewModel
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeModel
@@ -75,11 +75,6 @@ abstract class LoginActivityModuleBinds {
     @IntoMap
     @ViewModelKey(FingerprintViewModel::class)
     abstract fun provideFingerprintViewModel(model: FingerprintViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SignUpProtectionKeysViewModel::class)
-    abstract fun provideSignUpProtectionKeysViewModel(model: SignUpProtectionKeysViewModel): ViewModel
 
     @Binds
     @IntoMap

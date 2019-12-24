@@ -158,7 +158,7 @@
         tools:layout="@layout/fragment_onboarding_bio" />
     <fragment
         android:id="@+id/signUpProtectionKeysFragment"
-        android:name="io.golos.cyber_android.ui.screens.login_sign_up.fragments.keys_backup.SignUpProtectionKeysFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view.SignUpProtectionKeysFragment"
         android:label="fragment_sign_up_protection_keys"
         tools:layout="@layout/fragment_sign_up_protection_keys">
         <action

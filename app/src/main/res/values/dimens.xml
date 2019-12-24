@@ -45,6 +45,7 @@
     <dimen name="dimen_2">2dp</dimen>
     <dimen name="dimen_4">4dp</dimen>
     <dimen name="dimen_5">5dp</dimen>
+    <dimen name="dimen_7">7dp</dimen>
     <dimen name="dimen_10">10dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
     <dimen name="dimen_14">14dp</dimen>
@@ -299,6 +300,17 @@
     <dimen name="margin_top_sign_up_download">40dp</dimen>
     <dimen name="margin_bottom_sign_up_download">33dp</dimen>
     <dimen name="text_size_sms_code">@dimen/text_size_18_sp</dimen>
+    <dimen name="sign_up_keys_image_size">250dp</dimen>
+    <dimen name="sign_up_password_margin_top">13dp</dimen>
+    <dimen name="sign_up_explanation_margin_top">5dp</dimen>
+    <dimen name="sign_up_password_block_margin_top">7dp</dimen>
+    <dimen name="sign_up_password_block_padding_horizontal">15dp</dimen>
+    <dimen name="sign_up_password_block_padding_vertical">11dp</dimen>
+    <dimen name="sign_up_password_block_label_margin_bottom">8dp</dimen>
+
+    <dimen name="sign_up_password_download_button_height">50dp</dimen>
+    <dimen name="sign_up_password_download_button_padding_horizontal">10dp</dimen>
+    <dimen name="sign_up_password_download_button_padding_vertical">8dp</dimen>
 
     <!--Profile-->
     <dimen name="padding_profile_avatar">5dp</dimen>
@@ -508,5 +520,5 @@
 
     <dimen name="navigation_bottom_menu_widget_height">70dp</dimen>
 
-
+    <dimen name="keys_backup_dialog_warning_size">90dp</dimen>
 </resources>

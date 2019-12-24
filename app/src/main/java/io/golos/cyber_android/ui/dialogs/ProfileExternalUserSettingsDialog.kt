@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_profile_settings_external_user.*
 
 class ProfileExternalUserSettingsDialog : BottomSheetDialogFragmentBase() {
