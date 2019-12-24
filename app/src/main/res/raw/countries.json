@@ -1,1667 +1,1682 @@
 [
   {
-    "countryCode": "US",
-    "countryName": "United States",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/US.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "RU",
-    "countryName": "Russia",
-    "countryPhoneCode": 7,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RU.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "KZ",
-    "countryName": "Kazakhstan",
-    "countryPhoneCode": 7,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KZ.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "LT",
-    "countryName": "Lithuania",
-    "countryPhoneCode": 370,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LT.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BY",
-    "countryName": "Belarus",
-    "countryPhoneCode": 375,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BY.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "UA",
-    "countryName": "Ukraine",
-    "countryPhoneCode": 380,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UA.png",
-    "countryPhoneLength": 12
-  },
-  {
     "countryCode": "AF",
-    "countryName": "Afghanistan",
-    "countryPhoneCode": 93,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AF.png",
-    "countryPhoneLength": 11
+    "name": "Afghanistan",
+    "code": "93",
+    "available": false,
+    "emoji": "🇦🇫"
   },
   {
     "countryCode": "AL",
-    "countryName": "Albania",
-    "countryPhoneCode": 355,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AL.png",
-    "countryPhoneLength": 12
+    "name": "Albania",
+    "code": "355",
+    "available": false,
+    "emoji": "🇦🇱"
   },
   {
     "countryCode": "DZ",
-    "countryName": "Algeria",
-    "countryPhoneCode": 213,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DZ.png",
-    "countryPhoneLength": 12
+    "name": "Algeria",
+    "code": "213",
+    "available": false,
+    "emoji": "🇩🇿"
   },
   {
     "countryCode": "AS",
-    "countryName": "American Samoa",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AS.png",
-    "countryPhoneLength": 11
+    "name": "American Samoa",
+    "code": "1684",
+    "available": false,
+    "emoji": "🇦🇸"
   },
   {
     "countryCode": "AD",
-    "countryName": "Andorra",
-    "countryPhoneCode": 376,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AD.png",
-    "countryPhoneLength": 9
+    "name": "Andorra",
+    "code": "376",
+    "available": true,
+    "emoji": "🇦🇩"
   },
   {
     "countryCode": "AO",
-    "countryName": "Angola",
-    "countryPhoneCode": 244,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AO.png",
-    "countryPhoneLength": 12
+    "name": "Angola",
+    "code": "244",
+    "available": false,
+    "emoji": "🇦🇴"
   },
   {
     "countryCode": "AI",
-    "countryName": "Anguilla",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AI.png",
-    "countryPhoneLength": 11
+    "name": "Anguilla",
+    "code": "1264",
+    "available": false,
+    "emoji": "🇦🇮"
   },
   {
     "countryCode": "AG",
-    "countryName": "Antigua",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AG.png",
-    "countryPhoneLength": 11
+    "code": "1268",
+    "name": "Antigua and Barbuda",
+    "available": false,
+    "emoji": "🇦🇬"
   },
   {
     "countryCode": "AR",
-    "countryName": "Argentina",
-    "countryPhoneCode": 54,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AR.png",
-    "countryPhoneLength": 3
+    "name": "Argentina",
+    "code": "54",
+    "available": false,
+    "emoji": "🇦🇷"
   },
   {
     "countryCode": "AM",
-    "countryName": "Armenia",
-    "countryPhoneCode": 374,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AM.png",
-    "countryPhoneLength": 11
+    "name": "Armenia",
+    "code": "374",
+    "available": false,
+    "emoji": "🇦🇲"
   },
   {
     "countryCode": "AW",
-    "countryName": "Aruba",
-    "countryPhoneCode": 297,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AW.png",
-    "countryPhoneLength": 10
+    "name": "Aruba",
+    "code": "297",
+    "available": false,
+    "emoji": "🇦🇼"
   },
   {
     "countryCode": "AU",
-    "countryName": "Australia",
-    "countryPhoneCode": 61,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AU.png",
-    "countryPhoneLength": 11
+    "name": "Australia",
+    "code": "61",
+    "available": true,
+    "emoji": "🇦🇺"
   },
   {
     "countryCode": "AT",
-    "countryName": "Austria",
-    "countryPhoneCode": 43,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AT.png",
-    "countryPhoneLength": 3
+    "name": "Austria",
+    "code": "43",
+    "available": true,
+    "emoji": "🇦🇹"
   },
   {
     "countryCode": "AZ",
-    "countryName": "Azerbaijan",
-    "countryPhoneCode": 994,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AZ.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "BH",
-    "countryName": "Bahrain",
-    "countryPhoneCode": 973,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BH.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BD",
-    "countryName": "Bangladesh",
-    "countryPhoneCode": 880,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BD.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "BB",
-    "countryName": "Barbados",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BB.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BE",
-    "countryName": "Belgium",
-    "countryPhoneCode": 32,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BE.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BZ",
-    "countryName": "Belize",
-    "countryPhoneCode": 501,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BZ.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "BJ",
-    "countryName": "Benin",
-    "countryPhoneCode": 229,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BJ.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BM",
-    "countryName": "Bermuda",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BM.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BT",
-    "countryName": "Bhutan",
-    "countryPhoneCode": 975,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BT.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BO",
-    "countryName": "Bolivia",
-    "countryPhoneCode": 591,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BO.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BA",
-    "countryName": "Bosnia and Herzegovina",
-    "countryPhoneCode": 387,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BA.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BW",
-    "countryName": "Botswana",
-    "countryPhoneCode": 267,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BW.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BR",
-    "countryName": "Brazil",
-    "countryPhoneCode": 55,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BR.png",
-    "countryPhoneLength": 13
-  },
-  {
-    "countryCode": "IO",
-    "countryName": "British Indian Ocean Territory",
-    "countryPhoneCode": 246,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IO.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "VG",
-    "countryName": "British Virgin Islands",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VG.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BN",
-    "countryName": "Brunei",
-    "countryPhoneCode": 673,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BN.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "BG",
-    "countryName": "Bulgaria",
-    "countryPhoneCode": 359,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BG.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "BF",
-    "countryName": "Burkina Faso",
-    "countryPhoneCode": 226,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BF.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "BI",
-    "countryName": "Burundi",
-    "countryPhoneCode": 257,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BI.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "KH",
-    "countryName": "Cambodia",
-    "countryPhoneCode": 855,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KH.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "CM",
-    "countryName": "Cameroon",
-    "countryPhoneCode": 237,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CM.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CA",
-    "countryName": "Canada",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CA.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CV",
-    "countryName": "Cape Verde",
-    "countryPhoneCode": 238,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CV.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "KY",
-    "countryName": "Cayman Islands",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KY.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CF",
-    "countryName": "Central African Republic",
-    "countryPhoneCode": 236,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CF.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "TD",
-    "countryName": "Chad",
-    "countryPhoneCode": 235,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TD.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CL",
-    "countryName": "Chile",
-    "countryPhoneCode": 56,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CL.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CN",
-    "countryName": "China",
-    "countryPhoneCode": 86,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CN.png",
-    "countryPhoneLength": 13
-  },
-  {
-    "countryCode": "CO",
-    "countryName": "Colombia",
-    "countryPhoneCode": 57,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CO.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "KM",
-    "countryName": "Comoros",
-    "countryPhoneCode": 269,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KM.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "CK",
-    "countryName": "Cook Islands",
-    "countryPhoneCode": 682,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CK.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "CR",
-    "countryName": "Costa Rica",
-    "countryPhoneCode": 506,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CR.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CI",
-    "countryName": "Côte d'Ivoire",
-    "countryPhoneCode": 225,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CI.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "HR",
-    "countryName": "Croatia",
-    "countryPhoneCode": 385,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HR.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "CU",
-    "countryName": "Cuba",
-    "countryPhoneCode": 53,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CU.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "CW",
-    "countryName": "Curaçao",
-    "countryPhoneCode": 599,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CW.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "CY",
-    "countryName": "Cyprus",
-    "countryPhoneCode": 357,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CY.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CZ",
-    "countryName": "Czech Republic",
-    "countryPhoneCode": 420,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CZ.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "CD",
-    "countryName": "Democratic Republic of the Congo",
-    "countryPhoneCode": 243,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CD.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "DK",
-    "countryName": "Denmark",
-    "countryPhoneCode": 45,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DK.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "DJ",
-    "countryName": "Djibouti",
-    "countryPhoneCode": 253,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DJ.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "DM",
-    "countryName": "Dominica",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DM.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "DO",
-    "countryName": "Dominican Republic",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DO.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "EC",
-    "countryName": "Ecuador",
-    "countryPhoneCode": 593,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EC.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "EG",
-    "countryName": "Egypt",
-    "countryPhoneCode": 20,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EG.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "SV",
-    "countryName": "El Salvador",
-    "countryPhoneCode": 503,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SV.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "GQ",
-    "countryName": "Equatorial Guinea",
-    "countryPhoneCode": 240,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GQ.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "ER",
-    "countryName": "Eritrea",
-    "countryPhoneCode": 291,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ER.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "EE",
-    "countryName": "Estonia",
-    "countryPhoneCode": 372,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EE.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "ET",
-    "countryName": "Ethiopia",
-    "countryPhoneCode": 251,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ET.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "FK",
-    "countryName": "Falkland Islands",
-    "countryPhoneCode": 500,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FK.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "FO",
-    "countryName": "Faroe Islands",
-    "countryPhoneCode": 298,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FO.png",
-    "countryPhoneLength": 9
-  },
-  {
-    "countryCode": "FM",
-    "countryName": "Federated States of Micronesia",
-    "countryPhoneCode": 691,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FM.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "FJ",
-    "countryName": "Fiji",
-    "countryPhoneCode": 679,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FJ.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "FI",
-    "countryName": "Finland",
-    "countryPhoneCode": 358,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FI.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "FR",
-    "countryName": "France",
-    "countryPhoneCode": 33,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FR.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "GF",
-    "countryName": "French Guiana",
-    "countryPhoneCode": 594,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GF.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "PF",
-    "countryName": "French Polynesia",
-    "countryPhoneCode": 689,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PF.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "GA",
-    "countryName": "Gabon",
-    "countryPhoneCode": 241,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GA.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "GE",
-    "countryName": "Georgia",
-    "countryPhoneCode": 995,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GE.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "DE",
-    "countryName": "Germany",
-    "countryPhoneCode": 49,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DE.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "GH",
-    "countryName": "Ghana",
-    "countryPhoneCode": 233,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GH.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "GI",
-    "countryName": "Gibraltar",
-    "countryPhoneCode": 350,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GI.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "GR",
-    "countryName": "Greece",
-    "countryPhoneCode": 30,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GR.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "GL",
-    "countryName": "Greenland",
-    "countryPhoneCode": 299,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GL.png",
-    "countryPhoneLength": 9
-  },
-  {
-    "countryCode": "GD",
-    "countryName": "Grenada",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GD.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "GP",
-    "countryName": "Guadeloupe",
-    "countryPhoneCode": 590,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GP.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "GU",
-    "countryName": "Guam",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GU.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "GT",
-    "countryName": "Guatemala",
-    "countryPhoneCode": 502,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GT.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "GG",
-    "countryName": "Guernsey",
-    "countryPhoneCode": 44,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GG.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "GN",
-    "countryName": "Guinea",
-    "countryPhoneCode": 224,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GN.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "GW",
-    "countryName": "Guinea-Bissau",
-    "countryPhoneCode": 245,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GW.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "GY",
-    "countryName": "Guyana",
-    "countryPhoneCode": 592,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GY.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "HT",
-    "countryName": "Haiti",
-    "countryPhoneCode": 509,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HT.png"
-  },
-  {
-    "countryCode": "HN",
-    "countryName": "Honduras",
-    "countryPhoneCode": 504,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HN.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "HK",
-    "countryName": "Hong Kong",
-    "countryPhoneCode": 852,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HK.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "HU",
-    "countryName": "Hungary",
-    "countryPhoneCode": 36,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HU.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "IS",
-    "countryName": "Iceland",
-    "countryPhoneCode": 354,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IS.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "IN",
-    "countryName": "India",
-    "countryPhoneCode": 91,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IN.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "ID",
-    "countryName": "Indonesia",
-    "countryPhoneCode": 62,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ID.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "IR",
-    "countryName": "Iran",
-    "countryPhoneCode": 98,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IR.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "IQ",
-    "countryName": "Iraq",
-    "countryPhoneCode": 964,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IQ.png",
-    "countryPhoneLength": 13
-  },
-  {
-    "countryCode": "IE",
-    "countryName": "Ireland",
-    "countryPhoneCode": 353,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IE.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "IM",
-    "countryName": "Isle Of Man",
-    "countryPhoneCode": 44,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IM.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "IL",
-    "countryName": "Israel",
-    "countryPhoneCode": 972,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IL.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "IT",
-    "countryName": "Italy",
-    "countryPhoneCode": 39,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IT.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "JM",
-    "countryName": "Jamaica",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JM.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "JP",
-    "countryName": "Japan",
-    "countryPhoneCode": 81,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JP.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "JE",
-    "countryName": "Jersey",
-    "countryPhoneCode": 44,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JE.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "JO",
-    "countryName": "Jordan",
-    "countryPhoneCode": 962,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JO.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "KE",
-    "countryName": "Kenya",
-    "countryPhoneCode": 254,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KE.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "KI",
-    "countryName": "Kiribati",
-    "countryPhoneCode": 686,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KI.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "XK",
-    "countryName": "Kosovo",
-    "countryPhoneCode": 383,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/XK.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "KW",
-    "countryName": "Kuwait",
-    "countryPhoneCode": 965,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KW.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "KG",
-    "countryName": "Kyrgyzstan",
-    "countryPhoneCode": 996,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KG.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "LA",
-    "countryName": "Laos",
-    "countryPhoneCode": 856,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LA.png",
-    "countryPhoneLength": 13
-  },
-  {
-    "countryCode": "LV",
-    "countryName": "Latvia",
-    "countryPhoneCode": 371,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LV.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "LB",
-    "countryName": "Lebanon",
-    "countryPhoneCode": 961,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LB.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "LS",
-    "countryName": "Lesotho",
-    "countryPhoneCode": 266,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LS.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "LR",
-    "countryName": "Liberia",
-    "countryPhoneCode": 231,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LR.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "LY",
-    "countryName": "Libya",
-    "countryPhoneCode": 218,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LY.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "LI",
-    "countryName": "Liechtenstein",
-    "countryPhoneCode": 423,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LI.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "LU",
-    "countryName": "Luxembourg",
-    "countryPhoneCode": 352,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LU.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "MO",
-    "countryName": "Macau",
-    "countryPhoneCode": 853,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MO.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "MK",
-    "countryName": "Macedonia",
-    "countryPhoneCode": 389,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MK.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MG",
-    "countryName": "Madagascar",
-    "countryPhoneCode": 261,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MG.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "MW",
-    "countryName": "Malawi",
-    "countryPhoneCode": 265,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MW.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "MY",
-    "countryName": "Malaysia",
-    "countryPhoneCode": 60,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MY.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "MV",
-    "countryName": "Maldives",
-    "countryPhoneCode": 960,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MV.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "ML",
-    "countryName": "Mali",
-    "countryPhoneCode": 223,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ML.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MT",
-    "countryName": "Malta",
-    "countryPhoneCode": 356,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MT.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MH",
-    "countryName": "Marshall Islands",
-    "countryPhoneCode": 692,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MH.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "MQ",
-    "countryName": "Martinique",
-    "countryPhoneCode": 596,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MQ.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "MR",
-    "countryName": "Mauritania",
-    "countryPhoneCode": 222,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MR.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MU",
-    "countryName": "Mauritius",
-    "countryPhoneCode": 230,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MU.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "YT",
-    "countryName": "Mayotte",
-    "countryPhoneCode": 262,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/YT.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "MX",
-    "countryName": "Mexico",
-    "countryPhoneCode": 52,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MX.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "MD",
-    "countryName": "Moldova",
-    "countryPhoneCode": 373,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MD.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MC",
-    "countryName": "Monaco",
-    "countryPhoneCode": 377,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MC.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MN",
-    "countryName": "Mongolia",
-    "countryPhoneCode": 976,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MN.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "ME",
-    "countryName": "Montenegro",
-    "countryPhoneCode": 382,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ME.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "MS",
-    "countryName": "Montserrat",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MS.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MA",
-    "countryName": "Morocco",
-    "countryPhoneCode": 212,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MA.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "MZ",
-    "countryName": "Mozambique",
-    "countryPhoneCode": 258,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MZ.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "MM",
-    "countryName": "Myanmar",
-    "countryPhoneCode": 95,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MM.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "NA",
-    "countryName": "Namibia",
-    "countryPhoneCode": 264,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NA.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "NR",
-    "countryName": "Nauru",
-    "countryPhoneCode": 674,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NR.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "NP",
-    "countryName": "Nepal",
-    "countryPhoneCode": 977,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NP.png",
-    "countryPhoneLength": 13
-  },
-  {
-    "countryCode": "NL",
-    "countryName": "Netherlands",
-    "countryPhoneCode": 31,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NL.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "NC",
-    "countryName": "New Caledonia",
-    "countryPhoneCode": 687,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NC.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "NZ",
-    "countryName": "New Zealand",
-    "countryPhoneCode": 64,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NZ.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "NI",
-    "countryName": "Nicaragua",
-    "countryPhoneCode": 505,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NI.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "NE",
-    "countryName": "Niger",
-    "countryPhoneCode": 227,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NE.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "NG",
-    "countryName": "Nigeria",
-    "countryPhoneCode": 234,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NG.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "NU",
-    "countryName": "Niue",
-    "countryPhoneCode": 683,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NU.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "NF",
-    "countryName": "Norfolk Island",
-    "countryPhoneCode": 672,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NF.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "KP",
-    "countryName": "North Korea",
-    "countryPhoneCode": 850,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KP.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "MP",
-    "countryName": "Northern Mariana Islands",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MP.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "NO",
-    "countryName": "Norway",
-    "countryPhoneCode": 47,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NO.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "OM",
-    "countryName": "Oman",
-    "countryPhoneCode": 968,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/OM.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "PK",
-    "countryName": "Pakistan",
-    "countryPhoneCode": 92,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PK.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "PW",
-    "countryName": "Palau",
-    "countryPhoneCode": 680,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PW.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "PS",
-    "countryName": "Palestine",
-    "countryPhoneCode": 970,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PS.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "PA",
-    "countryName": "Panama",
-    "countryPhoneCode": 507,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PA.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "PG",
-    "countryName": "Papua New Guinea",
-    "countryPhoneCode": 675,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PG.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "PY",
-    "countryName": "Paraguay",
-    "countryPhoneCode": 595,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PY.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "PE",
-    "countryName": "Peru",
-    "countryPhoneCode": 51,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PE.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "PH",
-    "countryName": "Philippines",
-    "countryPhoneCode": 63,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PH.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "PL",
-    "countryName": "Poland",
-    "countryPhoneCode": 48,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PL.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "PT",
-    "countryName": "Portugal",
-    "countryPhoneCode": 351,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PT.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "PR",
-    "countryName": "Puerto Rico",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PR.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "QA",
-    "countryName": "Qatar",
-    "countryPhoneCode": 974,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/QA.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CG",
-    "countryName": "Republic of the Congo",
-    "countryPhoneCode": 242,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CG.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "RE",
-    "countryName": "Réunion",
-    "countryPhoneCode": 262,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RE.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "RO",
-    "countryName": "Romania",
-    "countryPhoneCode": 40,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RO.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "RW",
-    "countryName": "Rwanda",
-    "countryPhoneCode": 250,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RW.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "BL",
-    "countryName": "Saint Barthélemy",
-    "countryPhoneCode": 590,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BL.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "SH",
-    "countryName": "Saint Helena",
-    "countryPhoneCode": 290,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SH.png",
-    "countryPhoneLength": 8
-  },
-  {
-    "countryCode": "KN",
-    "countryName": "Saint Kitts and Nevis",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KN.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "MF",
-    "countryName": "Saint Martin",
-    "countryPhoneCode": 590,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MF.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "PM",
-    "countryName": "Saint Pierre and Miquelon",
-    "countryPhoneCode": 508,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PM.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "VC",
-    "countryName": "Saint Vincent and the Grenadines",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VC.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "WS",
-    "countryName": "Samoa",
-    "countryPhoneCode": 685,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/WS.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SM",
-    "countryName": "San Marino",
-    "countryPhoneCode": 378,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SM.png",
-    "countryPhoneLength": 13
-  },
-  {
-    "countryCode": "ST",
-    "countryName": "Sao Tome and Principe",
-    "countryPhoneCode": 239,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ST.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "SA",
-    "countryName": "Saudi Arabia",
-    "countryPhoneCode": 966,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SA.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "SN",
-    "countryName": "Senegal",
-    "countryPhoneCode": 221,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SN.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "RS",
-    "countryName": "Serbia",
-    "countryPhoneCode": 381,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RS.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "SC",
-    "countryName": "Seychelles",
-    "countryPhoneCode": 248,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SC.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "SL",
-    "countryName": "Sierra Leone",
-    "countryPhoneCode": 232,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SL.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SG",
-    "countryName": "Singapore",
-    "countryPhoneCode": 65,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SG.png",
-    "countryPhoneLength": 10
-  },
-  {
-    "countryCode": "SX",
-    "countryName": "Sint Maarten",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SX.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SK",
-    "countryName": "Slovakia",
-    "countryPhoneCode": 421,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SK.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "SI",
-    "countryName": "Slovenia",
-    "countryPhoneCode": 386,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SI.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SB",
-    "countryName": "Solomon Islands",
-    "countryPhoneCode": 677,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SB.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "SO",
-    "countryName": "Somalia",
-    "countryPhoneCode": 252,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SO.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "ZA",
-    "countryName": "South Africa",
-    "countryPhoneCode": 27,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZA.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "KR",
-    "countryName": "South Korea",
-    "countryPhoneCode": 82,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KR.png",
-    "countryPhoneLength": 3
-  },
-  {
-    "countryCode": "SS",
-    "countryName": "South Sudan",
-    "countryPhoneCode": 211,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SS.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "ES",
-    "countryName": "Spain",
-    "countryPhoneCode": 34,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ES.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "LK",
-    "countryName": "Sri Lanka",
-    "countryPhoneCode": 94,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LK.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "LC",
-    "countryName": "St. Lucia",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LC.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SD",
-    "countryName": "Sudan",
-    "countryPhoneCode": 249,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SD.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "SR",
-    "countryName": "Suriname",
-    "countryPhoneCode": 597,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SR.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SZ",
-    "countryName": "Swaziland",
-    "countryPhoneCode": 268,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SZ.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SE",
-    "countryName": "Sweden",
-    "countryPhoneCode": 46,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SE.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "CH",
-    "countryName": "Switzerland",
-    "countryPhoneCode": 41,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CH.png",
-    "countryPhoneLength": 11
-  },
-  {
-    "countryCode": "SY",
-    "countryName": "Syria",
-    "countryPhoneCode": 963,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SY.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "TW",
-    "countryName": "Taiwan",
-    "countryPhoneCode": 886,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TW.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "TJ",
-    "countryName": "Tajikistan",
-    "countryPhoneCode": 992,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TJ.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "TZ",
-    "countryName": "Tanzania",
-    "countryPhoneCode": 255,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TZ.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "TH",
-    "countryName": "Thailand",
-    "countryPhoneCode": 66,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TH.png",
-    "countryPhoneLength": 11
+    "name": "Azerbaijan",
+    "code": "994",
+    "available": false,
+    "emoji": "🇦🇿"
   },
   {
     "countryCode": "BS",
-    "countryName": "The Bahamas",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BS.png",
-    "countryPhoneLength": 11
+    "name": "Bahamas",
+    "code": "1",
+    "available": true,
+    "emoji": "🇧🇸"
+  },
+  {
+    "countryCode": "BH",
+    "name": "Bahrain",
+    "code": "973",
+    "available": true,
+    "emoji": "🇧🇭"
+  },
+  {
+    "countryCode": "BD",
+    "name": "Bangladesh",
+    "code": "880",
+    "available": false,
+    "emoji": "🇧🇩"
+  },
+  {
+    "countryCode": "BB",
+    "name": "Barbados",
+    "code": "1246",
+    "available": false,
+    "emoji": "🇧🇧"
+  },
+  {
+    "countryCode": "BY",
+    "name": "Belarus",
+    "code": "375",
+    "available": false,
+    "emoji": "🇧🇾"
+  },
+  {
+    "countryCode": "BE",
+    "name": "Belgium",
+    "code": "32",
+    "available": true,
+    "emoji": "🇧🇪"
+  },
+  {
+    "countryCode": "BZ",
+    "name": "Belize",
+    "code": "501",
+    "available": false,
+    "emoji": "🇧🇿"
+  },
+  {
+    "countryCode": "BJ",
+    "name": "Benin",
+    "code": "229",
+    "available": false,
+    "emoji": "🇧🇯"
+  },
+  {
+    "countryCode": "BM",
+    "name": "Bermuda",
+    "code": "1441",
+    "available": false,
+    "emoji": "🇧🇲"
+  },
+  {
+    "countryCode": "BT",
+    "name": "Bhutan",
+    "code": "975",
+    "available": false,
+    "emoji": "🇧🇹"
+  },
+  {
+    "countryCode": "BO",
+    "name": "Bolivia",
+    "code": "591",
+    "available": false,
+    "emoji": "🇧🇴"
+  },
+  {
+    "countryCode": "BA",
+    "code": "387",
+    "name": "Bosnia and Herzegovina",
+    "available": false,
+    "emoji": "🇧🇦"
+  },
+  {
+    "countryCode": "BW",
+    "name": "Botswana",
+    "code": "267",
+    "available": false,
+    "emoji": "🇧🇼"
+  },
+  {
+    "countryCode": "BR",
+    "name": "Brazil",
+    "code": "55",
+    "available": false,
+    "emoji": "🇧🇷"
+  },
+  {
+    "countryCode": "BN",
+    "name": "Brunei",
+    "code": "673",
+    "available": false,
+    "emoji": "🇧🇳"
+  },
+  {
+    "countryCode": "BG",
+    "name": "Bulgaria",
+    "code": "359",
+    "available": false,
+    "emoji": "🇧🇬"
+  },
+  {
+    "countryCode": "BF",
+    "name": "Burkina Faso",
+    "code": "226",
+    "available": false,
+    "emoji": "🇧🇫"
+  },
+  {
+    "countryCode": "BI",
+    "name": "Burundi",
+    "code": "257",
+    "available": false,
+    "emoji": "🇧🇮"
+  },
+  {
+    "countryCode": "KH",
+    "name": "Cambodia",
+    "code": "855",
+    "available": false,
+    "emoji": "🇰🇭"
+  },
+  {
+    "countryCode": "CM",
+    "name": "Cameroon",
+    "code": "237",
+    "available": false,
+    "emoji": "🇨🇲"
+  },
+  {
+    "countryCode": "CA",
+    "name": "Canada",
+    "code": "1",
+    "available": true,
+    "emoji": "🇨🇦"
+  },
+  {
+    "countryCode": "CV",
+    "name": "Cape Verde",
+    "code": "238",
+    "available": false,
+    "emoji": "🇨🇻"
+  },
+  {
+    "countryCode": "BQ",
+    "name": "Caribbean Netherlands",
+    "code": "599",
+    "available": false,
+    "emoji": "🇧🇶"
+  },
+  {
+    "countryCode": "KY",
+    "name": "Cayman Islands",
+    "code": "1345",
+    "available": false,
+    "emoji": "🇰🇾"
+  },
+  {
+    "countryCode": "CF",
+    "name": "Central African Republic",
+    "code": "236",
+    "available": false,
+    "emoji": "🇨🇫"
+  },
+  {
+    "countryCode": "TD",
+    "name": "Chad",
+    "code": "235",
+    "available": false,
+    "emoji": "🇹🇩"
+  },
+  {
+    "countryCode": "CL",
+    "name": "Chile",
+    "code": "56",
+    "available": false,
+    "emoji": "🇨🇱"
+  },
+  {
+    "countryCode": "CN",
+    "name": "China",
+    "code": "86",
+    "available": false,
+    "emoji": "🇨🇳"
+  },
+  {
+    "countryCode": "CX",
+    "name": "Christmas Island",
+    "code": "61",
+    "available": false,
+    "emoji": "🇨🇽"
+  },
+  {
+    "countryCode": "CC",
+    "name": "Cocos (Keeling) Islands",
+    "code": "61",
+    "available": false,
+    "emoji": "🇨🇨"
+  },
+  {
+    "countryCode": "CO",
+    "name": "Colombia",
+    "code": "57",
+    "available": false,
+    "emoji": "🇨🇴"
+  },
+  {
+    "countryCode": "KM",
+    "name": "Comoros",
+    "code": "269",
+    "available": false,
+    "emoji": "🇰🇲"
+  },
+  {
+    "countryCode": "CK",
+    "name": "Cook Islands",
+    "code": "682",
+    "available": false,
+    "emoji": "🇨🇰"
+  },
+  {
+    "countryCode": "CR",
+    "name": "Costa Rica",
+    "code": "506",
+    "available": false,
+    "emoji": "🇨🇷"
+  },
+  {
+    "countryCode": "HR",
+    "name": "Croatia",
+    "code": "385",
+    "available": false,
+    "emoji": "🇭🇷"
+  },
+  {
+    "countryCode": "CU",
+    "name": "Cuba",
+    "code": "53",
+    "available": false,
+    "emoji": "🇨🇺"
+  },
+  {
+    "countryCode": "CW",
+    "name": "Curaçao",
+    "code": "599",
+    "available": false,
+    "emoji": "🇨🇼"
+  },
+  {
+    "countryCode": "CY",
+    "name": "Cyprus",
+    "code": "357",
+    "available": true,
+    "emoji": "🇨🇾"
+  },
+  {
+    "countryCode": "CZ",
+    "code": "420",
+    "name": "Czech Republic",
+    "available": true,
+    "emoji": "🇨🇿"
+  },
+  {
+    "countryCode": "CI",
+    "code": "225",
+    "name": "Côte d'Ivoire",
+    "available": false,
+    "emoji": "🇨🇮"
+  },
+  {
+    "countryCode": "CG",
+    "code": "243",
+    "name": "Democratic Republic Congo",
+    "available": false,
+    "emoji": "🇨🇩"
+  },
+  {
+    "countryCode": "DK",
+    "name": "Denmark",
+    "code": "45",
+    "available": true,
+    "emoji": "🇩🇰"
+  },
+  {
+    "countryCode": "DJ",
+    "name": "Djibouti",
+    "code": "253",
+    "available": false,
+    "emoji": "🇩🇯"
+  },
+  {
+    "countryCode": "DM",
+    "name": "Dominica",
+    "code": "1767",
+    "available": false,
+    "emoji": "🇩🇲"
+  },
+  {
+    "countryCode": "DO",
+    "name": "Dominican Republic",
+    "code": "1809",
+    "available": false,
+    "emoji": "🇩🇴"
+  },
+  {
+    "countryCode": "TP",
+    "code": "670",
+    "name": "East Timor",
+    "available": false,
+    "emoji": "🇹🇱"
+  },
+  {
+    "countryCode": "EC",
+    "name": "Ecuador",
+    "code": "593",
+    "available": false,
+    "emoji": "🇪🇨"
+  },
+  {
+    "countryCode": "EG",
+    "name": "Egypt",
+    "code": "20",
+    "available": false,
+    "emoji": "🇪🇬"
+  },
+  {
+    "countryCode": "SV",
+    "name": "El Salvador",
+    "code": "503",
+    "available": false,
+    "emoji": "🇸🇻"
+  },
+  {
+    "countryCode": "GQ",
+    "name": "Equatorial Guinea",
+    "code": "240",
+    "available": true,
+    "emoji": "🇬🇶"
+  },
+  {
+    "countryCode": "ER",
+    "name": "Eritrea",
+    "code": "291",
+    "available": false,
+    "emoji": "🇪🇷"
+  },
+  {
+    "countryCode": "EE",
+    "name": "Estonia",
+    "code": "372",
+    "available": true,
+    "emoji": "🇪🇪"
+  },
+  {
+    "countryCode": "ET",
+    "name": "Ethiopia",
+    "code": "251",
+    "available": false,
+    "emoji": "🇪🇹"
+  },
+  {
+    "countryCode": "FK",
+    "code": "500",
+    "name": "Falkland Islands (Islas Malvinas)",
+    "available": false,
+    "emoji": "🇫🇰"
+  },
+  {
+    "countryCode": "FO",
+    "name": "Faroe Islands",
+    "code": "298",
+    "available": false,
+    "emoji": "🇫🇴"
+  },
+  {
+    "countryCode": "FJ",
+    "name": "Fiji",
+    "code": "679",
+    "available": false,
+    "emoji": "🇫🇯"
+  },
+  {
+    "countryCode": "FI",
+    "name": "Finland",
+    "code": "358",
+    "available": true,
+    "emoji": "🇫🇮"
+  },
+  {
+    "countryCode": "FR",
+    "name": "France",
+    "code": "33",
+    "available": true,
+    "emoji": "🇫🇷"
+  },
+  {
+    "countryCode": "GF",
+    "name": "French Guiana",
+    "code": "594",
+    "available": false,
+    "emoji": "🇬🇫"
+  },
+  {
+    "countryCode": "PF",
+    "name": "French Polynesia",
+    "code": "689",
+    "available": false,
+    "emoji": "🇵🇫"
+  },
+  {
+    "countryCode": "GA",
+    "name": "Gabon",
+    "code": "241",
+    "available": false,
+    "emoji": "🇬🇦"
   },
   {
     "countryCode": "GM",
-    "countryName": "The Gambia",
-    "countryPhoneCode": 220,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GM.png",
-    "countryPhoneLength": 10
+    "name": "Gambia",
+    "code": "220",
+    "available": false,
+    "emoji": "🇬🇲"
   },
   {
-    "countryCode": "TL",
-    "countryName": "Timor-Leste",
-    "countryPhoneCode": 670,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TL.png",
-    "countryPhoneLength": 4
+    "countryCode": "GE",
+    "name": "Georgia",
+    "code": "995",
+    "available": false,
+    "emoji": "🇬🇪"
+  },
+  {
+    "countryCode": "DE",
+    "name": "Germany",
+    "code": "49",
+    "available": true,
+    "emoji": "🇩🇪"
+  },
+  {
+    "countryCode": "GH",
+    "name": "Ghana",
+    "code": "233",
+    "available": false,
+    "emoji": "🇬🇭"
+  },
+  {
+    "countryCode": "GI",
+    "name": "Gibraltar",
+    "code": "350",
+    "available": false,
+    "emoji": "🇬🇮"
+  },
+  {
+    "countryCode": "GR",
+    "name": "Greece",
+    "code": "30",
+    "available": false,
+    "emoji": "🇬🇷"
+  },
+  {
+    "countryCode": "GL",
+    "name": "Greenland",
+    "code": "299",
+    "available": false,
+    "emoji": "🇬🇱"
+  },
+  {
+    "countryCode": "GD",
+    "name": "Grenada",
+    "code": "1473",
+    "available": false,
+    "emoji": "🇬🇩"
+  },
+  {
+    "countryCode": "GP",
+    "name": "Guadeloupe",
+    "code": "590",
+    "available": false,
+    "emoji": "🇬🇵"
+  },
+  {
+    "countryCode": "GU",
+    "name": "Guam",
+    "code": "1671",
+    "available": false,
+    "emoji": "🇬🇺"
+  },
+  {
+    "countryCode": "GT",
+    "name": "Guatemala",
+    "code": "502",
+    "available": false,
+    "emoji": "🇬🇹"
+  },
+  {
+    "countryCode": "GG",
+    "name": "Guernsey",
+    "code": "44",
+    "available": false,
+    "emoji": "🇬🇬"
+  },
+  {
+    "countryCode": "GN",
+    "code": "224",
+    "name": "Guinea Conakry",
+    "available": false,
+    "emoji": "🇬🇳"
+  },
+  {
+    "countryCode": "GW",
+    "name": "Guinea-Bissau",
+    "code": "245",
+    "available": false,
+    "emoji": "🇬🇼"
+  },
+  {
+    "countryCode": "GY",
+    "name": "Guyana",
+    "code": "592",
+    "available": false,
+    "emoji": "🇬🇾"
+  },
+  {
+    "countryCode": "HT",
+    "name": "Haiti",
+    "code": "509",
+    "available": false,
+    "emoji": "🇭🇹"
+  },
+  {
+    "countryCode": "HM",
+    "code": "672",
+    "name": "Heard Island and McDonald Islands",
+    "available": false,
+    "emoji": "🇦🇺"
+  },
+  {
+    "countryCode": "HN",
+    "name": "Honduras",
+    "code": "504",
+    "available": false,
+    "emoji": "🇭🇳"
+  },
+  {
+    "countryCode": "HK",
+    "code": "852",
+    "name": "Hong Kong",
+    "available": true,
+    "emoji": "🇭🇰"
+  },
+  {
+    "countryCode": "HU",
+    "name": "Hungary",
+    "code": "36",
+    "available": true,
+    "emoji": "🇭🇺"
+  },
+  {
+    "countryCode": "IS",
+    "name": "Iceland",
+    "code": "354",
+    "available": true,
+    "emoji": "🇮🇸"
+  },
+  {
+    "countryCode": "IN",
+    "name": "India",
+    "code": "91",
+    "available": true,
+    "emoji": "🇮🇳"
+  },
+  {
+    "countryCode": "ID",
+    "name": "Indonesia",
+    "code": "62",
+    "available": true,
+    "emoji": "🇮🇩"
+  },
+  {
+    "countryCode": "IR",
+    "name": "Iran",
+    "code": "98",
+    "available": false,
+    "emoji": "🇮🇷"
+  },
+  {
+    "countryCode": "IQ",
+    "name": "Iraq",
+    "code": "964",
+    "available": false,
+    "emoji": "🇮🇶"
+  },
+  {
+    "countryCode": "IE",
+    "name": "Ireland",
+    "code": "353",
+    "available": true,
+    "emoji": "🇮🇪"
+  },
+  {
+    "countryCode": "IM",
+    "name": "Isle of Man",
+    "code": "44",
+    "available": false,
+    "emoji": "🇮🇲"
+  },
+  {
+    "countryCode": "IL",
+    "name": "Israel",
+    "code": "972",
+    "available": true,
+    "emoji": "🇮🇱"
+  },
+  {
+    "countryCode": "IT",
+    "name": "Italy",
+    "code": "39",
+    "available": true,
+    "emoji": "🇮🇹"
+  },
+  {
+    "countryCode": "JM",
+    "name": "Jamaica",
+    "code": "1876",
+    "available": false,
+    "emoji": "🇯🇲"
+  },
+  {
+    "countryCode": "JP",
+    "name": "Japan",
+    "code": "81",
+    "available": true,
+    "emoji": "🇯🇵"
+  },
+  {
+    "countryCode": "JO",
+    "name": "Jordan",
+    "code": "962",
+    "available": false,
+    "emoji": "🇯🇴"
+  },
+  {
+    "countryCode": "KZ",
+    "name": "Kazakhstan",
+    "code": "7",
+    "available": false,
+    "emoji": "🇰🇿"
+  },
+  {
+    "countryCode": "KE",
+    "name": "Kenya",
+    "code": "254",
+    "available": false,
+    "emoji": "🇰🇪"
+  },
+  {
+    "countryCode": "KI",
+    "name": "Kiribati",
+    "code": "686",
+    "available": false,
+    "emoji": "🇰🇮"
+  },
+  {
+    "countryCode": "KW",
+    "name": "Kuwait",
+    "code": "965",
+    "available": true,
+    "emoji": "🇰🇼"
+  },
+  {
+    "countryCode": "KG",
+    "name": "Kyrgyzstan",
+    "code": "996",
+    "available": false,
+    "emoji": "🇰🇬"
+  },
+  {
+    "countryCode": "LA",
+    "name": "Laos",
+    "code": "856",
+    "available": false,
+    "emoji": "🇱🇦"
+  },
+  {
+    "countryCode": "LV",
+    "name": "Latvia",
+    "code": "371",
+    "available": true,
+    "emoji": "🇱🇻"
+  },
+  {
+    "countryCode": "LB",
+    "name": "Lebanon",
+    "code": "961",
+    "available": false,
+    "emoji": "🇱🇧"
+  },
+  {
+    "countryCode": "LS",
+    "name": "Lesotho",
+    "code": "266",
+    "available": false,
+    "emoji": "🇱🇸"
+  },
+  {
+    "countryCode": "LR",
+    "name": "Liberia",
+    "code": "231",
+    "available": false,
+    "emoji": "🇱🇷"
+  },
+  {
+    "countryCode": "LY",
+    "name": "Libya",
+    "code": "218",
+    "available": false,
+    "emoji": "🇱🇾"
+  },
+  {
+    "countryCode": "LI",
+    "name": "Liechtenstein",
+    "code": "423",
+    "available": true,
+    "emoji": "🇱🇮"
+  },
+  {
+    "countryCode": "LT",
+    "name": "Lithuania",
+    "code": "370",
+    "available": true,
+    "emoji": "🇱🇹"
+  },
+  {
+    "countryCode": "LU",
+    "name": "Luxembourg",
+    "code": "352",
+    "available": true,
+    "emoji": "🇱🇺"
+  },
+  {
+    "countryCode": "MO",
+    "code": "853",
+    "name": "Macau",
+    "available": false,
+    "emoji": "🇲🇴"
+  },
+  {
+    "countryCode": "MK",
+    "name": "Macedonia",
+    "code": "389",
+    "available": false,
+    "emoji": "🇲🇰"
+  },
+  {
+    "countryCode": "MG",
+    "name": "Madagascar",
+    "code": "261",
+    "available": false,
+    "emoji": "🇲🇬"
+  },
+  {
+    "countryCode": "MW",
+    "name": "Malawi",
+    "code": "265",
+    "available": false,
+    "emoji": "🇲🇼"
+  },
+  {
+    "countryCode": "MY",
+    "name": "Malaysia",
+    "code": "60",
+    "available": true,
+    "emoji": "🇲🇾"
+  },
+  {
+    "countryCode": "MV",
+    "name": "Maldives",
+    "code": "960",
+    "available": false,
+    "emoji": "🇲🇻"
+  },
+  {
+    "countryCode": "ML",
+    "name": "Mali",
+    "code": "223",
+    "available": false,
+    "emoji": "🇲🇱"
+  },
+  {
+    "countryCode": "MT",
+    "name": "Malta",
+    "code": "356",
+    "available": true,
+    "emoji": "🇲🇹"
+  },
+  {
+    "countryCode": "MH",
+    "name": "Marshall Islands",
+    "code": "692",
+    "available": false,
+    "emoji": "🇲🇭"
+  },
+  {
+    "countryCode": "MQ",
+    "name": "Martinique",
+    "code": "596",
+    "available": false,
+    "emoji": "🇲🇶"
+  },
+  {
+    "countryCode": "MR",
+    "name": "Mauritania",
+    "code": "222",
+    "available": false,
+    "emoji": "🇲🇷"
+  },
+  {
+    "countryCode": "MU",
+    "name": "Mauritius",
+    "code": "230",
+    "available": false,
+    "emoji": "🇲🇺"
+  },
+  {
+    "countryCode": "YT",
+    "name": "Mayotte",
+    "code": "262",
+    "available": false,
+    "emoji": "🇾🇹"
+  },
+  {
+    "countryCode": "MX",
+    "name": "Mexico",
+    "code": "52",
+    "available": false,
+    "emoji": "🇲🇽"
+  },
+  {
+    "countryCode": "FM",
+    "name": "Micronesia",
+    "code": "691",
+    "available": false,
+    "emoji": "🇫🇲"
+  },
+  {
+    "countryCode": "MD",
+    "name": "Moldova",
+    "code": "373",
+    "available": false,
+    "emoji": "🇲🇩"
+  },
+  {
+    "countryCode": "MC",
+    "name": "Monaco",
+    "code": "377",
+    "available": true,
+    "emoji": "🇲🇨"
+  },
+  {
+    "countryCode": "MN",
+    "name": "Mongolia",
+    "code": "976",
+    "available": false,
+    "emoji": "🇲🇳"
+  },
+  {
+    "countryCode": "ME",
+    "name": "Montenegro",
+    "code": "382",
+    "available": false,
+    "emoji": "🇲🇪"
+  },
+  {
+    "countryCode": "MS",
+    "name": "Montserrat",
+    "code": "1664",
+    "available": false,
+    "emoji": "🇲🇸"
+  },
+  {
+    "countryCode": "MA",
+    "name": "Morocco",
+    "code": "212",
+    "available": false,
+    "emoji": "🇲🇦"
+  },
+  {
+    "countryCode": "MZ",
+    "name": "Mozambique",
+    "code": "258",
+    "available": false,
+    "emoji": "🇲🇿"
+  },
+  {
+    "countryCode": "MM",
+    "name": "Myanmar (Burma)",
+    "code": "95",
+    "available": false,
+    "emoji": "🇲🇲"
+  },
+  {
+    "countryCode": "NA",
+    "name": "Namibia",
+    "code": "264",
+    "available": false,
+    "emoji": "🇳🇦"
+  },
+  {
+    "countryCode": "NR",
+    "name": "Nauru",
+    "code": "674",
+    "available": false,
+    "emoji": "🇳🇷"
+  },
+  {
+    "countryCode": "NP",
+    "name": "Nepal",
+    "code": "977",
+    "available": false,
+    "emoji": "🇳🇵"
+  },
+  {
+    "countryCode": "NL",
+    "name": "Netherlands",
+    "code": "31",
+    "available": true,
+    "emoji": "🇳🇱"
+  },
+  {
+    "countryCode": "NC",
+    "name": "New Caledonia",
+    "code": "687",
+    "available": false,
+    "emoji": "🇳🇨"
+  },
+  {
+    "countryCode": "NZ",
+    "name": "New Zealand",
+    "code": "64",
+    "available": true,
+    "emoji": "🇳🇿"
+  },
+  {
+    "countryCode": "NI",
+    "name": "Nicaragua",
+    "code": "505",
+    "available": false,
+    "emoji": "🇳🇮"
+  },
+  {
+    "countryCode": "NE",
+    "name": "Niger",
+    "code": "227",
+    "available": false,
+    "emoji": "🇳🇪"
+  },
+  {
+    "countryCode": "NG",
+    "name": "Nigeria",
+    "code": "234",
+    "available": false,
+    "emoji": "🇳🇬"
+  },
+  {
+    "countryCode": "NU",
+    "name": "Niue",
+    "code": "683",
+    "available": false,
+    "emoji": "🇳🇺"
+  },
+  {
+    "countryCode": "NF",
+    "name": "Norfolk Island",
+    "code": "672",
+    "available": false,
+    "emoji": "🇳🇫"
+  },
+  {
+    "countryCode": "KP",
+    "name": "North Korea",
+    "code": "850",
+    "available": false,
+    "emoji": "🇰🇵"
+  },
+  {
+    "countryCode": "MP",
+    "name": "Northern Mariana Islands",
+    "code": "1670",
+    "available": false,
+    "emoji": "🇲🇵"
+  },
+  {
+    "countryCode": "NO",
+    "name": "Norway",
+    "code": "47",
+    "available": true,
+    "emoji": "🇳🇴"
+  },
+  {
+    "countryCode": "OM",
+    "name": "Oman",
+    "code": "968",
+    "available": true,
+    "emoji": "🇴🇲"
+  },
+  {
+    "countryCode": "PK",
+    "name": "Pakistan",
+    "code": "92",
+    "available": false,
+    "emoji": "🇵🇰"
+  },
+  {
+    "countryCode": "PW",
+    "name": "Palau",
+    "code": "680",
+    "available": false,
+    "emoji": "🇵🇼"
+  },
+  {
+    "countryCode": "PS",
+    "name": "Palestinian Territories",
+    "code": "970",
+    "available": false,
+    "emoji": "🇵🇸"
+  },
+  {
+    "countryCode": "PA",
+    "name": "Panama",
+    "code": "507",
+    "available": false,
+    "emoji": "🇵🇦"
+  },
+  {
+    "countryCode": "PG",
+    "name": "Papua New Guinea",
+    "code": "675",
+    "available": false,
+    "emoji": "🇵🇬"
+  },
+  {
+    "countryCode": "PY",
+    "name": "Paraguay",
+    "code": "595",
+    "available": false,
+    "emoji": "🇵🇾"
+  },
+  {
+    "countryCode": "PE",
+    "name": "Peru",
+    "code": "51",
+    "available": false,
+    "emoji": "🇵🇪"
+  },
+  {
+    "countryCode": "PH",
+    "name": "Philippines",
+    "code": "63",
+    "available": true,
+    "emoji": "🇵🇭"
+  },
+  {
+    "countryCode": "PL",
+    "name": "Poland",
+    "code": "48",
+    "available": true,
+    "emoji": "🇵🇱"
+  },
+  {
+    "countryCode": "PT",
+    "name": "Portugal",
+    "code": "351",
+    "available": true,
+    "emoji": "🇵🇹"
+  },
+  {
+    "countryCode": "PR",
+    "name": "Puerto Rico",
+    "code": "1787",
+    "available": false,
+    "emoji": "🇵🇷"
+  },
+  {
+    "countryCode": "QA",
+    "name": "Qatar",
+    "code": "974",
+    "available": true,
+    "emoji": "🇶🇦"
+  },
+  {
+    "countryCode": "CG",
+    "code": "242",
+    "name": "Republic of Congo",
+    "available": false,
+    "emoji": "🇨🇬"
+  },
+  {
+    "countryCode": "RO",
+    "name": "Romania",
+    "code": "40",
+    "available": false,
+    "emoji": "🇷🇴"
+  },
+  {
+    "countryCode": "RU",
+    "name": "Russia",
+    "code": "7",
+    "available": false,
+    "emoji": "🇷🇺"
+  },
+  {
+    "countryCode": "RW",
+    "name": "Rwanda",
+    "code": "250",
+    "available": false,
+    "emoji": "🇷🇼"
+  },
+  {
+    "countryCode": "RE",
+    "name": "Réunion",
+    "code": "262",
+    "available": false,
+    "emoji": "🇷🇪"
+  },
+  {
+    "countryCode": "BL",
+    "code": "590",
+    "name": "Saint Barthélemy",
+    "available": false,
+    "emoji": "🇧🇱"
+  },
+  {
+    "countryCode": "SH",
+    "code": "290",
+    "name": "Saint Helena",
+    "available": false,
+    "emoji": "🇸🇭"
+  },
+  {
+    "countryCode": "MF",
+    "code": "590",
+    "name": "Saint Martin",
+    "available": false,
+    "emoji": "🇲🇶"
+  },
+  {
+    "countryCode": "PM",
+    "code": "508",
+    "name": "Saint Pierre and Miquelon",
+    "available": false,
+    "emoji": "🇵🇲"
+  },
+  {
+    "countryCode": "WS",
+    "name": "Samoa",
+    "code": "685",
+    "available": false,
+    "emoji": "🇼🇸"
+  },
+  {
+    "countryCode": "SM",
+    "name": "San Marino",
+    "code": "378",
+    "available": true,
+    "emoji": "🇸🇲"
+  },
+  {
+    "countryCode": "SA",
+    "name": "Saudi Arabia",
+    "code": "966",
+    "available": true,
+    "emoji": "🇸🇦"
+  },
+  {
+    "countryCode": "SN",
+    "name": "Senegal",
+    "code": "221",
+    "available": false,
+    "emoji": "🇸🇳"
+  },
+  {
+    "countryCode": "RS",
+    "name": "Serbia",
+    "code": "381",
+    "available": false,
+    "emoji": "🇷🇸"
+  },
+  {
+    "countryCode": "SC",
+    "name": "Seychelles",
+    "code": "248",
+    "available": false,
+    "emoji": "🇸🇨"
+  },
+  {
+    "countryCode": "SL",
+    "name": "Sierra Leone",
+    "code": "232",
+    "available": false,
+    "emoji": "🇸🇱"
+  },
+  {
+    "countryCode": "SG",
+    "name": "Singapore",
+    "code": "65",
+    "available": true,
+    "emoji": "🇸🇬"
+  },
+  {
+    "countryCode": "SX",
+    "name": "Sint Maarten",
+    "code": "1",
+    "available": false,
+    "emoji": "🇸🇽"
+  },
+  {
+    "countryCode": "SK",
+    "name": "Slovakia",
+    "code": "421",
+    "available": true,
+    "emoji": "🇸🇰"
+  },
+  {
+    "countryCode": "SI",
+    "name": "Slovenia",
+    "code": "386",
+    "available": true,
+    "emoji": "🇸🇮"
+  },
+  {
+    "countryCode": "SB",
+    "name": "Solomon Islands",
+    "code": "677",
+    "available": false,
+    "emoji": "🇸🇧"
+  },
+  {
+    "countryCode": "SO",
+    "name": "Somalia",
+    "code": "252",
+    "available": false,
+    "emoji": "🇸🇴"
+  },
+  {
+    "countryCode": "ZA",
+    "name": "South Africa",
+    "code": "27",
+    "available": false,
+    "emoji": "🇿🇦"
+  },
+  {
+    "countryCode": "GS",
+    "code": "500",
+    "name": "South Georgia and the South Sandwich Islands",
+    "available": false,
+    "emoji": "🇬🇸"
+  },
+  {
+    "countryCode": "KR",
+    "name": "South Korea",
+    "code": "82",
+    "available": true,
+    "emoji": "🇰🇷"
+  },
+  {
+    "countryCode": "SS",
+    "name": "South Sudan",
+    "code": "211",
+    "available": false,
+    "emoji": "🇸🇸"
+  },
+  {
+    "countryCode": "ES",
+    "name": "Spain",
+    "code": "34",
+    "available": true,
+    "emoji": "🇪🇸"
+  },
+  {
+    "countryCode": "LK",
+    "name": "Sri Lanka",
+    "code": "94",
+    "available": false,
+    "emoji": "🇱🇰"
+  },
+  {
+    "countryCode": "KN",
+    "code": "1869",
+    "name": "St. Kitts",
+    "available": false,
+    "emoji": "🇰🇳"
+  },
+  {
+    "countryCode": "LC",
+    "name": "St. Lucia",
+    "code": "1758",
+    "available": false,
+    "emoji": "🇱🇨"
+  },
+  {
+    "countryCode": "VC",
+    "code": "1784",
+    "name": "St. Vincent",
+    "available": false,
+    "emoji": "🇻🇨"
+  },
+  {
+    "countryCode": "SD",
+    "name": "Sudan",
+    "code": "249",
+    "available": false,
+    "emoji": "🇸🇩"
+  },
+  {
+    "countryCode": "SR",
+    "name": "Suriname",
+    "code": "597",
+    "available": false,
+    "emoji": "🇸🇷"
+  },
+  {
+    "countryCode": "SJ",
+    "code": "47",
+    "name": "Svalbard and Jan Mayen",
+    "available": false,
+    "emoji": "🇳🇴"
+  },
+  {
+    "countryCode": "SZ",
+    "name": "Swaziland",
+    "code": "268",
+    "available": false,
+    "emoji": "🇸🇿"
+  },
+  {
+    "countryCode": "SE",
+    "name": "Sweden",
+    "code": "46",
+    "available": true,
+    "emoji": "🇸🇪"
+  },
+  {
+    "countryCode": "CH",
+    "name": "Switzerland",
+    "code": "41",
+    "available": true,
+    "emoji": "🇨🇭"
+  },
+  {
+    "countryCode": "SY",
+    "name": "Syria",
+    "code": "963",
+    "available": false,
+    "emoji": "🇸🇾"
+  },
+  {
+    "countryCode": "ST",
+    "code": "239",
+    "name": "São Tomé and Príncipe",
+    "available": false,
+    "emoji": "🇸🇹"
+  },
+  {
+    "countryCode": "TW",
+    "name": "Taiwan",
+    "code": "886",
+    "available": true,
+    "emoji": "🇹🇼"
+  },
+  {
+    "countryCode": "TJ",
+    "name": "Tajikistan",
+    "code": "992",
+    "available": false,
+    "emoji": "🇹🇯"
+  },
+  {
+    "countryCode": "TZ",
+    "name": "Tanzania",
+    "code": "255",
+    "available": false,
+    "emoji": "🇹🇿"
+  },
+  {
+    "countryCode": "TH",
+    "name": "Thailand",
+    "code": "66",
+    "available": true,
+    "emoji": "🇹🇭"
   },
   {
     "countryCode": "TG",
-    "countryName": "Togo",
-    "countryPhoneCode": 228,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TG.png",
-    "countryPhoneLength": 11
+    "name": "Togo",
+    "code": "228",
+    "available": false,
+    "emoji": "🇹🇬"
   },
   {
     "countryCode": "TK",
-    "countryName": "Tokelau",
-    "countryPhoneCode": 690,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TK.png",
-    "countryPhoneLength": 4
+    "name": "Tokelau",
+    "code": "690",
+    "available": false,
+    "emoji": "🇹🇰"
   },
   {
     "countryCode": "TO",
-    "countryName": "Tonga",
-    "countryPhoneCode": 676,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TO.png",
-    "countryPhoneLength": 4
+    "name": "Tonga",
+    "code": "676",
+    "available": false,
+    "emoji": "🇹🇴"
   },
   {
     "countryCode": "TT",
-    "countryName": "Trinidad and Tobago",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TT.png",
-    "countryPhoneLength": 11
+    "code": "1868",
+    "name": "Trinidad/Tobago",
+    "available": false,
+    "emoji": "🇹🇹"
   },
   {
     "countryCode": "TN",
-    "countryName": "Tunisia",
-    "countryPhoneCode": 216,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TN.png",
-    "countryPhoneLength": 11
+    "name": "Tunisia",
+    "code": "216",
+    "available": false,
+    "emoji": "🇹🇳"
   },
   {
     "countryCode": "TR",
-    "countryName": "Turkey",
-    "countryPhoneCode": 90,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TR.png",
-    "countryPhoneLength": 12
+    "name": "Turkey",
+    "code": "90",
+    "available": false,
+    "emoji": "🇹🇷"
   },
   {
     "countryCode": "TM",
-    "countryName": "Turkmenistan",
-    "countryPhoneCode": 993,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TM.png",
-    "countryPhoneLength": 11
+    "name": "Turkmenistan",
+    "code": "993",
+    "available": false,
+    "emoji": "🇹🇲"
   },
   {
     "countryCode": "TC",
-    "countryName": "Turks and Caicos Islands",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TC.png",
-    "countryPhoneLength": 11
+    "code": "1649",
+    "name": "Turks and Caicos Islands",
+    "available": false,
+    "emoji": "🇹🇨"
   },
   {
     "countryCode": "TV",
-    "countryName": "Tuvalu",
-    "countryPhoneCode": 688,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TV.png",
-    "countryPhoneLength": 4
-  },
-  {
-    "countryCode": "UG",
-    "countryName": "Uganda",
-    "countryPhoneCode": 256,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UG.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "AE",
-    "countryName": "United Arab Emirates",
-    "countryPhoneCode": 971,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AE.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "GB",
-    "countryName": "United Kingdom",
-    "countryPhoneCode": 44,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GB.png",
-    "countryPhoneLength": 12
-  },
-  {
-    "countryCode": "UY",
-    "countryName": "Uruguay",
-    "countryPhoneCode": 598,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UY.png",
-    "countryPhoneLength": 11
+    "name": "Tuvalu",
+    "code": "688",
+    "available": false,
+    "emoji": "🇹🇻"
   },
   {
     "countryCode": "VI",
-    "countryName": "US Virgin Islands",
-    "countryPhoneCode": 1,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VI.png",
-    "countryPhoneLength": 11
+    "name": "U.S. Virgin Islands",
+    "code": "1340",
+    "available": false,
+    "emoji": "🇻🇮"
+  },
+  {
+    "countryCode": "UG",
+    "name": "Uganda",
+    "code": "256",
+    "available": false,
+    "emoji": "🇺🇬"
+  },
+  {
+    "countryCode": "UA",
+    "name": "Ukraine",
+    "code": "380",
+    "available": false,
+    "emoji": "🇺🇦"
+  },
+  {
+    "countryCode": "AE",
+    "name": "United Arab Emirates",
+    "code": "971",
+    "available": true,
+    "emoji": "🇦🇪"
+  },
+  {
+    "countryCode": "GB",
+    "name": "United Kingdom",
+    "code": "44",
+    "available": true,
+    "emoji": "🇬🇧"
+  },
+  {
+    "countryCode": "US",
+    "name": "United States",
+    "code": "1",
+    "available": true,
+    "emoji": "🇺🇸"
+  },
+  {
+    "countryCode": "UY",
+    "name": "Uruguay",
+    "code": "598",
+    "available": false,
+    "emoji": "🇺🇾"
   },
   {
     "countryCode": "UZ",
-    "countryName": "Uzbekistan",
-    "countryPhoneCode": 998,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UZ.png",
-    "countryPhoneLength": 13
+    "name": "Uzbekistan",
+    "code": "998",
+    "available": false,
+    "emoji": "🇺🇿"
   },
   {
     "countryCode": "VU",
-    "countryName": "Vanuatu",
-    "countryPhoneCode": 678,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VU.png",
-    "countryPhoneLength": 4
+    "name": "Vanuatu",
+    "code": "678",
+    "available": false,
+    "emoji": "🇻🇺"
   },
   {
     "countryCode": "VA",
-    "countryName": "Vatican City",
-    "countryPhoneCode": 39,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VA.png",
-    "countryPhoneLength": 3
+    "name": "Vatican City",
+    "code": "379",
+    "available": true,
+    "emoji": "🇻🇦"
   },
   {
     "countryCode": "VE",
-    "countryName": "Venezuela",
-    "countryPhoneCode": 58,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VE.png",
-    "countryPhoneLength": 12
+    "name": "Venezuela",
+    "code": "58",
+    "available": false,
+    "emoji": "🇻🇪"
   },
   {
     "countryCode": "VN",
-    "countryName": "Vietnam",
-    "countryPhoneCode": 84,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VN.png",
-    "countryPhoneLength": 3
+    "name": "Vietnam",
+    "code": "84",
+    "available": false,
+    "emoji": "🇻🇳"
   },
   {
     "countryCode": "WF",
-    "countryName": "Wallis and Futuna",
-    "countryPhoneCode": 681,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/WF.png",
-    "countryPhoneLength": 4
+    "code": "681",
+    "name": "Wallis and Futuna",
+    "available": false,
+    "emoji": "🇼🇫"
   },
   {
     "countryCode": "EH",
-    "countryName": "Western Sahara",
-    "countryPhoneCode": 212,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EH.png",
-    "countryPhoneLength": 12
+    "name": "Western Sahara",
+    "code": "212",
+    "available": false,
+    "emoji": "🇪🇭"
   },
   {
     "countryCode": "YE",
-    "countryName": "Yemen",
-    "countryPhoneCode": 967,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/YE.png",
-    "countryPhoneLength": 12
+    "name": "Yemen",
+    "code": "967",
+    "available": false,
+    "emoji": "🇾🇪"
   },
   {
     "countryCode": "ZM",
-    "countryName": "Zambia",
-    "countryPhoneCode": 260,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZM.png",
-    "countryPhoneLength": 12
+    "name": "Zambia",
+    "code": "260",
+    "available": false,
+    "emoji": "🇿🇲"
   },
   {
     "countryCode": "ZW",
-    "countryName": "Zimbabwe",
-    "countryPhoneCode": 263,
-    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZW.png",
-    "countryPhoneLength": 12
+    "name": "Zimbabwe",
+    "code": "263",
+    "available": false,
+    "emoji": "🇿🇼"
   }
 ]

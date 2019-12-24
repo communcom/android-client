@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone
 
 
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -15,21 +15,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomViewTarget
-import com.bumptech.glide.request.transition.Transition
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.common.extensions.safeNavigate
+import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
 import io.golos.cyber_android.ui.utils.ViewUtils
 import io.golos.cyber_android.ui.utils.openWebPage
@@ -143,8 +138,9 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
         signUpViewModel.resetCountrySelection()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onCountrySelected(countryModel: CountryEntity?) {
-        country.setText(countryModel?.countryName)
+        country.setText(countryModel?.let { "${it.emoji} ${it.name}"} ?: "")
         country.isActivated = countryModel != null
 
         if (countryModel != null) {
@@ -161,24 +157,6 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
                 findNavController().navigate(R.id.action_signUpPhoneFragment_to_signUpCountryFragment)
             }
         }
-
-        val countryFlag = requireContext().resources.getDimension(R.dimen.sign_up_country_flag_size).toInt()
-        Glide.with(requireContext())
-            .load(countryModel?.thumbNailUrl)
-            .apply(RequestOptions.circleCropTransform().override(countryFlag, countryFlag))
-            .into(object : CustomViewTarget<TextView, Drawable>(country) {
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                }
-
-                override fun onResourceCleared(placeholder: Drawable?) {
-                }
-
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    country.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null)
-                    country.compoundDrawablePadding = requireContext().resources.getDimensionPixelSize(R.dimen.margin_small)
-                }
-
-            })
     }
 
     private fun navigateTo(@IdRes destination: Int) {
@@ -195,10 +173,10 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
     }
 
     private fun setupPhoneMask(countryModel: CountryEntity) {
-        val phoneFormat = getString(R.string.phone_format).format(countryModel.countryPhoneCode)
+        val phoneFormat = getString(R.string.phone_format).format(countryModel.code)
         val mask = UnderscoreDigitSlotsParser().parseSlots(phoneFormat)
         phoneMaskWatcher.setMask(MaskImpl.createTerminated(mask))
-        val prefixPhoneNumber = getString(R.string.phone_prefix_format).format(countryModel.countryPhoneCode)
+        val prefixPhoneNumber = getString(R.string.phone_prefix_format).format(countryModel.code)
         phone.prefix = prefixPhoneNumber
         ViewUtils.showKeyboard(phone)
     }

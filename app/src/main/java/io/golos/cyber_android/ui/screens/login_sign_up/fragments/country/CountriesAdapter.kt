@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_sign_up.fragments.country
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.domain.dto.CountryEntity
 import kotlinx.android.synthetic.main.item_country.view.*
 
@@ -56,21 +58,16 @@ class CountriesAdapter(private val listener: Listener) :
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        @SuppressLint("SetTextI18n")
         fun bind(country: CountryEntity) {
             with(itemView) {
                 root.setOnClickListener { listener.onCountryClick(country) }
 
-                Glide.with(context)
-                    .load(country.thumbNailUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(flag)
-
-                countryName.text = String.format(
-                    context.getString(R.string.country_with_phone_code_format),
-                    country.countryName,
-                    country.countryPhoneCode
-                )
+                countryName.text = "${country.emoji} ${country.name} (+${country.code})"
                 check.visibility = if (selectedCountry == country) View.VISIBLE else View.GONE
+
+                val textColor = context.resources.getColorRes(if(country.available) R.color.black else R.color.grey)
+                countryName.setTextColor(textColor)
             }
         }
     }

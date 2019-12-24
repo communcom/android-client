@@ -176,7 +176,7 @@
     <string name="post_button">Post</string>
 
     <!--Sign Up-->
-    <string name="select_country">Select Country</string>
+    <string name="select_country">Select country</string>
     <string name="phone_number">Phone number</string>
     <string name="country_with_phone_code_format">%1$s (+%2$s)</string>
     <string name="phone_format">+%1$s (___) ___-__-__</string>
@@ -523,4 +523,5 @@
     <string name="attention">Attention</string>
     <string name="master_pass_backup_sub_header">We do not keep master passwords and have no opportunity to restore them.</string>
     <string name="master_pass_backup_explanation">Unfortunately for our comfort, blockchain doesn\’t allow us to restore passwords. It means that it’s every user’s responsibility to keep the password in a safe place and be able to access it anytime.\nWe strongly recommend you to save your password and make a copy of it.</string>
+    <string name="not_support_region">Sorry, but we don\’t support your region yet</string>
 </resources>

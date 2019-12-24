@@ -3,25 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="@dimen/elevation_search_bar">
+    android:background="@null">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@null">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchBar"
+
             style="@style/SearchBarTextStyle"
+
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_34"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:drawableStart="@drawable/ic_search"
+            android:drawableStart="@drawable/ic_search_small"
             android:drawablePadding="@dimen/padding_feed_search_view_icon"
             android:hint="@string/hint_search"
             android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
-            android:paddingTop="@dimen/padding_vertical_feed_search_bar"
-            android:paddingBottom="@dimen/padding_vertical_feed_search_bar" />
+
+            android:background="@drawable/bcg_common_white_round_rect"
+            />
 
         <ProgressBar
             android:id="@+id/pbLoading"
@@ -31,8 +34,34 @@
             android:layout_gravity="center"
             android:indeterminateOnly="true"
             android:padding="@dimen/padding_list_loading"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>
+
+<!--
+<EditText
+android:id="@+id/searchBar"
+android:layout_width="match_parent"
+android:layout_height="@dimen/dimen_34"
+android:imeOptions="actionDone"
+android:inputType="textCapSentences"
+
+android:layout_marginTop="@dimen/margin_default"
+android:drawableStart="@drawable/ic_search_small"
+android:drawablePadding="@dimen/select_community_dialog_drawable_padding"
+android:paddingStart="@dimen/select_community_dialog_padding"
+android:paddingEnd="@dimen/select_community_dialog_padding"
+
+android:layout_marginStart="@dimen/dimen_15"
+android:layout_marginEnd="@dimen/dimen_15"
+
+android:background="@drawable/bcg_common_white_round_rect"
+android:textColor="@color/grey"
+android:hint="@string/hint_search"
+android:textSize="@dimen/text_size_17_sp"
+android:maxLength="16"
+android:maxLines="1"
+android:lines="1"
+tools:ignore="Autofill,LabelFor" />
+
+-->

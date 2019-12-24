@@ -48,10 +48,10 @@ constructor(
         val phoneCode = query.toIntOrNull()
 
         if(phoneCode != null) {
-            return countries.filter { it.countryPhoneCode.toString().startsWith(query) }
+            return countries.filter { it.code.toString().startsWith(query) }
         } else {
             val upperQuery = query.toUpperCase()
-            return countries.filter { it.countryName.toUpperCase().startsWith(upperQuery) }
+            return countries.filter { it.name.toUpperCase().startsWith(upperQuery) }
         }
     }
 

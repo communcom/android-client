@@ -61,8 +61,12 @@ class SignUpCountryFragment : FragmentBase() {
         countriesList.adapter = CountriesAdapter(object :
             CountriesAdapter.Listener {
             override fun onCountryClick(country: CountryEntity) {
-                signUpViewModel.onCountrySelected(country)
-                findNavController().navigateUp()
+                if(country.available) {
+                    signUpViewModel.onCountrySelected(country)
+                    findNavController().navigateUp()
+                } else {
+                    uiHelper.showMessage(R.string.not_support_region)
+                }
             }
         })
         searchBar.addTextChangedListener(object : TextWatcherBase() {
