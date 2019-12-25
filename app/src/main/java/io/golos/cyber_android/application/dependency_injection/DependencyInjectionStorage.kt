@@ -26,9 +26,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.fingerprint_auth_fragment.FingerprintAuthFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.pin_code_auth_fragment.PinCodeAuthFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.pin_code_auth_fragment.PinCodeAuthFragmentModule
-import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
-import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
@@ -44,10 +41,15 @@ import io.golos.cyber_android.ui.dto.*
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.di.CommunityPostFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.di.CommunityPostFragmentModule
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
+import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
+import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
+import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
@@ -76,7 +78,6 @@ import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.use_cases.model.CommunityModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlin.reflect.KClass
 
@@ -85,14 +86,14 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
     private val components = mutableMapOf<KClass<*>, Any>()
 
-    inline fun <reified T>get(vararg args: Any?): T = getComponent(T::class, args)
+    inline fun <reified T> get(vararg args: Any?): T = getComponent(T::class, args)
 
-    inline fun <reified T>release() = releaseComponent(T::class)
+    inline fun <reified T> release() = releaseComponent(T::class)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T>getComponent(type: KClass<*>, args: Array<out Any?>): T {
+    fun <T> getComponent(type: KClass<*>, args: Array<out Any?>): T {
         var result = components[type]
-        if(result == null) {
+        if (result == null) {
             result = provideComponent<T>(type, args)
             components[type] = result!!
         }
@@ -102,9 +103,9 @@ class DependencyInjectionStorage(private val appContext: Context) {
     fun releaseComponent(type: KClass<*>) = components.remove(type)
 
     @Suppress("IMPLICIT_CAST_TO_ANY", "UNCHECKED_CAST")
-    private fun <T>provideComponent(type: KClass<*>, args: Array<out Any?>): T {
+    private fun <T> provideComponent(type: KClass<*>, args: Array<out Any?>): T {
         @Suppress("EXPERIMENTAL_API_USAGE")
-        return when(type) {
+        return when (type) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
 
             UIComponent::class -> get<AppComponent>().ui.build()
@@ -303,11 +304,18 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 .postsListFragment
                 .build()
 
+            CommunityPostFragmentComponent::class -> get<UIComponent>()
+                .communityPostFragment
+                .init(
+                    CommunityPostFragmentModule(args[0] as String)
+                )
+                .build()
+
             ProfilePostsFragmentComponent::class ->
                 get<ProfileFragmentComponent>()
-                .profilePostsFragment
-                .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
-                .build()
+                    .profilePostsFragment
+                    .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
+                    .build()
 
             FtueFragmentComponent::class -> get<UIComponent>()
                 .ftueFragment

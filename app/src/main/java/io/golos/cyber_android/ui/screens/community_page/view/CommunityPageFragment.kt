@@ -13,18 +13,18 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
-import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.common.glide.loadCommunity
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.CommunityPostFragment
 import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
-import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
+import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
-import io.golos.cyber_android.ui.screens.followers.FollowersFragment
 import io.golos.cyber_android.ui.utils.toMMMM_DD_YYYY_Format
 import io.golos.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
@@ -191,10 +191,18 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
-        fragmentPagesList.add(FollowersFragment.newInstance())
-        fragmentPagesList.add(LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)))
-        fragmentPagesList.add(CommunityPageAboutFragment.newInstance(communityPage.description))
-        fragmentPagesList.add(CommunityPageRulesFragment.newInstance(communityPage.rules))
+        fragmentPagesList.add(
+            CommunityPostFragment.newInstance(communityPage.communityId)
+        )
+        fragmentPagesList.add(
+            LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))
+        )
+        fragmentPagesList.add(
+            CommunityPageAboutFragment.newInstance(communityPage.description)
+        )
+        fragmentPagesList.add(
+            CommunityPageRulesFragment.newInstance(communityPage.rules)
+        )
         return fragmentPagesList
     }
 
