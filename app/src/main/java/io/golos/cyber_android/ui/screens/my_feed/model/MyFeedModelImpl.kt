@@ -29,7 +29,7 @@ class MyFeedModelImpl @Inject constructor(
 
     override suspend fun deletePost(permlink: String, communityId: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.deletePostOrComment(permlink, communityId)
+            discussionRepository.deletePost(permlink, communityId)
         }
     }
 

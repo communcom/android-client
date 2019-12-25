@@ -33,10 +33,7 @@ class ProfileCommentsModelImpl @Inject constructor(
     }
 
     override suspend fun deleteComment(permlink: String, communityId: String) {
-        discussionRepository.deletePostOrComment(
-            permlink,
-            communityId
-        )
+        discussionRepository.deletePost(permlink, communityId)
     }
 
     override suspend fun updateComment(comment: CommentDomain) {

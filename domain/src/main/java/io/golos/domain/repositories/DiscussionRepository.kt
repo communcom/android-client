@@ -33,20 +33,21 @@ interface DiscussionRepository {
 
     suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain
 
-    suspend fun deletePostOrComment(
-        permlink: String,
-        communityId: String
-    )
+    suspend fun deletePost(permlink: String, communityId: String)
+
+    suspend fun deleteComment(permlink: String, communityId: String)
 
     suspend fun updateComment(commentDomain: CommentDomain)
 
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
 
+    @Deprecated("Need use method deletePost with 2 params")
     fun deletePost(postId: ContentIdDomain)
 
     fun createCommentForPost(postId: DiscussionIdModel, commentText: String): CommentModel
 
+    @Deprecated("Need use method deleteComment with 2 params")
     fun deleteComment(commentId: DiscussionIdModel)
 
     @Deprecated("Need use method updateComment")
