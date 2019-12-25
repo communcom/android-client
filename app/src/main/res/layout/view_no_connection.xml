@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/notConnectionImage"
+
+        android:layout_width="@dimen/no_connection_image_width"
+        android:layout_height="@dimen/no_connection_image_height"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_no_connection"
+
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/noConnectionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/no_connection"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_30_sp"
+
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toTopOf="@+id/tryAgainLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/notConnectionImage"
+
+        android:layout_marginTop="@dimen/dimen_20" />
+
+    <TextView
+        android:id="@+id/tryAgainLabel"
+        android:layout_width="@dimen/no_connection_try_again_label"
+        android:layout_height="wrap_content"
+        android:text="@string/check_connection"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:textSize="@dimen/text_size_17_sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/noConnectionLabel"
+
+        android:layout_marginTop="@dimen/dimen_10" />
+
+    <Button
+        android:id="@+id/reconnectButton"
+        style="@style/BlueWhite.RoundCorners.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text="@string/try_again"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tryAgainLabel"
+        app:layout_constraintStart_toStartOf="@+id/tryAgainLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tryAgainLabel"
+
+        android:layout_marginTop="@dimen/dimen_30"
+
+        tools:ignore="HardcodedText" />
+
+    <ProgressBar
+        android:id="@+id/reconnectingProgress"
+        style="?android:attr/progressBarStyle"
+
+        android:layout_width="@dimen/dimen_20"
+        android:layout_height="@dimen/dimen_20"
+
+        android:layout_marginStart="@dimen/dimen_10"
+
+        app:layout_constraintBottom_toBottomOf="@+id/reconnectButton"
+        app:layout_constraintStart_toStartOf="@+id/reconnectButton"
+        app:layout_constraintTop_toTopOf="@+id/reconnectButton"
+
+        android:indeterminateTint="@color/white"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

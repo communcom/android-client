@@ -267,19 +267,14 @@
             android:layout_gravity="center"/>
 
 
-        <Button
-            android:id="@+id/btnRetry"
-            style="@style/FindCommunityButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
-            android:layout_marginEnd="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
-            android:onClick="@{() -> viewModel.loadCommunityPage()}"
-            android:text="@string/retry"
-            android:visibility="invisible"
-            android:layout_gravity="center"/>
+        <io.golos.cyber_android.ui.common.widgets.NoConnectionWidget
+            android:id="@+id/noConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
 
+            tools:visibility="visible"
+            android:visibility="invisible"
+        />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

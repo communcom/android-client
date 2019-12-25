@@ -85,10 +85,15 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
         observeViewModel()
-        viewModel.start(getCommunityId())
+
         ivBack.setOnClickListener {
             viewModel.onBackPressed()
         }
+        noConnection.setOnReconnectClickListener {
+            viewModel.loadCommunityPage()
+        }
+
+        viewModel.start(getCommunityId())
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -128,17 +133,14 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             ctvJoin.setOnClickListener {
                 viewModel.changeJoinStatus()
             }
-            btnRetry.setOnClickListener {
-                viewModel.loadCommunityPage()
-            }
             initViewPager(it)
         })
 
         viewModel.communityPageIsErrorLiveData.observe(this, Observer {
             if (it) {
-                btnRetry.visibility = View.VISIBLE
+                noConnection.visibility = View.VISIBLE
             } else {
-                btnRetry.visibility = View.INVISIBLE
+                noConnection.visibility = View.INVISIBLE
             }
         })
 

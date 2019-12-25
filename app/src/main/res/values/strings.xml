@@ -524,4 +524,8 @@
     <string name="master_pass_backup_sub_header">We do not keep master passwords and have no opportunity to restore them.</string>
     <string name="master_pass_backup_explanation">Unfortunately for our comfort, blockchain doesn\’t allow us to restore passwords. It means that it’s every user’s responsibility to keep the password in a safe place and be able to access it anytime.\nWe strongly recommend you to save your password and make a copy of it.</string>
     <string name="not_support_region">Sorry, but we don\’t support your region yet</string>
+
+    <string name="no_connection">No connection</string>
+    <string name="check_connection">Check your Internet connection and try again</string>
+    <string name="try_again">Try again</string>
 </resources>

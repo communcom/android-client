@@ -402,22 +402,15 @@
             android:visibility="@{viewModel.loadingProgressVisibility}"
             tools:visibility="visible"/>
 
-        <Button
-            android:id="@+id/btnRetry"
-            style="@style/FindCommunityButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
-            android:layout_marginEnd="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
-            android:text="@string/retry"
-
-            android:onClick="@{() -> viewModel.onRetryClick()}"
+        <io.golos.cyber_android.ui.common.widgets.NoConnectionWidget
+            android:id="@+id/noConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
 
             android:visibility="@{viewModel.retryButtonVisibility}"
             tools:visibility="visible"
+            />
 
-            android:layout_gravity="center"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

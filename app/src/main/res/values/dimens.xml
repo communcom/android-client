@@ -522,4 +522,10 @@
     <dimen name="navigation_bottom_menu_widget_height">70dp</dimen>
 
     <dimen name="keys_backup_dialog_warning_size">90dp</dimen>
+
+    <!--No connection-->
+    <dimen name="no_connection_image_width">285dp</dimen>
+    <dimen name="no_connection_image_height">350dp</dimen>
+    <dimen name="no_connection_try_again_label">233dp</dimen>
+
 </resources>

@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.profile.new_profile.model
 
-import android.util.Log
 import dagger.Lazy
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.new_profile.model.logout.LogoutUseCase
@@ -48,7 +47,6 @@ constructor(
 
     override suspend fun loadProfileInfo(): UserProfileDomain {
         userProfile = usersRepository.getUserProfile(profileUserId)
-        Log.d("SUBSC555", userProfile.toString())
         return userProfile
     }
 

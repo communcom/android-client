@@ -82,6 +82,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         super.onViewCreated(view, savedInstanceState)
 
         initPages()
+        noConnection.setOnReconnectClickListener { viewModel.onRetryClick() }
         viewModel.start()
     }
 
