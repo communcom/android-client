@@ -8,32 +8,46 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/slideImg"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_weight="1"
+        android:maxWidth="360dp"
+        android:maxHeight="360dp"
         tools:srcCompat="@drawable/img_welcome_one" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/slideText"
-        style="@style/WelcomeSlidesTextStyle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/llLabels"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginTop="46dp"
-        android:layout_marginEnd="@dimen/margin_default"
-        tools:text="@string/welcome_slides_text_3" />
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/slideSubText"
-        style="@style/WelcomeSlidesSubTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="21dp"
-        android:lineSpacingExtra="6sp"
-        tools:text="@string/welcome_slides_sub_text_1" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/slideText"
+            style="@style/WelcomeSlidesTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="@dimen/margin_default"
+            tools:text="@string/welcome_slides_text_3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/slideSubText"
+            style="@style/WelcomeSlidesSubTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="21dp"
+            android:layout_marginBottom="@dimen/dimen_56"
+            android:lineSpacingExtra="6sp"
+            android:textStyle="bold"
+            tools:text="@string/welcome_slides_sub_text_1" />
+    </LinearLayout>
 
 </LinearLayout>

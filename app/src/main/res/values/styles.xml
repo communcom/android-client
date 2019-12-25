@@ -274,16 +274,27 @@
 
     <style name="WelcomeSlidesTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">36sp</item>
     </style>
 
     <style name="WelcomeSlidesSubTextStyle" parent="Common.Base.TextStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="FtueSlidesTextStyle" parent="Common.Base.TextStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="FtueSlidesSubTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_size_14_sp</item>
         <item name="android:textColor">@color/grey</item>
     </style>
 
-    <style name="SignInCaptionTextStyle" parent="WelcomeSlidesTextStyle">
+    <style name="SignInCaptionTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">start</item>
         <item name="android:textSize">@dimen/text_size_34_sp</item>
         <item name="android:focusable">true</item>
