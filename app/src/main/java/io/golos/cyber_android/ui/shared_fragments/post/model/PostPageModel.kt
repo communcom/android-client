@@ -12,8 +12,6 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
-    val postId: DiscussionIdModel
-
     val postMetadata: PostMetadata
 
     val post: LiveData<List<VersionedListItem>>
@@ -32,7 +30,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun removeFromFavorite(permlink: String)
 
-    suspend fun deletePost()
+    suspend fun deletePost(): String
 
     suspend fun upVote(
         communityId: String,

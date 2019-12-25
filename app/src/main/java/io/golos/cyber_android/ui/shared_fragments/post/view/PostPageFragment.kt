@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.shared_fragments.post.view
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.nfc.Tag
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -106,6 +108,15 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateToMainScreenCommand -> activity?.finish()
+
+            is NavigationToParentScreenWithStringResultCommand -> {
+                val permlink = command.permlink
+                val intent = Intent(Tags.ACTION_DELETE).apply {
+                    putExtra(Tags.PERMLINK_EXTRA, permlink)
+                }
+                activity?.setResult(Activity.RESULT_OK, intent)
+                activity?.finish()
+            }
 
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
 
@@ -257,7 +268,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             }
     }
 
-    private fun moveToEditPost(postId: DiscussionIdModel) =
+    private fun moveToEditPost(postId: ContentId) =
         startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
 
     private fun openEditPost(contentId: ContentId) {

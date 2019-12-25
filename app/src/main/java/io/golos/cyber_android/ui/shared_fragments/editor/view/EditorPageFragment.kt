@@ -38,10 +38,8 @@ import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.data.errors.AppError
-import io.golos.domain.use_cases.model.CommunityModel
-import io.golos.domain.use_cases.model.DiscussionCreationResultModel
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.model.PostCreationResultModel
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
@@ -56,8 +54,6 @@ const val GALLERY_REQUEST = 101
 class EditorPageFragment : ImagePickerFragmentBase() {
     @Parcelize
     data class Args(
-        val postToEdit: DiscussionIdModel? = null,
-        val community: CommunityModel? = null,
         val contentId: ContentId? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
     ) : Parcelable
@@ -74,8 +70,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         val args = getArgs()
         App.injections.get<EditorPageFragmentComponent>(
-            args.community,
-            args.postToEdit,
             args.contentId
         ).inject(this)
 
@@ -126,8 +120,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         postCommunity.setOnShowCommunitiesClickListener {
             SelectCommunityDialog.newInstance(uiHelper, postCommunity) { community ->
                 community?.let { viewModel.setCommunity(it) }
-            }
-                .show(requireFragmentManager(), "followers")
+            }.show(requireFragmentManager(), "followers")
         }
 
         leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
@@ -282,7 +275,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                     }
 
                 is PostErrorViewCommand -> onPostError(command.result)
-                is PostCreatedViewCommand -> onPostResult(command.result)
+                is PostCreatedViewCommand -> onPostResult(command.contentId)
 
                 is PastedLinkIsValidViewCommand -> editorWidget.pastedLinkIsValid(command.uri)
 
@@ -323,19 +316,18 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         hideLoading()
     }
 
-    private fun onPostResult(result: DiscussionCreationResultModel) {
+    private fun onPostResult(contentId: ContentId) {
         hideLoading()
         activity?.setResult(Activity.RESULT_OK)
         activity?.finish()
-        if (result is PostCreationResultModel) {
-            startActivity(
-                PostActivity.getIntent(
-                    requireContext(), PostPageFragment.Args(
-                        result.postId
-                    )
+        startActivity(
+            PostActivity.getIntent(
+                requireContext(), PostPageFragment.Args(
+                    DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)),
+                    contentId
                 )
             )
-        }
+        )
     }
 
     override fun getInitialImageSource() = getArgs().initialImageSource

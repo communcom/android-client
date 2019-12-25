@@ -173,11 +173,11 @@ class ProfilePostsViewModel @Inject constructor(
         }
     }
 
-    fun deletePost(permlink: String) {
+    fun deletePost(permlink: String, communityId: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.deletePost(permlink)
+                model.deletePost(permlink, communityId)
                 _postsListState.value = deletePostInState(_postsListState.value, permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
@@ -186,6 +186,10 @@ class ProfilePostsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
+    }
+
+    fun deleteLocalPostByPermlink(permlink: String) {
+        _postsListState.value = deletePostInState(_postsListState.value, permlink)
     }
 
     fun subscribeToCommunity(communityId: String) {
@@ -254,29 +258,28 @@ class ProfilePostsViewModel @Inject constructor(
     private fun deletePostInState(state: Paginator.State?, permlink: String): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
-                val postsList = state as? MutableList<Post>
-                val post = postsList?.find { it.contentId.permlink == permlink }
-                postsList?.remove(post)
+                deletePostByPermlink(((state).data as ArrayList<Post>), permlink)
             }
             is Paginator.State.Refresh<*> -> {
-                val postsList = state as? MutableList<Post>
-                val post = postsList?.find { it.contentId.permlink == permlink }
-                postsList?.remove(post)
-
+                deletePostByPermlink(((state).data as ArrayList<Post>), permlink)
             }
             is Paginator.State.NewPageProgress<*> -> {
-                val postsList = state as? MutableList<Post>
-                val post = postsList?.find { it.contentId.permlink == permlink }
-                postsList?.remove(post)
-
+                deletePostByPermlink(((state).data as ArrayList<Post>), permlink)
             }
             is Paginator.State.FullData<*> -> {
-                val postsList = state as? MutableList<Post>
-                val post = postsList?.find { it.contentId.permlink == permlink }
-                postsList?.remove(post)
+                deletePostByPermlink(((state).data as ArrayList<Post>), permlink)
             }
         }
         return state
+    }
+
+    private fun deletePostByPermlink(posts: ArrayList<Post>, permlink: String) {
+        val foundedPost = posts.find { post ->
+            post.contentId.permlink == permlink
+        }?.copy()
+        foundedPost?.let { post ->
+            posts.remove(post)
+        }
     }
 
     private fun getPostFromPostsListState(permlink: String): Post? {

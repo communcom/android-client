@@ -12,6 +12,8 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.mappers.mapToContentId
+import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
@@ -19,6 +21,7 @@ import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
@@ -54,7 +57,6 @@ constructor(
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
-    private val postToEdit: DiscussionIdModel?,
     private val postUseCase: PostWithCommentUseCaseImpl?,
     private val contentId: ContentId?,
     model: EditorPageModel
@@ -132,7 +134,7 @@ constructor(
 
     private val imageUploadObserver = Observer<QueryResult<UploadedImageModel>?> { }
 
-    val isInEditMode = postToEdit != null
+    val isInEditMode = contentId != null
 
     init {
         embedsUseCase.subscribe()
@@ -165,7 +167,7 @@ constructor(
     fun post(content: List<ControlMetadata>) {
         // Validate post
         val validationResult = model.validatePost(title, content)
-        if(validationResult != ValidationResult.SUCCESS) {
+        if (validationResult != ValidationResult.SUCCESS) {
             showValidationResult(validationResult)
             return
         }
@@ -190,18 +192,29 @@ constructor(
                 val adultOnly = nsfwLiveData.value == true
 
                 try {
-                    val callResult = if(postToEdit == null) {
-                        model.createPost(content, adultOnly, CommunityId(community.value!!.communityId), images)
+                    val callResult = if (!isInEditMode) {
+                        model.createPost(
+                            content,
+                            adultOnly,
+                            CommunityId(community.value!!.communityId),
+                            images
+                        )
                     } else {
-                        model.updatePost(content, postToEdit.permlink, adultOnly, images)
+                        model.updatePost(
+                            contentId!!.mapToContentIdDomain(),
+                            content,
+                            Permlink(contentId.permlink),
+                            adultOnly,
+                            images
+                        )
                     }
-                    _command.value = PostCreatedViewCommand(callResult)
+                    _command.value = PostCreatedViewCommand(callResult.mapToContentId())
                 } catch (ex: Exception) {
                     Timber.e(ex)
                     _command.value = PostErrorViewCommand(ex)
                 }
 
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = PostErrorViewCommand(ex)
             } finally {
@@ -211,7 +224,7 @@ constructor(
     }
 
     private fun showValidationResult(validationResult: ValidationResult) =
-        when(validationResult) {
+        when (validationResult) {
             ValidationResult.ERROR_POST_IS_TOO_LONG -> _command.value = ShowMessageResCommand(R.string.error_post_too_long)
             ValidationResult.ERROR_POST_IS_EMPTY -> _command.value = ShowMessageResCommand(R.string.error_post_empty)
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
@@ -231,7 +244,7 @@ constructor(
     fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
         _command.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
 
-        if(!isEdit && embedCount == 0) {
+        if (!isEdit && embedCount == 0) {
             _command.value = InsertExternalLinkViewCommand(linkInfo)
         }
     }
@@ -239,7 +252,7 @@ constructor(
     fun validatePastedLink(uri: Uri) = processUri(uri.toString()) {
         _command.value = PastedLinkIsValidViewCommand(uri)
 
-        if(embedCount == 0) {
+        if (embedCount == 0) {
             _command.value = InsertExternalLinkViewCommand(it)
         }
     }
@@ -250,7 +263,7 @@ constructor(
     }
 
     fun processEmbedAddedOrRemoved(isAdded: Boolean) {
-        if(isAdded) {
+        if (isAdded) {
             embedCount++
         } else {
             embedCount--
@@ -262,15 +275,16 @@ constructor(
         launch {
             _command.value = SetLoadingVisibilityCommand(true)
 
-            when(val linkInfo = model.getExternalLinkInfo(uri)) {
+            when (val linkInfo = model.getExternalLinkInfo(uri)) {
                 is Either.Success -> {
                     processSuccessViewCommand(linkInfo.value)
                 }
 
                 is Either.Failure -> {
-                    when(linkInfo.value) {
+                    when (linkInfo.value) {
                         ExternalLinkError.GENERAL_ERROR -> _command.value = ShowMessageResCommand(R.string.common_general_error)
-                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> _command.value = ShowMessageResCommand(R.string.post_edit_invalid_resource_type)
+                        ExternalLinkError.TYPE_IS_NOT_SUPPORTED -> _command.value =
+                            ShowMessageResCommand(R.string.post_edit_invalid_resource_type)
                         ExternalLinkError.INVALID_URL -> _command.value = ShowMessageResCommand(R.string.post_edit_invalid_url)
                     }
                 }
@@ -284,33 +298,37 @@ constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
+                isSelectCommunityEnabled.value = !isInEditMode
 
-                if(contentId == null) {
+                if (contentId == null) {
                     // New post
                     val lastUsedCommunity = model.getLastUsedCommunity()
-
                     community.value = lastUsedCommunity
                     isPostEnabled.value = lastUsedCommunity != null
-                    isSelectCommunityEnabled.value = !isInEditMode
                 } else {
                     // Updated post
-                    val lastUsedCommunityCall = async { model.getLastUsedCommunity() }
                     val postToEditCall = async { model.getPostToEdit(contentId) }
 
-                    val lastUsedCommunity = lastUsedCommunityCall.await()
                     val postToEdit = postToEditCall.await()
-
-                    community.value = lastUsedCommunity
-                    isPostEnabled.value = lastUsedCommunity != null
-                    isSelectCommunityEnabled.value = !isInEditMode
-
+                    val communityDomain = postToEdit.community
+                    community.value = CommunityDomain(
+                        communityDomain.communityId,
+                        communityDomain.alias,
+                        communityDomain.name ?: "",
+                        communityDomain.avatarUrl,
+                        null,
+                        0,
+                        0,
+                        communityDomain.isSubscribed
+                    )
+                    isPostEnabled.value = true
                     editingPost.value = postToEdit
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
                 _command.value = NavigateToMainScreenCommand()
-            }  finally {
+            } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

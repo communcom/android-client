@@ -10,6 +10,8 @@ import io.golos.domain.use_cases.model.PostModel
 import java.io.File
 
 interface DiscussionRepository {
+
+    @Deprecated("For create post need use createPost")
     fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
 
     suspend fun getComments(
@@ -41,7 +43,7 @@ interface DiscussionRepository {
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
 
-    fun deletePost(postId: DiscussionIdModel)
+    fun deletePost(postId: ContentIdDomain)
 
     fun createCommentForPost(postId: DiscussionIdModel, commentText: String): CommentModel
 
@@ -55,4 +57,8 @@ interface DiscussionRepository {
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain>
 
     suspend fun uploadContentAttachment(file: File): String
+
+    suspend fun createPost(communityId: String, body: String, tags: List<String>): ContentIdDomain
+
+    suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain
 }

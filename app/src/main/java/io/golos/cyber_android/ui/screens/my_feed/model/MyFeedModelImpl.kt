@@ -27,8 +27,10 @@ class MyFeedModelImpl @Inject constructor(
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
 
-    override suspend fun deletePost(permlink: String) {
-        delay(1000)
+    override suspend fun deletePost(permlink: String, communityId: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.deletePostOrComment(permlink, communityId)
+        }
     }
 
     override suspend fun addToFavorite(permlink: String) {

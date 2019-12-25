@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared_fragments.editor.model.EditorPageModel
 import io.golos.cyber_android.ui.shared_fragments.editor.view_model.EditorPageViewModel
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommentEntity
 import io.golos.domain.dto.PostEntity
 import io.golos.domain.dto.VoteRequestEntity
@@ -27,19 +28,13 @@ import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
 
 @Module
-class EditorPageFragmentModule(
-    private val community: CommunityModel?,
-    private val postToEdit: DiscussionIdModel?,
-    private val contentId: ContentId?
-) {
-    @Provides
-    internal fun provideCommunity(): CommunityModel? = community
-
-    @Provides
-    internal fun providePostToEdit(): DiscussionIdModel? = postToEdit
+class EditorPageFragmentModule(private val contentId: ContentId?) {
 
     @Provides
     internal fun provideContentId(): ContentId? = contentId
+
+    @Provides
+    internal fun provideDiscussionModelId(contentId: ContentId?): DiscussionIdModel? = contentId?.let { DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)) }
 
     @Provides
     @IntoMap
@@ -49,7 +44,6 @@ class EditorPageFragmentModule(
         posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
         postToEdit: DiscussionIdModel?,
-        contentId: ContentId?,
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
@@ -77,7 +71,6 @@ class EditorPageFragmentModule(
             embedsUseCase,
             posterUseCase,
             imageUploadUseCase,
-            postToEdit,
             postUseCase,
             contentId,
             model

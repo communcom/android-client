@@ -64,13 +64,13 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     }
 
     override fun onAddToFavoriteItemClick() {
-        setSelectAction(RESULT_ADD_FAVORITE){
+        setSelectAction(RESULT_ADD_FAVORITE) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }
 
     override fun onRemoveFromFavoriteItemClick() {
-        setSelectAction(RESULT_REMOVE_FAVORITE){
+        setSelectAction(RESULT_REMOVE_FAVORITE) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }
@@ -82,13 +82,13 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     }
 
     override fun onEditItemClick() {
-        setSelectAction(RESULT_EDIT){
+        setSelectAction(RESULT_EDIT) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }
 
     override fun onDeleteItemClick() {
-        setSelectAction(RESULT_DELETE){
+        setSelectAction(RESULT_DELETE) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }
@@ -106,7 +106,7 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     }
 
     override fun onReportItemClick() {
-        setSelectAction(RESULT_REPORT){
+        setSelectAction(RESULT_REPORT) {
             putExtra(Tags.POST_MENU, postMenu)
         }
     }

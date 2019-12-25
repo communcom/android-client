@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_posts.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -16,10 +17,10 @@ import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCom
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
-import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
@@ -31,7 +32,10 @@ import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsVi
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
-import io.golos.cyber_android.ui.utils.*
+import io.golos.cyber_android.ui.utils.DividerPostDecoration
+import io.golos.cyber_android.ui.utils.openImageView
+import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserIdDomain
@@ -41,6 +45,9 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 
 open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
     companion object {
+
+        private const val UPDATED_REQUEST_CODE = 51241
+
         fun newInstance() = ProfilePostsFragment()
     }
 
@@ -125,8 +132,8 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                     }
                     PostPageMenuDialog.RESULT_DELETE -> {
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.deletePost(it.permlink)
+                        postMenu?.let { menu ->
+                            viewModel.deletePost(menu.permlink, menu.communityId)
                         }
                     }
                     PostPageMenuDialog.RESULT_SUBSCRIBE -> {
@@ -146,6 +153,22 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                         val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
                         postMenu?.let {
                             viewModel.onSendReportClicked(it.permlink)
+                        }
+                    }
+                }
+            }
+            UPDATED_REQUEST_CODE -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_DELETE -> {
+                                    val permlink = data.getStringExtra(Tags.PERMLINK_EXTRA)
+                                    if (permlink.isNotEmpty()) {
+                                        viewModel.deleteLocalPostByPermlink(permlink)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -307,14 +330,15 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
-        startActivity(
+        startActivityForResult(
             PostActivity.getIntent(
                 requireContext(),
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
-            )
+            ),
+            UPDATED_REQUEST_CODE
         )
     }
 }

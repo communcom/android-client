@@ -120,9 +120,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .editorPageFragment
                     .init(
                         EditorPageFragmentModule(
-                            args[0] as CommunityModel?,
-                            args[1] as DiscussionIdModel?,
-                            args[2] as ContentId?
+                            args[0] as ContentId?
                         )
                     )
                     .build()

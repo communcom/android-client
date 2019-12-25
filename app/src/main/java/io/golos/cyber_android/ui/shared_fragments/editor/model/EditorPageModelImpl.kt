@@ -1,35 +1,41 @@
 package io.golos.cyber_android.ui.shared_fragments.editor.model
 
 import android.net.Uri
+import com.squareup.moshi.Moshi
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkError
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ExternalLinkType
 import io.golos.cyber_android.ui.shared_fragments.editor.dto.ValidationResult
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
+import io.golos.data.dto.block.ContentBlockEntity
+import io.golos.data.dto.block.ListContentBlockEntity
 import io.golos.data.errors.CyberServicesError
+import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.UploadedImageEntity
+import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.requestmodel.PostCreationRequestEntity
-import io.golos.domain.requestmodel.PostUpdateRequestEntity
-import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
+import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -47,7 +53,8 @@ constructor(
     private val imageUploadRepository: ImageUploadRepository,
     private val discussionRepository: DiscussionRepository,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val currentUserRepository: CurrentUserRepositoryRead
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    private val moshi: Moshi
 ) : ModelBaseImpl(), EditorPageModel {
 
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
@@ -85,12 +92,14 @@ constructor(
     }
 
     /**
-     * @return null if no image to upload otherwise - operation result
+     * @return null if no image to upload otherwise - operation contentId
      */
     @Suppress("IfThenToElvis")
     override suspend fun uploadLocalImage(content: List<ControlMetadata>): UploadedImageEntity? =
         withContext(dispatchersProvider.ioDispatcher) {
-            val firstLocalImage = content.firstOrNull { it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE }
+            val firstLocalImage = content.firstOrNull {
+                it is EmbedMetadata && it.type == EmbedType.LOCAL_IMAGE
+            }
 
             if (firstLocalImage == null) {
                 return@withContext null
@@ -99,7 +108,9 @@ constructor(
                     .let { metadata -> (metadata as EmbedMetadata).sourceUri }
                     .let { uri ->
                         val file = File(URI.create(uri.toString()))
-                        imageUploadRepository.upload(ImageUploadRequest(file, uri, CompressionParams.DirectCompressionParams))
+                        imageUploadRepository.upload(
+                            ImageUploadRequest(file, uri, CompressionParams.DirectCompressionParams)
+                        )
                     }
             }
         }
@@ -109,42 +120,46 @@ constructor(
         adultOnly: Boolean,
         communityId: CommunityId,
         localImagesUri: List<String>
-    ): DiscussionCreationResultModel {
-        val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
-
-        val tags = extractTags(content, adultOnly)
-
-        val postRequest = PostCreationRequestEntity("", postText, postText, tags.toList(), communityId, localImagesUri)
-
-        return withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-            (discussionRepository.createOrUpdate(postRequest) as PostCreationResultEntity)
-                .let {
-                    PostCreationResultModel(DiscussionIdModel(it.postId.userId, it.postId.permlink))
-                }
+    ): ContentIdDomain {
+        var body = EditorOutputToJsonMapper.map(content, localImagesUri)
+        if (localImagesUri.isNotEmpty()) {
+            val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+            val listContentBlockEntity = adapter.fromJson(body)
+            val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
+            val blockVersion = PostGlobalConstants.postFormatVersion.toString()
+            val imageBlockList = localImagesUri.map { uri ->
+                ImageBlock(blockVersion, Uri.parse(uri), null)
+            }
+            contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
+            listContentBlockEntity.copy(content = contentBlockEntityList)
+            body = adapter.toJson(listContentBlockEntity)
         }
+        val tags = extractTags(content, adultOnly)
+        return discussionRepository.createPost(communityId.id, body, tags.toList())
     }
 
     override suspend fun updatePost(
+        contentIdDomain: ContentIdDomain,
         content: List<ControlMetadata>,
         permlink: Permlink,
         adultOnly: Boolean,
         localImagesUri: List<String>
-    )
-            : DiscussionCreationResultModel {
-        val postText = EditorOutputToJsonMapper.map(content, localImagesUri)
-
-        val tags = extractTags(content, adultOnly)
-
-        val postRequest = PostUpdateRequestEntity(permlink, "", postText, postText, tags.toList(), localImagesUri)
-
-        return withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-            (discussionRepository.createOrUpdate(postRequest) as UpdatePostResultEntity)
-                .let {
-                    UpdatePostResultModel(DiscussionIdModel(it.id.userId, it.id.permlink))
-                }
+    ): ContentIdDomain {
+        var body = EditorOutputToJsonMapper.map(content, localImagesUri)
+        val tags = extractTags(content, adultOnly).toList()
+        if (localImagesUri.isNotEmpty()) {
+            val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+            val listContentBlockEntity = adapter.fromJson(body)
+            val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
+            val blockVersion = PostGlobalConstants.postFormatVersion.toString()
+            val imageBlockList = localImagesUri.map { uri ->
+                ImageBlock(blockVersion, Uri.parse(uri), null)
+            }
+            contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
+            listContentBlockEntity.copy(content = contentBlockEntityList)
+            body = adapter.toJson(listContentBlockEntity)
         }
+        return discussionRepository.updatePost(contentIdDomain, body, tags)
     }
 
     override suspend fun getLastUsedCommunity(): CommunityDomain? =
