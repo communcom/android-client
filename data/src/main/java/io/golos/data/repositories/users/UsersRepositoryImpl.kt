@@ -1,5 +1,6 @@
 package io.golos.data.repositories.users
 
+import android.content.Context
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
@@ -11,7 +12,6 @@ import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
-import io.golos.domain.dto.bc_profile.BCProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
@@ -19,13 +19,14 @@ import java.io.File
 import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(
+    appContext: Context,
     private val usersApi: UsersApi,
     private val dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepository,
     private val userKeyStore: UserKeyStore,
     private val preferenceManager: PreferenceManager
-) : RepositoryBase(dispatchersProvider),
+) : RepositoryBase(appContext, dispatchersProvider),
     UsersRepository {
 
     override suspend fun clearCurrentUserData() {

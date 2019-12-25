@@ -1,5 +1,6 @@
 package io.golos.data.repositories.discussion
 
+import android.content.Context
 import io.golos.commun4j.abi.implementation.c.gallery.CreateCGalleryStruct
 import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
 import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
@@ -16,10 +17,11 @@ import io.golos.domain.mappers.discussion_creation.result.DiscussionUpdateResult
 import io.golos.domain.requestmodel.*
 
 abstract class DiscussionCreationRepositoryBase(
+    appContext: Context,
     dispatchersProvider: DispatchersProvider,
     private val discussionsCreationApi: DiscussionsApi,
     private val transactionsApi: TransactionsApi
-): RepositoryBase(dispatchersProvider){
+): RepositoryBase(appContext, dispatchersProvider){
     protected fun createOrUpdateDiscussion(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity {
             val request = DiscussionCreationRequestMapper.map(params)
             val apiAnswer = when (request) {

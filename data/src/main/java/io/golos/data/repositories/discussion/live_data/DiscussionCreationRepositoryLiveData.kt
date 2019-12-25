@@ -1,5 +1,6 @@
 package io.golos.data.repositories.discussion.live_data
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.discussions.DiscussionsApi
@@ -26,11 +27,13 @@ import kotlin.collections.HashMap
 class DiscussionCreationRepositoryLiveData
 @Inject
 constructor(
+    appContext: Context,
     discussionsCreationApi: DiscussionsApi,
     transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
+    appContext,
     dispatchersProvider,
     discussionsCreationApi,
     transactionsApi

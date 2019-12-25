@@ -1,5 +1,6 @@
 package io.golos.data.repositories.discussion
 
+import android.content.Context
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
@@ -34,6 +35,7 @@ import javax.inject.Inject
 class DiscussionRepositoryImpl
 @Inject
 constructor(
+    appContext: Context,
     dispatchersProvider: DispatchersProvider,
     private val discussionsApi: DiscussionsApi,
     private val postToEntityMapper: CyberPostToEntityMapper,
@@ -44,6 +46,7 @@ constructor(
     private val userKeyStore: UserKeyStore,
     private val moshi: Moshi
 ) : DiscussionCreationRepositoryBase(
+    appContext,
     dispatchersProvider,
     discussionsApi,
     transactionsApi

@@ -1,5 +1,6 @@
 package io.golos.data.repositories
 
+import android.content.Context
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
@@ -13,9 +14,10 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl
 @Inject constructor(
+    appContext: Context,
     dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j
-) : RepositoryBase(dispatchersProvider),
+) : RepositoryBase(appContext, dispatchersProvider),
     AuthRepository {
 
     override suspend fun auth(userName: String, secret: String, signedSecret: String): AuthResultDomain =

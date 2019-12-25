@@ -1,5 +1,6 @@
 package io.golos.data.repositories
 
+import android.content.Context
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
@@ -20,13 +21,14 @@ import javax.inject.Inject
 class CommunitiesRepositoryImpl
 @Inject
 constructor(
+    appContext: Context,
     private val communitiesApi: CommunitiesApi,
     private val dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val userKeyStore: UserKeyStore,
     private val preferenceManager: PreferenceManager
-) : RepositoryBase(dispatchersProvider),
+) : RepositoryBase(appContext, dispatchersProvider),
     CommunitiesRepository {
 
     override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
