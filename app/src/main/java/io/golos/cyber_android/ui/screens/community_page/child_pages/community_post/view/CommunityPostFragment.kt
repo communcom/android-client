@@ -12,6 +12,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
@@ -19,12 +21,18 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view_model.CommunityPostViewModel
+import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
+import io.golos.cyber_android.ui.utils.openImageView
+import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
@@ -64,6 +72,18 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
+
+            is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
+
+            is SharePostCommand -> requireContext().shareMessage(command.shareUrl)
+
+            is EditPostCommand -> openEditPost(command.post)
+
+            is ReportPostCommand -> openPostReportDialog(command.post)
+
+            is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
+
+            is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
         }
     }
 
@@ -258,10 +278,32 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         )
     }
 
+    private fun openEditPost(post: Post) {
+        startActivity(
+            EditorPageActivity.getIntent(
+                requireContext(),
+                EditorPageFragment.Args(
+                    contentId = post.contentId
+                )
+            )
+        )
+    }
+
     private fun openPostMenuDialog(postMenu: PostMenu) {
         PostPageMenuDialog.newInstance(postMenu).apply {
             setTargetFragment(this@CommunityPostFragment, PostPageMenuDialog.REQUEST)
         }.show(requireFragmentManager(), "show")
+    }
+
+    private fun openPostReportDialog(post: Post) {
+        val tag = PostReportDialog::class.java.name
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val dialog = PostReportDialog.newInstance(PostReportDialog.Args(post.contentId))
+            dialog.onPostReportCompleteCallback = {
+                viewModel.sendReport(it)
+            }
+            dialog.show(childFragmentManager, tag)
+        }
     }
 
     override fun onDestroy() {

@@ -128,7 +128,7 @@ class MyFeedViewModel @Inject constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        if(currentUserRepository.userId.userId != userId) {
+        if (currentUserRepository.userId.userId != userId) {
             _command.value = NavigateToUserProfileViewCommand(userId)
         }
     }
@@ -252,7 +252,7 @@ class MyFeedViewModel @Inject constructor(
         return state
     }
 
-    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId){
+    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId) {
         val foundedPost = posts.find { post ->
             post.contentId == contentId
         }
@@ -294,7 +294,7 @@ class MyFeedViewModel @Inject constructor(
         return state
     }
 
-    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId){
+    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId) {
         val foundedPost = posts.find { post ->
             post.contentId == contentId
         }
@@ -416,7 +416,7 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun sendReport(report: PostReportDialog.Report){
+    fun sendReport(report: PostReportDialog.Report) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -426,7 +426,8 @@ class MyFeedViewModel @Inject constructor(
                     report.contentId.userId,
                     report.contentId.communityId,
                     report.contentId.permlink,
-                    reason)
+                    reason
+                )
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)

@@ -2,27 +2,30 @@ package io.golos.cyber_android.ui.screens.community_page.child_pages.community_p
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.common.mvvm.view_commands.*
 import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.CommunityPostModel
-import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.EditPostCommand
-import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.NavigationToPostMenuViewCommand
-import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.ReportPostCommand
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.*
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
@@ -30,7 +33,7 @@ import javax.inject.Named
 class CommunityPostViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: CommunityPostModel,
-    currentUserRepository: CurrentUserRepositoryRead,
+    private val currentUserRepository: CurrentUserRepositoryRead,
     @Named(Clarification.COMMUNITY_ID) communityId: String,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
@@ -73,30 +76,66 @@ class CommunityPostViewModel @Inject constructor(
     }
 
     override fun onLinkClicked(linkUri: Uri) {
+        _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
     override fun onImageClicked(imageUri: Uri) {
-    }
-
-    override fun onItemClicked(contentId: ContentId) {
-    }
-
-    override fun onUserClicked(userId: String) {
+        _command.value = NavigateToImageViewCommand(imageUri)
     }
 
     override fun onSeeMoreClicked(contentId: ContentId) {
+        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, contentId)
+    }
+
+    override fun onItemClicked(contentId: ContentId) {
+        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, contentId)
+    }
+
+    override fun onUserClicked(userId: String) {
+        if (currentUserRepository.userId.userId != userId) {
+            _command.value = NavigateToUserProfileViewCommand(userId)
+        }
     }
 
     override fun onCommentsClicked(postContentId: ContentId) {
+        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
     }
 
     override fun onShareClicked(shareUrl: String) {
+        _command.value = SharePostCommand(shareUrl)
     }
 
     override fun onUpVoteClicked(contentId: ContentId) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     override fun onDownVoteClicked(contentId: ContentId) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageResCommand(R.string.unknown_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     fun loadInitialPosts() {
@@ -192,6 +231,27 @@ class CommunityPostViewModel @Inject constructor(
     fun onReportPostClicked(permlink: String) {
         val post = getPostFromPostsListState(permlink)
         post?.let { _command.value = ReportPostCommand(post) }
+    }
+
+    fun sendReport(report: PostReportDialog.Report) {
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                val collectedReports = report.reasons
+                val reason = JSONArray(collectedReports).toString()
+                model.reportPost(
+                    authorPostId = report.contentId.userId,
+                    communityId = report.contentId.communityId,
+                    permlink = report.contentId.permlink,
+                    reason = reason
+                )
+            } catch (e: Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
     }
 
     private fun loadMorePosts(pageCount: Int) {
@@ -299,6 +359,90 @@ class CommunityPostViewModel @Inject constructor(
             }
         }
         return state
+    }
+
+    private fun updateUpVoteCountOfVotes(
+        state: Paginator.State?,
+        contentId: ContentId
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+            is Paginator.State.FullData<*> -> {
+                updateUpVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+        }
+        return state
+    }
+
+    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId) {
+        val foundedPost = posts.find { post ->
+            post.contentId == contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            if (!post.votes.hasUpVote) {
+                val oldVotes = post.votes
+                post.votes = post.votes.copy(
+                    upCount = post.votes.upCount + 1,
+                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
+                    hasUpVote = true,
+                    hasDownVote = false
+                )
+            }
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+    }
+
+    private fun updateDownVoteCountOfVotes(
+        state: Paginator.State?,
+        contentId: ContentId
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+            is Paginator.State.Refresh<*> -> {
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.FullData<*> -> {
+                updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+        }
+        return state
+    }
+
+    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId) {
+        val foundedPost = posts.find { post ->
+            post.contentId == contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            if (!post.votes.hasDownVote) {
+                val oldVotes = post.votes
+                post.votes = post.votes.copy(
+                    downCount = post.votes.downCount + 1,
+                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
+                    hasUpVote = false,
+                    hasDownVote = true
+                )
+                posts[posts.indexOf(foundedPost)] = updatedPost
+            }
+        }
     }
 
     override fun onCleared() {

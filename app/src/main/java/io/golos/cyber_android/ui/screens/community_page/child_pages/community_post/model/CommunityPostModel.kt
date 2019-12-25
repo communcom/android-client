@@ -16,4 +16,10 @@ interface CommunityPostModel : ModelBase,
 
     suspend fun deletePost(permlink: String, communityId: String)
 
+    suspend fun upVote(communityId: String, userId: String, permlink: String)
+
+    suspend fun downVote(communityId: String, userId: String, permlink: String)
+
+    suspend fun reportPost(authorPostId: String, communityId: String, permlink: String, reason: String)
+
 }
