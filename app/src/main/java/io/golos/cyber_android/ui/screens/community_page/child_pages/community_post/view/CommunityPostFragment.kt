@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.paginator.Paginator
@@ -18,6 +20,8 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view_model.CommunityPostViewModel
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
 import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
@@ -59,12 +63,84 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
-
+            is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PostPageMenuDialog.REQUEST -> {
+                when (resultCode) {
+                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.addToFavorite(it.permlink)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.removeFromFavorite(it.permlink)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_SHARE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        val shareUrl = postMenu?.shareUrl
+                        shareUrl?.let {
+                            viewModel.onShareClicked(it)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_EDIT -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.editPost(it.permlink)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_DELETE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let { menu ->
+                            viewModel.deletePost(menu.permlink, menu.communityId)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_SUBSCRIBE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        val communityId = postMenu?.communityId
+                        communityId?.let {
+                            viewModel.subscribeToCommunity(it)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_UNSUBSCRIBE -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.communityId?.let {
+                            viewModel.unsubscribeToCommunity(it)
+                        }
+                    }
+                    PostPageMenuDialog.RESULT_REPORT -> {
+                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+                        postMenu?.let {
+                            viewModel.onReportPostClicked(it.permlink)
+                        }
+                    }
+                }
+            }
+            UPDATED_REQUEST_CODE -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_DELETE -> {
+                                    val permlink = data.getStringExtra(Tags.PERMLINK_EXTRA)
+                                    if (permlink.isNotEmpty()) {
+                                        viewModel.deleteLocalPostByPermlink(permlink)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun setupPostList() {
@@ -180,6 +256,12 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             ),
             UPDATED_REQUEST_CODE
         )
+    }
+
+    private fun openPostMenuDialog(postMenu: PostMenu) {
+        PostPageMenuDialog.newInstance(postMenu).apply {
+            setTargetFragment(this@CommunityPostFragment, PostPageMenuDialog.REQUEST)
+        }.show(requireFragmentManager(), "show")
     }
 
     override fun onDestroy() {

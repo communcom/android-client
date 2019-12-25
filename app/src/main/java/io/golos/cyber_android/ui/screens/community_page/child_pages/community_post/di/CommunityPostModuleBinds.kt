@@ -13,6 +13,10 @@ import io.golos.cyber_android.ui.screens.community_page.child_pages.community_po
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.CommunityPostModelImpl
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view_model.CommunityPostViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
+import io.golos.domain.use_cases.community.SubscribeToCommunityUseCaseImpl
+import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
+import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCaseImpl
 import io.golos.domain.use_cases.posts.GetPostsUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCaseImpl
 
@@ -37,4 +41,9 @@ interface CommunityPostModuleBinds {
     @Binds
     fun bindGetPostsUseCase(getPostsUseCaseImpl: GetPostsUseCaseImpl): GetPostsUseCase
 
+    @Binds
+    fun bindSubscribeToCommunityUseCase(subscribeToCommunityUseCase: SubscribeToCommunityUseCaseImpl): SubscribeToCommunityUseCase
+
+    @Binds
+    fun bindUnsubscribeToCommunityUseCaseImpl(unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCaseImpl): UnsubscribeToCommunityUseCase
 }
