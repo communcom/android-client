@@ -37,7 +37,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/finishText"
-                    style="@style/WelcomeSlidesTextStyle"
+                    style="@style/FtueSlidesTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -48,7 +48,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/finishSubText"
-                    style="@style/WelcomeSlidesSubTextStyle"
+                    style="@style/FtueSlidesSubTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
