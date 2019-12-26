@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.view_model
+package io.golos.cyber_android.ui.screens.profile.view_model
 
 import android.content.Context
 import android.view.View
@@ -14,8 +14,8 @@ import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
-import io.golos.cyber_android.ui.screens.profile.new_profile.model.ProfileModel
+import io.golos.cyber_android.ui.screens.profile.dto.*
+import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch

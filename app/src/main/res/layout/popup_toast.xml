@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bcg_toast_message"
+    android:alpha="0.9"
+    android:padding="@dimen/dimen_10">
+
+    <ImageView
+        android:layout_width="@dimen/toast_icon_size"
+        android:layout_height="@dimen/toast_icon_size"
+        android:src="@drawable/ic_success_outline"
+
+        android:layout_gravity="center_vertical"
+        android:tint="@color/green_dark"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/messageText"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/dimen_10"
+
+        android:textColor="@color/black"
+
+        tools:text = "Not that Belladonna Took ever had any adventures after she became Mrs. Bungo Baggins."
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+    />
+</LinearLayout>

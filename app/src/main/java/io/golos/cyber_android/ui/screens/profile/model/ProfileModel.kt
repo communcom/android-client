@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.model
+package io.golos.cyber_android.ui.screens.profile.model
 
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
 import io.golos.domain.dto.UserDomain

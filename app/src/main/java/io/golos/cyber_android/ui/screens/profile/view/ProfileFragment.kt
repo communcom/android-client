@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.view
+package io.golos.cyber_android.ui.screens.profile.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -26,10 +26,10 @@ import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
-import io.golos.cyber_android.ui.screens.profile.new_profile.dto.*
-import io.golos.cyber_android.ui.screens.profile.new_profile.view.adapters.ProfilePagesAdapter
-import io.golos.cyber_android.ui.screens.profile.new_profile.view_model.ProfileViewModel
+import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.dto.*
+import io.golos.cyber_android.ui.screens.profile.view.adapters.ProfilePagesAdapter
+import io.golos.cyber_android.ui.screens.profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.screens.profile_bio.view.ProfileBioFragment
 import io.golos.cyber_android.ui.screens.profile_black_list.view.ProfileBlackListFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommunitiesFragment

@@ -1,8 +1,8 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.model
+package io.golos.cyber_android.ui.screens.profile.model
 
 import dagger.Lazy
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.screens.profile.new_profile.model.logout.LogoutUseCase
+import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserProfileDomain

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -20,7 +19,7 @@ import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
-import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_dashboard.*

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.di
+package io.golos.cyber_android.ui.screens.profile.di
 
 import dagger.Module
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesExternalUserFragmentComponent
