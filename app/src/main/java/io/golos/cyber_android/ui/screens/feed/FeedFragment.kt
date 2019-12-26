@@ -140,7 +140,8 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
         if (command is ShowPostFiltersCommand) {
             val tag = PostFiltersDialog::class.java.name
             if (childFragmentManager.findFragmentByTag(tag) == null) {
-                val postFiltersBottomSheetDialog = PostFiltersDialog()
+                val postFiltersBottomSheetDialog =
+                    PostFiltersDialog.newInstance(true)
                 postFiltersBottomSheetDialog.show(childFragmentManager, tag)
             }
         }

@@ -26,16 +26,16 @@ class PostFiltersHolder @Inject constructor() {
     data class FeedFilters(val updateTimeFilter: UpdateTimeFilter,
                            val periodTimeFilter: PeriodTimeFilter)
 
-    enum class UpdateTimeFilter {
-        HOT, //TOP_REWARDS
-        NEW, //NEW
-        POPULAR //TOP_LIKES
+    enum class UpdateTimeFilter(val value: String) {
+        HOT("Hot"), //TOP_REWARDS
+        NEW("New"), //NEW
+        POPULAR("Popular") //TOP_LIKES
     }
 
-    enum class PeriodTimeFilter {
-        PAST_24_HOURS, //DAY
-        PAST_WEEK, //WEEK
-        PAST_MONTH, //MONTH
-        ALL //ALL
+    enum class PeriodTimeFilter(val value: String) {
+        PAST_24_HOURS("Past 24 hours"), //DAY
+        PAST_WEEK("Past week"), //WEEK
+        PAST_MONTH("Past month"), //MONTH
+        ALL("All time") //ALL
     }
 }

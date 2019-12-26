@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.common.mvvm
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -81,6 +82,13 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
     override fun onDestroy() {
         releaseInjection()
         super.onDestroy()
+    }
+
+    protected fun setSelectAction(resultCode: Int, putArgsAction: Intent.() -> Unit = {}) {
+        targetFragment?.onActivityResult(targetRequestCode, resultCode, Intent().also { intent ->
+            putArgsAction.invoke(intent)
+        })
+        dismiss()
     }
 
     abstract fun provideViewModelType(): Class<VM>

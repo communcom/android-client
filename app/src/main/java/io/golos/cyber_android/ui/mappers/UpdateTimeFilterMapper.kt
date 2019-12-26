@@ -13,3 +13,12 @@ fun PostFiltersHolder.UpdateTimeFilter.mapToTypeFeedDomain(): PostsConfiguration
             PostsConfigurationDomain.TypeFeedDomain.TOP_LIKES
     }
 }
+
+fun PostsConfigurationDomain.TypeFeedDomain.mapToFilterTypeDomain(): PostFiltersHolder.UpdateTimeFilter {
+    return when (this) {
+        PostsConfigurationDomain.TypeFeedDomain.NEW -> PostFiltersHolder.UpdateTimeFilter.NEW
+        PostsConfigurationDomain.TypeFeedDomain.TOP_LIKES -> PostFiltersHolder.UpdateTimeFilter.POPULAR
+        PostsConfigurationDomain.TypeFeedDomain.TOP_REWARDS -> PostFiltersHolder.UpdateTimeFilter.HOT
+        else -> PostFiltersHolder.UpdateTimeFilter.HOT
+    }
+}

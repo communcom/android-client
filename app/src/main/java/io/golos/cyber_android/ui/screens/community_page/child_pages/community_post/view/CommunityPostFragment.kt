@@ -23,6 +23,8 @@ import io.golos.cyber_android.ui.screens.community_page.child_pages.community_po
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view_model.CommunityPostViewModel
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
@@ -34,6 +36,7 @@ import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -67,6 +70,15 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         btnRetry.setOnClickListener {
             viewModel.loadInitialPosts()
         }
+
+        communityFilterContainer.setOnClickListener {
+            val tag = CommunityPostFragment::class.java.name
+            val postFiltersBottomSheetDialog =
+                PostFiltersDialog.newInstance(false).apply {
+                    setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
+                }
+            postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
+        }
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -90,6 +102,17 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
+            PostFiltersDialog.REQUEST -> {
+                when (resultCode) {
+                    PostFiltersDialog.RESULT_UPDATE_FILTER -> {
+                        val filterTime: PostFiltersHolder.UpdateTimeFilter =
+                            data?.extras?.getSerializable(Tags.FILTER_TIME) as PostFiltersHolder.UpdateTimeFilter
+                        val periodTime: PostFiltersHolder.PeriodTimeFilter  =
+                            data.extras?.getSerializable(Tags.FILTER_PERIOD_TIME) as PostFiltersHolder.PeriodTimeFilter
+                        viewModel.updatePostsByFilter(filterTime, periodTime)
+                    }
+                }
+            }
             PostPageMenuDialog.REQUEST -> {
                 when (resultCode) {
                     PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
@@ -206,6 +229,11 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     }
 
     private fun observeViewModel() {
+
+        viewModel.filterPostState.observe(viewLifecycleOwner, Observer { filterState ->
+            communityFilterType.text = filterState.value
+        })
+
         viewModel.postsListState.observe(viewLifecycleOwner, Observer { state ->
             val postAdapter = rvCommunityPosts.adapter as MyFeedAdapter
             when (state) {

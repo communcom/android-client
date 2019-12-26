@@ -29,6 +29,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFilterFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
@@ -293,6 +294,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostFiltersFragmentComponent::class -> get<UIComponent>()
                 .postFiltersFragment
+                .init(PostFilterFragmentModule(args[0] as Boolean))
                 .build()
 
             PostReportFragmentComponent::class -> get<UIComponent>()

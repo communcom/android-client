@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_filters
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -11,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.databinding.DialogPostFiltersBinding
+import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
@@ -18,14 +20,31 @@ import kotlinx.android.synthetic.main.dialog_post_filters.*
 
 class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersViewModel>() {
 
+    companion object {
+        const val REQUEST = 12314
+
+        const val RESULT_UPDATE_FILTER = Activity.RESULT_FIRST_USER + 1
+
+        private const val OPEN_STATE_EXTRA = "open_state"
+
+        fun newInstance(
+            isNeedToSaveGlobalFilter: Boolean
+        ): PostFiltersDialog = PostFiltersDialog().apply {
+            arguments = Bundle().apply {
+                putBoolean(OPEN_STATE_EXTRA, isNeedToSaveGlobalFilter)
+            }
+        }
+    }
+
     override fun provideViewModelType(): Class<PostFiltersViewModel> = PostFiltersViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.dialog_post_filters
 
     override fun inject() {
         App.injections
-            .get<PostFiltersFragmentComponent>()
-            .inject(this)
+            .get<PostFiltersFragmentComponent>(
+                arguments!!.getBoolean(OPEN_STATE_EXTRA, false)
+            ).inject(this)
     }
 
     override fun releaseInjection() {
@@ -67,6 +86,14 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
         super.processViewCommand(command)
         when (command) {
             is NavigateBackwardCommand -> dismiss()
+
+            is SendFilterActionCommand -> {
+                setSelectAction(RESULT_UPDATE_FILTER) {
+                    putExtra(Tags.FILTER_TIME, command.timeType)
+                    putExtra(Tags.FILTER_PERIOD_TIME, command.periodTime)
+                }
+                dismiss()
+            }
         }
     }
 
@@ -203,14 +230,14 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
         return null
     }
 
-    private fun setBottomSheetBahavioutStateListener(){
+    private fun setBottomSheetBahavioutStateListener() {
         val behaviour = getBehaviour()
-        behaviour?.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+        behaviour?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if(newState == STATE_HIDDEN){
+                if (newState == STATE_HIDDEN) {
                     viewModel.onClosedClicked()
                 }
             }
