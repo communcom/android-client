@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view_model.CommunityPostViewModel" />
+            type="io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

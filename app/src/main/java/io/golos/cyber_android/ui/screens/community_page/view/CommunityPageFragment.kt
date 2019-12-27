@@ -19,8 +19,8 @@ import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.widgets.TabLineDrawable
-import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.CommunityPostFragment
-import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
+import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsListFragment
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
