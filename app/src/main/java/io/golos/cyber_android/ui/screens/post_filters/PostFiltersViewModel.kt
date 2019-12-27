@@ -14,7 +14,9 @@ import javax.inject.Named
 class PostFiltersViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: PostFiltersModel,
-    @Named(Clarification.FILTER_GLOBAL) private val isNeedToSaveGlobalState: Boolean
+    @Named(Clarification.FILTER_GLOBAL) private val isNeedToSaveGlobalState: Boolean,
+    @Named(Clarification.FILTER_TIME) private val timeFilter: PostFiltersHolder.UpdateTimeFilter?,
+    @Named(Clarification.FILTER_PERIOD) private val periodFilter: PostFiltersHolder.PeriodTimeFilter?
 ) : ViewModelBase<PostFiltersModel>(dispatchersProvider, model) {
 
     private val _updateTimeFilter = MutableLiveData<PostFiltersHolder.UpdateTimeFilter>()
@@ -33,8 +35,8 @@ class PostFiltersViewModel @Inject constructor(
                 _periodTimeFilter.value = feedFilters.periodTimeFilter
             }
         } else {
-            _updateTimeFilter.value = PostFiltersHolder.UpdateTimeFilter.POPULAR
-            _periodTimeFilter.value = PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS
+            _updateTimeFilter.value = timeFilter
+            _periodTimeFilter.value = periodFilter
         }
     }
 

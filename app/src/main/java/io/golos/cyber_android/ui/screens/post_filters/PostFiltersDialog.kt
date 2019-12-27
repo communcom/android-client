@@ -27,11 +27,19 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
 
         private const val OPEN_STATE_EXTRA = "open_state"
 
+        private const val TIME_FILTER_EXTRA = "time_filter"
+
+        private const val PERIOD_FILTER_EXTRA = "period_filter"
+
         fun newInstance(
-            isNeedToSaveGlobalFilter: Boolean
+            isNeedToSaveGlobalFilter: Boolean,
+            timeFilter: PostFiltersHolder.UpdateTimeFilter? = null,
+            periodFilter: PostFiltersHolder.PeriodTimeFilter? = null
         ): PostFiltersDialog = PostFiltersDialog().apply {
             arguments = Bundle().apply {
                 putBoolean(OPEN_STATE_EXTRA, isNeedToSaveGlobalFilter)
+                putSerializable(TIME_FILTER_EXTRA, timeFilter)
+                putSerializable(PERIOD_FILTER_EXTRA, periodFilter)
             }
         }
     }
@@ -43,7 +51,9 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
     override fun inject() {
         App.injections
             .get<PostFiltersFragmentComponent>(
-                arguments!!.getBoolean(OPEN_STATE_EXTRA, false)
+                arguments!!.getBoolean(OPEN_STATE_EXTRA, false),
+                arguments?.getSerializable(TIME_FILTER_EXTRA) as? PostFiltersHolder.UpdateTimeFilter,
+                arguments?.getSerializable(PERIOD_FILTER_EXTRA) as? PostFiltersHolder.PeriodTimeFilter
             ).inject(this)
     }
 

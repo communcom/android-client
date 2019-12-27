@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.CommunityPostModel
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.TimeConfigurationDomain
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.view.*
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
@@ -44,13 +45,14 @@ class CommunityPostViewModel @Inject constructor(
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
     val postsListState = _postsListState.toLiveData()
 
-    private val _filterUpdateTime: MutableLiveData<PostFiltersHolder.UpdateTimeFilter> =
-        MutableLiveData(PostFiltersHolder.UpdateTimeFilter.POPULAR)
+    private val _filterUpdateTime: MutableLiveData<TimeConfigurationDomain> =
+        MutableLiveData(
+            TimeConfigurationDomain(
+                PostFiltersHolder.UpdateTimeFilter.POPULAR,
+                PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS
+            )
+        )
     val filterPostState = _filterUpdateTime.toLiveData()
-
-    private val _filterPeriodTime: MutableLiveData<PostFiltersHolder.PeriodTimeFilter> =
-        MutableLiveData(PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS)
-    val filterPeriodTime = _filterPeriodTime.toLiveData()
 
     private var loadPostsJob: Job? = null
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain
@@ -71,30 +73,35 @@ class CommunityPostViewModel @Inject constructor(
         updateFilterAndLoadPosts()
     }
 
+    fun loadFilter() {
+        val configuration = _filterUpdateTime.value
+        configuration?.let { config ->
+            _command.value = NavigateToFilterDialogViewCommand(config)
+        }
+    }
+
     private fun updateFilterAndLoadPosts() {
-        val typeFeed = _filterUpdateTime.value!!.mapToTypeFeedDomain()
-        val periodTime = _filterPeriodTime.value!!.mapToTimeFrameDomain()
-
-        postsConfigurationDomain = PostsConfigurationDomain(
-            currentUserRepository.userId.userId,
-            communityId,
-            null,
-            PostsConfigurationDomain.SortByDomain.TIME_DESC,
-            periodTime,
-            PAGINATION_PAGE_SIZE,
-            0,
-            typeFeed
-        )
-
-        restartLoadPosts()
+        val timeConfiguration = _filterUpdateTime.value
+        timeConfiguration?.let { config ->
+            postsConfigurationDomain = PostsConfigurationDomain(
+                currentUserRepository.userId.userId,
+                communityId,
+                null,
+                PostsConfigurationDomain.SortByDomain.TIME_DESC,
+                config.periodFilter.mapToTimeFrameDomain(),
+                PAGINATION_PAGE_SIZE,
+                0,
+                config.timeFilter.mapToTypeFeedDomain()
+            )
+            restartLoadPosts()
+        }
     }
 
     fun updatePostsByFilter(
         filterTime: PostFiltersHolder.UpdateTimeFilter,
         periodTime: PostFiltersHolder.PeriodTimeFilter
     ) {
-        _filterUpdateTime.value = filterTime
-        _filterPeriodTime.value = periodTime
+        _filterUpdateTime.value = TimeConfigurationDomain(filterTime, periodTime)
         updateFilterAndLoadPosts()
     }
 

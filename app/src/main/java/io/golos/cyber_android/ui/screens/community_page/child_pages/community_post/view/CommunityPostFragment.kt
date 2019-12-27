@@ -36,7 +36,6 @@ import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView
 import io.golos.cyber_android.ui.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -72,12 +71,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         }
 
         communityFilterContainer.setOnClickListener {
-            val tag = CommunityPostFragment::class.java.name
-            val postFiltersBottomSheetDialog =
-                PostFiltersDialog.newInstance(false).apply {
-                    setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
-                }
-            postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
+            viewModel.loadFilter()
         }
     }
 
@@ -96,6 +90,22 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
+
+            is NavigateToFilterDialogViewCommand -> {
+                val timeFilter = command.config.timeFilter
+                val periodFilter = command.config.periodFilter
+
+                val tag = CommunityPostFragment::class.java.name
+                val postFiltersBottomSheetDialog =
+                    PostFiltersDialog.newInstance(
+                        isNeedToSaveGlobalFilter = false,
+                        timeFilter = timeFilter,
+                        periodFilter = periodFilter
+                    ).apply {
+                        setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
+                    }
+                postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
+            }
         }
     }
 
@@ -107,7 +117,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     PostFiltersDialog.RESULT_UPDATE_FILTER -> {
                         val filterTime: PostFiltersHolder.UpdateTimeFilter =
                             data?.extras?.getSerializable(Tags.FILTER_TIME) as PostFiltersHolder.UpdateTimeFilter
-                        val periodTime: PostFiltersHolder.PeriodTimeFilter  =
+                        val periodTime: PostFiltersHolder.PeriodTimeFilter =
                             data.extras?.getSerializable(Tags.FILTER_PERIOD_TIME) as PostFiltersHolder.PeriodTimeFilter
                         viewModel.updatePostsByFilter(filterTime, periodTime)
                     }
@@ -231,7 +241,9 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     private fun observeViewModel() {
 
         viewModel.filterPostState.observe(viewLifecycleOwner, Observer { filterState ->
-            communityFilterType.text = filterState.value
+            val timeFilterText = filterState.timeFilter.value
+            val periodFilterText = filterState.periodFilter.value
+            communityFilterType.text = "$timeFilterText, $periodFilterText"
         })
 
         viewModel.postsListState.observe(viewLifecycleOwner, Observer { state ->
@@ -332,11 +344,6 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             }
             dialog.show(childFragmentManager, tag)
         }
-    }
-
-    override fun onDestroy() {
-        rvCommunityPosts.adapter = null
-        super.onDestroy()
     }
 
     companion object {
