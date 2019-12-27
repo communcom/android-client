@@ -34,7 +34,7 @@ constructor(
             .also {
                 lastMessage = it
                 it.view = popupView
-                it.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.TOP, 0, 0)
+                it.setGravity(Gravity.BOTTOM or Gravity.FILL_HORIZONTAL, 0, 0)
             }
             .show()
     }

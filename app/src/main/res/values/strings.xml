@@ -528,4 +528,5 @@
     <string name="no_connection">No connection</string>
     <string name="check_connection">Check your Internet connection and try again</string>
     <string name="try_again">Try again</string>
+    <string name="something_wrong">Something went wrong</string>
 </resources>
