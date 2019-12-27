@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.shared_fragments.post.view
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.nfc.Tag
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -28,7 +27,7 @@ import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
 import io.golos.cyber_android.ui.shared_fragments.post.dto.SortingType
 import io.golos.cyber_android.ui.shared_fragments.post.view.list.PostPageAdapter

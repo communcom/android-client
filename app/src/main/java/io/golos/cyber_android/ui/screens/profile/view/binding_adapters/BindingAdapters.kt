@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.view.binding_adapters
+package io.golos.cyber_android.ui.screens.profile.view.binding_adapters
 
 import android.annotation.SuppressLint
 import android.view.View

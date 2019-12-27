@@ -9,8 +9,8 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileExternalUserFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent
 
 @Module(subcomponents = [
     BioFragmentComponent::class,

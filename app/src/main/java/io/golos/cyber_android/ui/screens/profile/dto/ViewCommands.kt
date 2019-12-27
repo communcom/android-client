@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.dto
+package io.golos.cyber_android.ui.screens.profile.dto
 
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter

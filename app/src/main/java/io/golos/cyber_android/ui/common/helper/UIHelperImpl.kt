@@ -1,26 +1,43 @@
 package io.golos.cyber_android.ui.common.helper
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import io.golos.cyber_android.R
 import javax.inject.Inject
 
 class UIHelperImpl
 @Inject
-constructor(private val appContext: Context): UIHelper {
+constructor(
+    private val appContext: Context
+) : UIHelper {
     private var lastMessage: Toast? = null
 
     override fun showMessage(messageResId: Int) =
-        Toast
-            .makeText(appContext, messageResId, Toast.LENGTH_SHORT)
-            .also { lastMessage = it }
-            .show()
+        showMessage(appContext.resources.getString(messageResId))
 
-    override fun showMessage(message: String) =
+    @SuppressLint("InflateParams")
+    override fun showMessage(message: String) {
+        val inflater = appContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val popupView = inflater.inflate(R.layout.popup_toast, null)
+
+        val textView = popupView.findViewById<TextView>(R.id.messageText)
+        textView.text = message
+
         Toast
-            .makeText(appContext, message, Toast.LENGTH_SHORT)
-            .also { lastMessage = it }
+            .makeText(appContext, message, Toast.LENGTH_LONG)
+            .also {
+                lastMessage = it
+                it.view = popupView
+                it.setGravity(Gravity.BOTTOM or Gravity.FILL_HORIZONTAL, 0, 0)
+            }
             .show()
+    }
 
     override fun hideMessage() {
         lastMessage?.cancel()

@@ -58,9 +58,9 @@ import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileExternalUserFragmentComponent
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentComponent
-import io.golos.cyber_android.ui.screens.profile.new_profile.di.ProfileFragmentModule
+import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
+import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentModule
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent

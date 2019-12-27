@@ -6,9 +6,11 @@
 
     <color name="blue">#6A80F5</color>
     <color name="red">#FF5959</color>
+    <color name="red_dark">#EB3E32</color>
     <color name="yellow">#FFE066</color>
     <color name="orange">#EEA041</color>
     <color name="green">#9AE189</color>
+    <color name="green_dark">#4CAF50</color>
     <color name="purple">#673AB7</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
