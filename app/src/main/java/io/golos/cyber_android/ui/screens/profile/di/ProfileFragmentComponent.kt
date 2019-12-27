@@ -1,11 +1,11 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.di
+package io.golos.cyber_android.ui.screens.profile.di
 
 import dagger.Subcomponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommunitiesFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_photos.ProfilePhotosFragmentComponent
-import io.golos.cyber_android.ui.screens.profile.new_profile.view.ProfileFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent

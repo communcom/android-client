@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.profile.new_profile.view.adapters
+package io.golos.cyber_android.ui.screens.profile.view.adapters
 
 import android.content.Context
 import androidx.fragment.app.Fragment
