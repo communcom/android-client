@@ -45,6 +45,9 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupPager(viewModel.currentUser)
+
         addNotificationsBadge()
         observeViewModel()
         navigationMenu.clickListener = viewModel
@@ -55,17 +58,11 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
             refreshNotificationsBadge(it)
         })
 
-        viewModel.authStateLiveData.asEvent().observe(this, Observer { authState ->
-            authState.getIfNotHandled()?.let {
-                setupPager(it.userName)
-            }
-        })
-
         viewModel.getCurrentTabLiveData.observe(this, Observer {
-            val tab =
-                NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
+            val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
                     navigationTab.index == it.index
                 }
+
             when (tab) {
                 NavigationBottomMenuWidget.Tab.FEED -> {
                     (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
@@ -101,27 +98,27 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         updatesCount?.text = if (count > 99) "99" else count.toString()
     }
 
-    private fun setupPager(user: CyberName) {
+    private fun setupPager(user: UserIdDomain) {
         mainPager.isUserInputEnabled = false
-        mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size
+        mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size-1
+
         mainPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
-                val tab =
-                    NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
+                val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
                         navigationTab.index == position
                     }
                 return when (tab) {
                     NavigationBottomMenuWidget.Tab.FEED -> {
-                        FeedFragment.newInstance("gls", user.name)
+                        FeedFragment.newInstance("gls", user.userId)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                        CommunitiesListFragmentTab.newInstance(UserIdDomain(user.name))
+                        CommunitiesListFragmentTab.newInstance(UserIdDomain(user.userId))
                     }
                     NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
                         NotificationsFragment.newInstance()
                     }
                     NavigationBottomMenuWidget.Tab.PROFILE -> {
-                        ProfileFragment.newInstance(UserIdDomain(user.name))
+                        ProfileFragment.newInstance(UserIdDomain(user.userId))
                     }
                     null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
                 }
@@ -129,8 +126,8 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
             override fun getItemCount() = NavigationBottomMenuWidget.Tab.values().size
         }
-        mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
+        mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when (position) {

@@ -8,6 +8,8 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.UpdateOption
@@ -16,22 +18,24 @@ import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.use_cases.sign.SignInUseCase
 import javax.inject.Inject
 
-class DashboardViewModel @Inject constructor(dispatchersProvider: DispatchersProvider,
-                                             dashboardModel: DashboardModel,
-                                             private val signInUseCase: SignInUseCase,
-                                             private val eventsUseCase: EventsUseCase,
-                                             private val pushesUseCase: PushNotificationsSettingsUseCase):
-    ViewModelBase<DashboardModel>(dispatchersProvider, dashboardModel),
+class DashboardViewModel
+@Inject
+constructor(
+    dispatchersProvider: DispatchersProvider,
+    dashboardModel: DashboardModel,
+    private val signInUseCase: SignInUseCase,
+    private val eventsUseCase: EventsUseCase,
+    private val pushesUseCase: PushNotificationsSettingsUseCase,
+    private val currentUserRepository: CurrentUserRepositoryRead
+) : ViewModelBase<DashboardModel>(dispatchersProvider, dashboardModel),
     NavigationBottomMenuWidget.Listener{
 
-    private val currentTabLiveData =
-        MutableLiveData(NavigationBottomMenuWidget.Tab.FEED)
+    private val currentTabLiveData = MutableLiveData(NavigationBottomMenuWidget.Tab.FEED)
 
     /**
      * Currently selected tab of a main screen
      */
-    val getCurrentTabLiveData =
-        currentTabLiveData as LiveData<NavigationBottomMenuWidget.Tab>
+    val getCurrentTabLiveData = currentTabLiveData as LiveData<NavigationBottomMenuWidget.Tab>
 
     private val _createTabLiveData = MutableLiveData<Any>()
 
@@ -39,10 +43,13 @@ class DashboardViewModel @Inject constructor(dispatchersProvider: DispatchersPro
 
     val unreadNotificationsLiveData = eventsUseCase.getUnreadLiveData
 
+    val currentUser: UserIdDomain
+        get() = currentUserRepository.userId
+
     /**
      * [LiveData] that indicates current state of auth process
      */
-    val authStateLiveData = signInUseCase.getAsLiveData
+//    val authStateLiveData = signInUseCase.getAsLiveData
 
     /**
      * When user is logged in and his push notifications is enabled we need to send fcm token and device id
