@@ -116,7 +116,7 @@ constructor(
 
     override suspend fun deletePost(): String {
         withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.deletePostOrComment(
+            discussionRepository.deletePost(
                 postDomain.contentId.permlink,
                 postDomain.contentId.communityId
             )

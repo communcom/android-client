@@ -148,10 +148,19 @@ constructor(
             .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
     }
 
-    override suspend fun deletePostOrComment(
-        permlink: String,
-        communityId: String
-    ) {
+    override suspend fun deletePost(permlink: String, communityId: String) {
+        apiCallChain {
+            commun4j.deletePostOrComment(
+                messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
+                communCode = CyberSymbolCode(communityId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = currentUserRepository.userId.mapToCyberName()
+            )
+        }
+    }
+
+    override suspend fun deleteComment(permlink: String, communityId: String) {
         apiCallChain {
             commun4j.deletePostOrComment(
                 messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
