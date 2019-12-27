@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.EmptyListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListIem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.RetryListItem
-import io.golos.data.repositories.CommunitiesRepositoryImpl
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityLeaderDomain
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.utils.IdUtil
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,7 +19,7 @@ class LeadsListModelImpl
 constructor(
     @Named(Clarification.COMMUNITY_ID)
     private val communityId: String,
-    private val communitiesRepository: CommunitiesRepositoryImpl
+    private val communitiesRepository: CommunitiesRepository
 ) : ModelBaseImpl(),
     LeadsListModel {
 
@@ -40,6 +38,8 @@ constructor(
     override val items: LiveData<List<VersionedListItem>>
         get() = _items
 
+    private var votingInProgress = false
+
     override suspend fun loadLeaders() {
         if (currentLoadingState == LoadingState.READY_TO_LOAD) {
             loadData(false)
@@ -50,6 +50,72 @@ constructor(
         if (currentLoadingState == LoadingState.IN_ERROR) {
             loadData(true)
         }
+    }
+
+    override suspend fun vote(leader: UserIdDomain): VoteResult {
+        if(votingInProgress) {
+            return VoteResult.VOTE_IN_PROGRESS
+        }
+
+        val leaderIndex = loadedItems.indexOfFirst { it is LeaderListItem && it.userId == leader }
+        if(leaderIndex == -1) {
+            return VoteResult.FAIL
+        }
+
+        if((loadedItems[leaderIndex] as LeaderListItem).isVoted) {
+            return VoteResult.FAIL
+        }
+
+        if(loadedItems.any { it is LeaderListItem && it.isVoted }) {
+            return VoteResult.UNVOTE_NEEDED
+        }
+
+        votingInProgress = true
+
+        updateLeader(leaderIndex) { it.copy(isVoted = !it.isVoted, version = it.version+1) }
+
+        try {
+            communitiesRepository.voteForLeader(communityId, leader)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            updateLeader(leaderIndex) { it.copy(isVoted = !it.isVoted, version = it.version+1) }
+            return VoteResult.FAIL
+        } finally {
+            votingInProgress = false
+        }
+
+        return VoteResult.SUCCESS
+    }
+
+    override suspend fun unvote(leader: UserIdDomain): VoteResult {
+        if(votingInProgress) {
+            return VoteResult.VOTE_IN_PROGRESS
+        }
+
+        val leaderIndex = loadedItems.indexOfFirst { it is LeaderListItem && it.userId == leader }
+        if(leaderIndex == -1) {
+            return VoteResult.FAIL
+        }
+
+        if(!(loadedItems[leaderIndex] as LeaderListItem).isVoted) {
+            return VoteResult.FAIL
+        }
+
+        votingInProgress = true
+
+        updateLeader(leaderIndex) { it.copy(isVoted = !it.isVoted, version = it.version+1) }
+
+        try {
+            communitiesRepository.unvoteForLeader(communityId, leader)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            updateLeader(leaderIndex) { it.copy(isVoted = !it.isVoted, version = it.version+1) }
+            return VoteResult.FAIL
+        } finally {
+            votingInProgress = false
+        }
+
+        return VoteResult.SUCCESS
     }
 
     private suspend fun loadData(isRetry: Boolean) {
@@ -96,14 +162,19 @@ constructor(
         _items.value = loadedItems
     }
 
-    private fun CommunityLeaderDomain.map(): LeaderListIem =
-        LeaderListIem(
+    private fun updateLeader(leaderIndex: Int, updateAction: (LeaderListItem) -> LeaderListItem) = updateData { list ->
+        list[leaderIndex] = updateAction(list[leaderIndex] as LeaderListItem)
+    }
+
+    private fun CommunityLeaderDomain.map(): LeaderListItem =
+        LeaderListItem(
             id = IdUtil.generateLongId(),
             version = 0,
             userId = userId,
             avatarUrl = avatarUrl,
             username = username,
             rating = rating,
-            ratingPercent = ratingPercent
+            ratingPercent = ratingPercent,
+            isVoted = isVoted
     )
 }

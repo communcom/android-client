@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
@@ -12,7 +13,7 @@ import io.golos.cyber_android.ui.common.formatters.percent.PercentFormatter
 import io.golos.cyber_android.ui.common.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListIem
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor
 import io.golos.domain.extensions.appendSpannedText
 import kotlinx.android.synthetic.main.view_leaders_list_item.view.*
@@ -29,22 +30,31 @@ class LeadersListItemViewHolder(
     )
 
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: LeadsListItemEventsProcessor) {
-        if(listItem !is LeaderListIem) {
+        if(listItem !is LeaderListItem) {
             return
         }
 
         with(itemView) {
             ivLogo.loadLeader(listItem.avatarUrl, listItem.ratingPercent.toFloat())
+
             leaderName.text = listItem.username
+
             leaderPoints.text = getPointsText(context, listItem)
+
+            voteButton.visibility = if(listItem.isVoted) View.INVISIBLE else View.VISIBLE
+            votedButton.visibility = if(listItem.isVoted) View.VISIBLE else View.INVISIBLE
+
+            voteButton.setOnClickListener { listItemEventsProcessor.vote(listItem.userId) }
+            votedButton.setOnClickListener { listItemEventsProcessor.unvote(listItem.userId) }
         }
     }
 
     override fun release() {
-        // do nothing
+        itemView.voteButton.setOnClickListener(null)
+        itemView.votedButton.setOnClickListener(null)
     }
 
-    private fun getPointsText(context: Context, listItem: LeaderListIem) : SpannableStringBuilder {
+    private fun getPointsText(context: Context, listItem: LeaderListItem) : SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         with(listItem) {

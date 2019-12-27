@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.EmptyListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListIem
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LoadingListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.RetryListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.view_holders.EmptyListItemViewHolder
@@ -35,7 +35,7 @@ open class LeadsListListAdapter(
 
     override fun getItemViewType(position: Int): Int =
         when(items[position]) {
-            is LeaderListIem -> LEADER
+            is LeaderListItem -> LEADER
             is LoadingListItem -> LOADING
             is RetryListItem -> RETRY
             is EmptyListItem -> EMPTY

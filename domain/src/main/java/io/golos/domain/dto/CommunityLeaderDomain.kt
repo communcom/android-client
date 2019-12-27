@@ -1,9 +1,7 @@
 package io.golos.domain.dto
 
-import io.golos.commun4j.sharedmodel.CyberName
-
 data class CommunityLeaderDomain(
-    val userId: CyberName,
+    val userId: UserIdDomain,
     val avatarUrl: String?,
     val isActive: Boolean,
     val isSubscribed: Boolean,
