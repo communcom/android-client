@@ -29,6 +29,7 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
+import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFilterFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentModule
@@ -55,6 +56,7 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNam
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
 import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent
@@ -293,6 +295,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
 
             PostFiltersFragmentComponent::class -> get<UIComponent>()
                 .postFiltersFragment
+                .init(
+                    PostFilterFragmentModule(
+                        args[0] as Boolean,
+                        args[1] as PostFiltersHolder.UpdateTimeFilter?,
+                        args[2] as PostFiltersHolder.PeriodTimeFilter?
+                    )
+                )
                 .build()
 
             PostReportFragmentComponent::class -> get<UIComponent>()

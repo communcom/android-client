@@ -247,7 +247,6 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 is Paginator.State.NewPageProgress<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.showLoadingNextPageProgress()
-                    rvPosts.scrollToPosition(myFeedAdapter.itemCount - 1)
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)

@@ -11,7 +11,11 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.screens.community_page_post.model.CommunityPostModel
 import io.golos.cyber_android.ui.screens.community_page_post.view.*
+import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
+import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.TimeConfigurationDomain
 import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
@@ -34,15 +38,24 @@ class CommunityPostViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: CommunityPostModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    @Named(Clarification.COMMUNITY_ID) communityId: String,
+    @Named(Clarification.COMMUNITY_ID) private val communityId: String,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
     val postsListState = _postsListState.toLiveData()
 
+    private val _filterUpdateTime: MutableLiveData<TimeConfigurationDomain> =
+        MutableLiveData(
+            TimeConfigurationDomain(
+                PostFiltersHolder.UpdateTimeFilter.POPULAR,
+                PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS
+            )
+        )
+    val filterPostState = _filterUpdateTime.toLiveData()
+
     private var loadPostsJob: Job? = null
-    private var postsConfigurationDomain: PostsConfigurationDomain
+    private lateinit var postsConfigurationDomain: PostsConfigurationDomain
 
     init {
         paginator.sideEffectListener = {
@@ -57,18 +70,39 @@ class CommunityPostViewModel @Inject constructor(
             _postsListState.value = it
         }
 
-        postsConfigurationDomain = PostsConfigurationDomain(
-            currentUserRepository.userId.userId,
-            communityId,
-            null,
-            PostsConfigurationDomain.SortByDomain.TIME_DESC,
-            PostsConfigurationDomain.TimeFrameDomain.DAY,
-            PAGINATION_PAGE_SIZE,
-            0,
-            PostsConfigurationDomain.TypeFeedDomain.COMMUNITY
-        )
+        updateFilterAndLoadPosts()
+    }
 
-        loadInitialPosts()
+    fun loadFilter() {
+        val configuration = _filterUpdateTime.value
+        configuration?.let { config ->
+            _command.value = NavigateToFilterDialogViewCommand(config)
+        }
+    }
+
+    private fun updateFilterAndLoadPosts() {
+        val timeConfiguration = _filterUpdateTime.value
+        timeConfiguration?.let { config ->
+            postsConfigurationDomain = PostsConfigurationDomain(
+                currentUserRepository.userId.userId,
+                communityId,
+                null,
+                PostsConfigurationDomain.SortByDomain.TIME_DESC,
+                config.periodFilter.mapToTimeFrameDomain(),
+                PAGINATION_PAGE_SIZE,
+                0,
+                config.timeFilter.mapToTypeFeedDomain()
+            )
+            restartLoadPosts()
+        }
+    }
+
+    fun updatePostsByFilter(
+        filterTime: PostFiltersHolder.UpdateTimeFilter,
+        periodTime: PostFiltersHolder.PeriodTimeFilter
+    ) {
+        _filterUpdateTime.value = TimeConfigurationDomain(filterTime, periodTime)
+        updateFilterAndLoadPosts()
     }
 
     override fun onMenuClicked(postMenu: PostMenu) {

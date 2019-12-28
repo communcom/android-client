@@ -8,6 +8,9 @@ object Clarification {
     const val CACHE = "CACHE"
 
     const val COMMUNITY_ID = "COMMUNITY_ID"
+    const val FILTER_GLOBAL = "FILTER_GLOBAL"
+    const val FILTER_TIME = "FILTER_TIME"
+    const val FILTER_PERIOD = "FILTER_PERIOD"
 
     const val IMAGE_URL = "IMAGE_URL"
     const val TEXT = "TEXT"

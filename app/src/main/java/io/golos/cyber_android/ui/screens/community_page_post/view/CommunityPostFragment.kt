@@ -23,6 +23,8 @@ import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFra
 import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
@@ -67,6 +69,10 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         btnRetry.setOnClickListener {
             viewModel.loadInitialPosts()
         }
+
+        communityFilterContainer.setOnClickListener {
+            viewModel.loadFilter()
+        }
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -84,12 +90,39 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
+
+            is NavigateToFilterDialogViewCommand -> {
+                val timeFilter = command.config.timeFilter
+                val periodFilter = command.config.periodFilter
+
+                val tag = CommunityPostFragment::class.java.name
+                val postFiltersBottomSheetDialog =
+                    PostFiltersDialog.newInstance(
+                        isNeedToSaveGlobalFilter = false,
+                        timeFilter = timeFilter,
+                        periodFilter = periodFilter
+                    ).apply {
+                        setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
+                    }
+                postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
+            PostFiltersDialog.REQUEST -> {
+                when (resultCode) {
+                    PostFiltersDialog.RESULT_UPDATE_FILTER -> {
+                        val filterTime: PostFiltersHolder.UpdateTimeFilter =
+                            data?.extras?.getSerializable(Tags.FILTER_TIME) as PostFiltersHolder.UpdateTimeFilter
+                        val periodTime: PostFiltersHolder.PeriodTimeFilter =
+                            data.extras?.getSerializable(Tags.FILTER_PERIOD_TIME) as PostFiltersHolder.PeriodTimeFilter
+                        viewModel.updatePostsByFilter(filterTime, periodTime)
+                    }
+                }
+            }
             PostPageMenuDialog.REQUEST -> {
                 when (resultCode) {
                     PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
@@ -206,6 +239,13 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     }
 
     private fun observeViewModel() {
+
+        viewModel.filterPostState.observe(viewLifecycleOwner, Observer { filterState ->
+            val timeFilterText = filterState.timeFilter.value
+            val periodFilterText = filterState.periodFilter.value
+            communityFilterType.text = "$timeFilterText, $periodFilterText"
+        })
+
         viewModel.postsListState.observe(viewLifecycleOwner, Observer { state ->
             val postAdapter = rvCommunityPosts.adapter as MyFeedAdapter
             when (state) {
@@ -214,21 +254,24 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     postAdapter.hideLoadingNextPageProgress()
                     postAdapter.updateMyFeedPosts(state.data as MutableList<Post>)
                     emptyPostProgressLoading.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     postAdapter.hideLoadingNextPageError()
                     postAdapter.hideLoadingNextPageProgress()
                     emptyPostProgressLoading.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     postAdapter.hideLoadingNextPageProgress()
                     postAdapter.showLoadingNextPageError()
                     rvPosts.scrollToPosition(postAdapter.itemCount - 1)
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.NewPageProgress<*> -> {
                     postAdapter.hideLoadingNextPageError()
                     postAdapter.showLoadingNextPageProgress()
-                    rvPosts.scrollToPosition(postAdapter.itemCount - 1)
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     postAdapter.updateMyFeedPosts(state.data as MutableList<Post>)
@@ -245,18 +288,22 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     postAdapter.clearAllPosts()
                     emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.GONE
                 }
                 is Paginator.State.EmptyProgress -> {
                     emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.GONE
                 }
                 is Paginator.State.Empty -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                     postAdapter.updateMyFeedPosts(mutableListOf())
+                    communityFilterContainer.visibility = View.GONE
                 }
                 is Paginator.State.EmptyError -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                     btnRetry.visibility = View.VISIBLE
+                    communityFilterContainer.visibility = View.GONE
                 }
             }
         })
@@ -304,11 +351,6 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             }
             dialog.show(childFragmentManager, tag)
         }
-    }
-
-    override fun onDestroy() {
-        rvCommunityPosts.adapter = null
-        super.onDestroy()
     }
 
     companion object {

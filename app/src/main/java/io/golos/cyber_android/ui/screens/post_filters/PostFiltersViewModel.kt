@@ -5,13 +5,18 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 class PostFiltersViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
-    model: PostFiltersModel
+    model: PostFiltersModel,
+    @Named(Clarification.FILTER_GLOBAL) private val isNeedToSaveGlobalState: Boolean,
+    @Named(Clarification.FILTER_TIME) private val timeFilter: PostFiltersHolder.UpdateTimeFilter?,
+    @Named(Clarification.FILTER_PERIOD) private val periodFilter: PostFiltersHolder.PeriodTimeFilter?
 ) : ViewModelBase<PostFiltersModel>(dispatchersProvider, model) {
 
     private val _updateTimeFilter = MutableLiveData<PostFiltersHolder.UpdateTimeFilter>()
@@ -23,10 +28,15 @@ class PostFiltersViewModel @Inject constructor(
     val periodTimeFilter = _periodTimeFilter.toLiveData()
 
     init {
-        launch {
-            val feedFilters = model.feedFiltersFlow.first()
-            _updateTimeFilter.value = feedFilters.updateTimeFilter
-            _periodTimeFilter.value = feedFilters.periodTimeFilter
+        if (isNeedToSaveGlobalState) {
+            launch {
+                val feedFilters = model.feedFiltersFlow.first()
+                _updateTimeFilter.value = feedFilters.updateTimeFilter
+                _periodTimeFilter.value = feedFilters.periodTimeFilter
+            }
+        } else {
+            _updateTimeFilter.value = timeFilter
+            _periodTimeFilter.value = periodFilter
         }
     }
 
@@ -41,9 +51,15 @@ class PostFiltersViewModel @Inject constructor(
     fun onNextClicked() {
         val currentUpdateTimeFilter: PostFiltersHolder.UpdateTimeFilter = _updateTimeFilter.value!!
         val currentPeriodTimeFilter: PostFiltersHolder.PeriodTimeFilter = _periodTimeFilter.value!!
-        launch {
-            model.updateFilters(PostFiltersHolder.FeedFilters(currentUpdateTimeFilter, currentPeriodTimeFilter))
-            _command.value = NavigateBackwardCommand()
+        if (isNeedToSaveGlobalState) {
+            launch {
+                model.updateFilters(
+                    PostFiltersHolder.FeedFilters(currentUpdateTimeFilter, currentPeriodTimeFilter)
+                )
+                _command.value = NavigateBackwardCommand()
+            }
+        } else {
+            _command.value = SendFilterActionCommand(currentUpdateTimeFilter, currentPeriodTimeFilter)
         }
     }
 
