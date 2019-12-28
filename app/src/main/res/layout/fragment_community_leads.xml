@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view_model.LeadsListViewModel"/>
+            type="io.golos.cyber_android.ui.screens.community_page_leaders_list.view_model.LeadsListViewModel"/>
     </data>
 
     <FrameLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
 
         android:id="@+id/root"
-        tools:context="io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment">
+        tools:context=".ui.screens.community_page_leaders_list.view.LeadsListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainList"

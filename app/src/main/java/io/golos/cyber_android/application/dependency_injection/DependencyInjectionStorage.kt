@@ -42,8 +42,8 @@ import io.golos.cyber_android.ui.dto.*
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
-import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.di.CommunityPostFragmentComponent
-import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.di.CommunityPostFragmentModule
+import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentModule
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent

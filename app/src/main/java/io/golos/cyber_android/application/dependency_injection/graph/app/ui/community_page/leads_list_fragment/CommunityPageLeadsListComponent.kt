@@ -1,7 +1,7 @@
 package io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.leads_list_fragment
 
 import dagger.Subcomponent
-import io.golos.cyber_android.ui.screens.community_page.child_pages.leads_list.view.LeadsListFragment
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsListFragment
 import io.golos.domain.dependency_injection.scopes.SubFragmentScope
 
 @Subcomponent(modules = [

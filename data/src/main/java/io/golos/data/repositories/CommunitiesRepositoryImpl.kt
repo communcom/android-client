@@ -137,4 +137,31 @@ constructor(
                 key = userKeyStore.getKey(UserKeyType.ACTIVE))
         }
     }
+
+    override suspend fun voteForLeader(communityId: String, leader: UserIdDomain) {
+        apiCallChain {
+            commun4j.voteLeader(
+                communCode = CyberSymbolCode(communityId),
+                leader = CyberName(leader.userId),
+                pct = null,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                voter = CyberName(currentUserRepository.userId.userId),
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }
+    }
+
+    override suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain) {
+        apiCallChain {
+            commun4j.unVoteLeader(
+                communCode = CyberSymbolCode(communityId),
+                leader = CyberName(leader.userId),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                voter = CyberName(currentUserRepository.userId.userId),
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }
+    }
 }

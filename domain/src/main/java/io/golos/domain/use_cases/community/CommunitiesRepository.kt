@@ -35,4 +35,8 @@ interface CommunitiesRepository {
     fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>)
 
     suspend fun getCommunitySubscriptions(): List<CommunityDomain>
+
+    suspend fun voteForLeader(communityId: String, leader: UserIdDomain)
+
+    suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain)
 }

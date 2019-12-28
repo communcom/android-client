@@ -474,6 +474,7 @@
 
     <string name="joined">Joined</string>
     <string name="vote">Vote</string>
+    <string name="voted">Voted</string>
     <string name="share_apps_not_found">Share apps not found</string>
     <string name="save">Save</string>
 
@@ -529,4 +530,6 @@
     <string name="check_connection">Check your Internet connection and try again</string>
     <string name="try_again">Try again</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="voting_in_progress">Please wait, voting in progress</string>
+    <string name="voting_one_leader">You can vote for one leader only</string>
 </resources>
