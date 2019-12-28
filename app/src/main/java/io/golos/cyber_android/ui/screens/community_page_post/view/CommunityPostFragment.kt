@@ -254,21 +254,24 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     postAdapter.hideLoadingNextPageProgress()
                     postAdapter.updateMyFeedPosts(state.data as MutableList<Post>)
                     emptyPostProgressLoading.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.FullData<*> -> {
                     postAdapter.hideLoadingNextPageError()
                     postAdapter.hideLoadingNextPageProgress()
                     emptyPostProgressLoading.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.PageError<*> -> {
                     postAdapter.hideLoadingNextPageProgress()
                     postAdapter.showLoadingNextPageError()
                     rvPosts.scrollToPosition(postAdapter.itemCount - 1)
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.NewPageProgress<*> -> {
                     postAdapter.hideLoadingNextPageError()
                     postAdapter.showLoadingNextPageProgress()
-                    rvPosts.scrollToPosition(postAdapter.itemCount - 1)
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.SearchProgress<*> -> {
                     postAdapter.updateMyFeedPosts(state.data as MutableList<Post>)
@@ -285,18 +288,22 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     postAdapter.clearAllPosts()
                     emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.GONE
                 }
                 is Paginator.State.EmptyProgress -> {
                     emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
+                    communityFilterContainer.visibility = View.GONE
                 }
                 is Paginator.State.Empty -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                     postAdapter.updateMyFeedPosts(mutableListOf())
+                    communityFilterContainer.visibility = View.GONE
                 }
                 is Paginator.State.EmptyError -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                     btnRetry.visibility = View.VISIBLE
+                    communityFilterContainer.visibility = View.GONE
                 }
             }
         })
