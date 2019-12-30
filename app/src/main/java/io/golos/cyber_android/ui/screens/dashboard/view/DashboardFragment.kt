@@ -132,7 +132,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 super.onPageSelected(position)
                 when (position) {
                     NavigationBottomMenuWidget.Tab.FEED.index -> {
-                        requireActivity().setStatusBarColor(R.color.feed_status_bar_color)
+                        requireActivity().setStatusBarColor(R.color.window_status_bar_background)
                         requireActivity().tintStatusBarIcons(true)
                     }
                     NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
