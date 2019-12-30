@@ -41,11 +41,11 @@
                     android:layout_marginTop="@dimen/profile_followers_title_margin"
 
                     android:text="@{viewModel.title}"
-                    tools:text="F.F. Preobrajensky"
-
                     app:layout_constraintEnd_toEndOf="parent"
+
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="F.F. Preobrajensky" />
 
                 <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
                     android:id="@+id/backButton"
@@ -54,16 +54,15 @@
                     android:layout_height="@dimen/size_image_button"
 
                     android:background="@null"
+                    android:onClick="@{() -> viewModel.onBackClick()}"
                     app:imageButton_icon="@drawable/ic_back"
                     app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
-                    app:imageButton_tint="@color/black"
 
+                    app:imageButton_tint="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/titleText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/titleText"
 
-                    android:onClick="@{() -> viewModel.onBackClick()}"
-                    />
+                    app:layout_constraintTop_toTopOf="@+id/titleText" />
 
                 <EditText
                     android:id="@+id/searchField"
@@ -83,13 +82,16 @@
                     android:imeOptions="actionDone"
 
                     android:inputType="text"
-
                     android:lines="1"
+
                     android:maxLength="16"
 
                     android:maxLines="1"
-                    android:padding="@dimen/select_community_dialog_padding"
-                    android:textSize="@dimen/text_size_17_sp"
+                    android:padding="@dimen/dimen_10"
+
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/dark_gray"
+                    android:textSize="@dimen/text_size_15_sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,48 +101,47 @@
 
                 <ToggleButton
                     android:id="@+id/toggleMutual"
+                    style="@style/BlueWhite.RoundCorners.Toggle"
                     android:layout_width="wrap_content"
+
                     android:layout_height="@dimen/profile_followers_filters_button_height"
+                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
+
+                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
+                    android:tag="MUTUALS"
 
                     android:textOff="@string/mutual"
+
                     android:textOn="@string/mutual"
-
-                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
-                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
-
-                    style="@style/BlueWhite.RoundCorners.Toggle"
-
+                    app:filterFollowers="@{viewModel.filter}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/toggleFollowers"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
+
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+
                     app:layout_constraintStart_toStartOf="@+id/searchField"
                     app:layout_constraintTop_toBottomOf="@+id/searchField"
-
-                    tools:checked="true"
-
-                    android:tag="MUTUALS"
-                    app:filterFollowers="@{viewModel.filter}"
-                    />
+                    tools:checked="true" />
 
                 <ToggleButton
                     android:id="@+id/toggleFollowers"
+                    style="@style/BlueWhite.RoundCorners.Toggle"
                     android:layout_width="wrap_content"
+
                     android:layout_height="@dimen/profile_followers_filters_button_height"
+                    android:tag="FOLLOWERS"
 
                     android:textOff="@string/followers"
+
                     android:textOn="@string/followers"
-
-                    style="@style/BlueWhite.RoundCorners.Toggle"
-
+                    app:filterFollowers="@{viewModel.filter}"
                     app:layout_constraintBottom_toBottomOf="@+id/toggleMutual"
                     app:layout_constraintEnd_toStartOf="@+id/toggleFollowing"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/toggleMutual"
-                    app:layout_constraintTop_toTopOf="@+id/toggleMutual"
 
-                    android:tag="FOLLOWERS"
-                    app:filterFollowers="@{viewModel.filter}"
-                    />
+                    app:layout_constraintStart_toEndOf="@+id/toggleMutual"
+                    app:layout_constraintTop_toTopOf="@+id/toggleMutual" />
 
                 <ToggleButton
                     android:id="@+id/toggleFollowing"
@@ -148,31 +149,18 @@
                     android:layout_width="wrap_content"
 
                     android:layout_height="@dimen/profile_followers_filters_button_height"
+                    android:tag="FOLLOWINGS"
+
                     android:textOff="@string/following"
 
                     android:textOn="@string/following"
-
+                    app:filterFollowers="@{viewModel.filter}"
                     app:layout_constraintBottom_toBottomOf="@+id/toggleFollowers"
                     app:layout_constraintEnd_toEndOf="@+id/searchField"
                     app:layout_constraintHorizontal_bias="0.5"
+
                     app:layout_constraintStart_toEndOf="@+id/toggleFollowers"
-                    app:layout_constraintTop_toTopOf="@+id/toggleFollowers"
-
-                    android:tag="FOLLOWINGS"
-                    app:filterFollowers="@{viewModel.filter}"
-                    />
-                
-                <View
-                    android:id="@+id/bottomBorder"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/stroke_thin"
-
-                    android:background="@color/grey"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                />
+                    app:layout_constraintTop_toTopOf="@+id/toggleFollowers" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

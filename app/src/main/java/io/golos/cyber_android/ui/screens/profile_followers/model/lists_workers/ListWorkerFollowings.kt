@@ -28,18 +28,21 @@ constructor(
         try {
             userRepository
                 .getUserFollowing(userId, offset, pageSize)
-                .map { it.map() }
+                .let { list ->
+                    list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
+                }
         } catch (ex: Exception) {
             Timber.e(ex)
             null
         }
 
-    private fun FollowingUserDomain.map() =
+    private fun FollowingUserDomain.map(index: Int, lastIndex: Int) =
         FollowersListItem(
             id = MurmurHash.hash64(user.userId.userId),
             version = 0,
             follower = user,
             isJoined = isSubscribed,
             isProgress = false,
-            filter = FollowersFilter.FOLLOWINGS)
+            filter = FollowersFilter.FOLLOWINGS,
+            isLastItem = index == lastIndex)
 }

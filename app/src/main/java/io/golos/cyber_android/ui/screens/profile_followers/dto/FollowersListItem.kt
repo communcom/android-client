@@ -11,5 +11,7 @@ data class FollowersListItem(
 
     val isJoined: Boolean,
     val isProgress: Boolean,
-    val filter: FollowersFilter
+    val filter: FollowersFilter,
+
+    val isLastItem: Boolean
 ) : VersionedListItem

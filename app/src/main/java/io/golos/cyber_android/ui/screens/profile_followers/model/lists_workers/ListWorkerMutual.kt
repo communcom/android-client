@@ -18,14 +18,20 @@ constructor(
     FollowersFilter.MUTUALS
 ) , ListWorker {
 
-    override suspend fun getData(offset: Int): List<FollowersListItem>? = mutualUsers.map { it.map() }
+    override suspend fun getData(offset: Int): List<FollowersListItem>? =
+        mutualUsers
+            .let { list ->
+                list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
+            }
 
-    private fun UserDomain.map() =
+
+    private fun UserDomain.map(index: Int, lastIndex: Int) =
         FollowersListItem(
             id = MurmurHash.hash64(this.userId.userId),
             version = 0,
             follower = this,
             isJoined = true,
             isProgress = false,
-            filter = FollowersFilter.MUTUALS)
+            filter = FollowersFilter.MUTUALS,
+            isLastItem = index == lastIndex)
 }

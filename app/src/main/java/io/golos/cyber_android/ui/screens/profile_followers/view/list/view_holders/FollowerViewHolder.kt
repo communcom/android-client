@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.common.characters.SpecialChars
@@ -44,10 +45,12 @@ class FollowerViewHolder(
             itemView.setOnClickListener { /*listItemEventsProcessor.onItemClick(community)*/ }
 
             if(isJoined) {
-                itemView.joinButton.text = itemView.context.resources.getString(R.string.joined_to_community)
+                itemView.joinButton.text = itemView.context.resources.getString(R.string.followed)
             } else {
-                itemView.joinButton.text = itemView.context.resources.getString(R.string.join_to_community)
+                itemView.joinButton.text = itemView.context.resources.getString(R.string.follow)
             }
+
+            itemView.viewDelimiter.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
 
             itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(follower.userId, filter) }
 

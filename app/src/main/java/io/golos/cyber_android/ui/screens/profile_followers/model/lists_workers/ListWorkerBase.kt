@@ -93,6 +93,12 @@ abstract class ListWorkerBase(
 
     private fun addLoadedData(data: List<FollowersListItem>) = updateData {
         loadedItems.removeAt(loadedItems.lastIndex)
+
+        if(loadedItems.isNotEmpty()) {
+            val lastItem = loadedItems[loadedItems.lastIndex] as FollowersListItem
+            loadedItems[loadedItems.lastIndex] = lastItem.copy(version = lastItem.version + 1, isLastItem = false)
+        }
+
         loadedItems.addAll(data)
     }
 
