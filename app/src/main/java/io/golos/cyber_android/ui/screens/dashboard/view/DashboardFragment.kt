@@ -75,7 +75,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 }
                 null -> (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(0)
             }
-            mainPager.currentItem = it.index
+            mainPager.setCurrentItem(it.index, false)
         })
 
         viewModel.createTabLiveData.observe(this, Observer {
