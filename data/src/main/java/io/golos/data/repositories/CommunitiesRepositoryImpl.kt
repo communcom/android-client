@@ -145,7 +145,6 @@ constructor(
                 leader = CyberName(leader.userId),
                 pct = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
-                clientAuthRequest = ClientAuthRequest.empty,
                 voter = CyberName(currentUserRepository.userId.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
@@ -158,7 +157,6 @@ constructor(
                 communCode = CyberSymbolCode(communityId),
                 leader = CyberName(leader.userId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
-                clientAuthRequest = ClientAuthRequest.empty,
                 voter = CyberName(currentUserRepository.userId.userId),
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
