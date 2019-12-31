@@ -5,7 +5,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.core.key_value_storage.storages.Storage
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
-import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import javax.inject.Inject
@@ -36,15 +36,15 @@ constructor(
             it.readBytes("CRYPTO_KEY_AES")
         }
 
-    override fun saveAuthState(state: AuthState) =
+    override fun saveAuthState(state: AuthStateDomain) =
         keyValueStorage.update {
-            it.putString("AUTH_STATE", moshi.adapter(AuthState::class.java).toJson(state))
+            it.putString("AUTH_STATE", moshi.adapter(AuthStateDomain::class.java).toJson(state))
         }
 
-    override fun getAuthState(): AuthState? =
+    override fun getAuthState(): AuthStateDomain? =
         keyValueStorage.read {
             val authStateString = it.readString("AUTH_STATE") ?: return@read null
-            moshi.adapter(AuthState::class.java).fromJson(authStateString)
+            moshi.adapter(AuthStateDomain::class.java).fromJson(authStateString)
         }
 
     override fun removeAuthState() =

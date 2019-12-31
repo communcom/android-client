@@ -45,7 +45,7 @@ constructor(
 
     private val authRequestsLiveData = MutableLiveData<Map<Identifiable.Id, QueryResult<AuthRequest>>>()
 
-    private val authState = MutableLiveData<AuthState>()
+    private val authState = MutableLiveData<AuthStateDomain>()
 
     private val authJobsMap = Collections.synchronizedMap(HashMap<Identifiable.Id, Job>())
 
@@ -53,7 +53,7 @@ constructor(
         makeAction(getEmptyRequest(AuthType.SIGN_IN))
     }
 
-    override fun getAsLiveData(params: AuthRequest): LiveData<AuthState> = authState
+    override fun getAsLiveData(params: AuthRequest): LiveData<AuthStateDomain> = authState
 
     override fun makeAction(params: AuthRequest) {
         lateinit var newParams: AuthRequest
@@ -61,7 +61,7 @@ constructor(
         repositoryScope.launch {
             if (params.type == AuthType.LOG_OUT) {
                 logout()
-                authState.value = AuthState("", UserIdDomain(""), false, false, false, false, AuthType.LOG_OUT)
+                authState.value = AuthStateDomain("", UserIdDomain(""), false, false, false, false, AuthType.LOG_OUT)
                 return@launch
             }
 
@@ -73,12 +73,12 @@ constructor(
 
             if (newParams.isEmpty()) {
                 authState.value =
-                    AuthState("", UserIdDomain(""), false, false, false, false, newParams.type)   // User is not logged in
+                    AuthStateDomain("", UserIdDomain(""), false, false, false, false, newParams.type)   // User is not logged in
                 return@launch
             }
 
             if (authState.value == null) {
-                authState.value = AuthState("", UserIdDomain(""), false, false, false, false, newParams.type)
+                authState.value = AuthStateDomain("", UserIdDomain(""), false, false, false, false, newParams.type)
             } else if (authState.value?.isUserLoggedIn == true) {
                 authRequestsLiveData.value =
                     authRequestsLiveData.value.orEmpty() + (newParams.id to QueryResult.Error(
@@ -277,7 +277,7 @@ constructor(
         }
 
         if (loadingQuery != null) {
-            val finalAuthState = AuthState(
+            val finalAuthState = AuthStateDomain(
                 userName,
                 UserIdDomain(resolvedName.name),
                 true,
@@ -307,7 +307,7 @@ constructor(
         Timber.tag(LogTags.LOGIN).d("Auth fail")
 
         repositoryScope.launch {
-            authState.value = AuthState("", UserIdDomain(""), false, false, false, false, authType)
+            authState.value = AuthStateDomain("", UserIdDomain(""), false, false, false, false, authType)
             val loadingQuery =
                 authRequestsLiveData.value?.entries?.findLast { it.value is QueryResult.Loading }
 

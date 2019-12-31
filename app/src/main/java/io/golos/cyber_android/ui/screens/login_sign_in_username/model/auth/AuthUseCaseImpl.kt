@@ -6,9 +6,8 @@ import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
-import io.golos.domain.api.AuthApi
 import io.golos.domain.dto.AuthResultDomain
-import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.AuthType
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.AuthRepository
@@ -86,10 +85,10 @@ constructor(
         return authRepository.auth(userName, authSecret, StringSigner.signString(authSecret, privateActiveKey))
     }
 
-    private fun saveAuthState(userName: String, userId: UserIdDomain): AuthState {
+    private fun saveAuthState(userName: String, userId: UserIdDomain): AuthStateDomain {
         val oldAuthState = keyValueStorage.getAuthState()
 
-        val newAuthState = AuthState(
+        val newAuthState = AuthStateDomain(
             userName = userName,
             user = userId,
             isUserLoggedIn = true,

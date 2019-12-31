@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.AuthType
 import io.golos.domain.dto.CyberUser
 import io.golos.domain.dto.UserIdDomain
@@ -85,7 +85,7 @@ constructor(
 
             delay(100)
             val authStateInRepository = authRepo.getAsLiveData(authRepo.allDataRequest).value
-                ?: AuthState("", UserIdDomain(""), false, false, false, false, AuthType.SIGN_IN)
+                ?: AuthStateDomain("", UserIdDomain(""), false, false, false, false, AuthType.SIGN_IN)
             val updateStateInRepository = authRepo.updateStates.value.orEmpty().values
 
             val isSetupCompleted = with(authStateInRepository) {

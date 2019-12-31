@@ -2,7 +2,7 @@ package io.golos.domain
 
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dto.AppUnlockWay
-import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 
@@ -17,8 +17,8 @@ interface KeyValueStorageFacade {
      */
     fun getAESCryptoKey(): ByteArray?
 
-    fun saveAuthState(state: AuthState)
-    fun getAuthState(): AuthState?
+    fun saveAuthState(state: AuthStateDomain)
+    fun getAuthState(): AuthStateDomain?
     fun removeAuthState()
 
     fun saveUserKey(key: ByteArray, keyType: UserKeyType)

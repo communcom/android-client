@@ -2,10 +2,7 @@ package io.golos.domain.dto
 
 import io.golos.domain.Entity
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 2019-03-20.
- */
-data class AuthState(
+data class AuthStateDomain(
     val userName: String,
     val user: UserIdDomain,
     val isUserLoggedIn: Boolean,

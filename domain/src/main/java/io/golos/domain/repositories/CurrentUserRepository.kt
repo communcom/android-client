@@ -1,10 +1,10 @@
 package io.golos.domain.repositories
 
-import io.golos.domain.dto.AuthState
+import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.UserIdDomain
 
 interface CurrentUserRepositoryRead {
-    val authState: AuthState?
+    val authState: AuthStateDomain?
 
     val userId: UserIdDomain
 
@@ -14,7 +14,7 @@ interface CurrentUserRepositoryRead {
 }
 
 interface CurrentUserRepository : CurrentUserRepositoryRead {
-    override var authState: AuthState?
+    override var authState: AuthStateDomain?
 
     override var userAvatarUrl: String?
 }
