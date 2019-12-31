@@ -21,7 +21,7 @@ import io.golos.cyber_android.ui.common.paginator.Paginator
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
@@ -30,9 +30,9 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
-import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.utils.openImageView
 import io.golos.cyber_android.ui.utils.openLinkView

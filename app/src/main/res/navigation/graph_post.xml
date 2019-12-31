@@ -7,6 +7,6 @@
     tools:ignore="UnusedNavigation">
     <fragment
         android:id="@+id/postFragment"
-        android:name="io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment"
+        android:name="io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment"
         android:label="PostFragment" />
 </navigation>

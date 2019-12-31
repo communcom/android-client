@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.shared_fragments.bio.EditProfileBioViewModel
+import io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioViewModel
 import io.golos.domain.use_cases.user.UserMetadataUseCase
 import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl
 
@@ -15,8 +15,8 @@ import io.golos.domain.use_cases.user.UserMetadataUseCaseImpl
 abstract class BioFragmentModuleBinds {
     @Binds
     @IntoMap
-    @ViewModelKey(EditProfileBioViewModel::class)
-    abstract fun provideEditProfileBioViewModel(viewModel: EditProfileBioViewModel): ViewModel
+    @ViewModelKey(OnboardingBioViewModel::class)
+    abstract fun provideEditProfileBioViewModel(viewModel: OnboardingBioViewModel): ViewModel
 
     @Binds
     abstract fun provideUserMetadataUseCase(useCase: UserMetadataUseCaseImpl): UserMetadataUseCase

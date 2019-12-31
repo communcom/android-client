@@ -24,12 +24,12 @@ import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
 import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.sort.SortingTypeDialogFragment
-import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.community.CommunityFeedViewModel
 import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.shared_fragments.editor.view.EditorPageFragment
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostActivity
-import io.golos.cyber_android.ui.shared_fragments.post.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.utils.TopDividerItemDecoration
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.PostEntity

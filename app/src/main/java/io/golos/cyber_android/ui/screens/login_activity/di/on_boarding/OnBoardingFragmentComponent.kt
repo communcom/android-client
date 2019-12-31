@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.di.on_boarding
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.onboardingImage.OnboardingUserImageFragment
-import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
+import io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
 @Subcomponent(modules = [

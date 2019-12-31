@@ -10,7 +10,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
 import io.golos.cyber_android.ui.utils.TextWatcherBase
-import io.golos.cyber_android.ui.shared_fragments.post.dto.EditReplyCommentSettings
+import io.golos.cyber_android.ui.screens.post_view.dto.EditReplyCommentSettings
 import kotlinx.android.synthetic.main.view_comment_widget_edit.view.*
 
 @Deprecated("Need use CommentWidget")

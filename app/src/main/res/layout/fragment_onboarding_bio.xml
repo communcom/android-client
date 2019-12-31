@@ -6,7 +6,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment">
+        tools:context="io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
             style="@style/SignInCaptionTextStyle"

@@ -10,7 +10,7 @@ import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.post_page_menu.model.*
 import io.golos.cyber_android.ui.screens.post_page_menu.view.list.PostMenuAdapter
-import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
+import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.domain.use_cases.post.post_dto.DocumentFormatVersion
 import io.golos.domain.use_cases.post.post_dto.PostType
 import kotlinx.android.synthetic.main.dialog_post_menu.*

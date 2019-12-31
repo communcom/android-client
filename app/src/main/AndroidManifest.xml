@@ -49,15 +49,11 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.screens.edit_profile_bio_activity.EditProfileBioActivity"
+                android:name=".ui.screens.post_edit.view.EditorPageActivity"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
-                android:name=".ui.screens.editor_page_activity.EditorPageActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustResize"/>
-        <activity
-                android:name=".ui.shared_fragments.post.view.PostActivity"
+                android:name="io.golos.cyber_android.ui.screens.post_view.view.PostActivity"
                 android:screenOrientation="portrait"/>
         <activity
                 android:name=".ui.screens.main_activity.MainActivity"

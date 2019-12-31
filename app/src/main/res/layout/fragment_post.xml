@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.shared_fragments.post.view_model.PostPageViewModel" />
+            type="io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel" />
     </data>
 
     <LinearLayout
@@ -16,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".ui.shared_fragments.post.view.PostActivity">
+        tools:context=".ui.screens.post_view.view.PostActivity">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

@@ -153,7 +153,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingBioFragment"
-        android:name="io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment"
         android:label="fragment_onboarding_bio"
         tools:layout="@layout/fragment_onboarding_bio" />
     <fragment

@@ -12,7 +12,7 @@ import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuMode
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentDeleteListItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentEditListItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.list.CommentMenuAdapter
-import io.golos.cyber_android.ui.shared_fragments.post.dto.PostHeader
+import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import kotlinx.android.synthetic.main.dialog_profile_comment_menu.*
 
 class CommentPageMenuDialog : BottomSheetDialogFragmentBase(), CommentMenuModelListEventProcessor {

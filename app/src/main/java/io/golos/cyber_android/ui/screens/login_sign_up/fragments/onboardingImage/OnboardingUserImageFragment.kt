@@ -22,7 +22,7 @@ import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.trash.ImagePickerFragmentBase
-import io.golos.cyber_android.ui.shared_fragments.bio.OnboardingBioFragment
+import io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_user_image.*
@@ -84,7 +84,8 @@ class OnboardingUserImageFragment : FragmentBase() {
         findNavController().safeNavigate(
             R.id.onboardingUserImageFragment,
             R.id.action_onboardingUserImageFragment_to_onboardingBioFragment,
-            Bundle().apply { putParcelable( Tags.ARGS,OnboardingBioFragment.Args(getArgs().userCyberName)) }
+            Bundle().apply { putParcelable( Tags.ARGS,
+                OnboardingBioFragment.Args(getArgs().userCyberName)) }
         )
     }
 
