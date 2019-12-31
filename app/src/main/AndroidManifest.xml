@@ -79,12 +79,6 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/filepaths"/>
         </provider>
-
-        <service android:name="io.golos.cyber_android.services.fcm.CommunFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
         <service
                 android:name="io.golos.cyber_android.services.feedback_service.FeedbackService"
                 android:enabled="true"

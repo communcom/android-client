@@ -1,12 +1,10 @@
 package io.golos.data.persistence.key_value_storage
 
-import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.data.dto.CommunityEntity
 import io.golos.data.dto.FtueBoardStageEntity
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthStateDomain
-import io.golos.data.dto.CommunityEntity
 import io.golos.domain.dto.UserKeyType
-import io.golos.domain.requestmodel.PushNotificationsStateModel
 
 interface KeyValueStorageFacade {
     /**
@@ -26,10 +24,6 @@ interface KeyValueStorageFacade {
     fun saveUserKey(key: ByteArray, keyType: UserKeyType)
     fun getUserKey(keyType: UserKeyType): ByteArray?
     fun removeUserKey(keyType: UserKeyType)
-
-    fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel)
-    fun getPushNotificationsSettings(forUser: CyberName): PushNotificationsStateModel
-    fun removePushNotificationsSettings(forUser: CyberName)
 
     fun savePinCode(pinCode: ByteArray)
     fun getPinCode(): ByteArray?

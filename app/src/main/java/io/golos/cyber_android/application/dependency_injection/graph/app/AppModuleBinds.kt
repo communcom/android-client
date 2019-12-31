@@ -22,7 +22,6 @@ import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
-import io.golos.cyber_android.services.fcm.FcmTokenProviderImpl
 import io.golos.cyber_android.ui.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.utils.ImageCompressorImpl
@@ -38,8 +37,6 @@ import io.golos.data.api.events.EventsApi
 import io.golos.data.api.events.EventsApiImpl
 import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.api.image_upload.ImageUploadApiImpl
-import io.golos.data.api.push_notifications.PushNotificationsApi
-import io.golos.data.api.push_notifications.PushNotificationsApiImpl
 import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.api.registration.RegistrationApiImpl
 import io.golos.data.api.settings.SettingsApi
@@ -197,9 +194,6 @@ abstract class AppModuleBinds {
     abstract fun provideImageUploadApi(api: ImageUploadApiImpl): ImageUploadApi
 
     @Binds
-    abstract fun providePushNotificationsApi(api: PushNotificationsApiImpl): PushNotificationsApi
-
-    @Binds
     abstract fun provideRegistrationApi(api: RegistrationApiImpl): RegistrationApi
 
     @Binds
@@ -317,12 +311,6 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideUserMetadataRepository(repository: UserMetadataRepository): Repository<UserMetadataCollectionEntity, UserMetadataRequest>
-
-    @Binds
-    abstract fun provideFcmTokenProvider(provider: FcmTokenProviderImpl): FcmTokenProvider
-
-    @Binds
-    abstract fun providePushesRepository(repository: PushNotificationsRepository): Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>
 
     @Binds
     abstract fun provideCommunitiesRepository(repository: CommunitiesRepositoryImpl): CommunitiesRepository

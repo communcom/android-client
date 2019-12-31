@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentDashboardBinding
@@ -18,7 +17,7 @@ import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
 import io.golos.cyber_android.ui.screens.editor_page_activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
-import io.golos.cyber_android.ui.screens.main_activity.notifications.NotificationsFragment
+import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.utils.*
 import io.golos.domain.dto.UserIdDomain

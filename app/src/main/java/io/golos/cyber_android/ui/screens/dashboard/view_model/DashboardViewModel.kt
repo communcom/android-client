@@ -10,11 +10,8 @@ import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.requestmodel.PushNotificationsStateModel
-import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.UpdateOption
 import io.golos.domain.use_cases.notifs.events.EventsUseCase
-import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCase
 import io.golos.domain.use_cases.sign.SignInUseCase
 import javax.inject.Inject
 
@@ -25,7 +22,6 @@ constructor(
     dashboardModel: DashboardModel,
     private val signInUseCase: SignInUseCase,
     private val eventsUseCase: EventsUseCase,
-    private val pushesUseCase: PushNotificationsSettingsUseCase,
     private val currentUserRepository: CurrentUserRepositoryRead
 ) : ViewModelBase<DashboardModel>(dispatchersProvider, dashboardModel),
     NavigationBottomMenuWidget.Listener{
@@ -46,33 +42,14 @@ constructor(
     val currentUser: UserIdDomain
         get() = currentUserRepository.userId
 
-    /**
-     * [LiveData] that indicates current state of auth process
-     */
-//    val authStateLiveData = signInUseCase.getAsLiveData
-
-    /**
-     * When user is logged in and his push notifications is enabled we need to send fcm token and device id
-     * to backend. This will happen on every app run just once.
-     */
-    private val pushesSettingsObserver = Observer<QueryResult<PushNotificationsStateModel>> {
-        if (it is QueryResult.Success) {
-            if (it.originalQuery.isEnabled)
-                pushesUseCase.subscribeToPushNotifications()
-            mediator.removeObserver(observer)
-        }
-    }
-
     private val mediator = MediatorLiveData<Any>()
     private val observer = Observer<Any> {}
 
     init {
         signInUseCase.subscribe()
         eventsUseCase.subscribe()
-        pushesUseCase.subscribe()
         eventsUseCase.requestUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
 
-        mediator.addSource(pushesUseCase.getAsLiveData, pushesSettingsObserver)
         mediator.observeForever(observer)
     }
 
@@ -96,8 +73,6 @@ constructor(
         super.onCleared()
         signInUseCase.unsubscribe()
         eventsUseCase.unsubscribe()
-        pushesUseCase.unsubscribe()
-        mediator.removeSource(pushesUseCase.getAsLiveData)
         mediator.removeObserver(observer)
     }
 }

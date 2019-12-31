@@ -1,15 +1,13 @@
 package io.golos.data.persistence.key_value_storage
 
 import com.squareup.moshi.Moshi
-import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.data.dto.CommunityEntity
 import io.golos.data.dto.CommunitySubscriptionsEntity
 import io.golos.data.dto.FtueBoardStageEntity
 import io.golos.data.persistence.key_value_storage.storages.Storage
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthStateDomain
-import io.golos.data.dto.CommunityEntity
 import io.golos.domain.dto.UserKeyType
-import io.golos.domain.requestmodel.PushNotificationsStateModel
 import javax.inject.Inject
 
 /**
@@ -67,27 +65,6 @@ constructor(
     override fun removeUserKey(keyType: UserKeyType) =
         keyValueStorage.update {
             it.remove(getInternalKeyForUserKey(keyType))
-        }
-
-    override fun savePushNotificationsSettings(forUser: CyberName, settings: PushNotificationsStateModel) =
-        keyValueStorage.update {
-            it.putString(
-                "PUSHES_OF_${forUser.name}",
-                moshi.adapter(PushNotificationsStateModel::class.java).toJson(settings)
-            )
-        }
-
-    override fun getPushNotificationsSettings(forUser: CyberName): PushNotificationsStateModel =
-        keyValueStorage.read {
-            val authStateString = it.readString("PUSHES_OF_${forUser.name}") ?: return@read PushNotificationsStateModel.DEFAULT
-
-            moshi.adapter(PushNotificationsStateModel::class.java).fromJson(authStateString)
-                ?: PushNotificationsStateModel.DEFAULT
-        }
-
-    override fun removePushNotificationsSettings(forUser: CyberName) =
-        keyValueStorage.update {
-            it.remove("PUSHES_OF_${forUser.name}")
         }
 
     override fun savePinCode(pinCode: ByteArray) =

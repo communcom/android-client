@@ -26,7 +26,6 @@ import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_a
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.fingerprint_auth_fragment.FingerprintAuthFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.pin_code_auth_fragment.PinCodeAuthFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.in_app_auth_activity.pin_code_auth_fragment.PinCodeAuthFragmentModule
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.notifications_fragment.NotificationsFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentModule
 import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFilterFragmentModule
@@ -229,8 +228,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             MainActivityComponent::class -> get<UIComponent>().mainActivity.build()
-
-            NotificationsFragmentComponent::class -> get<MainActivityComponent>().notificationsFragmentComponent.build()
 
             TrendingFeedFragmentComponent::class ->
                 get<MainActivityComponent>().trendingFeedFragmentComponent

@@ -7,7 +7,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.screens.main_activity.notifications.NotificationsFragment">
+        tools:context=".ui.screens.notifications.NotificationsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"
@@ -36,37 +36,7 @@
     <FrameLayout
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/notificationsList"
-                    android:clipToPadding="false"
-                    android:clipChildren="false"
-                    android:paddingTop="@dimen/margin_default"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <ProgressBar
-                android:id="@+id/progress"
-                android:visibility="gone"
-                android:indeterminateOnly="true"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:id="@+id/empty"
-                android:text="Empty data"
-                android:visibility="gone"
-                android:indeterminateOnly="true"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-    </FrameLayout>
+            android:layout_height="match_parent"
+        tools:ignore="UselessLeaf" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

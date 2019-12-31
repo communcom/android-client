@@ -18,8 +18,6 @@ import io.golos.domain.use_cases.action.VoteUseCase
 import io.golos.domain.use_cases.images.ImageUploadUseCase
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.notifs.events.EventsUseCase
-import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCase
-import io.golos.domain.use_cases.notifs.push.PushNotificationsSettingsUseCaseImpl
 import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
 import io.golos.domain.use_cases.reg.SignUpUseCase
@@ -62,9 +60,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): UseCase<UploadedImagesModel>
-
-    @Binds
-    abstract fun getPushNotificationsSettingsUseCase(useCase: PushNotificationsSettingsUseCaseImpl): PushNotificationsSettingsUseCase
 
     @UIScope
     @Binds

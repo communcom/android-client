@@ -344,10 +344,7 @@ constructor(
 
     private suspend fun logout() {
         withContext(dispatchersProvider.ioDispatcher) {
-            val currentUser = keyValueStorage.getAuthState()!!.user
-
             keyValueStorage.removeAuthState()
-            keyValueStorage.removePushNotificationsSettings(CyberName(currentUser.userId))
             keyValueStorage.removePinCode()
             keyValueStorage.removeAppUnlockWay()
 
