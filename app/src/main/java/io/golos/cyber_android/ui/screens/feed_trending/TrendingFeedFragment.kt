@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.feed
+package io.golos.cyber_android.ui.screens.feed_trending
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.common.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.Votes
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
+import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.domain.use_cases.post.post_dto.*

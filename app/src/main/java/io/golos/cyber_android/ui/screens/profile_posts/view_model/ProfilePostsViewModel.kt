@@ -11,8 +11,8 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToUser
-import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
+import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
+import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*

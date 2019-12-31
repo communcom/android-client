@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view.view_commands
+package io.golos.cyber_android.ui.screens.feed_my.view.view_commands
 
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.ContentId

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view_model
+package io.golos.cyber_android.ui.screens.feed_my.view_model
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +13,8 @@ import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.mappers.mapToUser
-import io.golos.cyber_android.ui.screens.my_feed.model.MyFeedModel
-import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
+import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
+import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE

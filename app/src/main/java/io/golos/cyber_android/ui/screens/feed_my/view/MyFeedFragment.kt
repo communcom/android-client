@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view
+package io.golos.cyber_android.ui.screens.feed_my.view
 
 import android.app.Activity
 import android.content.Intent
@@ -22,10 +22,10 @@ import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
-import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
-import io.golos.cyber_android.ui.screens.my_feed.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.my_feed.view.view_commands.*
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedViewModel
+import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
+import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog

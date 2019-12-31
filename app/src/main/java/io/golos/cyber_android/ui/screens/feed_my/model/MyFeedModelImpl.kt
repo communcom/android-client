@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.model
+package io.golos.cyber_android.ui.screens.feed_my.model
 
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.domain.DispatchersProvider

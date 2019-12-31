@@ -25,7 +25,7 @@ import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentCompon
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.ui.screens.my_feed.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent

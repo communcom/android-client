@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.my_feed.view.list
+package io.golos.cyber_android.ui.screens.feed_my.view.list
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -8,9 +8,9 @@ import io.golos.cyber_android.ui.common.base.adapter.base_items.ErrorItem
 import io.golos.cyber_android.ui.common.base.adapter.base_items.ProgressItem
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
-import io.golos.cyber_android.ui.screens.my_feed.view.items.CreatePostItem
+import io.golos.cyber_android.ui.screens.feed_my.view.items.CreatePostItem
 import io.golos.cyber_android.ui.common.widgets.post_comments.items.PostItem
-import io.golos.cyber_android.ui.screens.my_feed.view_model.MyFeedListListener
+import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 
 open class MyFeedAdapter(
     private val eventsProcessor: MyFeedListListener,
