@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity.di
 
 import dagger.Subcomponent
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.main_activity.trending_feed.TrendingFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
@@ -20,7 +19,6 @@ interface MainActivityComponent {
         fun build(): MainActivityComponent
     }
 
-    val trendingFeedFragmentComponent: TrendingFeedFragmentComponent.Builder
     val communitiesFragmentComponent: CommunitiesListFragmentComponent.Builder
     val communitiesFragmentTabComponent: CommunitiesListFragmentTabComponent.Builder
 
