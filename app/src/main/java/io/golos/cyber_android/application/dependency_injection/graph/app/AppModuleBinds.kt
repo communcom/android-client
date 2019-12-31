@@ -39,8 +39,6 @@ import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.api.image_upload.ImageUploadApiImpl
 import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.api.registration.RegistrationApiImpl
-import io.golos.data.api.settings.SettingsApi
-import io.golos.data.api.settings.SettingsApiImpl
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.transactions.TransactionsApiImpl
 import io.golos.data.api.user.UsersApi
@@ -120,9 +118,6 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideStringsConverter(converter: StringsConverterImpl): StringsConverter
 
-    @Binds
-    abstract fun providesMyDefaultSettingProvider(provider: MyDefaultSettingProvider): DefaultSettingProvider
-
     // region Mappers
     @Binds
     abstract fun provideCyberPostToEntityMapper(mapper: CyberPostToEntityMapperImpl): CyberPostToEntityMapper
@@ -169,9 +164,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideEventsApprover(approver: EventsApprover): RequestApprover<EventsFeedUpdateRequest>
-
-    @Binds
-    abstract fun provideSettingsToEntityMapper(mapper: SettingsToEntityMapperImpl): SettingsToEntityMapper
     // endregion
 
     // region Api
@@ -197,9 +189,6 @@ abstract class AppModuleBinds {
     abstract fun provideRegistrationApi(api: RegistrationApiImpl): RegistrationApi
 
     @Binds
-    abstract fun provideSettingsApi(api: SettingsApiImpl): SettingsApi
-
-    @Binds
     abstract fun provideTransactionsApi(api: TransactionsApiImpl): TransactionsApi
 
     @Binds
@@ -219,9 +208,6 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideFromSpannableToHtml(transformer: FromSpannedToHtmlTransformerImpl): FromSpannedToHtmlTransformer
     // endregion
-
-    @Binds
-    abstract fun provideDeviceIdProvider(provider: MyDeviceIdProvider): DeviceIdProvider
 
     //region Approver
     @Binds
@@ -295,9 +281,6 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideRegistrationRepository(repository: RegistrationRepository): Repository<UserRegistrationStateEntity, RegistrationStepRequest>
-
-    @Binds
-    abstract fun provideSettingsRepository(repository: SettingsRepository): Repository<UserSettingEntity, SettingChangeRequest>
 
     @Binds
     abstract fun provideImageUploadRepositoryLiveData(repository: ImageUploadRepositoryLiveData): Repository<UploadedImagesEntity, ImageUploadRequest>

@@ -21,7 +21,6 @@ import io.golos.domain.use_cases.notifs.events.EventsUseCase
 import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
 import io.golos.domain.use_cases.reg.SignUpUseCase
-import io.golos.domain.use_cases.settings.SettingsUseCase
 import io.golos.domain.use_cases.sign.SignInUseCase
 import io.golos.domain.mappers.EventEntityToModelMapper
 import io.golos.domain.mappers.EventEntityToModelMapperImpl
@@ -29,7 +28,6 @@ import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
 import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.UserSettingModel
 import io.golos.domain.requestmodel.VoteRequestModel
 
 @Module
@@ -54,9 +52,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): UseCase<ProccesedLinksModel>
-
-    @Binds
-    abstract fun getSettingUserCase(useCase: SettingsUseCase): UseCase<UserSettingModel>
 
     @Binds
     abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): UseCase<UploadedImagesModel>
