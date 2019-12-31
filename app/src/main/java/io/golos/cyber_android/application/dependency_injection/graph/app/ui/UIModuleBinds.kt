@@ -6,8 +6,6 @@ import io.golos.cyber_android.core.bitmaps.BitmapsUtilsImpl
 import io.golos.cyber_android.core.camera.CameraHelper
 import io.golos.cyber_android.core.camera.CameraHelperImpl
 import io.golos.cyber_android.core.file_system.FileSystemHelperImpl
-import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacade
-import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelper
@@ -67,9 +65,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun getPushNotificationsSettingsUseCase(useCase: PushNotificationsSettingsUseCaseImpl): PushNotificationsSettingsUseCase
-
-    @Binds
-    abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacade
 
     @UIScope
     @Binds

@@ -23,8 +23,6 @@ import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsI
 import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
 import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
-import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeImpl
-import io.golos.cyber_android.core.keys_backup.facade.BackupKeysFacadeSync
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
@@ -336,9 +334,6 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideAuthRepository(repository: AuthRepositoryImpl): AuthRepository
     // endregion
-
-    @Binds
-    abstract fun provideBackupKeysFacadeSync(facade: BackupKeysFacadeImpl): BackupKeysFacadeSync
 
     @Binds
     abstract fun provideDeviceInfoService(service: DeviceInfoProviderImpl): DeviceInfoProvider
