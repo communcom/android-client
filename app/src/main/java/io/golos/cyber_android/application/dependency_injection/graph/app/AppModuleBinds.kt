@@ -17,12 +17,7 @@ import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
 import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
 import io.golos.cyber_android.core.fingerprints.FingerprintAuthManagerImpl
-import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
-import io.golos.cyber_android.core.key_value_storage.storages.Storage
-import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsInstance
-import io.golos.cyber_android.core.key_value_storage.storages.combined.CombinedStorage
-import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
-import io.golos.cyber_android.core.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.data.persistence.key_value_storage.storages.Storage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
@@ -59,8 +54,12 @@ import io.golos.data.api.vote.VoteApi
 import io.golos.data.api.vote.VoteApiImpl
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
-import io.golos.data.persistence.PreferenceManager
-import io.golos.data.persistence.PreferenceManagerImpl
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacadeImpl
+import io.golos.data.persistence.key_value_storage.storages.StorageOperationsInstance
+import io.golos.data.persistence.key_value_storage.storages.combined.CombinedStorage
+import io.golos.data.persistence.key_value_storage.storages.in_memory.InMemoryStorage
+import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
@@ -356,10 +355,6 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCurrentUserRepositoryRead(repository: CurrentUserRepositoryImpl): CurrentUserRepositoryRead
-
-    @Binds
-    @ApplicationScope
-    abstract fun providePreferenceManager(preferenceManager: PreferenceManagerImpl): PreferenceManager
 
     @Binds
     abstract fun provideClipboardUtils(utils: ClipboardUtilsImpl): ClipboardUtils

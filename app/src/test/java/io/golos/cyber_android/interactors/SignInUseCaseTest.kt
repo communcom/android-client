@@ -3,7 +3,7 @@
 //import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 //import io.golos.cyber_android.apiService
 //import io.golos.cyber_android.backupManager
-//import io.golos.domain.KeyValueStorageFacade
+//import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 //import io.golos.cyber_android.dispatchersProvider
 //import io.golos.cyber_android.logger
 //import io.golos.data.repositories.AuthStateRepositoryImpl

@@ -1,7 +1,7 @@
-package io.golos.cyber_android.core.key_value_storage.storages.combined
+package io.golos.data.persistence.key_value_storage.storages.combined
 
-import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
-import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageCommitOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageReadOperations
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write

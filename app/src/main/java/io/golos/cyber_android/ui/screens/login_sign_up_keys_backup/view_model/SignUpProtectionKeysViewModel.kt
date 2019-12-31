@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.NavigateT
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModel
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.launch

@@ -5,7 +5,6 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dto.PushNotificationsStateEntity
 import io.golos.domain.use_cases.UseCase
@@ -25,8 +24,8 @@ class PushNotificationsSettingsUseCaseImpl
 @Inject
 constructor(
     private val pushRepository: Repository<PushNotificationsStateEntity, PushNotificationsStateUpdateRequest>,
-    private val authRepository: AuthStateRepository,
-    private val keyValueStorage: KeyValueStorageFacade
+    private val authRepository: AuthStateRepository
+//    private val keyValueStorage: KeyValueStorageFacade
 ) : PushNotificationsSettingsUseCase {
 
     private val readinessLiveData = MutableLiveData<Boolean>()
@@ -45,7 +44,7 @@ constructor(
         mediator.addSource(authRepository.getAsLiveData(authRepository.allDataRequest)) {
             readinessLiveData.value = it?.isUserLoggedIn == true
             if (it.isUserLoggedIn) {
-                updateState.value = QueryResult.Success(keyValueStorage.getPushNotificationsSettings(CyberName(it.user.userId)))
+                //updateState.value = QueryResult.Success(keyValueStorage.getPushNotificationsSettings(CyberName(it.user.userId)))
             }
         }
 
@@ -56,7 +55,7 @@ constructor(
                 is QueryResult.Success -> {
                     val newSettings = PushNotificationsStateModel(lastRequest.toEnable)
                     authRepository.getAsLiveData(authRepository.allDataRequest).value?.let {
-                        keyValueStorage.savePushNotificationsSettings(CyberName(it.user.userId), newSettings)
+                        //keyValueStorage.savePushNotificationsSettings(CyberName(it.user.userId), newSettings)
                     }
                     QueryResult.Success(newSettings)
                 }

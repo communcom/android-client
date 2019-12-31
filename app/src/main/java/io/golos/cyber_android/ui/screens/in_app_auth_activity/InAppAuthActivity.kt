@@ -12,7 +12,7 @@ import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
 import io.golos.cyber_android.ui.common.base.ActivityBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
 import kotlinx.coroutines.*
 import javax.inject.Inject

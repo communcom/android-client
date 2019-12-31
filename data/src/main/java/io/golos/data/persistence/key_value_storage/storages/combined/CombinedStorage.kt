@@ -1,10 +1,10 @@
-package io.golos.cyber_android.core.key_value_storage.storages.combined
+package io.golos.data.persistence.key_value_storage.storages.combined
 
+import io.golos.data.persistence.key_value_storage.storages.StorageBase
+import io.golos.data.persistence.key_value_storage.storages.StorageCommitOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageOperationsInstance
+import io.golos.data.persistence.key_value_storage.storages.StorageReadOperations
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.cyber_android.core.key_value_storage.storages.StorageBase
-import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
-import io.golos.cyber_android.core.key_value_storage.storages.StorageOperationsInstance
-import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.inject.Inject
 import javax.inject.Named

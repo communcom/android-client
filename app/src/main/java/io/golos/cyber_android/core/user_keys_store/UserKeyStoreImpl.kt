@@ -3,7 +3,7 @@ package io.golos.cyber_android.core.user_keys_store
 import io.golos.commun4j.model.AuthType
 import io.golos.commun4j.utils.AuthUtils
 import io.golos.domain.Encryptor
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dependency_injection.Clarification

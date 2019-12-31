@@ -7,7 +7,7 @@ import io.golos.commun4j.services.model.UserRegistrationStateResult
 import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.dto.FtueBoardStageEntity
 import io.golos.data.errors.CyberToAppErrorMapper
-import io.golos.data.persistence.PreferenceManager
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
@@ -31,7 +31,7 @@ constructor(
     private val registrationApi: RegistrationApi,
     private val dispatchersProvider: DispatchersProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper,
-    private val preferenceManager: PreferenceManager
+    private val keyValueStorageFacade: KeyValueStorageFacade
 ) : Repository<UserRegistrationStateEntity, RegistrationStepRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -78,13 +78,12 @@ constructor(
 
                                 is SetUserKeysRequest -> {
                                     registrationApi.writeUserToBlockChain(
-                                            params.phone,
-                                    params.userId,
-                                    params.userName,
-                                    params.ownerPublicKey,
-                                    params.activePublicKey
-                                    )
-                                    preferenceManager.setFtueBoardStage(FtueBoardStageEntity.NEED_SHOW)
+                                        params.phone,
+                                        params.userId,
+                                        params.userName,
+                                        params.ownerPublicKey,
+                                        params.activePublicKey)
+                                    keyValueStorageFacade.saveFtueBoardStage(FtueBoardStageEntity.NEED_SHOW)
                                 }
                                 is ResendSmsVerificationCode ->
                                     registrationApi.resendSmsCode(params.phone)

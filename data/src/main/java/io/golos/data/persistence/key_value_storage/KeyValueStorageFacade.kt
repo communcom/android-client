@@ -1,8 +1,10 @@
-package io.golos.domain
+package io.golos.data.persistence.key_value_storage
 
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.data.dto.FtueBoardStageEntity
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthStateDomain
+import io.golos.data.dto.CommunityEntity
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 
@@ -40,4 +42,12 @@ interface KeyValueStorageFacade {
     fun getLastUsedCommunityId(): String?
     fun saveLastUsedCommunityId(communityId: String)
     fun removeLastUsedCommunityId()
+
+    fun saveFtueBoardStage(stage: FtueBoardStageEntity)
+    fun getFtueBoardStage(): FtueBoardStageEntity
+
+    fun saveFtueCommunitySubscriptions(communitySubscriptions: List<CommunityEntity>)
+    fun getFtueCommunitySubscriptions(): List<CommunityEntity>
+
+    fun removeFtueState()
 }

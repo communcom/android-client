@@ -20,7 +20,7 @@ import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain

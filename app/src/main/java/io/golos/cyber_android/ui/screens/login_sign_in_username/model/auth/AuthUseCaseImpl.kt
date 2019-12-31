@@ -4,7 +4,7 @@ import io.golos.commun4j.utils.AuthUtils
 import io.golos.commun4j.utils.StringSigner
 import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.AuthStateDomain

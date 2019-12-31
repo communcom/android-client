@@ -1,8 +1,8 @@
-package io.golos.cyber_android.core.key_value_storage.storages.shared_preferences
+package io.golos.data.persistence.key_value_storage.storages.shared_preferences
 
 import android.content.Context
 import android.util.Base64
-import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageCommitOperations
 
 class SharedPreferencesStorageUpdateOperations(appContext: Context, name: String): StorageCommitOperations {
     private val preferencesEditor = appContext.getSharedPreferences(name, Context.MODE_PRIVATE).edit()

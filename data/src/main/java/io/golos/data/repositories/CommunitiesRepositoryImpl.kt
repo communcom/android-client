@@ -9,7 +9,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.*
-import io.golos.data.persistence.PreferenceManager
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
@@ -27,17 +27,17 @@ constructor(
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val userKeyStore: UserKeyStore,
-    private val preferenceManager: PreferenceManager
+    private val keyValueStorageFacade: KeyValueStorageFacade
 ) : RepositoryBase(appContext, dispatchersProvider),
     CommunitiesRepository {
 
     override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
-        preferenceManager.saveFtueCommunitySubscriptions(communitySubscriptions.mapToCommunityEntityList())
+        keyValueStorageFacade.saveFtueCommunitySubscriptions(communitySubscriptions.mapToCommunityEntityList())
     }
 
     override suspend fun getCommunitySubscriptions(): List<CommunityDomain> {
         return withContext(dispatchersProvider.ioDispatcher){
-            preferenceManager.getFtueCommunitySubscriptions().mapToCommunityDomainList()
+            keyValueStorageFacade.getFtueCommunitySubscriptions().mapToCommunityDomainList()
         }
     }
 

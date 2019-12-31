@@ -1,11 +1,13 @@
-package io.golos.cyber_android.core.key_value_storage
+package io.golos.data.persistence.key_value_storage
 
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.cyber_android.core.key_value_storage.storages.Storage
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.dto.CommunitySubscriptionsEntity
+import io.golos.data.dto.FtueBoardStageEntity
+import io.golos.data.persistence.key_value_storage.storages.Storage
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthStateDomain
+import io.golos.data.dto.CommunityEntity
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.requestmodel.PushNotificationsStateModel
 import javax.inject.Inject
@@ -132,6 +134,38 @@ constructor(
     override fun removeLastUsedCommunityId() =
         keyValueStorage.update {
             it.remove("LAST_USED_COMMUNITY_ID")
+        }
+
+    override fun saveFtueBoardStage(stage: FtueBoardStageEntity) =
+        keyValueStorage.update {
+            it.putString("KEY_FTUE_BOARD_STAGE", stage.name)
+        }
+
+    override fun getFtueBoardStage(): FtueBoardStageEntity =
+        keyValueStorage.read {
+            FtueBoardStageEntity.valueOf(it.readString("KEY_FTUE_BOARD_STAGE") ?: FtueBoardStageEntity.IDLE.name)
+        }
+
+    override fun saveFtueCommunitySubscriptions(communitySubscriptions: List<CommunityEntity>) {
+        keyValueStorage.update {
+            val communitySubscriptionsEntity = CommunitySubscriptionsEntity(communitySubscriptions)
+            val adapter = moshi.adapter(CommunitySubscriptionsEntity::class.java)
+            val json = adapter.toJson(communitySubscriptionsEntity)
+            it.putString("KEY_FTUE_COMMUNITY_SUBSCRIPTIONS", json)
+        }
+    }
+
+    override fun getFtueCommunitySubscriptions(): List<CommunityEntity> =
+        keyValueStorage.read { storage ->
+            val communitySubscriptionsJson = storage.readString("KEY_FTUE_COMMUNITY_SUBSCRIPTIONS")
+            val adapter = moshi.adapter(CommunitySubscriptionsEntity::class.java)
+            communitySubscriptionsJson?.let { adapter.fromJson(it)?.communities } ?: listOf()
+        }
+
+    override fun removeFtueState() =
+        keyValueStorage.update {
+            it.remove("KEY_FTUE_BOARD_STAGE")
+            it.remove("KEY_FTUE_COMMUNITY_SUBSCRIPTIONS")
         }
 
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =

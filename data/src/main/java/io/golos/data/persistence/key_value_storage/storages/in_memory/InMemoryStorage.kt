@@ -1,9 +1,9 @@
-package io.golos.cyber_android.core.key_value_storage.storages.in_memory
+package io.golos.data.persistence.key_value_storage.storages.in_memory
 
+import io.golos.data.persistence.key_value_storage.storages.StorageBase
+import io.golos.data.persistence.key_value_storage.storages.StorageCommitOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageReadOperations
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.cyber_android.core.key_value_storage.storages.StorageBase
-import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
-import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
 import java.util.*
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.key_value_storage.storages
+package io.golos.data.persistence.key_value_storage.storages
 
 interface StorageOperationsInstance {
     /** Create proxy for read */

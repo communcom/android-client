@@ -1,8 +1,8 @@
-package io.golos.cyber_android.core.key_value_storage.storages.in_memory
+package io.golos.data.persistence.key_value_storage.storages.in_memory
 
 import android.util.Base64
-import io.golos.cyber_android.core.key_value_storage.storages.StorageCommitOperations
-import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageCommitOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageReadOperations
 
 class InMemoryStorageOperations(private val storage: MutableMap<String, Any>):
     StorageReadOperations,

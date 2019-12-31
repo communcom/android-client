@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint
 
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthType
 import kotlinx.coroutines.withContext

@@ -1,8 +1,8 @@
-package io.golos.cyber_android.core.key_value_storage.storages.shared_preferences
+package io.golos.data.persistence.key_value_storage.storages.shared_preferences
 
 import android.content.Context
 import android.util.Base64
-import io.golos.cyber_android.core.key_value_storage.storages.StorageReadOperations
+import io.golos.data.persistence.key_value_storage.storages.StorageReadOperations
 
 class SharedPreferencesStorageReadOperations(context: Context, name: String): StorageReadOperations {
     private val preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)

@@ -7,7 +7,7 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
 import io.golos.data.mappers.*
-import io.golos.data.persistence.PreferenceManager
+import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
@@ -18,19 +18,20 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
-class UsersRepositoryImpl @Inject constructor(
+class UsersRepositoryImpl
+@Inject constructor(
     appContext: Context,
     private val usersApi: UsersApi,
     private val dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepository,
     private val userKeyStore: UserKeyStore,
-    private val preferenceManager: PreferenceManager
+    private val keyValueStorageFacade: KeyValueStorageFacade
 ) : RepositoryBase(appContext, dispatchersProvider),
     UsersRepository {
 
     override suspend fun clearCurrentUserData() {
-        preferenceManager.clearFtueState()
+        keyValueStorageFacade.removeFtueState()
     }
 
     override suspend fun isNeedShowFtueBoard(): Boolean {
@@ -42,11 +43,11 @@ class UsersRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setFtueBoardStage(stage: FtueBoardStageDomain) {
-        preferenceManager.setFtueBoardStage(stage.mapToFtueBoardStageEntity())
+        keyValueStorageFacade.saveFtueBoardStage(stage.mapToFtueBoardStageEntity())
     }
 
     override suspend fun getFtueBoardStage(): FtueBoardStageDomain {
-        return preferenceManager.getFtueBoardStage().mapToFtueBoardStageDomain()
+        return keyValueStorageFacade.getFtueBoardStage().mapToFtueBoardStageDomain()
     }
 
 
