@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.encryption.rsa
+package io.golos.data.encryption.rsa
 
 import android.content.Context
 import android.os.Build

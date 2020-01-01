@@ -9,8 +9,8 @@ import dagger.Provides
 import io.golos.commun4j.sharedmodel.Commun4jConfig
 import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.cyber_android.core.encryption.aes.EncryptorAES
-import io.golos.cyber_android.core.encryption.aes.EncryptorAESOldApi
+import io.golos.data.encryption.aes.EncryptorAES
+import io.golos.data.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.core.logger.Cyber4JLogger

@@ -1,11 +1,7 @@
-package io.golos.cyber_android.core.file_system
+package io.golos.data.file_system
 
 import android.content.Context
 import android.net.Uri
-import android.os.Environment
-import androidx.core.content.FileProvider
-import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.application.App
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FileSystemHelper

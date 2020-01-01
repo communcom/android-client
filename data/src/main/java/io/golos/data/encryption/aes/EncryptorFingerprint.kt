@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.encryption.aes
+package io.golos.data.encryption.aes
 
 import javax.crypto.Cipher
 

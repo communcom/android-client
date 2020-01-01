@@ -5,7 +5,7 @@ import dagger.Module
 import io.golos.cyber_android.core.bitmaps.BitmapsUtilsImpl
 import io.golos.cyber_android.core.camera.CameraHelper
 import io.golos.cyber_android.core.camera.CameraHelperImpl
-import io.golos.cyber_android.core.file_system.FileSystemHelperImpl
+import io.golos.data.file_system.FileSystemHelperImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
 import io.golos.cyber_android.ui.common.helper.UIHelper

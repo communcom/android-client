@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.encryption.aes
+package io.golos.data.encryption.aes
 
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor

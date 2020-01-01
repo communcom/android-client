@@ -12,16 +12,15 @@ import io.golos.cyber_android.core.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.core.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.core.display_info.DisplayInfoProvider
 import io.golos.cyber_android.core.display_info.DisplayInfoProviderImpl
-import io.golos.cyber_android.core.encryption.aes.EncryptorAES
-import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
-import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
+import io.golos.data.encryption.aes.EncryptorAES
+import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
 import io.golos.cyber_android.core.fingerprints.FingerprintAuthManagerImpl
 import io.golos.data.persistence.key_value_storage.storages.Storage
 import io.golos.cyber_android.core.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.cyber_android.core.ui_monitor.UIMonitorImpl
-import io.golos.cyber_android.core.user_keys_store.UserKeyStoreImpl
+import io.golos.data.persistence.user_keys_store.UserKeyStoreImpl
 import io.golos.cyber_android.ui.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.utils.ImageCompressorImpl
@@ -47,6 +46,7 @@ import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.api.user_metadata.UserMetadataApiImpl
 import io.golos.data.api.vote.VoteApi
 import io.golos.data.api.vote.VoteApiImpl
+import io.golos.data.encryption.rsa.EncryptorRSA
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade

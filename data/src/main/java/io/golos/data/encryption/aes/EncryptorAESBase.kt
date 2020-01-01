@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.encryption.aes
+package io.golos.data.encryption.aes
 
 import io.golos.domain.Encryptor
 import java.io.ByteArrayInputStream

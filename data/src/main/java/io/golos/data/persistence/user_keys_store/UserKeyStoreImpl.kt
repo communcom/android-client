@@ -1,4 +1,4 @@
-package io.golos.cyber_android.core.user_keys_store
+package io.golos.data.persistence.user_keys_store
 
 import io.golos.commun4j.model.AuthType
 import io.golos.commun4j.utils.AuthUtils

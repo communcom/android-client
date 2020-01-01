@@ -11,7 +11,7 @@ import android.content.pm.PackageManager
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import io.golos.cyber_android.core.encryption.aes.EncryptorFingerprint
+import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.core.fingerprints.eventsHandler.FingerprintAuthEventsHandler
 import io.golos.cyber_android.core.fingerprints.eventsHandler.FingerprintAuthEventsHandlerImpl
 import javax.inject.Inject
