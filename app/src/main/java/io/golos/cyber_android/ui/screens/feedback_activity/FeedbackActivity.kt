@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feedback_activity.FeedbackActivityComponent
+import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
 import io.golos.domain.CrashlyticsFacade
 import kotlinx.android.synthetic.main.activity_feedback.*
 import javax.inject.Inject

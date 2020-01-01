@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.editor_page_fragment.EditorPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentEditorPageBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory

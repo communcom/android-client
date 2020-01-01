@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.common.glide.loadAvatar
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.domain.repositories.CurrentUserRepositoryRead

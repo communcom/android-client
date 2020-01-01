@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.profile_fragment.profile_bio.ProfileBioFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileBioBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand

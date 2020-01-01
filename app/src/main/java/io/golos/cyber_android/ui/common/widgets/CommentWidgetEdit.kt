@@ -8,7 +8,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.utils.TextWatcherBase
 import io.golos.cyber_android.ui.screens.post_view.dto.EditReplyCommentSettings
 import kotlinx.android.synthetic.main.view_comment_widget_edit.view.*

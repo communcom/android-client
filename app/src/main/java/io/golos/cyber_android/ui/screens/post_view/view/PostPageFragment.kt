@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.ImageViewerActivity

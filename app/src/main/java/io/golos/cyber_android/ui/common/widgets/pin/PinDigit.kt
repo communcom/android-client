@@ -2,12 +2,11 @@ package io.golos.cyber_android.ui.common.widgets.pin
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.UIComponent
+import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.common.characters.SpecialChars
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.*

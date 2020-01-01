@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_filters.PostFiltersFragmentComponent
+import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.databinding.DialogPostFiltersBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM

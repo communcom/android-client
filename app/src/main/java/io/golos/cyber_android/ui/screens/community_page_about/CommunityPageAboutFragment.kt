@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page_about.CommunityPageAboutFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageAboutBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import kotlinx.android.synthetic.main.fragment_community_page_about.*

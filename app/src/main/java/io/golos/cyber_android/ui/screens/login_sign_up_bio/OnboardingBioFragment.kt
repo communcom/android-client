@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.bio_fragment.BioFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_bio.di.BioFragmentComponent
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.base.FragmentBase
 import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory

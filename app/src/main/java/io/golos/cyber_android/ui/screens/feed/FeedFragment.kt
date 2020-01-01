@@ -11,7 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.feed.FeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.databinding.FragmentFeedBinding
 import io.golos.cyber_android.ui.Tags
 import io.golos.cyber_android.ui.common.extensions.reduceDragSensitivity

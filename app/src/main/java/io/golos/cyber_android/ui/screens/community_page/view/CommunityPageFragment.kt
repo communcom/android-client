@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.community_page.CommunityPageFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.common.glide.loadCommunity

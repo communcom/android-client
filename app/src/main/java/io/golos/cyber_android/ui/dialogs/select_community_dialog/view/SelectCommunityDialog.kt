@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.dialogs.select_community_dialog.SelectCommunityDialogComponent
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
 import io.golos.cyber_android.databinding.FragmentCommunitiesSelectDialogBinding
 import io.golos.cyber_android.ui.common.extensions.setTextChangeListener
 import io.golos.cyber_android.ui.common.helper.UIHelper
@@ -24,7 +24,7 @@ import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dialogs.select_community_dialog.CommunitySelected
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.dto.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel
 import io.golos.domain.dto.CommunityDomain
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog.*

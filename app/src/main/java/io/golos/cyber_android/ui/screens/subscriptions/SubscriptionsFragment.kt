@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.subscriptions.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
 import io.golos.cyber_android.databinding.FragmentSubscriptionsBinding
 import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand

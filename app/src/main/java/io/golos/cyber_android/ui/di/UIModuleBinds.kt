@@ -1,0 +1,78 @@
+package io.golos.cyber_android.ui.di
+
+import dagger.Binds
+import dagger.Module
+import io.golos.cyber_android.core.bitmaps.BitmapsUtilsImpl
+import io.golos.cyber_android.core.camera.CameraHelper
+import io.golos.cyber_android.core.camera.CameraHelperImpl
+import io.golos.cyber_android.core.file_system.FileSystemHelperImpl
+import io.golos.cyber_android.ui.common.calculator.UICalculator
+import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl
+import io.golos.cyber_android.ui.common.helper.UIHelper
+import io.golos.cyber_android.ui.common.helper.UIHelperImpl
+import io.golos.domain.BitmapsUtils
+import io.golos.domain.FileSystemHelper
+import io.golos.domain.dependency_injection.scopes.UIScope
+import io.golos.domain.use_cases.UseCase
+import io.golos.domain.use_cases.action.VoteUseCase
+import io.golos.domain.use_cases.images.ImageUploadUseCase
+import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.notifs.events.EventsUseCase
+import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
+import io.golos.domain.use_cases.publish.EmbedsUseCase
+import io.golos.domain.use_cases.reg.SignUpUseCase
+import io.golos.domain.use_cases.sign.SignInUseCase
+import io.golos.domain.mappers.EventEntityToModelMapper
+import io.golos.domain.mappers.EventEntityToModelMapperImpl
+import io.golos.domain.mappers.new_mappers.CommentToModelMapper
+import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
+import io.golos.domain.requestmodel.EventsListModel
+import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.requestmodel.VoteRequestModel
+
+@Module
+abstract class UIModuleBinds {
+    @Binds
+    abstract fun provideUICalculator(calculator: UICalculatorImpl): UICalculator
+
+    @Binds
+    abstract fun provideUIHelper(helper: UIHelperImpl): UIHelper
+
+    @Binds
+    abstract fun provideVoteUseCase(useCase: VoteUseCase): UseCase<MutableMap<DiscussionIdModel, QueryResult<VoteRequestModel>>>
+
+    @Binds
+    abstract fun provideDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): UseCase<QueryResult<DiscussionCreationResultModel>>
+
+    @Binds
+    abstract fun provideSignInUseCase(useCase: SignInUseCase): UseCase<UserAuthState>
+
+    @Binds
+    abstract fun provideSignOnUseCase(useCase: SignUpUseCase): UseCase<UserRegistrationStateModel>
+
+    @Binds
+    abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): UseCase<ProccesedLinksModel>
+
+    @Binds
+    abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): UseCase<UploadedImagesModel>
+
+    @UIScope
+    @Binds
+    abstract fun provideEventEntityToModelMapper(mapper: EventEntityToModelMapperImpl): EventEntityToModelMapper
+
+    @UIScope
+    @Binds
+    abstract fun provideCommentToModelMapper(mapper: CommentToModelMapperImpl): CommentToModelMapper
+
+    @Binds
+    abstract fun provideEventsUseCase(useCase: EventsUseCase): UseCase<EventsListModel>
+
+    @Binds
+    abstract fun provideBitmapUtils(utils: BitmapsUtilsImpl): BitmapsUtils
+
+    @Binds
+    abstract fun provideFileSystemHelper(helper: FileSystemHelperImpl): FileSystemHelper
+
+    @Binds
+    abstract fun provideCameraHelper(helper: CameraHelperImpl): CameraHelper
+}

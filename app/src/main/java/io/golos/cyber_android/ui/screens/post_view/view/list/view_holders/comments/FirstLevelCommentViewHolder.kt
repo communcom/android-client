@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.dependency_injection.graph.app.ui.post_page_fragment.PostPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.FirstLevelCommentListItem
 import io.golos.cyber_android.ui.common.widgets.post_comments.VotingWidget
 import io.golos.domain.use_cases.model.DiscussionAuthorModel

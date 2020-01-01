@@ -2,8 +2,8 @@ package io.golos.cyber_android.application
 
 import android.annotation.SuppressLint
 import android.app.Application
-import io.golos.cyber_android.application.dependency_injection.DependencyInjectionStorage
-import io.golos.cyber_android.application.dependency_injection.graph.app.AppComponent
+import io.golos.cyber_android.di.DependencyInjectionStorage
+import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.core.ui_monitor.UIMonitor
 import io.golos.domain.LogTags
 import timber.log.Timber
