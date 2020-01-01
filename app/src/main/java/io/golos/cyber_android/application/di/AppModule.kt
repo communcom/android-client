@@ -11,9 +11,9 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.data.encryption.aes.EncryptorAES
 import io.golos.data.encryption.aes.EncryptorAESOldApi
-import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeDebug
-import io.golos.cyber_android.core.logger.CrashlyticsTimberTreeRelease
-import io.golos.cyber_android.core.logger.Cyber4JLogger
+import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeDebug
+import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeRelease
+import io.golos.cyber_android.application.shared.logger.Cyber4JLogger
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.login_sign_up.countries.CountriesRepository
 import io.golos.cyber_android.ui.screens.login_sign_up.countries.CountriesRepositoryImpl

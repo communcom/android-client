@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_sign_in_username.model
 
 import dagger.Lazy
-import io.golos.cyber_android.core.clipboard.ClipboardUtils
+import io.golos.cyber_android.ui.common.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidator

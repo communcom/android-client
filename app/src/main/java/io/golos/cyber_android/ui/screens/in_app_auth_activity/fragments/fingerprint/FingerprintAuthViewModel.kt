@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.core.fingerprints.eventsHandler.*
+import io.golos.cyber_android.application.shared.fingerprints.eventsHandler.*
 import io.golos.cyber_android.ui.common.extensions.getColorRes
 import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModel

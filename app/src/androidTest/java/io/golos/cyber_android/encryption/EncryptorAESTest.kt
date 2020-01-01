@@ -1,8 +1,8 @@
 package io.golos.cyber_android.encryption
 
-import io.golos.cyber_android.core.encryption.rsa.EncryptorRSA
-import io.golos.cyber_android.core.key_value_storage.KeyValueStorageFacadeImpl
-import io.golos.cyber_android.core.key_value_storage.storages.in_memory.InMemoryStorage
+import io.golos.cyber_android.application.shared.encryption.rsa.EncryptorRSA
+import io.golos.cyber_android.application.shared.key_value_storage.KeyValueStorageFacadeImpl
+import io.golos.cyber_android.application.shared.key_value_storage.storages.in_memory.InMemoryStorage
 
 //@RunWith(AndroidJUnit4::class)
 //@RequiresApi(Build.VERSION_CODES.M)

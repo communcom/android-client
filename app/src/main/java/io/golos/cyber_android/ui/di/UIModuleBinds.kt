@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.di
 
 import dagger.Binds
 import dagger.Module
-import io.golos.cyber_android.core.bitmaps.BitmapsUtilsImpl
-import io.golos.cyber_android.core.camera.CameraHelper
-import io.golos.cyber_android.core.camera.CameraHelperImpl
+import io.golos.cyber_android.ui.common.bitmaps.BitmapsUtilsImpl
+import io.golos.cyber_android.ui.common.camera.CameraHelper
+import io.golos.cyber_android.ui.common.camera.CameraHelperImpl
 import io.golos.data.file_system.FileSystemHelperImpl
 import io.golos.cyber_android.ui.common.calculator.UICalculator
 import io.golos.cyber_android.ui.common.calculator.UICalculatorImpl

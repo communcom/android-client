@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_pin
 
-import io.golos.cyber_android.core.fingerprints.FingerprintAuthManager
+import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
 import io.golos.domain.Encryptor
 import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
