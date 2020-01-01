@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.profile_photos.model
 
 import android.net.Uri
 import dagger.Lazy
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.CameraGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoViewImageInfo
@@ -16,8 +16,6 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.PrintStream
-import java.net.URI
 import javax.inject.Inject
 import javax.inject.Named
 

@@ -246,7 +246,7 @@
                                     android:layout_height="wrap_content"
                             />
 
-                            <io.golos.cyber_android.ui.common.widgets.FollowersPhotosView
+                            <io.golos.cyber_android.ui.shared.widgets.FollowersPhotosView
                                     android:id="@+id/followersPhotosView"
                                     android:layout_marginTop="@dimen/margin_top_profile_username"
                                     android:layout_width="wrap_content"
@@ -286,7 +286,7 @@
                                     android:layout_height="wrap_content"
                             />
 
-                            <io.golos.cyber_android.ui.common.widgets.FollowersPhotosView
+                            <io.golos.cyber_android.ui.shared.widgets.FollowersPhotosView
                                     android:id="@+id/followingPhotosView"
                                     android:layout_marginTop="@dimen/margin_top_profile_username"
                                     android:layout_width="wrap_content"
@@ -326,7 +326,7 @@
                                     android:layout_height="wrap_content"
                             />
 
-                            <io.golos.cyber_android.ui.common.widgets.FollowersPhotosView
+                            <io.golos.cyber_android.ui.shared.widgets.FollowersPhotosView
                                     android:id="@+id/subscribersPhotosView"
                                     android:layout_marginTop="@dimen/margin_top_profile_username"
                                     android:layout_width="wrap_content"

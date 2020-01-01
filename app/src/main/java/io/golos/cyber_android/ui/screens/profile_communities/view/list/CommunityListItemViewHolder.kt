@@ -9,11 +9,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
-import io.golos.cyber_android.ui.common.glide.clear
-import io.golos.cyber_android.ui.common.glide.transformations.RoundFrameTransformation
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.shared.glide.clear
+import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 

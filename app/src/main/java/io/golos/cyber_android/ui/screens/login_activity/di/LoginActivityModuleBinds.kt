@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactoryImpl
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactoryImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.login_activity.AuthViewModel
 import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPassImpl
@@ -25,7 +25,6 @@ import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.S
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintModelImpl
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeModel

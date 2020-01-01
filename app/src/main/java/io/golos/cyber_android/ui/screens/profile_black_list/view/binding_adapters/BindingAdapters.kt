@@ -4,7 +4,7 @@ import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.common.extensions.parentActivity
+import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import io.golos.cyber_android.ui.dto.BlackListFilter
 
 @BindingAdapter("filterBlackList")

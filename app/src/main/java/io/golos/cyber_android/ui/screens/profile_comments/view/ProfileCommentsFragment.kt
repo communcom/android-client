@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
-import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.*
-import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
@@ -24,8 +24,8 @@ import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileComme
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
-import io.golos.cyber_android.ui.utils.openImageView
-import io.golos.cyber_android.ui.utils.openLinkView
+import io.golos.cyber_android.ui.shared.utils.openImageView
+import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 

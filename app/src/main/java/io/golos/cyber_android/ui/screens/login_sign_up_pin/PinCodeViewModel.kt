@@ -3,10 +3,10 @@ package io.golos.cyber_android.ui.screens.login_sign_up_pin
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_commands.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_state_dto.CodeState

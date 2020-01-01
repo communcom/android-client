@@ -33,7 +33,7 @@
 
                 app:liftOnScroll="true">
 
-                <io.golos.cyber_android.ui.common.widgets.post_comments.PostPageHeaderWidget
+                <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
                     android:id="@+id/postHeader"
 
                     android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
+        <io.golos.cyber_android.ui.shared.widgets.CommentWidgetNew
             android:id="@+id/postComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             app:enabled="@{viewModel.commentFieldEnabled}"
             tools:visibility="visible" />
 
-        <io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
+        <io.golos.cyber_android.ui.shared.widgets.CommentWidgetEdit
             android:id="@+id/postCommentEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

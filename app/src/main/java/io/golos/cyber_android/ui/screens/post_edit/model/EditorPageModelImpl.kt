@@ -6,7 +6,7 @@ import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.utils.toCyberName
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkInfo

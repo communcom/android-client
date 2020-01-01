@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain

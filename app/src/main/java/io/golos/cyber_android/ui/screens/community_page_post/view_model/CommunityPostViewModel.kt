@@ -3,9 +3,9 @@ package io.golos.cyber_android.ui.screens.community_page_post.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.*
-import io.golos.cyber_android.ui.common.paginator.Paginator
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPostsList
@@ -18,8 +18,8 @@ import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
-import io.golos.cyber_android.ui.utils.toLiveData
+import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
+import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.Clarification

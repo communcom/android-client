@@ -5,9 +5,9 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileBlackListBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.view_model.ProfileBlackListViewModel

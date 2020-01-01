@@ -176,7 +176,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/boldButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"
@@ -196,7 +196,7 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/italicButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"
@@ -216,7 +216,7 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/textColorButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"
@@ -236,7 +236,7 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/tagButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"
@@ -256,7 +256,7 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/mentionButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"
@@ -276,7 +276,7 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/linkInTextButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"
@@ -296,7 +296,7 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/photoButton"
 
                         android:layout_width="@dimen/size_editor_tool_button"

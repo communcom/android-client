@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.*
 import io.golos.domain.DispatchersProvider

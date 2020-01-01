@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.common.extensions.safeNavigate
+import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
 import io.golos.data.errors.AppError
 import io.golos.domain.use_cases.model.NextRegistrationStepRequestModel

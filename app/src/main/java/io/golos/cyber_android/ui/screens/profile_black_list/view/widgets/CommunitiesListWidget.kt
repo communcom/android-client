@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.profile_black_list.view.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.common.widgets.lists.RoundCornersListWidget
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.widgets.lists.RoundCornersListWidget
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.communities.CommunitiesListAdapter
 

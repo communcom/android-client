@@ -2,12 +2,12 @@ package io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint
 
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToInAppAuthScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.view_commands.NavigateToKeysCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthType

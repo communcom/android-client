@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.profile_photos.di.ProfilePhotosFragmentComponent
-import io.golos.cyber_android.ui.common.camera.CameraHelper
+import io.golos.cyber_android.ui.shared.camera.CameraHelper
 import io.golos.cyber_android.databinding.FragmentProfilePhotosBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.InitPhotoPreviewCommand
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PassResultCommand

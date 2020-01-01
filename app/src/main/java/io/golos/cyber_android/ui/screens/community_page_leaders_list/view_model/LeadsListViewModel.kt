@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.screens.community_page_leaders_list.view_model
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.VoteResult
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.model.LeadsListModel
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor

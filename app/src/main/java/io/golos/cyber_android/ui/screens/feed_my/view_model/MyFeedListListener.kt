@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.feed_my.view_model
 
-import io.golos.cyber_android.ui.common.widgets.post_comments.*
+import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.cyber_android.ui.dto.ContentId
 
 interface MyFeedListListener :

@@ -3,9 +3,9 @@ package io.golos.cyber_android.ui.screens.feed_my.view.items
 import android.content.Context
 import android.view.View
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
-import io.golos.cyber_android.ui.common.base.adapter.RecyclerItem
-import io.golos.cyber_android.ui.common.widgets.EditorWidget
+import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
+import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
+import io.golos.cyber_android.ui.shared.widgets.EditorWidget
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import kotlinx.android.synthetic.main.item_create_post.view.*

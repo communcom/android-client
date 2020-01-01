@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page.model
 
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.use_cases.community.GetCommunityPageByIdUseCase
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase

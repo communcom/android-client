@@ -37,7 +37,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/margin_top_auth"/>
 
-        <io.golos.cyber_android.ui.common.widgets.pin.PinCode
+        <io.golos.cyber_android.ui.shared.widgets.pin.PinCode
                 android:id = "@+id/pinCode"
 
                 android:layout_width = "wrap_content"
@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/pinCode"
         />
 
-        <io.golos.cyber_android.ui.common.widgets.pin.PinKeypad
+        <io.golos.cyber_android.ui.shared.widgets.pin.PinKeypad
                 android:layout_height = "@dimen/height_pin_keypad"
                 android:layout_width = "@dimen/width_pin_keypad"
 

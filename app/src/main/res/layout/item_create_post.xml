@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <io.golos.cyber_android.ui.common.widgets.EditorWidget
+    <io.golos.cyber_android.ui.shared.widgets.EditorWidget
         android:id="@+id/editorWidget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

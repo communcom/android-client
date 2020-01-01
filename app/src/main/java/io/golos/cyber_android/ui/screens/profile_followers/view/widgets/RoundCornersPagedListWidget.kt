@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.profile_followers.view.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.common.widgets.lists.RoundCornersListWidget
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.widgets.lists.RoundCornersListWidget
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersPagedListAdapter

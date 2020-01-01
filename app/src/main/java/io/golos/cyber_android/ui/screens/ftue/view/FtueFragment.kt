@@ -14,15 +14,15 @@ import androidx.viewpager.widget.ViewPager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigationCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.view.view_command.NavigateToFtuePageCommand
 import io.golos.cyber_android.ui.screens.ftue.view_model.FtueViewModel
 import io.golos.cyber_android.ui.screens.ftue_finish.view.FtueFinishFragment
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.FtueSearchCommunityFragment
-import io.golos.cyber_android.ui.utils.navigate
+import io.golos.cyber_android.ui.shared.utils.navigate
 import kotlinx.android.synthetic.main.fragment_ftue.*
 
 class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {

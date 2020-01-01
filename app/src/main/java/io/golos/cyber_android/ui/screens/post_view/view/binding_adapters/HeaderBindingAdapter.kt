@@ -3,9 +3,9 @@ package io.golos.cyber_android.ui.screens.post_view.view.binding_adapters
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.common.extensions.parentActivity
+import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
-import io.golos.cyber_android.ui.common.widgets.post_comments.PostPageHeaderWidget
+import io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
 
 /**
  * One-way binding adapter for post header

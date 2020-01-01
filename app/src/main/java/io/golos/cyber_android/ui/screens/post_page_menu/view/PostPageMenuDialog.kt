@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.post_page_menu.model.*
 import io.golos.cyber_android.ui.screens.post_page_menu.view.list.PostMenuAdapter

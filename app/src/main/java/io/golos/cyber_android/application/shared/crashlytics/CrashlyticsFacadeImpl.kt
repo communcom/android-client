@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import com.crashlytics.android.Crashlytics
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.shared.display_info.DisplayInfoProvider
-import io.golos.cyber_android.ui.common.extensions.getLocale
+import io.golos.cyber_android.ui.shared.extensions.getLocale
 import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DeviceInfoProvider
 import javax.inject.Inject

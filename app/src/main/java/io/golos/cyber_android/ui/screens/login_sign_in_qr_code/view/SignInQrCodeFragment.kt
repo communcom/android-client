@@ -6,9 +6,9 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignInQrCodeBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view.detector.QrCodeDetector
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view_model.SignInQrCodeViewModel

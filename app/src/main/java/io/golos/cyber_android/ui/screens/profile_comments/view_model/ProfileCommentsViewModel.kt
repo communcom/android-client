@@ -3,10 +3,10 @@ package io.golos.cyber_android.ui.screens.profile_comments.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.*
-import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.common.widgets.CommentWidget
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
+import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
@@ -15,8 +15,8 @@ import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
-import io.golos.cyber_android.ui.utils.PAGINATION_PAGE_SIZE
-import io.golos.cyber_android.ui.utils.toLiveData
+import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
+import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants

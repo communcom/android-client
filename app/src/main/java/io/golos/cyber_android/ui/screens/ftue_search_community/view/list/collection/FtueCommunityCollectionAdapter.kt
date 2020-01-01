@@ -1,10 +1,10 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collection
 
 import android.view.ViewGroup
-import io.golos.cyber_android.ui.common.recycler_view.DiffAlgBase
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.recycler_view.DiffAlgBase
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.item.collection.FtueCommunityCollectionItem
 

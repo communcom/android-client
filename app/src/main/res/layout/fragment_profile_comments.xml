@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <io.golos.cyber_android.ui.common.widgets.CommentWidget
+        <io.golos.cyber_android.ui.shared.widgets.CommentWidget
             android:id="@+id/commentWidget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

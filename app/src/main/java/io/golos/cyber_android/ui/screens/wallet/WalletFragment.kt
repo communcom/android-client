@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.FragmentBase
+import io.golos.cyber_android.ui.shared.base.FragmentBase
 
 class WalletFragment : FragmentBase() {
 

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentActivity
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.navigation.NavigatorBaseImpl
+import io.golos.cyber_android.ui.shared.navigation.NavigatorBaseImpl
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.FingerprintAuthFragment
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.PinCodeAuthFragment

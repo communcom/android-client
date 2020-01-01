@@ -3,10 +3,10 @@ package io.golos.cyber_android.ui.screens.login_sign_up.fragments.country
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.SingleLiveData
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.SignUpCountryModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CountryEntity

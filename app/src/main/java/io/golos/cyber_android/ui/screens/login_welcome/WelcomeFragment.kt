@@ -15,8 +15,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.FragmentBase
-import io.golos.cyber_android.ui.utils.ViewUtils
+import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 
 class WelcomeFragment : FragmentBase() {

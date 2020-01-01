@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.screens.feed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowPostFiltersCommand
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowPostFiltersCommand
 import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 

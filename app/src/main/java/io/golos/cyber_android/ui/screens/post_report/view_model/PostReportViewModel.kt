@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_report.view_model
 
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.screens.post_report.model.PostReportModel
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand

@@ -9,7 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageAboutBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import kotlinx.android.synthetic.main.fragment_community_page_about.*
 
 class CommunityPageAboutFragment :

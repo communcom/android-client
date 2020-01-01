@@ -5,9 +5,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.glide.clear
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.glide.clear
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.GalleryGridItemEventsProcessor
 import kotlinx.android.synthetic.main.view_profile_photo_grid_photo.view.*

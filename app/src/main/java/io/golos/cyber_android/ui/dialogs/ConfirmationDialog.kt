@@ -10,7 +10,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.shared.Tags
 import kotlinx.android.synthetic.main.dialog_confirmation.*
 
 /**

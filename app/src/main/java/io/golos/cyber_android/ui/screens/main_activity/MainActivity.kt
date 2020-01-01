@@ -8,12 +8,12 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.ActivityMainBinding
-import io.golos.cyber_android.ui.common.mvvm.ActivityBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigationCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.ActivityBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigationCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
-import io.golos.cyber_android.ui.utils.navigate
+import io.golos.cyber_android.ui.shared.utils.navigate
 import kotlinx.android.synthetic.main.activity_main.*
 
 

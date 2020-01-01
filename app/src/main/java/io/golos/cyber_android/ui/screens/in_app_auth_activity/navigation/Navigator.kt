@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation
 
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentActivity
-import io.golos.cyber_android.ui.common.navigation.NavigatorBase
+import io.golos.cyber_android.ui.shared.navigation.NavigatorBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.FingerprintAuthFragment
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.PinCodeAuthFragment
 

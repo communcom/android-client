@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.post_edit.view.binding_adapters
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.common.extensions.parentActivity
+import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import io.golos.cyber_android.ui.screens.post_edit.view.widgets.CommunityContainer
 import io.golos.domain.dto.CommunityDomain
 

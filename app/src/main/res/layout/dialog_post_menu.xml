@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <io.golos.cyber_android.ui.common.widgets.post_comments.PostPageHeaderWidget
+        <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
             android:id="@+id/postMenuHeader"
             android:layout_width="match_parent"
             android:layout_height="@dimen/post_viewer_header_height" />

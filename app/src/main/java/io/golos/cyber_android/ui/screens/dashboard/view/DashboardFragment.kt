@@ -10,8 +10,8 @@ import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentDashboardBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragmentTab
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
-import io.golos.cyber_android.ui.utils.*
+import io.golos.cyber_android.ui.shared.utils.*
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.view_notification_badge.*

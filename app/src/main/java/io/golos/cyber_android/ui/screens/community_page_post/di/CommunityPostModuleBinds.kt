@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
-import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.shared.paginator.Paginator
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_post.model.CommunityPostModel
 import io.golos.cyber_android.ui.screens.community_page_post.model.CommunityPostModelImpl
 import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel

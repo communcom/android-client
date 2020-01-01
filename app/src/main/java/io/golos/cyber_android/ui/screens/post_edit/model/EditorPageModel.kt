@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_edit.model
 
 import io.golos.commun4j.sharedmodel.Either
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkInfo

@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.extensions.getColorRes
+import io.golos.cyber_android.ui.shared.extensions.getColorRes
 import io.golos.domain.dto.CountryEntity
 import kotlinx.android.synthetic.main.item_country.view.*
 

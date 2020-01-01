@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.community_page_leaders_list.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityLeaderDomain

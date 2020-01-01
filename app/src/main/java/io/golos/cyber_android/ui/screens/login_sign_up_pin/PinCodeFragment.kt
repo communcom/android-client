@@ -13,10 +13,10 @@ import androidx.transition.TransitionManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.common.base.FragmentBase
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_commands.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity

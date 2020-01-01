@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.communities
 
-import io.golos.cyber_android.ui.common.recycler_view.versioned.CommunityListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.ListWorkerBaseImpl
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain

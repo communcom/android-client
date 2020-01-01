@@ -3,11 +3,11 @@ package io.golos.cyber_android.ui.screens.communities_list.model
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.common.recycler_view.versioned.CommunityListItem
-import io.golos.cyber_android.ui.common.recycler_view.versioned.LoadingListItem
-import io.golos.cyber_android.ui.common.recycler_view.versioned.RetryListItem
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain

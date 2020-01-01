@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.profile_communities.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem

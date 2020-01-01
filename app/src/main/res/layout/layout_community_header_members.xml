@@ -94,7 +94,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tvFriendsLabel"
         tools:text="+47"/>
 
-    <io.golos.cyber_android.ui.common.widgets.CommunityFollowersView
+    <io.golos.cyber_android.ui.shared.widgets.CommunityFollowersView
         android:id="@+id/communityFollowersView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

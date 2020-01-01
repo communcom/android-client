@@ -6,8 +6,8 @@ import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.AppCore
 import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.di_storage.Cyber4JDagger
-import io.golos.cyber_android.ui.common.clipboard.ClipboardUtils
-import io.golos.cyber_android.ui.common.clipboard.ClipboardUtilsImpl
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.application.shared.display_info.DisplayInfoProvider
@@ -21,9 +21,9 @@ import io.golos.data.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitorImpl
 import io.golos.data.persistence.user_keys_store.UserKeyStoreImpl
-import io.golos.cyber_android.ui.utils.FromSpannedToHtmlTransformerImpl
-import io.golos.cyber_android.ui.utils.HtmlToSpannableTransformerImpl
-import io.golos.cyber_android.ui.utils.ImageCompressorImpl
+import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
+import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
+import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
 import io.golos.domain.api.AuthApi
 import io.golos.data.api.auth.AuthApiImpl
 import io.golos.data.api.communities.CommunitiesApi

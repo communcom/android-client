@@ -12,10 +12,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.databinding.DialogPostFiltersBinding
-import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.mvvm.DialogBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.mvvm.DialogBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.dialog_post_filters.*
 
 class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersViewModel>() {

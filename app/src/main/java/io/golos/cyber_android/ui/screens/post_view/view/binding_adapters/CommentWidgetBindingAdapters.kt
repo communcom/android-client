@@ -3,9 +3,9 @@ package io.golos.cyber_android.ui.screens.post_view.view.binding_adapters
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.common.extensions.parentActivity
-import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
-import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
+import io.golos.cyber_android.ui.shared.extensions.parentActivity
+import io.golos.cyber_android.ui.shared.widgets.CommentWidgetEdit
+import io.golos.cyber_android.ui.shared.widgets.CommentWidgetNew
 import io.golos.cyber_android.ui.screens.post_view.dto.EditReplyCommentSettings
 
 /**

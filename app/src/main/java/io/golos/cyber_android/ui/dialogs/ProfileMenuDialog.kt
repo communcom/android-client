@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.dto.ProfileItem
-import io.golos.cyber_android.ui.utils.setDrawableToEnd
+import io.golos.cyber_android.ui.shared.utils.setDrawableToEnd
 import kotlinx.android.synthetic.main.dialog_profile_menu.*
 
 class ProfileMenuDialog : BottomSheetDialogFragmentBase() {

@@ -47,7 +47,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="F.F. Preobrajensky" />
 
-                <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                     android:id="@+id/backButton"
 
                     android:layout_width="@dimen/size_image_button"
@@ -210,7 +210,7 @@
                 android:visibility="@{viewModel.followingsVisibility}"
             />
 
-            <io.golos.cyber_android.ui.common.widgets.lists.NoDataStub
+            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
                 android:id="@+id/noDataStub"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_followers_no_data_height"

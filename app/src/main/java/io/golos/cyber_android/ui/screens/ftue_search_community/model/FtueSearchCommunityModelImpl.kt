@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.model
 
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.FtueBoardStageDomain

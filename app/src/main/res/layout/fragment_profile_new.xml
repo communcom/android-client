@@ -44,7 +44,7 @@
                         app:cover="@{viewModel.coverUrl}"
                         tools:ignore="ContentDescription" />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/backButton"
 
                         android:layout_width="@dimen/size_image_button"
@@ -63,7 +63,7 @@
                         android:onClick="@{() -> viewModel.onBackButtonClick()}"
                     />
 
-                    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/menuButton"
 
                         android:layout_width="@dimen/size_image_button"
@@ -402,7 +402,7 @@
             android:visibility="@{viewModel.loadingProgressVisibility}"
             tools:visibility="visible"/>
 
-        <io.golos.cyber_android.ui.common.widgets.NoConnectionWidget
+        <io.golos.cyber_android.ui.shared.widgets.NoConnectionWidget
             android:id="@+id/noConnection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

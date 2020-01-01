@@ -9,9 +9,9 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.common.base.FragmentBase
-import io.golos.cyber_android.ui.common.extensions.safeNavigate
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.extensions.safeNavigate
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.screens.login_activity.AuthViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up_key.*
 import javax.inject.Inject

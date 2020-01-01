@@ -25,19 +25,19 @@
                 android:layout_marginBottom="@dimen/navigation_bottom_menu_widget_height"
                 android:overScrollMode="never" />
 
-            <io.golos.cyber_android.ui.common.widgets.RoundedView
+            <io.golos.cyber_android.ui.shared.widgets.RoundedView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/navigation_bottom_menu_widget_height"
                 android:layout_gravity="bottom"
                 app:topLeftCornerRadius="32dp"
                 app:topRightCornerRadius="32dp">
 
-                <io.golos.cyber_android.ui.common.widgets.NavigationBottomMenuWidget
+                <io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
                     android:id="@+id/navigationMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            </io.golos.cyber_android.ui.common.widgets.RoundedView>
+            </io.golos.cyber_android.ui.shared.widgets.RoundedView>
 
         </FrameLayout>
 

@@ -1,4 +1,4 @@
-<io.golos.cyber_android.ui.common.widgets.EditorWidget
+<io.golos.cyber_android.ui.shared.widgets.EditorWidget
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/editorWidget"
         android:background="@color/white"

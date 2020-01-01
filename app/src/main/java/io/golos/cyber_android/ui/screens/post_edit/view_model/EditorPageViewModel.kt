@@ -7,10 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain

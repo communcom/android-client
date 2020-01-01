@@ -6,7 +6,7 @@
     android:layout_height="@dimen/post_viewer_header_height"
     android:orientation="vertical">
 
-    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
         android:id="@+id/backButton"
         android:layout_width="@dimen/post_viewer_header_tool_button_size"
         android:layout_height="@dimen/post_viewer_header_tool_button_size"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toStartOf="@+id/menuButton"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
         android:id="@+id/menuButton"
         android:layout_width="@dimen/post_viewer_header_tool_button_size"
         android:layout_height="@dimen/post_viewer_header_tool_button_size"

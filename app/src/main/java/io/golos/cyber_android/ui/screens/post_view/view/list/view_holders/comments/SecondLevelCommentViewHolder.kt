@@ -10,7 +10,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLevelCommentListItem
-import io.golos.cyber_android.ui.common.widgets.post_comments.VotingWidget
+import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import kotlinx.android.synthetic.main.item_post_comment.view.*

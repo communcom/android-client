@@ -49,7 +49,7 @@
             android:layout_marginTop="@dimen/margin_top_primary_secondary_text"
             app:layout_constraintTop_toBottomOf="@+id/primaryText"/>
 
-    <io.golos.cyber_android.ui.common.widgets.ButtonWithHintWidget
+    <io.golos.cyber_android.ui.shared.widgets.ButtonWithHintWidget
             android:id="@+id/moveToPasscodeButton"
 
             android:layout_width="0dp"

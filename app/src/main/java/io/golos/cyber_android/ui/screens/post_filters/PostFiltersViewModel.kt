@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.post_filters
 
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.utils.toLiveData
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.flow.first

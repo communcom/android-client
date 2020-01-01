@@ -8,7 +8,7 @@
     android:paddingStart="@dimen/post_content_border_horizontal"
     android:paddingEnd="@dimen/post_content_border_horizontal">
 
-    <io.golos.cyber_android.ui.common.widgets.post_comments.VotingWidget
+    <io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
         android:id="@+id/votesArea"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"

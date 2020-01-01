@@ -61,7 +61,7 @@
             app:layout_constraintTop_toTopOf="@id/dotsIndicator"
             tools:visibility="visible" />
 
-        <io.golos.cyber_android.ui.common.widgets.ExtendViewPager
+        <io.golos.cyber_android.ui.shared.widgets.ExtendViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"

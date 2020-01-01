@@ -9,8 +9,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListComponent
 import io.golos.cyber_android.databinding.FragmentCommunityLeadsBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListListAdapter
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view_model.LeadsListViewModel
 import kotlinx.android.synthetic.main.fragment_community_leads.*

@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.dto
 
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.domain.dto.UserDomain

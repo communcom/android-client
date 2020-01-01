@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.widgets.post_comments.*
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import io.golos.domain.use_cases.post.post_dto.*

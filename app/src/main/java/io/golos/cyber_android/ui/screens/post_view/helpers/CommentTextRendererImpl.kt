@@ -7,9 +7,9 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.extensions.getColorRes
-import io.golos.cyber_android.ui.common.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.common.spans.LinkClickableSpan
+import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*

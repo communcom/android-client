@@ -15,9 +15,9 @@ import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComp
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
-import io.golos.cyber_android.ui.common.widgets.CommentWidgetEdit
-import io.golos.cyber_android.ui.common.widgets.CommentWidgetNew
-import io.golos.cyber_android.ui.common.widgets.pin.PinDigit
+import io.golos.cyber_android.ui.shared.widgets.CommentWidgetEdit
+import io.golos.cyber_android.ui.shared.widgets.CommentWidgetNew
+import io.golos.cyber_android.ui.shared.widgets.pin.PinDigit
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent

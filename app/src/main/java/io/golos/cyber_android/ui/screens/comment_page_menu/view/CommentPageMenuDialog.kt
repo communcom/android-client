@@ -4,8 +4,8 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuModelListEventProcessor

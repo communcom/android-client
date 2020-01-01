@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.Tags
-import io.golos.cyber_android.ui.common.base.ActivityBase
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.base.ActivityBase
 
 class PostActivity : ActivityBase() {
 

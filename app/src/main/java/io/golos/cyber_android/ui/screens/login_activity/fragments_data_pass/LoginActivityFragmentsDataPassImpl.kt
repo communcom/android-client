@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass
 
-import io.golos.cyber_android.ui.common.fragments_data_pass.FragmentsDataPassBase
+import io.golos.cyber_android.ui.shared.fragments_data_pass.FragmentsDataPassBase
 import io.golos.cyber_android.ui.dto.QrCodeContent
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import javax.inject.Inject

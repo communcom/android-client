@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactory
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ActivityViewModelFactoryImpl
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactoryImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.main_activity.model.MainModel
 import io.golos.cyber_android.ui.screens.main_activity.model.MainModelImpl
 import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel

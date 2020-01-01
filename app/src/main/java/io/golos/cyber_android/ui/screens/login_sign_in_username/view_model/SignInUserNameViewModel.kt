@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.Lazy
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.extensions.getFormattedString
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.common.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.extensions.getFormattedString
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizer

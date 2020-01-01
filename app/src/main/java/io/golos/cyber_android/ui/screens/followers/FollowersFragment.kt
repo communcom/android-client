@@ -10,11 +10,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.followers.di.FollowersFragmentComponent
 import io.golos.cyber_android.databinding.FragmentFollowersBinding
-import io.golos.cyber_android.ui.common.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.common.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.common.paginator.Paginator
-import io.golos.cyber_android.ui.utils.debounce
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.paginator.Paginator
+import io.golos.cyber_android.ui.shared.utils.debounce
 import kotlinx.android.synthetic.main.fragment_followers.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*

@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactory
-import io.golos.cyber_android.ui.common.mvvm.viewModel.FragmentViewModelFactoryImpl
-import io.golos.cyber_android.ui.common.mvvm.viewModel.ViewModelKey
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModel
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.SelectCommunityDialogModelImpl
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel

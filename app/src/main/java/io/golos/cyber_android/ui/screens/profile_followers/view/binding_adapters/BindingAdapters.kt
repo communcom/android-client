@@ -2,12 +2,10 @@ package io.golos.cyber_android.ui.screens.profile_followers.view.binding_adapter
 
 import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.common.extensions.parentActivity
+import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import io.golos.cyber_android.ui.dto.FollowersFilter
-import io.golos.cyber_android.ui.common.widgets.lists.NoDataStub
 
 @BindingAdapter("filterFollowers")
 fun setFollowersFilterBinding(view: ToggleButton, dataSource: MutableLiveData<FollowersFilter>?) {

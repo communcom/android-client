@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity.model
 
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.repositories.UsersRepository
 import javax.inject.Inject
 

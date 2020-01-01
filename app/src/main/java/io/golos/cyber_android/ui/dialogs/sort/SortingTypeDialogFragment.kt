@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.widgets.sorting.SortingType
-import io.golos.cyber_android.ui.common.widgets.sorting.TimeFilter
-import io.golos.cyber_android.ui.common.widgets.sorting.TrendingSort
+import io.golos.cyber_android.ui.shared.widgets.sorting.SortingType
+import io.golos.cyber_android.ui.shared.widgets.sorting.TimeFilter
+import io.golos.cyber_android.ui.shared.widgets.sorting.TrendingSort
 import kotlinx.android.synthetic.main.dialog_sorting_type.*
 
 class SortingTypeDialogFragment : BottomSheetDialogFragment() {

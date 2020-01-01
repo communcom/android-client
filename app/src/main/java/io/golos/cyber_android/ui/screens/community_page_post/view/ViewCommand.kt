@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page_post.view
 
-import io.golos.cyber_android.ui.common.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.TimeConfigurationDomain

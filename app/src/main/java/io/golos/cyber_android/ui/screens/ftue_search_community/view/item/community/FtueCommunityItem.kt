@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.formatters.counts.KiloCounterFormatter
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*

@@ -14,7 +14,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
         android:id="@+id/upvoteButton"
 
         android:layout_width="@dimen/post_controls_vote_buttons_size"
@@ -45,7 +45,7 @@
         tools:text="1205"
         />
 
-    <io.golos.cyber_android.ui.common.widgets.ImageButtonFixedIconSize
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
         android:id="@+id/downvoteButton"
 
         android:layout_width="@dimen/post_controls_vote_buttons_size"

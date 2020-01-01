@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holde
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.RetryListItem
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_retry_list_item.view.*

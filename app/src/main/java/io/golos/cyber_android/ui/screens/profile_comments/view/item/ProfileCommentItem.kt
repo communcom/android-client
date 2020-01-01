@@ -8,11 +8,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.base.adapter.BaseRecyclerItem
-import io.golos.cyber_android.ui.common.base.adapter.RecyclerAdapter
-import io.golos.cyber_android.ui.common.glide.loadAvatar
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.common.widgets.post_comments.items.*
+import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
+import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.shared.glide.loadAvatar
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.dto.Author
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem

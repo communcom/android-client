@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.model
 
 import androidx.lifecycle.LiveData
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.ListWorkerBase
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.communities.ListWorkerCommunities

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.utils.TextWatcherBase
+import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.dailog_text_and_link.view.*
 
 class TextAndLinkDialogView

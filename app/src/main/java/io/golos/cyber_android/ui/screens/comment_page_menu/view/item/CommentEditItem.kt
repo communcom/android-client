@@ -2,11 +2,11 @@ package io.golos.cyber_android.ui.screens.comment_page_menu.view.item
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuModelListEventProcessor
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentEditListItem
-import io.golos.cyber_android.ui.utils.setDrawableToEnd
-import io.golos.cyber_android.ui.utils.setStyle
+import io.golos.cyber_android.ui.shared.utils.setDrawableToEnd
+import io.golos.cyber_android.ui.shared.utils.setStyle
 import kotlinx.android.synthetic.main.item_post_menu.view.*
 
 class CommentEditItem(

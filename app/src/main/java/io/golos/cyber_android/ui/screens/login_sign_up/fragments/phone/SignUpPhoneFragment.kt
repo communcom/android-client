@@ -22,12 +22,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.common.extensions.moveCursorToTheEnd
-import io.golos.cyber_android.ui.common.extensions.safeNavigate
+import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
+import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
-import io.golos.cyber_android.ui.utils.ViewUtils
-import io.golos.cyber_android.ui.utils.openWebPage
+import io.golos.cyber_android.ui.shared.utils.ViewUtils
+import io.golos.cyber_android.ui.shared.utils.openWebPage
 import io.golos.domain.dto.CountryEntity
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.*

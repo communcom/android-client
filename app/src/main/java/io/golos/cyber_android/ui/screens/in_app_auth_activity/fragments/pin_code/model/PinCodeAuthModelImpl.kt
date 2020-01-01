@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.model
 
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.common.widgets.pin.Digit
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.widgets.pin.Digit
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.Encryptor
 import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade

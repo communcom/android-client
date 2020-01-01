@@ -7,9 +7,9 @@ import androidx.annotation.ColorInt
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.characters.SpecialChars
-import io.golos.cyber_android.ui.common.extensions.getColorRes
-import io.golos.cyber_android.ui.common.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.characters.SpecialChars
+import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLevelCommentCollapsedListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import kotlinx.android.synthetic.main.item_post_comment_second_level_collapsed.view.*

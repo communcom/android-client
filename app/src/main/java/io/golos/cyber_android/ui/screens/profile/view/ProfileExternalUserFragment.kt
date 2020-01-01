@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.Tags
+import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent

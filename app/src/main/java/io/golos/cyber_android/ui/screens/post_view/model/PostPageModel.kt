@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.post_view.model
 
 import androidx.lifecycle.LiveData
-import io.golos.cyber_android.ui.common.mvvm.model.ModelBase
-import io.golos.cyber_android.ui.common.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType

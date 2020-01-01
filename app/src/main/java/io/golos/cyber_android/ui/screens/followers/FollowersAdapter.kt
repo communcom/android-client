@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.common.paginator.PaginalAdapter
-import io.golos.utils.SPACE
+import io.golos.cyber_android.ui.shared.paginator.PaginalAdapter
 import kotlinx.android.synthetic.main.item_followers.view.*
 
 class FollowersAdapter : PaginalAdapter<Follower>() {

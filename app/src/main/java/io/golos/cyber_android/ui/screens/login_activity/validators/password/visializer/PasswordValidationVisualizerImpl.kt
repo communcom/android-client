@@ -4,7 +4,7 @@ import android.content.Context
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidator
-import io.golos.cyber_android.ui.utils.getFormattedString
+import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import javax.inject.Inject
 
 class PasswordValidationVisualizerImpl
