@@ -7,7 +7,8 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
 import io.golos.data.mappers.*
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.data.network_state.NetworkStateChecker
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
@@ -20,14 +21,14 @@ import javax.inject.Inject
 
 class UsersRepositoryImpl
 @Inject constructor(
-    appContext: Context,
     private val usersApi: UsersApi,
     private val dispatchersProvider: DispatchersProvider,
+    networkStateChecker: NetworkStateChecker,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepository,
     private val userKeyStore: UserKeyStore,
     private val keyValueStorageFacade: KeyValueStorageFacade
-) : RepositoryBase(appContext, dispatchersProvider),
+) : RepositoryBase(dispatchersProvider, networkStateChecker),
     UsersRepository {
 
     override suspend fun clearCurrentUserData() {

@@ -5,6 +5,7 @@ import io.golos.commun4j.Commun4j
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
 import io.golos.data.mappers.mapToBCProfileDomain
+import io.golos.data.network_state.NetworkStateChecker
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.UserIdDomain
@@ -14,10 +15,10 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl
 @Inject constructor(
-    appContext: Context,
     dispatchersProvider: DispatchersProvider,
+    networkStateChecker: NetworkStateChecker,
     private val commun4j: Commun4j
-) : RepositoryBase(appContext, dispatchersProvider),
+) : RepositoryBase(dispatchersProvider, networkStateChecker),
     AuthRepository {
 
     override suspend fun auth(userName: String, secret: String, signedSecret: String): AuthResultDomain =

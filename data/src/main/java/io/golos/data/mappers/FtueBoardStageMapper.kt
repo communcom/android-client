@@ -1,6 +1,6 @@
 package io.golos.data.mappers
 
-import io.golos.data.dto.FtueBoardStageEntity
+import io.golos.domain.dto.FtueBoardStageEntity
 import io.golos.domain.dto.FtueBoardStageDomain
 
 fun FtueBoardStageEntity.mapToFtueBoardStageDomain(): FtueBoardStageDomain {

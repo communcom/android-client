@@ -5,9 +5,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
+import io.golos.cyber_android.ui.screens.login_activity.view.LoginActivity
 import io.golos.domain.DispatchersProvider
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext

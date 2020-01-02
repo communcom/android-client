@@ -4,20 +4,22 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import io.golos.cyber_android.ui.screens.login_activity.model.LoginModel
+import io.golos.cyber_android.ui.screens.login_activity.model.LoginModelImpl
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactoryImpl
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
-import io.golos.cyber_android.ui.screens.login_activity.AuthViewModel
-import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPass
-import io.golos.cyber_android.ui.screens.login_activity.fragments_data_pass.LoginActivityFragmentsDataPassImpl
-import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidator
-import io.golos.cyber_android.ui.screens.login_activity.validators.password.validator.PasswordValidatorImpl
-import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizer
-import io.golos.cyber_android.ui.screens.login_activity.validators.password.visializer.PasswordValidationVisualizerImpl
-import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidator
-import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.validator.UserNameValidatorImpl
-import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.vizualizer.UserNameValidationVisualizer
-import io.golos.cyber_android.ui.screens.login_activity.validators.user_name.vizualizer.UserNameValidationVisualizerImpl
+import io.golos.cyber_android.ui.screens.login_activity.view_model.LoginViewModel
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPassImpl
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.validator.PasswordValidator
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.validator.PasswordValidatorImpl
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.visializer.PasswordValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.visializer.PasswordValidationVisualizerImpl
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidator
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidatorImpl
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizerImpl
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.SignUpCountryModel
@@ -32,6 +34,8 @@ import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeModelImpl
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification.SignUpVerificationViewModel
 import io.golos.domain.dependency_injection.scopes.ActivityScope
+import io.golos.use_cases.auth.AuthUseCase
+import io.golos.use_cases.auth.AuthUseCaseImpl
 
 @Suppress("unused")
 @Module
@@ -51,8 +55,14 @@ abstract class LoginActivityModuleBinds {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AuthViewModel::class)
-    abstract fun provideAuthViewModel(model: AuthViewModel): ViewModel
+    @ViewModelKey(LoginViewModel::class)
+    abstract fun provideLoginViewModel(model: LoginViewModel): ViewModel
+
+    @Binds
+    abstract fun provideModel(model: LoginModelImpl): LoginModel
+
+    @Binds
+    abstract fun provideAuthUseCase(useCase: AuthUseCaseImpl): AuthUseCase
 
     @Binds
     @IntoMap

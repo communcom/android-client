@@ -2,7 +2,7 @@ package io.golos.data.encryption.aes
 
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.KeyValueStorageFacade
 import java.lang.UnsupportedOperationException
 import java.security.Key
 import javax.crypto.Cipher

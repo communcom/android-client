@@ -25,12 +25,12 @@ constructor(
 ) : ViewModel(), CoroutineScope {
     private val scopeJob: Job = SupervisorJob()
 
-    @Suppress("UNCHECKED_CAST")
-    protected val model: TModel = _model ?: ModelBaseImpl() as TModel
-
     private val errorHandler = CoroutineExceptionHandler { _, exception ->
         handleError(exception)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    protected val model: TModel = _model ?: ModelBaseImpl() as TModel
 
     /**
      * Context of this scope.
@@ -56,7 +56,7 @@ constructor(
         super.onCleared()
     }
 
-    protected fun handleError(error: Throwable){
+    private fun handleError(error: Throwable){
         Timber.e(error)
         _command.value = ShowMessageResCommand(R.string.loading_error)
     }

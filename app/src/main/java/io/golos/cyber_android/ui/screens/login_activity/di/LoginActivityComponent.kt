@@ -2,13 +2,12 @@ package io.golos.cyber_android.ui.screens.login_activity.di
 
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
-import io.golos.cyber_android.ui.screens.login_activity.LoginActivity
+import io.golos.cyber_android.ui.screens.login_activity.view.LoginActivity
 import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.key.SignUpKeyFragment
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view.SignUpProtectionKeysFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
@@ -38,6 +37,5 @@ interface LoginActivityComponent {
     fun inject(fragment: SignUpVerificationFragment)
     fun inject(fragment: SignUpCountryFragment)
     fun inject(fragment: FingerprintFragment)
-    fun inject(fragment: SignUpKeyFragment)
     fun inject(fragment: PinCodeFragment)
 }

@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.commun4j.services.model.UserRegistrationStateResult
 import io.golos.data.api.registration.RegistrationApi
-import io.golos.data.dto.FtueBoardStageEntity
+import io.golos.domain.dto.FtueBoardStageEntity
 import io.golos.data.errors.CyberToAppErrorMapper
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository

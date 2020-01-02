@@ -40,7 +40,7 @@ constructor(
                     post.author.avatarUrl
                 ),
                 CommunityModel(
-                    CommunityId(post.community.id),
+                    CommunityId(""/*post.community.id*/),
                     post.community.name,
                     post.community.avatarUrl,
                     post.community.isSubscribed
@@ -76,7 +76,7 @@ constructor(
                 post.author.avatarUrl
             ),
             CommunityModel(
-                CommunityId(post.community.id),
+                CommunityId(""/*,post.community.id*/),
                 post.community.name,
                 post.community.avatarUrl,
                 post.community.isSubscribed

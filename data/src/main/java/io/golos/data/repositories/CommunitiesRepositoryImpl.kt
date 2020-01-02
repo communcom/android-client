@@ -9,7 +9,8 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.*
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.data.network_state.NetworkStateChecker
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
@@ -21,14 +22,14 @@ import javax.inject.Inject
 class CommunitiesRepositoryImpl
 @Inject
 constructor(
-    appContext: Context,
     private val communitiesApi: CommunitiesApi,
     private val dispatchersProvider: DispatchersProvider,
+    networkStateChecker: NetworkStateChecker,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val userKeyStore: UserKeyStore,
     private val keyValueStorageFacade: KeyValueStorageFacade
-) : RepositoryBase(appContext, dispatchersProvider),
+) : RepositoryBase(dispatchersProvider, networkStateChecker),
     CommunitiesRepository {
 
     override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {

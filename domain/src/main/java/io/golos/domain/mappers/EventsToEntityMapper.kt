@@ -3,6 +3,7 @@ package io.golos.domain.mappers
 import io.golos.commun4j.services.model.*
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
+import java.lang.UnsupportedOperationException
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -143,6 +144,7 @@ constructor() : EventsToEntityMapper {
     )
     private fun Value.toEventValue() =
         EventValueEntity(this.amount, this.currency)
-    private fun CyberCommunity.toEntity() =
-        CommunityEntity.fromCyber(this)
+
+    private fun CyberCommunity.toEntity() = CommunityEntity("", null, "", null, null, 0, 0, false)
+        //CommunityEntity.fromCyber(this)
 }

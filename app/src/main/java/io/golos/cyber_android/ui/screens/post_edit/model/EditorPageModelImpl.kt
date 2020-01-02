@@ -14,13 +14,13 @@ import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.dto.ValidationResult
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
-import io.golos.data.dto.block.ContentBlockEntity
-import io.golos.data.dto.block.ListContentBlockEntity
+import io.golos.domain.dto.block.ContentBlockEntity
+import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain

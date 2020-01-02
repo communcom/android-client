@@ -1,20 +1,23 @@
 package io.golos.domain.dto
 
-import io.golos.commun4j.services.model.CyberCommunity
-import io.golos.domain.Entity
+import com.squareup.moshi.Json
 
-/**
- * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
- */
-data class CommunityEntity(
-    val id: String,
+
+data class CommunityEntity (
+    @Json(name = "community_id")
+    val communityId: String,
+    @Json(name = "alias")
+    val alias: String?,
+    @Json(name = "name")
     val name: String,
+    @Json(name = "avatar_url")
     val avatarUrl: String?,
+    @Json(name = "cover_url")
+    val coverUrl: String?,
+    @Json(name = "subscribers_count")
+    val subscribersCount: Int,
+    @Json(name = "posts_count")
+    val postsCount: Int,
+    @Json(name = "is_subscribed")
     val isSubscribed: Boolean
-) : Entity {
-    companion object {
-        fun fromCyber(cyberObject: CyberCommunity) =
-            CommunityEntity(cyberObject.communityId, cyberObject.name!!, cyberObject.avatarUrl, cyberObject.isSubscribed ?: false)
-    }
-}
-
+)

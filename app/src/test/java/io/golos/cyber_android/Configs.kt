@@ -9,7 +9,7 @@
 //import io.golos.cyber_android.application.AppCore
 //import io.golos.cyber_android.interactors.CountriesChooserUseCaseTest
 //import io.golos.cyber_android.application.locator.RepositoriesHolder
-//import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+//import io.golos.domain.KeyValueStorageFacade
 //import io.golos.cyber_android.ui.utils.ImageCompressorImpl
 //import io.golos.data.api.Cyber4jApiService
 //import io.golos.data.errors.CyberToAppErrorMapperImpl

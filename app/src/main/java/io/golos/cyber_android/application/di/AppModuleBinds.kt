@@ -47,7 +47,9 @@ import io.golos.data.api.vote.VoteApiImpl
 import io.golos.data.encryption.rsa.EncryptorRSA
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.data.network_state.NetworkStateChecker
+import io.golos.data.network_state.NetworkStateCheckerImpl
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.data.persistence.key_value_storage.KeyValueStorageFacadeImpl
 import io.golos.data.persistence.key_value_storage.storages.StorageOperationsInstance
 import io.golos.data.persistence.key_value_storage.storages.combined.CombinedStorage
@@ -323,4 +325,7 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideClipboardUtils(utils: ClipboardUtilsImpl): ClipboardUtils
+
+    @Binds
+    abstract fun provideNetworkStateChecker(checker: NetworkStateCheckerImpl): NetworkStateChecker
 }

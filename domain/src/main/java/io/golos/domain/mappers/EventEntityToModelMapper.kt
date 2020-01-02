@@ -142,7 +142,7 @@ constructor() : EventEntityToModelMapper {
     private fun EventValueEntity.toModelValue() =
         EventValueModel(this.amount, this.currency)
     private fun CommunityEntity.toModel() = CommunityModel(
-        CommunityId(this.id),
+        CommunityId(""/*this.id*/),
         this.name,
         this.avatarUrl,
         this.isSubscribed

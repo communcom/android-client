@@ -10,8 +10,9 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.data.dto.block.ListContentBlockEntity
+import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.data.mappers.*
+import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
@@ -35,8 +36,8 @@ import javax.inject.Inject
 class DiscussionRepositoryImpl
 @Inject
 constructor(
-    appContext: Context,
     dispatchersProvider: DispatchersProvider,
+    networkStateChecker: NetworkStateChecker,
     private val discussionsApi: DiscussionsApi,
     private val postToEntityMapper: CyberPostToEntityMapper,
     private val postToModelMapper: PostEntitiesToModelMapper,
@@ -46,9 +47,9 @@ constructor(
     private val userKeyStore: UserKeyStore,
     private val moshi: Moshi
 ) : DiscussionCreationRepositoryBase(
-    appContext,
     dispatchersProvider,
     discussionsApi,
+    networkStateChecker,
     transactionsApi
 ), DiscussionRepository {
 

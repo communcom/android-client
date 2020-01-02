@@ -9,9 +9,9 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInUserNameModel
 import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInUserNameModelImpl
-import io.golos.cyber_android.ui.screens.login_sign_in_username.model.auth.AuthUseCase
-import io.golos.cyber_android.ui.screens.login_sign_in_username.model.auth.AuthUseCaseImpl
 import io.golos.cyber_android.ui.screens.login_sign_in_username.view_model.SignInUserNameViewModel
+import io.golos.use_cases.auth.AuthUseCase
+import io.golos.use_cases.auth.AuthUseCaseImpl
 
 @Module
 abstract class SignInUserNameFragmentModuleBinds {
@@ -25,7 +25,4 @@ abstract class SignInUserNameFragmentModuleBinds {
 
     @Binds
     abstract fun provideSignInModel(model: SignInUserNameModelImpl): SignInUserNameModel
-
-    @Binds
-    abstract fun provideAuthUseCase(useCase: AuthUseCaseImpl): AuthUseCase
 }

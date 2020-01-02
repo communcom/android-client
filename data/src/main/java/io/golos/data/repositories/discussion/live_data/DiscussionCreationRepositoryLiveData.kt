@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
+import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.repositories.discussion.DiscussionCreationRepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -27,15 +28,15 @@ import kotlin.collections.HashMap
 class DiscussionCreationRepositoryLiveData
 @Inject
 constructor(
-    appContext: Context,
     discussionsCreationApi: DiscussionsApi,
     transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
+    networkStateChecker: NetworkStateChecker,
     private val toAppErrorMapper: CyberToAppErrorMapper
 ) : DiscussionCreationRepositoryBase(
-    appContext,
     dispatchersProvider,
     discussionsCreationApi,
+    networkStateChecker,
     transactionsApi
 ), Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
 

@@ -29,8 +29,14 @@ constructor() : CyberPostToEntityMapper {
             CommunityEntity(
                 communObject.community.communityId,
                 communObject.community.name!!,
-                communObject.community.avatarUrl,
-                communObject.community.isSubscribed ?: false
+                "",
+                "",
+                "",
+                0,
+                0,
+                false
+//                communObject.community.avatarUrl,
+//                communObject.community.isSubscribed ?: false
             ),
             PostContent(
                 ContentBody(jsonMapper.map(communObject.content)),

@@ -1,6 +1,6 @@
 package io.golos.data.mappers
 
-import io.golos.data.dto.block.*
+import io.golos.domain.dto.block.*
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.post_dto.*
 

@@ -1,6 +1,6 @@
 package io.golos.data.mappers
 
-import io.golos.data.dto.CommunityEntity
+import io.golos.domain.dto.CommunityEntity
 import io.golos.domain.dto.CommunityDomain
 
 fun List<CommunityDomain>.mapToCommunityEntityList(): List<CommunityEntity> = map { community ->

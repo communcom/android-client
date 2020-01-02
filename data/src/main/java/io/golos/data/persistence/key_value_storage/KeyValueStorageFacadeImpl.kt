@@ -1,10 +1,11 @@
 package io.golos.data.persistence.key_value_storage
 
 import com.squareup.moshi.Moshi
-import io.golos.data.dto.CommunityEntity
-import io.golos.data.dto.CommunitySubscriptionsEntity
-import io.golos.data.dto.FtueBoardStageEntity
+import io.golos.domain.dto.CommunityEntity
+import io.golos.domain.dto.CommunitySubscriptionsEntity
+import io.golos.domain.dto.FtueBoardStageEntity
 import io.golos.data.persistence.key_value_storage.storages.Storage
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.UserKeyType
@@ -125,7 +126,8 @@ constructor(
 
     override fun saveFtueCommunitySubscriptions(communitySubscriptions: List<CommunityEntity>) {
         keyValueStorage.update {
-            val communitySubscriptionsEntity = CommunitySubscriptionsEntity(communitySubscriptions)
+            val communitySubscriptionsEntity =
+                CommunitySubscriptionsEntity(communitySubscriptions)
             val adapter = moshi.adapter(CommunitySubscriptionsEntity::class.java)
             val json = adapter.toJson(communitySubscriptionsEntity)
             it.putString("KEY_FTUE_COMMUNITY_SUBSCRIPTIONS", json)

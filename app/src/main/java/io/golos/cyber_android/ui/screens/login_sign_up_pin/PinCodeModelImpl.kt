@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up_pin
 
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
 import io.golos.domain.Encryptor
-import io.golos.data.persistence.key_value_storage.KeyValueStorageFacade
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification

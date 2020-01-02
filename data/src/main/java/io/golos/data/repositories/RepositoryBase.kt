@@ -7,24 +7,19 @@ import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.sharedmodel.GolosEosError
 import io.golos.data.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.mapToApiResponseErrorDomain
+import io.golos.data.network_state.NetworkStateChecker
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.net.SocketTimeoutException
 
 abstract class RepositoryBase(
-    private val appContext: Context,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val networkStateChecker: NetworkStateChecker
 ) {
-    private val isConnected: Boolean
-        get() {
-            val cm = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            return cm.activeNetworkInfo?.isConnected ?: false
-        }
-
     protected suspend fun <TR>apiCall(action: suspend () -> Either<TR, ApiResponseError>): TR =
         try {
-            if(!isConnected) {
+            if(!networkStateChecker.isConnected) {
                 throw SocketTimeoutException("No connection")
             }
 
@@ -38,7 +33,7 @@ abstract class RepositoryBase(
 
     protected suspend fun <TR>apiCallChain(action: suspend () -> Either<TR, GolosEosError>): TR =
         try {
-            if(!isConnected) {
+            if(!networkStateChecker.isConnected) {
                 throw SocketTimeoutException("No connection")
             }
 
