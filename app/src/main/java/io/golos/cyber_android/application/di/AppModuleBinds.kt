@@ -3,8 +3,6 @@ package io.golos.cyber_android.application.di
 import dagger.Binds
 import dagger.Module
 import io.golos.commun4j.Commun4j
-import io.golos.cyber_android.application.AppCore
-import io.golos.cyber_android.application.AppCoreImpl
 import io.golos.cyber_android.application.di_storage.Cyber4JDagger
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
@@ -84,10 +82,6 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCyber(cyber: Cyber4JDagger): Commun4j
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideAppCore(appCore: AppCoreImpl): AppCore
 
     //region Key-value storage
     @Binds

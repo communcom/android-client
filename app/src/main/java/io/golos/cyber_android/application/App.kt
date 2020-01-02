@@ -13,9 +13,6 @@ import javax.inject.Inject
  * Created by yuri yurivladdurain@gmail.com on 2019-03-18.
  */
 class App : Application() {
-    @Inject
-    internal lateinit var appCore: AppCore
-
     @Suppress("PropertyName")
     @Inject
     internal lateinit var timberTree: Timber.Tree
@@ -37,7 +34,5 @@ class App : Application() {
 
         Timber.plant(timberTree)
         Timber.tag(LogTags.NAVIGATION).d("The app is started")
-
-        appCore.initialize()
     }
 }
