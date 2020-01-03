@@ -53,10 +53,6 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
     }
 
     private fun observeViewModel() {
-        viewModel.unreadNotificationsLiveData.observe(this, Observer {
-            refreshNotificationsBadge(it)
-        })
-
         viewModel.getCurrentTabLiveData.observe(this, Observer {
             val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
                     navigationTab.index == it.index
@@ -82,19 +78,12 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
-    private var notificationsBadge: View? = null
-
     private fun addNotificationsBadge() {
 //        val menuView = navigationView.getChildAt(0) as BottomNavigationMenuView
 //        val itemView = menuView.getChildAt(Tab.NOTIFICATIONS.index) as BottomNavigationItemView
 //        notificationsBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false)
 //        notificationsBadge?.visibility = View.GONE
 //        itemView.addView(notificationsBadge)
-    }
-
-    private fun refreshNotificationsBadge(count: Int) {
-        notificationsBadge?.visibility = if (count == 0) View.GONE else View.VISIBLE
-        updatesCount?.text = if (count > 99) "99" else count.toString()
     }
 
     private fun setupPager(user: UserIdDomain) {

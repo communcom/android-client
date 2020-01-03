@@ -10,9 +10,6 @@ import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.use_cases.model.UpdateOption
-import io.golos.domain.use_cases.notifs.events.EventsUseCase
-import io.golos.domain.use_cases.sign.SignInUseCase
 import javax.inject.Inject
 
 class DashboardViewModel
@@ -20,8 +17,6 @@ class DashboardViewModel
 constructor(
     dispatchersProvider: DispatchersProvider,
     dashboardModel: DashboardModel,
-    private val signInUseCase: SignInUseCase,
-    private val eventsUseCase: EventsUseCase,
     private val currentUserRepository: CurrentUserRepositoryRead
 ) : ViewModelBase<DashboardModel>(dispatchersProvider, dashboardModel),
     NavigationBottomMenuWidget.Listener{
@@ -37,8 +32,6 @@ constructor(
 
     val createTabLiveData = _createTabLiveData
 
-    val unreadNotificationsLiveData = eventsUseCase.getUnreadLiveData
-
     val currentUser: UserIdDomain
         get() = currentUserRepository.userId
 
@@ -46,10 +39,6 @@ constructor(
     private val observer = Observer<Any> {}
 
     init {
-        signInUseCase.subscribe()
-        eventsUseCase.subscribe()
-        eventsUseCase.requestUpdate(20, UpdateOption.REFRESH_FROM_BEGINNING)
-
         mediator.observeForever(observer)
     }
 
@@ -71,8 +60,6 @@ constructor(
 
     override fun onCleared() {
         super.onCleared()
-        signInUseCase.unsubscribe()
-        eventsUseCase.unsubscribe()
         mediator.removeObserver(observer)
     }
 }

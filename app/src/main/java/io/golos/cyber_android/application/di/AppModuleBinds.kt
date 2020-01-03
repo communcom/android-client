@@ -133,10 +133,6 @@ abstract class AppModuleBinds {
 
     @Binds
     @ApplicationScope
-    abstract fun provideVoteEntityToPostMapper(mapper: VoteRequestEntityToModelMapperImpl): VoteRequestEntityToModelMapper
-
-    @Binds
-    @ApplicationScope
     abstract fun provideCommentEntityToModelMapper(mapper: CommentEntityToModelMapperImpl): CommentEntityToModelMapper
 
     @Binds

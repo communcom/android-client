@@ -14,21 +14,14 @@ import io.golos.domain.BitmapsUtils
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.dependency_injection.scopes.UIScope
 import io.golos.domain.use_cases.UseCase
-import io.golos.domain.use_cases.action.VoteUseCase
 import io.golos.domain.use_cases.images.ImageUploadUseCase
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.use_cases.notifs.events.EventsUseCase
 import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
 import io.golos.domain.use_cases.reg.SignUpUseCase
-import io.golos.domain.use_cases.sign.SignInUseCase
-import io.golos.domain.mappers.EventEntityToModelMapper
-import io.golos.domain.mappers.EventEntityToModelMapperImpl
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
-import io.golos.domain.requestmodel.EventsListModel
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.requestmodel.VoteRequestModel
 
 @Module
 abstract class UIModuleBinds {
@@ -39,13 +32,7 @@ abstract class UIModuleBinds {
     abstract fun provideUIHelper(helper: UIHelperImpl): UIHelper
 
     @Binds
-    abstract fun provideVoteUseCase(useCase: VoteUseCase): UseCase<MutableMap<DiscussionIdModel, QueryResult<VoteRequestModel>>>
-
-    @Binds
     abstract fun provideDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): UseCase<QueryResult<DiscussionCreationResultModel>>
-
-    @Binds
-    abstract fun provideSignInUseCase(useCase: SignInUseCase): UseCase<UserAuthState>
 
     @Binds
     abstract fun provideSignOnUseCase(useCase: SignUpUseCase): UseCase<UserRegistrationStateModel>
@@ -58,14 +45,7 @@ abstract class UIModuleBinds {
 
     @UIScope
     @Binds
-    abstract fun provideEventEntityToModelMapper(mapper: EventEntityToModelMapperImpl): EventEntityToModelMapper
-
-    @UIScope
-    @Binds
     abstract fun provideCommentToModelMapper(mapper: CommentToModelMapperImpl): CommentToModelMapper
-
-    @Binds
-    abstract fun provideEventsUseCase(useCase: EventsUseCase): UseCase<EventsListModel>
 
     @Binds
     abstract fun provideBitmapUtils(utils: BitmapsUtilsImpl): BitmapsUtils
