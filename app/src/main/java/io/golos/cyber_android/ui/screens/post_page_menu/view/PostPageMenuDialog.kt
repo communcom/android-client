@@ -116,7 +116,7 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
     override fun setupView() {
         postMenu = arguments!!.getParcelable(POST_MENU)
 
-        postMenu?.let { menu ->
+        postMenu.let { menu ->
             val adapter = PostMenuAdapter(this)
             rvMenu.layoutManager = LinearLayoutManager(requireContext())
             rvMenu.adapter = adapter

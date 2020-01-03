@@ -8,5 +8,4 @@ class SignInQrCodeModelImpl
 constructor(
 
 ) : ModelBaseImpl(),
-    SignInQrCodeModel {
-}
+    SignInQrCodeModel

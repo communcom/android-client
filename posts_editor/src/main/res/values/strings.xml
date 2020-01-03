@@ -2,8 +2,4 @@
     <string name="app_name">Posts editor</string>
 
     <string name="description_here_optional">Description here (optional)</string>
-    <string name="uploading">Uploading…</string>
-    <string name="dot">•</string>
-    <string name="pick_location">Pick Location</string>
-    <string name="insert">Insert</string>
 </resources>

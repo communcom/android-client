@@ -8,5 +8,4 @@ import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersEx
     ProfileCommunitiesExternalUserFragmentComponent::class,
     ProfileFollowersExternalUserFragmentComponent::class
 ])
-class ProfileExternalUserFragmentModuleChild {
-}
+class ProfileExternalUserFragmentModuleChild

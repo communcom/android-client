@@ -6,11 +6,9 @@
 
     <color name="blue">#6A80F5</color>
     <color name="red">#FF5959</color>
-    <color name="red_dark">#EB3E32</color>
     <color name="yellow">#FFE066</color>
     <color name="orange">#EEA041</color>
     <color name="green">#9AE189</color>
-    <color name="green_dark">#4CAF50</color>
     <color name="purple">#673AB7</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -18,7 +16,6 @@
     <color name="black_30">#4D000000</color>
     <color name="black_20">#33000000</color>
     <color name="light_gray">#F3F5FA</color>
-    <color name="light_gray_2">#F6F7FB</color>
     <color name="middle_gray">#E5E7ED</color>
     <color name="middle_gray_2">#E5E5E5</color>
     <color name="middle_gray_3">#F5F5F5</color>
@@ -28,21 +25,17 @@
     <color name="blue_40">#666A80F5</color>
     <color name="grey">#A5A7BD</color>
     <color name="blue_light">#d2d9fc</color>
-    <color name="blue_light_2">#94A4FC</color>
-    <color name="blue_dark">#3C57F5</color>
     <color name="white_opacity_50">#80FFFFFF</color>
 
     <color name="pale_black">#8A000000</color>
     <color name="transparent">#00000000</color>
 
-    <color name="bg_post_comment">@color/white</color>
     <color name="bg_dialog_color">@color/white</color>
 
     <color name="light_button">@color/white</color>
     <color name="light_button_pressed">@color/middle_gray_3</color>
 
     <!--List-->
-    <color name="list_item_background">@color/white</color>
 
     <!--Window-->
     <color name="window_background">@color/white</color>
@@ -51,7 +44,6 @@
 
     <color name="select_community_dialog_bcg">@color/window_background_light_gray</color>
     <color name="general_list_bcg">@color/white</color>
-    <color name="select_community_dialog_list_pressed_bcg">@color/select_community_dialog_bcg</color>
 
     <color name="post_counter_text_color">@color/grey</color>
     <color name="post_vote_button_color">#9B9FA2</color>
@@ -68,7 +60,6 @@
     <color name="bottom_sheet_dialog_dangerous">#ED2C5B</color>
 
     <!--Feed-->
-    <color name="feed_status_bar_color">@color/blue</color>
 
     <color name="avatar_frame">@color/blue</color>
 

@@ -6,5 +6,4 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.Communit
 @Module(subcomponents = [
     CommunityPageLeadsListComponent::class
 ])
-class CommunityPageFragmentModuleChild {
-}
+class CommunityPageFragmentModuleChild

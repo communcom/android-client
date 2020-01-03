@@ -9,9 +9,9 @@ class ExtendViewPager : ViewPager {
 
     var isPagingEnabled = true
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return this.isPagingEnabled && super.onTouchEvent(event)

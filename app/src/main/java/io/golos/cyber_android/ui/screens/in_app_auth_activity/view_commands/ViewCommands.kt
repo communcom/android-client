@@ -11,4 +11,4 @@ class SwitchToFingerprintCommand: ViewCommand
 
 class SetPinCodeDigitCommand(val digit: Digit): ViewCommand
 
-class ResetPinCommand(): ViewCommand
+class ResetPinCommand : ViewCommand

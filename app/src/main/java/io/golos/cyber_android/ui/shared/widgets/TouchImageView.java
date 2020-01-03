@@ -50,7 +50,7 @@ public class TouchImageView extends AppCompatImageView {
     // saved prior to the screen rotating.
     //
     private Matrix matrix, prevMatrix;
-    private State state;;
+    private State state;
     private float minScale;
     private float maxScale;
     private float superMinScale;
@@ -720,11 +720,8 @@ public class TouchImageView extends AppCompatImageView {
         } else if (x >= -1 && direction < 0) {
             return false;
 
-        } else if (Math.abs(x) + viewWidth + 1 >= getImageWidth() && direction > 0) {
-            return false;
-        }
+        } else return !(Math.abs(x) + viewWidth + 1 >= getImageWidth()) || direction <= 0;
 
-        return true;
     }
 
     private void scaleImage(double deltaScale, float focusX, float focusY, boolean stretchImageToSuper) {
@@ -808,10 +805,10 @@ public class TouchImageView extends AppCompatImageView {
         Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
     }
 
-private static enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM }
+private enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM }
 
     public interface OnTouchImageViewListener {
-        public void onMove();
+        void onMove();
     }
 
     /**
@@ -1132,7 +1129,7 @@ private static enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM }
                 minY = maxY = startY;
             }
 
-            scroller.fling(startX, startY, (int) velocityX, (int) velocityY, minX,
+            scroller.fling(startX, startY, velocityX, velocityY, minX,
                     maxX, minY, maxY);
             currX = startX;
             currY = startY;

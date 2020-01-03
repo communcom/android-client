@@ -8,5 +8,4 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code
     FingerprintAuthFragmentComponent::class,
     PinCodeAuthFragmentComponent::class
 ])
-class InAppAuthActivityModuleChilds {
-}
+class InAppAuthActivityModuleChilds

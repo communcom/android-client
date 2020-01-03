@@ -13,29 +13,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.LoginActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="customLayoutStyle">
-        <item name="android:background">#f2f2f2</item>
-    </style>
-
-
-    <style name="EditScreenTextInputLayoutStyle" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-        <item name="colorAccent">@color/white</item>
-        <item name="android:textColorHint">@color/white</item>
-    </style>
 
     <style name="WysiwygEditText">
         <item name="android:lineSpacingMultiplier">1.3</item>
@@ -55,10 +35,6 @@
         <item name="android:focusableInTouchMode">true</item>
 
         <item name="android:textSize">@dimen/image_description_text</item>
-    </style>
-
-    <style name="DescriptionExternalLink" parent="Description">
-        <item name="android:ellipsize">end</item>
     </style>
 
     <!-- Theme for dialogs on Main screen -->

@@ -92,8 +92,6 @@ constructor(
         val providerName: String,
         @DrawableRes val providerIconResId: Int
     ) {
-        INSTAGRAM("instagram", R.drawable.ic_instagram),
-        TWITTER("twitter", R.drawable.ic_twitter),
         OTHER("", R.drawable.ic_rich_other);
 
         companion object {

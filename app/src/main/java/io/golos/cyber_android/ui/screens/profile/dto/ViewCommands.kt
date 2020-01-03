@@ -7,7 +7,7 @@ import io.golos.domain.dto.UserDomain
 
 class ShowSelectPhotoDialogCommand(val place: ProfileItem): ViewCommand
 
-class ShowEditBioDialogCommand(): ViewCommand
+class ShowEditBioDialogCommand : ViewCommand
 
 class MoveToSelectPhotoPageCommand(val place: ProfileItem, val imageUrl: String?): ViewCommand
 

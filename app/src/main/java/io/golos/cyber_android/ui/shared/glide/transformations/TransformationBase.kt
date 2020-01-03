@@ -6,7 +6,7 @@ import android.os.Build
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 
-abstract class TransformationBase(): BitmapTransformation() {
+abstract class TransformationBase : BitmapTransformation() {
 
     protected fun getAlphaSafeConfig(inBitmap: Bitmap): Bitmap.Config {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

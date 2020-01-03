@@ -22,7 +22,6 @@ import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.shared.utils.*
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.view_notification_badge.*
 
 class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardViewModel>() {
 

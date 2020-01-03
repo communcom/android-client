@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/graph_profile" app:startDestination="@id/profileFragment">
-
-    <fragment android:id="@+id/profileFragment" android:name="io.golos.cyber_android.ui.screens.profile.old_profile.OldProfileFragment"
-              android:label="ProfileFragment"/>
-</navigation>
