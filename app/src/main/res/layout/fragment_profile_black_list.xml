@@ -20,6 +20,7 @@
             app:elevation="0dp"
             android:focusableInTouchMode="true"
             android:focusable="true"
+            android:clickable="true"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
 

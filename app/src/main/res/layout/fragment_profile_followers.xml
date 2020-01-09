@@ -11,9 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
+        android:clickable="true"
+
         android:id="@+id/root"
         tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
-        android:background="@color/white">
+        android:background="@color/white"
+        tools:ignore="KeyboardInaccessibleWidget">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"
