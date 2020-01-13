@@ -27,7 +27,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_post_content" />
+            tools:listitem="@layout/item_post_content"
+            android:nestedScrollingEnabled="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
 
         <include
             android:id="@+id/emptyPostProgressLoading"
