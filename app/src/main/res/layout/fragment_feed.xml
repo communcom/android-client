@@ -35,28 +35,28 @@
                     style="@style/FeedTabLayout"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/feed_tab_height"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivFilters"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/ivFilters"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_filters_36dp"
-                    android:layout_marginBottom="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_12"
+                    android:layout_marginBottom="@dimen/dimen_20"
+                    android:src="@drawable/ic_filters_36dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/feedPager"
+        <FrameLayout
+            android:id="@+id/feedContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"

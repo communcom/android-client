@@ -63,6 +63,7 @@ class MyFeedViewModel @Inject constructor(
 
     init {
         applyFiltersListener()
+        applyChangeTabFilterListener()
 
         paginator.sideEffectListener = {
             when (it) {
@@ -414,6 +415,16 @@ class MyFeedViewModel @Inject constructor(
                         restartLoadPosts()
                     }
                 }
+            }
+        }
+    }
+
+    private fun applyChangeTabFilterListener() {
+        launch {
+            model.openFeedTypeFlow.collect { filter ->
+                Timber.d("FILTER: -> ${filter.name}")
+                paginator.initState(Paginator.State.Empty)
+                restartLoadPosts()
             }
         }
     }

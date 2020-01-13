@@ -21,21 +21,20 @@ class PostFiltersHolder @Inject constructor() {
         openFeedTypeChannel = ConflatedBroadcastChannel(CurrentOpenTypeFeed.MY_FEED)
     }
 
-    suspend fun updateFeedFilters(filters: FeedFilters){
-        if(openFeedTypeChannel.value == CurrentOpenTypeFeed.MY_FEED){
+    suspend fun updateFeedFilters(filters: FeedFilters) {
+        if (openFeedTypeChannel.value == CurrentOpenTypeFeed.MY_FEED) {
             myFeedFilters = filters
-        } else{
+        } else {
             trendingFilters = filters
         }
         feedFiltersChannel.send(filters)
     }
 
-    suspend fun updateOpenFeedType(type: CurrentOpenTypeFeed){
-        val filters: FeedFilters
-        if(type == CurrentOpenTypeFeed.MY_FEED){
-            filters = myFeedFilters
-        } else{
-            filters = trendingFilters
+    suspend fun updateOpenFeedType(type: CurrentOpenTypeFeed) {
+        val filters: FeedFilters = if (type == CurrentOpenTypeFeed.MY_FEED) {
+            myFeedFilters
+        } else {
+            trendingFilters
         }
         openFeedTypeChannel.send(type)
         feedFiltersChannel.send(filters)
@@ -45,8 +44,10 @@ class PostFiltersHolder @Inject constructor() {
 
     val openTypeFeedFlow: Flow<CurrentOpenTypeFeed> = openFeedTypeChannel.asFlow()
 
-    data class FeedFilters(val updateTimeFilter: UpdateTimeFilter,
-                           val periodTimeFilter: PeriodTimeFilter)
+    data class FeedFilters(
+        val updateTimeFilter: UpdateTimeFilter,
+        val periodTimeFilter: PeriodTimeFilter
+    )
 
     enum class UpdateTimeFilter(val value: String) {
         HOT("Hot"), //TOP_REWARDS
@@ -61,7 +62,7 @@ class PostFiltersHolder @Inject constructor() {
         ALL("All time") //ALL
     }
 
-    enum class CurrentOpenTypeFeed{
+    enum class CurrentOpenTypeFeed {
         MY_FEED,
         TRENDING
     }

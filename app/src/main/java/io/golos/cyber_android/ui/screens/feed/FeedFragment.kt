@@ -6,22 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.databinding.FragmentFeedBinding
+import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed_my.view.MyFeedFragment
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowPostFiltersCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.feed_my.view.MyFeedFragment
-import io.golos.cyber_android.ui.screens.feed_trending.TrendingFeedFragment
-import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
-import io.golos.cyber_android.ui.shared.utils.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -54,7 +50,7 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViewPager()
+        setupFragmentContainer()
         setupTabLayout()
         launch {
             ivFilters
@@ -65,33 +61,28 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
         }
     }
 
-    private fun setupViewPager() {
-        feedPager.adapter = object : FragmentStateAdapter(requireFragmentManager(), this.lifecycle) {
-            override fun createFragment(position: Int): Fragment {
-                return when (position) {
-                    FeedTabs.TRENDING.index -> TrendingFeedFragment.newInstance()
-                    FeedTabs.MY_FEED.index -> MyFeedFragment.newInstance()
-                    else -> throw RuntimeException("Unsupported tab")
-                }
-            }
-
-            override fun getItemCount() = FeedTabs.values().size
+    private fun setupFragmentContainer() {
+        if (childFragmentManager.findFragmentByTag(tag) == null) {
+            val beginTransaction = childFragmentManager.beginTransaction()
+            beginTransaction
+                .addToBackStack(null)
+                .add(R.id.feedContainer, MyFeedFragment.newInstance(), tag)
+                .commit()
         }
-        feedPager.reduceDragSensitivity()
     }
 
     private fun setupTabLayout() {
-        TabLayoutMediator(tabLayout, feedPager) { tab, position ->
-            tab.customView =
-                LayoutInflater.from(requireContext()).inflate(R.layout.layout_feed_tab, null) as TextView
-            tab.customView?.findViewById<TextView>(R.id.tvTabText)
-                ?.setText(FeedTabs.values()[position].title)
-        }.attach()
+        tabLayout.addTab(tabLayout.newTab().apply {
+            customView = getCustomView(FeedTabs.MY_FEED)
+            tag = FeedTabs.MY_FEED
+        })
+        tabLayout.addTab(tabLayout.newTab().apply {
+            customView = getCustomView(FeedTabs.TRENDING)
+            tag = FeedTabs.TRENDING
+        })
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
                 setupTab(tab)
@@ -99,10 +90,24 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
 
             override fun onTabSelected(tab: TabLayout.Tab) {
                 setupTab(tab)
+                val currentFeed = when (tab.tag as FeedTabs) {
+                    FeedTabs.MY_FEED -> PostFiltersHolder.CurrentOpenTypeFeed.MY_FEED
+                    FeedTabs.TRENDING -> PostFiltersHolder.CurrentOpenTypeFeed.TRENDING
+                }
+                viewModel.onChangeTabFilter(currentFeed)
             }
 
         })
         setupTabsText()
+    }
+
+    private fun getCustomView(tab: FeedTabs): View {
+        val view = LayoutInflater.from(requireContext()).inflate(
+            R.layout.layout_feed_tab,
+            null
+        ) as TextView
+        view.setText(tab.title)
+        return view
     }
 
     private fun setupTabsText() {
