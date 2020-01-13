@@ -47,9 +47,9 @@ class PostFiltersViewModel @Inject constructor(
 
     fun changeUpdateTimeFilter(filter: PostFiltersHolder.UpdateTimeFilter) {
         _updateTimeFilter.value = filter
-        _filtersMode.value = if(filter == PostFiltersHolder.UpdateTimeFilter.POPULAR){
+        _filtersMode.value = if (filter == PostFiltersHolder.UpdateTimeFilter.POPULAR) {
             FiltersMode.PERIOD_TIME
-        } else{
+        } else {
             FiltersMode.UPDATE_TIME
         }
     }
@@ -95,7 +95,7 @@ class PostFiltersViewModel @Inject constructor(
         _filtersMode.value = FiltersMode.UPDATE_TIME
     }
 
-    enum class FiltersMode{
+    enum class FiltersMode {
         UPDATE_TIME,
         PERIOD_TIME
     }

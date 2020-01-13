@@ -7,5 +7,7 @@ interface PostFiltersModel: ModelBase {
 
     suspend fun updateFilters(filters: PostFiltersHolder.FeedFilters)
 
+    suspend fun updateOpenFeedType(feedType: PostFiltersHolder.CurrentOpenTypeFeed)
+
     val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
 }
