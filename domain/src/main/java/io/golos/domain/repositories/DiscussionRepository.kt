@@ -55,7 +55,7 @@ interface DiscussionRepository {
 
     fun createReplyComment(repliedCommentId: DiscussionIdModel, newCommentText: String): CommentModel
 
-    suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain>
+    suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 
     suspend fun uploadContentAttachment(file: File): String
 

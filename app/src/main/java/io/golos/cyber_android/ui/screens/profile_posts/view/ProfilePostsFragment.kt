@@ -10,6 +10,20 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
+import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
+import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
@@ -17,25 +31,11 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCom
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
-import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
-import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
-import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
-import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
-import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
-import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
-import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
-import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
-import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
-import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.shared.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
+import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserIdDomain
@@ -61,7 +61,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
     override fun inject() {
         App.injections
-            .get<ProfilePostsFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.BY_USER)
+            .get<ProfilePostsFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.NEW)
             .inject(this)
     }
 

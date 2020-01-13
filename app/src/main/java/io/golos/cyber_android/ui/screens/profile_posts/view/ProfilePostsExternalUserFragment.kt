@@ -11,7 +11,7 @@ class ProfilePostsExternalUserFragment : ProfilePostsFragment() {
 
     override fun inject() {
         App.injections
-            .get<ProfilePostsExternalUserFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.BY_USER)
+            .get<ProfilePostsExternalUserFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.NEW)
             .inject(this)
     }
 

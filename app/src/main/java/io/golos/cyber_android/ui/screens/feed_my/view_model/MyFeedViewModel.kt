@@ -3,9 +3,6 @@ package io.golos.cyber_android.ui.screens.feed_my.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
-import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
@@ -15,13 +12,18 @@ import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.TypeObjectDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
@@ -446,7 +448,13 @@ class MyFeedViewModel @Inject constructor(
         loadPostsJob = launch {
             try {
                 postsConfigurationDomain = postsConfigurationDomain.copy(offset = pageCount * PAGINATION_PAGE_SIZE)
-                val postsDomainList = model.getPosts(postsConfigurationDomain)
+                val openTypeFeed = model.openFeedTypeFlow.first()
+                val typeObjectDomain = if (openTypeFeed == PostFiltersHolder.CurrentOpenTypeFeed.MY_FEED) {
+                    TypeObjectDomain.MY_FEED
+                } else {
+                    TypeObjectDomain.TRENDING
+                }
+                val postsDomainList = model.getPosts(postsConfigurationDomain, typeObjectDomain)
                 val postList = postsDomainList.mapToPostsList()
                 Timber.d("paginator: post list size -> ${postList.size}")
                 launch(Dispatchers.Main) {

@@ -27,6 +27,8 @@ class MyFeedModelImpl @Inject constructor(
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
 
+    override val openFeedTypeFlow: Flow<PostFiltersHolder.CurrentOpenTypeFeed> = postFilter.openTypeFeedFlow
+
     override suspend fun deletePost(permlink: String, communityId: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.deletePost(permlink, communityId)

@@ -10,19 +10,19 @@ class PostFiltersHolder @Inject constructor() {
 
     private val feedFiltersChannel: ConflatedBroadcastChannel<FeedFilters>
 
-    private val openFeedType: CurrentOpenTypeFeed = CurrentOpenTypeFeed.MY_FEED
+    private val openFeedTypeChannel: ConflatedBroadcastChannel<CurrentOpenTypeFeed>
 
     private var myFeedFilters = FeedFilters(UpdateTimeFilter.NEW, PeriodTimeFilter.ALL)
 
     private var trendingFilters = FeedFilters(UpdateTimeFilter.HOT, PeriodTimeFilter.ALL)
 
     init {
-
         feedFiltersChannel = ConflatedBroadcastChannel(myFeedFilters)
+        openFeedTypeChannel = ConflatedBroadcastChannel(CurrentOpenTypeFeed.MY_FEED)
     }
 
     suspend fun updateFeedFilters(filters: FeedFilters){
-        if(openFeedType == CurrentOpenTypeFeed.MY_FEED){
+        if(openFeedTypeChannel.value == CurrentOpenTypeFeed.MY_FEED){
             myFeedFilters = filters
         } else{
             trendingFilters = filters
@@ -32,15 +32,18 @@ class PostFiltersHolder @Inject constructor() {
 
     suspend fun updateOpenFeedType(type: CurrentOpenTypeFeed){
         val filters: FeedFilters
-        if(openFeedType == CurrentOpenTypeFeed.MY_FEED){
+        if(type == CurrentOpenTypeFeed.MY_FEED){
             filters = myFeedFilters
         } else{
             filters = trendingFilters
         }
+        openFeedTypeChannel.send(type)
         feedFiltersChannel.send(filters)
     }
 
     val feedFiltersFlow: Flow<FeedFilters> = feedFiltersChannel.asFlow()
+
+    val openTypeFeedFlow: Flow<CurrentOpenTypeFeed> = openFeedTypeChannel.asFlow()
 
     data class FeedFilters(val updateTimeFilter: UpdateTimeFilter,
                            val periodTimeFilter: PeriodTimeFilter)

@@ -8,20 +8,14 @@ data class PostsConfigurationDomain(
     val timeFrame: TimeFrameDomain = TimeFrameDomain.ALL,
     val limit: Int,
     val offset: Int,
-    val typeFeed: TypeFeedDomain = TypeFeedDomain.BY_USER,
+    val typeFeed: TypeFeedDomain = TypeFeedDomain.NEW,
     val allowNsfw: Boolean = true
 ) {
 
     enum class TypeFeedDomain {
         NEW,
-        COMMUNITY,
-        SUBSCRIPTIONS,
-        BY_USER,
-        TOP_LIKES,
-        TOP_COMMENTS,
-        TOP_REWARDS,
         HOT,
-        VOTED
+        POPULAR
     }
 
     enum class SortByDomain {

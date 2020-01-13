@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.feed_my.model
 
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
@@ -40,4 +40,6 @@ interface MyFeedModel : ModelBase,
     )
 
     val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
+
+    val openFeedTypeFlow: Flow<PostFiltersHolder.CurrentOpenTypeFeed>
 }

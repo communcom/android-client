@@ -99,13 +99,13 @@ constructor(
         return apiCallChain { commun4j.uploadImage(file) }
     }
 
-    override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain): List<PostDomain> {
-        val type = FeedType.valueOf(postsConfigurationDomain.typeFeed.name)
+    override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain> {
+        val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
         val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
-        val timeFrame = FeedTimeFrame.valueOf(postsConfigurationDomain.timeFrame.name)
+        val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
         return apiCall {
             commun4j.getPostsRaw(
-                postsConfigurationDomain.userId.toCyberName(),
+                if(typeObject == TypeObjectDomain.USER) postsConfigurationDomain.userId.toCyberName() else null,
                 postsConfigurationDomain.communityId,
                 postsConfigurationDomain.communityAlias,
                 postsConfigurationDomain.allowNsfw,
@@ -119,6 +119,51 @@ constructor(
         }.items.map {
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId.userId)
+        }
+    }
+
+    private fun getFeedTimeFrame(timeFrame: PostsConfigurationDomain.TimeFrameDomain, localFeedType: PostsConfigurationDomain.TypeFeedDomain): FeedTimeFrame?{
+        val currentTimeFrame = if(localFeedType == PostsConfigurationDomain.TypeFeedDomain.POPULAR) timeFrame else null
+        return if(currentTimeFrame == null){
+            return null
+        } else{
+            FeedTimeFrame.valueOf(currentTimeFrame.name)
+        }
+    }
+
+    private fun getFeedType(localFeedType: PostsConfigurationDomain.TypeFeedDomain, typeObject: TypeObjectDomain): FeedType{
+        return when(localFeedType){
+            PostsConfigurationDomain.TypeFeedDomain.NEW -> getNewFeedTypeForObject(typeObject)
+            PostsConfigurationDomain.TypeFeedDomain.HOT -> getHotForObject(typeObject)
+            PostsConfigurationDomain.TypeFeedDomain.POPULAR -> getPopularForObject(typeObject)
+        }
+    }
+
+
+    private fun getNewFeedTypeForObject(typeObject: TypeObjectDomain): FeedType{
+        return when(typeObject){
+            TypeObjectDomain.USER -> FeedType.BY_USER
+            TypeObjectDomain.COMMUNITY -> FeedType.COMMUNITY
+            TypeObjectDomain.TRENDING -> FeedType.NEW
+            TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION
+        }
+    }
+
+    private fun getHotForObject(typeObject: TypeObjectDomain): FeedType{
+        return when(typeObject){
+            TypeObjectDomain.USER -> FeedType.BY_USER
+            TypeObjectDomain.COMMUNITY -> FeedType.HOT
+            TypeObjectDomain.TRENDING -> FeedType.HOT
+            TypeObjectDomain.MY_FEED -> FeedType.HOT
+        }
+    }
+
+    private fun getPopularForObject(typeObject: TypeObjectDomain): FeedType{
+        return when(typeObject){
+            TypeObjectDomain.USER -> FeedType.BY_USER
+            TypeObjectDomain.COMMUNITY -> FeedType.TOP_LIKES
+            TypeObjectDomain.TRENDING -> FeedType.TOP_LIKES
+            TypeObjectDomain.MY_FEED -> FeedType.TOP_LIKES
         }
     }
 
