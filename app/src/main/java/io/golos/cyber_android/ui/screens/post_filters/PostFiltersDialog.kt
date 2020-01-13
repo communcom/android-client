@@ -10,8 +10,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.databinding.DialogPostFiltersBinding
+import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
@@ -78,7 +78,10 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
             viewModel.onNextClicked()
         }
         ivClose.setOnClickListener {
-            viewModel.onClosedClicked()
+            viewModel.onCloseClicked()
+        }
+        ivBack.setOnClickListener {
+            viewModel.onBackClicked()
         }
     }
 
@@ -118,6 +121,17 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
             removePeriodTimeListeners()
             setPeriodTimeFilter(it)
             addPeriodTimeFiltersListeners()
+        })
+        viewModel.filtersMode.observe(this, Observer {
+            if(it == PostFiltersViewModel.FiltersMode.UPDATE_TIME){
+                cvSortByTime.visibility = View.GONE
+                cvUpdateContentFilters.visibility = View.VISIBLE
+                ivBack.visibility = View.INVISIBLE
+            } else{
+                cvSortByTime.visibility = View.VISIBLE
+                cvUpdateContentFilters.visibility = View.GONE
+                ivBack.visibility = View.VISIBLE
+            }
         })
     }
 
@@ -248,7 +262,7 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == STATE_HIDDEN) {
-                    viewModel.onClosedClicked()
+                    viewModel.onCloseClicked()
                 }
             }
 

@@ -23,9 +23,14 @@ class PostFiltersViewModel @Inject constructor(
 
     private val _periodTimeFilter = MutableLiveData<PostFiltersHolder.PeriodTimeFilter>()
 
+    private val _filtersMode = MutableLiveData<FiltersMode>()
+
+
     val updateTimeFilter = _updateTimeFilter.toLiveData()
 
     val periodTimeFilter = _periodTimeFilter.toLiveData()
+
+    val filtersMode = _filtersMode.toLiveData()
 
     init {
         if (isNeedToSaveGlobalState) {
@@ -42,6 +47,11 @@ class PostFiltersViewModel @Inject constructor(
 
     fun changeUpdateTimeFilter(filter: PostFiltersHolder.UpdateTimeFilter) {
         _updateTimeFilter.value = filter
+        _filtersMode.value = if(filter == PostFiltersHolder.UpdateTimeFilter.POPULAR){
+            FiltersMode.PERIOD_TIME
+        } else{
+            FiltersMode.UPDATE_TIME
+        }
     }
 
     fun changePeriodTimeFilter(filter: PostFiltersHolder.PeriodTimeFilter) {
@@ -63,7 +73,16 @@ class PostFiltersViewModel @Inject constructor(
         }
     }
 
-    fun onClosedClicked() {
+    fun onCloseClicked() {
         _command.value = NavigateBackwardCommand()
+    }
+
+    fun onBackClicked() {
+        _filtersMode.value = FiltersMode.UPDATE_TIME
+    }
+
+    enum class FiltersMode{
+        UPDATE_TIME,
+        PERIOD_TIME
     }
 }

@@ -9,7 +9,7 @@ data class PostsConfigurationDomain(
     val limit: Int,
     val offset: Int,
     val typeFeed: TypeFeedDomain = TypeFeedDomain.BY_USER,
-    val allowNsfw: Boolean = false
+    val allowNsfw: Boolean = true
 ) {
 
     enum class TypeFeedDomain {

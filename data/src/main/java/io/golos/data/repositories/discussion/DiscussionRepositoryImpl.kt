@@ -1,6 +1,5 @@
 package io.golos.data.repositories.discussion
 
-import android.content.Context
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
@@ -10,7 +9,6 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.data.mappers.*
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.toCyberName
@@ -18,6 +16,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
+import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
@@ -115,6 +114,7 @@ constructor(
                 timeFrame,
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
+
             )
         }.items.map {
             val userId = it.author.userId.name

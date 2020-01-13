@@ -10,15 +10,34 @@ class PostFiltersHolder @Inject constructor() {
 
     private val feedFiltersChannel: ConflatedBroadcastChannel<FeedFilters>
 
+    private val openFeedType: CurrentOpenTypeFeed = CurrentOpenTypeFeed.MY_FEED
 
+    private var myFeedFilters = FeedFilters(UpdateTimeFilter.NEW, PeriodTimeFilter.ALL)
+
+    private var trendingFilters = FeedFilters(UpdateTimeFilter.HOT, PeriodTimeFilter.ALL)
+
+    init {
+
+        feedFiltersChannel = ConflatedBroadcastChannel(myFeedFilters)
+    }
 
     suspend fun updateFeedFilters(filters: FeedFilters){
+        if(openFeedType == CurrentOpenTypeFeed.MY_FEED){
+            myFeedFilters = filters
+        } else{
+            trendingFilters = filters
+        }
         feedFiltersChannel.send(filters)
     }
 
-    init {
-        val feedFilters = FeedFilters(UpdateTimeFilter.POPULAR, PeriodTimeFilter.PAST_24_HOURS)
-        feedFiltersChannel = ConflatedBroadcastChannel(feedFilters)
+    suspend fun updateOpenFeedType(type: CurrentOpenTypeFeed){
+        val filters: FeedFilters
+        if(openFeedType == CurrentOpenTypeFeed.MY_FEED){
+            filters = myFeedFilters
+        } else{
+            filters = trendingFilters
+        }
+        feedFiltersChannel.send(filters)
     }
 
     val feedFiltersFlow: Flow<FeedFilters> = feedFiltersChannel.asFlow()
@@ -37,5 +56,10 @@ class PostFiltersHolder @Inject constructor() {
         PAST_WEEK("Past week"), //WEEK
         PAST_MONTH("Past month"), //MONTH
         ALL("All time") //ALL
+    }
+
+    enum class CurrentOpenTypeFeed{
+        MY_FEED,
+        TRENDING
     }
 }
