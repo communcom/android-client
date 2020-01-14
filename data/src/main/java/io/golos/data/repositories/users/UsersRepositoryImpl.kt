@@ -1,6 +1,5 @@
 package io.golos.data.repositories.users
 
-import android.content.Context
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
@@ -8,9 +7,9 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
 import io.golos.data.mappers.*
 import io.golos.data.network_state.NetworkStateChecker
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
@@ -114,6 +113,10 @@ class UsersRepositoryImpl
     override suspend fun updateAvatar(avatarFile: File): String =
         apiCallChain { commun4j.uploadImage(avatarFile) }
             .also { url -> updateCurrentUserMetadata { it.copy(avatarUrl = url) } }
+            .also {
+                currentUserRepository.userAvatarUrl = it
+                currentUserRepository.sendUserAvatarChanges()
+            }
 
     /**
      * Clear cover of current user profile
@@ -127,6 +130,10 @@ class UsersRepositoryImpl
      */
     override suspend fun clearAvatar() {
         updateCurrentUserMetadata { it.copy(avatarUrl = "") }
+            .also {
+                currentUserRepository.userAvatarUrl = ""
+                currentUserRepository.sendUserAvatarChanges()
+            }
     }
 
     /**

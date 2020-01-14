@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.feed_my.model
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
@@ -20,7 +21,8 @@ class MyFeedModelImpl @Inject constructor(
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
     private val postFilter: PostFiltersHolder,
     private val discussionRepository: DiscussionRepository,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val currentUserRepository: CurrentUserRepository
 ) : MyFeedModel,
     GetPostsUseCase by getPostsUseCase,
     GetLocalUserUseCase by getUserProfileUseCase,
@@ -28,6 +30,8 @@ class MyFeedModelImpl @Inject constructor(
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
 
     override val openFeedTypeFlow: Flow<PostFiltersHolder.CurrentOpenTypeFeed> = postFilter.openTypeFeedFlow
+
+    override val userAvatarFlow: Flow<String?> = currentUserRepository.userAvatarFlow
 
     override suspend fun deletePost(permlink: String, communityId: String) {
         withContext(dispatchersProvider.ioDispatcher) {

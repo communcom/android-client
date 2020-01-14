@@ -42,4 +42,6 @@ interface MyFeedModel : ModelBase,
     val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
 
     val openFeedTypeFlow: Flow<PostFiltersHolder.CurrentOpenTypeFeed>
+
+    val userAvatarFlow: Flow<String?>
 }

@@ -76,6 +76,20 @@ class MyFeedViewModel @Inject constructor(
         paginator.render = {
             _postsListState.value = it
         }
+        applyAvatarChangeListener()
+    }
+
+    private fun applyAvatarChangeListener(){
+        launch {
+            try {
+                model.userAvatarFlow.collect{
+                    val userUpdated = _user.value?.copy(avatarUrl = it)
+                    userUpdated?.let {_user.value = it}
+                }
+            } catch (e: Exception){
+                Timber.e(e)
+            }
+        }
     }
 
     override fun onShareClicked(shareUrl: String) {

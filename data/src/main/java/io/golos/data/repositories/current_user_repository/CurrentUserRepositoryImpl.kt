@@ -5,6 +5,9 @@ import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
 /**
@@ -14,6 +17,9 @@ import javax.inject.Inject
 class CurrentUserRepositoryImpl
 @Inject
 constructor() : CurrentUserRepository, CurrentUserRepositoryRead {
+
+    private val avatarChannel: ConflatedBroadcastChannel<String?> = ConflatedBroadcastChannel(null)
+
     override var authState: AuthStateDomain? = null
 
     override val userId: UserIdDomain
@@ -23,4 +29,10 @@ constructor() : CurrentUserRepository, CurrentUserRepositoryRead {
         get() = authState!!.userName
 
     override var userAvatarUrl: String? = null
+
+    override suspend fun sendUserAvatarChanges() {
+        avatarChannel.send(userAvatarUrl)
+    }
+
+    override val userAvatarFlow: Flow<String?> = avatarChannel.asFlow()
 }
