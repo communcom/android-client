@@ -146,7 +146,7 @@ constructor(
         return when(typeObject){
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.COMMUNITY
-            TypeObjectDomain.TRENDING -> FeedType.NEW
+            TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION
             TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION
         }
     }
@@ -155,8 +155,8 @@ constructor(
         return when(typeObject){
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.HOT
-            TypeObjectDomain.TRENDING -> FeedType.HOT
-            TypeObjectDomain.MY_FEED -> FeedType.HOT
+            TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION_HOT
+            TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION_HOT
         }
     }
 
@@ -164,8 +164,8 @@ constructor(
         return when(typeObject){
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.TOP_LIKES
-            TypeObjectDomain.TRENDING -> FeedType.TOP_LIKES
-            TypeObjectDomain.MY_FEED -> FeedType.TOP_LIKES
+            TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION_POPULAR
+            TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION_POPULAR
         }
     }
 
