@@ -180,29 +180,31 @@
                             app:layout_constraintTop_toBottomOf="@+id/userName"
                             tools:text="Joined April 12, 2018" />
 
-                        <CheckedTextView
+                        <ToggleButton
                             android:id="@+id/followButton"
-                            style="@style/CommunityJoinButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+
+                            style="@style/BlueWhite.RoundCorners.Toggle.BlueText"
+
+                            android:layout_width="@dimen/follow_following_button_width"
+                            android:layout_height="@dimen/follow_following_button_height"
+
                             android:layout_marginEnd="@dimen/margin_default"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:minWidth="@dimen/community_btn_join_min_width"
-                            app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
 
-                            tools:text="@string/follow"
-                            android:text="@{viewModel.followButtonText}"
-
-                            android:visibility="@{viewModel.followButtonVisibility}"
-                            tools:visibility="visible"
+                            android:textOn="@string/following"
+                            android:textOff="@string/follow"
 
                             tools:checked="false"
                             android:checked="@{viewModel.followButtonState}"
 
+                            android:visibility="@{viewModel.followButtonVisibility}"
+                            tools:visibility="visible"
+
                             android:onClick="@{() -> viewModel.onFollowButtonClick()}"
-                            />
+
+                            app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
+                        />
 
                         <FrameLayout
                             android:id="@+id/bioContainer"
@@ -411,7 +413,7 @@
             android:layout_gravity="center"
 
             android:visibility="@{viewModel.retryButtonVisibility}"
-            tools:visibility="visible"
+            tools:visibility="invisible"
             />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

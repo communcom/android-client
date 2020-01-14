@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.profile.view_model
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,7 +26,6 @@ import javax.inject.Inject
 class ProfileViewModel
 @Inject
 constructor(
-    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
@@ -74,9 +72,6 @@ constructor(
     val backButtonVisibility = if(model.isCurrentUser) View.INVISIBLE else View.VISIBLE
     val followButtonVisibility = if(model.isCurrentUser) View.GONE else View.VISIBLE
     val photoButtonsVisibility = if(model.isCurrentUser) View.VISIBLE else View.INVISIBLE
-
-    private val _followButtonText = MutableLiveData<String>()
-    val followButtonText get() = _followButtonText.toLiveData()
 
     private val _followButtonState = MutableLiveData<Boolean>()
     val followButtonState get() = _followButtonState.toLiveData()
@@ -126,6 +121,7 @@ constructor(
                 ProfileItem.COVER -> deleteCover()
                 ProfileItem.AVATAR -> deleteAvatar()
                 ProfileItem.BIO -> deleteBio()
+                else -> {}
             }
         }
     }
@@ -234,16 +230,12 @@ constructor(
     fun onFollowButtonClick() {
         launch {
             try {
-                _followButtonText.value =
-                    appContext.resources.getString(if(!model.isSubscribed) R.string.followed else R.string.follow)
                 _followButtonState.value = !model.isSubscribed
 
                 model.subscribeUnsubscribe()
             } catch(ex: java.lang.Exception) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
 
-                _followButtonText.value =
-                    appContext.resources.getString(if(model.isSubscribed) R.string.followed else R.string.follow)
                 _followButtonState.value = model.isSubscribed
             }
         }
@@ -265,8 +257,6 @@ constructor(
                         _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
                     }
 
-                    _followButtonText.value =
-                        appContext.resources.getString(if(isSubscribed) R.string.followed else R.string.follow)
                     _followButtonState.value = isSubscribed
                 }
 

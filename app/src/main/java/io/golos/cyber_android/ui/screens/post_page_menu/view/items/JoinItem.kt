@@ -18,7 +18,7 @@ class JoinItem(
 
     override fun init(listItem: JoinListItem, listItemEventsProcessor: PostMenuModelListEventProcessor) {
         with(itemView) {
-            menuAction.text = context.getString(R.string.join_post)
+            menuAction.text = context.getString(R.string.join)
             menuAction.setDrawableToEnd(R.drawable.ic_join)
             menuAction.setStyle(R.style.BottomSheetMenuItem)
             menuAction.setOnClickListener {

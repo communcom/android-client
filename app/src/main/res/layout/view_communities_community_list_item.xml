@@ -61,17 +61,20 @@
         app:layout_constraintTop_toBottomOf="@+id/communityTitle"
         tools:text="52k followers" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/joinButton"
 
-        style="@style/CommunityJoinButton"
+        style="@style/BlueWhite.RoundCorners.Toggle.BlueText"
 
-        android:layout_width="@dimen/community_join_button_width"
-        android:layout_height="@dimen/community_join_button_height"
+        android:layout_width="@dimen/follow_following_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
 
         android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
 
-        android:text="@string/join_to_community"
+        android:textOn="@string/following"
+        android:textOff="@string/follow"
+
+        tools:checked="true"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

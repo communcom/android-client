@@ -167,10 +167,8 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun setSubscriptionStatus(isSubscribed: Boolean) {
         ctvJoin.isChecked = isSubscribed
         if (isSubscribed) {
-            ctvJoin.text = getString(R.string.joined_to_community)
             ivNotificationCommunityControl.visibility = View.VISIBLE
         } else {
-            ctvJoin.text = getString(R.string.join_to_community)
             ivNotificationCommunityControl.visibility = View.INVISIBLE
         }
     }

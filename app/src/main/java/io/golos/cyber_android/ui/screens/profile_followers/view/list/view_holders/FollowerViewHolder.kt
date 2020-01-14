@@ -44,11 +44,7 @@ class FollowerViewHolder(
 
             itemView.setOnClickListener { /*listItemEventsProcessor.onItemClick(community)*/ }
 
-            if(isJoined) {
-                itemView.joinButton.text = itemView.context.resources.getString(R.string.followed)
-            } else {
-                itemView.joinButton.text = itemView.context.resources.getString(R.string.follow)
-            }
+            itemView.joinButton.isChecked = isJoined
 
             itemView.viewDelimiter.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
 

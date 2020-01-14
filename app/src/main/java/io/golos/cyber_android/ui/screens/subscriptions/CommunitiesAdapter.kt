@@ -97,9 +97,9 @@ class CommunitiesAdapter : PaginalAdapter<Community>() {
             btnJoin.isChecked = following
             val context = btnJoin.context
             if (following) {
-                btnJoin.text = context.getString(R.string.joined_to_community)
+                btnJoin.text = context.getString(R.string.following)
             } else {
-                btnJoin.text = context.getString(R.string.join_to_community)
+                btnJoin.text = context.getString(R.string.follow)
             }
         }
 

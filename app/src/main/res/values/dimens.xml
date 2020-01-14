@@ -314,11 +314,6 @@
     <!--Button-->
     <dimen name="btn_round_radius_size">8dp</dimen>
 
-    <!--ProgressBar-->
-
-    <dimen name="community_join_button_height">35dp</dimen>
-    <dimen name="community_join_button_width">70dp</dimen>
-
     <!-- Select community dialog -->
     <dimen name="select_community_dialog_list_height">236dp</dimen>
     <dimen name="select_community_dialog_padding_small">10dp</dimen>
@@ -442,4 +437,7 @@
     <dimen name="no_connection_image_height">350dp</dimen>
     <dimen name="no_connection_try_again_label">233dp</dimen>
 
+
+    <dimen name="follow_following_button_height">35dp</dimen>
+    <dimen name="follow_following_button_width">85dp</dimen>
 </resources>

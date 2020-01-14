@@ -72,8 +72,8 @@
 
         style="@style/BlueWhite.RoundCorners.Button"
 
-        android:layout_width="@dimen/community_join_button_width"
-        android:layout_height="@dimen/community_join_button_height"
+        android:layout_width="@dimen/follow_following_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
 
         android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
 
@@ -88,8 +88,8 @@
 
         style="@style/GrayBlue.RoundCorners.Button"
 
-        android:layout_width="@dimen/community_join_button_width"
-        android:layout_height="@dimen/community_join_button_height"
+        android:layout_width="@dimen/follow_following_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
 
         android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
 

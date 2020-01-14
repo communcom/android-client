@@ -59,19 +59,26 @@
         app:layout_constraintTop_toBottomOf="@+id/communityTitle"
         tools:text="12:45 &#8226; Ivan Ivanov" />
 
-    <CheckedTextView
+
+    <ToggleButton
         android:id="@+id/joinToCommunityButton"
 
-        style="@style/CommunityJoinButton"
+        style="@style/BlueWhite.RoundCorners.Toggle.BlueText"
 
-        android:layout_width="@dimen/post_viewer_header_community_join_button_width"
-        android:layout_height="@dimen/post_viewer_header_community_join_button_height"
+        android:layout_width="@dimen/follow_following_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
 
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
-        android:text="@string/follow"
+
+        android:textOn="@string/following"
+        android:textOff="@string/follow"
+
+        tools:checked="true"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/menuButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+    />
 
     <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
         android:id="@+id/menuButton"

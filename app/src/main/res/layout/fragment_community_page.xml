@@ -42,15 +42,20 @@
                         android:layout_height="@dimen/community_page_background_height"
                         tools:background="@tools:sample/backgrounds/scenic" />
 
-                    <ImageView
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/ivBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/white"
-                        android:padding="@dimen/margin_default"
+
+                        android:layout_width="@dimen/post_viewer_header_tool_button_size"
+                        android:layout_height="@dimen/post_viewer_header_tool_button_size"
+
+                        android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
                         android:layout_marginTop="@dimen/dimen_40"
-                        android:background="?selectableItemBackgroundBorderless"/>
+
+                        android:background="@null"
+                        app:imageButton_icon="@drawable/ic_left_arrow"
+                        app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+                        app:imageButton_tint="@color/white"
+                    />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -112,18 +117,25 @@
                             app:layout_constraintEnd_toStartOf="@+id/ctvJoin"
                             tools:visibility="visible"/>
 
-                        <CheckedTextView
+                        <ToggleButton
                             android:id="@+id/ctvJoin"
-                            style="@style/CommunityJoinButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+
+                            style="@style/BlueWhite.RoundCorners.Toggle.BlueText"
+
+                            android:layout_width="@dimen/follow_following_button_width"
+                            android:layout_height="@dimen/follow_following_button_height"
+
                             android:layout_marginEnd="@dimen/margin_default"
-                            android:minWidth="@dimen/community_btn_join_min_width"
-                            android:gravity="center_vertical|center_horizontal"
+
+                            android:textOn="@string/following"
+                            android:textOff="@string/follow"
+
+                            tools:checked="true"
+
                             app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
-                            tools:text="@string/join_to_community" />
+                        />
 
                         <TextView
                             android:id="@+id/tvDescription"
@@ -273,7 +285,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
-            tools:visibility="visible"
             android:visibility="invisible"
         />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

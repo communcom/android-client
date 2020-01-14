@@ -50,7 +50,7 @@
         style="@style/CommunityJoinButton"
 
         android:layout_width="@dimen/profile_blacklist_block_button_width"
-        android:layout_height="@dimen/community_join_button_height"
+        android:layout_height="@dimen/follow_following_button_height"
 
         android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
 
