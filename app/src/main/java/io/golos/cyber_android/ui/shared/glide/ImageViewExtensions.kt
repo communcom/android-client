@@ -55,7 +55,7 @@ fun ImageView.loadCover(url: String?) {
 fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
     Glide
         .with(this)
-        .load(if (url.isNullOrEmpty()) "file:///android_asset/empty_user.webp" else url)
+        .load(url)
         .apply(RequestOptions.circleCropTransform())
         .fallback(defaultRes)
         .error(defaultRes)

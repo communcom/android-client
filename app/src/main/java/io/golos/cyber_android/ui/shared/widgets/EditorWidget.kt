@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.widgets.EditorWidget.Listener
 import kotlinx.android.synthetic.main.view_editor_widget.view.*
 
@@ -43,17 +43,11 @@ class EditorWidget : LinearLayout {
      */
     fun loadUserAvatar(url: String?, username: String) {
         if (url?.isNotBlank() == true) {
-            Glide.with(this)
-                .load(url)
-                .apply(RequestOptions.circleCropTransform())
-                .into(avatar)
             name.text = ""
         } else {
-            Glide.with(this)
-                .load(0)
-                .into(avatar)
             name.text = username
         }
+        avatar.loadAvatar(url)
     }
 
     /**
