@@ -127,8 +127,8 @@
     <dimen name="post_viewer_header_horizontal_margin">6dp</dimen>
     <dimen name="post_viewer_header_horizontal_margin_large">10dp</dimen>
     <dimen name="post_viewer_header_vertical_margin">8dp</dimen>
-    <dimen name="post_viewer_header_community_join_button_height">30dp</dimen>
-    <dimen name="post_viewer_header_community_join_button_width">53dp</dimen>
+    <dimen name="post_viewer_header_community_join_button_height">35dp</dimen>
+    <dimen name="post_viewer_header_community_join_button_width">70dp</dimen>
 
     <dimen name="post_controls_height">45dp</dimen>
     <dimen name="post_controls_vote_area_height">35dp</dimen>

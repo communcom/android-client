@@ -2,7 +2,8 @@ package io.golos.cyber_android.ui.shared.utils
 
 import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.utils.DateUtils.ESTIMATE_TIME_FORMAT
+import io.golos.cyber_android.ui.shared.utils.DateUtils.ESTIMATE_COMMON_FORMAT
+import io.golos.cyber_android.ui.shared.utils.DateUtils.ESTIMATE_MONTH_FORMAT
 import io.golos.cyber_android.ui.shared.utils.DateUtils.MMMM_DD_YYYY_FORMAT
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,7 +49,8 @@ object DateUtils {
     }
 
     const val MMMM_DD_YYYY_FORMAT = "MMMM dd, yyyy"
-    const val ESTIMATE_TIME_FORMAT = "MM.dd.yyyy"
+    const val ESTIMATE_MONTH_FORMAT = "MMM dd"
+    const val ESTIMATE_COMMON_FORMAT = "yyyy MMM dd"
 
     const val second = 1000L
     const val minute = second * 60
@@ -56,6 +58,7 @@ object DateUtils {
     const val day = hour * 24
     const val week = day * 7
     const val month = day * 30     // :) - was allowed by Vlad
+    const val year = month * 12    // :) - was allowed by Vlad too
 }
 
 fun Date.toMMMM_DD_YYYY_Format(): String {
@@ -63,16 +66,14 @@ fun Date.toMMMM_DD_YYYY_Format(): String {
 }
 
 fun Date.toTimeEstimateFormat(context: Context): String{
-
     val now = Date().time
     val estimated = this.time
     val resources = context.resources
-    return when {
-        estimated >= now ->
-            resources.getString(R.string.date_time_format_just_now)  // Somewhere in a future
 
-        now - estimated < DateUtils.minute ->
-            resources.getString(R.string.date_time_format_just_now)
+    return when {
+        estimated >= now -> resources.getString(R.string.date_time_format_just_now)  // Somewhere in a future
+
+        now - estimated < DateUtils.minute -> resources.getString(R.string.date_time_format_just_now)
 
         now - estimated < DateUtils.hour ->
             resources.getFormattedString(R.string.date_time_format_minutes_ago, (now - estimated)/ DateUtils.minute)
@@ -80,12 +81,11 @@ fun Date.toTimeEstimateFormat(context: Context): String{
         now - estimated < DateUtils.day ->
             resources.getFormattedString(R.string.date_time_format_hours_ago, (now - estimated)/ DateUtils.hour)
 
-        now - estimated < DateUtils.week ->
+        now - estimated < DateUtils.month ->
             resources.getFormattedString(R.string.date_time_format_days_ago, (now - estimated)/ DateUtils.day)
 
-        now - estimated < DateUtils.month ->
-            resources.getFormattedString(R.string.date_time_format_weeks_ago, (now - estimated)/ DateUtils.week)
+        now - estimated < DateUtils.year -> SimpleDateFormat(ESTIMATE_MONTH_FORMAT, Locale.getDefault()).format(this)
 
-        else -> SimpleDateFormat(ESTIMATE_TIME_FORMAT, Locale.getDefault()).format(this)
+        else -> SimpleDateFormat(ESTIMATE_COMMON_FORMAT, Locale.getDefault()).format(this)
     }
 }
