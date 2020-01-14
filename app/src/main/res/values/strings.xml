@@ -44,10 +44,10 @@
     <!--Size formatting - end -->
 
     <!--Time formatting - start-->
-    <string name="date_time_format_just_now">just now</string>
-    <string name="date_time_format_minutes_ago">{0} minutes ago</string>
-    <string name="date_time_format_hours_ago">{0} hours ago</string>
-    <string name="date_time_format_days_ago">{0} days ago</string>
+    <string name="date_time_format_just_now">a moment ago</string>
+    <string name="date_time_format_minutes_ago">{0}m ago</string>
+    <string name="date_time_format_hours_ago">{0}h ago</string>
+    <string name="date_time_format_days_ago">{0}d ago</string>
     <string name="date_time_format_weeks_ago">{0} weeks ago</string>
     <!--Time formatting - end-->
 
