@@ -2,7 +2,9 @@ package io.golos.cyber_android.ui.shared.utils
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Point
 import android.net.Uri
+import android.view.WindowManager
 import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
@@ -34,4 +36,12 @@ fun Context.openLinkView(link: Uri) {
                 startActivity(intent)
             }
         }
+}
+
+fun Context.getScreenSize(): Point {
+    val windowManager = getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+    val display = windowManager?.defaultDisplay
+    val screenSize = Point()
+    display?.getSize(screenSize)
+    return screenSize
 }

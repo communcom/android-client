@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.release
+import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.RichBlock
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 
@@ -43,7 +44,7 @@ constructor(
 
     override fun render(block: RichBlock) {
         linkUri = block.url
-        val thumbnailUrl = block.thumbnailUrl
+        val thumbnailUrl = block.thumbnailUrl?.prefetchScreenSize(context)
         var currentThubnail: ImageView? = null
         if (thumbnailUrl != null) {
             currentThubnail = if(block.thumbnailHeight == null || block.thumbnailWidth == null){

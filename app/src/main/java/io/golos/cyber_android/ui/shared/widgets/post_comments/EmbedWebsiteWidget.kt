@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.transformations.TopRoundedCornersTransformation
+import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
@@ -46,8 +47,7 @@ constructor(
     override fun render(block: WebsiteBlock) {
         siteUri = block.content
 
-        val thumbnailUrl = block.thumbnailUrl
-        //val thumbnailUrl = "https://yastatic.net/s3/home/logos/share/share-logo_ru.png"
+        val thumbnailUrl = block.thumbnailUrl?.prefetchScreenSize(context)
 
         val radius = context.resources.getDimension(R.dimen.radius_corner_embed_website)
         Glide

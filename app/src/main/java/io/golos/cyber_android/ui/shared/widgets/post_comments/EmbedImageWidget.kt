@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.release
+import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 
@@ -57,7 +58,7 @@ constructor(
     }
 
     override fun render(block: ImageBlock) {
-        imageUri = block.content
+        imageUri = block.content.prefetchScreenSize(context)
 
         if (block.description.isNullOrEmpty()) {
             description.visibility = View.GONE

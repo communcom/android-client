@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
@@ -42,9 +43,9 @@ constructor(
                 is EmbedBlock -> attachmentsContainer.addView(EmbedWidget(context))
                 else -> {
                     val uriToShow = when (mediaBlock) {
-                        is ImageBlock -> mediaBlock.content
-                        is WebsiteBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.website)
-                        is VideoBlock -> mediaBlock.thumbnailUrl ?: Uri.parse(PostStubs.video)
+                        is ImageBlock -> mediaBlock.content.prefetchScreenSize(context)
+                        is WebsiteBlock -> mediaBlock.thumbnailUrl?.prefetchScreenSize(context) ?: Uri.parse(PostStubs.website)
+                        is VideoBlock -> mediaBlock.thumbnailUrl?.prefetchScreenSize(context) ?: Uri.parse(PostStubs.video)
                         else -> throw UnsupportedOperationException("This block is not supported: $mediaBlock")
                     }
 

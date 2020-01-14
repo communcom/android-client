@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_video.view.*
@@ -85,10 +86,10 @@ constructor(
             } else {
                 providerName.visibility = View.GONE
             }
-
+            val thumbnailUri = block.thumbnailUrl?.prefetchScreenSize(context)
             Glide
                 .with(this)
-                .load(block.thumbnailUrl?.toString() ?: PostStubs.video)
+                .load(thumbnailUri?.toString() ?: PostStubs.video)
                 .centerCrop()
                 .into(image)
         }
