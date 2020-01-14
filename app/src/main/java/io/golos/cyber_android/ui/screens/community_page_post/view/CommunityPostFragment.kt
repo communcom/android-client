@@ -299,7 +299,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                 is Paginator.State.Empty -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                     postAdapter.updateMyFeedPosts(mutableListOf())
-                    communityFilterContainer.visibility = View.GONE
+                    communityFilterContainer.visibility = View.VISIBLE
                 }
                 is Paginator.State.EmptyError -> {
                     emptyPostProgressLoading.visibility = View.INVISIBLE

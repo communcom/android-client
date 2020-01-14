@@ -104,11 +104,10 @@ constructor(
 
     override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain> {
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
-        //val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
         return apiCall {
             commun4j.getPostsRaw(
-                if(typeObject == TypeObjectDomain.USER) postsConfigurationDomain.userId.toCyberName() else null,
+                if(typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
                 postsConfigurationDomain.communityId,
                 postsConfigurationDomain.communityAlias,
                 postsConfigurationDomain.allowNsfw,
