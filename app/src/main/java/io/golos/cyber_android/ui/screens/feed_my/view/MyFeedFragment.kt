@@ -13,14 +13,11 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
@@ -33,6 +30,7 @@ import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragmen
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
@@ -114,6 +112,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
+            is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
+
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
@@ -127,7 +127,15 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun openUserProfile(userId: String) {
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+        getDashboardFragment(this)?.showFragment(
+            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+        )
+    }
+
+    private fun openCommunityPage(communityId: String) {
+        getDashboardFragment(this)?.showFragment(
+            CommunityPageFragment.newInstance(communityId)
+        )
     }
 
     private fun openPostReportDialog(post: Post) {

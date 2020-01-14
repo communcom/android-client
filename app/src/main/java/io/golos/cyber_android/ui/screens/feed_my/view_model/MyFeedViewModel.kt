@@ -40,7 +40,8 @@ class MyFeedViewModel @Inject constructor(
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>,
     private val currentUserRepository: CurrentUserRepositoryRead
-) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
+) : ViewModelBase<MyFeedModel>(dispatchersProvider, model),
+    MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
 
@@ -96,6 +97,10 @@ class MyFeedViewModel @Inject constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
+//    override fun onItemClick(community: CommunityDomain) {
+//        _command.value = NavigateToCommunityPageCommand(community.communityId)
+//    }
+
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
@@ -148,6 +153,10 @@ class MyFeedViewModel @Inject constructor(
         if (currentUserRepository.userId.userId != userId) {
             _command.value = NavigateToUserProfileViewCommand(userId)
         }
+    }
+
+    override fun onCommunityClicked(communityId: String) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
     override fun onMenuClicked(postMenu: PostMenu) {

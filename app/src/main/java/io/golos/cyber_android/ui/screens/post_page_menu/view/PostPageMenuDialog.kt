@@ -5,12 +5,12 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.post_page_menu.model.*
 import io.golos.cyber_android.ui.screens.post_page_menu.view.list.PostMenuAdapter
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.use_cases.post.post_dto.DocumentFormatVersion
 import io.golos.domain.use_cases.post.post_dto.PostType
 import kotlinx.android.synthetic.main.dialog_post_menu.*
@@ -125,6 +125,7 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
                 PostHeader(
                     communityName = menu.communityName,
                     communityAvatarUrl = menu.communityAvatarUrl,
+                    communityId = menu.communityId,
                     actionDateTime = menu.creationTime,
                     userName = menu.authorUsername,
                     userId = menu.authorUserId,

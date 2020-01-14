@@ -135,6 +135,8 @@ class CommunityPostViewModel @Inject constructor(
         }
     }
 
+    override fun onCommunityClicked(communityId: String) {}
+
     override fun onCommentsClicked(postContentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, postContentId)

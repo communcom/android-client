@@ -3,8 +3,6 @@ package io.golos.cyber_android.ui.screens.post_view.model
 import androidx.lifecycle.LiveData
 import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
@@ -12,6 +10,8 @@ import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSource
 import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
 import io.golos.domain.dto.ContentIdDomain
@@ -91,6 +91,7 @@ constructor(
         PostHeader(
             postDomain.community.name,
             postDomain.community.avatarUrl,
+            postDomain.community.communityId,
             postDomain.meta.creationTime,
 
             postDomain.author.username,

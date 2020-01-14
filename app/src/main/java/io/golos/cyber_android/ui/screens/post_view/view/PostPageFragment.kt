@@ -23,6 +23,7 @@ import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
@@ -83,6 +84,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         postHeader.setOnBackButtonClickListener { activity?.finish() }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
+        postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
 
         postComment.setOnSendClickListener { viewModel.onSendCommentClick(it) }
 
@@ -123,6 +125,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
+            is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
+
             is StartEditPostViewCommand -> moveToEditPost(command.postId)
 
             is NavigationToEditPostViewCommand -> openEditPost(command.contentId)
@@ -145,8 +149,16 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         }
     }
 
-    private fun openUserProfile(userId: String){
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+    private fun openUserProfile(userId: String) {
+        getDashboardFragment(this)?.showFragment(
+            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+        )
+    }
+
+    private fun openCommunityPage(communityId: String) {
+        getDashboardFragment(this)?.showFragment(
+            CommunityPageFragment.newInstance(communityId)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -226,7 +238,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                 }
             }
             ConfirmationDialog.REQUEST -> {
-                if(resultCode == ConfirmationDialog.RESULT_OK) {
+                if (resultCode == ConfirmationDialog.RESULT_OK) {
                     viewModel.deletePost()
                 }
             }

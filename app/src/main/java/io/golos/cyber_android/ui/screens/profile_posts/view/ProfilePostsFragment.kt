@@ -12,6 +12,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
@@ -26,10 +27,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.shared.utils.openImageView
@@ -84,6 +82,8 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
             is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
 
+            is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
+
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
@@ -97,7 +97,15 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openUserProfile(userId: String){
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+        getDashboardFragment(this)?.showFragment(
+            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+        )
+    }
+
+    private fun openCommunityPage(communityId: String) {
+        getDashboardFragment(this)?.showFragment(
+            CommunityPageFragment.newInstance(communityId)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -120,6 +120,10 @@ class ProfilePostsViewModel @Inject constructor(
         }
     }
 
+    override fun onCommunityClicked(communityId: String) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
+    }
+
     override fun onSeeMoreClicked(contentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)

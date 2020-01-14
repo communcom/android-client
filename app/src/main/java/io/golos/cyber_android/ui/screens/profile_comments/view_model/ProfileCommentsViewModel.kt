@@ -50,6 +50,10 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToUserProfileViewCommand(userId)
     }
 
+    override fun onCommunityClicked(communityId: String) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
+    }
+
     override fun onSeeMoreClicked(contentId: ContentId) {}
 
     private var loadCommentsJob: Job? = null

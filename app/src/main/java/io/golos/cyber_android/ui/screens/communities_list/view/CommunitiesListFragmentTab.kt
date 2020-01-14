@@ -21,10 +21,10 @@ class CommunitiesListFragmentTab : CommunitiesListFragment() {
 
     override fun inject() = App
         .injections.get<CommunitiesListFragmentTabComponent>(
-            false,                                                  // show back button
-            arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
-            true)                                                   // show all posts
-        .inject(this)
+        false,                                                  // show back button
+        arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
+        true                                                    // show all posts
+    ).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<CommunitiesListFragmentTabComponent>()

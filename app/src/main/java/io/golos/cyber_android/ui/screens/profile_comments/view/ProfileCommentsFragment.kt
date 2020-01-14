@@ -9,21 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
-import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.domain.dto.UserIdDomain
@@ -101,6 +102,8 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
             is NavigateToUserProfileViewCommand -> openSelectPhotoView(command.userId)
 
+            is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
+
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
 
             is NavigateToEditComment -> {
@@ -120,6 +123,12 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     this@ProfileCommentsFragment
                 )
             )
+    }
+
+    private fun openCommunityPage(communityId: String) {
+        getDashboardFragment(this)?.showFragment(
+            CommunityPageFragment.newInstance(communityId)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -5,6 +5,7 @@ import java.util.*
 data class PostHeader(
     val communityName: String?,
     val communityAvatarUrl: String?,
+    val communityId: String?,
     val actionDateTime: Date,
     val userName: String?,
     val userId: String,

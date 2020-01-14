@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunitiesBinding
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListAdapter
+import io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListAdapter
-import io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_communities.*
 
@@ -40,10 +40,10 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
 
     override fun inject() = App
         .injections.get<CommunitiesListFragmentComponent>(
-            true,                                                   // show back button
-            arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
-            false)                                                  // show all posts
-        .inject(this)
+        true,                                                   // show back button
+        arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
+        false                                                   // show all posts
+    ).inject(this)
 
     override fun releaseInjection() {
         App.injections.release<CommunitiesListFragmentComponent>()
@@ -55,7 +55,11 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
-            items.observe({viewLifecycleOwner.lifecycle}) { updateList(it) }
+            items.observe({
+                viewLifecycleOwner.lifecycle
+            }) {
+                updateList(it)
+            }
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -69,14 +73,14 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
 
-        when(command) {
+        when (command) {
             is NavigateToCommunityPageCommand -> moveToCommunityPage(command.communityId)
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
         }
     }
 
     private fun updateList(data: List<VersionedListItem>) {
-        if(!::communitiesListAdapter.isInitialized) {
+        if (!::communitiesListAdapter.isInitialized) {
             communitiesListLayoutManager = LinearLayoutManager(context)
 
             communitiesListAdapter = CommunityListAdapter(viewModel, viewModel.pageSize)

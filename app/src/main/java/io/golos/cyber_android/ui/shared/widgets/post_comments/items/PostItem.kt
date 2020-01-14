@@ -5,17 +5,17 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
-import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
-import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
-import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.Votes
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
+import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
+import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_feed_content.view.*
@@ -140,6 +140,7 @@ class PostItem(
         val postHeader = PostHeader(
             community.name,
             community.avatarUrl,
+            community.communityId,
             post.meta.creationTime,
             author.username,
             author.userId,
@@ -150,6 +151,9 @@ class PostItem(
         view.postHeader.setHeader(postHeader)
         view.postHeader.setOnUserClickListener {
             listener.onUserClicked(it)
+        }
+        view.postHeader.setOnCommunityClickListener { communityId ->
+            listener.onCommunityClicked(communityId)
         }
         view.postHeader.setOnMenuButtonClickListener {
             listener.onMenuClicked(

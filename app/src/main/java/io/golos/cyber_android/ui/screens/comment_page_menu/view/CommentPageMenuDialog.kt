@@ -4,8 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuModelListEventProcessor
@@ -13,6 +11,8 @@ import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentDel
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentEditListItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.list.CommentMenuAdapter
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.dialog_profile_comment_menu.*
 
 class CommentPageMenuDialog : BottomSheetDialogFragmentBase(), CommentMenuModelListEventProcessor {
@@ -30,6 +30,7 @@ class CommentPageMenuDialog : BottomSheetDialogFragmentBase(), CommentMenuModelL
             PostHeader(
                 communityName = commentMenu.communityName,
                 communityAvatarUrl = commentMenu.communityAvatarUrl,
+                communityId = commentMenu.communityId,
                 actionDateTime = commentMenu.creationTime,
                 userName = commentMenu.authorUsername,
                 userId = commentMenu.authorUserId,

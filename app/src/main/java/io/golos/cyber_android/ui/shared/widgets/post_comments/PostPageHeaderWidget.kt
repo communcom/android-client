@@ -10,9 +10,9 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
-import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.domain.extensions.appendSpannedText
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 
@@ -31,6 +31,7 @@ constructor(
     private var onJoinToCommunityButtonClickListener: (() -> Unit)? = null
     private var onMenuButtonClickListener: (() -> Unit)? = null
     private var onUserClickListener: ((String) -> Unit)? = null   // UserId as param
+    private var onCommunityClickListener: ((String) -> Unit)? = null //CommunityId as param
 
     private lateinit var userId: String
 
@@ -56,8 +57,16 @@ constructor(
                     .into(communityAvatar)
             }
 
-        communityAvatar.setOnClickListener { onUserClickListener?.invoke(userId) }
-        communityTitle.setOnClickListener { onUserClickListener?.invoke(userId) }
+        communityAvatar.setOnClickListener {
+            postHeader.communityId?.let { id ->
+                onCommunityClickListener?.invoke(id)
+            }
+        }
+        communityTitle.setOnClickListener {
+            postHeader.communityId?.let { id ->
+                onCommunityClickListener?.invoke(id)
+            }
+        }
         authorAndTime.setOnClickListener { onUserClickListener?.invoke(userId) }
         if (postHeader.isJoinFeatureEnabled) {
             joinToCommunityButton.visibility = View.VISIBLE
@@ -94,6 +103,10 @@ constructor(
      */
     fun setOnUserClickListener(listener: ((String) -> Unit)?) {
         onUserClickListener = listener
+    }
+
+    fun setOnCommunityClickListener(listener: ((String) -> Unit)?) {
+        onCommunityClickListener = listener
     }
 
     fun release(){

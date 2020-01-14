@@ -44,6 +44,8 @@ interface ParagraphWidgetListener : BasePostBlockWidgetListener,
     LinkListener, SeeMoreListener {
 
     fun onUserClicked(userId: String)
+
+    fun onCommunityClicked(communityId: String)
 }
 
 interface MenuListener {
