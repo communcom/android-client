@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:titleEnabled="false">
 
                 <FrameLayout
@@ -365,6 +365,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/stroke_normal"
                 android:background="@color/light_gray"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 />
 
             <com.google.android.material.tabs.TabLayout

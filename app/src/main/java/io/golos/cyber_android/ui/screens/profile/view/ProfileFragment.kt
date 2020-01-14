@@ -154,10 +154,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     protected open fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesAdapter(
         context!!.applicationContext,
         getDashboardFragment(this)?.childFragmentManager!!,
-        arguments?.getParcelable(Tags.USER_ID)!!
-    ) {
-        appbar.setExpanded(false, true)
-    }
+        arguments?.getParcelable(Tags.USER_ID)!!) { appbar.setExpanded(false, true) }
 
     private fun initPages() {
         tabLayout.apply {
