@@ -8,14 +8,13 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import timber.log.Timber
 
-
 fun Context.shareMessage(string: String) {
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, string)
         type = "text/plain"
     }
-    startActivity(intent)
+
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
     } else {
