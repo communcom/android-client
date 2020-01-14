@@ -5,11 +5,12 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.shared.utils.dp
+import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.domain.use_cases.post.post_dto.EmbedBlock
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 
@@ -43,17 +44,21 @@ constructor(
     override fun render(block: EmbedBlock) {
         linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl
+        var currentThubnail: ImageView? = null
         if (thumbnailUrl != null) {
-            val width = if (block.thumbnailWidth == null) 350.dp else block.thumbnailWidth!!.div(2).dp
-            val height = if (block.thumbnailHeight == null) 350.dp else block.thumbnailWidth!!.div(2).dp
-            richImage.visibility = View.VISIBLE
+            currentThubnail = if(block.thumbnailHeight == null || block.thumbnailWidth == null){
+                richImageAspectRatio
+            } else{
+                richImage
+            }
+            currentThubnail.visibility = View.VISIBLE
             richDescription.visibility = View.GONE
             Glide.with(context)
                 .load(thumbnailUrl)
-                .override(width, height)
-                .into(richImage)
+                .into(currentThubnail)
         } else {
             richImage.visibility = View.GONE
+            richImageAspectRatio.visibility = View.GONE
             richDescription.visibility = View.VISIBLE
             richDescription.text = block.description
         }
@@ -64,7 +69,7 @@ constructor(
         richUrl.text = block.authorUrl?.authority
 
         if(onClickProcessor != null) {
-            richImage.setOnClickListener {
+            currentThubnail?.setOnClickListener {
                 if (contentId != null) {
                     onClickProcessor?.onItemClicked(contentId!!)
                 } else {
@@ -80,12 +85,13 @@ constructor(
             }
         } else {
             llLinkProvider.setOnClickListener(null)
-            richImage.setOnClickListener(null)
+            currentThubnail?.setOnClickListener(null)
         }
     }
 
     override fun release() {
-        Glide.with(context).clear(richImage)
+        richImage.release()
+        richImageAspectRatio.release()
     }
 
     enum class Type(

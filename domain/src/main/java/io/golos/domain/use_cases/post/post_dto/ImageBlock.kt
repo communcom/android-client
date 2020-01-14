@@ -5,5 +5,7 @@ import android.net.Uri
 data class ImageBlock(
     val id: String?,
     val content: Uri,
-    val description: String?
+    val description: String?,
+    val width: Int?,
+    val height: Int?
 ): MediaBlock

@@ -4,11 +4,12 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 
@@ -64,16 +65,23 @@ constructor(
             description.text = block.description
             description.visibility = View.VISIBLE
         }
-
+        val contentImage: ImageView
+        if(block.width == null || block.height == null){
+            contentImage = imageAspectRatio
+            image.visibility = View.GONE
+        } else{
+            contentImage = image
+            imageAspectRatio.visibility = View.GONE
+        }
         Glide
             .with(this)
             .load(block.content)
-            .transform(CenterCrop())
-            .into(image)
+            .into(contentImage)
     }
 
     override fun release() {
-        Glide.with(this).clear(image)
+        image.release()
+        imageAspectRatio.release()
         setOnClickProcessor(null)
         setOnClickListener(null)
     }

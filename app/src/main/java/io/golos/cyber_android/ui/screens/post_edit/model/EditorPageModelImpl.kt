@@ -6,16 +6,15 @@ import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.utils.toCyberName
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.dto.ValidationResult
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
-import io.golos.domain.dto.block.ContentBlockEntity
-import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
@@ -27,6 +26,8 @@ import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
+import io.golos.domain.dto.block.ContentBlockEntity
+import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -128,7 +129,13 @@ constructor(
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val blockVersion = PostGlobalConstants.postFormatVersion.toString()
             val imageBlockList = localImagesUri.map { uri ->
-                ImageBlock(blockVersion, Uri.parse(uri), null)
+                val imageUri = Uri.parse(uri)
+                val options = imageUri.toBitmapOptions()
+                ImageBlock(blockVersion,
+                    imageUri,
+                    null,
+                    options.outWidth,
+                    options.outHeight)
             }
             contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
@@ -153,7 +160,9 @@ constructor(
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val blockVersion = PostGlobalConstants.postFormatVersion.toString()
             val imageBlockList = localImagesUri.map { uri ->
-                ImageBlock(blockVersion, Uri.parse(uri), null)
+                val imageUri = Uri.parse(uri)
+                val options = imageUri.toBitmapOptions()
+                ImageBlock(blockVersion, Uri.parse(uri), null, options.outWidth, options.outHeight)
             }
             contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)

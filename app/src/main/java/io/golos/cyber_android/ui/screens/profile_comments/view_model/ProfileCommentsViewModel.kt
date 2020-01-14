@@ -3,10 +3,6 @@ package io.golos.cyber_android.ui.screens.profile_comments.view_model
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
-import io.golos.cyber_android.ui.shared.paginator.Paginator
-import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
@@ -15,8 +11,13 @@ import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
+import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
 import io.golos.cyber_android.ui.shared.utils.toLiveData
+import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
@@ -87,7 +88,14 @@ class ProfileCommentsViewModel @Inject constructor(
                         //Обновилось изображение и нужно его загрузить на сервер
                         imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
                     }
-                    val attachments = imageUri?.let { uri -> AttachmentsBlock(currentContentAppVersion, listOf(ImageBlock(null, uri, null))) }
+                    val attachments = imageUri?.let { uri ->
+                        val imageSize = uri.toBitmapOptions()
+                        AttachmentsBlock(currentContentAppVersion,
+                        listOf(ImageBlock(null,
+                            uri,
+                            null,
+                            imageSize.outWidth,
+                            imageSize.outHeight))) }
                     val contentBlock = commentFromState?.body?.copy(
                         content = content,
                         attachments = attachments

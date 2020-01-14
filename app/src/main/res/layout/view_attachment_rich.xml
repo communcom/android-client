@@ -28,15 +28,39 @@
             tools:text="Magna nisi sunt quis id nisi ullamco adipisicing sint sint reprehenderit consequat et aliquip consequat. Incididunt cupidatat velit excepteur aute culpa in dolore sunt dolor occaecat cillum reprehenderit. Ullamco adipisicing minim magna culpa dolore amet dolor Lorem nisi laboris."
             tools:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/richImage"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_upvote"
-            tools:visibility="visible" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/richImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitEnd"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/backgrounds/scenic"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/richImageAspectRatio"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,16:9"
+                tools:ignore="ContentDescription"
+                tools:src="@tools:sample/backgrounds/scenic"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/llLinkProvider"
