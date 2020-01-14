@@ -16,7 +16,8 @@ data class CommunityPage(
     val membersCount: Int,
     val leadsCount: Int,
     val communityCurrency: CommunityPageCurrency,
-    val joinDate: Date
+    val joinDate: Date,
+    val alias: String?
 ) {
 
     data class CommunityFriend(

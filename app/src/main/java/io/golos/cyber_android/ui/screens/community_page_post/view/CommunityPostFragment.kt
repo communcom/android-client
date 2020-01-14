@@ -10,31 +10,31 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
+import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel
+import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
+import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
+import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
+import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
-import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
-import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
-import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
-import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
-import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
-import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
-import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
-import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
-import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
-import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.shared.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
+import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
@@ -50,7 +50,8 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     override fun layoutResId(): Int = R.layout.fragment_community_post
 
     override fun inject() = App.injections.get<CommunityPostFragmentComponent>(
-        arguments!!.getString(COMMUNITY_ID_EXTRA)
+        arguments!!.getString(COMMUNITY_ID_EXTRA),
+        arguments!!.getString(COMMUNITY_ALIAS_EXTRA)
     ).inject(this)
 
     override fun releaseInjection() {
@@ -356,14 +357,17 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     companion object {
 
         private const val COMMUNITY_ID_EXTRA = "community_id"
+        private const val COMMUNITY_ALIAS_EXTRA = "community_alias"
 
         private const val UPDATED_REQUEST_CODE = 41245
 
         fun newInstance(
-            communityId: String
+            communityId: String,
+            alias: String?
         ): CommunityPostFragment = CommunityPostFragment().apply {
             arguments = Bundle().apply {
                 putString(COMMUNITY_ID_EXTRA, communityId)
+                putString(COMMUNITY_ALIAS_EXTRA, alias)
             }
         }
 

@@ -3,7 +3,10 @@ package io.golos.data.repositories.discussion
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
-import io.golos.commun4j.model.*
+import io.golos.commun4j.model.BandWidthRequest
+import io.golos.commun4j.model.ClientAuthRequest
+import io.golos.commun4j.model.FeedTimeFrame
+import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.services.model.CommentsSortBy
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
@@ -101,7 +104,7 @@ constructor(
 
     override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain> {
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
-        val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
+        //val sortByType = FeedSortByType.valueOf(postsConfigurationDomain.sortBy.name)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
         return apiCall {
             commun4j.getPostsRaw(
@@ -110,7 +113,7 @@ constructor(
                 postsConfigurationDomain.communityAlias,
                 postsConfigurationDomain.allowNsfw,
                 type,
-                sortByType,
+                null,
                 timeFrame,
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset

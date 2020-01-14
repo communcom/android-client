@@ -33,5 +33,6 @@ fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): Commu
         membersCount = subscribersCount,
         leadsCount = leadersCount ?: 0,
         communityCurrency = CommunityPageDomain.CommunityPageCurrencyDomain(name, 1f),
-        joinDate = Date()
+        joinDate = Date(),
+        alias = alias
     )

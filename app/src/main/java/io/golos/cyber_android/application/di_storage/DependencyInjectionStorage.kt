@@ -309,7 +309,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunityPostFragmentComponent::class -> get<UIComponent>()
                 .communityPostFragment
                 .init(
-                    CommunityPostFragmentModule(args[0] as String)
+                    CommunityPostFragmentModule(args[0] as String, args[1] as String?)
                 )
                 .build()
 

@@ -11,21 +11,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
+import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
+import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
+import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsListFragment
+import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
+import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
-import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsListFragment
-import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
-import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
-import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
-import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
+import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.utils.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
@@ -192,7 +192,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
         fragmentPagesList.add(
-            CommunityPostFragment.newInstance(communityPage.communityId)
+            CommunityPostFragment.newInstance(communityPage.communityId, communityPage.alias)
         )
         fragmentPagesList.add(
             LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))

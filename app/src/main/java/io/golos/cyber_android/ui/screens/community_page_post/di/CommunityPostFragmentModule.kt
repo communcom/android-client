@@ -6,10 +6,14 @@ import io.golos.domain.dependency_injection.Clarification
 import javax.inject.Named
 
 @Module
-class CommunityPostFragmentModule(private val communityId: String) {
+class CommunityPostFragmentModule(private val communityId: String, private val communityAlias: String?) {
 
     @Provides
     @Named(value = Clarification.COMMUNITY_ID)
     internal fun provideCommunityId(): String = communityId
+
+    @Provides
+    @Named(value = Clarification.COMMUNITY_ALIAS)
+    internal fun provideCommunityAlias(): String? = communityAlias
 
 }

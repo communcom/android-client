@@ -40,6 +40,7 @@ class CommunityPostViewModel @Inject constructor(
     model: CommunityPostModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
     @Named(Clarification.COMMUNITY_ID) private val communityId: String,
+    @Named(Clarification.COMMUNITY_ALIAS) private val communityAlias: String?,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
 
@@ -87,7 +88,7 @@ class CommunityPostViewModel @Inject constructor(
             postsConfigurationDomain = PostsConfigurationDomain(
                 currentUserRepository.userId.userId,
                 communityId,
-                null,
+                communityAlias,
                 PostsConfigurationDomain.SortByDomain.TIME_DESC,
                 config.periodFilter.mapToTimeFrameDomain(),
                 PAGINATION_PAGE_SIZE,
