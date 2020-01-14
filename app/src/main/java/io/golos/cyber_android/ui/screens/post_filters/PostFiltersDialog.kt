@@ -124,12 +124,12 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
         })
         viewModel.filtersMode.observe(this, Observer {
             if(it == PostFiltersViewModel.FiltersMode.UPDATE_TIME){
-                cvSortByTime.visibility = View.GONE
+                cvSortByTime.visibility = View.INVISIBLE
                 cvUpdateContentFilters.visibility = View.VISIBLE
                 ivBack.visibility = View.INVISIBLE
             } else{
                 cvSortByTime.visibility = View.VISIBLE
-                cvUpdateContentFilters.visibility = View.GONE
+                cvUpdateContentFilters.visibility = View.INVISIBLE
                 ivBack.visibility = View.VISIBLE
             }
         })
@@ -157,21 +157,35 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
 
     private fun addUpdateTimeFiltersListeners() {
         cbHot.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changeUpdateTimeFilter(PostFiltersHolder.UpdateTimeFilter.HOT)
-            }
+            val filter = PostFiltersHolder.UpdateTimeFilter.HOT
+            onUpdateTimeFilter(isChecked, filter)
         }
 
         cbNew.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changeUpdateTimeFilter(PostFiltersHolder.UpdateTimeFilter.NEW)
-            }
+            val filter = PostFiltersHolder.UpdateTimeFilter.NEW
+            onUpdateTimeFilter(isChecked, filter)
         }
 
         cbPopular.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changeUpdateTimeFilter(PostFiltersHolder.UpdateTimeFilter.POPULAR)
-            }
+            val filter = PostFiltersHolder.UpdateTimeFilter.POPULAR
+            onUpdateTimeFilter(isChecked, filter)
+        }
+        llHot.setOnClickListener{
+            cbHot.isChecked = !cbHot.isChecked
+        }
+        llNew.setOnClickListener {
+            cbNew.isChecked = !cbNew.isChecked
+        }
+        llPopular.setOnClickListener {
+            cbPopular.isChecked = !cbPopular.isChecked
+        }
+    }
+
+    private fun onUpdateTimeFilter(isChecked: Boolean, filter: PostFiltersHolder.UpdateTimeFilter){
+        if (isChecked) {
+            viewModel.changeUpdateTimeFilter(filter)
+        } else{
+            viewModel.onDeselectUpdateTimeFilter(filter)
         }
     }
 
@@ -190,46 +204,62 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
                 cbAll.isChecked = false
             }
             PostFiltersHolder.PeriodTimeFilter.PAST_WEEK -> {
-                cb24hr.isChecked = false
                 cbWeek.isChecked = true
+                cb24hr.isChecked = false
                 cbMonth.isChecked = false
                 cbAll.isChecked = false
             }
             PostFiltersHolder.PeriodTimeFilter.PAST_MONTH -> {
+                cbMonth.isChecked = true
                 cb24hr.isChecked = false
                 cbWeek.isChecked = false
-                cbMonth.isChecked = true
                 cbAll.isChecked = false
             }
             PostFiltersHolder.PeriodTimeFilter.ALL -> {
+                cbAll.isChecked = true
                 cb24hr.isChecked = false
                 cbWeek.isChecked = false
                 cbMonth.isChecked = false
-                cbAll.isChecked = true
             }
         }
     }
 
     private fun addPeriodTimeFiltersListeners() {
         cb24hr.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changePeriodTimeFilter(PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS)
-            }
+            val filter = PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS
+            onChangeTimeFilter(isChecked, filter)
         }
         cbWeek.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changePeriodTimeFilter(PostFiltersHolder.PeriodTimeFilter.PAST_WEEK)
-            }
+            val filter = PostFiltersHolder.PeriodTimeFilter.PAST_WEEK
+            onChangeTimeFilter(isChecked, filter)
         }
         cbMonth.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changePeriodTimeFilter(PostFiltersHolder.PeriodTimeFilter.PAST_MONTH)
-            }
+            val filter = PostFiltersHolder.PeriodTimeFilter.PAST_MONTH
+            onChangeTimeFilter(isChecked, filter)
         }
         cbAll.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                viewModel.changePeriodTimeFilter(PostFiltersHolder.PeriodTimeFilter.ALL)
-            }
+            val filter = PostFiltersHolder.PeriodTimeFilter.ALL
+            onChangeTimeFilter(isChecked, filter)
+        }
+        ll24hr.setOnClickListener {
+            cb24hr.isChecked = !cb24hr.isChecked
+        }
+        llWeek.setOnClickListener {
+            cbWeek.isChecked = !cbWeek.isChecked
+        }
+        llMonth.setOnClickListener {
+            cbMonth.isChecked = !cbMonth.isChecked
+        }
+        llAll.setOnClickListener {
+            cbAll.isChecked = !cbAll.isChecked
+        }
+    }
+
+    private fun onChangeTimeFilter(isChecked: Boolean, filter: PostFiltersHolder.PeriodTimeFilter){
+        if (isChecked) {
+            viewModel.changePeriodTimeFilter(filter)
+        } else{
+            viewModel.onDeselectPeriodTimeFilter(filter)
         }
     }
 

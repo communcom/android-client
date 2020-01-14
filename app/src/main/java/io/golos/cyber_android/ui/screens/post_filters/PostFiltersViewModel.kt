@@ -54,8 +54,22 @@ class PostFiltersViewModel @Inject constructor(
         }
     }
 
+    fun onDeselectUpdateTimeFilter(filter: PostFiltersHolder.UpdateTimeFilter){
+        if(_updateTimeFilter.value == filter){
+            //deselect current filter
+            changeUpdateTimeFilter(filter)
+        }
+    }
+
     fun changePeriodTimeFilter(filter: PostFiltersHolder.PeriodTimeFilter) {
         _periodTimeFilter.value = filter
+    }
+
+    fun onDeselectPeriodTimeFilter(filter: PostFiltersHolder.PeriodTimeFilter){
+        if(_periodTimeFilter.value == filter){
+            //deselect current filter
+            changePeriodTimeFilter(filter)
+        }
     }
 
     fun onNextClicked() {
