@@ -264,7 +264,8 @@ constructor(
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = currentUser
+                voter = currentUser,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
     }
@@ -278,7 +279,8 @@ constructor(
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                voter = currentUser
+                voter = currentUser,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
     }
