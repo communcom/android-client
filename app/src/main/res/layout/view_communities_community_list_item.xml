@@ -64,15 +64,9 @@
     <ToggleButton
         android:id="@+id/joinButton"
 
-        style="@style/BlueWhite.RoundCorners.Toggle.BlueText"
-
-        android:layout_width="@dimen/follow_following_button_width"
-        android:layout_height="@dimen/follow_following_button_height"
+        style="@style/BlueWhite.RoundCorners.Toggle.Follow"
 
         android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
-
-        android:textOn="@string/following"
-        android:textOff="@string/follow"
 
         tools:checked="true"
 

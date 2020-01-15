@@ -63,15 +63,9 @@
     <ToggleButton
         android:id="@+id/joinToCommunityButton"
 
-        style="@style/BlueWhite.RoundCorners.Toggle.BlueText"
-
-        android:layout_width="@dimen/follow_following_button_width"
-        android:layout_height="@dimen/follow_following_button_height"
+        style="@style/BlueWhite.RoundCorners.Toggle.Follow"
 
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
-
-        android:textOn="@string/following"
-        android:textOff="@string/follow"
 
         tools:checked="true"
 
