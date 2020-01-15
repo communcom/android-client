@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostF
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
 import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
+import io.golos.cyber_android.ui.shared.glide.loadCover
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
@@ -108,6 +109,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         viewModel.communityPageLiveData.observe(this, Observer {
             tvCommunityName.text = it.name
             tvDescription.text = it.description
+
+            tvDescription.visibility = if(it.description.isNullOrBlank()) View.GONE else View.VISIBLE
+
             setCommunityLogo(it.avatarUrl)
             setCommunityCover(it.coverUrl)
             setSubscriptionStatus(it.isSubscribed)
@@ -117,22 +121,27 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvLeadsCount.text = KiloCounterFormatter.format(leadsCount)
             val membersCount = it.membersCount
             tvMemberCount.text = KiloCounterFormatter.format(membersCount)
-            val friendsCount = it.friendsCount
-            tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter.format(friendsCount))
+
+            if(it.friendsCount > 0) {
+                tvFriendsCountLabel.visibility = View.VISIBLE
+                tvFriendsLabel.visibility = View.VISIBLE
+
+                tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter.format(it.friendsCount))
+                tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, it.friendsCount.toPluralInt())
+            } else {
+                tvFriendsCountLabel.visibility = View.GONE
+                tvFriendsLabel.visibility = View.GONE
+            }
+
             val communityCurrency = it.communityCurrency
             tvCurrentCurrency.text = communityCurrency.currencyName
             tvCurrentCommunRate.text = communityCurrency.exchangeRate.toString()
             tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, membersCount.toPluralInt())
             tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, leadsCount.toPluralInt())
-            tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, friendsCount.toPluralInt())
+
             tvJoinTime.text = "${resources.getString(R.string.joined)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
-            ivNotificationCommunityControl.setOnClickListener {
-                viewModel.onNotificationCommunityControlClicked()
-            }
-            ctvJoin.setOnClickListener {
-                viewModel.changeJoinStatus()
-            }
+            ctvJoin.setOnClickListener { viewModel.changeJoinStatus() }
             initViewPager(it)
         })
 
@@ -154,10 +163,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     private fun setCommunityCover(coverUrl: String?) {
-        Glide.with(ivCommunityCover)
-            .load(coverUrl)
-            .apply(RequestOptions.centerCropTransform())
-            .into(ivCommunityCover)
+        ivCommunityCover.loadCover(coverUrl)
     }
 
     private fun setCommunityLogo(communityLogo: String?) {
@@ -166,11 +172,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     private fun setSubscriptionStatus(isSubscribed: Boolean) {
         ctvJoin.isChecked = isSubscribed
-        if (isSubscribed) {
-            ivNotificationCommunityControl.visibility = View.VISIBLE
-        } else {
-            ivNotificationCommunityControl.visibility = View.INVISIBLE
-        }
     }
 
     private fun initTabLayout() {

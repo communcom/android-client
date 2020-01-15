@@ -63,6 +63,6 @@
 
     <color name="avatar_frame">@color/blue</color>
 
-    <color name="cover_gradient_start_color">#33000000</color>
+    <color name="cover_gradient_start_color">#4D000000</color>
     <color name="cover_gradient_end_color">@color/transparent</color>
 </resources>

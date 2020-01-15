@@ -63,10 +63,6 @@ class CommunityPageViewModel @Inject constructor(
         _command.value = NavigateBackwardCommand()
     }
 
-    fun onNotificationCommunityControlClicked() {
-
-    }
-
     fun changeJoinStatus() {
         launch {
             try {

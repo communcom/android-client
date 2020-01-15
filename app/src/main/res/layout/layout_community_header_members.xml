@@ -24,12 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/gap"
-        android:textSize="@dimen/text_size_12_sp"
         android:textColor="@color/grey"
-        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        android:textSize="@dimen/text_size_12_sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
         app:layout_constraintStart_toEndOf="@+id/tvMemberCount"
-        tools:text="Members"/>
+        tools:text="Members" />
 
     <TextView
         android:id="@+id/tvPoint"
@@ -62,24 +61,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/gap"
-        android:textSize="@dimen/text_size_12_sp"
         android:textColor="@color/grey"
-        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        android:textSize="@dimen/text_size_12_sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
         app:layout_constraintStart_toEndOf="@+id/tvLeadsCount"
-        tools:text="Leads"/>
+        tools:text="Leads" />
 
     <TextView
         android:id="@+id/tvFriendsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_default"
-        android:textSize="@dimen/text_size_12_sp"
         android:textColor="@color/grey"
-        app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
+        android:textSize="@dimen/text_size_12_sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Friends"/>
+        tools:text="Friends" />
 
     <TextView
         android:id="@+id/tvFriendsCountLabel"
@@ -101,6 +98,9 @@
         android:layout_marginEnd="@dimen/gap"
         app:layout_constraintTop_toTopOf="@+id/tvMemberCount"
         app:layout_constraintBottom_toBottomOf="@+id/tvMemberCount"
-        app:layout_constraintEnd_toStartOf="@+id/tvFriendsCountLabel"/>
+        app:layout_constraintEnd_toStartOf="@+id/tvFriendsCountLabel"
+
+        app:layout_goneMarginEnd="@dimen/margin_default"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
