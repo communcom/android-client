@@ -43,9 +43,8 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
 
     override fun inject() =
         App.injections
-        .get<ProfileCommunitiesFragmentComponent>(
-            arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
-        .inject(this)
+            .get<ProfileCommunitiesFragmentComponent>(arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
+            .inject(this)
 
     override fun releaseInjection() {
         App.injections.release<ProfileCommunitiesFragmentComponent>()

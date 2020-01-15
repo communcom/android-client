@@ -63,7 +63,7 @@ fun setCommunitiesVisibility(view: FrameLayout, valueToBind: LiveData<ProfileCom
     valueToBind?.let { value ->
         view.parentActivity?.let { activity ->
             value.observe(activity, Observer { communities ->
-                view.visibility = if(communities != null) View.VISIBLE else View.GONE
+                view.visibility = if(communities != null && communities.highlightCommunities.isNotEmpty()) View.VISIBLE else View.GONE
             })
         }
     }

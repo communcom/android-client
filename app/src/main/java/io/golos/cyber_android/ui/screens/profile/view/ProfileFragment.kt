@@ -68,10 +68,10 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         with(viewModel) {
             communities.observe({ viewLifecycleOwner.lifecycle }) {
                 it?.let {
-                    fragmentManager
-                        ?.beginTransaction()
-                        ?.add(R.id.communitiesContainer, provideCommunitiesFragment(it))
-                        ?.commit()
+                    childFragmentManager
+                        .beginTransaction()
+                        .add(R.id.communitiesContainer, provideCommunitiesFragment(it))
+                        .commit()
                 }
             }
         }
