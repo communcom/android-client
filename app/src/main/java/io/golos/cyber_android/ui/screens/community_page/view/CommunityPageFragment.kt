@@ -14,6 +14,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
+import io.golos.cyber_android.ui.screens.community_page.dto.SwitchToLeadsTabCommand
 import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsListFragment
@@ -106,8 +107,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun processViewCommand(command: ViewCommand) {
         super.processViewCommand(command)
-        if (command is NavigateBackwardCommand) {
-            requireFragmentManager().popBackStack()
+
+        when(command) {
+            is NavigateBackwardCommand -> requireFragmentManager().popBackStack()
+            is SwitchToLeadsTabCommand -> switchToTab(1)
         }
     }
 
@@ -124,8 +127,13 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             setSubscriptionStatus(it.isSubscribed)
             appbar.visibility = View.VISIBLE
             vpContent.visibility = View.VISIBLE
-            val leadsCount = it.leadsCount
-            tvLeadsCount.text = KiloCounterFormatter.format(leadsCount)
+
+            tvLeadsCount.text = KiloCounterFormatter.format(it.leadsCount)
+            tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, it.leadsCount.toPluralInt())
+
+            tvLeadsLabel.setOnClickListener { viewModel.onLeadsLabelClick() }
+            tvLeadsCount.setOnClickListener { viewModel.onLeadsLabelClick() }
+
             val membersCount = it.membersCount
             tvMemberCount.text = KiloCounterFormatter.format(membersCount)
 
@@ -144,7 +152,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvCurrentCurrency.text = communityCurrency.currencyName
             tvCurrentCommunRate.text = communityCurrency.exchangeRate.toString()
             tvMembersLabel.text = resources.getQuantityString(R.plurals.plural_members, membersCount.toPluralInt())
-            tvLeadsLabel.text = resources.getQuantityString(R.plurals.plural_leads, leadsCount.toPluralInt())
 
             tvJoinTime.text = "${resources.getString(R.string.joined)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
@@ -213,4 +220,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)
+
+    private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
 }

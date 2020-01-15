@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
+import io.golos.cyber_android.ui.screens.community_page.dto.SwitchToLeadsTabCommand
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
 import io.golos.cyber_android.ui.shared.utils.toLiveData
@@ -61,6 +62,10 @@ class CommunityPageViewModel @Inject constructor(
 
     fun onBackPressed() {
         _command.value = NavigateBackwardCommand()
+    }
+
+    fun onLeadsLabelClick() {
+        _command.value = SwitchToLeadsTabCommand()
     }
 
     fun changeJoinStatus() {
