@@ -3,22 +3,22 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 import dagger.Lazy
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
+import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level.FirstLevelLoader
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.second_level.SecondLevelLoader
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.second_level.SecondLevelLoaderImpl
-import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.screens.post_view.model.voting.CommentVotingMachineImpl
 import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingEvent
 import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
 import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.repositories.DiscussionRepository
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
+import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -73,15 +73,14 @@ constructor(
         getSecondLevelLoader(parentCommentId).retryLoadPage()
 
     override suspend fun sendComment(commentText: String, postHasComments: Boolean) {
-        if(!postHasComments) {
-            postListDataSource.addCommentsHeader()
-        }
         postListDataSource.addLoadingForNewComment()
-
         try {
             val commentModel = withContext(dispatchersProvider.ioDispatcher) {
                 delay(1000)
                 discussionRepository.createCommentForPost(postToProcess, commentText)
+            }
+            if(!postHasComments) {
+                postListDataSource.addCommentsHeader()
             }
             postListDataSource.addNewComment(commentModel)
             commentsStorage.get().addPostedComment(commentModel)
