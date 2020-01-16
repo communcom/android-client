@@ -10,5 +10,6 @@ fun BlacklistUserItem.mapToUserDomain() : UserDomain =
         userName = username!!,
         userAvatar = avatarUrl,
         postsCount = 0,
-        followersCount = 0
+        followersCount = 0,
+        isSubscribed = isSubscribed ?: false
     )

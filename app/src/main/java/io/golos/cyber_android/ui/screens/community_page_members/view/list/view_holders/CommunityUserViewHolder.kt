@@ -1,21 +1,21 @@
-package io.golos.cyber_android.ui.screens.profile_followers.view.list.view_holders
+package io.golos.cyber_android.ui.screens.community_page_members.view.list.view_holders
 
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.community_page_members.dto.CommunityUserListItem
+import io.golos.cyber_android.ui.screens.community_page_members.view.UsersListEventsProcessor
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
-import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_profile_followers_list_item.view.*
 
-class FollowerViewHolder(
+class CommunityUserViewHolder(
     parentView: ViewGroup
-) : ViewHolderBase<FollowersListItemEventsProcessor, VersionedListItem>(
+) : ViewHolderBase<UsersListEventsProcessor, VersionedListItem>(
     parentView,
     R.layout.view_profile_followers_list_item
 ) {
@@ -29,28 +29,29 @@ class FollowerViewHolder(
     )
 
     @SuppressLint("SetTextI18n")
-    override fun init(listItem: VersionedListItem, listItemEventsProcessor: FollowersListItemEventsProcessor) {
-        if(listItem !is FollowersListItem) {
+    override fun init(listItem: VersionedListItem, listItemEventsProcessor: UsersListEventsProcessor) {
+        if(listItem !is CommunityUserListItem) {
             return
         }
 
         with(listItem) {
-            itemView.title.text = follower.userName
+            itemView.title.text = user.userName
 
-            val followers = followersFormatter.format(follower.followersCount!!)
-            val posts = postsFormatter.format(follower.postsCount!!)
+            val followers = followersFormatter.format(user.followersCount!!)
+            val posts = postsFormatter.format(user.postsCount!!)
 
             itemView.info.text = "$followers ${SpecialChars.BULLET} $posts"
 
             itemView.setOnClickListener { /*listItemEventsProcessor.onItemClick(community)*/ }
+            itemView.joinButton.setOnClickListener { listItemEventsProcessor.onFollowClick(user.userId) }
+
+            itemView.joinButton.visibility = if(canFollow) View.VISIBLE else View.GONE
 
             itemView.joinButton.isChecked = isFollowing
 
             itemView.viewDelimiter.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
 
-            itemView.joinButton.setOnClickListener { listItemEventsProcessor.onFollowClick(follower.userId, filter) }
-
-            itemView.avatar.loadAvatar(follower.userAvatar)
+            itemView.avatar.loadAvatar(user.userAvatar)
         }
     }
 

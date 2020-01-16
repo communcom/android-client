@@ -1,0 +1,109 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.community_page_members.view_model.CommunityPageMembersViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:clickable="true"
+
+        android:id="@+id/root"
+        tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
+        android:background="@color/white"
+        tools:ignore="KeyboardInaccessibleWidget">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            app:elevation="0dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                android:paddingBottom="@dimen/margin_small">
+
+                <TextView
+                    android:id="@+id/titleText"
+                    style="@style/White.Header.TextStyle"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/profile_followers_title_margin"
+
+                    android:text="@{viewModel.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="F.F. Preobrajensky" />
+
+                <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                    android:id="@+id/backButton"
+
+                    android:layout_width="@dimen/size_image_button"
+                    android:layout_height="@dimen/size_image_button"
+
+                    android:background="@null"
+                    android:onClick="@{() -> viewModel.onBackClick()}"
+                    app:imageButton_icon="@drawable/ic_left_arrow"
+                    app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
+
+                    app:imageButton_tint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/titleText"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintTop_toTopOf="@+id/titleText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:paddingTop="@dimen/general_list_padding_top"
+            android:paddingLeft="@dimen/general_list_padding"
+            android:paddingRight="@dimen/general_list_padding"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:overScrollMode="never"
+
+            android:background="@color/window_background_light_gray">
+
+            <io.golos.cyber_android.ui.screens.community_page_members.view.widgets.RoundCornersPagedListWidget
+                android:id="@+id/usersList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:listItems="@{viewModel.items}"
+                android:visibility="@{viewModel.itemsVisibility}"
+            />
+
+            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+                android:id="@+id/noDataStub"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_followers_no_data_height"
+
+                tools:visibility = "visible"
+
+                android:visibility="@{viewModel.noDataStubVisibility}"
+                app:noDataTitle="@{viewModel.noDataStubText}"
+                app:noDataExplanation="@{viewModel.noDataStubExplanation}"
+                />
+        </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

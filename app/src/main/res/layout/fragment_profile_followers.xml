@@ -58,7 +58,7 @@
 
                     android:background="@null"
                     android:onClick="@{() -> viewModel.onBackClick()}"
-                    app:imageButton_icon="@drawable/ic_back"
+                    app:imageButton_icon="@drawable/ic_left_arrow"
                     app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
 
                     app:imageButton_tint="@color/black"

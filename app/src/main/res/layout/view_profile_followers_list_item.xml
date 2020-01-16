@@ -32,6 +32,7 @@
 
         android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
         android:layout_marginEnd="@dimen/select_community_dialog_search_margin_small"
+        app:layout_goneMarginEnd="@dimen/select_community_dialog_search_margin"
 
         android:text=""
 

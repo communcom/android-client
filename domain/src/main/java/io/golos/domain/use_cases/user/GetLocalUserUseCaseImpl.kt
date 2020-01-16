@@ -9,6 +9,6 @@ class GetLocalUserUseCaseImpl @Inject constructor(
 ): GetLocalUserUseCase {
 
     override suspend fun getLocalUser(): UserDomain{
-        return UserDomain(currentUserRepository.userId, "", currentUserRepository.userAvatarUrl, null, null)
+        return UserDomain(currentUserRepository.userId, "", currentUserRepository.userAvatarUrl, null, null, false)
     }
 }

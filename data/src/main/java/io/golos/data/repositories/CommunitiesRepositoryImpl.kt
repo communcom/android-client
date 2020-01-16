@@ -1,6 +1,5 @@
 package io.golos.data.repositories
 
-import android.content.Context
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
@@ -10,8 +9,8 @@ import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.*
 import io.golos.data.network_state.NetworkStateChecker
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -162,5 +161,16 @@ constructor(
                 key = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
+    }
+
+    override suspend fun getSubscribers(communityId: String, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+        return apiCall {
+            commun4j.getSubscribers(
+                null,
+                communityId,
+                pageSizeLimit,
+                offset
+            )
+        }.items.map { it.mapToUserDomain() }
     }
 }

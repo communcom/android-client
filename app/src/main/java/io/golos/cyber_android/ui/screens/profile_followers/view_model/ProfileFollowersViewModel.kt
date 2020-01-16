@@ -127,7 +127,7 @@ constructor(
         }
     }
 
-    override fun onJoinClick(userId: UserIdDomain, filter: FollowersFilter) {
+    override fun onFollowClick(userId: UserIdDomain, filter: FollowersFilter) {
         launch {
             if(!model.subscribeUnsubscribe(userId, filter)) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)

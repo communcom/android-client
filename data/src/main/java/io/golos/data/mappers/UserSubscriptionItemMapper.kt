@@ -12,9 +12,9 @@ fun UserSubscriptionItem.mapToFollowingUserDomain(): FollowingUserDomain =
             userName = username!!,
             userAvatar = avatarUrl,
             postsCount = 0,
-            followersCount = 0
+            followersCount = 0,
+            isSubscribed = isSubscribed ?: false
         ),
-        isSubscribed = this.isSubscribed ?: false,
         isBlocked = true,
         isInBlacklist = true
     )

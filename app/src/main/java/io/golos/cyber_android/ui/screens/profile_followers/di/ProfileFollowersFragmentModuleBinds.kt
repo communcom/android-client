@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.profile_followers.model.ProfileFollowersModel
 import io.golos.cyber_android.ui.screens.profile_followers.model.ProfileFollowersModelImpl
-import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.ListWorker
+import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.ListWorkerFollowers
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.ListWorkerFollowings
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.ListWorkerMutual
@@ -27,13 +27,13 @@ abstract class ProfileFollowersFragmentModuleBinds {
 
     @Binds
     @Named(Clarification.FOLLOWERS)
-    abstract fun provideListWorkerFollowers(worker: ListWorkerFollowers): ListWorker
+    abstract fun provideListWorkerFollowers(worker: ListWorkerFollowers): UsersListWorker
 
     @Binds
     @Named(Clarification.FOLLOWING)
-    abstract fun provideListWorkerFollowings(worker: ListWorkerFollowings): ListWorker
+    abstract fun provideListWorkerFollowings(worker: ListWorkerFollowings): UsersListWorker
 
     @Binds
     @Named(Clarification.MUTUAL)
-    abstract fun provideListWorkerMutual(worker: ListWorkerMutual): ListWorker
+    abstract fun provideListWorkerMutual(worker: ListWorkerMutual): UsersListWorker
 }

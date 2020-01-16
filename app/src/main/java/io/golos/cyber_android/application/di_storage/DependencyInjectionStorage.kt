@@ -39,6 +39,8 @@ import io.golos.cyber_android.ui.dto.*
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
+import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersComponent
+import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersModule
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentModule
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
@@ -280,6 +282,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
             CommunityPageLeadsListComponent::class -> get<CommunityPageFragmentComponent>()
                 .leadsListFragment
                 .init(CommunityPageLeadsListModule(args[0] as String))
+                .build()
+
+            CommunityPageMembersComponent::class -> get<CommunityPageFragmentComponent>()
+                .membersFragment
+                .init(CommunityPageMembersModule(args[0] as String, args[1] as Int))
                 .build()
 
             FeedFragmentComponent::class -> get<UIComponent>()

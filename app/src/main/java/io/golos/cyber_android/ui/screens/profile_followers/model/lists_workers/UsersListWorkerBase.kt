@@ -2,21 +2,19 @@ package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.screens.profile_followers.dto.UserListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.FollowersFilter
-import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
-import io.golos.cyber_android.ui.screens.profile_followers.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.profile_followers.dto.RetryListItem
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.UsersRepository
-import io.golos.domain.utils.IdUtil
 import timber.log.Timber
 
-abstract class ListWorkerBase(
+/**
+ * [TLI] type of user list item
+ */
+abstract class UsersListWorkerBase<TLI : UserListItem<*>>(
     private val pageSize: Int,
-    private val userRepository: UsersRepository,
-    private val filter: FollowersFilter
-) : ListWorker {
+    private val userRepository: UsersRepository
+) : UsersListWorker {
 
     private enum class LoadingState {
         READY_TO_LOAD,
@@ -41,8 +39,7 @@ abstract class ListWorkerBase(
 
             LoadingState.LOADING,
             LoadingState.IN_ERROR,
-            LoadingState.ALL_DATA_LOADED -> {
-            }
+            LoadingState.ALL_DATA_LOADED -> { }
         }
     }
 
@@ -56,7 +53,13 @@ abstract class ListWorkerBase(
         }
     }
 
-    abstract suspend fun getData(offset: Int): List<FollowersListItem>?
+    abstract suspend fun getData(offset: Int): List<TLI>?
+
+    abstract fun isUserWithId(userId: UserIdDomain, item: Any): Boolean
+
+    abstract fun createLoadingListItem(): VersionedListItem
+
+    abstract fun createRetryListItem(): VersionedListItem
 
     private suspend fun loadData(isRetry: Boolean) {
         currentLoadingState = LoadingState.LOADING
@@ -79,24 +82,23 @@ abstract class ListWorkerBase(
         }
     }
 
-    private fun addLoading() = updateData { loadedItems.add(LoadingListItem(IdUtil.generateLongId(), 0, filter))}
+    private fun addLoading() = updateData { loadedItems.add(createLoadingListItem())}
 
     private fun replaceRetryByLoading() = updateData {
-        loadedItems[loadedItems.lastIndex] =
-            LoadingListItem(IdUtil.generateLongId(), 0, filter)
+        loadedItems[loadedItems.lastIndex] = createLoadingListItem()
     }
 
     private fun replaceLoadingByRetry() = updateData {
-        loadedItems[loadedItems.lastIndex] =
-            RetryListItem(IdUtil.generateLongId(), 0, filter)
+        loadedItems[loadedItems.lastIndex] = createRetryListItem()
     }
 
-    private fun addLoadedData(data: List<FollowersListItem>) = updateData {
+    @Suppress("UNCHECKED_CAST")
+    private fun addLoadedData(data: List<TLI>) = updateData {
         loadedItems.removeAt(loadedItems.lastIndex)
 
         if(loadedItems.isNotEmpty()) {
-            val lastItem = loadedItems[loadedItems.lastIndex] as FollowersListItem
-            loadedItems[loadedItems.lastIndex] = lastItem.copy(version = lastItem.version + 1, isLastItem = false)
+            val lastItem = loadedItems[loadedItems.lastIndex] as TLI
+            loadedItems[loadedItems.lastIndex] = lastItem.updateIsLastItem(false)
         }
 
         loadedItems.addAll(data)
@@ -105,6 +107,7 @@ abstract class ListWorkerBase(
     /**
      * @return true in case of success
      */
+    @Suppress("UNCHECKED_CAST")
     override suspend fun subscribeUnsubscribe(userId: UserIdDomain): Boolean {
         if(subscribingInProgress) {
             return true
@@ -112,13 +115,13 @@ abstract class ListWorkerBase(
 
         subscribingInProgress = true
 
-        val user = loadedItems[getUserIndex(userId)] as FollowersListItem
+        val user = loadedItems[getUserIndex(userId)] as TLI
 
         setUserInProgress(userId)
 
         val isSuccess =
             try {
-                if(user.isJoined) {
+                if(user.isFollowing) {
                     userRepository.unsubscribeToFollower(userId)
                 } else {
                     userRepository.subscribeToFollower(userId)
@@ -141,24 +144,18 @@ abstract class ListWorkerBase(
      */
     override fun subscribeUnsubscribeInstant(userId: UserIdDomain) = setUserInProgress(userId)
 
+    @Suppress("UNCHECKED_CAST")
     private fun setUserInProgress(userId: UserIdDomain) =
-        updateUser(userId) { oldUser ->
-            oldUser.copy(
-                version = oldUser.version + 1,
-                isProgress = true,
-                isJoined = !oldUser.isJoined)
-        }
+        updateUser(userId) { oldUser -> oldUser.updateIsFollowing(!oldUser.isFollowing) as TLI }
 
+    @Suppress("UNCHECKED_CAST")
     private fun completeUserInProgress(userId: UserIdDomain, isSuccess: Boolean) =
         updateUser(userId) { oldUser ->
-            oldUser.copy(
-                version = oldUser.version + 1,
-                isProgress = false,
-                isJoined = if(isSuccess) oldUser.isJoined else !oldUser.isJoined
-            )
+            oldUser.updateIsFollowing(if(isSuccess) oldUser.isFollowing else !oldUser.isFollowing) as TLI
         }
 
-    private fun updateUser(userId: UserIdDomain, updateAction: (FollowersListItem) -> FollowersListItem) {
+    @Suppress("UNCHECKED_CAST")
+    private fun updateUser(userId: UserIdDomain, updateAction: (TLI) -> TLI) {
         val itemIndex = getUserIndex(userId)
 
         if(itemIndex == -1) {
@@ -166,12 +163,12 @@ abstract class ListWorkerBase(
         }
 
         updateData {
-            loadedItems[itemIndex] = updateAction(loadedItems[itemIndex] as FollowersListItem)
+            loadedItems[itemIndex] = updateAction(loadedItems[itemIndex] as TLI)
         }
     }
 
     private fun getUserIndex(userId: UserIdDomain) =
-        loadedItems.indexOfFirst { it is FollowersListItem && it.follower.userId == userId }
+        loadedItems.indexOfFirst { isUserWithId(userId, it) }
 
     private fun updateData(updateAction: (MutableList<VersionedListItem>) -> Unit) {
         updateAction(loadedItems)

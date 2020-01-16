@@ -5,9 +5,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserDomain(
-        val userId: UserIdDomain,
-        val userName: String,
-        val userAvatar: String?,
-        val postsCount: Int?,
-        val followersCount: Int?
+    val userId: UserIdDomain,
+    val userName: String,
+    val userAvatar: String?,
+    val postsCount: Int?,
+    val followersCount: Int?,
+    val isSubscribed: Boolean           // to current user
 ): Parcelable

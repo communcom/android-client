@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.FollowersFilter
-import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.ListWorker
+import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -19,11 +19,11 @@ constructor(
     @Named(Clarification.PAGE_SIZE)
     override val pageSize: Int,
     @Named(Clarification.FOLLOWERS)
-    private val followersListWorker: ListWorker,
+    private val followersListWorker: UsersListWorker,
     @Named(Clarification.FOLLOWING)
-    private val followingListWorker: ListWorker,
+    private val followingListWorker: UsersListWorker,
     @Named(Clarification.MUTUAL)
-    private val mutualListWorker: ListWorker
+    private val mutualListWorker: UsersListWorker
 ) : ProfileFollowersModel,
     ModelBaseImpl() {
 
@@ -50,14 +50,14 @@ constructor(
         return isSuccess
     }
 
-    private fun getWorker(filter: FollowersFilter): ListWorker =
+    private fun getWorker(filter: FollowersFilter): UsersListWorker =
         when(filter) {
             FollowersFilter.FOLLOWINGS -> followingListWorker
             FollowersFilter.FOLLOWERS -> followersListWorker
             FollowersFilter.MUTUALS -> mutualListWorker
         }
 
-    private fun getOppositeWorkers(filter: FollowersFilter): List<ListWorker> =
+    private fun getOppositeWorkers(filter: FollowersFilter): List<UsersListWorker> =
         when(filter) {
             FollowersFilter.FOLLOWINGS -> listOf(followersListWorker, mutualListWorker)
             FollowersFilter.FOLLOWERS -> listOf(followingListWorker, mutualListWorker)

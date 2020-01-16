@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.UserIdDomain
 
-interface ListWorker {
+interface UsersListWorker {
     val items: LiveData<List<VersionedListItem>>
 
     suspend fun loadPage()

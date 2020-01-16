@@ -1,9 +1,6 @@
 package io.golos.domain.use_cases.community
 
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.CommunityLeaderDomain
-import io.golos.domain.dto.CommunityPageDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 
 interface CommunitiesRepository {
     suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain>
@@ -39,4 +36,6 @@ interface CommunitiesRepository {
     suspend fun voteForLeader(communityId: String, leader: UserIdDomain)
 
     suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain)
+
+    suspend fun getSubscribers(communityId: String, offset: Int, pageSizeLimit: Int): List<UserDomain>
 }

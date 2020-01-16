@@ -428,4 +428,10 @@
 
     <string name="follow">Follow</string>
     <string name="following">Following</string>
+
+    <string name="friends">Friends</string>
+    <string name="members">Members</string>
+
+    <string name="no_members">No members</string>
+    <string name="no_members_community">There are no members in the community</string>
 </resources>

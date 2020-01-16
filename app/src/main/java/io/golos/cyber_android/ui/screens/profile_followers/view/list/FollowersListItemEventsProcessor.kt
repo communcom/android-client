@@ -8,5 +8,5 @@ interface FollowersListItemEventsProcessor {
 
     fun retry(filter: FollowersFilter)
 
-    fun onJoinClick(userId: UserIdDomain, filter: FollowersFilter)
+    fun onFollowClick(userId: UserIdDomain, filter: FollowersFilter)
 }
