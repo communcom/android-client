@@ -34,6 +34,13 @@ import kotlinx.android.synthetic.main.layout_community_header_members.*
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
     companion object {
         private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
+
+        fun getBundle(communityId: String): Bundle{
+            val bundle = Bundle()
+            bundle.putString(ARG_COMMUNITY_ID, communityId)
+            return bundle
+        }
+
         fun newInstance(communityId: String): CommunityPageFragment {
             val communityPageFragment = CommunityPageFragment()
             val bundle = Bundle()

@@ -7,33 +7,34 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentPostBinding
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.ImageViewerActivity
-import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.shared.ImageViewerActivity
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
@@ -41,6 +42,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.synthetic.main.activity_post.*
 import kotlinx.android.synthetic.main.fragment_post.*
 
 /**
@@ -156,9 +158,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun openCommunityPage(communityId: String) {
-        getDashboardFragment(this)?.showFragment(
+        val navController = postNavHost.findNavController()
+        navController.navigate(R.id.action_postFragment_to_communityPageFragment, CommunityPageFragment.getBundle(communityId))
+        /*getDashboardFragment(this)?.showFragment(
             CommunityPageFragment.newInstance(communityId)
-        )
+        )*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
