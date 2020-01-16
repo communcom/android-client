@@ -15,4 +15,6 @@ object PostPageViewType {
     const val SECOND_LEVEL_COMMENT_COLLAPSED = 8
     const val SECOND_LEVEL_COMMENTS_LOADING = 9
     const val SECOND_LEVEL_COMMENTS_RETRY = 10
+
+    const val COMMENTS_EMPTY = 11
 }

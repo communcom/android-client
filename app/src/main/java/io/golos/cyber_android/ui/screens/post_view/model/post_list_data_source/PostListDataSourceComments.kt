@@ -16,6 +16,10 @@ interface PostListDataSourceComments {
      */
     suspend fun addRetryLoadingComments()
 
+    suspend fun addEmptyCommentsStub()
+
+    suspend fun removeEmptyCommentsStub()
+
     suspend fun addFirstLevelComments(comments: List<CommentModel>)
 
     /**

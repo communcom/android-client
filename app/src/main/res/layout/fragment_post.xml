@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel" />
@@ -28,18 +29,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:stateListAnimator="@animator/appbar_elevation"
-
                 android:theme="@style/AppTheme.AppBarOverlay"
-
                 app:liftOnScroll="true">
 
                 <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
                     android:id="@+id/postHeader"
-
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_viewer_header_height"
-
                     app:post="@{viewModel.postHeader}" />
+
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -50,6 +48,7 @@
                 android:clipToPadding="false"
                 android:descendantFocusability="beforeDescendants"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <io.golos.cyber_android.ui.shared.widgets.CommentWidgetNew

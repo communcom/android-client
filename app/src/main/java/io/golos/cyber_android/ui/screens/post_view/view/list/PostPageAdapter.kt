@@ -1,15 +1,15 @@
 package io.golos.cyber_android.ui.screens.post_view.view.list
 
 import android.view.ViewGroup
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.*
 import io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.*
 import io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.comments.FirstLevelCommentViewHolder
 import io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.comments.SecondLevelCommentViewHolder
 import io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.post_body.PostBodyViewHolder
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
 class PostPageAdapter(
     private val listEventsProcessor: PostPageViewModelListEventsProcessor,
@@ -52,6 +52,9 @@ class PostPageAdapter(
             PostPageViewType.SECOND_LEVEL_COMMENT_COLLAPSED ->
                 SecondLevelCommentCollapsedViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
+            PostPageViewType.COMMENTS_EMPTY ->
+                EmptyCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
+
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
     }
@@ -72,6 +75,8 @@ class PostPageAdapter(
             is SecondLevelCommentCollapsedListItem -> PostPageViewType.SECOND_LEVEL_COMMENT_COLLAPSED
             is SecondLevelCommentLoadingListItem -> PostPageViewType.SECOND_LEVEL_COMMENTS_LOADING
             is SecondLevelCommentRetryListItem -> PostPageViewType.SECOND_LEVEL_COMMENTS_RETRY
+
+            is EmptyCommentsListItem -> PostPageViewType.COMMENTS_EMPTY
 
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }

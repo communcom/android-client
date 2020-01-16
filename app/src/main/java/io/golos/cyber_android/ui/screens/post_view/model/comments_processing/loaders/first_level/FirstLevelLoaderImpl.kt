@@ -1,14 +1,14 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level
 
-import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.CommentsLoaderBase
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
+import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.CommentsLoaderBase
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
 import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.mappers.new_mappers.CommentToModelMapper
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.util.concurrent.ConcurrentHashMap
@@ -27,7 +27,8 @@ constructor(
 ) : CommentsLoaderBase(
     dispatchersProvider,
     commentsStorage,
-    currentUserRepository),
+    currentUserRepository
+),
     FirstLevelLoader {
 
     private val loadedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
@@ -37,7 +38,7 @@ constructor(
      */
     override suspend fun loadStartPage() =
         loading {
-            if(pageOffset > 0) {          // already loaded
+            if (pageOffset > 0) {          // already loaded
                 return@loading
             }
 
@@ -63,32 +64,41 @@ constructor(
             delay(1000)
 
             // To error simulation
-            if(Random.nextInt () % 2 == 0) {
+            if (Random.nextInt() % 2 == 0) {
                 throw Exception("")
             }
 
-            val comments = discussionsApi.getCommentsListForPost(pageOffset, pageSize, postToProcess)
+            val comments = discussionsApi.getCommentsListForPost(
+                pageOffset,
+                pageSize,
+                postToProcess
+            )
 
-            if(comments.size < pageSize) {
+            if (comments.size < pageSize) {
                 endOfDataReached = true
             }
 
-            @Suppress("NestedLambdaShadowedImplicitParameter")
-            val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
-                comments
-                    .map {
-                        commentToModelMapper.map(it, 0)
-                            .also {
-                                loadedComments[it.contentId] = it
-                                storeComment(it)
+            if (comments.isEmpty() && pageOffset == 0) {
+                postListDataSource.addEmptyCommentsStub()
+            } else {
+                @Suppress("NestedLambdaShadowedImplicitParameter")
+                val mapperComments =
+                    withContext(dispatchersProvider.calculationsDispatcher) {
+                        comments
+                            .map {
+                                commentToModelMapper.map(it, 0)
+                                    .also {
+                                        loadedComments[it.contentId] = it
+                                        storeComment(it)
+                                    }
                             }
+                            .filter { !wasCommentPosted(it.contentId) }
                     }
-                    .filter { !wasCommentPosted(it.contentId)  }
+
+                postListDataSource.addFirstLevelComments(mapperComments)
+
+                pageOffset += pageSize
             }
-
-            postListDataSource.addFirstLevelComments(mapperComments)
-
-            pageOffset+=pageSize
         } catch (ex: Exception) {
             postListDataSource.addRetryLoadingComments()
             isInErrorState = true

@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.*
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.dto.PostDomain
@@ -109,6 +109,26 @@ constructor(
                     }
                 }
         }
+
+    override suspend fun addEmptyCommentsStub() {
+        updateSafe {
+            if (postList.last() !is EmptyCommentsListItem) {
+                EmptyCommentsListItem().let { item ->
+                    if (postList.last() is FirstLevelCommentLoadingListItem) {
+                        postList[postList.lastIndex] = item // Replace Loading indicator if needed
+                    } else {
+                        postList.add(item)
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun removeEmptyCommentsStub() = updateSafe {
+        if (postList.last() is EmptyCommentsListItem) {
+            postList.removeAt(postList.lastIndex)
+        }
+    }
 
     override suspend fun addRetryLoadingComments() =
         updateSafe {

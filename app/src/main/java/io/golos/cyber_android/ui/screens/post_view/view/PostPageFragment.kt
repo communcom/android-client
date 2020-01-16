@@ -134,8 +134,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.postMenu)
 
-            is ShowCommentsSortingMenuViewCommand -> showCommentsSortingMenu()
-
             is ClearCommentTextViewCommand -> postComment.clearText()
 
             is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
@@ -226,12 +224,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                 }
 
             }
-            PostPageSortingComments.REQUEST -> {
-                when (resultCode) {
-                    PostPageSortingComments.RESULT_INTERESTING_FIRST -> viewModel.updateCommentsSorting(SortingType.INTERESTING_FIRST)
-                    PostPageSortingComments.RESULT_BY_TIME -> viewModel.updateCommentsSorting(SortingType.BY_TIME)
-                }
-            }
+
             CommentsActionsDialog.REQUEST -> {
                 when (resultCode) {
                     CommentsActionsDialog.RESULT_EDIT ->
@@ -298,12 +291,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         PostPageMenuDialog.newInstance(postMenu).apply {
             setTargetFragment(this@PostPageFragment, PostPageMenuDialog.REQUEST)
         }.show(requireFragmentManager(), "show")
-    }
-
-    private fun showCommentsSortingMenu() {
-        PostPageSortingComments.newInstance().apply {
-            setTargetFragment(this@PostPageFragment, PostPageSortingComments.REQUEST)
-        }.show(requireFragmentManager(), "menu")
     }
 
     private fun showCommentMenu(commentId: DiscussionIdModel) {

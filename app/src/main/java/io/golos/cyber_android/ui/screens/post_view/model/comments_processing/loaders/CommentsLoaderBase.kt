@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders
 
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
@@ -22,7 +22,7 @@ constructor(
 
     protected suspend fun loading(loadingAction: suspend () -> Unit) {
         withContext(dispatchersProvider.ioDispatcher) {
-            if(loadingInProgress || isInErrorState) {
+            if (loadingInProgress || isInErrorState) {
                 return@withContext
             }
             loadingInProgress = true
@@ -39,7 +39,7 @@ constructor(
 
     protected suspend fun loadNext() {
         loading {
-            if(endOfDataReached) {
+            if (endOfDataReached) {
                 return@loading
             }
 

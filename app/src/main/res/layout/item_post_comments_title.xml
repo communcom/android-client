@@ -10,55 +10,26 @@
 
     <TextView
         android:id="@+id/commentsTitle"
-
+        style="@style/PostTitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="@string/post_comments_title"
-
         android:paddingStart="@dimen/post_content_border_horizontal"
         android:paddingEnd="@dimen/post_content_border_horizontal"
-
-        style="@style/PostTitleTextStyle"
-
+        android:text="@string/post_comments_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/commentsSortMenuText"
-
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-
-        android:text=""
-        tools:text="@string/post_comments_interesting_first_sort"
-
-        android:gravity="center"
-
-        style="@style/SortingWidgetTextStyle"
-
-        android:layout_marginEnd="@dimen/post_comments_title_menu_gap"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/commentsSortMenuIcon"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/commentsSortMenuIcon"
-
         android:layout_width="@dimen/post_comments_title_menu_icon_width"
         android:layout_height="@dimen/post_comments_title_menu_icon_height"
-
         android:layout_marginEnd="@dimen/post_content_border_horizontal"
-
+        android:tint="@color/dark_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
         app:srcCompat="@drawable/ic_drop_down"
-        android:tint="@color/dark_gray"
-
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

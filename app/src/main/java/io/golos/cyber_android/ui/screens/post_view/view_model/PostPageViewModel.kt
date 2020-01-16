@@ -10,7 +10,6 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.EditReplyCommentSettings
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
-import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
 import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
@@ -111,7 +110,7 @@ constructor(
     override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
-        if(currentUserRepository.userId.userId == userId) {
+        if (currentUserRepository.userId.userId == userId) {
             return
         }
 
@@ -177,14 +176,13 @@ constructor(
     override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
 
     fun onUserInHeaderClick(userId: String) {
-        if(currentUserRepository.userId.userId != userId) {
+        if (currentUserRepository.userId.userId != userId) {
             wasMovedToChild = true
             _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
         }
     }
 
     fun onPostMenuClick() {
-
         val postMenu: PostMenu = model.getPostMenu()
         _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
@@ -198,7 +196,7 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.addToFavorite(permlink)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -211,7 +209,7 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.removeFromFavorite(permlink)
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -247,17 +245,6 @@ constructor(
         }
     }
 
-    fun updateCommentsSorting(sortingType: SortingType) {
-        launch {
-            try {
-                model.updateCommentsSorting(sortingType)
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
-            }
-        }
-    }
-
     fun subscribeToCommunity(communityId: String) {
         launch {
             try {
@@ -266,7 +253,7 @@ constructor(
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = true
                 )
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -282,7 +269,7 @@ constructor(
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = false
                 )
-            } catch (e: java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -398,7 +385,7 @@ constructor(
         }
     }
 
-    fun sendReport(report: PostReportDialog.Report){
+    fun sendReport(report: PostReportDialog.Report) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
