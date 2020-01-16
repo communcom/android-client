@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -16,8 +15,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
-import io.golos.cyber_android.ui.dialogs.PostPageSortingComments
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
@@ -25,10 +24,10 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
-import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
+import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.cyber_android.ui.shared.Tags
@@ -42,8 +41,8 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.synthetic.main.activity_post.*
 import kotlinx.android.synthetic.main.fragment_post.*
+import kotlinx.android.synthetic.main.fragment_post.commentWidget
 
 /**
  * Fragment for single [PostModel] presentation
@@ -87,10 +86,15 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
         postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
 
-        postComment.setOnSendClickListener { viewModel.onSendCommentClick(it) }
+        commentWidget.setOnSendClickListener { comment ->
+            comment.message?.let { message ->
+                viewModel.onSendCommentClick(message)
+            }
+        }
 
-        postCommentEdit.setOnCloseClickListener { viewModel.cancelReplyOrEditComment() }
-        postCommentEdit.setOnSendClickListener { viewModel.completeReplyOrEditComment(it) }
+        commentWidget.onAttachImageListener = { attachmentUrl ->
+            openSelectPhotoView(attachmentUrl)
+        }
 
         // Setup the list
         val adapter = PostPageAdapter(viewModel, viewModel.commentsPageSize)
@@ -132,9 +136,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigationToEditPostViewCommand -> openEditPost(command.contentId)
 
+            is NavigateToEditComment -> commentWidget.setCommentForEdit(command.contentId, command.body)
+
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.postMenu)
 
-            is ClearCommentTextViewCommand -> postComment.clearText()
+            is ClearCommentTextViewCommand -> commentWidget.clear()
 
             is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
 
@@ -148,18 +154,19 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         }
     }
 
-    private fun openUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.showFragment(
-            ProfileExternalUserFragment.newInstance(userId)
-        )
+    private fun openSelectPhotoView(imageUrl: String?) {
+        getDashboardFragment(this)
+            ?.showFragment(
+                ProfilePhotosFragment.newInstance(
+                    ProfileItem.COMMENT,
+                    imageUrl,
+                    this@PostPageFragment
+                )
+            )
     }
 
-    private fun openCommunityPage(communityId: String) {
-        val navController = postNavHost.findNavController()
-        navController.navigate(R.id.action_postFragment_to_communityPageFragment, CommunityPageFragment.getBundle(communityId))
-        /*getDashboardFragment(this)?.showFragment(
-            CommunityPageFragment.newInstance(communityId)
-        )*/
+    private fun openUserProfile(userId: String){
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -223,6 +230,12 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                     }
                 }
 
+            }
+
+            ProfilePhotosFragment.REQUEST -> {
+                val result =
+                    data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
+                commentWidget.updateImageAttachment(result?.photoFilePath)
             }
 
             CommentsActionsDialog.REQUEST -> {

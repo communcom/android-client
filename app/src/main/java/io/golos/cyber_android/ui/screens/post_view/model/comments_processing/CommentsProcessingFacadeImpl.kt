@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import dagger.Lazy
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
@@ -15,10 +16,12 @@ import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -115,6 +118,12 @@ constructor(
 
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
         commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.content.body.postBlock.content)
+
+    override fun getCommentBody(commentId: ContentId): ContentBlock? {
+        val discussion = DiscussionIdModel(commentId.userId, Permlink(commentId.permlink))
+        val comment = commentsStorage.get().getComment(discussion)
+        return comment?.content?.body?.postBlock
+    }
 
     override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)

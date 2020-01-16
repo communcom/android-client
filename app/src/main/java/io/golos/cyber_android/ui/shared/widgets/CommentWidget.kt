@@ -8,11 +8,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.loadCommentAttachment
 import io.golos.cyber_android.ui.shared.glide.release
-import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 import io.golos.domain.use_cases.post.post_dto.TextBlock
@@ -34,7 +34,7 @@ class CommentWidget @JvmOverloads constructor(
 
     var onAttachImageListener: ((String?) -> Unit)? = null
 
-    private var editComment: Comment? = null
+    private var contentId: ContentId? = null
 
     private var attachmentImageUrl by Delegates.observable<String?>(null) { _, oldUrl, newUrl ->
         if (newUrl != oldUrl) {
@@ -66,7 +66,7 @@ class CommentWidget @JvmOverloads constructor(
         sendButton.setOnClickListener {
             onSendClickListener?.invoke(
                 CommentContent(
-                    editComment?.contentId,
+                    contentId,
                     comment.text.toString(),
                     attachmentImageUrl?.let { Uri.parse(it) })
             )
@@ -84,16 +84,15 @@ class CommentWidget @JvmOverloads constructor(
     }
 
     fun clear() {
-        editComment = null
+        contentId = null
         attachmentImageUrl = null
         clearComment()
         clearEditState()
         clearAttachmentState()
     }
 
-    fun setCommentForEdit(comment: Comment) {
-        editComment = comment
-        val body = comment.body
+    fun setCommentForEdit(id: ContentId?, body: ContentBlock?) {
+        contentId = id
         val content = body?.content ?: listOf()
         if (content.isNotEmpty()) {
             val block = content[0]
@@ -134,7 +133,7 @@ class CommentWidget @JvmOverloads constructor(
     }
 
     private fun clearEditState() {
-        editComment = null
+        contentId = null
         commentEdit.visibility = View.GONE
         ivAttachment.release()
         ivEditAttachment.release()

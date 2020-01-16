@@ -222,7 +222,8 @@ constructor(
     }
 
     fun editPost(contentId: ContentId) {
-        _command.value = NavigationToEditPostViewCommand(contentId)
+        val body = model.getCommentBody(contentId)
+        _command.value = NavigateToEditComment(contentId, body)
     }
 
     fun reportPost(contentId: ContentId) {

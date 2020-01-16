@@ -1,14 +1,16 @@
 package io.golos.cyber_android.ui.screens.post_view.model
 
 import androidx.lifecycle.LiveData
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
@@ -70,6 +72,8 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun deleteComment(commentId: DiscussionIdModel)
 
     fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
+
+    fun getCommentBody(commentId: ContentId): ContentBlock?
 
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 

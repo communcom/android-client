@@ -106,7 +106,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
 
             is NavigateToEditComment -> {
-                commentWidget.setCommentForEdit(command.comment)
+                commentWidget.setCommentForEdit(command.comment.contentId, command.comment.body)
                 commentWidget.visibility = View.VISIBLE
                 collapseListener?.invoke()
             }

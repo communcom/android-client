@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 interface CommentsProcessingFacade {
     val pageSize: Int
@@ -20,6 +22,8 @@ interface CommentsProcessingFacade {
     suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean)
 
     fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
+
+    fun getCommentBody(commentId: ContentId): ContentBlock?
 
     suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
 

@@ -51,26 +51,17 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <io.golos.cyber_android.ui.shared.widgets.CommentWidgetNew
-            android:id="@+id/postComment"
+        <io.golos.cyber_android.ui.shared.widgets.CommentWidget
+            android:id="@+id/commentWidget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:animateLayoutChanges="true"
             android:visibility="@{viewModel.commentFieldVisibility}"
-
             app:enabled="@{viewModel.commentFieldEnabled}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
-
-        <io.golos.cyber_android.ui.shared.widgets.CommentWidgetEdit
-            android:id="@+id/postCommentEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:visibility="@{viewModel.commentEditFieldVisibility}"
-            app:enabled="@{viewModel.commentEditFieldEnabled}"
-
-            app:settings="@{viewModel.commentEditFieldSettings}"
-            tools:visibility="gone" />
 
     </LinearLayout>
 </layout>
