@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.community_page_members.dto.CommunityUserListItem
-import io.golos.cyber_android.ui.screens.community_page_members.view.UsersListEventsProcessor
+import io.golos.cyber_android.ui.screens.community_page_members.view.MembersListEventsProcessor
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.formatters.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.view_profile_followers_list_item.view.*
 
 class CommunityUserViewHolder(
     parentView: ViewGroup
-) : ViewHolderBase<UsersListEventsProcessor, VersionedListItem>(
+) : ViewHolderBase<MembersListEventsProcessor, VersionedListItem>(
     parentView,
     R.layout.view_profile_followers_list_item
 ) {
@@ -29,7 +29,7 @@ class CommunityUserViewHolder(
     )
 
     @SuppressLint("SetTextI18n")
-    override fun init(listItem: VersionedListItem, listItemEventsProcessor: UsersListEventsProcessor) {
+    override fun init(listItem: VersionedListItem, listItemEventsProcessor: MembersListEventsProcessor) {
         if(listItem !is CommunityUserListItem) {
             return
         }

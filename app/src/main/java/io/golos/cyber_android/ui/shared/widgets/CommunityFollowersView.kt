@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
 import kotlinx.android.synthetic.main.view_community_followers.view.*
 
@@ -23,7 +24,7 @@ class CommunityFollowersView @JvmOverloads constructor(
         inflate(context, R.layout.view_community_followers, this)
     }
 
-    fun setFollowers(followers: List<CommunityPage.CommunityFriend>) {
+    fun setFollowers(followers: List<CommunityFriend>) {
         val users = followers.take(MAX_USERS_COUNT)
         when(users.size){
             2 -> clFollower2.visibility = View.GONE

@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.community_page_members.model.CommunityPageMembersModel
 import io.golos.cyber_android.ui.screens.community_page_members.model.CommunityPageMembersModelImpl
-import io.golos.cyber_android.ui.screens.community_page_members.model.list_worker.ListWorkerCommunityMember
+import io.golos.cyber_android.ui.screens.community_page_members.model.list_worker.ListWorkerCommunityMembers
 import io.golos.cyber_android.ui.screens.community_page_members.view_model.CommunityPageMembersViewModel
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
@@ -22,5 +22,5 @@ abstract class CommunityPageMembersModuleBinds {
     abstract fun provideCommunityPageMembersModel(model: CommunityPageMembersModelImpl): CommunityPageMembersModel
 
     @Binds
-    abstract fun provideListWorkerCommunityMember(worker: ListWorkerCommunityMember): UsersListWorker
+    abstract fun provideListWorkerCommunityMember(worker: ListWorkerCommunityMembers): UsersListWorker
 }

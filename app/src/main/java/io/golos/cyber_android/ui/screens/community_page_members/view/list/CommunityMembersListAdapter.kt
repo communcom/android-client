@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.community_page_members.view.list
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.screens.community_page_members.dto.CommunityUserListItem
-import io.golos.cyber_android.ui.screens.community_page_members.view.UsersListEventsProcessor
+import io.golos.cyber_android.ui.screens.community_page_members.view.MembersListEventsProcessor
 import io.golos.cyber_android.ui.screens.community_page_members.view.list.view_holders.CommunityUserViewHolder
 import io.golos.cyber_android.ui.screens.community_page_members.view.list.view_holders.LoadingViewHolder
 import io.golos.cyber_android.ui.screens.community_page_members.view.list.view_holders.RetryViewHolder
@@ -12,10 +12,10 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
-open class CommunityUsersListAdapter(
-    private val listItemEventsProcessor: UsersListEventsProcessor,
-    pageSize: Int
-) : VersionedListAdapterBase<UsersListEventsProcessor>(listItemEventsProcessor, pageSize) {
+open class CommunityMembersListAdapter(
+    private val listItemEventsProcessor: MembersListEventsProcessor,
+    pageSize: Int?
+) : VersionedListAdapterBase<MembersListEventsProcessor>(listItemEventsProcessor, pageSize) {
 
     protected companion object {
         const val USER = 0
@@ -23,7 +23,7 @@ open class CommunityUsersListAdapter(
         const val RETRY = 2
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<UsersListEventsProcessor, VersionedListItem> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<MembersListEventsProcessor, VersionedListItem> =
         when(viewType) {
             USER -> CommunityUserViewHolder(parent)
             LOADING -> LoadingViewHolder(parent)

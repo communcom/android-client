@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.community_page_members.view_model.CommunityPageMembersViewModel" />
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.community_page_friends.view_model.CommunityPageFriendsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -84,26 +84,13 @@
 
             android:background="@color/window_background_light_gray">
 
-            <io.golos.cyber_android.ui.screens.community_page_members.view.widgets.CommunityMembersListWidget
+            <io.golos.cyber_android.ui.screens.community_page_friends.view.widgets.CommunityFriendsListWidget
                 android:id="@+id/usersList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 app:listItems="@{viewModel.items}"
-                android:visibility="@{viewModel.itemsVisibility}"
             />
-
-            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
-                android:id="@+id/noDataStub"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/profile_followers_no_data_height"
-
-                tools:visibility = "visible"
-
-                android:visibility="@{viewModel.noDataStubVisibility}"
-                app:noDataTitle="@{viewModel.noDataStubText}"
-                app:noDataExplanation="@{viewModel.noDataStubExplanation}"
-                />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

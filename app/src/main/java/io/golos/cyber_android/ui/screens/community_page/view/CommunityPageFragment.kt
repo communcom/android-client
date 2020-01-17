@@ -13,11 +13,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
-import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
-import io.golos.cyber_android.ui.screens.community_page.dto.NavigateToMembersCommand
-import io.golos.cyber_android.ui.screens.community_page.dto.SwitchToLeadsTabCommand
+import io.golos.cyber_android.ui.screens.community_page.dto.*
 import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
 import io.golos.cyber_android.ui.screens.community_page_about.CommunityPageAboutFragment
+import io.golos.cyber_android.ui.screens.community_page_friends.view.CommunityPageFriendsFragment
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsListFragment
 import io.golos.cyber_android.ui.screens.community_page_members.view.CommunityPageMembersFragment
 import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
@@ -115,6 +114,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             is NavigateBackwardCommand -> requireFragmentManager().popBackStack()
             is SwitchToLeadsTabCommand -> switchToTab(1)
             is NavigateToMembersCommand -> navigateToMembers(command.communityId)
+            is NavigateToFriendsCommand -> navigateToFriends(command.friends)
         }
     }
 
@@ -150,6 +150,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
                 tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter.format(it.friendsCount))
                 tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, it.friendsCount.toPluralInt())
+
+                tvFriendsCountLabel.setOnClickListener { viewModel.onFriendsLabelClick() }
+                tvFriendsLabel.setOnClickListener { viewModel.onFriendsLabelClick() }
             } else {
                 tvFriendsCountLabel.visibility = View.GONE
                 tvFriendsLabel.visibility = View.GONE
@@ -231,4 +234,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     private fun navigateToMembers(communityId: String) =
         getDashboardFragment(this)?.showFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
+
+    private fun navigateToFriends(friends: List<CommunityFriend>) =
+        getDashboardFragment(this)?.showFragment(CommunityPageFriendsFragment.newInstance(friends), true, null)
 }

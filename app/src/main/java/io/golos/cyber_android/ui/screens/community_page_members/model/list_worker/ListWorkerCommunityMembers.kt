@@ -17,7 +17,7 @@ import io.golos.domain.utils.IdUtil
 import javax.inject.Inject
 import javax.inject.Named
 
-class ListWorkerCommunityMember
+class ListWorkerCommunityMembers
 @Inject
 constructor(
     @Named(Clarification.PAGE_SIZE)
@@ -56,5 +56,7 @@ constructor(
             user = this,
             isFollowing = isSubscribed,
             isLastItem = index == lastIndex,
-            canFollow = !isSubscribed)
+            canFollow = !isSubscribed,
+            showPosts = true
+        )
 }

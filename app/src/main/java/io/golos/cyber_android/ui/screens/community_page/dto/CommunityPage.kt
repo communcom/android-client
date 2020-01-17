@@ -19,13 +19,5 @@ data class CommunityPage(
     val joinDate: Date,
     val alias: String?
 ) {
-
-    data class CommunityFriend(
-        val userId: String,
-        val userName: String,
-        val avatarUrl: String,
-        val hasAward: Boolean
-    )
-
     data class CommunityPageCurrency(val currencyName: String, val exchangeRate: Float)
 }
