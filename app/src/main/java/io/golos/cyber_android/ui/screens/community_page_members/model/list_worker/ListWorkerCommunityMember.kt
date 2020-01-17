@@ -56,5 +56,5 @@ constructor(
             user = this,
             isFollowing = isSubscribed,
             isLastItem = index == lastIndex,
-            canFollow = isSubscribed)
+            canFollow = !isSubscribed)
 }
