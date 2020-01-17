@@ -48,6 +48,12 @@ constructor(
     val noDataStubExplanation: LiveData<Int> get() = _noDataStubExplanation
 
     init {
+        items.observeForever {
+            _noDataStubVisibility.value = it.isEmpty().toVisibility()
+            _itemsVisibility.value = it.isNotEmpty().toVisibility()
+
+        }
+
         loadPage()
     }
 
