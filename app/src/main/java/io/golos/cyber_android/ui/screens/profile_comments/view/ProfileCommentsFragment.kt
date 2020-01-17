@@ -100,7 +100,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> openSelectPhotoView(command.userId)
+            is NavigateToUserProfileCommand -> openSelectPhotoView(command.userId.userId)
 
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
 

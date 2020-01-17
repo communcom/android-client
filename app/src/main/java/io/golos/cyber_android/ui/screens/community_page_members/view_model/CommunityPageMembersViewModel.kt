@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.screens.community_page_members.model.CommunityP
 import io.golos.cyber_android.ui.screens.community_page_members.view.MembersListEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
@@ -70,7 +71,7 @@ constructor(
     }
 
     override fun onUserClick(userId: UserIdDomain) {
-
+        _command.value = NavigateToUserProfileCommand(userId)
     }
 
     fun onBackClick() {

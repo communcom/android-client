@@ -116,7 +116,7 @@ class ProfilePostsViewModel @Inject constructor(
 
     override fun onUserClicked(userId: String) {
         if(currentUserRepositor.userId.userId != userId) {
-            _command.value = NavigateToUserProfileViewCommand(userId)
+            _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
         }
     }
 

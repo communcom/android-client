@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToCommentDomain
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
@@ -20,6 +21,7 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +49,7 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
-        _command.value = NavigateToUserProfileViewCommand(userId)
+        _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
     }
 
     override fun onCommunityClicked(communityId: String) {

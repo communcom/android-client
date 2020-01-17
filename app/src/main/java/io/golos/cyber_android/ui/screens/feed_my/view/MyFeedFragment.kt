@@ -110,7 +110,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
 
-            is NavigateToUserProfileViewCommand -> openUserProfile(command.userId)
+            is NavigateToUserProfileCommand -> openUserProfile(command.userId)
 
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
 

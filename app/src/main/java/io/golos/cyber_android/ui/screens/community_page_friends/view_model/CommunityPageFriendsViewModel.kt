@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.screens.community_page_friends.model.CommunityP
 import io.golos.cyber_android.ui.screens.community_page_members.view.MembersListEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
@@ -33,7 +34,7 @@ constructor(
     }
 
     override fun onUserClick(userId: UserIdDomain) {
-
+        _command.value = NavigateToUserProfileCommand(userId)
     }
 
     fun onBackClick() {

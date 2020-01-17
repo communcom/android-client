@@ -8,9 +8,12 @@ import io.golos.cyber_android.databinding.FragmentCommunityPageFriendsBinding
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
 import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsComponent
 import io.golos.cyber_android.ui.screens.community_page_friends.view_model.CommunityPageFriendsViewModel
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_community_page_friends.*
 
 open class CommunityPageFriendsFragment : FragmentBaseMVVM<FragmentCommunityPageFriendsBinding, CommunityPageFriendsViewModel>() {
@@ -52,6 +55,11 @@ open class CommunityPageFriendsFragment : FragmentBaseMVVM<FragmentCommunityPage
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+            is NavigateToUserProfileCommand -> navigateToUserProfile(command.userId)
         }
+    }
+
+    private fun navigateToUserProfile(userId: UserIdDomain) {
+        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(userId))
     }
 }

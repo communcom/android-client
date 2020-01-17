@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.launch
@@ -121,7 +122,7 @@ constructor(
                 val userId = model.getUserId(userId)
 
                 wasMovedToChild = true
-                _command.value = NavigateToUserProfileViewCommand(userId)
+                _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
@@ -178,7 +179,7 @@ constructor(
     fun onUserInHeaderClick(userId: String) {
         if(currentUserRepository.userId.userId != userId) {
             wasMovedToChild = true
-            _command.value = NavigateToUserProfileViewCommand(userId)
+            _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
         }
     }
 

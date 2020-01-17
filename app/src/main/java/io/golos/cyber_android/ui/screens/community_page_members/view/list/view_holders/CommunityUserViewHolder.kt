@@ -42,7 +42,7 @@ class CommunityUserViewHolder(
 
             itemView.info.text = "$followers ${SpecialChars.BULLET} $posts"
 
-            itemView.setOnClickListener { /*listItemEventsProcessor.onItemClick(community)*/ }
+            itemView.setOnClickListener { listItemEventsProcessor.onUserClick(listItem.user.userId) }
             itemView.joinButton.setOnClickListener { listItemEventsProcessor.onFollowClick(user.userId) }
 
             itemView.joinButton.visibility = if(canFollow) View.VISIBLE else View.GONE

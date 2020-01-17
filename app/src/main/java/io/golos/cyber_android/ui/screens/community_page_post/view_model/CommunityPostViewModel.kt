@@ -25,6 +25,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.TypeObjectDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
@@ -131,7 +132,7 @@ class CommunityPostViewModel @Inject constructor(
 
     override fun onUserClicked(userId: String) {
         if (currentUserRepository.userId.userId != userId) {
-            _command.value = NavigateToUserProfileViewCommand(userId)
+            _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
         }
     }
 
