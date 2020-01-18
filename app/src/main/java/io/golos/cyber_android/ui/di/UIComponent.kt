@@ -9,7 +9,6 @@ import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommun
 import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
-import io.golos.cyber_android.ui.screens.followers.di.FollowersFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
 import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
@@ -52,7 +51,6 @@ interface UIComponent {
     val feedbackActivity: FeedbackActivityComponent.Builder
     val selectCommunityDialog: SelectCommunityDialogComponent.Builder
     val subscriptionsFragment: SubscriptionsFragmentComponent.Builder
-    val followersFragment: FollowersFragmentComponent.Builder
     val communityPageFragment: CommunityPageFragmentComponent.Builder
     val communityPageAboutFragment: CommunityPageAboutFragmentComponent.Builder
     val communityPageRulesFragment: CommunityPageRulesFragmentComponent.Builder

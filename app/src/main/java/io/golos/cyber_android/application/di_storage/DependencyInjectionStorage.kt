@@ -20,7 +20,6 @@ import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponen
 import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentModule
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
-import io.golos.cyber_android.ui.screens.followers.di.FollowersFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentModule
@@ -294,8 +293,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
             SelectCommunityDialogComponent::class -> getBase<UIComponent>().selectCommunityDialog.build()
 
             SubscriptionsFragmentComponent::class -> getBase<UIComponent>().subscriptionsFragment.build()
-
-            FollowersFragmentComponent::class -> getBase<UIComponent>().followersFragment.build()
 
             CommunityPageFragmentComponent::class -> getBase<UIComponent>().communityPageFragment.build()
 
