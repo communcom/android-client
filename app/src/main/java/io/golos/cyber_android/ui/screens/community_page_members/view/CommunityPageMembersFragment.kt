@@ -31,16 +31,15 @@ open class CommunityPageMembersFragment : FragmentBaseMVVM<FragmentCommunityPage
 
     override fun layoutResId(): Int = R.layout.fragment_community_page_members
 
-    override fun inject() = App.injections
+    override fun inject(key: String) = App.injections
         .get<CommunityPageMembersComponent>(
+            key,
             arguments!!.getString(COMMUNITY_ID)!!,
             25              // Page size
         )
         .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPageMembersComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPageMembersComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPageMembersBinding, viewModel: CommunityPageMembersViewModel) {
         binding.viewModel = viewModel

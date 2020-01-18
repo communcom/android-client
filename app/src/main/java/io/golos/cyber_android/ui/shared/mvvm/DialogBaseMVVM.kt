@@ -22,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -29,6 +30,11 @@ import kotlin.coroutines.CoroutineContext
  * Base class for [DialogFragment] which support MVVM
  */
 abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out ModelBase>> : DialogFragment(), CoroutineScope {
+    companion object {
+        private const val INJECTION_KEY = "INJECTION_KEY"
+    }
+
+    private lateinit var injectionKey: String
 
     private lateinit var binding: VDB
 
@@ -51,8 +57,15 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject()
+
+        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: UUID.randomUUID().toString()
+        inject(injectionKey)
+
         _viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(INJECTION_KEY, injectionKey)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,7 +93,9 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
     }
 
     override fun onDestroy() {
-        releaseInjection()
+        if(isRemoving) {
+            releaseInjection(injectionKey)
+        }
         super.onDestroy()
     }
 
@@ -96,9 +111,9 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
     @LayoutRes
     protected abstract fun layoutResId(): Int
 
-    protected abstract fun inject()
+    protected abstract fun inject(key: String)
 
-    protected abstract fun releaseInjection()
+    protected abstract fun releaseInjection(key: String)
 
     protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
 

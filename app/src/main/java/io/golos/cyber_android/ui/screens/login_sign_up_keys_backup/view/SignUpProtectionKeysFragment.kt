@@ -30,11 +30,9 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
 
     override fun layoutResId(): Int = R.layout.fragment_sign_up_protection_keys
 
-    override fun inject() = App.injections.get<SignUpProtectionKeysFragmentComponent>().inject(this)
+    override fun inject(key: String) = App.injections.get<SignUpProtectionKeysFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<SignUpProtectionKeysFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<SignUpProtectionKeysFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentSignUpProtectionKeysBinding, viewModel: SignUpProtectionKeysViewModel) {
         binding.viewModel = viewModel

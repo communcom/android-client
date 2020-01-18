@@ -15,17 +15,15 @@ import kotlinx.android.synthetic.main.fragment_community_page_about.*
 class CommunityPageAboutFragment :
     FragmentBaseMVVM<FragmentCommunityPageAboutBinding, CommunityPageAboutViewModel>() {
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPageAboutFragmentComponent>()
-    }
-
     override fun provideViewModelType(): Class<CommunityPageAboutViewModel> = CommunityPageAboutViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_community_page_about
 
-    override fun inject() = App.injections
-        .get<CommunityPageAboutFragmentComponent>(getDescription())
+    override fun inject(key: String) = App.injections
+        .get<CommunityPageAboutFragmentComponent>(key, getDescription())
         .inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPageAboutFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPageAboutBinding, viewModel: CommunityPageAboutViewModel) {
             binding.viewModel = viewModel

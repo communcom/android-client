@@ -29,7 +29,7 @@ constructor(
     internal lateinit var currentUserRepository: CurrentUserRepositoryRead
 
     init {
-        App.injections.get<UIComponent>().inject(this)
+        App.injections.getBase<UIComponent>().inject(this)
 
         inflate(context, R.layout.layout_comment_input, this)
 

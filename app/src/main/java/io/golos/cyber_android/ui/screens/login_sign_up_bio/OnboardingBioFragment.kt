@@ -23,6 +23,7 @@ import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.data.errors.AppError
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_bio.*
 import javax.inject.Inject
@@ -42,14 +43,16 @@ class OnboardingBioFragment : FragmentBase() {
     @Inject
     lateinit var viewModelFactory: FragmentViewModelFactory
 
+    private val injectionKey = IdUtil.generateStringId()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.injections.get<BioFragmentComponent>(CyberName(getArgs().userCyberName)).inject(this)
+        App.injections.get<BioFragmentComponent>(injectionKey, CyberName(getArgs().userCyberName)).inject(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        App.injections.release<BioFragmentComponent>()
+        App.injections.release<BioFragmentComponent>(injectionKey)
     }
 
     override fun onCreateView(

@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.dto.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -54,6 +55,8 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentCommunitiesSelectDialogBinding
 
+    private val injectionKey = IdUtil.generateStringId()
+
     @Inject
     internal lateinit var viewModelFactory: FragmentViewModelFactory
 
@@ -65,7 +68,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
 
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogFragment_RoundCorners)
 
-        App.injections.get<SelectCommunityDialogComponent>().inject(this)
+        App.injections.get<SelectCommunityDialogComponent>(injectionKey).inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[SelectCommunityDialogViewModel::class.java]
     }
@@ -113,7 +116,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
             closeActionListener(null)
         }
 
-        App.injections.release<SelectCommunityDialogComponent>()
+        App.injections.release<SelectCommunityDialogComponent>(injectionKey)
     }
 
     private fun updateSearchResultVisibility(isVisible: Boolean) {

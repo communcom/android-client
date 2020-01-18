@@ -53,12 +53,10 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     override fun layoutResId(): Int = R.layout.fragment_profile_new
 
-    override fun inject() =
-        App.injections.get<ProfileFragmentComponent>(arguments!!.getParcelable<UserIdDomain>(Tags.USER_ID)).inject(this)
+    override fun inject(key: String) =
+        App.injections.get<ProfileFragmentComponent>(key, arguments!!.getParcelable<UserIdDomain>(Tags.USER_ID)).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfileNewBinding, viewModel: ProfileViewModel) {
         binding.viewModel = viewModel

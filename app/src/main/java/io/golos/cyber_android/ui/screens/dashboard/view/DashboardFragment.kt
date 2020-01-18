@@ -29,13 +29,10 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     override fun layoutResId(): Int = R.layout.fragment_dashboard
 
-    override fun inject() = App.injections.get<DashboardFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<DashboardFragmentComponent>(key).inject(this)
 
 
-    override fun releaseInjection() {
-        App.injections.release<DashboardFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<DashboardFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentDashboardBinding, viewModel: DashboardViewModel) {
         binding.viewModel = viewModel
@@ -136,7 +133,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
     }
 
     fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true, tagFragment: String? = null) {
-        val tag = tagFragment ?: fragment::class.simpleName
+        val tag = tagFragment ?: "${fragment::class.simpleName}_${fragment.hashCode()}"
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val beginTransaction = childFragmentManager.beginTransaction()
             if (isAddToBackStack) {

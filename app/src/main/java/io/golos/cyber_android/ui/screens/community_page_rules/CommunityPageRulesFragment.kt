@@ -15,17 +15,15 @@ import kotlinx.android.synthetic.main.fragment_community_page_rules.*
 class CommunityPageRulesFragment :
     FragmentBaseMVVM<FragmentCommunityPageRulesBinding, CommunityPageRulesViewModel>() {
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPageRulesFragmentComponent>()
-    }
-
     override fun provideViewModelType(): Class<CommunityPageRulesViewModel> = CommunityPageRulesViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_community_page_rules
 
-    override fun inject() = App.injections
-        .get<CommunityPageRulesFragmentComponent>(getRules())
+    override fun inject(key: String) = App.injections
+        .get<CommunityPageRulesFragmentComponent>(key, getRules())
         .inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPageRulesFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPageRulesBinding, viewModel: CommunityPageRulesViewModel) {
         binding.viewModel = viewModel

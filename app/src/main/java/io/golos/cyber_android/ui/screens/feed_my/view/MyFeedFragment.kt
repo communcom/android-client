@@ -52,12 +52,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     override fun layoutResId(): Int = R.layout.fragment_my_feed
 
-    override fun inject() = App.injections.get<MyFeedFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<MyFeedFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<MyFeedFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<MyFeedFragmentComponent>(key)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

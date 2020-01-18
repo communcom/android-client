@@ -23,8 +23,10 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.domain.dto.CountryEntity
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import org.spongycastle.pqc.math.linearalgebra.IntUtils
 import javax.inject.Inject
 
 /**
@@ -36,12 +38,14 @@ class SignUpCountryFragment : FragmentBase() {
 
     private lateinit var signUpViewModel: SignUpViewModel
 
+    private val injectionKey = IdUtil.generateStringId()
+
     @Inject
     internal lateinit var viewModelFactory: ActivityViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.injections.get<LoginActivityComponent>().inject(this)
+        App.injections.getBase<LoginActivityComponent>().inject(this)
     }
 
     override fun onCreateView(

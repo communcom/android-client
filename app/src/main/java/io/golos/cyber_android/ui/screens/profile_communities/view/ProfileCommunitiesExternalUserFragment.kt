@@ -17,13 +17,12 @@ class ProfileCommunitiesExternalUserFragment : ProfileCommunitiesFragment() {
             }
     }
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections
             .get<ProfileCommunitiesExternalUserFragmentComponent>(
+                key,
                 arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
             .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileCommunitiesExternalUserFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileCommunitiesExternalUserFragmentComponent>(key)
 }

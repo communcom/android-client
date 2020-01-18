@@ -57,15 +57,13 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
     override fun layoutResId(): Int = R.layout.fragment_profile_posts
 
-    override fun inject() {
+    override fun inject(key: String) {
         App.injections
-            .get<ProfilePostsFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.NEW)
+            .get<ProfilePostsFragmentComponent>(key, PostsConfigurationDomain.TypeFeedDomain.NEW)
             .inject(this)
     }
 
-    override fun releaseInjection() {
-        App.injections.release<ProfilePostsFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfilePostsFragmentComponent>(key)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

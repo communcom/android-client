@@ -44,12 +44,9 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
 
     override fun layoutResId(): Int = R.layout.fragment_ftue
 
-    override fun inject() = App.injections.get<FtueFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<FtueFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<FtueFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<FtueFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentFtueBinding, viewModel: FtueViewModel) {
         binding.viewModel = viewModel

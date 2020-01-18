@@ -5,13 +5,11 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragm
 import io.golos.domain.dto.PostsConfigurationDomain
 
 class ProfilePostsLikedFragment : ProfilePostsFragment() {
-    override fun inject() {
+    override fun inject(key: String) {
         App.injections
-            .get<ProfilePostsLikedFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.NEW)
+            .get<ProfilePostsLikedFragmentComponent>(key, PostsConfigurationDomain.TypeFeedDomain.NEW)
             .inject(this)
     }
 
-    override fun releaseInjection() {
-        App.injections.release<ProfilePostsLikedFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfilePostsLikedFragmentComponent>(key)
 }

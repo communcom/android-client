@@ -9,13 +9,11 @@ class ProfilePostsExternalUserFragment : ProfilePostsFragment() {
         fun newInstance() = ProfilePostsExternalUserFragment()
     }
 
-    override fun inject() {
+    override fun inject(key: String) {
         App.injections
-            .get<ProfilePostsExternalUserFragmentComponent>(PostsConfigurationDomain.TypeFeedDomain.NEW)
+            .get<ProfilePostsExternalUserFragmentComponent>(key, PostsConfigurationDomain.TypeFeedDomain.NEW)
             .inject(this)
     }
 
-    override fun releaseInjection() {
-        App.injections.release<ProfilePostsExternalUserFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfilePostsExternalUserFragmentComponent>(key)
 }

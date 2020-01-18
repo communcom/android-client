@@ -79,14 +79,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
 
-    override fun inject() = App.injections
-        .get<CommunityPageFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<CommunityPageFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPageFragmentComponent>()
-    }
-
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPageFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPageBinding, viewModel: CommunityPageViewModel) {
         binding.viewModel = viewModel

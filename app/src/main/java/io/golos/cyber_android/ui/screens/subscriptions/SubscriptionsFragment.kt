@@ -24,19 +24,15 @@ import timber.log.Timber
 
 class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, SubscriptionsViewModel>() {
 
-    override fun releaseInjection() {
-        App.injections.release<SubscriptionsFragmentComponent>()
-    }
-
     private val subscriptionsAdapter: CommunitiesAdapter = CommunitiesAdapter()
 
     override fun provideViewModelType(): Class<SubscriptionsViewModel> = SubscriptionsViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_subscriptions
 
-    override fun inject() = App.injections
-        .get<SubscriptionsFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<SubscriptionsFragmentComponent>(key).inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<SubscriptionsFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentSubscriptionsBinding, viewModel: SubscriptionsViewModel) {
         binding.viewModel = viewModel

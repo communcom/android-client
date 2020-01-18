@@ -131,7 +131,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
         })
     }
 
-    override fun inject() = App.injections.get<LoginActivityComponent>().inject(this)
+    override fun inject() = App.injections.getBase<LoginActivityComponent>().inject(this)
 
     override fun onDestroy() {
         super.onDestroy()

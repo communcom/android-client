@@ -39,7 +39,7 @@ constructor(
     internal lateinit var dispatchersProvider: DispatchersProvider
 
     init {
-        App.injections.get<UIComponent>().inject(this)
+        App.injections.getBase<UIComponent>().inject(this)
     }
 
     var digit: Digit? = null

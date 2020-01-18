@@ -38,14 +38,13 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
     override fun layoutResId(): Int = R.layout.fragment_profile_comments
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections.get<ProfileCommentsFragmentComponent>(
+            key,
             arguments!!.getParcelable<UserIdDomain>(USER_ID_EXTRA)
         ).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileCommentsFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileCommentsFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfileCommentsBinding, viewModel: ProfileCommentsViewModel) {
         binding.viewModel = viewModel

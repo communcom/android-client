@@ -26,7 +26,7 @@ constructor(
     private var onCloseClickListener: (() -> Unit)? = null
 
     init {
-        App.injections.get<UIComponent>().inject(this)
+        App.injections.getBase<UIComponent>().inject(this)
 
         inflate(context, R.layout.view_comment_widget_edit, this)
 

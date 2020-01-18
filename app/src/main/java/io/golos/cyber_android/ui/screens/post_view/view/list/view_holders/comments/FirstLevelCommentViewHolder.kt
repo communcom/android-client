@@ -38,7 +38,7 @@ class FirstLevelCommentViewHolder(
     override val _rootView: View
         get() = itemView
 
-    override fun inject() = App.injections.get<PostPageFragmentComponent>().inject(this)
+    override fun inject() = App.injections.getBase<PostPageFragmentComponent>().inject(this)
 
     override fun getParentAuthor(listItem: FirstLevelCommentListItem): DiscussionAuthorModel? = null
 }

@@ -30,11 +30,9 @@ class SignInUserNameFragment : FragmentBaseMVVM<FragmentSignInUserNameBinding, S
 
     override fun layoutResId(): Int = R.layout.fragment_sign_in_user_name
 
-    override fun inject() = App.injections.get<SignInUserNameFragmentComponent>().inject(this)
+    override fun inject(key: String) = App.injections.get<SignInUserNameFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<SignInUserNameFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<SignInUserNameFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentSignInUserNameBinding, viewModel: SignInUserNameViewModel) {
         binding.viewModel = viewModel

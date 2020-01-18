@@ -20,10 +20,6 @@ import javax.inject.Inject
  */
 class FingerprintAuthFragment : FragmentBaseMVVM<FragmentFingerprintAuthBinding, FingerprintAuthViewModel>() {
 
-    override fun releaseInjection() {
-        App.injections.release<FingerprintAuthFragmentComponent>()
-    }
-
     @Inject
     internal lateinit var navigator: Navigator
 
@@ -31,8 +27,10 @@ class FingerprintAuthFragment : FragmentBaseMVVM<FragmentFingerprintAuthBinding,
 
     override fun layoutResId(): Int = R.layout.fragment_fingerprint_auth
 
-    override fun inject() = App.injections
-        .get<FingerprintAuthFragmentComponent>(arguments!!.getInt(InAppAuthActivity.FINGERPRINT_HEADER_ID))
+    override fun releaseInjection(key: String) = App.injections.release<FingerprintAuthFragmentComponent>(key)
+
+    override fun inject(key: String) = App.injections
+        .get<FingerprintAuthFragmentComponent>(key, arguments!!.getInt(InAppAuthActivity.FINGERPRINT_HEADER_ID))
         .inject(this)
 
     override fun linkViewModel(binding: FragmentFingerprintAuthBinding, viewModel: FingerprintAuthViewModel) {

@@ -31,7 +31,7 @@ class PinCodeFragment : FragmentBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.injections.get<LoginActivityComponent>().inject(this)
+        App.injections.getBase<LoginActivityComponent>().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

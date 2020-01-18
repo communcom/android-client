@@ -24,6 +24,7 @@ import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.screens.post_edit.view.image_picker.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_onboarding_user_image.*
 import javax.inject.Inject
@@ -43,14 +44,16 @@ class OnboardingUserImageFragment : FragmentBase() {
     @Inject
     internal lateinit var viewModelFactory: FragmentViewModelFactory
 
+    private val injectionKey = IdUtil.generateStringId()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.injections.get<OnBoardingFragmentComponent>(CyberName(getArgs().userCyberName)).inject(this)
+        App.injections.get<OnBoardingFragmentComponent>(injectionKey, CyberName(getArgs().userCyberName)).inject(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        App.injections.release<OnBoardingFragmentComponent>()
+        App.injections.release<OnBoardingFragmentComponent>(injectionKey)
     }
 
     override fun onCreateView(

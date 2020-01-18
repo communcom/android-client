@@ -50,7 +50,7 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
         showKeyboardOnCodeInput()
     }
 
-    override fun inject() = App.injections.get<LoginActivityComponent>().inject(this)
+    override fun inject() = App.injections.getBase<LoginActivityComponent>().inject(this)
 
     private fun sendCode() {
         viewModel.getFieldIfValid()?.let {

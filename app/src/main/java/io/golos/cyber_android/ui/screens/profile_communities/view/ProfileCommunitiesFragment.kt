@@ -41,14 +41,12 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
 
     override fun layoutResId(): Int = R.layout.fragment_profile_communities
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections
-            .get<ProfileCommunitiesFragmentComponent>(arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
+            .get<ProfileCommunitiesFragmentComponent>(key, arguments!!.getParcelable<ProfileCommunities>(SOURCE_DATA))
             .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileCommunitiesFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileCommunitiesFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfileCommunitiesBinding, viewModel: ProfileCommunitiesViewModel) {
         binding.viewModel = viewModel

@@ -68,16 +68,15 @@ class ProfilePhotosFragment : FragmentBaseMVVM<FragmentProfilePhotosBinding, Pro
 
     override fun layoutResId(): Int = R.layout.fragment_profile_photos
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections
             .get<ProfilePhotosFragmentComponent>(
+                key,
                 ProfileItem.create(arguments!!.getInt(ITEM)),
                 arguments!!.getString(IMAGE_URL))
             .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfilePhotosFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfilePhotosFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfilePhotosBinding, viewModel: ProfilePhotosViewModel) {
         binding.viewModel = viewModel

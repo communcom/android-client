@@ -48,18 +48,17 @@ class PostFiltersDialog : DialogBaseMVVM<DialogPostFiltersBinding, PostFiltersVi
 
     override fun layoutResId(): Int = R.layout.dialog_post_filters
 
-    override fun inject() {
+    override fun inject(key: String) {
         App.injections
             .get<PostFiltersFragmentComponent>(
+                key,
                 arguments!!.getBoolean(OPEN_STATE_EXTRA, false),
                 arguments?.getSerializable(TIME_FILTER_EXTRA) as? PostFiltersHolder.UpdateTimeFilter,
                 arguments?.getSerializable(PERIOD_FILTER_EXTRA) as? PostFiltersHolder.PeriodTimeFilter
             ).inject(this)
     }
 
-    override fun releaseInjection() {
-        App.injections.release<PostFiltersFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<PostFiltersFragmentComponent>(key)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): BottomSheetDialog {
         return BottomSheetDialog(requireContext(), theme)

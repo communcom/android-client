@@ -26,19 +26,13 @@ import ru.ldralighieri.corbind.view.clicks
 class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     FeedPageLiveDataProvider {
 
-    override fun releaseInjection() {
-        App.injections.release<FeedFragmentComponent>()
-    }
-
     override fun provideViewModelType(): Class<FeedViewModel> = FeedViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_feed
 
-    override fun inject() {
-        App.injections
-            .get<FeedFragmentComponent>()
-            .inject(this)
-    }
+    override fun inject(key: String) = App.injections.get<FeedFragmentComponent>(key).inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<FeedFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentFeedBinding, viewModel: FeedViewModel) {
         binding.viewModel = viewModel

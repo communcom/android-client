@@ -32,15 +32,14 @@ open class CommunityPageFriendsFragment : FragmentBaseMVVM<FragmentCommunityPage
 
     override fun layoutResId(): Int = R.layout.fragment_community_page_friends
 
-    override fun inject() = App.injections
+    override fun inject(key: String) = App.injections
         .get<CommunityPageFriendsComponent>(
+            key,
             arguments!!.getParcelableArray(FRIENDS)!!.toList()
         )
         .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPageFriendsComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPageFriendsComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPageFriendsBinding, viewModel: CommunityPageFriendsViewModel) {
         binding.viewModel = viewModel

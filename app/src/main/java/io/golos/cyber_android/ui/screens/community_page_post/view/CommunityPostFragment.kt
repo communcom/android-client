@@ -49,14 +49,14 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     override fun layoutResId(): Int = R.layout.fragment_community_post
 
-    override fun inject() = App.injections.get<CommunityPostFragmentComponent>(
-        arguments!!.getString(COMMUNITY_ID_EXTRA),
-        arguments!!.getString(COMMUNITY_ALIAS_EXTRA)
+    override fun inject(key: String) = App.injections
+        .get<CommunityPostFragmentComponent>(
+            key,
+            arguments!!.getString(COMMUNITY_ID_EXTRA),
+            arguments!!.getString(COMMUNITY_ALIAS_EXTRA)
     ).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPostFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPostFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPostBinding, viewModel: CommunityPostViewModel) {
         binding.viewModel = viewModel

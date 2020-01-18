@@ -19,15 +19,14 @@ class ProfileFollowersExternalUserFragment : ProfileFollowersFragment(){
         }
     }
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections
             .get<ProfileFollowersExternalUserFragmentComponent>(
+                key,
                 FollowersFilter.create(arguments!!.getInt(FILTER)),
                 25,         // Page size
                 arguments!!.getParcelableArray(MUTUAL_USERS)!!.toList())
             .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileFollowersExternalUserFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileFollowersExternalUserFragmentComponent>(key)
 }

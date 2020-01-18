@@ -75,15 +75,13 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         }
     }
 
-    override fun inject() {
+    override fun inject(key: String) {
         App.injections
-            .get<PostReportFragmentComponent>(arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId)
+            .get<PostReportFragmentComponent>(key, arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId)
             .inject(this)
     }
 
-    override fun releaseInjection() {
-        App.injections.release<PostReportFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<PostReportFragmentComponent>(key)
 
     override fun linkViewModel(binding: DialogPostReportBinding, viewModel: PostReportViewModel) {
         binding.viewModel = viewModel

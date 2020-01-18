@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -32,6 +33,11 @@ import kotlin.coroutines.CoroutineContext
  * Base class for all fragments
  */
 abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out ModelBase>> : Fragment(), CoroutineScope {
+    companion object {
+        private const val INJECTION_KEY = "INJECTION_KEY"
+    }
+
+    private lateinit var injectionKey: String
 
     private lateinit var binding: VDB
 
@@ -56,9 +62,16 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject()
+
+        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: UUID.randomUUID().toString()
+        inject(injectionKey)
+
         val viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
         _viewModel = viewModel
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(INJECTION_KEY, injectionKey)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -86,8 +99,11 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     }
 
     override fun onDestroy() {
-        releaseInjection()
         super.onDestroy()
+
+        if(isRemoving) {
+            releaseInjection(injectionKey)
+        }
     }
 
     abstract fun provideViewModelType(): Class<VM>
@@ -95,9 +111,9 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     @LayoutRes
     protected abstract fun layoutResId(): Int
 
-    protected abstract fun inject()
+    protected abstract fun inject(key: String)
 
-    protected abstract fun releaseInjection()
+    protected abstract fun releaseInjection(key: String)
 
     protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
 

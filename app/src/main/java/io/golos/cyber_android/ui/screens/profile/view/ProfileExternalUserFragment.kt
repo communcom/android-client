@@ -25,16 +25,13 @@ class ProfileExternalUserFragment : ProfileFragment() {
         }
     }
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections.get<ProfileExternalUserFragmentComponent>(
-            arguments!!.getParcelable<UserIdDomain>(
-                Tags.USER_ID
-            )
+            key,
+            arguments!!.getParcelable<UserIdDomain>(Tags.USER_ID)
         ).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileExternalUserFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileExternalUserFragmentComponent>(key)
 
     override fun provideCommunitiesFragment(sourceData: ProfileCommunities): Fragment =
         ProfileCommunitiesExternalUserFragment.newInstance(sourceData)

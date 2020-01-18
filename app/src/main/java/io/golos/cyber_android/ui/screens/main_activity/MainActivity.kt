@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.main_activity
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
@@ -8,11 +7,11 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.ActivityMainBinding
+import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
+import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
 import io.golos.cyber_android.ui.shared.mvvm.ActivityBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.ui.screens.main_activity.view_model.MainViewModel
 import io.golos.cyber_android.ui.shared.utils.navigate
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,20 +22,14 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
 
     override fun layoutResId(): Int = R.layout.activity_main
 
-    override fun inject() = App.injections.get<MainActivityComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<MainActivityComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<MainActivityComponent>()
+    override fun releaseInjection(key: String) {
+        App.injections.release<MainActivityComponent>(key)
     }
 
     override fun linkViewModel(binding: ActivityMainBinding, viewModel: MainViewModel) {
         binding.viewModel = viewModel
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App.injections.get<MainActivityComponent>().inject(this)
     }
 
     override fun processViewCommand(command: ViewCommand) {

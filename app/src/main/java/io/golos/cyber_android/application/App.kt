@@ -6,6 +6,7 @@ import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
 import io.golos.domain.LogTags
+import io.golos.domain.utils.IdUtil
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class App : Application() {
         super.onCreate()
 
         injections = DependencyInjectionStorage(applicationContext)
-        injections.get<AppComponent>().inject(this)
+        injections.get<AppComponent>(IdUtil.generateStringId()).inject(this)
 
         Timber.plant(timberTree)
         Timber.tag(LogTags.NAVIGATION).d("The app is started")

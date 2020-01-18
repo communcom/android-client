@@ -42,6 +42,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
+import io.golos.domain.utils.IdUtil
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
@@ -62,6 +63,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     private lateinit var viewModel: EditorPageViewModel
 
+    private val injectionKey = IdUtil.generateStringId()
+
     @Inject
     lateinit var viewModelFactory: FragmentViewModelFactory
 
@@ -70,6 +73,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         val args = getArgs()
         App.injections.get<EditorPageFragmentComponent>(
+            injectionKey,
             args.contentId
         ).inject(this)
 
@@ -78,7 +82,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     override fun onDestroy() {
         super.onDestroy()
-        App.injections.release<EditorPageFragmentComponent>()
+        App.injections.release<EditorPageFragmentComponent>(injectionKey)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

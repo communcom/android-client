@@ -23,11 +23,9 @@ class SignInQrCodeFragment : FragmentBaseMVVM<FragmentSignInQrCodeBinding, SignI
 
     override fun layoutResId(): Int = R.layout.fragment_sign_in_qr_code
 
-    override fun inject() = App.injections.get<SignInQrCodeFragmentComponent>().inject(this)
+    override fun inject(key: String) = App.injections.get<SignInQrCodeFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<SignInQrCodeFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<SignInQrCodeFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentSignInQrCodeBinding, viewModel: SignInQrCodeViewModel) {
         binding.viewModel = viewModel

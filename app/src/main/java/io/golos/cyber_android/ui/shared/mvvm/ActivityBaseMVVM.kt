@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -28,6 +29,11 @@ import kotlin.coroutines.CoroutineContext
  * Base class for all activities
  */
 abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out ModelBase>> : AppCompatActivity(), CoroutineScope {
+    companion object {
+        private const val INJECTION_KEY = "INJECTION_KEY"
+    }
+
+    private lateinit var injectionKey: String
 
     private lateinit var binding: VDB
 
@@ -54,7 +60,10 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, this.layoutResId())
         binding.lifecycleOwner = this
-        inject()
+
+        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: UUID.randomUUID().toString()
+        inject(injectionKey)
+
         val viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]
         _viewModel = viewModel
         linkViewModel(binding, _viewModel)
@@ -65,13 +74,20 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
         })
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(INJECTION_KEY, injectionKey)
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onResume() {
         super.onResume()
         Timber.tag(LogTags.NAVIGATION).d("${javaClass.simpleName} fragment is active")
     }
 
     override fun onDestroy() {
-        releaseInjection()
+        if(isFinishing) {
+            releaseInjection(injectionKey)
+        }
         coroutineContext.cancel()
         super.onDestroy()
     }
@@ -81,9 +97,9 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
     @LayoutRes
     protected abstract fun layoutResId(): Int
 
-    protected abstract fun inject()
+    protected abstract fun inject(key: String)
 
-    protected abstract fun releaseInjection()
+    protected abstract fun releaseInjection(key: String)
 
     protected abstract fun linkViewModel(binding: VDB, viewModel: VM)
 

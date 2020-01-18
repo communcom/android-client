@@ -82,28 +82,64 @@ import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.utils.IdUtil
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */
 class DependencyInjectionStorage(private val appContext: Context) {
 
-    private val components = mutableMapOf<KClass<*>, Any>()
+    private val components = mutableMapOf<KClass<*>, MutableMap<String, Any>>()
 
-    inline fun <reified T> get(vararg args: Any?): T = getComponent(T::class, args)
+    inline fun <reified T> get(key: String, vararg args: Any?): T = getComponent(key, T::class, args)
 
-    inline fun <reified T> release() = releaseComponent(T::class)
+    inline fun <reified T> release(key: String) = releaseComponent(key, T::class)
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> getComponent(type: KClass<*>, args: Array<out Any?>): T {
-        var result = components[type]
-        if (result == null) {
-            result = provideComponent<T>(type, args)
-            components[type] = result!!
+    fun <T> getComponent(key: String, type: KClass<*>, args: Array<out Any?>): T {
+        val componentsSet = components[type]
+
+        return if(componentsSet == null) {
+            val component = provideComponent<T>(type, args)
+            components[type] = mutableMapOf(key to component as Any)
+
+            component
+        } else {
+            var component = componentsSet[key]
+            if(component != null) {
+                component as T
+            }
+
+            component = provideComponent<T>(type, args)
+            componentsSet[key] = component as Any
+            component
         }
-        return result as T
     }
 
-    fun releaseComponent(type: KClass<*>) = components.remove(type)
+    fun releaseComponent(key: String, type: KClass<*>) {
+        val componentsSet = components[type] ?: return
+
+        componentsSet.remove(key)
+
+        if(componentsSet.isEmpty()) {
+            components.remove(type)
+        }
+    }
+
+    inline fun <reified T> getBase(): T = getBaseComponent(T::class)
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getBaseComponent(type: KClass<*>): T {
+        val componentsSet = components[type]
+
+        return if(componentsSet != null) {
+            componentsSet.entries.first().value as T
+        } else {
+            val component = provideComponent<T>(type, arrayOfNulls(0))
+            components[type] = mutableMapOf(IdUtil.generateStringId() to component as Any)
+
+            component
+        }
+    }
 
     @Suppress("IMPLICIT_CAST_TO_ANY", "UNCHECKED_CAST")
     private fun <T> provideComponent(type: KClass<*>, args: Array<out Any?>): T {
@@ -111,16 +147,16 @@ class DependencyInjectionStorage(private val appContext: Context) {
         return when (type) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
 
-            UIComponent::class -> get<AppComponent>().ui.build()
+            UIComponent::class -> getBase<AppComponent>().ui.build()
 
             BioFragmentComponent::class ->
-                get<UIComponent>()
+                getBase<UIComponent>()
                     .bioFragment
                     .init(BioFragmentModule(args[0] as CyberName))
                     .build()
 
             EditorPageFragmentComponent::class ->
-                get<UIComponent>()
+                getBase<UIComponent>()
                     .editorPageFragment
                     .init(
                         EditorPageFragmentModule(
@@ -130,43 +166,43 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             ProfileFragmentComponent::class ->
-                get<UIComponent>()
+                getBase<UIComponent>()
                     .profileFragment
                     .init(ProfileFragmentModule(args[0] as UserIdDomain))
                     .build()
 
             ProfileExternalUserFragmentComponent::class ->
-                get<UIComponent>()
+                getBase<UIComponent>()
                     .profileExternalUserFragment
                     .init(ProfileFragmentModule(args[0] as UserIdDomain))
                     .build()
 
             ProfilePhotosFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .photosFragment
                     .init(ProfilePhotosFragmentModule(args[0] as ProfileItem, args[1] as String?))
                     .build()
 
             ProfileBioFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .bioFragment
                     .init(ProfileBioFragmentModule(args[0] as String?))
                     .build()
 
             ProfileCommunitiesFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .communitiesFragment
                     .init(ProfileCommunitiesFragmentModule(args[0] as ProfileCommunities))
                     .build()
 
             ProfileCommunitiesExternalUserFragmentComponent::class ->
-                get<ProfileExternalUserFragmentComponent>()
+                getBase<ProfileExternalUserFragmentComponent>()
                     .communitiesFragment
                     .init(ProfileCommunitiesFragmentModule(args[0] as ProfileCommunities))
                     .build()
 
             ProfileFollowersFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .followersFragment
                     .init(
                         ProfileFollowersFragmentModule(
@@ -178,7 +214,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             ProfileFollowersExternalUserFragmentComponent::class ->
-                get<ProfileExternalUserFragmentComponent>()
+                getBase<ProfileExternalUserFragmentComponent>()
                     .followersFragment
                     .init(
                         ProfileFollowersFragmentModule(
@@ -190,49 +226,49 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             ProfilePostsExternalUserFragmentComponent::class ->
-                get<ProfileExternalUserFragmentComponent>()
+                getBase<ProfileExternalUserFragmentComponent>()
                     .profilePostsFragment
                     .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                     .build()
 
             ProfileBlackListFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .blackListFragment
                     .init(ProfileBlackListFragmentModule(args[0] as BlackListFilter, args[1] as Int))
                     .build()
 
             ProfilePostsLikedFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .likedFragment
                     .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                     .build()
 
-            InAppAuthActivityComponent::class -> get<UIComponent>().inAppAuthActivity.build()
+            InAppAuthActivityComponent::class -> getBase<UIComponent>().inAppAuthActivity.build()
 
             FingerprintAuthFragmentComponent::class ->
-                get<InAppAuthActivityComponent>()
+                getBase<InAppAuthActivityComponent>()
                     .fingerprintAuthFragmentComponent
                     .init(FingerprintAuthFragmentModule(args[0] as Int))
                     .build()
 
             PinCodeAuthFragmentComponent::class ->
-                get<InAppAuthActivityComponent>()
+                getBase<InAppAuthActivityComponent>()
                     .pinCodeAuthFragmentComponent
                     .init(PinCodeAuthFragmentModule(args[0] as Int))
                     .build()
 
-            LoginActivityComponent::class -> get<UIComponent>().loginActivity.build()
+            LoginActivityComponent::class -> getBase<UIComponent>().loginActivity.build()
 
             OnBoardingFragmentComponent::class ->
-                get<LoginActivityComponent>()
+                getBase<LoginActivityComponent>()
                     .onBoardingFragmentComponent
                     .init(OnBoardingFragmentModule(args[0] as CyberName))
                     .build()
 
-            MainActivityComponent::class -> get<UIComponent>().mainActivity.build()
+            MainActivityComponent::class -> getBase<UIComponent>().mainActivity.build()
 
             PostPageFragmentComponent::class ->
-                get<UIComponent>()
+                getBase<UIComponent>()
                     .postPageFragment
                     .init(
                         PostPageFragmentModule(
@@ -242,130 +278,125 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     ).build()
 
             CommunitiesListFragmentComponent::class ->
-                get<MainActivityComponent>()
+                getBase<MainActivityComponent>()
                     .communitiesFragmentComponent
                     .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
                     .build()
 
             CommunitiesListFragmentTabComponent::class ->
-                get<MainActivityComponent>()
+                getBase<MainActivityComponent>()
                     .communitiesFragmentTabComponent
                     .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
                     .build()
 
-            FeedbackActivityComponent::class -> get<UIComponent>().feedbackActivity.build()
+            FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()
 
-            SelectCommunityDialogComponent::class -> get<UIComponent>().selectCommunityDialog.build()
+            SelectCommunityDialogComponent::class -> getBase<UIComponent>().selectCommunityDialog.build()
 
-            SubscriptionsFragmentComponent::class -> get<UIComponent>().subscriptionsFragment.build()
+            SubscriptionsFragmentComponent::class -> getBase<UIComponent>().subscriptionsFragment.build()
 
-            FollowersFragmentComponent::class -> get<UIComponent>().followersFragment.build()
+            FollowersFragmentComponent::class -> getBase<UIComponent>().followersFragment.build()
 
-            CommunityPageFragmentComponent::class -> get<UIComponent>().communityPageFragment.build()
+            CommunityPageFragmentComponent::class -> getBase<UIComponent>().communityPageFragment.build()
 
-            CommunityPageAboutFragmentComponent::class -> get<UIComponent>()
-                .communityPageAboutFragment
-                .init(CommunityPageAboutFragmentModule(args[0] as String))
-                .build()
+            CommunityPageAboutFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .communityPageAboutFragment
+                    .init(CommunityPageAboutFragmentModule(args[0] as String))
+                    .build()
 
-            CommunityPageRulesFragmentComponent::class -> get<UIComponent>()
-                .communityPageRulesFragment
-                .init(
-                    CommunityPageRulesFragmentModule(
-                        args[0] as String
+            CommunityPageRulesFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .communityPageRulesFragment
+                    .init(CommunityPageRulesFragmentModule(args[0] as String))
+                    .build()
+
+            CommunityPageAboutFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .communityPageAboutFragment
+                    .init(CommunityPageAboutFragmentModule(args[0] as String))
+                    .build()
+
+            CommunityPageLeadsListComponent::class ->
+                    getBase<CommunityPageFragmentComponent>()
+                    .leadsListFragment
+                    .init(CommunityPageLeadsListModule(args[0] as String))
+                    .build()
+
+            CommunityPageMembersComponent::class ->
+                getBase<CommunityPageFragmentComponent>()
+                    .membersFragment
+                    .init(CommunityPageMembersModule(args[0] as String, args[1] as Int))
+                    .build()
+
+            CommunityPageFriendsComponent::class ->
+                getBase<CommunityPageFragmentComponent>()
+                    .friendsFragment
+                    .init(CommunityPageFriendsModule(args[0] as List<CommunityFriend>))
+                    .build()
+
+            FeedFragmentComponent::class -> getBase<UIComponent>().feedFragment.build()
+
+            PostFiltersFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .postFiltersFragment
+                    .init(
+                        PostFilterFragmentModule(
+                            args[0] as Boolean,
+                            args[1] as PostFiltersHolder.UpdateTimeFilter?,
+                            args[2] as PostFiltersHolder.PeriodTimeFilter?
+                        )
                     )
-                )
-                .build()
+                    .build()
 
-            CommunityPageAboutFragmentComponent::class -> get<UIComponent>()
-                .communityPageAboutFragment
-                .init(CommunityPageAboutFragmentModule(args[0] as String))
-                .build()
+            PostReportFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .postReportFragment
+                    .init(PostReportModule(args[0] as ContentId))
+                    .build()
 
-            CommunityPageLeadsListComponent::class -> get<CommunityPageFragmentComponent>()
-                .leadsListFragment
-                .init(CommunityPageLeadsListModule(args[0] as String))
-                .build()
+            MyFeedFragmentComponent::class -> getBase<UIComponent>().postsListFragment.build()
 
-            CommunityPageMembersComponent::class -> get<CommunityPageFragmentComponent>()
-                .membersFragment
-                .init(CommunityPageMembersModule(args[0] as String, args[1] as Int))
-                .build()
-
-            CommunityPageFriendsComponent::class -> get<CommunityPageFragmentComponent>()
-                .friendsFragment
-                .init(CommunityPageFriendsModule(args[0] as List<CommunityFriend>))
-                .build()
-
-            FeedFragmentComponent::class -> get<UIComponent>()
-                .feedFragment
-                .build()
-
-            PostFiltersFragmentComponent::class -> get<UIComponent>()
-                .postFiltersFragment
-                .init(
-                    PostFilterFragmentModule(
-                        args[0] as Boolean,
-                        args[1] as PostFiltersHolder.UpdateTimeFilter?,
-                        args[2] as PostFiltersHolder.PeriodTimeFilter?
-                    )
-                )
-                .build()
-
-            PostReportFragmentComponent::class -> get<UIComponent>()
-                .postReportFragment
-                .init(PostReportModule(args[0] as ContentId))
-                .build()
-
-            MyFeedFragmentComponent::class -> get<UIComponent>()
-                .postsListFragment
-                .build()
-
-            CommunityPostFragmentComponent::class -> get<UIComponent>()
-                .communityPostFragment
-                .init(
-                    CommunityPostFragmentModule(args[0] as String, args[1] as String?)
-                )
-                .build()
+            CommunityPostFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .communityPostFragment
+                    .init(CommunityPostFragmentModule(args[0] as String, args[1] as String?))
+                    .build()
 
             ProfilePostsFragmentComponent::class ->
-                get<ProfileFragmentComponent>()
+                getBase<ProfileFragmentComponent>()
                     .profilePostsFragment
                     .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
                     .build()
 
-            FtueFragmentComponent::class -> get<UIComponent>()
-                .ftueFragment
-                .build()
+            FtueFragmentComponent::class -> getBase<UIComponent>().ftueFragment.build()
 
-            FtueSearchCommunityFragmentComponent::class -> get<UIComponent>()
-                .ftueSearchCommunityFragment
-                .build()
+            FtueSearchCommunityFragmentComponent::class -> getBase<UIComponent>().ftueSearchCommunityFragment.build()
 
-            FtueFinishFragmentComponent::class -> get<UIComponent>()
-                .ftueFinishFragmentComponent
-                .build()
+            FtueFinishFragmentComponent::class -> getBase<UIComponent>().ftueFinishFragmentComponent.build()
 
-            DashboardFragmentComponent::class -> get<UIComponent>()
-                .dashboardFragmentComponent
-                .build()
+            DashboardFragmentComponent::class -> getBase<UIComponent>().dashboardFragmentComponent.build()
 
-            SignInUserNameFragmentComponent::class -> get<LoginActivityComponent>()
-                .signInUserNameFragmentComponent
-                .build()
+            SignInUserNameFragmentComponent::class ->
+                getBase<LoginActivityComponent>()
+                    .signInUserNameFragmentComponent
+                    .build()
 
-            SignInQrCodeFragmentComponent::class -> get<LoginActivityComponent>()
-                .signInQrCodeFragmentComponent
-                .build()
+            SignInQrCodeFragmentComponent::class ->
+                getBase<LoginActivityComponent>()
+                    .signInQrCodeFragmentComponent
+                    .build()
 
-            SignUpProtectionKeysFragmentComponent::class -> get<LoginActivityComponent>()
-                .signUpProtectionKeysFragmentComponent
-                .build()
+            SignUpProtectionKeysFragmentComponent::class ->
+                getBase<LoginActivityComponent>()
+                    .signUpProtectionKeysFragmentComponent
+                    .build()
 
-            ProfileCommentsFragmentComponent::class -> get<UIComponent>()
-                .profileCommentsFragmentComponent
-                .init(ProfileCommentsModule(args[0] as UserIdDomain))
-                .build()
+            ProfileCommentsFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .profileCommentsFragmentComponent
+                    .init(ProfileCommentsModule(args[0] as UserIdDomain))
+                    .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
         } as T

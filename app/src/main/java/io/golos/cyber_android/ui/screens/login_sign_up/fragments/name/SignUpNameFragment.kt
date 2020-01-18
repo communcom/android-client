@@ -103,7 +103,7 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
         })
     }
 
-    override fun inject() = App.injections.get<LoginActivityComponent>().inject(this)
+    override fun inject() = App.injections.getBase<LoginActivityComponent>().inject(this)
 
     private fun onSuccess() {
         hideLoading()

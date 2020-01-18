@@ -38,16 +38,15 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
 
     override fun layoutResId(): Int = R.layout.fragment_communities
 
-    override fun inject() = App
+    override fun inject(key: String) = App
         .injections.get<CommunitiesListFragmentComponent>(
-        true,                                                   // show back button
-        arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
-        false                                                   // show all posts
-    ).inject(this)
+            key,
+            true,                                                   // show back button
+            arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
+            false)                                                  // show all posts
+        .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<CommunitiesListFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<CommunitiesListFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunitiesBinding, viewModel: CommunitiesListViewModel) {
         binding.viewModel = viewModel

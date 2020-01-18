@@ -35,12 +35,9 @@ class FtueSearchCommunityFragment :
 
     override fun layoutResId(): Int = R.layout.fragment_ftue_search_community
 
-    override fun inject() = App.injections.get<FtueSearchCommunityFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<FtueSearchCommunityFragmentComponent>(key).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<FtueSearchCommunityFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<FtueSearchCommunityFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentFtueSearchCommunityBinding, viewModel: FtueSearchCommunityViewModel) {
         binding.viewModel = viewModel

@@ -21,19 +21,15 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 
 class FollowersFragment : FragmentBaseMVVM<FragmentFollowersBinding, FollowersViewModel>() {
 
-    override fun releaseInjection() {
-        App.injections.release<FollowersFragmentComponent>()
-    }
-
     override fun layoutResId(): Int  = R.layout.fragment_followers
 
     private val adapter by lazy { FollowersAdapter() }
 
     override fun provideViewModelType(): Class<FollowersViewModel> = FollowersViewModel::class.java
 
-    override fun inject() = App.injections
-        .get<FollowersFragmentComponent>()
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<FollowersFragmentComponent>(key).inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<FollowersFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentFollowersBinding, viewModel: FollowersViewModel) {
         binding.viewModel = viewModel

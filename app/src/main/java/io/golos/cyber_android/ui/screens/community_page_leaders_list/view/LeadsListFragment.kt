@@ -33,13 +33,11 @@ class LeadsListFragment : FragmentBaseMVVM<FragmentCommunityLeadsBinding, LeadsL
 
     override fun layoutResId(): Int = R.layout.fragment_community_leads
 
-    override fun inject() = App.injections
-        .get<CommunityPageLeadsListComponent>(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))
+    override fun inject(key: String) = App.injections
+        .get<CommunityPageLeadsListComponent>(key, arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))
         .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<CommunityPageLeadsListComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<CommunityPageLeadsListComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityLeadsBinding, viewModel: LeadsListViewModel) {
         binding.viewModel = viewModel

@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.shared.base.ActivityBase
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
@@ -31,6 +32,8 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
 
     private lateinit var viewModel: LoginViewModel
 
+    private val injectionKey = IdUtil.generateStringId()
+
     @Inject
     internal lateinit var viewModelFactory: ActivityViewModelFactory
 
@@ -40,7 +43,7 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        App.injections.get<LoginActivityComponent>().inject(this)
+        App.injections.get<LoginActivityComponent>(injectionKey).inject(this)
 
         setContentView(R.layout.activity_login)
 
@@ -57,7 +60,7 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
         splashAnimator.clear()
 
         if(isFinishing) {
-            App.injections.release<LoginActivityComponent>()
+            App.injections.release<LoginActivityComponent>(injectionKey)
         }
     }
 

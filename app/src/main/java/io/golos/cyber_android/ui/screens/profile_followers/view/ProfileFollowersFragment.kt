@@ -31,17 +31,16 @@ open class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersB
 
     override fun layoutResId(): Int = R.layout.fragment_profile_followers
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections
             .get<ProfileFollowersFragmentComponent>(
+                key,
                 FollowersFilter.create(arguments!!.getInt(FILTER)),
                 25,         // Page size
                 arguments!!.getParcelableArray(MUTUAL_USERS)!!.toList())
             .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileFollowersFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileFollowersFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfileFollowersBinding, viewModel: ProfileFollowersViewModel) {
         binding.viewModel = viewModel

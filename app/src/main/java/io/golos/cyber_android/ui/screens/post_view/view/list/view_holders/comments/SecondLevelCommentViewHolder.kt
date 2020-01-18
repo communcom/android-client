@@ -41,7 +41,7 @@ class SecondLevelCommentViewHolder(
     override val _rootView: View
         get() = itemView
 
-    override fun inject() = App.injections.get<PostPageFragmentComponent>().inject(this)
+    override fun inject() = App.injections.getBase<PostPageFragmentComponent>().inject(this)
 
     override fun init(listItem: SecondLevelCommentListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         // Add second-level margin

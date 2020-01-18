@@ -14,12 +14,15 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigat
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class InAppAuthActivity : ActivityBase(), CoroutineScope {
     private val scopeJob: Job = SupervisorJob()
+
+    private val injectionKey = IdUtil.generateStringId()
 
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
@@ -79,7 +82,7 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_app_auth)
 
-        App.injections.get<InAppAuthActivityComponent>().inject(this)
+        App.injections.get<InAppAuthActivityComponent>(injectionKey).inject(this)
 
         launch {
             when(getAppUnlockWay()) {
@@ -103,7 +106,7 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
 
         if(isFinishing) {
             scopeJob.takeIf { it.isActive }?.cancel()
-            App.injections.release<InAppAuthActivityComponent>()
+            App.injections.release<InAppAuthActivityComponent>(injectionKey)
         }
     }
 

@@ -8,6 +8,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
 import io.golos.domain.CrashlyticsFacade
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.activity_feedback.*
 import javax.inject.Inject
 
@@ -28,6 +29,8 @@ class FeedbackActivity : AppCompatActivity() {
         }
     }
 
+    private val injectionKey = IdUtil.generateStringId()
+
     @Inject
     internal lateinit var crashlytics: CrashlyticsFacade
 
@@ -36,7 +39,7 @@ class FeedbackActivity : AppCompatActivity() {
 
         isRunning = true
 
-        App.injections.get<FeedbackActivityComponent>().inject(this)
+        App.injections.get<FeedbackActivityComponent>(injectionKey).inject(this)
 
         setContentView(R.layout.activity_feedback)
 
@@ -52,7 +55,7 @@ class FeedbackActivity : AppCompatActivity() {
         super.onDestroy()
 
         if(isFinishing) {
-            App.injections.release<FeedbackActivityComponent>()
+            App.injections.release<FeedbackActivityComponent>(injectionKey)
             isRunning = false
         }
     }

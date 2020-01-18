@@ -36,11 +36,9 @@ class ProfileBioFragment : FragmentBaseMVVM<FragmentProfileBioBinding, ProfileBi
 
     override fun layoutResId(): Int = R.layout.fragment_profile_bio
 
-    override fun inject() = App.injections.get<ProfileBioFragmentComponent>(arguments!!.getString(TEXT)).inject(this)
+    override fun inject(key: String) = App.injections.get<ProfileBioFragmentComponent>(key, arguments!!.getString(TEXT)).inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileBioFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileBioFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfileBioBinding, viewModel: ProfileBioViewModel) {
         binding.viewModel = viewModel

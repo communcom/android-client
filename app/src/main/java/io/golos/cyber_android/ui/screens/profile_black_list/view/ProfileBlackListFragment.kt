@@ -28,16 +28,15 @@ class ProfileBlackListFragment : FragmentBaseMVVM<FragmentProfileBlackListBindin
 
     override fun layoutResId(): Int = R.layout.fragment_profile_black_list
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections
             .get<ProfileBlackListFragmentComponent>(
+                key,
                 BlackListFilter.create(arguments!!.getInt(FILTER)),
                 25)         // Page size
             .inject(this)
 
-    override fun releaseInjection() {
-        App.injections.release<ProfileBlackListFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<ProfileBlackListFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentProfileBlackListBinding, viewModel: ProfileBlackListViewModel) {
         binding.viewModel = viewModel

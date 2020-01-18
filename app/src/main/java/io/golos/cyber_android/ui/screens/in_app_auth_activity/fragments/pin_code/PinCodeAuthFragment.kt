@@ -22,10 +22,6 @@ import javax.inject.Inject
  */
 class PinCodeAuthFragment : FragmentBaseMVVM<FragmentPinCodeAuthBinding, PinCodeAuthViewModel>() {
 
-    override fun releaseInjection() {
-        App.injections.release<PinCodeAuthFragmentComponent>()
-    }
-
     @Inject
     internal lateinit var navigator: Navigator
 
@@ -33,9 +29,11 @@ class PinCodeAuthFragment : FragmentBaseMVVM<FragmentPinCodeAuthBinding, PinCode
 
     override fun layoutResId(): Int = R.layout.fragment_pin_code_auth
 
-    override fun inject() = App.injections
-        .get<PinCodeAuthFragmentComponent>(arguments!!.getInt(InAppAuthActivity.PIN_CODE_HEADER_ID))
+    override fun inject(key: String) = App.injections
+        .get<PinCodeAuthFragmentComponent>(key, arguments!!.getInt(InAppAuthActivity.PIN_CODE_HEADER_ID))
         .inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<PinCodeAuthFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentPinCodeAuthBinding, viewModel: PinCodeAuthViewModel) {
         binding.viewModel = viewModel

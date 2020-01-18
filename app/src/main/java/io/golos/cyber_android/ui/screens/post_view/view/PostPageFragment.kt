@@ -60,8 +60,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     override fun layoutResId(): Int = R.layout.fragment_post
 
-    override fun inject() =
+    override fun inject(key: String) =
         App.injections.get<PostPageFragmentComponent>(
+            key,
             arguments!!.getParcelable<Args>(Tags.ARGS)!!.id,
             arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId
         ).inject(this)
@@ -70,9 +71,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         binding.viewModel = viewModel
     }
 
-    override fun releaseInjection() {
-        App.injections.release<PostPageFragmentComponent>()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<PostPageFragmentComponent>(key)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
