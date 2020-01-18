@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared.mvvm
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import io.golos.cyber_android.ui.dialogs.LoadingDialog
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
@@ -17,8 +20,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.dialogs.LoadingDialog
-import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -159,5 +160,11 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
                 loadingDialog = null
             }
         }
+    }
+
+    protected fun setSelectAction(resultCode: Int, putArgsAction: Intent.() -> Unit = {}) {
+        targetFragment?.onActivityResult(targetRequestCode, resultCode, Intent().also { intent ->
+            putArgsAction.invoke(intent)
+        })
     }
 }

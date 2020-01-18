@@ -13,23 +13,26 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
-import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.shared.utils.openImageView
@@ -218,20 +221,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     }
                 }
             }
-            UPDATED_REQUEST_CODE -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        data?.action?.let { action ->
-                            when (action) {
-                                Tags.ACTION_DELETE -> {
-                                    val permlink = data.getStringExtra(Tags.PERMLINK_EXTRA)
-                                    if (permlink.isNotEmpty()) {
-                                        viewModel.deleteLocalPostByPermlink(permlink)
-                                    }
-                                }
-                            }
-                        }
-                    }
+            PostPageFragment.UPDATED_REQUEST_CODE -> {
+                val permlink = data?.getStringExtra(Tags.PERMLINK_EXTRA)
+                if (!permlink.isNullOrBlank()) {
+                    viewModel.deleteLocalPostByPermlink(permlink)
                 }
             }
         }
@@ -247,15 +240,14 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        startActivityForResult(
-            PostActivity.getIntent(
-                requireContext(),
+        getDashboardFragment(this)?.showFragment(
+            PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            UPDATED_REQUEST_CODE
+            tagFragment = contentId.permlink
         )
     }
 
@@ -340,8 +332,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     companion object {
-
-        private const val UPDATED_REQUEST_CODE = 41245
 
         fun newInstance(): Fragment {
 

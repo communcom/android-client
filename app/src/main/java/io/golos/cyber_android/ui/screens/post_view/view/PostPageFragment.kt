@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.post_view.view
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -48,6 +47,20 @@ import kotlinx.android.synthetic.main.fragment_post.commentWidget
  * Fragment for single [PostModel] presentation
  */
 class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel>() {
+
+    companion object {
+
+        const val UPDATED_REQUEST_CODE = 41245
+
+        fun newInstance(args: Args): PostPageFragment {
+            return PostPageFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(Tags.ARGS, args)
+                }
+            }
+        }
+    }
+
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
@@ -81,7 +94,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         postView.reduceDragSensitivity()
 
-        postHeader.setOnBackButtonClickListener { activity?.finish() }
+        postHeader.setOnBackButtonClickListener { parentFragmentManager.popBackStack() }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
         postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
@@ -117,11 +130,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigationToParentScreenWithStringResultCommand -> {
                 val permlink = command.permlink
-                val intent = Intent(Tags.ACTION_DELETE).apply {
+                setSelectAction(UPDATED_REQUEST_CODE) {
                     putExtra(Tags.PERMLINK_EXTRA, permlink)
                 }
-                activity?.setResult(Activity.RESULT_OK, intent)
-                activity?.finish()
             }
 
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)

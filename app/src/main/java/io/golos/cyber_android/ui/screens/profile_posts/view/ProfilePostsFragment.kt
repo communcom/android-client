@@ -335,15 +335,14 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
-        startActivityForResult(
-            PostActivity.getIntent(
-                requireContext(),
+        getDashboardFragment(this)?.showFragment(
+            PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            UPDATED_REQUEST_CODE
+            tagFragment = contentId.permlink
         )
     }
 }

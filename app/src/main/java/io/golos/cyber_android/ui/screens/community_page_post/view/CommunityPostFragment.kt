@@ -22,7 +22,6 @@ import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -314,15 +313,14 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        startActivityForResult(
-            PostActivity.getIntent(
-                requireContext(),
+        getDashboardFragment(this)?.showFragment(
+            PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            UPDATED_REQUEST_CODE
+            tagFragment = contentId.permlink
         )
     }
 
