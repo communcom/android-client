@@ -15,7 +15,6 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
@@ -150,13 +149,14 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun editPost(post: Post) {
-        startActivity(
+        startActivityForResult(
             EditorPageActivity.getIntent(
                 requireContext(),
                 EditorPageFragment.Args(
                     contentId = post.contentId
                 )
-            )
+            ),
+            REQUEST_FOR_RESULT_FROM_EDIT
         )
     }
 
@@ -225,6 +225,24 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 val permlink = data?.getStringExtra(Tags.PERMLINK_EXTRA)
                 if (!permlink.isNullOrBlank()) {
                     viewModel.deleteLocalPostByPermlink(permlink)
+                }
+            }
+            REQUEST_FOR_RESULT_FROM_EDIT -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_EDIT_SUCCESS -> {
+                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val discussionIdModel = DiscussionIdModel(
+                                        contentId.userId,
+                                        Permlink(contentId.permlink)
+                                    )
+                                    openPost(discussionIdModel, contentId)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -310,14 +328,14 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
             myFeedAdapter.updateUser(it)
         })
-        viewModel.loadUserProgressVisibility.observe(this, Observer {
+        viewModel.loadUserProgressVisibility.observe(viewLifecycleOwner, Observer {
             if (it) {
                 userProgressLoading.visibility = View.VISIBLE
             } else {
                 userProgressLoading.visibility = View.INVISIBLE
             }
         })
-        viewModel.loadUserErrorVisibility.observe(this, Observer {
+        viewModel.loadUserErrorVisibility.observe(viewLifecycleOwner, Observer {
             if (it) {
                 btnRetry.visibility = View.VISIBLE
             } else {
@@ -332,6 +350,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     companion object {
+
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
 
         fun newInstance(): Fragment {
 

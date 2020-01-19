@@ -31,16 +31,12 @@ import io.golos.cyber_android.ui.screens.post_edit.view_commands.PastedLinkIsVal
 import io.golos.cyber_android.ui.screens.post_edit.view_commands.PostCreatedViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.view_model.EditorPageViewModel
-import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
-import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
-import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
 import io.golos.domain.utils.IdUtil
@@ -108,7 +104,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             editorWidget.insertEmptyParagraph()
         }
 
-        close.setOnClickListener { activity?.finish() }
+        close.setOnClickListener {
+            activity?.setResult(Activity.RESULT_CANCELED)
+            activity?.finish()
+        }
 
         postButton.setOnClickListener {
             viewModel.post(editorWidget.getMetadata())
@@ -263,7 +262,10 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
                 is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
 
-                is NavigateToMainScreenCommand -> activity?.finish()
+                is NavigateToMainScreenCommand -> {
+                    activity?.setResult(Activity.RESULT_CANCELED)
+                    activity?.finish()
+                }
 
                 is InsertExternalLinkViewCommand ->
                     with(command.linkInfo) {
@@ -312,16 +314,11 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     private fun onPostResult(contentId: ContentId) {
         hideLoading()
-        activity?.setResult(Activity.RESULT_OK)
+        val intent = Intent(Tags.ACTION_EDIT_SUCCESS).apply {
+            putExtra(Tags.CONTENT_ID, contentId)
+        }
+        activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
-        startActivity(
-            PostActivity.getIntent(
-                requireContext(), PostPageFragment.Args(
-                    DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)),
-                    contentId
-                )
-            )
-        )
     }
 
     override fun getInitialImageSource() = getArgs().initialImageSource

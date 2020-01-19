@@ -177,16 +177,25 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     }
                 }
             }
-            UPDATED_REQUEST_CODE -> {
+            PostPageFragment.UPDATED_REQUEST_CODE -> {
+                val permlink = data?.getStringExtra(Tags.PERMLINK_EXTRA)
+                if (!permlink.isNullOrBlank()) {
+                    viewModel.deleteLocalPostByPermlink(permlink)
+                }
+            }
+
+            REQUEST_FOR_RESULT_FROM_EDIT -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
                         data?.action?.let { action ->
                             when (action) {
-                                Tags.ACTION_DELETE -> {
-                                    val permlink = data.getStringExtra(Tags.PERMLINK_EXTRA)
-                                    if (permlink.isNotEmpty()) {
-                                        viewModel.deleteLocalPostByPermlink(permlink)
-                                    }
+                                Tags.ACTION_EDIT_SUCCESS -> {
+                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val discussionIdModel = DiscussionIdModel(
+                                        contentId.userId,
+                                        Permlink(contentId.permlink)
+                                    )
+                                    openPost(discussionIdModel, contentId)
                                 }
                             }
                         }
@@ -325,13 +334,14 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     }
 
     private fun openEditPost(post: Post) {
-        startActivity(
+        startActivityForResult(
             EditorPageActivity.getIntent(
                 requireContext(),
                 EditorPageFragment.Args(
                     contentId = post.contentId
                 )
-            )
+            ),
+            REQUEST_FOR_RESULT_FROM_EDIT
         )
     }
 
@@ -357,7 +367,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         private const val COMMUNITY_ID_EXTRA = "community_id"
         private const val COMMUNITY_ALIAS_EXTRA = "community_alias"
 
-        private const val UPDATED_REQUEST_CODE = 41245
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
 
         fun newInstance(
             communityId: String,

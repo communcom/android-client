@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.view
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -36,6 +37,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
@@ -49,6 +51,8 @@ import kotlinx.android.synthetic.main.fragment_post.commentWidget
 class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel>() {
 
     companion object {
+
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41242
 
         const val UPDATED_REQUEST_CODE = 41245
 
@@ -88,7 +92,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.post.observe(this, Observer {
+        viewModel.post.observe(viewLifecycleOwner, Observer {
             (postView.adapter as PostPageAdapter).update(it)
         })
 
@@ -143,8 +147,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
 
-            is StartEditPostViewCommand -> moveToEditPost(command.postId)
-
             is NavigationToEditPostViewCommand -> openEditPost(command.contentId)
 
             is NavigateToEditComment -> commentWidget.setCommentForEdit(command.contentId, command.body)
@@ -176,8 +178,16 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             )
     }
 
-    private fun openUserProfile(userId: String){
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+    private fun openUserProfile(userId: String) {
+        getDashboardFragment(this)?.showFragment(
+            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+        )
+    }
+
+    private fun openCommunityPage(communityId: String) {
+        getDashboardFragment(this)?.showFragment(
+            CommunityPageFragment.newInstance(communityId)
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -262,11 +272,45 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                     viewModel.deletePost()
                 }
             }
+
+            REQUEST_FOR_RESULT_FROM_EDIT -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_EDIT_SUCCESS -> {
+                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val discussionIdModel = DiscussionIdModel(
+                                        contentId.userId,
+                                        Permlink(contentId.permlink)
+                                    )
+                                    openPost(discussionIdModel, contentId)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     private fun sharePost(shareUrl: String) {
         requireContext().shareMessage(shareUrl)
+    }
+
+    private fun openPost(
+        discussionIdModel: DiscussionIdModel,
+        contentId: ContentId
+    ) {
+        getDashboardFragment(this)?.showFragment(
+            newInstance(
+                Args(
+                    discussionIdModel,
+                    contentId
+                )
+            ),
+            tagFragment = contentId.permlink
+        )
     }
 
     private fun showReportPost(contentId: ContentId) {
@@ -299,15 +343,15 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             }
     }
 
-    private fun moveToEditPost(postId: ContentId) =
-        startActivity(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(postId)))
-
     private fun openEditPost(contentId: ContentId) {
-        startActivity(
+        startActivityForResult(
             EditorPageActivity.getIntent(
                 requireContext(),
-                EditorPageFragment.Args(contentId = contentId)
-            )
+                EditorPageFragment.Args(
+                    contentId = contentId
+                )
+            ),
+            REQUEST_FOR_RESULT_FROM_EDIT
         )
     }
 

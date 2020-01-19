@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.dashboard.view
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
@@ -10,20 +12,32 @@ import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentDashboardBinding
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragmentTab
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
+import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
-import io.golos.cyber_android.ui.shared.utils.*
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.utils.dp
+import io.golos.cyber_android.ui.shared.utils.setBottomMargin
+import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
+import io.golos.cyber_android.ui.shared.utils.tintStatusBarIcons
+import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardViewModel>() {
+
+    companion object {
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
+    }
 
     override fun provideViewModelType(): Class<DashboardViewModel> = DashboardViewModel::class.java
 
@@ -48,11 +62,50 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         navigationMenu.clickListener = viewModel
     }
 
-    private fun observeViewModel() {
-        viewModel.getCurrentTabLiveData.observe(this, Observer {
-            val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
-                    navigationTab.index == it.index
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_FOR_RESULT_FROM_EDIT -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_EDIT_SUCCESS -> {
+                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val discussionIdModel = DiscussionIdModel(
+                                        contentId.userId,
+                                        Permlink(contentId.permlink)
+                                    )
+                                    openPost(discussionIdModel, contentId)
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+        }
+    }
+
+    private fun openPost(
+        discussionIdModel: DiscussionIdModel,
+        contentId: ContentId
+    ) {
+        showFragment(
+            PostPageFragment.newInstance(
+                PostPageFragment.Args(
+                    discussionIdModel,
+                    contentId
+                )
+            ),
+            tagFragment = contentId.permlink
+        )
+    }
+
+    private fun observeViewModel() {
+        viewModel.getCurrentTabLiveData.observe(viewLifecycleOwner, Observer {
+            val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
+                navigationTab.index == it.index
+            }
 
             when (tab) {
                 NavigationBottomMenuWidget.Tab.FEED -> {
@@ -69,8 +122,11 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
             mainPager.setCurrentItem(it.index, false)
         })
 
-        viewModel.createTabLiveData.observe(this, Observer {
-            startActivity(EditorPageActivity.getIntent(requireContext()))
+        viewModel.createTabLiveData.observe(viewLifecycleOwner, Observer {
+            startActivityForResult(
+                EditorPageActivity.getIntent(requireContext()),
+                REQUEST_FOR_RESULT_FROM_EDIT
+            )
         })
     }
 
@@ -84,13 +140,13 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     private fun setupPager(user: UserIdDomain) {
         mainPager.isUserInputEnabled = false
-        mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size-1
+        mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size - 1
 
         mainPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
                 val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
-                        navigationTab.index == position
-                    }
+                    navigationTab.index == position
+                }
                 return when (tab) {
                     NavigationBottomMenuWidget.Tab.FEED -> {
                         FeedFragment.newInstance("gls", user.userId)

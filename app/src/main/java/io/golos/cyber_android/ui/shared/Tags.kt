@@ -5,10 +5,10 @@ object Tags {
     const val USER_ID = "USER_ID"
     const val MESSAGE = "MESSAGE"
     const val ARGS = "ARGS"
-    const val DISCUSSION_ID = "DISCUSSION_ID"
+    const val CONTENT_ID = "CONTENT_ID"
 
     const val PERMLINK_EXTRA = "PERMLINK_EXTRA"
-    const val ACTION_DELETE = "ACTION_DELETE"
+    const val ACTION_EDIT_SUCCESS = "ACTION_EDIT_SUCCESS"
 
     const val FILTER_TIME = "FILTER_TIME"
     const val FILTER_PERIOD_TIME = "FILTER_PERIOD_TIME"

@@ -13,13 +13,13 @@ import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.feed_my.view.MyFeedFragment
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
@@ -44,7 +44,7 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
     companion object {
 
-        private const val UPDATED_REQUEST_CODE = 51241
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41223
 
         fun newInstance() = ProfilePostsFragment()
     }
@@ -163,16 +163,25 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                     }
                 }
             }
-            UPDATED_REQUEST_CODE -> {
+            PostPageFragment.UPDATED_REQUEST_CODE -> {
+                val permlink = data?.getStringExtra(Tags.PERMLINK_EXTRA)
+                if (!permlink.isNullOrBlank()) {
+                    viewModel.deleteLocalPostByPermlink(permlink)
+                }
+            }
+
+            REQUEST_FOR_RESULT_FROM_EDIT -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
                         data?.action?.let { action ->
                             when (action) {
-                                Tags.ACTION_DELETE -> {
-                                    val permlink = data.getStringExtra(Tags.PERMLINK_EXTRA)
-                                    if (permlink.isNotEmpty()) {
-                                        viewModel.deleteLocalPostByPermlink(permlink)
-                                    }
+                                Tags.ACTION_EDIT_SUCCESS -> {
+                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val discussionIdModel = DiscussionIdModel(
+                                        contentId.userId,
+                                        Permlink(contentId.permlink)
+                                    )
+                                    openPost(discussionIdModel, contentId)
                                 }
                             }
                         }
@@ -314,13 +323,14 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun editPost(post: Post) {
-        startActivity(
+        startActivityForResult(
             EditorPageActivity.getIntent(
                 requireContext(),
                 EditorPageFragment.Args(
                     contentId = post.contentId
                 )
-            )
+            ),
+            REQUEST_FOR_RESULT_FROM_EDIT
         )
     }
 

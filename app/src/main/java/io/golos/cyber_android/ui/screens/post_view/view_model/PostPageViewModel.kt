@@ -222,8 +222,7 @@ constructor(
     }
 
     fun editPost(contentId: ContentId) {
-        val body = model.getCommentBody(contentId)
-        _command.value = NavigateToEditComment(contentId, body)
+        _command.value = NavigationToEditPostViewCommand(contentId)
     }
 
     fun reportPost(contentId: ContentId) {
@@ -316,8 +315,14 @@ constructor(
         }
 
     fun startEditComment(commentId: DiscussionIdModel) = startReplyOrEditComment {
-        _commentEditFieldSettings.value = model.getCommentText(commentId).let { EditReplyCommentSettings(it, it, true) }
-        editedCommentId = commentId
+//        _commentEditFieldSettings.value = model.getCommentText(commentId).let {
+//            EditReplyCommentSettings(it, it, true)
+//        }
+        contentId?.let { id ->
+            val body = model.getCommentBody(id)
+            _command.value = NavigateToEditComment(id, body)
+            editedCommentId = commentId
+        }
     }
 
     override fun startReplyToComment(commentToReplyId: DiscussionIdModel) = startReplyOrEditComment {
