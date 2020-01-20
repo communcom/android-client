@@ -24,5 +24,6 @@ data class SecondLevelCommentListItem(
 
     override val metadata: DiscussionMetadataModel,
 
-    override val state: CommentListItemState
+    override val state: CommentListItemState,
+    override val groupId: Int = 5
 ) : CommentListItem

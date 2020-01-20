@@ -55,8 +55,6 @@ interface PostListDataSourceComments {
      */
     suspend fun removeLoadingForNewComment()
 
-    suspend fun addCommentsHeader()
-
     suspend fun addNewComment(comment: CommentModel)
 
     suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState)

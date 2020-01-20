@@ -17,7 +17,7 @@ interface CommentsProcessingFacade {
 
     suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel)
 
-    suspend fun sendComment(commentText: String, postHasComments: Boolean)
+    suspend fun sendComment(commentText: String)
 
     suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean)
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.*
+import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
@@ -75,12 +76,26 @@ constructor(
 
     override suspend fun addFirstLevelComments(comments: List<CommentModel>) =
         updateSafe {
-            postList.removeAt(postList.lastIndex)       // Removing Loading indicator
+            postList.removeAll { it is EmptyCommentsListItem }
 
-            comments.forEach { rawComment ->
+            postList.removeAll { it is FirstLevelCommentLoadingListItem }       // Removing Loading indicator
+
+            comments.forEachIndexed { commentIndex, rawComment ->
+                var commentPosition = -1
+                if (commentIndex == 0) {
+                    val commentTitle = postList.findLast { it -> it is CommentsTitleListItem }
+                    if (commentTitle != null) {
+                        commentPosition = postList.indexOf(commentTitle) + 1
+                    }
+                }
+
                 // Add comment
                 val commentListItem = CommentsMapper.mapToFirstLevel(rawComment, currentUserRepository.userId.userId)
-                postList.add(commentListItem)
+                if (commentPosition != -1) {
+                    postList.add(commentPosition, commentListItem)
+                } else {
+                    postList.add(commentListItem)
+                }
 
                 // Add collapsed comments list item
                 if (rawComment.childTotal > 0) {
@@ -95,51 +110,66 @@ constructor(
                         )
                     )
                 }
+                sortCollection()
             }
         }
 
     override suspend fun addLoadingCommentsIndicator() =
         updateSafe {
-            FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
-                .let { loadingIndicator ->
-                    if (postList.last() is FirstLevelCommentRetryListItem) {
-                        postList[postList.lastIndex] = loadingIndicator // Replace Retry button if needed
-                    } else {
-                        postList.add(loadingIndicator)
+            val loadItem = postList.find { it is FirstLevelCommentLoadingListItem }
+            if (loadItem == null) {
+                FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
+                    .let { loadingIndicator ->
+                        val retryItem = postList.find { it is FirstLevelCommentRetryListItem }
+                        if (retryItem != null) {
+                            val itemIndex = postList.indexOf(retryItem)
+                            postList[itemIndex] = loadingIndicator // Replace Retry button if needed
+                        } else {
+                            postList.add(loadingIndicator)
+                        }
                     }
-                }
+                sortCollection()
+            }
         }
 
     override suspend fun addEmptyCommentsStub() {
         updateSafe {
-            if (postList.last() !is EmptyCommentsListItem) {
+            val currentEmptyStub = postList.find { it is EmptyCommentsListItem }
+            if (currentEmptyStub == null) {
                 EmptyCommentsListItem().let { item ->
-                    if (postList.last() is FirstLevelCommentLoadingListItem) {
-                        postList[postList.lastIndex] = item // Replace Loading indicator if needed
+                    val retryLoadItem = postList.find { it is FirstLevelCommentLoadingListItem }
+                    if (retryLoadItem != null) {
+                        val retryLoadItemIndex = postList.indexOf(retryLoadItem)
+                        postList[retryLoadItemIndex] = item // Replace Loading indicator if needed
                     } else {
                         postList.add(item)
                     }
                 }
+                sortCollection()
             }
         }
     }
 
     override suspend fun removeEmptyCommentsStub() = updateSafe {
-        if (postList.last() is EmptyCommentsListItem) {
-            postList.removeAt(postList.lastIndex)
-        }
+        postList.removeAll { it is EmptyCommentsListItem }
     }
 
     override suspend fun addRetryLoadingComments() =
         updateSafe {
-            FirstLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
-                .let { retryItem ->
-                    if (postList.last() is FirstLevelCommentLoadingListItem) {
-                        postList[postList.lastIndex] = retryItem // Replace Loading indicator if needed
-                    } else {
-                        postList.add(retryItem)
+            val retryItem = postList.find { it is FirstLevelCommentRetryListItem }
+            if (retryItem == null) {
+                FirstLevelCommentRetryListItem(IdUtil.generateLongId(), 0)
+                    .let { retryItem ->
+                        val retryLoadItem = postList.find { it is FirstLevelCommentLoadingListItem }
+                        if (retryLoadItem != null) {
+                            val itemIndex = postList.indexOf(retryLoadItem)
+                            postList[itemIndex] = retryItem // Replace Loading indicator if needed
+                        } else {
+                            postList.add(retryItem)
+                        }
                     }
-                }
+                sortCollection()
+            }
         }
 
     /**
@@ -154,6 +184,7 @@ constructor(
 
             // Simply replace Collapse item or Retry button
             postList[parentCommentIndex + commentsAdded + 1] = SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
+            sortCollection()
         }
 
     /**
@@ -168,6 +199,7 @@ constructor(
 
             postList[parentCommentIndex + commentsAdded + 1] =
                 SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0, parentCommentId)
+            sortCollection()
         }
 
     /**
@@ -213,7 +245,8 @@ constructor(
                         )
                     }
                 )
-                .let { postList.addAll(indexToNewData, it) }
+                .let { postList.addAll(indexToNewData, it as Collection<VersionedListItem>) }
+            sortCollection()
         }
 
     /**
@@ -222,7 +255,11 @@ constructor(
     override suspend fun addLoadingForNewComment() =
         updateSafe {
             // Add to a fixed position - just after comments title
-            postList.add(newCommentPosition, FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+            val currentProgress = postList.find { it is FirstLevelCommentLoadingListItem }
+            if (currentProgress == null) {
+                postList.add(newCommentPosition, FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+                sortCollection()
+            }
         }
 
     /**
@@ -231,12 +268,16 @@ constructor(
     override suspend fun removeLoadingForNewComment() =
         updateSafe {
             // Remove item from a fixed position - just after comments title
-            postList.removeAt(newCommentPosition)
+            postList.removeAll { it is FirstLevelCommentLoadingListItem }
         }
 
     override suspend fun addCommentsHeader() =
         updateSafe {
-            postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST))
+            val titleItem = postList.find { it is CommentsTitleListItem }
+            if (titleItem == null) {
+                postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST))
+            }
+            sortCollection()
         }
 
     /**
@@ -244,7 +285,8 @@ constructor(
      */
     override suspend fun addNewComment(comment: CommentModel) =
         updateSafe {
-            postList[newCommentPosition] = CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId.userId)
+            postList.add(CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId.userId))
+            sortCollection()
         }
 
     override suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState) =
@@ -263,8 +305,7 @@ constructor(
 
     override suspend fun deleteCommentsHeader() =
         updateSafe {
-            val headerIndex = postList.indexOfFirst { it is CommentsTitleListItem }
-            postList.removeAt(headerIndex)
+            postList.removeAll { it -> it is CommentsTitleListItem }
         }
 
     override suspend fun updateCommentText(newComment: CommentModel) =
@@ -291,6 +332,7 @@ constructor(
     override suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
         updateSafe {
             postList.add(getCommentIndex(repliedCommentId) + 1, SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+            sortCollection()
         }
 
     override suspend fun addReplyComment(
@@ -307,11 +349,13 @@ constructor(
                     repliedCommentAuthor,
                     repliedCommentLevel
                 )
+            sortCollection()
         }
 
     override suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
         updateSafe {
             postList.removeAt(getCommentIndex(repliedCommentId) + 1)
+            sortCollection()
         }
 
     override suspend fun updateCommentVoteStatus(
@@ -450,4 +494,12 @@ constructor(
 
     private fun getCommentIndex(commentId: DiscussionIdModel) =
         postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
+
+    private fun sortCollection() {
+        (postList as MutableList<GroupListItem>).sortWith(Comparator<GroupListItem> { item1, item2 ->
+            if (item1.groupId > item2.groupId) 1
+            else if (item1.groupId > item2.groupId) -1
+            else 0 }
+        )
+    }
 }

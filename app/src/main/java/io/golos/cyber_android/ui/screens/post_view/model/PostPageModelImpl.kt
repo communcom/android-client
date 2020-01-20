@@ -65,6 +65,7 @@ constructor(
                 contentId?.permlink.orEmpty()
             )
             postListDataSource.createOrUpdatePostData(postDomain)
+            postListDataSource.addCommentsHeader()
         }
     }
 
@@ -160,7 +161,7 @@ constructor(
     override suspend fun sendComment(commentText: String) {
         val totalComments = postDomain.stats?.commentsCount ?: 0
 
-        commentsProcessing.sendComment(commentText, totalComments > 0)
+        commentsProcessing.sendComment(commentText)
         postDomain = postDomain.copy(
             stats = postDomain.stats?.copy(
                 commentsCount = totalComments + 1

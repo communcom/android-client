@@ -77,16 +77,15 @@ constructor(
     override suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel) =
         getSecondLevelLoader(parentCommentId).retryLoadPage()
 
-    override suspend fun sendComment(commentText: String, postHasComments: Boolean) {
-        postListDataSource.addLoadingForNewComment()
+    override suspend fun sendComment(commentText: String) {
         try {
+            postListDataSource.addLoadingForNewComment()
             val commentModel = withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.createCommentForPost(postToProcess, contentId.mapToContentIdDomain(), commentText)
             }
-            if(!postHasComments) {
-                postListDataSource.addCommentsHeader()
-            }
             postListDataSource.addNewComment(commentModel)
+            postListDataSource.removeEmptyCommentsStub()
+            postListDataSource.removeLoadingForNewComment()
             commentsStorage.get().addPostedComment(commentModel)
         } catch(ex: Exception) {
             Timber.e(ex)

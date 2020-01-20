@@ -9,10 +9,8 @@ import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.random.Random
 
 class FirstLevelLoaderImpl
 constructor(
@@ -59,14 +57,11 @@ constructor(
 
     override suspend fun loadPage() {
         try {
-            postListDataSource.addLoadingCommentsIndicator()
-
-            delay(1000)
-
-            // To error simulation
-            if (Random.nextInt() % 2 == 0) {
-                throw Exception("")
+            if(endOfDataReached){
+                return
             }
+
+            postListDataSource.addLoadingCommentsIndicator()
 
             val comments = discussionsApi.getCommentsListForPost(
                 pageOffset,

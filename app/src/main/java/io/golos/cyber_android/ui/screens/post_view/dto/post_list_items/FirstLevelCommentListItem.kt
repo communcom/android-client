@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
@@ -22,5 +23,6 @@ data class FirstLevelCommentListItem(
 
     override val metadata: DiscussionMetadataModel,
 
-    override val state: CommentListItemState
-) : CommentListItem
+    override val state: CommentListItemState,
+    override val groupId: Int = 5
+) : CommentListItem, VersionedListItem
