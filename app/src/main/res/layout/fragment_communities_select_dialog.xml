@@ -17,6 +17,10 @@
         android:id="@+id/root"
         android:animateLayoutChanges="true"
         android:background="@drawable/bg_top_round_corners"
+
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+
         tools:context=".ui.dialogs.select_community_dialog.view.SelectCommunityDialog">
 
         <TextView
