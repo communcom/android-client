@@ -16,28 +16,29 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponent
 import io.golos.cyber_android.databinding.FragmentEditorPageBinding
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
-import io.golos.cyber_android.ui.dialogs.NotificationDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.view.dialogs.one_text_line.OneTextLineDialog
 import io.golos.cyber_android.ui.screens.post_edit.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.screens.post_edit.view.image_picker.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.post_edit.view.post_to_editor_loader.PostToEditorLoader
-import io.golos.cyber_android.ui.screens.post_edit.view_commands.*
+import io.golos.cyber_android.ui.screens.post_edit.view_commands.InsertExternalLinkViewCommand
+import io.golos.cyber_android.ui.screens.post_edit.view_commands.PastedLinkIsValidViewCommand
+import io.golos.cyber_android.ui.screens.post_edit.view_commands.PostCreatedViewCommand
+import io.golos.cyber_android.ui.screens.post_edit.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post_view.view.PostActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
-import io.golos.data.errors.AppError
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.TextStyle
@@ -278,7 +279,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                         }
                     }
 
-                is PostErrorViewCommand -> onPostError(command.result)
                 is PostCreatedViewCommand -> onPostResult(command.contentId)
 
                 is PastedLinkIsValidViewCommand -> editorWidget.pastedLinkIsValid(command.uri)
@@ -308,16 +308,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
             }
         })
-    }
-
-    private fun onPostError(error: Throwable) {
-        val errorMsg = when (error) {
-            is AppError.NotEnoughPowerError -> R.string.not_enough_power
-            is AppError.RequestTimeOutException -> R.string.request_timeout_error
-            else -> R.string.unknown_error
-        }
-        NotificationDialog.newInstance(getString(errorMsg)).show(requireFragmentManager(), "create error")
-        hideLoading()
     }
 
     private fun onPostResult(contentId: ContentId) {

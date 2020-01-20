@@ -8,9 +8,6 @@ import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
@@ -19,6 +16,8 @@ import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.dto.ValidationResult
 import io.golos.cyber_android.ui.screens.post_edit.model.EditorPageModel
 import io.golos.cyber_android.ui.screens.post_edit.view_commands.*
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.data.errors.AppError
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
@@ -211,16 +210,25 @@ constructor(
                     _command.value = PostCreatedViewCommand(callResult.mapToContentId())
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    _command.value = PostErrorViewCommand(ex)
+                    _command.value = getPostErrorCommand(ex)
                 }
 
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = PostErrorViewCommand(ex)
+                _command.value = getPostErrorCommand(ex)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
+    }
+
+    private fun getPostErrorCommand(ex: Exception): ViewCommand {
+        val errorMsg = when (ex) {
+            is AppError.NotEnoughPowerError -> R.string.not_enough_power
+            is AppError.RequestTimeOutException -> R.string.request_timeout_error
+            else -> R.string.common_general_error
+        }
+        return ShowMessageResCommand(errorMsg)
     }
 
     private fun showValidationResult(validationResult: ValidationResult) =

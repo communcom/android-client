@@ -15,6 +15,4 @@ class UpdateLinkInTextViewCommand(
 
 class PostCreatedViewCommand(val contentId: ContentId) : ViewCommand
 
-class PostErrorViewCommand(val result: Throwable) : ViewCommand
-
 class PastedLinkIsValidViewCommand(val uri: Uri) : ViewCommand
