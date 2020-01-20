@@ -89,14 +89,20 @@ constructor(
                 author = currentUserRepository.userId.userId.toCyberName(),
                 authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
-        }.resolvedResponse
-        return ContentIdDomain(
-            communityId,
-            createPostResult!!.getMessageId.getPermlink,
-            createPostResult.getMessageId.getAuthor.name
-        )
-    }
+        }
 
+        apiCall {
+            commun4j.waitForTransaction(createPostResult.transaction_id)
+        }
+
+        return  with(createPostResult.resolvedResponse!!) {
+            ContentIdDomain(
+                communityId,
+                getMessageId.getPermlink,
+                getMessageId.getAuthor.name
+            )
+        }
+    }
 
     override suspend fun uploadContentAttachment(file: File): String {
         return apiCallChain { commun4j.uploadImage(file) }
