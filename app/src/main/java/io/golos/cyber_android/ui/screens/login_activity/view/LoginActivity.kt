@@ -91,7 +91,7 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
         val graph = inflater.inflate(R.navigation.graph_login)
         graph.startDestination = when(stage) {
             AuthStage.WELCOME -> R.id.welcomeFragment
-            AuthStage.CONTINUE -> R.id.signUpKeyFragment
+            AuthStage.CONTINUE -> R.id.pinCodeFragment
         }
 
         controller.graph = graph

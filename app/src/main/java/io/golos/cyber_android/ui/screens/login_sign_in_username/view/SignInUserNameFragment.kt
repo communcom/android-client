@@ -53,7 +53,7 @@ class SignInUserNameFragment : FragmentBaseMVVM<FragmentSignInUserNameBinding, S
             is SetPasswordFocusCommand -> password.requestFocus()
             is MoveToSignUpCommand -> findNavController().navigate(R.id.action_signInFragment_to_signUpPhoneFragment)
             is MoveToQrCodeCommand -> moveToQrCodeWithPermissionCheck()
-            is NavigateForwardCommand -> findNavController().navigate(R.id.action_signInFragment_to_signUpKeyFragment)
+            is NavigateForwardCommand -> findNavController().navigate(R.id.action_signInFragment_to_pinCodeFragment)
         }
     }
 

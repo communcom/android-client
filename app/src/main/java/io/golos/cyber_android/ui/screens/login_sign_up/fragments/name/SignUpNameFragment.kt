@@ -109,7 +109,7 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
         hideLoading()
         findNavController().safeNavigate(
             R.id.signUpNameFragment,
-            R.id.action_signUpNameFragment_to_signUpKeyFragment
+            R.id.action_signUpNameFragment_to_pinCodeFragment
         )
     }
 

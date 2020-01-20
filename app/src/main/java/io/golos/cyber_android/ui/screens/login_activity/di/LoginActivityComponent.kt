@@ -7,7 +7,6 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNam
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintFragment
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.key.SignUpKeyFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment

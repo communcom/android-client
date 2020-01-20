@@ -33,13 +33,6 @@
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in_user_name">
         <action
-            android:id="@+id/action_signInFragment_to_signUpKeyFragment"
-            app:destination="@id/signUpKeyFragment"
-            app:enterAnim="@anim/nav_slide_in_right"
-            app:exitAnim="@anim/nav_slide_out_left"
-            app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right" />
-        <action
             android:id="@+id/action_signInFragment_to_signUpPhoneFragment"
             app:destination="@id/signUpPhoneFragment"
             app:enterAnim="@anim/nav_slide_in_right"
@@ -50,6 +43,13 @@
         <action
             android:id="@+id/action_signInFragment_to_signInQrCodeFragment"
             app:destination="@id/signInQrCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
+        <action
+            android:id="@+id/action_signInFragment_to_pinCodeFragment"
+            app:destination="@id/pinCodeFragment"
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
@@ -116,27 +116,14 @@
         android:label="fragment_sign_up_name"
         tools:layout="@layout/fragment_sign_up_name">
         <action
-            android:id="@+id/action_signUpNameFragment_to_signUpKeyFragment"
-            app:destination="@id/signUpKeyFragment"
+            android:id="@+id/action_signUpNameFragment_to_pinCodeFragment"
+            app:destination="@id/pinCodeFragment"
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
             app:popExitAnim="@anim/nav_slide_out_right"
             app:popUpTo="@+id/graph_login"
             app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/signUpKeyFragment"
-        android:name="io.golos.cyber_android.ui.screens.login_sign_up.fragments.key.SignUpKeyFragment"
-        android:label="fragment_sign_up_key"
-        tools:layout="@layout/fragment_sign_up_key">
-        <action
-            android:id="@+id/action_signUpKeyFragment_to_pinCodeFragment"
-            app:destination="@id/pinCodeFragment"
-            app:enterAnim="@anim/nav_slide_in_right"
-            app:exitAnim="@anim/nav_slide_out_left"
-            app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/onboardingUserImageFragment"
