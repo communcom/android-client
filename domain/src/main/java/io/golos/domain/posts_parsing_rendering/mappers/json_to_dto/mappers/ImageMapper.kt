@@ -8,7 +8,7 @@ import org.json.JSONObject
 class ImageMapper(mappersFactory: MappersFactory): MapperBase<ImageBlock>(mappersFactory) {
     override fun map(source: JSONObject): ImageBlock =
         ImageBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsUri(),
             source.getAttributes()?.tryString(Attribute.DESCRIPTION),
             source.getAttributes()?.tryInt(Attribute.WIDTH),

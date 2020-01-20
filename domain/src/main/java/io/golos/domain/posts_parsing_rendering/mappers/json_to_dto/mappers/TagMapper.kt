@@ -5,6 +5,6 @@ import io.golos.domain.use_cases.post.post_dto.TagBlock
 import org.json.JSONObject
 
 class TagMapper(mappersFactory: MappersFactory): MapperBase<TagBlock>(mappersFactory) {
-    override fun map(source: JSONObject): TagBlock = TagBlock(source.tryString(CommonType.ID),
+    override fun map(source: JSONObject): TagBlock = TagBlock(source.tryLong(CommonType.ID),
         source.getContentAsString())
 }

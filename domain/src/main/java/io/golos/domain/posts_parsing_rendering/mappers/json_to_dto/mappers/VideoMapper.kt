@@ -10,7 +10,7 @@ class VideoMapper(mappersFactory: MappersFactory): MapperBase<VideoBlock>(mapper
         val attributes = source.getAttributes()
 
         return VideoBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsUri(),
             attributes?.tryString(Attribute.TITLE),
             attributes?.tryString(Attribute.PROVIDER_NAME),

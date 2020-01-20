@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileComm
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.utils.IdUtil
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
@@ -82,7 +83,7 @@ class ProfileCommentItem(
 
             if (newContentList.isEmpty() && comment.isDeleted) {
                 val deleteBlock =
-                    ParagraphBlock("", arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
+                    ParagraphBlock(IdUtil.generateLongId(), arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
                 newContentList.add(deleteBlock)
             } else {
                 addAuthorNameToContent(newContentList, comment)

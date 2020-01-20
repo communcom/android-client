@@ -34,6 +34,7 @@ import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.domain.utils.IdUtil
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -124,17 +125,16 @@ constructor(
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
-            val blockVersion = PostGlobalConstants.postFormatVersion.toString()
             val imageBlockList = localImagesUri.map { uri ->
                 val imageUri = Uri.parse(uri)
                 val options = imageUri.toBitmapOptions()
-                ImageBlock(blockVersion,
+                ImageBlock(IdUtil.generateLongId(),
                     imageUri,
                     null,
                     options.outWidth,
                     options.outHeight)
             }
-            contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
+            contentBlockEntityList.add(ContentBlockEntity(IdUtil.generateLongId(), "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
             body = adapter.toJson(listContentBlockEntity)
         }
@@ -155,13 +155,12 @@ constructor(
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
-            val blockVersion = PostGlobalConstants.postFormatVersion.toString()
             val imageBlockList = localImagesUri.map { uri ->
                 val imageUri = Uri.parse(uri)
                 val options = imageUri.toBitmapOptions()
-                ImageBlock(blockVersion, Uri.parse(uri), null, options.outWidth, options.outHeight)
+                ImageBlock(IdUtil.generateLongId(), Uri.parse(uri), null, options.outWidth, options.outHeight)
             }
-            contentBlockEntityList.add(ContentBlockEntity(blockVersion, "attachments", imageBlockList.mapToBlockEntity()))
+            contentBlockEntityList.add(ContentBlockEntity(IdUtil.generateLongId(), "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
             body = adapter.toJson(listContentBlockEntity)
         }

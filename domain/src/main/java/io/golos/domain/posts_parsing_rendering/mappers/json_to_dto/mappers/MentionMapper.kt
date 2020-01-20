@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 class MentionMapper(mappersFactory: MappersFactory) : MapperBase<MentionBlock>(mappersFactory) {
     override fun map(source: JSONObject): MentionBlock = MentionBlock(
-        source.tryString(CommonType.ID),
+        source.tryLong(CommonType.ID),
         source.getContentAsString()
     )
 }

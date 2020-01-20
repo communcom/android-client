@@ -10,7 +10,7 @@ class TextMapper(mappersFactory: MappersFactory): MapperBase<TextBlock>(mappersF
         val attributes = source.getAttributes()
 
         return TextBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsString(),
             attributes?.tryTextStyle(Attribute.STYLE),
             attributes?.tryColor(Attribute.TEXT_COLOR)

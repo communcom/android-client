@@ -68,12 +68,15 @@ abstract class MapperJsonUtils {
 
     protected fun JSONObject.tryJSONArray(attr: Attribute): JSONArray? = this.tryJSONArray(attr.value)
 
-
     protected fun JSONObject.tryUri(name: String): Uri? = this.tryString(name)?.let { Uri.parse(it) }
 
     protected fun JSONObject.tryString(name: String): String? = this.takeIf { it.has(name) }?.getString(name)
 
     protected fun JSONObject.tryInt(name: String): Int? = this.takeIf { it.has(name) }?.getInt(name)
+
+    protected fun JSONObject.tryLong(attr: CommonType): Long? = this.tryLong(attr.value)
+
+    protected fun JSONObject.tryLong(name: String): Long? = this.takeIf { it.has(name) }?.getLong(name)
 
     protected fun JSONObject.tryJSONObject(name: String): JSONObject? = this.optJSONObject(name)
 

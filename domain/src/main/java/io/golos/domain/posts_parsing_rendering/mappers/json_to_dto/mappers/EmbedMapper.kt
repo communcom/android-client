@@ -13,7 +13,7 @@ class EmbedMapper(
         val attributes = source.getAttributes()
 
         return EmbedBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsUri(),
             attributes?.tryString(Attribute.TITLE),
             attributes?.tryUri(Attribute.URL),

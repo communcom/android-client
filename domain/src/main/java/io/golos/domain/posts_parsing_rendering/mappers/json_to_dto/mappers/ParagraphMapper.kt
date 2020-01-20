@@ -38,7 +38,7 @@ class ParagraphMapper(mappersFactory: MappersFactory): MapperBase<ParagraphBlock
                 }
         }
 
-        return ParagraphBlock(source.tryString(CommonType.ID),
+        return ParagraphBlock(source.tryLong(CommonType.ID),
             content)
     }
 }

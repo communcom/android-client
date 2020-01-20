@@ -10,7 +10,7 @@ class WebsiteMapper(mappersFactory: MappersFactory): MapperBase<WebsiteBlock>(ma
         val attributes = source.getAttributes()
 
         return WebsiteBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsUri(),
             attributes?.tryUri(Attribute.THUMBNAIL_URL),
             attributes?.tryString(Attribute.TITLE),

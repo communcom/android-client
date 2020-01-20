@@ -13,7 +13,7 @@ class RichMapper(
         val attributes = source.getAttributes()
 
         return RichBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsUri(),
             attributes?.tryString(Attribute.TITLE),
             attributes?.tryUri(Attribute.URL),

@@ -3,7 +3,7 @@ package io.golos.domain.use_cases.post.post_dto
 import android.net.Uri
 
 data class EmbedBlock(
-    val id: String?,
+    val id: Long?,
     val content: Uri,
     val title: String?,
     val url: Uri?,

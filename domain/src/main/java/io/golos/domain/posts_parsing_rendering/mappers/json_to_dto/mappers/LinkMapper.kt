@@ -10,7 +10,7 @@ class LinkMapper(mappersFactory: MappersFactory) : MapperBase<LinkBlock>(mappers
         val attributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
 
         return LinkBlock(
-            source.tryString(CommonType.ID),
+            source.tryLong(CommonType.ID),
             source.getContentAsString(),
             attributes.getUri(Attribute.URL)
         )

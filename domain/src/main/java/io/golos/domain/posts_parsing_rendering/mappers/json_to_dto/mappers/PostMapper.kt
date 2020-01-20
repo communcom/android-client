@@ -24,7 +24,7 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappe
 
         val jsonContent = source.getContentAsArray()
 
-        val commonId = source.tryString(CommonType.ID)
+        val commonId = source.tryLong(CommonType.ID)!!
         val commonType = source.tryString(CommonType.TYPE)
 
         val content = mutableListOf<Block>()

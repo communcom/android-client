@@ -24,6 +24,7 @@ import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -84,10 +85,9 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 val contentId = commentContent.contentId
                 if (contentId != null) {
-                    val currentContentAppVersion = PostGlobalConstants.postFormatVersion.toString()
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
                     val content = commentContent.message?.let { message ->
-                        listOf(ParagraphBlock(null, listOf(TextBlock(currentContentAppVersion, message, null, null))))
+                        listOf(ParagraphBlock(null, listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
                     } ?: listOf()
                     var imageUri = commentContent.imageUri
                     if(imageUri != null && (commentFromState?.body?.attachments?.content?.firstOrNull() as? ImageBlock)?.content != imageUri){
@@ -96,7 +96,7 @@ class ProfileCommentsViewModel @Inject constructor(
                     }
                     val attachments = imageUri?.let { uri ->
                         val imageSize = uri.toBitmapOptions()
-                        AttachmentsBlock(currentContentAppVersion,
+                        AttachmentsBlock(IdUtil.generateLongId(),
                         listOf(ImageBlock(null,
                             uri,
                             null,

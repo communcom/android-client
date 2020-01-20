@@ -39,7 +39,6 @@ class AttachmentsMapper(mappersFactory: MappersFactory) : MapperBase<Attachments
                 }
         }
 
-        return AttachmentsBlock(source.tryString(CommonType.ID),
-            content)
+        return AttachmentsBlock(source.tryLong(CommonType.ID)!!, content)
     }
 }
