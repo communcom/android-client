@@ -45,7 +45,7 @@ interface DiscussionRepository {
     @Deprecated("Need use method deletePost with 2 params")
     fun deletePost(postId: ContentIdDomain)
 
-    fun createCommentForPost(postId: DiscussionIdModel, commentText: String): CommentModel
+    suspend fun createCommentForPost(postId: DiscussionIdModel, contentId: ContentIdDomain, commentText: String): CommentModel
 
     @Deprecated("Need use method deleteComment with 2 params")
     fun deleteComment(commentId: DiscussionIdModel)
@@ -53,7 +53,7 @@ interface DiscussionRepository {
     @Deprecated("Need use method updateComment")
     fun updateCommentText(comment: CommentModel, newCommentText: String): CommentModel
 
-    fun createReplyComment(repliedCommentId: DiscussionIdModel, newCommentText: String): CommentModel
+    suspend fun createReplyComment(repliedCommentId: DiscussionIdModel, contentId: ContentIdDomain, newCommentText: String): CommentModel
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 

@@ -108,12 +108,15 @@ constructor(
         return apiCallChain { commun4j.uploadImage(file) }
     }
 
-    override suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain> {
+    override suspend fun getPosts(
+        postsConfigurationDomain: PostsConfigurationDomain,
+        typeObject: TypeObjectDomain
+    ): List<PostDomain> {
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
         return apiCall {
             commun4j.getPostsRaw(
-                if(typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
+                if (typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
                 postsConfigurationDomain.communityId,
                 postsConfigurationDomain.communityAlias,
                 postsConfigurationDomain.allowNsfw,
@@ -130,17 +133,20 @@ constructor(
         }
     }
 
-    private fun getFeedTimeFrame(timeFrame: PostsConfigurationDomain.TimeFrameDomain, localFeedType: PostsConfigurationDomain.TypeFeedDomain): FeedTimeFrame?{
-        val currentTimeFrame = if(localFeedType == PostsConfigurationDomain.TypeFeedDomain.POPULAR) timeFrame else null
-        return if(currentTimeFrame == null){
+    private fun getFeedTimeFrame(
+        timeFrame: PostsConfigurationDomain.TimeFrameDomain,
+        localFeedType: PostsConfigurationDomain.TypeFeedDomain
+    ): FeedTimeFrame? {
+        val currentTimeFrame = if (localFeedType == PostsConfigurationDomain.TypeFeedDomain.POPULAR) timeFrame else null
+        return if (currentTimeFrame == null) {
             return null
-        } else{
+        } else {
             FeedTimeFrame.valueOf(currentTimeFrame.name)
         }
     }
 
-    private fun getFeedType(localFeedType: PostsConfigurationDomain.TypeFeedDomain, typeObject: TypeObjectDomain): FeedType{
-        return when(localFeedType){
+    private fun getFeedType(localFeedType: PostsConfigurationDomain.TypeFeedDomain, typeObject: TypeObjectDomain): FeedType {
+        return when (localFeedType) {
             PostsConfigurationDomain.TypeFeedDomain.NEW -> getNewFeedTypeForObject(typeObject)
             PostsConfigurationDomain.TypeFeedDomain.HOT -> getHotForObject(typeObject)
             PostsConfigurationDomain.TypeFeedDomain.POPULAR -> getPopularForObject(typeObject)
@@ -148,8 +154,8 @@ constructor(
     }
 
 
-    private fun getNewFeedTypeForObject(typeObject: TypeObjectDomain): FeedType{
-        return when(typeObject){
+    private fun getNewFeedTypeForObject(typeObject: TypeObjectDomain): FeedType {
+        return when (typeObject) {
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.COMMUNITY
             TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION
@@ -157,8 +163,8 @@ constructor(
         }
     }
 
-    private fun getHotForObject(typeObject: TypeObjectDomain): FeedType{
-        return when(typeObject){
+    private fun getHotForObject(typeObject: TypeObjectDomain): FeedType {
+        return when (typeObject) {
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.HOT
             TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION_HOT
@@ -166,8 +172,8 @@ constructor(
         }
     }
 
-    private fun getPopularForObject(typeObject: TypeObjectDomain): FeedType{
-        return when(typeObject){
+    private fun getPopularForObject(typeObject: TypeObjectDomain): FeedType {
+        return when (typeObject) {
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.TOP_LIKES
             TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION_POPULAR
@@ -314,8 +320,12 @@ constructor(
         createOrUpdate(request)
     }
 
-    override fun createCommentForPost(postId: DiscussionIdModel, commentText: String): CommentModel =
-        createComment(postId, commentText, 0)
+    override suspend fun createCommentForPost(
+        postId: DiscussionIdModel,
+        contentId: ContentIdDomain,
+        commentText: String
+    ): CommentModel =
+        createComment(postId, contentId, commentText, 0)
 
     override fun deleteComment(commentId: DiscussionIdModel) {
         val apiAnswer = discussionsApi.deleteComment(commentId.permlink)
@@ -335,8 +345,12 @@ constructor(
         return newComment
     }
 
-    override fun createReplyComment(repliedCommentId: DiscussionIdModel, newCommentText: String): CommentModel =
-        createComment(repliedCommentId, newCommentText, 1)
+    override suspend fun createReplyComment(
+        repliedCommentId: DiscussionIdModel,
+        contentId: ContentIdDomain,
+        newCommentText: String
+    ): CommentModel =
+        createComment(repliedCommentId, contentId, newCommentText, 1)
 
     private fun createCommentModel(
         contentAsJson: String,
@@ -361,7 +375,12 @@ constructor(
             child = listOf()
         )
 
-    private fun createComment(parentId: DiscussionIdModel, commentText: String, commentLevel: Int): CommentModel {
+    private suspend fun createComment(
+        parentId: DiscussionIdModel,
+        contentIdDomain: ContentIdDomain,
+        commentText: String,
+        commentLevel: Int
+    ): CommentModel {
         val contentAsJson = CommentToJsonMapper.mapTextToJson(commentText)
         val author = DiscussionAuthorModel(
             CyberUser(currentUserRepository.userId.userId),
@@ -369,9 +388,25 @@ constructor(
             currentUserRepository.userAvatarUrl
         )
         val permlink = Permlink.generate()
+        val authorCyberName = currentUserRepository.userId.userId.toCyberName()
+        apiCallChain {
+            commun4j.createComment(
+                parentMssgId = MssgidCGalleryStruct(authorCyberName, parentId.permlink.value),
+                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                header = "",
+                body = contentAsJson,
+                tags = listOf(),
+                metadata = Date().toServerFormat(),
+                weight = null,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = authorCyberName,
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }
 
-        val apiAnswer = discussionsApi.createComment(contentAsJson, parentId, author, permlink)
-        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
+        /* val apiAnswer = discussionsApi.createComment(contentAsJson, parentId, author, permlink)
+         transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)*/
 
         return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
     }

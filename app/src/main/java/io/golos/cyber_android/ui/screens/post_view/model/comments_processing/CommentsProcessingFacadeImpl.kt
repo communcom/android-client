@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import dagger.Lazy
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
@@ -31,6 +32,7 @@ class CommentsProcessingFacadeImpl
 @Inject
 constructor(
     private val postToProcess: DiscussionIdModel,
+    private val contentId: ContentId,
     private val postListDataSource: PostListDataSourceComments,
     private val discussionsApi: DiscussionsApi,
     private val discussionRepository: DiscussionRepository,
@@ -79,8 +81,7 @@ constructor(
         postListDataSource.addLoadingForNewComment()
         try {
             val commentModel = withContext(dispatchersProvider.ioDispatcher) {
-                delay(1000)
-                discussionRepository.createCommentForPost(postToProcess, commentText)
+                discussionRepository.createCommentForPost(postToProcess, contentId.mapToContentIdDomain(), commentText)
             }
             if(!postHasComments) {
                 postListDataSource.addCommentsHeader()
@@ -151,7 +152,7 @@ constructor(
         try {
             val commentModel = withContext(dispatchersProvider.ioDispatcher) {
                 delay(1000)
-                discussionRepository.createReplyComment(repliedCommentId, newCommentText)
+                discussionRepository.createReplyComment(repliedCommentId, contentId.mapToContentIdDomain(), newCommentText)
             }
 
             val repliedComment = commentsStorage.get().getComment(repliedCommentId)!!

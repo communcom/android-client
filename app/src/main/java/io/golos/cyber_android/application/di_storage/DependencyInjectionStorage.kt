@@ -272,7 +272,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(
                         PostPageFragmentModule(
                             args[0] as DiscussionIdModel,
-                            args[1] as ContentId?
+                            args[1] as ContentId
                         )
                     ).build()
 
@@ -315,7 +315,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             CommunityPageLeadsListComponent::class ->
-                    getBase<CommunityPageFragmentComponent>()
+                getBase<CommunityPageFragmentComponent>()
                     .leadsListFragment
                     .init(CommunityPageLeadsListModule(args[0] as String))
                     .build()
