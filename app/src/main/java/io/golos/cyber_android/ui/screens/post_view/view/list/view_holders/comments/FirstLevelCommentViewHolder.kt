@@ -18,7 +18,7 @@ class FirstLevelCommentViewHolder(
     parentView
 ) {
     override val _userAvatar: ImageView
-        get() = itemView.ivAttachImage
+        get() = itemView.userAvatar
 
     override val _voting: VotingWidget
         get() = itemView.voting

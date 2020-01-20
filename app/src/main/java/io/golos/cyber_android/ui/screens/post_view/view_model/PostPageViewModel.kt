@@ -299,12 +299,14 @@ constructor(
         launch {
             try {
                 _commentFieldEnabled.value = false
+                _command.value = SetLoadingVisibilityCommand(true)
                 model.sendComment(commentText)
                 _command.value = ClearCommentTextViewCommand()
             } catch (ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _commentFieldEnabled.value = true
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

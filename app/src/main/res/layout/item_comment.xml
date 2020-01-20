@@ -11,7 +11,7 @@
     android:paddingBottom="@dimen/post_comments_vertical_padding">
 
     <ImageView
-        android:id="@+id/userAvatar"
+        android:id="@+id/ivAvatar"
         android:layout_width="@dimen/post_comments_user_icon_size"
         android:layout_height="@dimen/post_comments_user_icon_size"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,28 +19,28 @@
         app:srcCompat="@drawable/ic_empty_user"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/mainCommentText"
-        style="@style/CommentsTextStyle"
-        android:layout_width="wrap_content"
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCommentContent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/post_comments_text_margin"
         android:background="@drawable/bcg_post_card_comment"
         android:padding="@dimen/post_comments_text_padding"
-        app:layout_constrainedWidth="true"
+        android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/userAvatar"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat: it was a hobbit-hole, and that means comfort." />
+        app:layout_constraintStart_toEndOf="@+id/ivAttachImage"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
         android:id="@+id/voting"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"
         android:layout_marginTop="@dimen/post_comments_voting_margin"
-        app:layout_constraintStart_toStartOf="@+id/mainCommentText"
-        app:layout_constraintTop_toBottomOf="@+id/mainCommentText" />
+        app:layout_constraintStart_toStartOf="@+id/rvCommentContent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCommentContent" />
 
     <TextView
         android:id="@+id/replyAndTimeText"

@@ -8,20 +8,20 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.Author
+import io.golos.cyber_android.ui.dto.Comment
+import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
-import io.golos.cyber_android.ui.dto.Author
-import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
-import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.utils.IdUtil
 import io.golos.utils.positiveValue
-import kotlinx.android.synthetic.main.item_post_comment.view.*
+import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class ProfileCommentItem(
@@ -29,7 +29,7 @@ class ProfileCommentItem(
     private val commentsViewPool: RecyclerView.RecycledViewPool? = null
 ) : ViewHolderBase<ProfileCommentsModelEventProcessor, ProfileCommentListItem>(
     parentView,
-    R.layout.item_post_comment
+    R.layout.item_comment
 ) {
     private val commentContentAdapter: RecyclerAdapter = RecyclerAdapter()
 
@@ -54,7 +54,7 @@ class ProfileCommentItem(
     }
 
     private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
-        val userAvatarView = itemView.ivAttachImage
+        val userAvatarView = itemView.ivAvatar
         userAvatarView.loadAvatar(author.avatarUrl)
         userAvatarView.setOnClickListener {
             listItemEventsProcessor.onUserClicked(author.userId)
