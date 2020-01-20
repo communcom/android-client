@@ -104,7 +104,7 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
         }
     }
 
-    private fun getNextId() = idCounter++
+    private fun getNextId(): String = (idCounter++).toString()
 
     private fun StringBuilder.appendJsonString(s: String) {
         append("\"")
