@@ -176,7 +176,7 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
 
-                model.saveLastUsedCommunity(community.value!!)
+                model.saveLastUsedCommunity(community.value!!.communityId)
 
                 var uploadResult: UploadedImageEntity? = null
                 try {
@@ -303,7 +303,19 @@ constructor(
                 if (contentId == null) {
                     // New post
                     val lastUsedCommunity = model.getLastUsedCommunity()
-                    community.value = lastUsedCommunity
+                    community.value = lastUsedCommunity?.let {
+                        CommunityDomain(
+                            communityId = it.communityId,
+                            alias = it.alias,
+                            name = it.name,
+                            avatarUrl = it.avatarUrl,
+                            coverUrl = it.coverUrl,
+                            subscribersCount = 0,
+                            postsCount = 0,
+                            isSubscribed = it.isSubscribed
+                        )
+                    }
+
                     isPostEnabled.value = lastUsedCommunity != null
                 } else {
                     // Updated post
@@ -312,14 +324,14 @@ constructor(
                     val postToEdit = postToEditCall.await()
                     val communityDomain = postToEdit.community
                     community.value = CommunityDomain(
-                        communityDomain.communityId,
-                        communityDomain.alias,
-                        communityDomain.name ?: "",
-                        communityDomain.avatarUrl,
-                        null,
-                        0,
-                        0,
-                        communityDomain.isSubscribed
+                        communityId = communityDomain.communityId,
+                        alias = communityDomain.alias,
+                        name = communityDomain.name ?: "",
+                        avatarUrl = communityDomain.avatarUrl,
+                        coverUrl = null,
+                        subscribersCount = 0,
+                        postsCount = 0,
+                        isSubscribed = communityDomain.isSubscribed
                     )
                     isPostEnabled.value = true
                     editingPost.value = postToEdit

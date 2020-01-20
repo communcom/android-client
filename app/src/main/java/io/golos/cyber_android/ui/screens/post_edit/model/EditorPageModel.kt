@@ -8,10 +8,7 @@ import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.dto.ValidationResult
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.UploadedImageEntity
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.ControlMetadata
 
@@ -40,9 +37,9 @@ interface EditorPageModel : ModelBase {
         localImagesUri: List<String> = emptyList()
     ): ContentIdDomain
 
-    suspend fun getLastUsedCommunity(): CommunityDomain?
+    suspend fun getLastUsedCommunity(): CommunityPageDomain?
 
-    suspend fun saveLastUsedCommunity(community: CommunityDomain)
+    suspend fun saveLastUsedCommunity(communityId: String)
 
     suspend fun getPostToEdit(contentId: ContentId): PostDomain
 

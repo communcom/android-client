@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.screens.post_edit.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.dto.ValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
-import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
@@ -22,10 +21,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.UploadedImageEntity
+import io.golos.domain.dto.*
 import io.golos.domain.dto.block.ContentBlockEntity
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
@@ -34,6 +30,7 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
@@ -50,7 +47,7 @@ class EditorPageModelImpl
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val embedApi: EmbedApi,
-    private val communityApi: CommunitiesApi,
+    private val communitiesRepository: CommunitiesRepository,
     private val imageUploadRepository: ImageUploadRepository,
     private val discussionRepository: DiscussionRepository,
     private val keyValueStorage: KeyValueStorageFacade,
@@ -171,15 +168,16 @@ constructor(
         return discussionRepository.updatePost(contentIdDomain, body, tags)
     }
 
-    override suspend fun getLastUsedCommunity(): CommunityDomain? =
+    override suspend fun getLastUsedCommunity(): CommunityPageDomain? =
         withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-            keyValueStorage.getLastUsedCommunityId()?.let { communityApi.getCommunityById(it) }
+            keyValueStorage.getLastUsedCommunityId()?.let {
+                communitiesRepository.getCommunityPageById(it)
+            }
         }
 
-    override suspend fun saveLastUsedCommunity(community: CommunityDomain) {
+    override suspend fun saveLastUsedCommunity(communityId: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.saveLastUsedCommunityId(community.communityId)
+            keyValueStorage.saveLastUsedCommunityId(communityId)
         }
     }
 
