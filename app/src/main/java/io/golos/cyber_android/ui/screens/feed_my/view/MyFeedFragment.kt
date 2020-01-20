@@ -123,9 +123,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         }
     }
 
-    private fun openUserProfile(userId: String) {
+    private fun openUserProfile(userId: UserIdDomain) {
         getDashboardFragment(this)?.showFragment(
-            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+            ProfileExternalUserFragment.newInstance(userId)
         )
     }
 

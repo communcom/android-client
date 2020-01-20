@@ -150,9 +150,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         }
     }
 
-    private fun openUserProfile(userId: String) {
+    private fun openUserProfile(userId: UserIdDomain) {
         getDashboardFragment(this)?.showFragment(
-            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+            ProfileExternalUserFragment.newInstance(userId)
         )
     }
 
