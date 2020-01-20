@@ -13,7 +13,8 @@ data class CommentDomain(
     val parent: ParentCommentDomain,
     val type: String,
     val isDeleted: Boolean,
-    val isMyComment: Boolean
+    val isMyComment: Boolean,
+    val commentLevel: Int = 0
 ) {
     enum class CommentTypeDomain {
         USER,

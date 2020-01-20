@@ -23,6 +23,8 @@ import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
+import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
+import io.golos.domain.posts_parsing_rendering.PostTypeJson.COMMENT
 import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -30,6 +32,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.toServerFormat
 import java.io.File
 import java.util.*
@@ -336,10 +339,9 @@ constructor(
         val contentAsJson = CommentToJsonMapper.mapTextToJson(newCommentText)
 
         val newComment = comment.copy(
-            content = CommentContentModel(
-                body = ContentBodyModel(jsonToDtoMapper.map(contentAsJson)),
-                commentLevel = comment.content.commentLevel
-            )
+            body = jsonToDtoMapper.map(contentAsJson),
+            content = CommentContentModel(ContentBodyModel(jsonToDtoMapper.map(contentAsJson)), comment.commentLevel),
+            commentLevel = comment.commentLevel
         )
 
         return newComment
@@ -362,10 +364,9 @@ constructor(
         CommentModel(
             contentId = DiscussionIdModel(currentUserRepository.userId.userId, permlink),
             author = author,
-            content = CommentContentModel(
-                body = ContentBodyModel(jsonToDtoMapper.map(contentAsJson)),
-                commentLevel = commentLevel
-            ),
+            body = jsonToDtoMapper.map(contentAsJson),
+            content = CommentContentModel(ContentBodyModel(jsonToDtoMapper.map(contentAsJson)), commentLevel),
+            commentLevel = commentLevel,
             votes = DiscussionVotesModel(hasUpVote = false, hasDownVote = false, upCount = 0, downCount = 0),
             payout = DiscussionPayoutModel(),
             parentId = parentId,
@@ -409,6 +410,36 @@ constructor(
          transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)*/
 
         return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
+    }
+
+    override suspend fun createComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?) {
+        val contentBlock = ContentBlock(
+            id = PostGlobalConstants.postFormatVersion.toString(),
+            type = COMMENT,
+            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
+            title = "",
+            content = content,
+            attachments = attachments
+        )
+        val contentEntity = contentBlock.mapToContentBlock()
+        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+        val jsonBody = adapter.toJson(contentEntity)
+        val author = currentUserRepository.userId.mapToCyberName()
+        apiCallChain {
+            commun4j.createComment(
+                parentMssgId = MssgidCGalleryStruct(postIdDomain.userId.toCyberName(), postIdDomain.permlink),
+                communCode = CyberSymbolCode(postIdDomain.communityId),
+                header = "",
+                body = jsonBody,
+                tags = listOf(),
+                metadata = Date().toServerFormat(),
+                weight = null,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = author,
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }
     }
 }
 

@@ -30,13 +30,15 @@ data class CommentModel(
     override val contentId: DiscussionIdModel,
     override val author: DiscussionAuthorModel,
     val content: CommentContentModel,
+    val body: ContentBlock?,
     override val votes: DiscussionVotesModel,
     override val payout: DiscussionPayoutModel,
     val parentId: DiscussionIdModel?,               // Comment of post
     override val meta: DiscussionMetadataModel,
     override val stats: DiscussionStatsModel,
     val childTotal: Long,
-    val child: List<CommentModel>
+    val child: List<CommentModel>,
+    val commentLevel: Int               // 0 or 1
 ) : DiscussionModel(
     contentId, author, votes, payout, meta, stats
 )

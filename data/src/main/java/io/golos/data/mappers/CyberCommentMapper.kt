@@ -17,5 +17,6 @@ childCommentsCount = this.childCommentsCount,
         parent = this.parents.mapToParentCommentDomain(),
         type = this.type,
         isDeleted = this.isDeleted ?: false,
-        isMyComment = isMyComment)
+        isMyComment = isMyComment,
+        commentLevel = if (this.parents.post == null) 1 else 0 )
 }

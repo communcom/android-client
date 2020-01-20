@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import dagger.Lazy
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
@@ -13,7 +14,6 @@ import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.P
 import io.golos.cyber_android.ui.screens.post_view.model.voting.CommentVotingMachineImpl
 import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingEvent
 import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
-import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -32,10 +32,8 @@ import javax.inject.Inject
 class CommentsProcessingFacadeImpl
 @Inject
 constructor(
-    private val postToProcess: DiscussionIdModel,
     private val contentId: ContentId,
     private val postListDataSource: PostListDataSourceComments,
-    private val discussionsApi: DiscussionsApi,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
@@ -52,9 +50,9 @@ constructor(
 
     private val firstLevelCommentsLoader: FirstLevelLoader by lazy {
         FirstLevelLoaderImpl(
-            postToProcess,
+            contentId.mapToContentIdDomain(),
             postListDataSource,
-            discussionsApi,
+            discussionRepository,
             dispatchersProvider,
             commentToModelMapper,
             pageSize,
@@ -116,12 +114,12 @@ constructor(
     }
 
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
-        commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.content.body.postBlock.content)
+        commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.body!!.content)
 
     override fun getCommentBody(commentId: ContentId): ContentBlock? {
         val discussion = DiscussionIdModel(commentId.userId, Permlink(commentId.permlink))
         val comment = commentsStorage.get().getComment(discussion)
-        return comment?.content?.body?.postBlock
+        return comment?.body
     }
 
     override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? = commentsStorage.get().getComment(discussionIdModel)
@@ -178,10 +176,11 @@ constructor(
     private fun getSecondLevelLoader(parentCommentId: DiscussionIdModel): SecondLevelLoader {
         return secondLevelLoaders[parentCommentId]
             ?: SecondLevelLoaderImpl(
+                contentId.mapToContentIdDomain(),
                 parentCommentId,
                 firstLevelCommentsLoader.getLoadedComment(parentCommentId).childTotal.toInt(),
                 postListDataSource,
-                discussionsApi,
+                discussionRepository,
                 dispatchersProvider, commentToModelMapper,
                 pageSize,
                 commentsStorage.get(),

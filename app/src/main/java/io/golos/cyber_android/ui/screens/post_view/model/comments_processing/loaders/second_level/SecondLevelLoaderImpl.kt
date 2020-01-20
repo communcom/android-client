@@ -1,24 +1,29 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.second_level
 
-import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.CommentsLoaderBase
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
+import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.CommentsLoaderBase
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
-import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.ParentCommentIdentifierDomain
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.mappers.new_mappers.CommentToModelMapper
+import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 class SecondLevelLoaderImpl
 constructor(
+    private val contentIdDomain: ContentIdDomain,
     private val parentComment: DiscussionIdModel,
     private val totalComments: Int,
     private val postListDataSource: PostListDataSourceComments,
-    private val discussionsApi: DiscussionsApi,
+    private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int,
@@ -54,7 +59,15 @@ constructor(
                 throw Exception("")
             }
 
-            val comments = discussionsApi.getCommentsListForComment(pageOffset, pageSize + 1, parentComment)
+            val comments = discussionRepository.getComments(
+                offset = pageOffset,
+                pageSize = pageSize + 1,
+                commentType = CommentDomain.CommentTypeDomain.POST,
+                userId = UserIdDomain(parentComment.userId),
+                permlink = parentComment.permlink.value,
+                parentComment = ParentCommentIdentifierDomain(parentComment.permlink.value, UserIdDomain(parentComment.userId)),
+                communityId = contentIdDomain.communityId
+            )
 
             if(comments.size < pageSize + 1) {
                 endOfDataReached = true
@@ -64,7 +77,7 @@ constructor(
             val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
                 comments
                     .map {
-                        commentToModelMapper.map(it, 1)
+                        commentToModelMapper.map(it)
                             .also {
                                 authors[it.contentId] = it.author
                                 storeComment(it)

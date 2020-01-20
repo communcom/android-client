@@ -41,6 +41,7 @@ constructor(
                     ),
                     if (comment.parentCommentId != null) 1 else 0
                 ),
+                null,
                 DiscussionVotesModel(
                     comment.votes.hasUpVote,
                     comment.votes.hasDownVote,
@@ -56,7 +57,8 @@ constructor(
                 ),
                 DiscussionStatsModel(comment.stats.rShares, comment.stats.viewsCount),
                 0L,
-                listOf()
+                listOf(),
+                0
             )
         }
         return out

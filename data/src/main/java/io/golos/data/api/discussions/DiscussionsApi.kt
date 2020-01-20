@@ -85,16 +85,4 @@ interface DiscussionsApi {
     fun deletePost(postPermlink: Permlink): CommunPair<TransactionCommitted<RemoveCGalleryStruct>, RemoveCGalleryStruct>
 
     fun deleteComment(commentPermlink: Permlink): CommunPair<TransactionCommitted<RemoveCGalleryStruct>, RemoveCGalleryStruct>
-
-    /**
-     * Returns list of comments
-     * @param postId - id of a post
-     */
-    fun getCommentsListForPost(offset: Int, pageSize: Int, postId: DiscussionIdModel): List<CommentDiscussionRaw>
-
-    /**
-     * Returns child comments for comment
-     * @param parentCommentId - id of a parent comment
-     */
-    fun getCommentsListForComment(offset: Int, pageSize: Int, parentCommentId: DiscussionIdModel): List<CommentDiscussionRaw>
 }

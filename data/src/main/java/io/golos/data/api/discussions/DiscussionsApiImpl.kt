@@ -12,11 +12,11 @@ import io.golos.commun4j.services.model.FeedTimeFrame
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.Commun4jApiBase
 import io.golos.data.api.communities.CommunitiesApi
-import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import java.util.*
@@ -278,27 +278,4 @@ constructor(
         // return DiscussionsResult(listOf(), "")
         // return commun4j.getComment(user, null, permlink, ContentParsingType.MOBILE).getOrThrow()
     }
-
-    /**
-     * Returns list of comments
-     * @param postId - id of a post
-     */
-    override fun getCommentsListForPost(offset: Int, pageSize: Int, postId: DiscussionIdModel): List<CommentDiscussionRaw> =
-        (DataStorage.commentsForPost[postId.permlink.value] ?: mutableListOf())
-            .drop(offset)
-            .take(pageSize)
-
-    /**
-     * Returns child comments for comment
-     * @param parentCommentId - id of a parent comment
-     */
-    override fun getCommentsListForComment(
-        offset: Int,
-        pageSize: Int,
-        parentCommentId: DiscussionIdModel
-    ): List<CommentDiscussionRaw> =
-        DataStorage.comments[parentCommentId.permlink.value]!!
-            .child
-            .drop(offset)
-            .take(pageSize)
 }
