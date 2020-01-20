@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import dagger.Lazy
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
@@ -21,9 +20,11 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -77,16 +78,16 @@ constructor(
     override suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel) =
         getSecondLevelLoader(parentCommentId).retryLoadPage()
 
-    override suspend fun sendComment(commentText: String) {
+    override suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?) {
         try {
             postListDataSource.addLoadingForNewComment()
-            val commentModel = withContext(dispatchersProvider.ioDispatcher) {
+            /*val commentModel = withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.createCommentForPost(postToProcess, contentId.mapToContentIdDomain(), commentText)
             }
             postListDataSource.addNewComment(commentModel)
             postListDataSource.removeEmptyCommentsStub()
             postListDataSource.removeLoadingForNewComment()
-            commentsStorage.get().addPostedComment(commentModel)
+            commentsStorage.get().addPostedComment(commentModel)*/
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
@@ -99,8 +100,6 @@ constructor(
 
         try {
             withContext(dispatchersProvider.ioDispatcher) {
-                delay(1000)
-
                 discussionRepository.deleteComment(commentId)
             }
 
@@ -125,19 +124,19 @@ constructor(
         return comment?.content?.body?.postBlock
     }
 
-    override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) {
+    override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? = commentsStorage.get().getComment(discussionIdModel)
+
+    override suspend fun updateCommentText(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
         val oldComment = commentsStorage.get().getComment(commentId)!!
 
         try {
-            val newComment = withContext(dispatchersProvider.ioDispatcher) {
-                delay(1000)
-
+            /*val newComment = withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.updateCommentText(oldComment, newCommentText)
             }
             postListDataSource.updateCommentText(newComment)
-            commentsStorage.get().updateComment(newComment)
+            commentsStorage.get().updateComment(newComment)*/
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
@@ -145,12 +144,11 @@ constructor(
         }
     }
 
-    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) {
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) {
         postListDataSource.addLoadingForRepliedComment(repliedCommentId)
 
         try {
-            val commentModel = withContext(dispatchersProvider.ioDispatcher) {
-                delay(1000)
+            /*val commentModel = withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.createReplyComment(repliedCommentId, contentId.mapToContentIdDomain(), newCommentText)
             }
 
@@ -162,7 +160,7 @@ constructor(
                 repliedComment.content.commentLevel,
                 commentModel)
 
-            commentsStorage.get().addPostedComment(commentModel)
+            commentsStorage.get().addPostedComment(commentModel)*/
         } catch (ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForRepliedComment(repliedCommentId)

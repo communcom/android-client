@@ -21,11 +21,15 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
+import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 class PostPageModelImpl
@@ -46,6 +50,8 @@ constructor(
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
+
+    override suspend fun uploadAttachmentContent(file: File): String = discussionRepository.uploadContentAttachment(file)
 
     private lateinit var postDomain: PostDomain
 
@@ -158,10 +164,10 @@ constructor(
     override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
         commentsProcessing.retryLoadSecondLevelPage(parentCommentId)
 
-    override suspend fun sendComment(commentText: String) {
+    override suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?) {
         val totalComments = postDomain.stats?.commentsCount ?: 0
 
-        commentsProcessing.sendComment(commentText)
+        commentsProcessing.sendComment(content, attachments)
         postDomain = postDomain.copy(
             stats = postDomain.stats?.copy(
                 commentsCount = totalComments + 1
@@ -198,11 +204,15 @@ constructor(
         return commentsProcessing.getCommentBody(commentId)
     }
 
-    override suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String) =
-        commentsProcessing.updateCommentText(commentId, newCommentText)
+    override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? {
+        return commentsProcessing.getComment(discussionIdModel)
+    }
 
-    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String) =
-        commentsProcessing.replyToComment(repliedCommentId, newCommentText)
+    override suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
+        commentsProcessing.updateCommentText(commentId, content, attachments)
+
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
+        commentsProcessing.replyToComment(repliedCommentId, content, attachments)
 
     private suspend fun updateUpVote() {
         val votes = postDomain.votes

@@ -9,9 +9,13 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
+import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
+import java.io.File
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
     val postMetadata: PostMetadata
@@ -67,7 +71,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
 
-    suspend fun sendComment(commentText: String)
+    suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?)
 
     suspend fun deleteComment(commentId: DiscussionIdModel)
 
@@ -75,7 +79,11 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     fun getCommentBody(commentId: ContentId): ContentBlock?
 
-    suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
+    fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 
-    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
+    suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+
+    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+
+    suspend fun uploadAttachmentContent(file: File): String
 }

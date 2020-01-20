@@ -11,7 +11,7 @@ class StartEditPostViewCommand(val postId: ContentId) : ViewCommand
 
 class NavigationToEditPostViewCommand(val contentId: ContentId) : ViewCommand
 
-class NavigateToEditComment(val contentId: ContentId?, val body: ContentBlock?): ViewCommand
+class NavigateToEditComment(val contentId: ContentId, val body: ContentBlock?): ViewCommand
 
 class NavigationToPostMenuViewCommand(val postMenu: PostMenu) : ViewCommand
 
@@ -26,3 +26,5 @@ class ShowCommentsSortingMenuViewCommand : ViewCommand
 class ClearCommentTextViewCommand : ViewCommand
 
 class ShowCommentMenuViewCommand(val commentId: DiscussionIdModel) : ViewCommand
+
+class NavigateToReplyCommentViewCommand(val contentId: ContentId, val body: ContentBlock?): ViewCommand

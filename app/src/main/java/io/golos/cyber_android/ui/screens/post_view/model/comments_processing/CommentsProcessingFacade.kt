@@ -1,7 +1,10 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 interface CommentsProcessingFacade {
@@ -17,7 +20,7 @@ interface CommentsProcessingFacade {
 
     suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel)
 
-    suspend fun sendComment(commentText: String)
+    suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?)
 
     suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean)
 
@@ -25,9 +28,11 @@ interface CommentsProcessingFacade {
 
     fun getCommentBody(commentId: ContentId): ContentBlock?
 
-    suspend fun updateCommentText(commentId: DiscussionIdModel, newCommentText: String)
+    fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 
-    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, newCommentText: String)
+    suspend fun updateCommentText(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+
+    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 
     suspend fun vote(commentId: DiscussionIdModel, isUpVote: Boolean)
 }

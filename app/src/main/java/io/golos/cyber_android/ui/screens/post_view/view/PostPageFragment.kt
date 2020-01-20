@@ -103,10 +103,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
         postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
 
-        commentWidget.setOnSendClickListener { comment ->
-            comment.message?.let { message ->
-                viewModel.onSendCommentClick(message)
-            }
+        commentWidget.onSendClickListener = { comment ->
+            viewModel.sendComment(comment)
         }
 
         commentWidget.onAttachImageListener = { attachmentUrl ->
@@ -162,6 +160,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is ReportPostCommand -> showReportPost(command.contentId)
 
             is DeletePostCommand -> deletePost()
+
+            is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }

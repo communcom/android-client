@@ -62,12 +62,15 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
         btnRetry.setOnClickListener {
             viewModel.onRetryLoadComments()
         }
-        commentWidget.setOnSendClickListener { comment ->
+        commentWidget.onSendClickListener = { comment ->
             viewModel.onSendComment(comment)
             commentWidget.visibility = View.GONE
         }
         commentWidget.onAttachImageListener = {
             openSelectPhotoView(it)
+        }
+        commentWidget.onClearClickListener = {
+            commentWidget.visibility = View.GONE
         }
     }
 

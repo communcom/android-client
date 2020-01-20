@@ -30,11 +30,15 @@ class CommentWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var onSendClickListener: ((CommentContent) -> Unit)? = null
+    var onSendClickListener: ((CommentContent) -> Unit)? = null
+
+    var onClearClickListener: (() -> Unit)? = null
 
     var onAttachImageListener: ((String?) -> Unit)? = null
 
     private var contentId: ContentId? = null
+
+    private var contentState: ContentState = ContentState.NEW
 
     private var attachmentImageUrl by Delegates.observable<String?>(null) { _, oldUrl, newUrl ->
         if (newUrl != oldUrl) {
@@ -68,12 +72,13 @@ class CommentWidget @JvmOverloads constructor(
                 CommentContent(
                     contentId,
                     comment.text.toString(),
-                    attachmentImageUrl?.let { Uri.parse(it) })
+                    attachmentImageUrl?.let { Uri.parse(it) },
+                    contentState)
             )
         }
         closeButton.setOnClickListener {
             clear()
-            visibility = View.GONE
+            onClearClickListener?.invoke()
         }
         deleteAttachment.setOnClickListener {
             attachmentImageUrl = null
@@ -89,9 +94,16 @@ class CommentWidget @JvmOverloads constructor(
         clearComment()
         clearEditState()
         clearAttachmentState()
+        isEnabled = true
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        comment.isEnabled = enabled
+        sendButton.isEnabled = enabled
     }
 
     fun setCommentForEdit(id: ContentId?, body: ContentBlock?) {
+        contentState = ContentState.EDIT
         contentId = id
         val content = body?.content ?: listOf()
         if (content.isNotEmpty()) {
@@ -119,6 +131,34 @@ class CommentWidget @JvmOverloads constructor(
         commentEdit.visibility = View.VISIBLE
     }
 
+    fun setCommentForReply(id: ContentId?, body: ContentBlock?) {
+        contentState = ContentState.REPLY
+        contentId = id
+        val content = body?.content ?: listOf()
+        if (content.isNotEmpty()) {
+            val block = content[0]
+            if (block is ParagraphBlock) {
+                val paragraphItemBlock = block.content.firstOrNull()
+                if (paragraphItemBlock != null && paragraphItemBlock is TextBlock) {
+                    val text = paragraphItemBlock.content
+                    oldText.text = text
+                } else {
+                    oldText.text = null
+                }
+            } else {
+                oldText.text = null
+            }
+        }
+        val mediaBlock = body?.attachments?.content?.firstOrNull()
+        val url = if (mediaBlock is ImageBlock) {
+            mediaBlock.content.toString()
+        } else {
+            null
+        }
+        setupEditLayout(url)
+        commentEdit.visibility = View.VISIBLE
+    }
+
     private fun setupEditLayout(attachmentImageUrl: String?) {
         if (TextUtils.isEmpty(attachmentImageUrl)) {
             ivEditAttachment.visibility = View.GONE
@@ -126,14 +166,16 @@ class CommentWidget @JvmOverloads constructor(
             ivEditAttachment.visibility = View.VISIBLE
             ivEditAttachment.loadCommentAttachment(attachmentImageUrl, resources.getDimension(R.dimen.dimen_4).toInt())
         }
-    }
-
-    fun setOnSendClickListener(listener: ((CommentContent) -> Unit)?) {
-        onSendClickListener = listener
+        if(contentState == ContentState.EDIT){
+            editCommentLabel.text = context.getString(R.string.edit_comment_send)
+        } else{
+            editCommentLabel.text = context.getString(R.string.edit_comment_reply)
+        }
     }
 
     private fun clearEditState() {
         contentId = null
+        contentState = ContentState.NEW
         commentEdit.visibility = View.GONE
         ivAttachment.release()
         ivEditAttachment.release()
@@ -155,6 +197,13 @@ class CommentWidget @JvmOverloads constructor(
     data class CommentContent(
         val contentId: ContentId?,
         val message: String?,
-        val imageUri: Uri?
+        val imageUri: Uri?,
+        val state: ContentState
     )
+
+    enum class ContentState{
+        NEW,
+        EDIT,
+        REPLY
+    }
 }
