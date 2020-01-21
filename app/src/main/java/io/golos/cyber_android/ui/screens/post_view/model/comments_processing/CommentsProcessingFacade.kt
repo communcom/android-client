@@ -5,7 +5,6 @@ import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 interface CommentsProcessingFacade {
     val pageSize: Int
@@ -26,7 +25,7 @@ interface CommentsProcessingFacade {
 
     fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
 
-    fun getCommentBody(commentId: ContentId): ContentBlock?
+    fun getComment(commentId: ContentId): CommentModel?
 
     fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 

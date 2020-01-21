@@ -33,6 +33,7 @@ import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.utils.fromServerFormat
 import io.golos.utils.toServerFormat
 import java.io.File
 import java.util.*
@@ -406,13 +407,13 @@ constructor(
             )
         }
 
-        /* val apiAnswer = discussionsApi.createComment(contentAsJson, parentId, author, permlink)
+        /* val apiAnswer = discussionsApi.sendComment(contentAsJson, parentId, author, permlink)
          transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)*/
 
         return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
     }
 
-    override suspend fun createComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?) {
+    override suspend fun sendComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
         val contentBlock = ContentBlock(
             id = PostGlobalConstants.postFormatVersion.toString(),
             type = COMMENT,
@@ -425,21 +426,35 @@ constructor(
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
-        apiCallChain {
+        val createCGalleryStruct = apiCallChain {
+            val metadata = Date().toServerFormat()
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(postIdDomain.userId.toCyberName(), postIdDomain.permlink),
                 communCode = CyberSymbolCode(postIdDomain.communityId),
                 header = "",
                 body = jsonBody,
                 tags = listOf(),
-                metadata = Date().toServerFormat(),
+                metadata = metadata,
                 weight = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = author,
                 authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
-        }
+        }.resolvedResponse
+        return CommentDomain(contentId = postIdDomain,
+            author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
+            votes = VotesDomain(0, 0, false, false),
+            body = contentBlock,
+            childCommentsCount = 0,
+            community = PostDomain.CommunityDomain(null, postIdDomain.communityId, null, null, false),
+            meta = MetaDomain(createCGalleryStruct!!.metadata.fromServerFormat()),
+            parent = ParentCommentDomain(null, postIdDomain),
+            type = "comment",
+            isDeleted = false,
+            isMyComment = true,
+            commentLevel = 0)
+
     }
 }
 

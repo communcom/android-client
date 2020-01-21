@@ -25,7 +25,6 @@ import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -200,8 +199,8 @@ constructor(
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
         commentsProcessing.getCommentText(commentId)
 
-    override fun getCommentBody(commentId: ContentId): ContentBlock? {
-        return commentsProcessing.getCommentBody(commentId)
+    override fun getComment(commentId: ContentId): CommentModel? {
+        return commentsProcessing.getComment(commentId)
     }
 
     override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? {

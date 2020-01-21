@@ -24,7 +24,6 @@ import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +31,7 @@ import javax.inject.Inject
 class CommentsProcessingFacadeImpl
 @Inject
 constructor(
-    private val contentId: ContentId,
+    private val postContentId: ContentId,
     private val postListDataSource: PostListDataSourceComments,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
@@ -50,7 +49,7 @@ constructor(
 
     private val firstLevelCommentsLoader: FirstLevelLoader by lazy {
         FirstLevelLoaderImpl(
-            contentId.mapToContentIdDomain(),
+            postContentId.mapToContentIdDomain(),
             postListDataSource,
             discussionRepository,
             dispatchersProvider,
@@ -79,13 +78,14 @@ constructor(
     override suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?) {
         try {
             postListDataSource.addLoadingForNewComment()
-            /*val commentModel = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.createCommentForPost(postToProcess, contentId.mapToContentIdDomain(), commentText)
+            val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
+                discussionRepository.sendComment(postContentId.mapToContentIdDomain(), content, attachments)
             }
+            val commentModel = commentToModelMapper.map(commentDomain)
             postListDataSource.addNewComment(commentModel)
             postListDataSource.removeEmptyCommentsStub()
             postListDataSource.removeLoadingForNewComment()
-            commentsStorage.get().addPostedComment(commentModel)*/
+            commentsStorage.get().addPostedComment(commentModel)
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
@@ -116,10 +116,10 @@ constructor(
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
         commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.body!!.content)
 
-    override fun getCommentBody(commentId: ContentId): ContentBlock? {
+    override fun getComment(commentId: ContentId): CommentModel? {
         val discussion = DiscussionIdModel(commentId.userId, Permlink(commentId.permlink))
         val comment = commentsStorage.get().getComment(discussion)
-        return comment?.body
+        return comment
     }
 
     override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? = commentsStorage.get().getComment(discussionIdModel)
@@ -147,7 +147,7 @@ constructor(
 
         try {
             /*val commentModel = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.createReplyComment(repliedCommentId, contentId.mapToContentIdDomain(), newCommentText)
+                discussionRepository.createReplyComment(repliedCommentId, postContentId.mapToContentIdDomain(), newCommentText)
             }
 
             val repliedComment = commentsStorage.get().getComment(repliedCommentId)!!
@@ -176,7 +176,7 @@ constructor(
     private fun getSecondLevelLoader(parentCommentId: DiscussionIdModel): SecondLevelLoader {
         return secondLevelLoaders[parentCommentId]
             ?: SecondLevelLoaderImpl(
-                contentId.mapToContentIdDomain(),
+                postContentId.mapToContentIdDomain(),
                 parentCommentId,
                 firstLevelCommentsLoader.getLoadedComment(parentCommentId).childTotal.toInt(),
                 postListDataSource,

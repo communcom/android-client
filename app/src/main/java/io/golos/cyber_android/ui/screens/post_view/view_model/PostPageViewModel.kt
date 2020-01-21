@@ -342,8 +342,9 @@ constructor(
 
     fun startEditComment(commentId: DiscussionIdModel) = startReplyOrEditComment {
         contentId?.let { id ->
-            val body = model.getCommentBody(id)
-            _command.value = NavigateToEditComment(id, body)
+            val comment = model.getComment(commentId)
+            val contentBlock = comment?.content?.body?.postBlock
+            _command.value = NavigateToEditComment(id, contentBlock)
         }
     }
 

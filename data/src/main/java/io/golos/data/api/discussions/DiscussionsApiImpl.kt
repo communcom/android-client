@@ -48,7 +48,7 @@ constructor(
 
         return PostsDataFactory.createCommitedTransaction(PostsDataFactory.getCreatemssgComnGalleryStruct("", ""))
 
-//        return commun4j.createComment(
+//        return commun4j.sendComment(
 //            body,
 //            parentAccount,
 //            parentPermlink,

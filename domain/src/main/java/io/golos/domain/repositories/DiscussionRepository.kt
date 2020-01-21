@@ -65,5 +65,5 @@ interface DiscussionRepository {
 
     suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain
 
-    suspend fun createComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun sendComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain
 }
