@@ -102,12 +102,7 @@ constructor(
             withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.deleteComment(commentId)
             }
-
             postListDataSource.deleteComment(commentId)
-
-            if(isSingleComment) {
-                postListDataSource.deleteCommentsHeader()
-            }
         } catch (ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)

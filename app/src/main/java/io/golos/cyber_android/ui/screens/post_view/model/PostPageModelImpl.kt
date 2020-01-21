@@ -70,7 +70,6 @@ constructor(
                 contentId?.permlink.orEmpty()
             )
             postListDataSource.createOrUpdatePostData(postDomain)
-            postListDataSource.addCommentsHeader()
         }
     }
 

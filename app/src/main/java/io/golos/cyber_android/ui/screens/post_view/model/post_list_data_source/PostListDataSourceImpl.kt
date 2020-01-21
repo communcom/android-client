@@ -37,12 +37,6 @@ constructor(
     private val _post = MutableLiveData<List<VersionedListItem>>()
     override val post: LiveData<List<VersionedListItem>> = _post
 
-    private val hasPostTitle: Boolean
-        get() = postList.indexOfFirst { it is PostTitleListItem } != -1
-
-    private val newCommentPosition: Int
-        get() = if (hasPostTitle) 4 else 3
-
     // For thread-safety
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
@@ -110,7 +104,7 @@ constructor(
                         )
                     )
                 }
-                sortCollection()
+                sortPostItems()
             }
         }
 
@@ -128,7 +122,7 @@ constructor(
                             postList.add(loadingIndicator)
                         }
                     }
-                sortCollection()
+                sortPostItems()
             }
         }
 
@@ -145,7 +139,7 @@ constructor(
                         postList.add(item)
                     }
                 }
-                sortCollection()
+                sortPostItems()
             }
         }
     }
@@ -168,7 +162,7 @@ constructor(
                             postList.add(retryItem)
                         }
                     }
-                sortCollection()
+                sortPostItems()
             }
         }
 
@@ -184,7 +178,7 @@ constructor(
 
             // Simply replace Collapse item or Retry button
             postList[parentCommentIndex + commentsAdded + 1] = SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0)
-            sortCollection()
+            sortPostItems()
         }
 
     /**
@@ -199,7 +193,7 @@ constructor(
 
             postList[parentCommentIndex + commentsAdded + 1] =
                 SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0, parentCommentId)
-            sortCollection()
+            sortPostItems()
         }
 
     /**
@@ -246,7 +240,7 @@ constructor(
                     }
                 )
                 .let { postList.addAll(indexToNewData, it as Collection<VersionedListItem>) }
-            sortCollection()
+            sortPostItems()
         }
 
     /**
@@ -257,8 +251,8 @@ constructor(
             // Add to a fixed position - just after comments title
             val currentProgress = postList.find { it is FirstLevelCommentLoadingListItem }
             if (currentProgress == null) {
-                postList.add(newCommentPosition, FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
-                sortCollection()
+                postList.add(postList.size - 1, FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+                sortPostItems()
             }
         }
 
@@ -276,7 +270,7 @@ constructor(
             val titleItem = postList.find { it is CommentsTitleListItem }
             if (titleItem == null) {
                 postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST))
-                sortCollection()
+                sortPostItems()
             }
         }
 
@@ -286,7 +280,7 @@ constructor(
     override suspend fun addNewComment(comment: CommentModel) =
         updateSafe {
             postList.add(CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId.userId))
-            sortCollection()
+            sortPostItems()
         }
 
     override suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState) =
@@ -332,7 +326,7 @@ constructor(
     override suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
         updateSafe {
             postList.add(getCommentIndex(repliedCommentId) + 1, SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
-            sortCollection()
+            sortPostItems()
         }
 
     override suspend fun addReplyComment(
@@ -349,13 +343,13 @@ constructor(
                     repliedCommentAuthor,
                     repliedCommentLevel
                 )
-            sortCollection()
+            sortPostItems()
         }
 
     override suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
         updateSafe {
             postList.removeAt(getCommentIndex(repliedCommentId) + 1)
-            sortCollection()
+            sortPostItems()
         }
 
     override suspend fun updateCommentVoteStatus(
@@ -461,27 +455,14 @@ constructor(
 
     private fun createOrUpdateCommentsTitle(postDomain: PostDomain) {
         val oldTitle = postList.singleOrNull { it is CommentsTitleListItem }
-
-        val commentCount = postDomain.stats?.commentsCount?.toLong() ?: 0
-        val newTitle = if (commentCount != 0L) {
-            CommentsTitleListItem(
+        if(oldTitle == null){
+            val newTitle = CommentsTitleListItem(
                 IdUtil.generateLongId(),
                 0,
                 SortingType.INTERESTING_FIRST
             )
-        } else {
-            null
-        }
-
-        val commentsTitleIndex = if (hasPostTitle) 3 else 2
-
-        when {
-            oldTitle == null && newTitle == null -> {
-            }
-            oldTitle == null && newTitle != null -> postList.add(commentsTitleIndex, newTitle)
-            oldTitle != null && newTitle == null -> postList.remove(oldTitle)
-            oldTitle != null && newTitle != null ->
-                postList[commentsTitleIndex] = newTitle.copy(id = oldTitle.id, version = oldTitle.version + 1)
+            postList.add(newTitle)
+            sortPostItems()
         }
     }
 
@@ -497,7 +478,7 @@ constructor(
     private fun getCommentIndex(commentId: DiscussionIdModel) =
         postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
 
-    private fun sortCollection() {
+    private fun sortPostItems() {
         (postList as MutableList<GroupListItem>).sortWith(Comparator<GroupListItem> { item1, item2 ->
             if (item1.groupId > item2.groupId) 1
             else if (item1.groupId > item2.groupId) -1
