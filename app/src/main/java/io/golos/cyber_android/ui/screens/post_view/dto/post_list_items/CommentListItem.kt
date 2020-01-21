@@ -13,7 +13,7 @@ interface CommentListItem : GroupListItem, VersionedListItem {
     val author: DiscussionAuthorModel
     val currentUserId: String
 
-    val content: ContentBlock
+    val content: ContentBlock?
 
     val voteBalance: Long
     val isUpVoteActive: Boolean

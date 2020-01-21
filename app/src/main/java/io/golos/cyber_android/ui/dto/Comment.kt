@@ -13,5 +13,6 @@ data class Comment(
     val parent: ParentComment,
     val type: String,
     val isDeleted: Boolean,
-    val isMyComment: Boolean
+    val isMyComment: Boolean,
+    val commentLevel: Int = 0
 )

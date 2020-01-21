@@ -15,7 +15,7 @@ data class FirstLevelCommentListItem(
     override val author: DiscussionAuthorModel,
     override val currentUserId: String,
 
-    override val content: ContentBlock,
+    override val content: ContentBlock?,
 
     override val voteBalance: Long,
     override val isUpVoteActive: Boolean,

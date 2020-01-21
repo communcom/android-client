@@ -16,7 +16,7 @@ data class SecondLevelCommentListItem(
     override val currentUserId: String,
     val repliedCommentLevel: Int,
 
-    override val content: ContentBlock,
+    override val content: ContentBlock?,
 
     override val voteBalance: Long,
     override val isUpVoteActive: Boolean,

@@ -208,7 +208,7 @@ constructor(
     }
 
     override suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
-        commentsProcessing.updateCommentText(commentId, content, attachments)
+        commentsProcessing.updateComment(commentId, content, attachments)
 
     override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
         commentsProcessing.replyToComment(repliedCommentId, content, attachments)

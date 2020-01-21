@@ -29,7 +29,7 @@ interface CommentsProcessingFacade {
 
     fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 
-    suspend fun updateCommentText(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 

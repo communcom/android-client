@@ -37,8 +37,7 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postToProcess: DiscussionIdModel,
-    private val contentId: ContentId
+    private val postContentId: ContentId
 ) : ViewModelBase<PostPageModel>(dispatchersProvider, model),
     PostPageViewModelListEventsProcessor {
 
@@ -131,9 +130,9 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.upVote(
-                    contentId?.communityId.orEmpty(),
-                    contentId?.userId.orEmpty(),
-                    contentId?.permlink.orEmpty()
+                    postContentId?.communityId.orEmpty(),
+                    postContentId?.userId.orEmpty(),
+                    postContentId?.permlink.orEmpty()
                 )
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
@@ -149,9 +148,9 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.downVote(
-                    contentId?.communityId.orEmpty(),
-                    contentId?.userId.orEmpty(),
-                    contentId?.permlink.orEmpty()
+                    postContentId?.communityId.orEmpty(),
+                    postContentId?.userId.orEmpty(),
+                    postContentId?.permlink.orEmpty()
                 )
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
@@ -299,7 +298,10 @@ constructor(
                 } ?: listOf()
                 var imageUri = commentContent.imageUri
                 if(imageUri != null){
-                    imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
+                    if(!imageUri.toString().startsWith("http") && !imageUri.toString().startsWith("https")){
+                        //файл выбран локально и должен быть загружен
+                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
+                    }
                 }
                 val attachments = imageUri?.let { uri ->
                     val imageSize = uri.toBitmapOptions()
@@ -310,7 +312,8 @@ constructor(
                                 null,
                                 imageSize.outWidth,
                                 imageSize.outHeight)
-                        )) }
+                        ))
+                }
 
                 when (commentState) {
                     CommentWidget.ContentState.NEW -> {
@@ -321,7 +324,7 @@ constructor(
                         model.updateComment(DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)), content, attachments)
                     }
                     CommentWidget.ContentState.REPLY -> {
-                        model.replyToComment(DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)), content, attachments)
+                        model.replyToComment(DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink)), content, attachments)
                     }
                 }
 
@@ -341,18 +344,22 @@ constructor(
         }
 
     fun startEditComment(commentId: DiscussionIdModel) = startReplyOrEditComment {
-        contentId?.let { id ->
-            val comment = model.getComment(commentId)
-            val contentBlock = comment?.content?.body?.postBlock
-            _command.value = NavigateToEditComment(id, contentBlock)
+        val comment = model.getComment(commentId)
+        comment?.let {
+            val contentBlock = comment.body
+            val discussionIdModel = comment.contentId
+            val commentContentId = ContentId(postContentId.communityId, discussionIdModel.permlink.value, discussionIdModel.userId)
+            _command.value = NavigateToEditComment(commentContentId, contentBlock)
         }
     }
 
     override fun startReplyToComment(commentToReplyId: DiscussionIdModel) = startReplyOrEditComment {
         val comment = model.getComment(commentToReplyId)
-        val contentBlock = comment?.content?.body?.postBlock
-        val parentContentId = ContentId(contentId.communityId, commentToReplyId.permlink.value, commentToReplyId.userId)
-        _command.value = NavigateToReplyCommentViewCommand(parentContentId, contentBlock)
+        comment?.let {
+            val contentBlock = comment.body
+            val parentContentId = ContentId(postContentId.communityId, commentToReplyId.permlink.value, commentToReplyId.userId)
+            _command.value = NavigateToReplyCommentViewCommand(parentContentId, contentBlock)
+        }
     }
 
     private fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =

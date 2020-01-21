@@ -63,7 +63,7 @@ interface PostListDataSourceComments {
 
     suspend fun deleteCommentsHeader()
 
-    suspend fun updateCommentText(newComment: CommentModel)
+    suspend fun updateComment(newComment: CommentModel)
 
     suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel)
 

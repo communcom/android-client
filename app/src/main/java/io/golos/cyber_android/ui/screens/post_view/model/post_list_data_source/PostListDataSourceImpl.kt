@@ -276,8 +276,8 @@ constructor(
             val titleItem = postList.find { it is CommentsTitleListItem }
             if (titleItem == null) {
                 postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST))
+                sortCollection()
             }
-            sortCollection()
         }
 
     /**
@@ -308,21 +308,21 @@ constructor(
             postList.removeAll { it -> it is CommentsTitleListItem }
         }
 
-    override suspend fun updateCommentText(newComment: CommentModel) =
+    override suspend fun updateComment(newComment: CommentModel) =
         updateComment(newComment.contentId) {
             when (it) {
                 is FirstLevelCommentListItem ->
                     it.copy(
                         version = it.version + 1,
                         state = CommentListItemState.NORMAL,
-                        content = newComment.content.body.postBlock
+                        content = newComment.body
                     )
 
                 is SecondLevelCommentListItem ->
                     it.copy(
                         version = it.version + 1,
                         state = CommentListItemState.NORMAL,
-                        content = newComment.content.body.postBlock
+                        content = newComment.body
                     )
 
                 else -> throw UnsupportedOperationException("This comment type is not supported")
@@ -488,7 +488,9 @@ constructor(
     private suspend fun updateComment(commentId: DiscussionIdModel, updateAction: (CommentListItem) -> CommentListItem) {
         updateSafe {
             val commentIndex = getCommentIndex(commentId)
-            postList[commentIndex] = updateAction(postList[commentIndex] as CommentListItem)
+            if(commentIndex != -1){
+                postList[commentIndex] = updateAction(postList[commentIndex] as CommentListItem)
+            }
         }
     }
 

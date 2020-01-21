@@ -252,8 +252,8 @@ constructor(
                 metadata = commentDomain.meta.creationTime.toServerFormat(),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                author = commentDomain.author.userId.toCyberName()
-            )
+                author = commentDomain.author.userId.toCyberName(),
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE))
         }
     }
 
@@ -334,18 +334,6 @@ constructor(
     override fun deleteComment(commentId: DiscussionIdModel) {
         val apiAnswer = discussionsApi.deleteComment(commentId.permlink)
         transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
-    }
-
-    override fun updateCommentText(comment: CommentModel, newCommentText: String): CommentModel {
-        val contentAsJson = CommentToJsonMapper.mapTextToJson(newCommentText)
-
-        val newComment = comment.copy(
-            body = jsonToDtoMapper.map(contentAsJson),
-            content = CommentContentModel(ContentBodyModel(jsonToDtoMapper.map(contentAsJson)), comment.commentLevel),
-            commentLevel = comment.commentLevel
-        )
-
-        return newComment
     }
 
     override suspend fun createReplyComment(

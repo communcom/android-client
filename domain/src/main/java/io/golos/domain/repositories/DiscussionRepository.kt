@@ -52,9 +52,6 @@ interface DiscussionRepository {
     @Deprecated("Need use method deleteComment with 2 params")
     fun deleteComment(commentId: DiscussionIdModel)
 
-    @Deprecated("Need use method updateComment")
-    fun updateCommentText(comment: CommentModel, newCommentText: String): CommentModel
-
     suspend fun createReplyComment(repliedCommentId: DiscussionIdModel, contentId: ContentIdDomain, newCommentText: String): CommentModel
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>

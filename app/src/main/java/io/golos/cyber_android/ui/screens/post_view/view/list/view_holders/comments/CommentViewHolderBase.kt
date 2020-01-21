@@ -71,14 +71,15 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     @CallSuper
     override fun init(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         loadAvatarIcon(listItem.author.avatarUrl)
-
-        _mainCommentText.text = getCommentText(
-            _rootView.context.applicationContext,
-            listItem.author,
-            getParentAuthor(listItem),
-            listItem.currentUserId,
-            listItem.content,
-            true)
+        listItem.content?.let {
+            _mainCommentText.text = getCommentText(
+                _rootView.context.applicationContext,
+                listItem.author,
+                getParentAuthor(listItem),
+                listItem.currentUserId,
+                it,
+                true)
+        }
 
         _replyAndTimeText.text = getReplyAndTimeText(_rootView.context.applicationContext, listItem.metadata)
         _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }

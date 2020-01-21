@@ -17,13 +17,15 @@ import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.*
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
+import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
+import io.golos.domain.posts_parsing_rendering.PostTypeJson
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.Block
+import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -124,17 +126,53 @@ constructor(
 
     override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? = commentsStorage.get().getComment(discussionIdModel)
 
-    override suspend fun updateCommentText(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) {
+    override suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
         val oldComment = commentsStorage.get().getComment(commentId)!!
+        val contentId = ContentIdDomain(postContentId.communityId, commentId.permlink.value, commentId.userId)
+        val authorDomain = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName)
+        val votesModel = oldComment.votes
+        val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
+        val contentBlock = ContentBlock(
+            id = PostGlobalConstants.postFormatVersion.toString(),
+            type = PostTypeJson.COMMENT,
+            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
+            title = "",
+            content = content,
+            attachments = attachments
+        )
 
+        val parentCommentDomain = if (oldComment.commentLevel == 0) {
+            ParentCommentDomain(null, postContentId.mapToContentIdDomain())
+        } else {
+            val parentContentId =
+                ContentIdDomain(postContentId.communityId, oldComment.parentId!!.permlink.value, oldComment.parentId!!.userId)
+            ParentCommentDomain(parentContentId, null)
+        }
+        val commentDomain = CommentDomain(
+            contentId = contentId,
+            author = authorDomain,
+            votes = votesDomain,
+            body = contentBlock,
+            childCommentsCount = oldComment.childTotal.toInt(),
+            community = PostDomain.CommunityDomain(null, postContentId.communityId, null, null, false),
+            meta = MetaDomain(oldComment.meta.time),
+            parent = parentCommentDomain,
+            type = "comment",
+            isDeleted = false,
+            isMyComment = true,
+            commentLevel = oldComment.commentLevel
+        )
         try {
-            /*val newComment = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.updateCommentText(oldComment, newCommentText)
+            withContext(dispatchersProvider.ioDispatcher) {
+                discussionRepository.updateComment(commentDomain)
             }
-            postListDataSource.updateCommentText(newComment)
-            commentsStorage.get().updateComment(newComment)*/
+            val newComment = oldComment.copy(
+                body = contentBlock
+            )
+            postListDataSource.updateComment(newComment)
+            commentsStorage.get().updateComment(newComment)
         } catch(ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
