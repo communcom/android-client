@@ -18,20 +18,30 @@ constructor(
     /**
      * @return true in case of success
      */
-    override suspend fun saveAppUnlockWay(unlockWay: AppUnlockWay): Boolean =
+    override suspend fun saveAppUnlockWay(unlockWay: AppUnlockWay) =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
                 keyValueStorage.saveAppUnlockWay(unlockWay)
 
                 val newAuthState = keyValueStorage.getAuthState()!!.copy(isFingerprintSettingsPassed = true)
                 keyValueStorage.saveAuthState(newAuthState)
-
-                true
             } catch(ex: Exception) {
                 Timber.e(ex)
-                false
+                throw ex
             }
         }
+
+    override suspend fun saveKeysExported() {
+        withContext(dispatchersProvider.ioDispatcher) {
+            try {
+                val newAuthState = keyValueStorage.getAuthState()!!.copy(isKeysExported = true)
+                keyValueStorage.saveAuthState(newAuthState)
+            } catch(ex: Exception) {
+                Timber.e(ex)
+                throw ex
+            }
+        }
+    }
 
     override suspend fun getAuthType(): AuthType =
         withContext(dispatchersProvider.ioDispatcher) {
