@@ -18,5 +18,5 @@ childCommentsCount = this.childCommentsCount,
         type = this.type,
         isDeleted = this.isDeleted ?: false,
         isMyComment = isMyComment,
-        commentLevel = if (this.parents.post == null) 1 else 0 )
+        commentLevel = if (this.parents.comment != null) 1 else 0 )
 }
