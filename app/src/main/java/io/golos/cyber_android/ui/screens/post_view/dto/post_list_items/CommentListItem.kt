@@ -22,4 +22,7 @@ interface CommentListItem : GroupListItem, VersionedListItem {
     val metadata: DiscussionMetadataModel
 
     val state: CommentListItemState
+
+    val isDeleted: Boolean
+
 }

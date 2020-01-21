@@ -25,7 +25,8 @@ object CommentsMapper {
             isUpVoteActive = model.votes.hasUpVote,
             isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
-            state = CommentListItemState.NORMAL
+            state = CommentListItemState.NORMAL,
+            isDeleted = model.isDeleted
         )
     }
 
@@ -65,7 +66,8 @@ object CommentsMapper {
             isUpVoteActive = model.votes.hasUpVote,
             isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
-            state = CommentListItemState.NORMAL
+            state = CommentListItemState.NORMAL,
+            isDeleted = model.isDeleted
         )
     }
 }

@@ -38,7 +38,8 @@ constructor() : CommentToModelMapper {
             DiscussionStatsModel(0.toBigInteger(), 0),
             commentDomain.childCommentsCount.toLong(),
             listOf(),
-            commentDomain.commentLevel
+            commentDomain.commentLevel,
+            commentDomain.isDeleted
         )
     }
 

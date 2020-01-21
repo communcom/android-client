@@ -1,9 +1,8 @@
 package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.comments
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.SpannableStringBuilder
-import android.text.style.StyleSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,32 +10,39 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.Author
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
+import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
+import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
 import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.spans.StyledColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
+import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.use_cases.post.post_dto.*
 import javax.inject.Inject
 
 @Suppress("PropertyName")
 abstract class CommentViewHolderBase<T: CommentListItem>(
-    parentView: ViewGroup
+    parentView: ViewGroup,
+    private val commentsViewPool: RecyclerView.RecycledViewPool
 ) : ViewHolderBase<PostPageViewModelListEventsProcessor, T>(
     parentView,
-    R.layout.item_post_comment
+    R.layout.item_comment
 ) {
     private val maxStringLenToCutNeeded = 285
 
@@ -46,6 +52,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     @ColorInt
     private val moreLabelColor = parentView.context.resources.getColorRes(R.color.dark_gray)
 
+    private val commentContentAdapter: RecyclerAdapter = RecyclerAdapter()
+
     @Inject
     internal lateinit var commentTextRenderer: CommentTextRenderer
 
@@ -53,7 +61,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     abstract val _voting: VotingWidget
 
-    abstract val _mainCommentText: TextView
+    abstract val _content: RecyclerView
 
     abstract val _replyAndTimeText: TextView
 
@@ -71,16 +79,13 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     @CallSuper
     override fun init(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         loadAvatarIcon(listItem.author.avatarUrl)
-        listItem.content?.let {
-            _mainCommentText.text = getCommentText(
-                _rootView.context.applicationContext,
-                listItem.author,
-                getParentAuthor(listItem),
-                listItem.currentUserId,
-                it,
-                true)
+        val longClickListener = View.OnLongClickListener {
+            if (!listItem.isDeleted && listItem.state != CommentListItemState.PROCESSING) {
+                listItemEventsProcessor.onCommentLongClick(listItem.externalId)
+            }
+            true
         }
-
+        setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
         _replyAndTimeText.text = getReplyAndTimeText(_rootView.context.applicationContext, listItem.metadata)
         _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
 
@@ -111,70 +116,155 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     private fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
 
-    private fun getCommentText(
-        context: Context,
-        author: DiscussionAuthorModel,
-        parentAuthor: DiscussionAuthorModel?,
-        currentUserId: String,
-        content: ContentBlock,
-        cutIfNeeded: Boolean): SpannableStringBuilder {
+    private fun setupCommentContent(
+        listItem: T,
+        listItemEventsProcessor: PostPageViewModelListEventsProcessor,
+        longClickListener: View.OnLongClickListener
+    ) {
+        _content.apply {
+            adapter = commentContentAdapter
+            setRecycledViewPool(commentsViewPool)
+            layoutManager = LinearLayoutManager(itemView.context)
+        }
+        val body = listItem.content
+        val labelCommentDeleted = itemView.context.getString(R.string.comment_deleted)
+        val contentList: List<Block> = body?.content ?: arrayListOf()
+        val newContentList = ArrayList<Block>(contentList)
+        ((body?.attachments) as? Block)?.let {
+            newContentList.add(it)
+        }
 
-        val result = SpannableStringBuilder()
-
-        // Author
-        if (author.userId.userId == currentUserId) {
-            result.appendSpannedText(author.username, StyleSpan(Typeface.BOLD))
+        val author = Author(listItem.author.avatarUrl, listItem.author.userId.userId, listItem.author.username)
+        if (newContentList.isEmpty() && listItem.isDeleted) {
+            val deleteBlock =
+                ParagraphBlock("", arrayListOf(SpanableBlock(getAuthorAndText(author, labelCommentDeleted)))) as Block
+            newContentList.add(deleteBlock)
         } else {
-            val span = object : StyledTextClickableSpan(author.username, Typeface.DEFAULT_BOLD) {
-                override fun onClick(spanData: String) {
-                    // user name
+            addAuthorNameToContent(newContentList, author)
+        }
+        val discussionId = listItem.externalId
+        val contentId = ContentId("", discussionId.permlink.value, discussionId.userId)
+        val contentItems = newContentList
+            .filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }
+            .map {
+                createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener)!!
+            }
+        commentContentAdapter.updateAdapter(contentItems)
+    }
+
+    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: Author) {
+        val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
+        // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
+        //TODO need write this code better
+        val authorBlock = ParagraphBlock(null,
+            arrayListOf(SpanableBlock(getAuthorAndText(author, "")))
+        ) as Block
+        if (findBlock == null) {
+            newContentList.add(0, authorBlock)
+        } else {
+            val indexOf = newContentList.indexOf(findBlock)
+            if (indexOf == 0) {
+                if (findBlock is TextBlock) {
+                    newContentList[0] =
+                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, findBlock.content)))) as Block
+                } else {
+                    if (findBlock is ParagraphBlock) {
+                        if (findBlock.content.isNotEmpty()) {
+                            val paragraphContent = mutableListOf<ParagraphItemBlock>()
+                            for (i in findBlock.content.indices) {
+                                val block: ParagraphItemBlock
+                                if (i == 0) {
+                                    val paragraphItemBlock = findBlock.content[0]
+                                    block = if (paragraphItemBlock is TextBlock) {
+                                        SpanableBlock(getAuthorAndText(author, paragraphItemBlock.content))
+                                    } else {
+                                        SpanableBlock(getAuthorAndText(author, ""))
+                                    }
+                                } else {
+                                    block = findBlock.content[0]
+                                }
+                                paragraphContent.add(block)
+                            }
+                            val newParagraph = ParagraphBlock(null, paragraphContent)
+                            newContentList[0] = newParagraph
+                        } else {
+                            newContentList[0] = authorBlock
+                        }
+                    }
+                }
+            } else {
+                newContentList.add(0, authorBlock)
+            }
+        }
+    }
+
+    private fun createPostBodyItem(
+        contentId: ContentId,
+        block: Block,
+        listItemEventsProcessor: PostPageViewModelListEventsProcessor,
+        longClickListener: View.OnLongClickListener
+    ): BaseRecyclerItem? {
+        return when (block) {
+            is AttachmentsBlock -> {
+                if (block.content.size == 1) {
+                    createPostBodyItem(
+                        contentId,
+                        block.content.single(),
+                        listItemEventsProcessor,
+                        longClickListener
+                    ) // A single attachment is shown as embed block
+                } else {
+                    AttachmentBlockItem(block, listItemEventsProcessor)
                 }
             }
-            result.appendSpannedText(author.username, span)
+
+            is ImageBlock -> ImageBlockItem(
+                imageBlock = block,
+                widgetListener = listItemEventsProcessor,
+                onLongClickListener = longClickListener
+            )
+
+            is VideoBlock -> VideoBlockItem(
+                videoBlock = block,
+                widgetListener = listItemEventsProcessor
+            )
+
+            is WebsiteBlock -> WebSiteBlockItem(
+                block,
+                listItemEventsProcessor
+            )
+
+            is ParagraphBlock -> ParagraphBlockItem(
+                block,
+                listItemEventsProcessor,
+                contentId,
+                onLongClickListener = longClickListener
+            )
+
+            is RichBlock -> RichBlockItem(
+                block,
+                contentId,
+                listItemEventsProcessor
+            )
+
+            is EmbedBlock -> EmbedBlockItem(
+                block,
+                contentId,
+                listItemEventsProcessor
+            )
+
+            else -> null
+        }
+    }
+
+    private fun getAuthorAndText(author: Author, text: String): SpannableStringBuilder {
+        val result = SpannableStringBuilder()
+        author.username?.let {
+            result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.blue)))
         }
 
         result.append(" ")
-
-        // Parent author
-        if(parentAuthor != null && parentAuthor.userId.userId != currentUserId) {
-            val span = object : StyledColorTextClickableSpan(author.username, Typeface.DEFAULT_BOLD, spansColor) {
-                override fun onClick(spanData: String) {
-                    // user name
-                }
-            }
-            result.appendSpannedText(parentAuthor.username, span)
-            result.append(" ")
-        }
-
-        // Paragraphs
-        var isFirstParagraph = true
-        val paragraphs = commentTextRenderer.render(content.content)
-
-        paragraphs.forEach {
-            if(!isFirstParagraph) {
-                result.append("\n")
-            }
-            isFirstParagraph = false
-            result.append(it)
-        }
-
-        // Cut long text if we need it
-        if (cutIfNeeded && result.length > maxStringLenToCutNeeded) {
-            val cutResult = SpannableStringBuilder()
-            cutResult.append(result.subSequence(0 until maxStringLenToCutNeeded))
-
-            cutResult.append("${SpecialChars.ELLIPSIS} ")
-
-            val style = object : StyledColorTextClickableSpan("", Typeface.DEFAULT_BOLD, moreLabelColor) {
-                override fun onClick(spanData: String) {
-                    // expand text
-                }
-            }
-            cutResult.appendSpannedText(context.resources.getString(R.string.comments_more), style)
-
-            return cutResult
-        }
-
+        result.append(text)
         return result
     }
 

@@ -45,7 +45,7 @@ open class RecyclerAdapter(
     fun updateAdapter(newItems: List<RecyclerItem>) {
         if (items.isEmpty()) {
             items = newItems.toMutableList()
-            notifyItemRangeInserted(0, newItems.size)
+            notifyDataSetChanged()
         } else {
             val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
                 override fun getOldListSize(): Int {

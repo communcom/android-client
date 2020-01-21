@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_view.view.list
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.*
 import io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.*
 import io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.comments.FirstLevelCommentViewHolder
@@ -15,6 +16,8 @@ class PostPageAdapter(
     private val listEventsProcessor: PostPageViewModelListEventsProcessor,
     pageSize: Int
 ) : VersionedListAdapterBase<PostPageViewModelListEventsProcessor>(listEventsProcessor, pageSize) {
+
+    private val rvViewPool = RecyclerView.RecycledViewPool()
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem> {
@@ -32,7 +35,7 @@ class PostPageAdapter(
                 CommentsTitleViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.FIRST_LEVEL_COMMENT ->
-                FirstLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
+                FirstLevelCommentViewHolder(parent, rvViewPool) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.FIRST_LEVEL_COMMENTS_LOADING ->
                 FirstLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
@@ -41,7 +44,7 @@ class PostPageAdapter(
                 FirstLevelCommentRetryViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.SECOND_LEVEL_COMMENT ->
-                SecondLevelCommentViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
+                SecondLevelCommentViewHolder(parent, rvViewPool) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>
 
             PostPageViewType.SECOND_LEVEL_COMMENTS_LOADING ->
                 SecondLevelCommentLoadingViewHolder(parent) as ViewHolderBase<PostPageViewModelListEventsProcessor, VersionedListItem>

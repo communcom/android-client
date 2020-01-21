@@ -69,9 +69,11 @@ constructor(
         val contentImage: ImageView
         if(block.width == null || block.height == null){
             contentImage = imageAspectRatio
+            imageAspectRatio.visibility = View.VISIBLE
             image.visibility = View.GONE
         } else{
             contentImage = image
+            contentImage.visibility = View.VISIBLE
             imageAspectRatio.visibility = View.GONE
         }
         Glide

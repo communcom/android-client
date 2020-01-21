@@ -48,11 +48,14 @@ constructor(
         var currentThubnail: ImageView? = null
         if (thumbnailUrl != null) {
             currentThubnail = if(block.thumbnailHeight == null || block.thumbnailWidth == null){
+                richImage.visibility = View.GONE
+                richImageAspectRatio.visibility = View.VISIBLE
                 richImageAspectRatio
             } else{
+                richImageAspectRatio.visibility = View.GONE
+                richImage.visibility = View.VISIBLE
                 richImage
             }
-            currentThubnail.visibility = View.VISIBLE
             richDescription.visibility = View.GONE
             Glide.with(context)
                 .load(thumbnailUrl)

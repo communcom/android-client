@@ -5,26 +5,29 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.FirstLevelCommentListItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
-import kotlinx.android.synthetic.main.item_post_comment.view.*
+import kotlinx.android.synthetic.main.item_comment.view.*
 
 class FirstLevelCommentViewHolder(
-    parentView: ViewGroup
+    parentView: ViewGroup,
+    commentsViewPool: RecyclerView.RecycledViewPool
 ) : CommentViewHolderBase<FirstLevelCommentListItem>(
-    parentView
+    parentView,
+    commentsViewPool
 ) {
     override val _userAvatar: ImageView
-        get() = itemView.userAvatar
+        get() = itemView.ivAvatar
 
     override val _voting: VotingWidget
         get() = itemView.voting
 
-    override val _mainCommentText: TextView
-        get() = itemView.mainCommentText
+    override val _content: RecyclerView
+        get() = itemView.rvCommentContent
 
     override val _replyAndTimeText: TextView
         get() = itemView.replyAndTimeText

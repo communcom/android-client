@@ -24,5 +24,6 @@ data class FirstLevelCommentListItem(
     override val metadata: DiscussionMetadataModel,
 
     override val state: CommentListItemState,
-    override val groupId: Int = 5
+    override val groupId: Int = 5,
+    override val isDeleted: Boolean
 ) : CommentListItem, VersionedListItem
