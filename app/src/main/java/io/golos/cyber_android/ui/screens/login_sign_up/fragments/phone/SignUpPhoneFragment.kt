@@ -145,12 +145,12 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
 
         if (countryModel != null) {
             setupPhoneMask(countryModel)
-            phone.isFocusable = true
+            phone.isEnabled = true
             phone.setOnClickListener(null)
             phone.tag = countryModel
         } else {
             phoneMaskWatcher.setMask(MaskImpl.createTerminated(emptyMask))
-            phone.isFocusable = false
+            phone.isEnabled = false
             phone.tag = null
             phone.setOnClickListener {
                 ViewUtils.hideKeyboard(requireActivity())
