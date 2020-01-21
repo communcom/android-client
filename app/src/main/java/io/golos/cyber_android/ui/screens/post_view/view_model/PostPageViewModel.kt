@@ -320,16 +320,17 @@ constructor(
                         model.sendComment(content, attachments)
                     }
                     CommentWidget.ContentState.EDIT -> {
-                        val contentId = commentContent.contentId!!
-                        model.updateComment(DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)), content, attachments)
+                        val currentMessageId = commentContent.contentId!!
+                        model.updateComment(DiscussionIdModel(currentMessageId.userId, Permlink(currentMessageId.permlink)), content, attachments)
                     }
                     CommentWidget.ContentState.REPLY -> {
-                        model.replyToComment(DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink)), content, attachments)
+                        val repliedMessageId = commentContent.contentId!!
+                        model.replyToComment(DiscussionIdModel(repliedMessageId.userId, Permlink(repliedMessageId.permlink)), content, attachments)
                     }
                 }
 
 
-                _command.value = ClearCommentTextViewCommand()
+                _command.value = ClearCommentInputCommand()
             } catch (ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {

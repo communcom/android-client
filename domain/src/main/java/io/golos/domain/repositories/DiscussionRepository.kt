@@ -4,7 +4,6 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
@@ -41,18 +40,16 @@ interface DiscussionRepository {
 
     suspend fun updateComment(commentDomain: CommentDomain)
 
+    suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain
+
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
 
     @Deprecated("Need use method deletePost with 2 params")
     fun deletePost(postId: ContentIdDomain)
 
-    suspend fun createCommentForPost(postId: DiscussionIdModel, contentId: ContentIdDomain, commentText: String): CommentModel
-
     @Deprecated("Need use method deleteComment with 2 params")
     fun deleteComment(commentId: DiscussionIdModel)
-
-    suspend fun createReplyComment(repliedCommentId: DiscussionIdModel, contentId: ContentIdDomain, newCommentText: String): CommentModel
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 

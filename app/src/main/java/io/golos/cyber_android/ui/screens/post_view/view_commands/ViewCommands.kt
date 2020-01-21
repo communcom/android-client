@@ -23,7 +23,7 @@ class DeletePostCommand : ViewCommand
 
 class ShowCommentsSortingMenuViewCommand : ViewCommand
 
-class ClearCommentTextViewCommand : ViewCommand
+class ClearCommentInputCommand : ViewCommand
 
 class ShowCommentMenuViewCommand(val commentId: DiscussionIdModel) : ViewCommand
 

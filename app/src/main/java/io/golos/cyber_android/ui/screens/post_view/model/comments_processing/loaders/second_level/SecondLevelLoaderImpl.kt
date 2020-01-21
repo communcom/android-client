@@ -13,9 +13,7 @@ import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlin.random.Random
 
 class SecondLevelLoaderImpl
 constructor(
@@ -51,13 +49,6 @@ constructor(
     override suspend fun loadPage() {
         try {
             postListDataSource.addLoadingCommentsIndicator(parentComment, pageOffset)
-
-            delay(1000)
-
-            // To error simulation
-            if(Random.nextInt () % 2 == 0) {
-                throw Exception("")
-            }
 
             val comments = discussionRepository.getComments(
                 offset = pageOffset,

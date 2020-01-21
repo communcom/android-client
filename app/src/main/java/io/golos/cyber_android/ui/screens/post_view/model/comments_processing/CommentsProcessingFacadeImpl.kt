@@ -184,10 +184,12 @@ constructor(
         postListDataSource.addLoadingForRepliedComment(repliedCommentId)
 
         try {
-            /*val commentModel = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.createReplyComment(repliedCommentId, postContentId.mapToContentIdDomain(), newCommentText)
+            val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
+                val parentContentId = ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, repliedCommentId.userId)
+                discussionRepository.replyOnComment(parentContentId, content, attachments)
             }
 
+            val commentModel = commentToModelMapper.map(commentDomain)
             val repliedComment = commentsStorage.get().getComment(repliedCommentId)!!
 
             postListDataSource.addReplyComment(
@@ -196,7 +198,7 @@ constructor(
                 repliedComment.content.commentLevel,
                 commentModel)
 
-            commentsStorage.get().addPostedComment(commentModel)*/
+            commentsStorage.get().addPostedComment(commentModel)
         } catch (ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForRepliedComment(repliedCommentId)

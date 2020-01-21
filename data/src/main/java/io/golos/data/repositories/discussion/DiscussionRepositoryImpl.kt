@@ -20,18 +20,17 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.dto.block.ListContentBlockEntity
-import io.golos.domain.extensions.asElapsedTime
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.PostTypeJson.COMMENT
-import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.CommentToJsonMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.use_cases.model.*
+import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.fromServerFormat
 import io.golos.utils.toServerFormat
@@ -324,81 +323,9 @@ constructor(
         createOrUpdate(request)
     }
 
-    override suspend fun createCommentForPost(
-        postId: DiscussionIdModel,
-        contentId: ContentIdDomain,
-        commentText: String
-    ): CommentModel =
-        createComment(postId, contentId, commentText, 0)
-
     override fun deleteComment(commentId: DiscussionIdModel) {
         val apiAnswer = discussionsApi.deleteComment(commentId.permlink)
         transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
-    }
-
-    override suspend fun createReplyComment(
-        repliedCommentId: DiscussionIdModel,
-        contentId: ContentIdDomain,
-        newCommentText: String
-    ): CommentModel =
-        createComment(repliedCommentId, contentId, newCommentText, 1)
-
-    private fun createCommentModel(
-        contentAsJson: String,
-        parentId: DiscussionIdModel,
-        author: DiscussionAuthorModel,
-        permlink: Permlink,
-        commentLevel: Int
-    ) =
-        CommentModel(
-            contentId = DiscussionIdModel(currentUserRepository.userId.userId, permlink),
-            author = author,
-            body = jsonToDtoMapper.map(contentAsJson),
-            content = CommentContentModel(ContentBodyModel(jsonToDtoMapper.map(contentAsJson)), commentLevel),
-            commentLevel = commentLevel,
-            votes = DiscussionVotesModel(hasUpVote = false, hasDownVote = false, upCount = 0, downCount = 0),
-            payout = DiscussionPayoutModel(),
-            parentId = parentId,
-            meta = DiscussionMetadataModel(Date(), Date().asElapsedTime()),
-            stats = DiscussionStatsModel(0.toBigInteger(), 0),
-            childTotal = 0,
-            child = listOf()
-        )
-
-    private suspend fun createComment(
-        parentId: DiscussionIdModel,
-        contentIdDomain: ContentIdDomain,
-        commentText: String,
-        commentLevel: Int
-    ): CommentModel {
-        val contentAsJson = CommentToJsonMapper.mapTextToJson(commentText)
-        val author = DiscussionAuthorModel(
-            CyberUser(currentUserRepository.userId.userId),
-            currentUserRepository.authState!!.userName,
-            currentUserRepository.userAvatarUrl
-        )
-        val permlink = Permlink.generate()
-        val authorCyberName = currentUserRepository.userId.userId.toCyberName()
-        apiCallChain {
-            commun4j.createComment(
-                parentMssgId = MssgidCGalleryStruct(authorCyberName, parentId.permlink.value),
-                communCode = CyberSymbolCode(contentIdDomain.communityId),
-                header = "",
-                body = contentAsJson,
-                tags = listOf(),
-                metadata = Date().toServerFormat(),
-                weight = null,
-                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
-                clientAuthRequest = ClientAuthRequest.empty,
-                author = authorCyberName,
-                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
-            )
-        }
-
-        /* val apiAnswer = discussionsApi.sendComment(contentAsJson, parentId, author, permlink)
-         transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)*/
-
-        return createCommentModel(contentAsJson, parentId, author, permlink, commentLevel)
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
@@ -414,7 +341,7 @@ constructor(
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
-        val createCGalleryStruct = apiCallChain {
+        val response = apiCallChain {
             val metadata = Date().toServerFormat()
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(postIdDomain.userId.toCyberName(), postIdDomain.permlink),
@@ -430,19 +357,66 @@ constructor(
                 authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }.resolvedResponse
-        return CommentDomain(contentId = postIdDomain,
+        val permlink = response!!.message_id.permlink
+        return CommentDomain(contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId.userId),
             author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
             body = contentBlock,
             childCommentsCount = 0,
             community = PostDomain.CommunityDomain(null, postIdDomain.communityId, null, null, false),
-            meta = MetaDomain(createCGalleryStruct!!.metadata.fromServerFormat()),
+            meta = MetaDomain(response!!.metadata.fromServerFormat()),
             parent = ParentCommentDomain(null, postIdDomain),
             type = "comment",
             isDeleted = false,
             isMyComment = true,
             commentLevel = 0)
 
+    }
+
+
+    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
+        val contentBlock = ContentBlock(
+            id = PostGlobalConstants.postFormatVersion.toString(),
+            type = COMMENT,
+            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
+            title = "",
+            content = content,
+            attachments = attachments
+        )
+        val contentEntity = contentBlock.mapToContentBlock()
+        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
+        val jsonBody = adapter.toJson(contentEntity)
+        val author = currentUserRepository.userId.mapToCyberName()
+        val communityId = parentCommentId.communityId
+        val response = apiCallChain {
+            val metadata = Date().toServerFormat()
+            commun4j.createComment(
+                parentMssgId = MssgidCGalleryStruct(parentCommentId.userId.toCyberName(), parentCommentId.permlink),
+                communCode = CyberSymbolCode(communityId),
+                header = "",
+                body = jsonBody,
+                tags = listOf(),
+                metadata = metadata,
+                weight = null,
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                author = author,
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }.resolvedResponse
+        val permlink = response!!.message_id.permlink
+        return CommentDomain(contentId = ContentIdDomain(communityId, permlink, currentUserRepository.userId.userId),
+            author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
+            votes = VotesDomain(0, 0, false, false),
+            body = contentBlock,
+            childCommentsCount = 0,
+            community = PostDomain.CommunityDomain(null, communityId, null, null, false),
+            meta = MetaDomain(response!!.metadata.fromServerFormat()),
+            parent = ParentCommentDomain(parentCommentId, null),
+            type = "comment",
+            isDeleted = false,
+            isMyComment = true,
+            commentLevel = 1)
     }
 }
 

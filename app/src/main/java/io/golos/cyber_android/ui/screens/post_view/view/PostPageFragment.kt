@@ -151,7 +151,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.postMenu)
 
-            is ClearCommentTextViewCommand -> commentWidget.clear()
+            is ClearCommentInputCommand -> commentWidget.clear()
 
             is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
 
