@@ -194,7 +194,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
         val privacyPolicySpannable = SpannableStringBuilder(getString(R.string.sign_up_description_1))
         val privacyPolicyClick = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                openWebPage("https://commun.com/privacy")
+                openWebPage("https://commun.com/doc/privacy")
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -215,11 +215,17 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
         )
 
         val andSpannable = SpannableStringBuilder(getString(R.string.sign_up_description_2))
+        andSpannable.setSpan(
+            ForegroundColorSpan(descriptionColor),
+            0,
+            andSpannable.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
 
         val blockchainSpannable = SpannableStringBuilder(getString(R.string.sign_up_description_3))
         val blockchainClick = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                openWebPage("https://commun.com/agreement")
+                openWebPage("https://commun.com/doc/agreement")
             }
 
             override fun updateDrawState(ds: TextPaint) {
