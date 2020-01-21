@@ -43,7 +43,8 @@ constructor(
 
     private fun saveUnlockWay(appUnlockWay: AppUnlockWay) {
         launch {
-            if(model.saveAppUnlockWay(appUnlockWay)) {
+            try {
+                model.saveAppUnlockWay(appUnlockWay)
                 command.value =
                     when(model.getAuthType()) {
                         AuthType.SIGN_UP -> {
@@ -53,12 +54,14 @@ constructor(
                                 NavigateToInAppAuthScreenCommand()
                             }
                         }
-                        AuthType.SIGN_IN -> NavigateToMainScreenCommand()
+                        AuthType.SIGN_IN -> {
+                            model.saveKeysExported()
+                            NavigateToMainScreenCommand()
+                        }
                         else -> throw UnsupportedOperationException("This type is not supported")
                     }
-            } else {
-                command.value =
-                    ShowMessageResCommand(R.string.common_general_error)
+            } catch (ex: Exception) {
+                command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
     }

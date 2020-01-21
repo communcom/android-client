@@ -70,6 +70,10 @@
 
             style="@style/SignUp.InputField"
 
+            android:inputType="phone"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+
             android:hint="@string/phone_number"
         />
 

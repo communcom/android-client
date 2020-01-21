@@ -4,10 +4,9 @@ import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthType
 
 interface FingerprintModel {
-    /**
-     * @return true in case of success
-     */
-    suspend fun saveAppUnlockWay(unlockWay: AppUnlockWay): Boolean
+    suspend fun saveAppUnlockWay(unlockWay: AppUnlockWay)
+
+    suspend fun saveKeysExported()
 
     suspend fun getAuthType(): AuthType
 }
