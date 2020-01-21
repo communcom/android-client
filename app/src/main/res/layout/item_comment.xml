@@ -31,7 +31,7 @@
         android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivAttachImage"
+        app:layout_constraintStart_toEndOf="@+id/ivAvatar"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
