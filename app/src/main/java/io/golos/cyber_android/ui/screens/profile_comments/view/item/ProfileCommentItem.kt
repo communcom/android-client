@@ -70,7 +70,12 @@ class ProfileCommentItem(
             rvCommentContent.apply {
                 adapter = commentContentAdapter
                 setRecycledViewPool(commentsViewPool)
-                layoutManager = LinearLayoutManager(itemView.context)
+                layoutManager = object: LinearLayoutManager(itemView.context){
+
+                    override fun canScrollVertically(): Boolean {
+                        return false
+                    }
+                }
             }
             val comment = listItem.comment
             val body = comment.body

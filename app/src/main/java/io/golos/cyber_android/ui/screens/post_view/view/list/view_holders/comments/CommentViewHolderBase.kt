@@ -95,22 +95,12 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         setupVoting(listItem, listItemEventsProcessor)
 
         setProcessingState(listItem.state)
-
-        if(listItem.author.userId.userId == listItem.currentUserId) {
-            _rootView.setOnLongClickListener {
-                if(listItem.state != CommentListItemState.PROCESSING) {
-                    listItemEventsProcessor.onCommentLongClick(listItem.externalId)
-                }
-                true
-            }
-        }
     }
 
     @CallSuper
     override fun release() {
-        _rootView.setOnLongClickListener {
-            false
-        }
+        _rootView.setOnLongClickListener(null)
+        _voting.release()
     }
 
     abstract fun inject()
@@ -127,7 +117,12 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         _content.apply {
             adapter = commentContentAdapter
             setRecycledViewPool(commentsViewPool)
-            layoutManager = LinearLayoutManager(itemView.context)
+            layoutManager = object: LinearLayoutManager(itemView.context){
+
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
         }
         val body = listItem.content
         val labelCommentDeleted = itemView.context.getString(R.string.comment_deleted)
