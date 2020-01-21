@@ -2,6 +2,8 @@ package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.comme
 
 import android.content.Context
 import android.text.SpannableStringBuilder
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,7 @@ import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimatio
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.extensions.appendSpannedText
@@ -137,10 +140,10 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         val author = Author(listItem.author.avatarUrl, listItem.author.userId.userId, listItem.author.username)
         if (newContentList.isEmpty() && listItem.isDeleted) {
             val deleteBlock =
-                ParagraphBlock("", arrayListOf(SpanableBlock(getAuthorAndText(author, labelCommentDeleted)))) as Block
+                ParagraphBlock("", arrayListOf(SpanableBlock(getAuthorAndText(author, labelCommentDeleted, listItemEventsProcessor)))) as Block
             newContentList.add(deleteBlock)
         } else {
-            addAuthorNameToContent(newContentList, author)
+            addAuthorNameToContent(newContentList, author, listItemEventsProcessor)
         }
         val discussionId = listItem.externalId
         val contentId = ContentId("", discussionId.permlink.value, discussionId.userId)
@@ -152,12 +155,12 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         commentContentAdapter.updateAdapter(contentItems)
     }
 
-    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: Author) {
+    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: Author, paragraphWidgetListener: ParagraphWidgetListener) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
         // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
         //TODO need write this code better
         val authorBlock = ParagraphBlock(null,
-            arrayListOf(SpanableBlock(getAuthorAndText(author, "")))
+            arrayListOf(SpanableBlock(getAuthorAndText(author, "", paragraphWidgetListener)))
         ) as Block
         if (findBlock == null) {
             newContentList.add(0, authorBlock)
@@ -166,7 +169,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             if (indexOf == 0) {
                 if (findBlock is TextBlock) {
                     newContentList[0] =
-                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, findBlock.content)))) as Block
+                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, findBlock.content, paragraphWidgetListener)))) as Block
                 } else {
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
@@ -176,9 +179,9 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                                 if (i == 0) {
                                     val paragraphItemBlock = findBlock.content[0]
                                     block = if (paragraphItemBlock is TextBlock) {
-                                        SpanableBlock(getAuthorAndText(author, paragraphItemBlock.content))
+                                        SpanableBlock(getAuthorAndText(author, paragraphItemBlock.content, paragraphWidgetListener))
                                     } else {
-                                        SpanableBlock(getAuthorAndText(author, ""))
+                                        SpanableBlock(getAuthorAndText(author, "", paragraphWidgetListener))
                                     }
                                 } else {
                                     block = findBlock.content[0]
@@ -257,14 +260,23 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         }
     }
 
-    private fun getAuthorAndText(author: Author, text: String): SpannableStringBuilder {
+    private fun getAuthorAndText(author: Author, text: String, paragraphWidgetListener: ParagraphWidgetListener): SpannableStringBuilder {
         val result = SpannableStringBuilder()
         author.username?.let {
             result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.blue)))
+            val startIndexUserName = 0
+            val lastIndexUserName = it.length
+            result.setSpan(object : ClickableSpan(){
+                override fun onClick(widget: View) {
+                    paragraphWidgetListener.onUserClicked(author.userId)
+                }
+
+            }, startIndexUserName, lastIndexUserName, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
         result.append(" ")
         result.append(text)
+
         return result
     }
 

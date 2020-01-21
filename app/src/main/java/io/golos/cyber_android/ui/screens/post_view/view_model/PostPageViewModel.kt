@@ -107,9 +107,6 @@ constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-
-                val userId = model.getUserId(userId)
-
                 wasMovedToChild = true
                 _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
             } catch (ex: Exception) {
