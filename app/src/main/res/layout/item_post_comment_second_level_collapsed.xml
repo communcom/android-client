@@ -23,6 +23,7 @@
         app:srcCompat="@drawable/ic_empty_user"
 
         android:layout_marginStart="@dimen/post_comments_second_level_margin"
+        android:visibility="invisible"
 
         tools:ignore="ContentDescription,InefficientWeight" />
 
@@ -32,7 +33,7 @@
         android:layout_height="match_parent"
 
         android:text=""
-        tools:text="Andrey Ivanov Answer &#8226; 3 replies"
+        tools:text="&#8226; 2 Replies"
 
         android:layout_marginStart="@dimen/post_comments_reply_margin"
 

@@ -97,8 +97,6 @@ constructor(
                         SecondLevelCommentCollapsedListItem(
                             id = IdUtil.generateLongId(),
                             version = 0,
-                            topCommentAuthor = rawComment.child[0].author,
-                            currentUserId = currentUserRepository.userId.userId,
                             totalChild = rawComment.childTotal,
                             parentCommentId = commentListItem.externalId
                         )
@@ -231,8 +229,6 @@ constructor(
                             SecondLevelCommentCollapsedListItem(     // Collapsed comments
                                 IdUtil.generateLongId(),
                                 0,
-                                nextTopCommentAuthor!!,
-                                currentUserRepository.userId.userId,
                                 (totalComments - commentsAdded - comments.size).toLong(),
                                 parentCommentId
                             )

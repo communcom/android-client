@@ -189,7 +189,7 @@ constructor(
         pageSize: Int,
         commentType: CommentDomain.CommentTypeDomain,
         userId: UserIdDomain,
-        permlink: String?,
+        postPermlink: String?,
         communityId: String?,
         communityAlias: String?,
         parentComment: ParentCommentIdentifierDomain?
@@ -197,12 +197,12 @@ constructor(
         val currentUserId = currentUserRepository.userId.userId
         return apiCall {
             commun4j.getCommentsRaw(
-                sortBy = CommentsSortBy.TIME,
+                sortBy = CommentsSortBy.TIME_DESC,
                 offset = offset,
                 limit = pageSize,
                 type = commentType.mapToCommentSortType(),
                 userId = userId.mapToCyberName(),
-                permlink = permlink,
+                permlink = postPermlink,
                 communityId = communityId,
                 communityAlias = communityAlias,
                 parentComment = parentComment?.mapToParentComment()

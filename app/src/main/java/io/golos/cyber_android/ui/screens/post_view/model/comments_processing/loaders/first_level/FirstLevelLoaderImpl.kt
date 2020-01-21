@@ -13,6 +13,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.concurrent.ConcurrentHashMap
 
 class FirstLevelLoaderImpl
@@ -101,6 +102,7 @@ constructor(
             }
         } catch (ex: Exception) {
             postListDataSource.addRetryLoadingComments()
+            Timber.e(ex)
             isInErrorState = true
 
             throw ex

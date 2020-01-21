@@ -4,14 +4,12 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLevelCommentCollapsedListItem
+import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLevelCommentCollapsedListItem
-import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import kotlinx.android.synthetic.main.item_post_comment_second_level_collapsed.view.*
 
 class SecondLevelCommentCollapsedViewHolder(
@@ -24,9 +22,7 @@ class SecondLevelCommentCollapsedViewHolder(
     private val spansColor: Int = parentView.context.resources.getColorRes(R.color.default_clickable_span_color)
 
     override fun init(listItem: SecondLevelCommentCollapsedListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
-        loadAvatarIcon(listItem.topCommentAuthor.avatarUrl)
         itemView.replyText.text = getReplyText(itemView.context, listItem)
-
         itemView.setOnClickListener { listItemEventsProcessor.onCollapsedCommentsClick(listItem.parentCommentId) }
     }
 
@@ -34,28 +30,11 @@ class SecondLevelCommentCollapsedViewHolder(
         itemView.setOnClickListener(null)
     }
 
-    private fun loadAvatarIcon(avatarUrl: String?) {
-        if (avatarUrl != null) {
-            Glide.with(itemView).load(avatarUrl)
-        } else {
-            Glide.with(itemView).load(R.drawable.ic_empty_user)
-        }.apply {
-            apply(RequestOptions.circleCropTransform())
-            into(itemView.ivAttachImage)
-        }
-    }
-
     private fun getReplyText(context: Context, listItem: SecondLevelCommentCollapsedListItem) : SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         with(listItem) {
-            result.append(topCommentAuthor.username)
-
-            result.append(" ")
-            result.append(context.resources.getString(R.string.comment_answer))
-
             result.append(" ${SpecialChars.BULLET} ")
-
             result.append(totalChild.toString())
             result.append(" ")
             result.append(context.resources.getQuantityText(R.plurals.reply, totalChild.toInt()))

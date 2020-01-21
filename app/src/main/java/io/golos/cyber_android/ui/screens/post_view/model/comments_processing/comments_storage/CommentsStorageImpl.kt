@@ -24,7 +24,7 @@ constructor(): CommentsStorage {
         allComments[comment.contentId] = comment
     }
 
-    override fun isCommentPosted(id: DiscussionIdModel): Boolean = postedComments[id] != null
+    override fun isCommentPosted(id: DiscussionIdModel): Boolean = postedComments.contains(id) && postedComments[id] != null
 
     override fun getComment(id: DiscussionIdModel): CommentModel? = allComments[id]
 

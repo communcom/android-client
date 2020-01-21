@@ -14,10 +14,11 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class SecondLevelLoaderImpl
 constructor(
-    private val contentIdDomain: ContentIdDomain,
+    private val postIdDomain: ContentIdDomain,
     private val parentComment: DiscussionIdModel,
     private val totalComments: Int,
     private val postListDataSource: PostListDataSourceComments,
@@ -54,10 +55,10 @@ constructor(
                 offset = pageOffset,
                 pageSize = pageSize + 1,
                 commentType = CommentDomain.CommentTypeDomain.POST,
-                userId = UserIdDomain(parentComment.userId),
-                permlink = parentComment.permlink.value,
+                userId = UserIdDomain(postIdDomain.userId),
+                permlink = postIdDomain.permlink,
                 parentComment = ParentCommentIdentifierDomain(parentComment.permlink.value, UserIdDomain(parentComment.userId)),
-                communityId = contentIdDomain.communityId
+                communityId = postIdDomain.communityId
             )
 
             if(comments.size < pageSize + 1) {
@@ -88,6 +89,7 @@ constructor(
 
             pageOffset += pageSize
         } catch (ex: Exception) {
+            Timber.e(ex)
             postListDataSource.addRetryLoadingComments(parentComment, pageOffset)
             isInErrorState = true
 
