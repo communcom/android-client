@@ -149,8 +149,7 @@ class CommunityPostViewModel @Inject constructor(
     private fun openPost(postContentId: ContentId?){
         postContentId?.let {
             val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
-            _command.value =
-                io.golos.cyber_android.ui.screens.feed_my.view.view_commands.NavigateToPostCommand(discussionIdModel, it)
+            _command.value = NavigateToPostCommand(discussionIdModel, it)
         }
     }
 
