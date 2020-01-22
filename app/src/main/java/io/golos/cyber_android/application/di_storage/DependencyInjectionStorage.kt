@@ -57,6 +57,7 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNam
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
@@ -382,6 +383,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
             SignInQrCodeFragmentComponent::class ->
                 getBase<LoginActivityComponent>()
                     .signInQrCodeFragmentComponent
+                    .build()
+
+            SignUpCountryComponent::class ->
+                getBase<LoginActivityComponent>()
+                    .signUpCountryComponent
                     .build()
 
             SignUpProtectionKeysFragmentComponent::class ->

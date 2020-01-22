@@ -21,9 +21,9 @@ import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_n
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizerImpl
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.SignUpCountryModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.model.SignUpCountryModelImpl
+import io.golos.cyber_android.ui.screens.login_sign_up_countries.view_model.SignUpCountryViewModel
+import io.golos.cyber_android.ui.screens.login_sign_up_countries.model.SignUpCountryModel
+import io.golos.cyber_android.ui.screens.login_sign_up_countries.model.SignUpCountryModelImpl
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintModel
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintModelImpl
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintViewModel
@@ -47,9 +47,6 @@ abstract class LoginActivityModuleBinds {
     abstract fun provideFingerprintModel(model: FingerprintModelImpl): FingerprintModel
 
     @Binds
-    abstract fun provideSignUpCountryModel(model: SignUpCountryModelImpl): SignUpCountryModel
-
-    @Binds
     @ActivityScope
     abstract fun bindViewModelFactory(factory: ActivityViewModelFactoryImpl): ActivityViewModelFactory
 
@@ -69,11 +66,6 @@ abstract class LoginActivityModuleBinds {
     @ViewModelKey(SignUpViewModel::class)
     @ActivityScope
     abstract fun provideSignUpViewModel(model: SignUpViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SignUpCountryViewModel::class)
-    abstract fun provideSignUpCountryViewModel(model: SignUpCountryViewModel): ViewModel
 
     @Binds
     @IntoMap

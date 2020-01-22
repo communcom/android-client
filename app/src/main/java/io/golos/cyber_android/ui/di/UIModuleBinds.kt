@@ -2,12 +2,15 @@ package io.golos.cyber_android.ui.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import io.golos.cyber_android.ui.shared.bitmaps.BitmapsUtilsImpl
 import io.golos.cyber_android.ui.shared.camera.CameraHelper
 import io.golos.cyber_android.ui.shared.camera.CameraHelperImpl
 import io.golos.data.file_system.FileSystemHelperImpl
 import io.golos.cyber_android.ui.shared.calculator.UICalculator
 import io.golos.cyber_android.ui.shared.calculator.UICalculatorImpl
+import io.golos.cyber_android.ui.shared.countries.CountriesRepository
+import io.golos.cyber_android.ui.shared.countries.CountriesRepositoryImpl
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.helper.UIHelperImpl
 import io.golos.domain.BitmapsUtils
@@ -55,4 +58,8 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideCameraHelper(helper: CameraHelperImpl): CameraHelper
+
+    @Binds
+    @UIScope
+    abstract fun provideCountriesRepository(repository: CountriesRepositoryImpl): CountriesRepository
 }

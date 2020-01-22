@@ -25,20 +25,21 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import io.golos.cyber_android.ui.shared.utils.openWebPage
-import io.golos.domain.dto.CountryEntity
+import io.golos.domain.dto.CountryDomain
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.*
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import javax.inject.Inject
 
 
-class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
-    SignUpPhoneViewModel::class.java) {
+class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignUpPhoneViewModel::class.java) {
 
     override val fieldToValidate: EditText
         get() = phone
@@ -49,6 +50,9 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
     private val emptyMask = UnderscoreDigitSlotsParser().parseSlots("_")
 
     private val phoneMaskWatcher = MaskFormatWatcher(MaskImpl.createTerminated(emptyMask))
+
+    @Inject
+    internal lateinit var dataPass: LoginActivityFragmentsDataPass
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_sign_up_phone, container, false)
@@ -93,6 +97,8 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
         if (phone.isFocused) {
             phone.moveCursorToTheEnd()
         }
+
+        dataPass.getSelectedCountry()?.let { onCountrySelected(it) }
     }
 
     override fun observeViewModel() {
@@ -122,9 +128,9 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
             }
         })
 
-        signUpViewModel.getSelectedCountryLiveData.observe(this, Observer { countryModel ->
-            onCountrySelected(countryModel)
-        })
+//        signUpViewModel.getSelectedCountryLiveData.observe(this, Observer { countryModel ->
+//            onCountrySelected(countryModel)
+//        })
 
         signUpViewModel.getSelectedPhoneLiveData.observe(this, Observer { phoneValue ->
             phone.setText(phoneValue)
@@ -139,7 +145,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
     }
 
     @SuppressLint("SetTextI18n")
-    private fun onCountrySelected(countryModel: CountryEntity?) {
+    private fun onCountrySelected(countryModel: CountryDomain?) {
         country.setText(countryModel?.let { "${it.emoji} ${it.name}"} ?: "")
         country.isActivated = countryModel != null
 
@@ -172,7 +178,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(
         Toast.makeText(requireContext(), errorResult.error.message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setupPhoneMask(countryModel: CountryEntity) {
+    private fun setupPhoneMask(countryModel: CountryDomain) {
         val phoneFormat = getString(R.string.phone_format).format(countryModel.code)
         val mask = UnderscoreDigitSlotsParser().parseSlots(phoneFormat)
         phoneMaskWatcher.setMask(MaskImpl.createTerminated(mask))

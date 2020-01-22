@@ -1,12 +1,12 @@
-package io.golos.cyber_android.ui.screens.login_sign_up.fragments.country
+package io.golos.cyber_android.ui.screens.login_sign_up_countries.view.list
 
 import androidx.recyclerview.widget.DiffUtil
-import io.golos.domain.dto.CountryEntity
+import io.golos.domain.dto.CountryDomain
 
 /**
  * [DiffUtil.Callback] impl for [CountryModel] lists
  */
-class CountryDiffCallback(private val oldList: List<CountryEntity>, private val newList: List<CountryEntity>) :
+class CountryDiffCallback(private val oldList: List<CountryDomain>, private val newList: List<CountryDomain>) :
     DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

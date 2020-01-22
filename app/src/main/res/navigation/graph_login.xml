@@ -93,7 +93,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpCountryFragment"
-        android:name="io.golos.cyber_android.ui.screens.login_sign_up.fragments.country.SignUpCountryFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_up_countries.view.SignUpCountryFragment"
         android:label="fragment_sign_up_country"
         tools:layout="@layout/fragment_sign_up_country" />
     <fragment

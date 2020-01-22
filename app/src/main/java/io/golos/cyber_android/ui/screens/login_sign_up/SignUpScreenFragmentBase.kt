@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.ui.shared.base.FragmentBase
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
-import io.golos.domain.dto.CountryEntity
+import io.golos.domain.dto.CountryDomain
 import javax.inject.Inject
 
 /**
@@ -51,7 +51,7 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
             override fun afterTextChanged(s: Editable?) {
                 val writenText = s.toString()
                 if (fieldToValidate?.inputType == TYPE_CLASS_PHONE) {
-                    val viewTag = fieldToValidate?.tag as? CountryEntity
+                    val viewTag = fieldToValidate?.tag as? CountryDomain
                     viewTag?.let { tag ->
                         val phone = signUpViewModel.getNormalizedPhone(writenText)
                         viewModel.field = writenText

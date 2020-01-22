@@ -3,12 +3,11 @@ package io.golos.cyber_android.ui.screens.login_sign_up
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up.countries.CountriesRepository
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.UserNameValidator
 import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
-import io.golos.domain.dto.CountryEntity
+import io.golos.domain.dto.CountryDomain
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.reg.SignUpUseCase
@@ -27,7 +26,6 @@ class SignUpViewModel
 @Inject
 constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val countriesRepository: CountriesRepository,
     private val dispatchersProvider: DispatchersProvider
 ) : ViewModel(), CoroutineScope {
 
@@ -56,7 +54,7 @@ constructor(
             it?.getIf { this?.originalQuery is T }
         }
 
-    private val selectedCountryLiveData = MutableLiveData<CountryEntity?>(null)
+    private val selectedCountryLiveData = MutableLiveData<CountryDomain?>(null)
 
     private val selectedPhoneLiveData = MutableLiveData("")
 
@@ -67,7 +65,7 @@ constructor(
     /**
      * [LiveData] for country that was selected for phone number
      */
-    val getSelectedCountryLiveData = selectedCountryLiveData as LiveData<CountryEntity?>
+    val getSelectedCountryLiveData = selectedCountryLiveData as LiveData<CountryDomain?>
 
     /**
      * [LiveData] for country that was selected for phone number
@@ -81,7 +79,7 @@ constructor(
     /**
      * Sets [CountryModel] for this ViewModel
      */
-    fun onCountrySelected(countryModel: CountryEntity) = selectedCountryLiveData.postValue(countryModel)
+    fun onCountrySelected(countryModel: CountryDomain) = selectedCountryLiveData.postValue(countryModel)
 
 
     private var currentPhone = ""

@@ -112,6 +112,7 @@ constructor(
                 val account =
                     withContext(dispatchersProvider.ioDispatcher) {
                         try {
+                            delay(2000)
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (ex: Exception) {
                             Timber.e(ex)

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_sign_up.fragments.country
+package io.golos.cyber_android.ui.screens.login_sign_up_countries.view.list
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,18 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
-import io.golos.domain.dto.CountryEntity
+import io.golos.domain.dto.CountryDomain
 import kotlinx.android.synthetic.main.item_country.view.*
 
-/**
- * [RecyclerView.Adapter] for [CountryModel]
- */
-class CountriesAdapter(private val listener: Listener) :
+class CountriesAdapter(private val onCountrySelectedListener: (CountryDomain) -> Unit) :
     RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
-    private var values: List<CountryEntity> = emptyList()
+    private var values: List<CountryDomain> = emptyList()
 
-    var selectedCountry: CountryEntity? = null
+    var selectedCountry: CountryDomain? = null
         set(value) {
             val prevValue = field
             field = value
@@ -34,7 +31,7 @@ class CountriesAdapter(private val listener: Listener) :
             }
         }
 
-    fun submit(list: List<CountryEntity>) {
+    fun submit(list: List<CountryDomain>) {
         val diff = DiffUtil.calculateDiff(
             CountryDiffCallback(
                 values,
@@ -57,9 +54,9 @@ class CountriesAdapter(private val listener: Listener) :
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n")
-        fun bind(country: CountryEntity) {
+        fun bind(country: CountryDomain) {
             with(itemView) {
-                root.setOnClickListener { listener.onCountryClick(country) }
+                root.setOnClickListener { onCountrySelectedListener(country) }
 
                 countryName.text = "${country.emoji} ${country.name} (+${country.code})"
                 check.visibility = if (selectedCountry == country) View.VISIBLE else View.GONE
@@ -68,9 +65,5 @@ class CountriesAdapter(private val listener: Listener) :
                 countryName.setTextColor(textColor)
             }
         }
-    }
-
-    interface Listener {
-        fun onCountryClick(country: CountryEntity)
     }
 }
