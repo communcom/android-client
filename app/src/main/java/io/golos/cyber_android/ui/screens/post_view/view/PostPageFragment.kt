@@ -27,8 +27,8 @@ import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
-import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
@@ -43,7 +43,6 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_post.*
-import kotlinx.android.synthetic.main.fragment_post.commentWidget
 
 /**
  * Fragment for single [PostModel] presentation
@@ -178,9 +177,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             )
     }
 
-    private fun openUserProfile(userId: String) {
+    private fun openUserProfile(userId: UserIdDomain) {
         getDashboardFragment(this)?.showFragment(
-            ProfileExternalUserFragment.newInstance(UserIdDomain(userId))
+            ProfileExternalUserFragment.newInstance(userId)
         )
     }
 

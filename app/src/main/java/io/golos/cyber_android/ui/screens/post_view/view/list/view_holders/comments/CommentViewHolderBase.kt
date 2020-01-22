@@ -37,6 +37,7 @@ import io.golos.domain.extensions.appendSpannedText
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.utils.IdUtil
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -135,7 +136,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         val author = Author(listItem.author.avatarUrl, listItem.author.userId.userId, listItem.author.username)
         if (newContentList.isEmpty() && listItem.isDeleted) {
             val deleteBlock =
-                ParagraphBlock("", arrayListOf(SpanableBlock(getAuthorAndText(author, labelCommentDeleted, listItemEventsProcessor)))) as Block
+                ParagraphBlock(IdUtil.generateLongId(), arrayListOf(SpanableBlock(getAuthorAndText(author, labelCommentDeleted, listItemEventsProcessor)))) as Block
             newContentList.add(deleteBlock)
         } else {
             addAuthorNameToContent(newContentList, author, listItemEventsProcessor)

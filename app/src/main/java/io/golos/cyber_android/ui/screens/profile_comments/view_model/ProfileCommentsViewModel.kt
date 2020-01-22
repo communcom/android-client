@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToCommentDomain
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
@@ -22,7 +21,6 @@ import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.Dispatchers
@@ -87,7 +85,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 if (contentId != null) {
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
                     val content = commentContent.message?.let { message ->
-                        listOf(ParagraphBlock(null, listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
+                        listOf(ParagraphBlock(IdUtil.generateLongId(), listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
                     } ?: listOf()
                     var imageUri = commentContent.imageUri
                     if(imageUri != null && (commentFromState?.body?.attachments?.content?.firstOrNull() as? ImageBlock)?.content != imageUri){

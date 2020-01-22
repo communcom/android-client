@@ -16,15 +16,15 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 import io.golos.domain.use_cases.post.post_dto.TextBlock
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
@@ -287,11 +287,10 @@ constructor(
             try {
                 _commentFieldEnabled.value = false
 
-                val currentContentAppVersion = PostGlobalConstants.postFormatVersion.toString()
                 val commentState = commentContent.state
 
                 val content = commentContent.message?.let { message ->
-                    listOf(ParagraphBlock(null, listOf(TextBlock(currentContentAppVersion, message, null, null))))
+                    listOf(ParagraphBlock(null, listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
                 } ?: listOf()
                 var imageUri = commentContent.imageUri
                 if(imageUri != null){
@@ -302,7 +301,7 @@ constructor(
                 }
                 val attachments = imageUri?.let { uri ->
                     val imageSize = uri.toBitmapOptions()
-                    AttachmentsBlock(currentContentAppVersion,
+                    AttachmentsBlock(IdUtil.generateLongId(),
                         listOf(
                             ImageBlock(null,
                                 uri,

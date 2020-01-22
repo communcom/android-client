@@ -32,6 +32,7 @@ import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.utils.IdUtil
 import io.golos.utils.fromServerFormat
 import io.golos.utils.toServerFormat
 import java.io.File
@@ -330,7 +331,7 @@ constructor(
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
         val contentBlock = ContentBlock(
-            id = PostGlobalConstants.postFormatVersion.toString(),
+            id = IdUtil.generateLongId(),
             type = COMMENT,
             metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
             title = "",
@@ -376,7 +377,7 @@ constructor(
 
     override suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
         val contentBlock = ContentBlock(
-            id = PostGlobalConstants.postFormatVersion.toString(),
+            id = IdUtil.generateLongId(),
             type = COMMENT,
             metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
             title = "",

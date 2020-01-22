@@ -26,6 +26,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -130,7 +131,7 @@ constructor(
         val votesModel = oldComment.votes
         val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
         val contentBlock = ContentBlock(
-            id = PostGlobalConstants.postFormatVersion.toString(),
+            id = IdUtil.generateLongId(),
             type = PostTypeJson.COMMENT,
             metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
             title = "",
