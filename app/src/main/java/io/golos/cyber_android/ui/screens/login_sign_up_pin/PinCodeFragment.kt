@@ -61,7 +61,7 @@ class PinCodeFragment : FragmentBase() {
     }
 
     private fun observeViewModel() {
-        viewModel.isInExtendedMode.observe(this, Observer { isInExtendedMode ->
+        viewModel.isInExtendedMode.observe(viewLifecycleOwner, Observer { isInExtendedMode ->
             if(isInExtendedMode) {
                 moveToExtendedMode()        // Show widget for password validation
             } else {
@@ -69,7 +69,7 @@ class PinCodeFragment : FragmentBase() {
             }
         })
 
-        viewModel.codeState.observe(this, Observer { codeState ->
+        viewModel.codeState.observe(viewLifecycleOwner, Observer { codeState ->
             primaryCode.isActive = codeState.isPrimaryCodeActive
             repeatedCode.isActive = codeState.isRepeatedCodeActive
 
@@ -79,7 +79,7 @@ class PinCodeFragment : FragmentBase() {
             }
         })
 
-        viewModel.command.observe(this, Observer { command ->
+        viewModel.command.observe(viewLifecycleOwner, Observer { command ->
             when(command) {
                 is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
 

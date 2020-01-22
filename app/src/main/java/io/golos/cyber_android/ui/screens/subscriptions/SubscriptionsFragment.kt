@@ -20,6 +20,7 @@ import io.golos.cyber_android.ui.shared.utils.debounce
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
 import kotlinx.android.synthetic.main.item_toolbar.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import kotlinx.android.synthetic.main.view_search_bar_pure.*
 import timber.log.Timber
 
 class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, SubscriptionsViewModel>() {
@@ -117,7 +118,7 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
     }
 
     private fun observeViewModel() {
-        viewModel.subscriptionsStateLiveData.observe(this, Observer {
+        viewModel.subscriptionsStateLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 SubscriptionsViewModel.SubscriptionsState.UNDEFINED -> setUndefinedSubscriptionsState()
                 SubscriptionsViewModel.SubscriptionsState.EMPTY -> setEmptySubscriptionsState()
@@ -127,14 +128,14 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
                 }
             }
         })
-        viewModel.subscriptionsListStateLiveData.observe(this, Observer {
+        viewModel.subscriptionsListStateLiveData.observe(viewLifecycleOwner, Observer {
             updateListState(it)
         })
-        viewModel.recommendedSubscriptionsListStateLiveData.observe(this, Observer {
+        viewModel.recommendedSubscriptionsListStateLiveData.observe(viewLifecycleOwner, Observer {
             updateListState(it)
         })
 
-        viewModel.generalLoadingProgressVisibilityLiveData.observe(this, Observer {
+        viewModel.generalLoadingProgressVisibilityLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 emptyPostProgressLoading.visibility = View.VISIBLE
             } else {
@@ -142,20 +143,20 @@ class SubscriptionsFragment : FragmentBaseMVVM<FragmentSubscriptionsBinding, Sub
             }
         })
 
-        viewModel.recommendedSubscriptionStatusLiveData.observe(this, Observer {
+        viewModel.recommendedSubscriptionStatusLiveData.observe(viewLifecycleOwner, Observer {
             subscriptionsAdapter.updateSubscriptionStatus(it)
         })
-        viewModel.subscriptionsStatusLiveData.observe(this, Observer {
+        viewModel.subscriptionsStatusLiveData.observe(viewLifecycleOwner, Observer {
             subscriptionsAdapter.updateSubscriptionStatus(it)
         })
-        viewModel.generalErrorVisibilityLiveData.observe(this, Observer {
+        viewModel.generalErrorVisibilityLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 btnRetry.visibility = View.VISIBLE
             } else {
                 btnRetry.visibility = View.INVISIBLE
             }
         })
-        viewModel.searchProgressVisibilityLiveData.observe(this, Observer {
+        viewModel.searchProgressVisibilityLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 pbLoading.visibility = View.VISIBLE
             } else {

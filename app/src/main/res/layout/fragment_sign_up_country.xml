@@ -57,15 +57,16 @@
             </FrameLayout>
 
             <include
-                android:layout_marginTop="@dimen/margin_feed_search_bar"
-                android:layout_marginStart="@dimen/margin_feed_search_bar"
-                android:layout_marginEnd="@dimen/margin_feed_search_bar"
-                android:layout_marginBottom="@dimen/margin_feed_search_bar"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/search_bar_height"
                 android:layout_width="match_parent"
-                layout="@layout/view_search_bar"
-                android:visibility="gone"
-                />
+                layout="@layout/view_search_bar_pure"
+
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
+            />
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView

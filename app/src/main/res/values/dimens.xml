@@ -12,6 +12,7 @@
 
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_tiny">5dp</dimen>
 
     <dimen name="gap">4dp</dimen>
 
@@ -441,4 +442,6 @@
 
     <dimen name="follow_following_button_height">35dp</dimen>
     <dimen name="follow_following_button_width">85dp</dimen>
+
+    <dimen name="search_bar_height">@dimen/dimen_34</dimen>
 </resources>

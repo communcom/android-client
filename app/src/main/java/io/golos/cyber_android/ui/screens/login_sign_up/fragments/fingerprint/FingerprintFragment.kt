@@ -66,7 +66,7 @@ class FingerprintFragment : FragmentBase() {
     }
 
     private fun observeViewModel() {
-        viewModel.command.observe(this, Observer { command ->
+        viewModel.command.observe(viewLifecycleOwner, Observer { command ->
             when (command) {
                 is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
 

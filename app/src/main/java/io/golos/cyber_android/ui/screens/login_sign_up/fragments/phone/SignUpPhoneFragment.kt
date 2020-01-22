@@ -27,12 +27,14 @@ import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
+import io.golos.cyber_android.ui.shared.countries.CountriesRepository
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import io.golos.cyber_android.ui.shared.utils.openWebPage
 import io.golos.domain.dto.CountryDomain
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.*
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
+import kotlinx.coroutines.launch
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
@@ -53,6 +55,9 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
 
     @Inject
     internal lateinit var dataPass: LoginActivityFragmentsDataPass
+
+    @Inject
+    internal lateinit var countriesRepository: CountriesRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_sign_up_phone, container, false)
@@ -98,7 +103,22 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
             phone.moveCursorToTheEnd()
         }
 
-        dataPass.getSelectedCountry()?.let { onCountrySelected(it) }
+        launch {
+            countriesRepository.getCurrentCountry()?.let {  }
+        }
+
+        val selectedCountry = dataPass.getSelectedCountry()
+        if(selectedCountry != null) {
+            onCountrySelected(selectedCountry)
+        } else {
+            launch {
+                val currentCountry = countriesRepository.getCurrentCountry()
+                if(currentCountry != null) {
+                    dataPass.putSelectedCountry(currentCountry)
+                    onCountrySelected(currentCountry)
+                }
+            }
+        }
     }
 
     override fun observeViewModel() {
