@@ -10,23 +10,6 @@
     android:paddingEnd="@dimen/post_comments_horizontal_padding"
     android:paddingBottom="@dimen/post_comments_vertical_padding">
 
-    <ImageView
-        android:id="@+id/ivAttachImage"
-
-        android:layout_width="@dimen/post_comments_collapsed_avatar_size"
-        android:layout_height="@dimen/post_comments_collapsed_avatar_size"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        app:srcCompat="@drawable/ic_empty_user"
-
-        android:layout_marginStart="@dimen/post_comments_second_level_margin"
-        android:visibility="invisible"
-
-        tools:ignore="ContentDescription,InefficientWeight" />
-
     <TextView
         android:id="@+id/replyText"
         android:layout_width="0dp"
@@ -35,7 +18,7 @@
         android:text=""
         tools:text="&#8226; 2 Replies"
 
-        android:layout_marginStart="@dimen/post_comments_reply_margin"
+        android:layout_marginStart="@dimen/post_comments_second_level_margin"
 
         style="@style/CommentsReplyInCollapsed"
 
@@ -43,7 +26,7 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivAttachImage"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
