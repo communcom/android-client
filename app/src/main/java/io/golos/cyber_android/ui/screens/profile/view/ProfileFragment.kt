@@ -207,9 +207,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         getDashboardFragment(this)?.showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 
     private fun restartApp() {
-        val loginIntent = Intent(requireContext(), LoginActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
+        val loginIntent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(loginIntent)
         activity!!.finish()
     }
