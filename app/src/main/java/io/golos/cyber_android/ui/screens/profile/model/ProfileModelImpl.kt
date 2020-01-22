@@ -70,8 +70,6 @@ constructor(
 
     override suspend fun logout() = logout.get().logout()
 
-    override fun restartApp() = logout.get().restartApp()
-
     override suspend fun subscribeUnsubscribe() {
         if(isSubscribingInProgress) {
             return

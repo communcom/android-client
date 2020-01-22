@@ -35,7 +35,11 @@ open class RecyclerAdapter(
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        holder.holderItem?.onViewRecycled(holder.itemView)
+        try {
+            holder.holderItem?.onViewRecycled(holder.itemView)
+        } catch (ex: Exception) {
+            Timber.e(ex)
+        }
     }
 
     override fun getItemCount(): Int = items.size
