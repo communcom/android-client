@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,11 +56,12 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         const val UPDATED_REQUEST_CODE = 41245
 
-        fun newInstance(args: Args): PostPageFragment {
+        fun newInstance(args: Args, targetFragment: Fragment? = null): PostPageFragment {
             return PostPageFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(Tags.ARGS, args)
                 }
+                setTargetFragment(targetFragment, UPDATED_REQUEST_CODE)
             }
         }
     }
@@ -134,6 +136,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                 setSelectAction(UPDATED_REQUEST_CODE) {
                     putExtra(Tags.PERMLINK_EXTRA, permlink)
                 }
+                back()
             }
 
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
@@ -164,6 +167,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
+    }
+
+    private fun back(){
+        getDashboardFragment(this)?.childFragmentManager?.popBackStack()
     }
 
     private fun openSelectPhotoView(imageUrl: String?) {
@@ -306,7 +313,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                 Args(
                     discussionIdModel,
                     contentId
-                )
+                ),
+                this
             ),
             tagFragment = contentId.permlink
         )

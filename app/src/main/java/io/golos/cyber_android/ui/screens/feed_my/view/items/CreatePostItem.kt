@@ -3,11 +3,11 @@ package io.golos.cyber_android.ui.screens.feed_my.view.items
 import android.content.Context
 import android.view.View
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.User
+import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.EditorWidget
-import io.golos.cyber_android.ui.dto.User
-import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import kotlinx.android.synthetic.main.item_create_post.view.*
 
 class CreatePostItem(val user: User?, private val eventsProcessor: MyFeedListListener) : BaseRecyclerItem() {
@@ -23,7 +23,7 @@ class CreatePostItem(val user: User?, private val eventsProcessor: MyFeedListLis
 
     override fun onViewRecycled(view: View) {
         super.onViewRecycled(view)
-        (view.editorWidget as EditorWidget).findViewById<EditorWidget>(R.id.editorWidget).clearUserAvater()
+        (view.editorWidget as EditorWidget).findViewById<EditorWidget>(R.id.editorWidget).clearUserAvatar()
     }
 
     override fun areItemsTheSame(): Int = user?.id.hashCode()

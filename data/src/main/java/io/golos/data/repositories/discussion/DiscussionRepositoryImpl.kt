@@ -216,7 +216,8 @@ constructor(
                 communCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                author = currentUserRepository.userId.mapToCyberName()
+                author = currentUserRepository.userId.mapToCyberName(),
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
     }
@@ -228,7 +229,8 @@ constructor(
                 communCode = CyberSymbolCode(communityId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
-                author = currentUserRepository.userId.mapToCyberName()
+                author = currentUserRepository.userId.mapToCyberName(),
+                authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
     }

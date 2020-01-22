@@ -13,7 +13,6 @@ import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.feed_my.view.MyFeedFragment
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
@@ -339,9 +338,12 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) {
-        PostPageMenuDialog.newInstance(postMenu).apply {
-            setTargetFragment(this@ProfilePostsFragment, PostPageMenuDialog.REQUEST)
-        }.show(requireFragmentManager(), "show")
+        val tag = PostPageMenuDialog::class.java.name
+        if(parentFragmentManager.findFragmentByTag(tag) == null){
+            PostPageMenuDialog.newInstance(postMenu).apply {
+                setTargetFragment(this@ProfilePostsFragment, PostPageMenuDialog.REQUEST)
+            }.show(parentFragmentManager, tag)
+        }
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
@@ -350,7 +352,8 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
-                )
+                ),
+                this
             ),
             tagFragment = contentId.permlink
         )

@@ -53,7 +53,7 @@ class EditorWidget : LinearLayout {
     /**
      * Clear user avatar
      */
-    fun clearUserAvater(){
+    fun clearUserAvatar(){
         Glide.with(this)
             .clear(this)
     }

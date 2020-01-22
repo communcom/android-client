@@ -95,7 +95,8 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
-                )
+                ),
+                this
             ),
             tagFragment = contentId.permlink
         )

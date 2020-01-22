@@ -56,11 +56,12 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     }
 
     private fun setupFragmentContainer() {
-        if (childFragmentManager.findFragmentByTag(tag) == null) {
-            val beginTransaction = childFragmentManager.beginTransaction()
+        val tag = MyFeedFragment::class.java.name
+        if (parentFragmentManager.findFragmentByTag(tag) == null) {
+            val beginTransaction = parentFragmentManager.beginTransaction()
             beginTransaction
-                .addToBackStack(null)
-                .add(R.id.feedContainer, MyFeedFragment.newInstance(), tag)
+                //.addToBackStack(null)
+                .replace(R.id.feedContainer, MyFeedFragment.newInstance(), tag)
                 .commit()
         }
     }

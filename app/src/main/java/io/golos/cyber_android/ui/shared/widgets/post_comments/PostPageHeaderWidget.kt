@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
 import io.golos.domain.extensions.appendSpannedText
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
+import timber.log.Timber
 
 /**
  * Header with post info
@@ -114,8 +115,12 @@ constructor(
         setOnMenuButtonClickListener(null)
         setOnJoinToCommunityButtonClickListener(null)
         setOnBackButtonClickListener(null)
-        Glide.with(this)
-            .clear(communityAvatar)
+        try {
+            Glide.with(this)
+                .clear(communityAvatar)
+        } catch (e: Exception){
+            Timber.e(e)
+        }
     }
 
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {
