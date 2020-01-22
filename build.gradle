@@ -38,6 +38,10 @@ allprojects {
     }
 }
 
+wrapper {
+    gradleVersion = '6.0'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

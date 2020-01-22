@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.001854">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: number_of_commits" time="0.039114">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: clean assembleRelease" time="442.117143">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: slack_upload" time="21.927365">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

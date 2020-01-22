@@ -13,7 +13,7 @@ ext {
 android {
     compileSdkVersion versions.targetsdk
     defaultConfig {
-        applicationId "io.golos.cyber_android"
+        applicationId "com.commun.android"
         minSdkVersion versions.minsdk
         targetSdkVersion versions.targetsdk
         versionCode appVesrionCode
@@ -45,25 +45,13 @@ android {
     productFlavors {
         prod {
             dimension "cyber4j-config-type"
-            resValue "string", "app_name", "Commun-prod"
-            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
-        }
-        stable {
-            dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun"
-            applicationIdSuffix ".stable"
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
         }
         dev {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun-dev"
             applicationIdSuffix ".dev"
-            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
-        }
-        unstable {
-            dimension "cyber4j-config-type"
-            resValue "string", "app_name", "Commun-unstable"
-            applicationIdSuffix ".unstable"
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
         }
     }

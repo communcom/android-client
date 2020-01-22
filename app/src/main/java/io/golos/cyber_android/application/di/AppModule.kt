@@ -29,21 +29,13 @@ import javax.inject.Named
 @Module
 class AppModule(private val appContext: Context) {
     private val cyber4jConfigs = mapOf(
-        "stable" to Commun4jConfig(
-            blockChainHttpApiUrl = "http://116.202.4.39:8888/",
-            servicesUrl = "wss://cyber-gate.golos.io"
-        ),
         "dev" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
             servicesUrl = "wss://dev-gate.commun.com"
         ),
-        "unstable" to Commun4jConfig(
-            blockChainHttpApiUrl = "http://116.202.4.46:8888/",
-            servicesUrl = "wss://dev-gate.commun.com"
-        ),
         "prod" to Commun4jConfig(
-            blockChainHttpApiUrl = "http://116.203.212.190:8888/",
-            servicesUrl = "wss://gate.golos.io"
+            blockChainHttpApiUrl = "https://node.commun.com/",
+            servicesUrl = "wss://gate.commun.com/"
         )
     )
 

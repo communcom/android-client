@@ -1,0 +1,56 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+SLACK_API_TOKEN = "xoxp-131522248727-816480031911-825767630514-3dc514ecb1a5e8985cc0a8d55066e67e"
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    build_number = number_of_commits(all: true)
+
+    build_path = File.join(File.expand_path("..").shellescape, "app/build/outputs/apk/dev/release/app-dev-release.apk")
+
+    gradle(
+      task: "dev",
+      properties: {
+        "versionCode" => build_number,
+      },
+      task: "clean assembleRelease"
+    )
+
+    slack_upload(
+        slack_api_token: SLACK_API_TOKEN,
+        title: "Commun-Android-#{build_number}",
+        channel: "#commun-mobile-builds",
+        file_path: build_path
+    ) 
+    # crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean assembleRelease")
+    upload_to_play_store
+  end
+end
