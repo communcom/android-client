@@ -62,6 +62,7 @@
     <dimen name="dimen_50">50dp</dimen>
     <dimen name="dimen_55">55dp</dimen>
     <dimen name="dimen_56">56dp</dimen>
+    <dimen name="dimen_60">60dp</dimen>
     <dimen name="dimen_80">80dp</dimen>
     <dimen name="dimen_90">90dp</dimen>
 

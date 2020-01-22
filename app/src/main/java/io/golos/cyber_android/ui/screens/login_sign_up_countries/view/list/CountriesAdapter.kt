@@ -58,7 +58,8 @@ class CountriesAdapter(private val onCountrySelectedListener: (CountryDomain) ->
             with(itemView) {
                 root.setOnClickListener { onCountrySelectedListener(country) }
 
-                countryName.text = "${country.emoji} ${country.name} (+${country.code})"
+                countryFlag.text = country.emoji
+                countryName.text = "${country.name} (+${country.code})"
                 check.visibility = if (selectedCountry == country) View.VISIBLE else View.GONE
 
                 val textColor = context.resources.getColorRes(if(country.available) R.color.black else R.color.grey)
