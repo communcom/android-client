@@ -29,7 +29,7 @@ constructor() : CommentToModelMapper {
         return CommentModel(
             DiscussionIdModel(commentDomain.contentId.userId, Permlink(commentDomain.contentId.permlink)),
             DiscussionAuthorModel(CyberUser(author.userId), author.username ?: "", author.avatarUrl),
-            CommentContentModel(ContentBodyModel(commentDomain.body!!), commentDomain.commentLevel),
+            CommentContentModel(ContentBodyModel(commentDomain.body), commentDomain.commentLevel),
             commentDomain.body,
             DiscussionVotesModel(votes.hasUpVote, votes.hasDownVote, votes.upCount, votes.downCount),
             DiscussionPayoutModel(),

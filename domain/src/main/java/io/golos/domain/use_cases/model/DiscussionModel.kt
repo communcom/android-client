@@ -82,7 +82,7 @@ data class EmbedModel(
 
 @Deprecated("Not need use, use Domain model")
 data class ContentBodyModel(
-    val postBlock: ContentBlock
+    val postBlock: ContentBlock?
 ) : Model
 
 
