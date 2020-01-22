@@ -39,7 +39,8 @@ constructor() : CommentToModelMapper {
             commentDomain.childCommentsCount.toLong(),
             listOf(),
             commentDomain.commentLevel,
-            commentDomain.isDeleted
+            commentDomain.isDeleted,
+            commentDomain.isMyComment
         )
     }
 

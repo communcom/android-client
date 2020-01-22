@@ -279,7 +279,10 @@ constructor(
         }
 
     override fun onCommentLongClick(commentId: DiscussionIdModel) {
-        _command.value = ShowCommentMenuViewCommand(commentId)
+        val comment = model.getComment(commentId)
+        if(comment?.isMyComment == true){
+            _command.value = ShowCommentMenuViewCommand(commentId)
+        }
     }
 
     fun sendComment(commentContent: CommentWidget.CommentContent) {

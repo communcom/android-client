@@ -39,7 +39,8 @@ data class CommentModel(
     val childTotal: Long,
     val child: List<CommentModel>,
     val commentLevel: Int,               // 0 or 1
-    val isDeleted: Boolean = false
+    val isDeleted: Boolean = false,
+    val isMyComment: Boolean = false
 ) : DiscussionModel(
     contentId, author, votes, payout, meta, stats
 )
