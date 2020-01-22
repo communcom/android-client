@@ -247,7 +247,7 @@ constructor(
             // Add to a fixed position - just after comments title
             val currentProgress = postList.find { it is FirstLevelCommentLoadingListItem }
             if (currentProgress == null) {
-                postList.add(postList.size - 1, FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
+                postList.add(FirstLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
                 sortPostItems()
             }
         }
