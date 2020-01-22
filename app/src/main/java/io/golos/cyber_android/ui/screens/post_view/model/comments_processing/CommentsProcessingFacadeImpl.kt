@@ -110,9 +110,12 @@ constructor(
 
         try {
             withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.deleteComment(commentId)
+                discussionRepository.deleteComment(commentId.permlink.value, postContentId.communityId)
             }
             postListDataSource.deleteComment(commentId)
+            if(postListDataSource.isNotComments()){
+                postListDataSource.addEmptyCommentsStub()
+            }
         } catch (ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)

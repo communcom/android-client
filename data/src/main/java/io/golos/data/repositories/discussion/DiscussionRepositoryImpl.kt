@@ -27,7 +27,6 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.utils.fromServerFormat
@@ -321,11 +320,6 @@ constructor(
     override fun deletePost(postId: ContentIdDomain) {
         val request = DeleteDiscussionRequestEntity(Permlink(postId.permlink))
         createOrUpdate(request)
-    }
-
-    override fun deleteComment(commentId: DiscussionIdModel) {
-        val apiAnswer = discussionsApi.deleteComment(commentId.permlink)
-        transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, content: ContentBlock): CommentDomain {

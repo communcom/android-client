@@ -4,7 +4,6 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import java.io.File
@@ -46,9 +45,6 @@ interface DiscussionRepository {
 
     @Deprecated("Need use method deletePost with 2 params")
     fun deletePost(postId: ContentIdDomain)
-
-    @Deprecated("Need use method deleteComment with 2 params")
-    fun deleteComment(commentId: DiscussionIdModel)
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 

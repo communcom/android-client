@@ -40,6 +40,11 @@ constructor(
     // For thread-safety
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
+    override fun isNotComments(): Boolean {
+        val firstLevelComment = postList.find { it is FirstLevelCommentListItem }
+        return firstLevelComment == null
+    }
+
     override suspend fun createOrUpdatePostData(postDomain: PostDomain) {
         updateSafe {
             createOrUpdatePostTitle(postDomain)

@@ -80,4 +80,6 @@ interface PostListDataSourceComments {
         isUpVoteActive: Boolean?,
         isDownVoteActive: Boolean?,
         voteBalanceDelta: Long)
+
+    fun isNotComments(): Boolean
 }
