@@ -352,8 +352,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
-                ),
-                this
+                )
             ),
             tagFragment = contentId.permlink
         )
