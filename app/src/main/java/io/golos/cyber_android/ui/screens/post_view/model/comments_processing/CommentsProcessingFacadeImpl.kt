@@ -21,6 +21,7 @@ import io.golos.domain.dto.*
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.PostTypeJson
+import io.golos.domain.posts_parsing_rendering.PostTypeJson.COMMENT
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
@@ -82,7 +83,15 @@ constructor(
         try {
             postListDataSource.addLoadingForNewComment()
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.sendComment(postContentId.mapToContentIdDomain(), content, attachments)
+                val contentBlock = ContentBlock(
+                    id = IdUtil.generateLongId(),
+                    type = PostTypeJson.COMMENT,
+                    metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
+                    title = "",
+                    content = content,
+                    attachments = attachments
+                )
+                discussionRepository.sendComment(postContentId.mapToContentIdDomain(), contentBlock)
             }
             val commentModel = commentToModelMapper.map(commentDomain)
             postListDataSource.addNewComment(commentModel)
@@ -181,8 +190,17 @@ constructor(
 
         try {
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
-                val parentContentId = ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, repliedCommentId.userId)
-                discussionRepository.replyOnComment(parentContentId, content, attachments)
+                val parentContentId =
+                    ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, repliedCommentId.userId)
+                val contentBlock = ContentBlock(
+                    id = IdUtil.generateLongId(),
+                    type = COMMENT,
+                    metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
+                    title = "",
+                    content = content,
+                    attachments = attachments
+                )
+                discussionRepository.replyOnComment(parentContentId, contentBlock)
             }
 
             val commentModel = commentToModelMapper.map(commentDomain)

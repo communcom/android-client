@@ -22,8 +22,6 @@ import io.golos.domain.dto.*
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
-import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
-import io.golos.domain.posts_parsing_rendering.PostTypeJson.COMMENT
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
@@ -31,8 +29,7 @@ import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.utils.IdUtil
+import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.utils.fromServerFormat
 import io.golos.utils.toServerFormat
 import java.io.File
@@ -329,16 +326,8 @@ constructor(
         transactionsApi.waitForTransaction(apiAnswer.first.transaction_id)
     }
 
-    override suspend fun sendComment(postIdDomain: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
-        val contentBlock = ContentBlock(
-            id = IdUtil.generateLongId(),
-            type = COMMENT,
-            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
-            title = "",
-            content = content,
-            attachments = attachments
-        )
-        val contentEntity = contentBlock.mapToContentBlock()
+    override suspend fun sendComment(postIdDomain: ContentIdDomain, content: ContentBlock): CommentDomain {
+        val contentEntity = content.mapToContentBlock()
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
@@ -362,7 +351,7 @@ constructor(
         return CommentDomain(contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId.userId),
             author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
-            body = contentBlock,
+            body = content,
             childCommentsCount = 0,
             community = PostDomain.CommunityDomain(null, postIdDomain.communityId, null, null, false),
             meta = MetaDomain(response!!.metadata.fromServerFormat()),
@@ -375,16 +364,8 @@ constructor(
     }
 
 
-    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: List<Block>, attachments: AttachmentsBlock?): CommentDomain {
-        val contentBlock = ContentBlock(
-            id = IdUtil.generateLongId(),
-            type = COMMENT,
-            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
-            title = "",
-            content = content,
-            attachments = attachments
-        )
-        val contentEntity = contentBlock.mapToContentBlock()
+    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: ContentBlock): CommentDomain {
+        val contentEntity = content.mapToContentBlock()
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
@@ -409,7 +390,7 @@ constructor(
         return CommentDomain(contentId = ContentIdDomain(communityId, permlink, currentUserRepository.userId.userId),
             author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
-            body = contentBlock,
+            body = content,
             childCommentsCount = 0,
             community = PostDomain.CommunityDomain(null, communityId, null, null, false),
             meta = MetaDomain(response!!.metadata.fromServerFormat()),
