@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_countries.view
 
 import android.os.Bundle
-import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -13,14 +13,16 @@ import io.golos.cyber_android.databinding.FragmentSignUpCountryBinding
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.view.list.CountriesAdapter
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.view_model.SignUpCountryViewModel
+import io.golos.cyber_android.ui.shared.extensions.setTextChangeListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import kotlinx.android.synthetic.main.fragment_sign_up_country.*
 import kotlinx.android.synthetic.main.view_search_bar_pure.*
 
 class SignUpCountryFragment : FragmentBaseMVVM<FragmentSignUpCountryBinding, SignUpCountryViewModel>() {
+
+    private var searchTextWatcher: TextWatcher? = null
 
     override fun provideViewModelType(): Class<SignUpCountryViewModel> = SignUpCountryViewModel::class.java
 
@@ -41,17 +43,18 @@ class SignUpCountryFragment : FragmentBaseMVVM<FragmentSignUpCountryBinding, Sig
 
         countriesList.adapter = CountriesAdapter { viewModel.onCountrySelected(it) }
 
-        searchBar.addTextChangedListener(object : TextWatcherBase() {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.makeSearch(s.toString())
-            }
-        })
+        searchTextWatcher = searchBar.setTextChangeListener { viewModel.makeSearch(it) }
 
         ivBack.setOnClickListener { findNavController().navigateUp() }
 
         viewModel.countries.observe(viewLifecycleOwner, Observer {
             (countriesList.adapter as CountriesAdapter).submit(it)
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchTextWatcher?.let { searchBar.removeTextChangedListener(it) }
     }
 
     override fun processViewCommand(command: ViewCommand) {
