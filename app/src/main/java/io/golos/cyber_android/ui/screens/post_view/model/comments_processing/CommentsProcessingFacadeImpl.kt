@@ -21,7 +21,7 @@ import io.golos.domain.dto.*
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.PostTypeJson
-import io.golos.domain.posts_parsing_rendering.PostTypeJson.COMMENT
+import io.golos.domain.posts_parsing_rendering.PostTypeJson.DOCUMENT
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
@@ -85,7 +85,7 @@ constructor(
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
                 val contentBlock = ContentBlock(
                     id = IdUtil.generateLongId(),
-                    type = PostTypeJson.COMMENT,
+                    type = DOCUMENT,
                     metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
                     title = "",
                     content = content,
@@ -139,7 +139,13 @@ constructor(
         val authorDomain = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName)
         val votesModel = oldComment.votes
         val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
-        val contentBlock = ContentBlock(
+        val contentBlock = oldComment.body?.copy(
+            id = IdUtil.generateLongId(),
+            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
+            content = content,
+            attachments = attachments
+        ) ?:
+        ContentBlock(
             id = IdUtil.generateLongId(),
             type = PostTypeJson.COMMENT,
             metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
@@ -194,7 +200,7 @@ constructor(
                     ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, repliedCommentId.userId)
                 val contentBlock = ContentBlock(
                     id = IdUtil.generateLongId(),
-                    type = COMMENT,
+                    type = DOCUMENT,
                     metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
                     title = "",
                     content = content,
