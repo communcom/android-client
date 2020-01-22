@@ -90,6 +90,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             true
         }
         setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
+        itemView.setOnLongClickListener(longClickListener)
         _replyAndTimeText.text = getReplyAndTimeText(_rootView.context.applicationContext, listItem.metadata)
         _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
 
