@@ -73,4 +73,16 @@ constructor(
         withContext(dispatchersProvider.ioDispatcher) {
             keyValueStorage.getAuthState()!!.type
         }
+
+    override suspend fun saveKeysExported() {
+        withContext(dispatchersProvider.ioDispatcher) {
+            try {
+                val newAuthState = keyValueStorage.getAuthState()!!.copy(isKeysExported = true)
+                keyValueStorage.saveAuthState(newAuthState)
+            } catch(ex: Exception) {
+                Timber.e(ex)
+                throw ex
+            }
+        }
+    }
 }
