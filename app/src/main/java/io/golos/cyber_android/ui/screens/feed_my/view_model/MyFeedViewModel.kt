@@ -98,9 +98,9 @@ class MyFeedViewModel @Inject constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-//    override fun onItemClick(community: CommunityDomain) {
-//        _command.value = NavigateToCommunityPageCommand(community.communityId)
-//    }
+    override fun onBodyClicked(postContentId: ContentId?) {
+        openPost(postContentId)
+    }
 
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
@@ -165,8 +165,14 @@ class MyFeedViewModel @Inject constructor(
     }
 
     override fun onCommentsClicked(postContentId: ContentId) {
-        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
-        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+        openPost(postContentId)
+    }
+
+    private fun openPost(postContentId: ContentId?){
+        postContentId?.let {
+            val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
+            _command.value = NavigateToPostCommand(discussionIdModel, it)
+        }
     }
 
     fun addToFavorite(permlink: String) {

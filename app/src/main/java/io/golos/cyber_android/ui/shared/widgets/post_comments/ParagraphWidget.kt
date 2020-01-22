@@ -3,29 +3,29 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 import android.content.Context
 import android.graphics.Color
 import android.net.Uri
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.TextPaint
-import android.text.TextUtils
+import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
-import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.domain.extensions.appendSpannable
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.use_cases.post.toTypeface
+
 
 class ParagraphWidget
 @JvmOverloads
@@ -80,7 +80,40 @@ constructor(
             layoutParams = params
         }
 
-        movementMethod = LinkMovementMethod.getInstance()
+        movementMethod = MovementMethod()
+        setOnClickListener {
+            onClickProcessor?.onBodyClicked(contentId)
+        }
+    }
+
+    class MovementMethod : LinkMovementMethod() {
+
+        override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
+            val action = event.action
+
+            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
+                var x = event.x.toInt()
+                var y = event.y.toInt()
+
+                x -= widget.totalPaddingLeft
+                y -= widget.totalPaddingTop
+
+                x += widget.scrollX
+                y += widget.scrollY
+
+                val layout = widget.layout
+                val line = layout.getLineForVertical(y)
+                val off = layout.getOffsetForHorizontal(line, x.toFloat())
+
+                if (off >= widget.text.length) {
+                    // Return true so click won't be triggered in the leftover empty space
+                    onClickProcessor?.onBodyClicked(contentId)
+                    return true
+                }
+            }
+
+            return super.onTouchEvent(widget, buffer, event)
+        }
     }
 
     private fun setText(block: ParagraphBlock) {
@@ -110,6 +143,7 @@ constructor(
                     ds.isUnderlineText = false
                 }
             }
+
             seeMoreSpannable.setSpan(
                 seeMoreClick,
                 0,
@@ -130,7 +164,15 @@ constructor(
     }
 
     private fun addSpannable(block: SpanableBlock, builder: SpannableStringBuilder) {
-        builder.append(block.content)
+        val textInterval = builder.appendSpannable(block.content)
+
+        builder.setSpan(object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                onClickProcessor?.onBodyClicked(contentId)
+            }
+
+        }, textInterval)
     }
 
     private fun addText(block: TextBlock, builder: SpannableStringBuilder) {
@@ -138,12 +180,27 @@ constructor(
 
         block.textColor?.let { builder.setSpan(ForegroundColorSpan(it), textInterval) }
         block.style?.let { builder.setSpan(StyleSpan(it.toTypeface()), textInterval) }
+
+        builder.setSpan(object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                onClickProcessor?.onBodyClicked(contentId)
+            }
+
+        }, textInterval)
     }
 
     private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText("#${block.content}")
 
         builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
+        builder.setSpan(object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                onClickProcessor?.onBodyClicked(contentId)
+            }
+
+        }, textInterval)
     }
 
     private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {
@@ -161,6 +218,7 @@ constructor(
         val textInterval = builder.appendText(block.content)
 
         // Click on the link
+
         builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
                 onClickProcessor?.onLinkClicked(spanData)

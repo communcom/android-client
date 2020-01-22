@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.feed_my.view_model
 
-import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 
 interface MyFeedListListener :
     RichWidgetListener,
@@ -14,7 +14,8 @@ interface MyFeedListListener :
     PostCommentsListener,
     PostVotesListener,
     PostShareListener,
-    MenuListener
+    MenuListener,
+    BlockBodyListener
 
 interface PostCommentsListener {
 

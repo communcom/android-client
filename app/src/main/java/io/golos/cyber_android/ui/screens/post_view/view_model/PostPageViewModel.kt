@@ -99,6 +99,10 @@ constructor(
 
     override fun onItemClicked(contentId: ContentId) {}
 
+    override fun onBodyClicked(postContentId: ContentId?) {
+        //Not need use
+    }
+
     override fun onUserClicked(userId: String) {
         if (currentUserRepository.userId.userId == userId) {
             return

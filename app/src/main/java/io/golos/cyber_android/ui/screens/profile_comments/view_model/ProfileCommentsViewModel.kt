@@ -77,6 +77,10 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
+    override fun onBodyClicked(postContentId: ContentId?) {
+        //Not need use
+    }
+
     fun onSendComment(commentContent: CommentWidget.CommentContent) {
         launch {
             try {
