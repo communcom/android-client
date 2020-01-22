@@ -176,6 +176,9 @@ class PostItem(
                 )
             )
         }
+        view.postHeader.setOnClickListener{
+            listener.onBodyClicked(post.contentId)
+        }
     }
 
     override fun onViewRecycled(view: View) {

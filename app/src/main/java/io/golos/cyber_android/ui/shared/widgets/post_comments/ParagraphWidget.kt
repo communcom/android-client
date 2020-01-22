@@ -3,14 +3,15 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 import android.content.Context
 import android.graphics.Color
 import android.net.Uri
-import android.text.*
-import android.text.method.LinkMovementMethod
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -20,6 +21,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
+import io.golos.cyber_android.ui.shared.spans.MovementMethod
 import io.golos.domain.extensions.appendSpannable
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
@@ -80,39 +82,15 @@ constructor(
             layoutParams = params
         }
 
-        movementMethod = MovementMethod()
+        movementMethod = object : MovementMethod(){
+
+            override fun onEmptyClicked(): Boolean {
+                onClickProcessor?.onBodyClicked(contentId)
+                return true
+            }
+        }
         setOnClickListener {
             onClickProcessor?.onBodyClicked(contentId)
-        }
-    }
-
-    class MovementMethod : LinkMovementMethod() {
-
-        override fun onTouchEvent(widget: TextView, buffer: Spannable, event: MotionEvent): Boolean {
-            val action = event.action
-
-            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
-                var x = event.x.toInt()
-                var y = event.y.toInt()
-
-                x -= widget.totalPaddingLeft
-                y -= widget.totalPaddingTop
-
-                x += widget.scrollX
-                y += widget.scrollY
-
-                val layout = widget.layout
-                val line = layout.getLineForVertical(y)
-                val off = layout.getOffsetForHorizontal(line, x.toFloat())
-
-                if (off >= widget.text.length) {
-                    // Return true so click won't be triggered in the leftover empty space
-                    onClickProcessor?.onBodyClicked(contentId)
-                    return true
-                }
-            }
-
-            return super.onTouchEvent(widget, buffer, event)
         }
     }
 
@@ -164,15 +142,7 @@ constructor(
     }
 
     private fun addSpannable(block: SpanableBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendSpannable(block.content)
-
-        builder.setSpan(object : ClickableSpan() {
-
-            override fun onClick(widget: View) {
-                onClickProcessor?.onBodyClicked(contentId)
-            }
-
-        }, textInterval)
+        builder.appendSpannable(block.content)
     }
 
     private fun addText(block: TextBlock, builder: SpannableStringBuilder) {
@@ -180,27 +150,12 @@ constructor(
 
         block.textColor?.let { builder.setSpan(ForegroundColorSpan(it), textInterval) }
         block.style?.let { builder.setSpan(StyleSpan(it.toTypeface()), textInterval) }
-
-        builder.setSpan(object : ClickableSpan() {
-
-            override fun onClick(widget: View) {
-                onClickProcessor?.onBodyClicked(contentId)
-            }
-
-        }, textInterval)
     }
 
     private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
         val textInterval = builder.appendText("#${block.content}")
 
         builder.setSpan(ForegroundColorSpan(spansColor), textInterval)
-        builder.setSpan(object : ClickableSpan() {
-
-            override fun onClick(widget: View) {
-                onClickProcessor?.onBodyClicked(contentId)
-            }
-
-        }, textInterval)
     }
 
     private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {

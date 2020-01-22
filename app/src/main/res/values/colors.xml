@@ -65,4 +65,8 @@
 
     <color name="cover_gradient_start_color">#4D000000</color>
     <color name="cover_gradient_end_color">@color/transparent</color>
+
+    <color name="post_header_time_text">@color/dark_gray</color>
+    <color name="post_header_community_text">@color/black</color>
+    <color name="post_header_user_name_text">@color/blue</color>
 </resources>

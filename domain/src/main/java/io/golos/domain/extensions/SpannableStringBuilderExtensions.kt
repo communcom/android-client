@@ -26,9 +26,10 @@ fun SpannableStringBuilder.appendSpannable(spannable: Spannable): IntRange {
     return start..this.length
 }
 
-fun SpannableStringBuilder.appendSpannedText(text: String, span: CharacterStyle) {
+fun SpannableStringBuilder.appendSpannedText(text: String, span: CharacterStyle): IntRange {
     val interval = this.appendText(text)
     this.setSpan(span, interval)
+    return interval
 }
 
 fun SpannableStringBuilder.appendColorText(text: String, @ColorInt color: Int) =
