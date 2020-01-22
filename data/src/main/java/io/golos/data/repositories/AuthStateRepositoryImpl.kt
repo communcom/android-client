@@ -17,6 +17,7 @@ import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.repositories.AuthStateRepository
+import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.requestmodel.AuthRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
@@ -34,7 +35,7 @@ class AuthStateRepositoryImpl
 @Inject
 constructor(
     private val authApi: AuthApi,
-    private val metadataApi: UserMetadataApi,
+    private val usersRepository: UsersRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val keyValueStorage: KeyValueStorageFacade,
     private val userKeyStore: UserKeyStore,
@@ -112,7 +113,6 @@ constructor(
                 val account =
                     withContext(dispatchersProvider.ioDispatcher) {
                         try {
-                            delay(2000)
                             authApi.getUserAccount(newParams.user.userId.toCyberName())
                         } catch (ex: Exception) {
                             Timber.e(ex)
@@ -256,15 +256,15 @@ constructor(
     private suspend fun onAuthSuccess(userName: String, resolvedName: CyberName, originalName: CyberUser, authType: AuthType) {
         Timber.tag(LogTags.LOGIN).d("Auth success")
 
-        val userMetadata = withContext(dispatchersProvider.ioDispatcher) {
+        val profile = withContext(dispatchersProvider.ioDispatcher) {
             try {
-                metadataApi.getUserMetadata(UserIdDomain(resolvedName.name))
+                usersRepository.getUserProfile(userName)
             } catch (ex: Exception) {
                 Timber.e(ex)
                 null
             }
         }
-        crashlytics.registerUser(userMetadata?.profile?.username ?: resolvedName.name, userMetadata?.profile?.userId?.name ?: originalName.userId)
+        crashlytics.registerUser(profile?.name ?: resolvedName.name, profile?.userId?.userId ?: originalName.userId)
 
         val loadingQuery = withContext(dispatchersProvider.calculationsDispatcher) {
             authRequestsLiveData.value?.entries?.find {
@@ -291,7 +291,7 @@ constructor(
 
             authState.value = finalAuthState
             currentUserRepository.authState = finalAuthState
-            currentUserRepository.userAvatarUrl = userMetadata?.avatarUrl
+            currentUserRepository.userAvatarUrl = profile?.avatarUrl
 
             val originalLoadingQuery = loadingQuery.value as QueryResult.Loading
             authRequestsLiveData.value =
