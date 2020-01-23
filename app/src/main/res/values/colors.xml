@@ -41,6 +41,7 @@
     <color name="window_background">@color/white</color>
     <color name="window_background_light_gray">@color/light_gray</color>
     <color name="window_status_bar_background">@color/white</color>
+    <color name="window_status_bar_second_background">@color/blue</color>
 
     <color name="select_community_dialog_bcg">@color/window_background_light_gray</color>
     <color name="general_list_bcg">@color/white</color>
