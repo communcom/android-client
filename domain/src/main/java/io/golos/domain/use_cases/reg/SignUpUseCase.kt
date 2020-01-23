@@ -67,7 +67,7 @@ constructor(
                     it.masterPassword != null
                 ) {
                     // Keys were generated again and used for authentication
-                    lastRegisteredUser.value = lastRequestLocal.userName
+                    lastRegisteredUser.value = lastRequestLocal!!.userName
 
                     if (authRepository.getAsLiveData(authRepository.allDataRequest).value?.isUserLoggedIn != true) {
                         authRepository.makeAction(

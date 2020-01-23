@@ -142,15 +142,11 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
                     is VerifiedUserWithoutUserNameModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpNameFragment)
                     is UnWrittenToBlockChainUserModel -> navigateTo(R.id.action_signUpPhoneFragment_to_signUpNameFragment)
                     is RegisteredUserModel -> {
-                        Toast.makeText(requireContext(), R.string.phone_already_taken_error, Toast.LENGTH_SHORT).show()
+                        uiHelper.showMessage(R.string.phone_already_taken_error)
                     }
                 }
             }
         })
-
-//        signUpViewModel.getSelectedCountryLiveData.observe(this, Observer { countryModel ->
-//            onCountrySelected(countryModel)
-//        })
 
         signUpViewModel.getSelectedPhoneLiveData.observe(this, Observer { phoneValue ->
             phone.setText(phoneValue)

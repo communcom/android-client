@@ -51,7 +51,14 @@ constructor(
     }
 
     fun onWarningContinueClick() {
-        _command.value = NavigateToOnboardingCommand(currentUserRepository.userId)
+        launch {
+            try {
+                _command.value = NavigateToOnboardingCommand(currentUserRepository.userId)
+                model.saveKeysExported()
+            } catch (ex: Exception) {
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            }
+        }
     }
 
     fun onExportPathSelected() {

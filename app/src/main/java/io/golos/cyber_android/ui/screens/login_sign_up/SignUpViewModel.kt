@@ -152,6 +152,7 @@ constructor(
         selectedPhoneLiveData.postValue(phone)
 
         currentPhone = getNormalizedPhone(phone)
+
         launch {
             signUpUseCase.userName = currentName
             signUpUseCase.makeRegistrationStep(

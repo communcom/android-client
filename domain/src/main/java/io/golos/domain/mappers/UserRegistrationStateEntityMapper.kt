@@ -16,10 +16,7 @@ object UserRegistrationStateEntityMapper {
         return when (communObject.stateRequestResult.currentState) {
 
             UserRegistrationState.REGISTERED -> RegisteredUser(
-                stateRequestResult.data?.username ?: throw IllegalStateException(
-                    "server" +
-                            "didn't returned user name for some reason"
-                ),
+                stateRequestResult.data?.username,
                 (stateRequest as? SetUserKeysRequest)?.masterKey
             )
             UserRegistrationState.TO_BLOCK_CHAIN -> {

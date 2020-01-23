@@ -36,4 +36,4 @@ class VerifiedUserWithoutUserNameModel : UserRegistrationStateModel() {
 
 data class UnWrittenToBlockChainUserModel(val userName: String, val userId: String) : UserRegistrationStateModel()
 
-data class RegisteredUserModel(val userName: String) : UserRegistrationStateModel()
+data class RegisteredUserModel(val userName: String?) : UserRegistrationStateModel()

@@ -7,4 +7,6 @@ interface SignUpProtectionKeysModel : ModelBase {
     val allKeys: List<UserKey>
 
     suspend fun loadKeys()
+
+    suspend fun saveKeysExported()
 }
