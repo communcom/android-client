@@ -8,7 +8,7 @@
 
     <dimen name="padding_vertical_editor_widget">12dp</dimen>
     <dimen name="padding_horizontal_editor_widget">16dp</dimen>
-    <dimen name="size_editor_widget_avatar">40dp</dimen>
+    <dimen name="size_editor_widget_avatar">36dp</dimen>
 
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_small">8dp</dimen>
@@ -22,6 +22,7 @@
 
     <dimen name="size_splash_icon">100dp</dimen>
 
+    <dimen name="text_size_7sp">7sp</dimen>
     <dimen name="text_size_36_sp">36sp</dimen>
     <dimen name="text_size_34_sp">34sp</dimen>
     <dimen name="text_size_30_sp">30sp</dimen>
@@ -119,7 +120,8 @@
     <dimen name="gap_title_website">2dp</dimen>
     <dimen name="size_post_attachments">50dp</dimen>
     <dimen name="gap_post_attachments">5dp</dimen>
-    <dimen name="text_size_post_normal">@dimen/text_size_17_sp</dimen>
+    <dimen name="text_size_post_normal">@dimen/text_size_14_sp</dimen>
+    <dimen name="text_size_post_spacing">@dimen/text_size_26_sp</dimen>
     <dimen name="text_size_post_less_normal">@dimen/text_size_15_sp</dimen>
     <dimen name="text_size_post_small">@dimen/text_size_12_sp</dimen>
     <dimen name="text_size_post_tiny">@dimen/text_size_10_sp</dimen>

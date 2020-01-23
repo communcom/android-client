@@ -1,4 +1,4 @@
-<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -87,7 +87,7 @@
 
     <style name="EditorWidgetCaptionTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
-        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
     </style>
 
     <style name="SearchBarTextStyle" parent="Common.Base.TextStyle">
