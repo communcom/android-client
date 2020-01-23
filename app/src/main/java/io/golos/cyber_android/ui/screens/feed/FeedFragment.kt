@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.ldralighieri.corbind.view.clicks
 
+
 class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
     FeedPageLiveDataProvider {
 
@@ -100,8 +101,9 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
         val view = LayoutInflater.from(requireContext()).inflate(
             R.layout.layout_feed_tab,
             null
-        ) as TextView
-        view.setText(tab.title)
+        )
+        val tabText = view.findViewById<TextView>(R.id.tvTabText)
+        tabText.setText(tab.title)
         return view
     }
 
@@ -115,6 +117,8 @@ class FeedFragment : FragmentBaseMVVM<FragmentFeedBinding, FeedViewModel>(),
 
     private fun setupTab(tab: TabLayout.Tab, forceSelected: Boolean = false) {
         val tvTabText = tab.customView?.findViewById<TextView>(R.id.tvTabText)
+        //val layoutParams = ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        //tvTabText?.layoutParams = layoutParams
         if (tab.isSelected || forceSelected) {
             tvTabText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.feed_tab_text_selected))
         } else {
