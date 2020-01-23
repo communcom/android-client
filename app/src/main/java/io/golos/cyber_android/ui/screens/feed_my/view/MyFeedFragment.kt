@@ -18,8 +18,8 @@ import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog

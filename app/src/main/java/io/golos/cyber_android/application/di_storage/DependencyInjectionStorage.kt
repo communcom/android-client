@@ -16,8 +16,8 @@ import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAb
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentModule
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
-import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponent
-import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentModule
+import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentModule
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
@@ -58,6 +58,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProt
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
+import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
@@ -155,13 +156,13 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(BioFragmentModule(args[0] as CyberName))
                     .build()
 
+            EditorPageActivityComponent::class -> getBase<UIComponent>().editorPageActivity.build()
+
             EditorPageFragmentComponent::class ->
-                getBase<UIComponent>()
+                getBase<EditorPageActivityComponent>()
                     .editorPageFragment
                     .init(
-                        EditorPageFragmentModule(
-                            args[0] as ContentId?
-                        )
+                        EditorPageFragmentModule(args[0] as ContentId?)
                     )
                     .build()
 

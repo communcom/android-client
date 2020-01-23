@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,8 +18,8 @@ import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog

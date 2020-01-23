@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="io.golos.cyber_android.ui.screens.post_edit.view_model.EditorPageViewModel" />
+            type="io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel" />
     </data>
 
     <LinearLayout android:orientation="vertical"
                   android:background="@color/white"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  tools:context=".ui.screens.post_edit.view.EditorPageFragment">
+                  tools:context=".ui.screens.post_edit.fragment.view.EditorPageFragment">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                     android:orientation="vertical">
 
                     <!-- Community area -->
-                    <io.golos.cyber_android.ui.screens.post_edit.view.widgets.CommunityContainer
+                    <io.golos.cyber_android.ui.screens.post_edit.fragment.view.widgets.CommunityContainer
                         android:id="@+id/postCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_community_area"

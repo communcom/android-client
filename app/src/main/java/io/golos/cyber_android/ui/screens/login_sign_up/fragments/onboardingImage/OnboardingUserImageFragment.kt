@@ -21,7 +21,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.base.FragmentBase
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
-import io.golos.cyber_android.ui.screens.post_edit.view.image_picker.ImagePickerFragmentBase
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view.image_picker.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.utils.IdUtil
