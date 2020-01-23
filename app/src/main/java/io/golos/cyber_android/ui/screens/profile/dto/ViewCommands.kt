@@ -23,3 +23,5 @@ class ShowSettingsDialogCommand : ViewCommand
 
 class ShowExternalUserSettingsDialogCommand(val isBlocked: Boolean) : ViewCommand
 
+class RestartAppCommand : ViewCommand
+

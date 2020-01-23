@@ -41,7 +41,9 @@ interface EmbedWebsiteWidgetListener : BasePostBlockWidgetListener,
     LinkListener
 
 interface ParagraphWidgetListener : BasePostBlockWidgetListener,
-    LinkListener, SeeMoreListener {
+    LinkListener,
+    SeeMoreListener,
+    BlockBodyListener{
 
     fun onUserClicked(userId: String)
 
@@ -59,4 +61,9 @@ interface LinkListener {
 
 interface SeeMoreListener {
     fun onSeeMoreClicked(contentId: ContentId)
+}
+
+interface BlockBodyListener {
+
+    fun onBodyClicked(postContentId: ContentId?)
 }

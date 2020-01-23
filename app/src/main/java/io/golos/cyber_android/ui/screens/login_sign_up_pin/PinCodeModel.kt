@@ -25,4 +25,6 @@ interface PinCodeModel {
 
 
     suspend fun getAuthType(): AuthType
+
+    suspend fun saveKeysExported()
 }

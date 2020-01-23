@@ -1,75 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
-    app:cardElevation="4dp">
+    android:background="@drawable/navigation_bottom_menu_background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/homeMenu"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/navigation_bottom_menu_height"
+        android:src="@drawable/selector_home_menu"
+        android:padding="@dimen/dimen_8"
+        android:layout_weight="1"
+        android:scaleType="center"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/communityMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dimen_8"
+        android:layout_weight="1"
+        android:src="@drawable/selector_community_menu"
+        android:scaleType="center"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/createPostMenu"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_union"/>
 
-        <ImageView
-            android:id="@+id/homeMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/selector_home_menu"
+    <ImageView
+        android:id="@+id/notificationMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dimen_8"
+        android:layout_weight="1"
+        android:src="@drawable/selector_followers_menu"
+        android:scaleType="center"
+        tools:ignore="ContentDescription" />
 
-            android:padding="@dimen/dimen_8"
-            tools:ignore="ContentDescription" />
+    <ImageView
+        android:id="@+id/profileMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/selector_profile_menu"
+        android:padding="@dimen/dimen_8"
+        android:layout_weight="1"
+        android:scaleType="center"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/communityMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="40dp"
-
-            android:padding="@dimen/dimen_8"
-
-            android:src="@drawable/selector_community_menu"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/createPostMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="42dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/ic_union"
-            app:elevation="4dp" />
-
-        <ImageView
-            android:id="@+id/notificationMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="40dp"
-
-            android:padding="@dimen/dimen_8"
-
-            android:src="@drawable/selector_followers_menu"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/profileMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/selector_profile_menu"
-
-            android:padding="@dimen/dimen_8"
-
-            tools:ignore="ContentDescription" />
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>

@@ -40,8 +40,6 @@ interface ProfileModel: ModelBase {
 
     suspend fun logout()
 
-    fun restartApp()
-
     suspend fun subscribeUnsubscribe()
 
     suspend fun moveToBlackList()

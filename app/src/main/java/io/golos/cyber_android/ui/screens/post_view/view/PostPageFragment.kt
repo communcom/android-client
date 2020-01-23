@@ -56,7 +56,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         const val UPDATED_REQUEST_CODE = 41245
 
-        fun newInstance(args: Args, targetFragment: Fragment? = null): PostPageFragment {
+        fun newInstance(args: Args): PostPageFragment {
             return PostPageFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(Tags.ARGS, args)
@@ -313,8 +313,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                 Args(
                     discussionIdModel,
                     contentId
-                ),
-                this
+                )
             ),
             tagFragment = contentId.permlink
         )

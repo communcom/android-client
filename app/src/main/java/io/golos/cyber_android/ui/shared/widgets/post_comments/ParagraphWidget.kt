@@ -7,7 +7,6 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
@@ -19,13 +18,16 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
-import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.spans.MovementMethod
+import io.golos.domain.extensions.appendSpannable
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.use_cases.post.toTypeface
+
 
 class ParagraphWidget
 @JvmOverloads
@@ -80,7 +82,16 @@ constructor(
             layoutParams = params
         }
 
-        movementMethod = LinkMovementMethod.getInstance()
+        movementMethod = object : MovementMethod(){
+
+            override fun onEmptyClicked(): Boolean {
+                onClickProcessor?.onBodyClicked(contentId)
+                return true
+            }
+        }
+        setOnClickListener {
+            onClickProcessor?.onBodyClicked(contentId)
+        }
     }
 
     private fun setText(block: ParagraphBlock) {
@@ -110,6 +121,7 @@ constructor(
                     ds.isUnderlineText = false
                 }
             }
+
             seeMoreSpannable.setSpan(
                 seeMoreClick,
                 0,
@@ -130,7 +142,7 @@ constructor(
     }
 
     private fun addSpannable(block: SpanableBlock, builder: SpannableStringBuilder) {
-        builder.append(block.content)
+        builder.appendSpannable(block.content)
     }
 
     private fun addText(block: TextBlock, builder: SpannableStringBuilder) {
@@ -161,6 +173,7 @@ constructor(
         val textInterval = builder.appendText(block.content)
 
         // Click on the link
+
         builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
             override fun onClick(spanData: Uri) {
                 onClickProcessor?.onLinkClicked(spanData)

@@ -139,8 +139,18 @@ class CommunityPostViewModel @Inject constructor(
     override fun onCommunityClicked(communityId: String) {}
 
     override fun onCommentsClicked(postContentId: ContentId) {
-        val discussionIdModel = DiscussionIdModel(postContentId.userId, Permlink(postContentId.permlink))
-        _command.value = NavigateToPostCommand(discussionIdModel, postContentId)
+        openPost(postContentId)
+    }
+
+    override fun onBodyClicked(postContentId: ContentId?) {
+        openPost(postContentId)
+    }
+
+    private fun openPost(postContentId: ContentId?){
+        postContentId?.let {
+            val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
+            _command.value = NavigateToPostCommand(discussionIdModel, it)
+        }
     }
 
     override fun onShareClicked(shareUrl: String) {

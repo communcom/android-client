@@ -74,7 +74,10 @@ constructor(
                             NavigateToFingerprintCommand()
                         } else {
                             when(model.getAuthType()) {
-                                AuthType.SIGN_IN -> NavigateToMainScreenCommand()
+                                AuthType.SIGN_IN -> {
+                                    model.saveKeysExported()
+                                    NavigateToMainScreenCommand()
+                                }
                                 AuthType.SIGN_UP -> NavigateToKeysCommand()
                                 else -> throw UnsupportedOperationException("This type is not supported")
                             }

@@ -67,13 +67,13 @@ constructor(
                     it.masterPassword != null
                 ) {
                     // Keys were generated again and used for authentication
-                    lastRegisteredUser.value = lastRequestLocal.userName
+                    lastRegisteredUser.value = lastRequestLocal!!.userName
 
                     if (authRepository.getAsLiveData(authRepository.allDataRequest).value?.isUserLoggedIn != true) {
                         authRepository.makeAction(
                             AuthRequest(
                                 lastRequestLocal.userName,
-                                CyberUser(""),
+                                CyberUser(lastRequestLocal.userId),
                                 userKeyStore.getKey(UserKeyType.ACTIVE),
                                 AuthType.SIGN_UP
                             )

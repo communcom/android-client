@@ -260,8 +260,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
-                ),
-                this
+                )
             ),
             tagFragment = contentId.permlink
         )

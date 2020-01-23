@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 
 import android.content.Context
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,8 +11,11 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
+import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.spans.MovementMethod
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
-import io.golos.domain.extensions.appendSpannedText
+import io.golos.domain.extensions.appendText
+import io.golos.domain.extensions.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 import timber.log.Timber
 
@@ -41,12 +43,43 @@ constructor(
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
         joinToCommunityButton.setOnClickListener { onJoinToCommunityButtonClickListener?.invoke() }
         menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
+
     }
 
     fun setHeader(postHeader: PostHeader) {
         userId = postHeader.userId
+        communityTitle.movementMethod = object: MovementMethod(){
 
-        communityTitle.text = postHeader.communityName
+            override fun onEmptyClicked(): Boolean {
+                callOnClick()
+                return super.onEmptyClicked()
+            }
+        }
+        val builder = SpannableStringBuilder()
+        postHeader.communityName?.let {
+            val textInterval = builder.appendText(it)
+            val communityNameTextColor = ContextCompat.getColor(context, R.color.post_header_community_text)
+            builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
+
+                override fun onClick(widget: View) {
+                    postHeader.communityId?.let { id ->
+                        onCommunityClickListener?.invoke(id)
+                    }
+                }
+
+            }, textInterval)
+        }
+
+
+        communityTitle.text = builder
+
+        authorAndTime.movementMethod = object: MovementMethod(){
+
+            override fun onEmptyClicked(): Boolean {
+                callOnClick()
+                return super.onEmptyClicked()
+            }
+        }
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
@@ -63,12 +96,7 @@ constructor(
                 onCommunityClickListener?.invoke(id)
             }
         }
-        communityTitle.setOnClickListener {
-            postHeader.communityId?.let { id ->
-                onCommunityClickListener?.invoke(id)
-            }
-        }
-        authorAndTime.setOnClickListener { onUserClickListener?.invoke(userId) }
+
         if (postHeader.isJoinFeatureEnabled) {
             joinToCommunityButton.visibility = View.VISIBLE
             joinToCommunityButton.isEnabled = postHeader.canJoinToCommunity
@@ -127,11 +155,39 @@ constructor(
         val result = SpannableStringBuilder()
 
         val time = postHeader.actionDateTime.toTimeEstimateFormat(context)
-        result.append(time)
+        val timeInterval = result.appendText(time)
 
-        result.append(" ${SpecialChars.BULLET} ")
+        val timeColor = ContextCompat.getColor(context, R.color.post_header_time_text)
+
+        result.setSpan(object : ColorTextClickableSpan(time, timeColor) {
+
+            override fun onClick(widget: View) {
+                callOnClick()
+            }
+
+        }, timeInterval)
+
+        val bulletSymbol = " ${SpecialChars.BULLET} "
+        val bulletInterval = result.appendText(bulletSymbol)
+
+        result.setSpan(object : ColorTextClickableSpan(bulletSymbol, timeColor) {
+
+            override fun onClick(widget: View) {
+                callOnClick()
+            }
+
+        }, bulletInterval)
+
         postHeader.userName?.let {
-            result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(context, R.color.blue)))
+            val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+            val userNameInterval = result.appendText(it)
+            result.setSpan(object : ColorTextClickableSpan(it, userNameTextColor) {
+
+                override fun onClick(widget: View) {
+                    onUserClickListener?.invoke(userId)
+                }
+
+            }, userNameInterval)
         }
         return result
     }

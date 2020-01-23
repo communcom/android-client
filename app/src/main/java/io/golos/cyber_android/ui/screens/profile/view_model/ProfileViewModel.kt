@@ -222,7 +222,7 @@ constructor(
             }
 
             if(isSuccess) {
-                model.restartApp()
+                _command.value = RestartAppCommand()
             }
         }
     }
