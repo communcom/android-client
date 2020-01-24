@@ -34,6 +34,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.utils.hideSoftKeyboard
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
@@ -98,7 +99,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         postView.reduceDragSensitivity()
 
-        postHeader.setOnBackButtonClickListener { parentFragmentManager.popBackStack() }
+        postHeader.setOnBackButtonClickListener { back() }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
         postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
@@ -169,7 +170,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun back(){
-        getDashboardFragment(this)?.childFragmentManager?.popBackStack()
+        view?.hideSoftKeyboard(0)
+        parentFragmentManager.popBackStack()
     }
 
     private fun openSelectPhotoView(imageUrl: String?) {
