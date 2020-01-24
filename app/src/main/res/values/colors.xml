@@ -70,4 +70,7 @@
     <color name="post_header_time_text">@color/dark_gray</color>
     <color name="post_header_community_text">@color/black</color>
     <color name="post_header_user_name_text">@color/blue</color>
+    <color name="post_empty_place_holder">#DEE1E8</color>
+
+
 </resources>

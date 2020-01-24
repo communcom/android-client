@@ -8,11 +8,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
 import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import kotlinx.android.synthetic.main.layout_image_preload.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
+import kotlinx.android.synthetic.main.view_post_embed_image.view.flPreloadImage
 
 class EmbedImageWidget
 @JvmOverloads
@@ -76,7 +79,31 @@ constructor(
             contentImage.visibility = View.VISIBLE
             imageAspectRatio.visibility = View.GONE
         }
-        contentImage.loadPostAttachment(block.content.toString())
+        btnRetry.setOnClickListener {
+            loadImage(contentImage, block.content.toString())
+        }
+        loadImage(contentImage, block.content.toString())
+    }
+
+    private fun loadImage(imageView: ImageView, url: String?){
+        imageView.loadPostAttachment(url) {
+            when(it){
+                ImageProgressLoadState.START -> {
+                    pbImageLoad.visibility = View.VISIBLE
+                    flPreloadImage.visibility = View.VISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                }
+                ImageProgressLoadState.COMPLETE -> {
+                    pbImageLoad.visibility = View.INVISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                    flPreloadImage.visibility = View.GONE
+                }
+                ImageProgressLoadState.ERROR -> {
+                    pbImageLoad.visibility = View.INVISIBLE
+                    btnRetry.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     override fun release() {
