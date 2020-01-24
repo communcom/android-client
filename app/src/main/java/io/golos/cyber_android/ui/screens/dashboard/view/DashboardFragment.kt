@@ -26,7 +26,6 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.utils.dp
 import io.golos.cyber_android.ui.shared.utils.setBottomMargin
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
-import io.golos.cyber_android.ui.shared.utils.tintStatusBarIcons
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.UserIdDomain
@@ -148,19 +147,15 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         when (position) {
             NavigationBottomMenuWidget.Tab.FEED.index -> {
                 requireActivity().setStatusBarColor(R.color.window_status_bar_second_background)
-                requireActivity().tintStatusBarIcons(true)
             }
             NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
                 requireActivity().setStatusBarColor(R.color.window_status_bar_background)
-                requireActivity().tintStatusBarIcons(false)
             }
             NavigationBottomMenuWidget.Tab.PROFILE.index -> {
                 requireActivity().setStatusBarColor(R.color.window_status_bar_background)
-                requireActivity().tintStatusBarIcons(false)
             }
             else -> {
                 requireActivity().setStatusBarColor(R.color.window_status_bar_background)
-                requireActivity().tintStatusBarIcons(false)
             }
         }
     }
