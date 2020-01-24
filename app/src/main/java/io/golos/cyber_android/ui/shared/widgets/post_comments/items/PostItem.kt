@@ -56,6 +56,7 @@ class PostItem(
             adapter = feedAdapter
             layoutManager = LinearLayoutManager(view.context)
             setRecycledViewPool(contentViewPool)
+            setItemViewCacheSize(MAX_OFFSCREEN_VIEWS)
         }
     }
 
@@ -219,5 +220,10 @@ class PostItem(
         view.commentsIcon.setOnClickListener {
             listener.onCommentsClicked(post.contentId)
         }
+    }
+
+    private companion object{
+
+        private const val MAX_OFFSCREEN_VIEWS = 15
     }
 }

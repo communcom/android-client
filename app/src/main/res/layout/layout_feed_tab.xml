@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tvTabText"
-    android:textColor="@color/feed_tab_text_color_selector"
-    android:fontFamily="@font/roboto_bold"/>
+    android:layout_height="@dimen/feed_tab_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/blue">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/tvTabText"
+        android:textColor="@color/feed_tab_text_color_selector"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNormalSize"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvNormalSize"
+        tools:text="MyFeed"/>
+
+    <!--This hack for position tabs text on one line-->
+
+    <TextView
+        android:id="@+id/tvNormalSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/feed_tab_text_normal"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintStart_toEndOf="@+id/tvTabText"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSelectedSize"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvSelectedSize"/>
+
+    <TextView
+        android:id="@+id/tvSelectedSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/feed_tab_text_selected"
+        android:fontFamily="@font/roboto_bold"
+        app:layout_constraintStart_toEndOf="@+id/tvNormalSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

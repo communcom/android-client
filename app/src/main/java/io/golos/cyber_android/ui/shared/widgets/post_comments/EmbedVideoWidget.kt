@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
@@ -87,10 +88,13 @@ constructor(
                 providerName.visibility = View.GONE
             }
             val thumbnailUri = block.thumbnailUrl?.prefetchScreenSize(context)
+            val emptyPlaceHolder = ContextCompat.getDrawable(context, R.drawable.video_widget_epmty_place_holder)
             Glide
                 .with(this)
                 .load(thumbnailUri?.toString() ?: PostStubs.video)
                 .centerCrop()
+                .error(emptyPlaceHolder)
+                .placeholder(emptyPlaceHolder)
                 .into(image)
         }
     }

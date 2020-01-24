@@ -35,10 +35,10 @@
             android:gravity="center"
             android:text="@string/sort_by"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15_sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/BottomSheetMenuTitle"/>
 
         <View
             android:layout_width="match_parent"
@@ -84,18 +84,16 @@
                     android:id="@+id/llHot"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_filters_section_height"
-                    android:gravity="center_vertical"
-                    android:background="?selectableItemBackground">
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical">
 
                     <TextView
+                        style="@style/BottomSheetMenuText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/sort_hot"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        android:text="@string/sort_hot" />
 
                     <CheckBox
                         android:id="@+id/cbHot"
@@ -114,18 +112,16 @@
                     android:id="@+id/llNew"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_filters_section_height"
-                    android:gravity="center_vertical"
-                    android:background="?selectableItemBackground">
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical">
 
                     <TextView
+                        style="@style/BottomSheetMenuText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/sort_new"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        android:text="@string/sort_new" />
 
                     <CheckBox
                         android:id="@+id/cbNew"
@@ -144,18 +140,16 @@
                     android:id="@+id/llPopular"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/post_filters_section_height"
-                    android:gravity="center_vertical"
-                    android:background="?selectableItemBackground">
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
                         android:text="@string/sort_popular"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        style="@style/BottomSheetMenuText"/>
 
                     <CheckBox
                         android:id="@+id/cbPopular"
@@ -202,10 +196,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
                         android:text="@string/filter_time_24hr"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        style="@style/BottomSheetMenuText"/>
 
                     <CheckBox
                         android:id="@+id/cb24hr"
@@ -232,10 +224,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
                         android:text="@string/filter_time_week"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        style="@style/BottomSheetMenuText"/>
 
                     <CheckBox
                         android:id="@+id/cbWeek"
@@ -262,10 +252,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
                         android:text="@string/filter_time_month"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        style="@style/BottomSheetMenuText"/>
 
                     <CheckBox
                         android:id="@+id/cbMonth"
@@ -292,10 +280,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
                         android:text="@string/filter_time_all"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_15_sp" />
+                        style="@style/BottomSheetMenuText"/>
 
                     <CheckBox
                         android:id="@+id/cbAll"
