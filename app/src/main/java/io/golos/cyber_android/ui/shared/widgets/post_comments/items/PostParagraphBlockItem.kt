@@ -24,8 +24,9 @@ data class PostParagraphBlockItem(
     ): ParagraphWidget = ParagraphWidget(context).apply {
         setSeeMoreEnabled(true)
         setContentId(contentId)
-        val verticalMargin = context.resources.getDimension(R.dimen.post_paragraph_block_horizontal_margin).toInt()
-        setMargin(0, verticalMargin, 0, verticalMargin)
+        val verticalPadding = context.resources.getDimension(R.dimen.post_paragraph_block_horizontal_margin).toInt()
+        val horizontalPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
+        setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding)
     }
 
     override fun areItemsTheSame(): Int = paragraphBlock.hashCode()

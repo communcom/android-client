@@ -86,6 +86,7 @@ fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoa
     if(cornerRadius != 0){
         requestBuilder.transform(RoundedCorners(cornerRadius))
     }
+    val imageView = this
     requestBuilder
         .listener(object: RequestListener<Drawable>{
 
@@ -107,7 +108,8 @@ fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoa
                 isFirstResource: Boolean
             ): Boolean {
                 loadStatus.invoke(ImageProgressLoadState.COMPLETE)
-                return false
+                imageView.setImageDrawable(resource)
+                return true
             }
 
         })
