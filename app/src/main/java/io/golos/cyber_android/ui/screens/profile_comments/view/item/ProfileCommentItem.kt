@@ -209,7 +209,7 @@ class ProfileCommentItem(
                 listItemEventsProcessor
             )
 
-            is ParagraphBlock -> ParagraphBlockItem(
+            is ParagraphBlock -> CommentParagraphBlockItem(
                 block,
                 listItemEventsProcessor,
                 comment.contentId,

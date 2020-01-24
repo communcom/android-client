@@ -236,7 +236,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 listItemEventsProcessor
             )
 
-            is ParagraphBlock -> ParagraphBlockItem(
+            is ParagraphBlock -> CommentParagraphBlockItem(
                 block,
                 listItemEventsProcessor,
                 contentId,
