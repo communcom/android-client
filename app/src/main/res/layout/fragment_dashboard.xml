@@ -15,13 +15,13 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/window_background_light_gray">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/mainPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/navigation_bottom_menu_height"
                 android:overScrollMode="never" />
 
             <io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget

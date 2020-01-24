@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -23,8 +22,6 @@ import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.utils.dp
-import io.golos.cyber_android.ui.shared.utils.setBottomMargin
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
@@ -120,7 +117,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 navigationTab.index == it.index
             }
 
-            when (tab) {
+            /*when (tab) {
                 NavigationBottomMenuWidget.Tab.FEED -> {
                     (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
                 }
@@ -128,10 +125,10 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                     (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
                 }
                 NavigationBottomMenuWidget.Tab.PROFILE -> {
-                    (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(45.dp)
+                    //(mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
                 }
                 null -> (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(0)
-            }
+            }*/
             mainPager.setCurrentItem(it.index, false)
         })
 

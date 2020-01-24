@@ -72,3 +72,25 @@ class DividerPostDecoration(context: Context) : DividerItemDecoration(context, V
     }
 
 }
+
+class CommunitiesListDividerDecoration(context: Context) : DividerItemDecoration(context, VERTICAL) {
+
+    private val bodyDivider = ContextCompat.getDrawable(context, R.drawable.divider_communities_list)
+
+    init {
+        bodyDivider?.let { drawable ->
+            setDrawable(drawable)
+        }
+    }
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        val height = bodyDivider!!.intrinsicHeight
+        val position = parent.getChildLayoutPosition(view)
+
+        val lastPosition = state.itemCount - 1
+        if(position != lastPosition){
+            outRect.bottom = height
+        }
+    }
+
+}

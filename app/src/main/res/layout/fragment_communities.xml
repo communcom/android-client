@@ -13,10 +13,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:id="@+id/root"
             tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
-            android:background="@color/white">
+            android:background="@color/window_background_light_gray">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/actionBar"
@@ -66,39 +65,18 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/connectionsList"
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-            android:paddingTop="@dimen/general_list_padding_top"
-            android:paddingLeft="@dimen/general_list_padding"
-            android:paddingRight="@dimen/general_list_padding"
-
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="@drawable/list_corners_round_background"
+            android:paddingTop="@dimen/dimen_27"
+            android:paddingStart="@dimen/general_list_padding"
+            android:paddingEnd="@dimen/general_list_padding"
+            android:paddingBottom="97dp"
+            android:clipToPadding="false"
             android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            android:background="@color/window_background_light_gray">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/general_list_header_height"
-                android:background="@drawable/bcg_general_list_top" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mainList"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/general_list_bcg"
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/general_list_header_height"
-                android:background="@drawable/bcg_general_list_bottom" />
-        </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
