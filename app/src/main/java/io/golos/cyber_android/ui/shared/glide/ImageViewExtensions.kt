@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -49,6 +50,7 @@ fun ImageView.loadCover(url: String?) {
                 R.color.cover_gradient_end_color
             )
         )
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
 }
 
@@ -59,6 +61,7 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
         .apply(RequestOptions.circleCropTransform())
         .fallback(defaultRes)
         .error(defaultRes)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
 }
 
@@ -66,6 +69,15 @@ fun ImageView.loadCommentAttachment(url: String?, cornerRadiusInPixels: Int = 0)
     Glide.with(context)
         .load(url.orEmpty())
         .transform(CenterCrop(), RoundedCorners(cornerRadiusInPixels))
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .into(this)
+}
+
+fun ImageView.loadPostAttachment(url: String?){
+    Glide
+        .with(this)
+        .load(url)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
 }
 

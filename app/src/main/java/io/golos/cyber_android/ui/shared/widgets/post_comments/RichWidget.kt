@@ -7,9 +7,9 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.RichBlock
@@ -57,9 +57,7 @@ constructor(
                 richImage
             }
             richDescription.visibility = View.GONE
-            Glide.with(context)
-                .load(thumbnailUrl)
-                .into(currentThubnail)
+            currentThubnail.loadPostAttachment(thumbnailUrl.toString())
         } else {
             richImage.visibility = View.GONE
             richImageAspectRatio.visibility = View.GONE

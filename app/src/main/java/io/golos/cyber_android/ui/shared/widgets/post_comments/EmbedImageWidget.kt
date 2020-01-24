@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
@@ -76,10 +76,7 @@ constructor(
             contentImage.visibility = View.VISIBLE
             imageAspectRatio.visibility = View.GONE
         }
-        Glide
-            .with(this)
-            .load(block.content)
-            .into(contentImage)
+        contentImage.loadPostAttachment(block.content.toString())
     }
 
     override fun release() {

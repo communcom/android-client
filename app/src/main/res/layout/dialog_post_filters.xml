@@ -144,11 +144,12 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        style="@style/BottomSheetMenuText"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/margin_default"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="@string/sort_popular"
+                        style="@style/BottomSheetMenuText"/>
 
                     <CheckBox
                         android:id="@+id/cbPopular"
