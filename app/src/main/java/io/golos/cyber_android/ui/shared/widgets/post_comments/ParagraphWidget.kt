@@ -107,7 +107,11 @@ constructor(
                 is SpanableBlock -> addSpannable(blockItem, builder)
             }
         }
+        addMore(builder)
+        this.text = builder
+    }
 
+    private fun addMore(builder: SpannableStringBuilder){
         if (builder.length > 600 && isSeeMoreEnabled) {
             val withSeeMore = SpannableStringBuilder(builder.substring(0, 400))
             val seeMoreSpannable = SpannableStringBuilder(context.getString(R.string.see_more))
@@ -138,8 +142,6 @@ constructor(
             builder.clear()
             builder.append(SpannableStringBuilder(TextUtils.concat(withSeeMore, "... ", seeMoreSpannable)))
         }
-
-        this.text = builder
     }
 
     private fun addSpannable(block: SpanableBlock, builder: SpannableStringBuilder) {

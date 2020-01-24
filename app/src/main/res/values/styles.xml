@@ -188,6 +188,7 @@
 
     <style name="PostVoteCountersTextStyle" parent="PostCardCountersTextStyle">
         <item name="android:textColor">@color/text_color_vote_counter</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="SortsTextStyle" parent="StandardText16spStyle">
