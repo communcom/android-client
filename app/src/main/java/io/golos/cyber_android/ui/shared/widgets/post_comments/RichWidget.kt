@@ -10,7 +10,7 @@ import androidx.annotation.DrawableRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
-import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
+import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.RichBlock
@@ -99,7 +99,7 @@ constructor(
     }
 
     private fun loadImage(imageView: ImageView, url: String?){
-        imageView.loadPostAttachment(url) {
+        imageView.loadContentAttachment(url, {
             when(it){
                 ImageProgressLoadState.START -> {
                     pbImageLoad.visibility = View.VISIBLE
@@ -116,7 +116,7 @@ constructor(
                     btnRetry.visibility = View.VISIBLE
                 }
             }
-        }
+        })
     }
 
     override fun release() {

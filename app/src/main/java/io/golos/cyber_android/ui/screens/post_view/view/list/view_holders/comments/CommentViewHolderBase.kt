@@ -220,7 +220,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 }
             }
 
-            is ImageBlock -> ImageBlockItem(
+            is ImageBlock -> CommentImageBlockItem(
                 imageBlock = block,
                 widgetListener = listItemEventsProcessor,
                 onLongClickListener = longClickListener

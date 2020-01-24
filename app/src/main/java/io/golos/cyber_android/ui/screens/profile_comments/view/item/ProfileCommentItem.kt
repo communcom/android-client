@@ -193,7 +193,7 @@ class ProfileCommentItem(
                 }
             }
 
-            is ImageBlock -> ImageBlockItem(
+            is ImageBlock -> CommentImageBlockItem(
                 imageBlock = block,
                 widgetListener = listItemEventsProcessor,
                 onLongClickListener = longClickListener

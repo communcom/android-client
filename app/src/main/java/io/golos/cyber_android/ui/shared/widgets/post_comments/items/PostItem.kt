@@ -115,7 +115,7 @@ class PostItem(
                 }
             }
 
-            is ImageBlock -> ImageBlockItem(block, post.contentId, listener)
+            is ImageBlock -> PostImageBlockItem(block, post.contentId, listener)
 
             is VideoBlock -> VideoBlockItem(block, post.contentId, listener)
 

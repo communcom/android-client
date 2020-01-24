@@ -112,6 +112,7 @@
     <dimen name="content_block_default_margin">6dp</dimen>
     <dimen name="post_paragraph_block_horizontal_margin">20dp</dimen>
     <dimen name="comment_paragraph_block_horizontal_margin">7dp</dimen>
+    <dimen name="comment_image_block_round_corners">12dp</dimen>
     <dimen name="margin_block">10dp</dimen>
     <dimen name="margin_image_description">5dp</dimen>
     <dimen name="height_embed_video_view">210dp</dimen>

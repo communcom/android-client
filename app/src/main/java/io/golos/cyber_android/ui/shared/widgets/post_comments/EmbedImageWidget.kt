@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
-import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
+import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
@@ -30,6 +30,7 @@ constructor(
     private var imageUri: Uri? = null
 
     private var postContentId: ContentId? = null
+    private var cornerRadius: Int = 0
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
@@ -37,6 +38,10 @@ constructor(
 
     fun setContentId(contentId: ContentId?) {
         postContentId = contentId
+    }
+
+    fun setCornerRadius(cornerRadius: Int){
+        this.cornerRadius = cornerRadius
     }
 
     override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
@@ -86,7 +91,7 @@ constructor(
     }
 
     private fun loadImage(imageView: ImageView, url: String?){
-        imageView.loadPostAttachment(url) {
+        imageView.loadContentAttachment(url, {
             when(it){
                 ImageProgressLoadState.START -> {
                     pbImageLoad.visibility = View.VISIBLE
@@ -103,7 +108,7 @@ constructor(
                     btnRetry.visibility = View.VISIBLE
                 }
             }
-        }
+        }, cornerRadius)
     }
 
     override fun release() {
