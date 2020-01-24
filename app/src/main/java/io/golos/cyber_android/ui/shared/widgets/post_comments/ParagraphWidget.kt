@@ -175,7 +175,7 @@ constructor(
 
         // Click on the link
 
-        builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
+        builder.setSpan(object : LinkClickableSpan(block.url, spansColor, underlineShow = false) {
             override fun onClick(spanData: Uri) {
                 onClickProcessor?.onLinkClicked(spanData)
             }

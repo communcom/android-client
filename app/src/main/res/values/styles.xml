@@ -46,6 +46,12 @@
         <item name="android:paddingEnd">@dimen/bottom_sheet_dialog_item_padding_horizontal</item>
     </style>
 
+    <style name="BottomSheetMenuText" parent="Common.Base.TextStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem"></style>
     <!--Bottom sheet dialog END-->
 
