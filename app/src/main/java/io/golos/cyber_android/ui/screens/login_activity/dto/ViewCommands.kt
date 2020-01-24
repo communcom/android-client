@@ -7,4 +7,3 @@ class HideSplashAnimationCommand : ViewCommand
 
 class NavigateToWelcomeScreenCommand : ViewCommand
 class NavigateToContinueSetupScreenCommand : ViewCommand
-class NavigateToMainScreenCommand : ViewCommand

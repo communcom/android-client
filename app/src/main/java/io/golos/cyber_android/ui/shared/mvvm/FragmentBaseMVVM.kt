@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.LogTags
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +65,7 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: UUID.randomUUID().toString()
+        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: IdUtil.generateStringId()
         inject(injectionKey)
 
         val viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]

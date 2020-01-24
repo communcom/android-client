@@ -1,4 +1,4 @@
-<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -46,6 +46,12 @@
         <item name="android:paddingEnd">@dimen/bottom_sheet_dialog_item_padding_horizontal</item>
     </style>
 
+    <style name="BottomSheetMenuText" parent="Common.Base.TextStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem"></style>
     <!--Bottom sheet dialog END-->
 
@@ -87,7 +93,7 @@
 
     <style name="EditorWidgetCaptionTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/dark_gray</item>
-        <item name="android:textSize">@dimen/text_size_20_sp</item>
+        <item name="android:textSize">@dimen/text_size_15_sp</item>
     </style>
 
     <style name="SearchBarTextStyle" parent="Common.Base.TextStyle">

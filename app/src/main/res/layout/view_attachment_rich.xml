@@ -60,6 +60,10 @@
                 tools:ignore="ContentDescription"
                 tools:src="@tools:sample/backgrounds/scenic"
                 tools:visibility="visible" />
+
+            <include
+                android:id="@+id/flPreloadImage"
+                layout="@layout/layout_image_preload"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout

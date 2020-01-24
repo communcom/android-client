@@ -246,6 +246,7 @@
     <string name="edit_comment_reply">Reply to comment</string>
 
     <string name="delete_post_confirmation">Are you sure you want to delete this post?</string>
+    <string name="close_editor_confirmation">The post is not empty. Would you like to close the editor?</string>
     <string name="post_comments_title">Comments</string>
     <string name="post_comments_interesting_first_sort">Interesting first</string>
     <string name="post_comments_by_time_sort">By time</string>

@@ -68,7 +68,8 @@ constructor(
 
     private fun setUp() {
         setTextColor(Color.BLACK)
-
+        val spacing = context.resources.getDimension(R.dimen.text_size_post_spacing)
+        setLineSpacing(spacing, 0f)
         setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.text_size_post_normal))
 
         context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
@@ -174,7 +175,7 @@ constructor(
 
         // Click on the link
 
-        builder.setSpan(object : LinkClickableSpan(block.url, spansColor) {
+        builder.setSpan(object : LinkClickableSpan(block.url, spansColor, underlineShow = false) {
             override fun onClick(spanData: Uri) {
                 onClickProcessor?.onLinkClicked(spanData)
             }

@@ -15,8 +15,8 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersDialog
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu

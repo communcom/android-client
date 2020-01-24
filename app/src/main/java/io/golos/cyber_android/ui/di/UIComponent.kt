@@ -17,7 +17,8 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivi
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_bio.di.BioFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.ui.screens.post_edit.di.EditorPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
+import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
@@ -43,7 +44,6 @@ interface UIComponent {
     }
 
     val bioFragment: BioFragmentComponent.Builder
-    val editorPageFragment: EditorPageFragmentComponent.Builder
     val loginActivity: LoginActivityComponent.Builder
     val mainActivity: MainActivityComponent.Builder
     val postPageFragment: PostPageFragmentComponent.Builder
@@ -66,6 +66,7 @@ interface UIComponent {
     val dashboardFragmentComponent: DashboardFragmentComponent.Builder
     val profileExternalUserFragment: ProfileExternalUserFragmentComponent.Builder
     val profileCommentsFragmentComponent: ProfileCommentsFragmentComponent.Builder
+    val editorPageActivity: EditorPageActivityComponent.Builder
 
     fun inject(pinDigit: PinDigit)
 }

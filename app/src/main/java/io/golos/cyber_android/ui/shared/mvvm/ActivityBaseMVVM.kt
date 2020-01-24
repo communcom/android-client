@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.LogTags
+import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +62,7 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
         binding = DataBindingUtil.setContentView(this, this.layoutResId())
         binding.lifecycleOwner = this
 
-        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: UUID.randomUUID().toString()
+        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: IdUtil.generateStringId()
         inject(injectionKey)
 
         val viewModel = ViewModelProviders.of(this, viewModelFactory)[provideViewModelType()]

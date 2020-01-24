@@ -16,10 +16,14 @@ abstract class ClickableSpanEx<T>(private val spanData: T): ClickableSpan() {
     open fun onClick(spanData: T) {}
 }
 
-open class LinkClickableSpan(spanData: Uri, @ColorInt private val textColor: Int): ClickableSpanEx<Uri>(spanData) {
+open class LinkClickableSpan(
+    spanData: Uri, @ColorInt
+    private val textColor: Int,
+    private val underlineShow: Boolean = true
+) : ClickableSpanEx<Uri>(spanData) {
     override fun updateDrawState(ds: TextPaint) {
         ds.color = textColor
-        ds.isUnderlineText = true
+        ds.isUnderlineText = underlineShow
     }
 }
 

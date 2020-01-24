@@ -18,7 +18,7 @@ import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
-import io.golos.cyber_android.ui.screens.post_edit.view.EditorPageActivity
+import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.shared.Tags
@@ -50,6 +50,20 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     override fun linkViewModel(binding: FragmentDashboardBinding, viewModel: DashboardViewModel) {
         binding.viewModel = viewModel
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        childFragmentManager.addOnBackStackChangedListener {
+            val backStackEntryCount = childFragmentManager.backStackEntryCount
+            if(backStackEntryCount == 0){
+                //In DashboardFragment
+                changeStatusBarColorByTabPosition(mainPager.currentItem)
+
+            } else{
+                changeStatusBarColorByTabPosition(-1)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,6 +144,27 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
+    private fun changeStatusBarColorByTabPosition(position: Int) {
+        when (position) {
+            NavigationBottomMenuWidget.Tab.FEED.index -> {
+                requireActivity().setStatusBarColor(R.color.window_status_bar_second_background)
+                requireActivity().tintStatusBarIcons(true)
+            }
+            NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
+                requireActivity().setStatusBarColor(R.color.window_status_bar_background)
+                requireActivity().tintStatusBarIcons(false)
+            }
+            NavigationBottomMenuWidget.Tab.PROFILE.index -> {
+                requireActivity().setStatusBarColor(R.color.window_status_bar_background)
+                requireActivity().tintStatusBarIcons(false)
+            }
+            else -> {
+                requireActivity().setStatusBarColor(R.color.window_status_bar_background)
+                requireActivity().tintStatusBarIcons(false)
+            }
+        }
+    }
+
     private fun addNotificationsBadge() {
 //        val menuView = navigationView.getChildAt(0) as BottomNavigationMenuView
 //        val itemView = menuView.getChildAt(Tab.NOTIFICATIONS.index) as BottomNavigationItemView
@@ -170,20 +205,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                when (position) {
-                    NavigationBottomMenuWidget.Tab.FEED.index -> {
-                        requireActivity().setStatusBarColor(R.color.window_status_bar_background)
-                        requireActivity().tintStatusBarIcons(true)
-                    }
-                    NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
-                        requireActivity().setStatusBarColor(R.color.window_status_bar_background)
-                        requireActivity().tintStatusBarIcons(true)
-                    }
-                    NavigationBottomMenuWidget.Tab.PROFILE.index -> {
-                        requireActivity().setStatusBarColor(R.color.window_status_bar_background)
-                        requireActivity().tintStatusBarIcons(true)
-                    }
-                }
+                changeStatusBarColorByTabPosition(position)
             }
         })
     }

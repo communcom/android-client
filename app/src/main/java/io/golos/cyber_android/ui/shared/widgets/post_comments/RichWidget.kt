@@ -7,13 +7,16 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
+import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.RichBlock
+import kotlinx.android.synthetic.main.layout_image_preload.view.*
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
+import kotlinx.android.synthetic.main.view_attachment_rich.view.flPreloadImage
 
 class RichWidget
 @JvmOverloads
@@ -57,9 +60,11 @@ constructor(
                 richImage
             }
             richDescription.visibility = View.GONE
-            Glide.with(context)
-                .load(thumbnailUrl)
-                .into(currentThubnail)
+
+            btnRetry.setOnClickListener {
+                loadImage(currentThubnail, thumbnailUrl.toString())
+            }
+            loadImage(currentThubnail, thumbnailUrl.toString())
         } else {
             richImage.visibility = View.GONE
             richImageAspectRatio.visibility = View.GONE
@@ -90,6 +95,27 @@ constructor(
         } else {
             llLinkProvider.setOnClickListener(null)
             currentThubnail?.setOnClickListener(null)
+        }
+    }
+
+    private fun loadImage(imageView: ImageView, url: String?){
+        imageView.loadPostAttachment(url) {
+            when(it){
+                ImageProgressLoadState.START -> {
+                    pbImageLoad.visibility = View.VISIBLE
+                    flPreloadImage.visibility = View.VISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                }
+                ImageProgressLoadState.COMPLETE -> {
+                    pbImageLoad.visibility = View.INVISIBLE
+                    btnRetry.visibility = View.INVISIBLE
+                    flPreloadImage.visibility = View.GONE
+                }
+                ImageProgressLoadState.ERROR -> {
+                    pbImageLoad.visibility = View.INVISIBLE
+                    btnRetry.visibility = View.VISIBLE
+                }
+            }
         }
     }
 

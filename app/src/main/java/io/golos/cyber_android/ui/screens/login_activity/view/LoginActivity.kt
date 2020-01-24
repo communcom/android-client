@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.shared.base.ActivityBase
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.activity_login.*

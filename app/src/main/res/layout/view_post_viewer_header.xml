@@ -28,6 +28,7 @@
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_group_temporary"
+        app:layout_goneMarginStart="@dimen/padding_horizontal_editor_widget"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -79,7 +80,8 @@
         android:layout_width="@dimen/post_viewer_header_tool_button_size"
         android:layout_height="@dimen/post_viewer_header_tool_button_size"
         android:background="@null"
-        app:imageButton_icon="@drawable/ic_more"
+        android:layout_marginEnd="@dimen/dimen_10"
+        app:imageButton_icon="@drawable/ic_menu_options"
         app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
