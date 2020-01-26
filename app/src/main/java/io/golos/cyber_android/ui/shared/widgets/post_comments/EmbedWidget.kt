@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
@@ -39,6 +41,8 @@ constructor(
 
     private var widthBlock: Int = 0
 
+    private @ColorRes var preloadFrameColorId: Int = R.color.post_empty_place_holder
+
     init {
         inflate(context, R.layout.view_attachment_rich, this)
     }
@@ -55,6 +59,10 @@ constructor(
         this.widthBlock = widthBlock
     }
 
+    fun setPreloadFrameColor(@ColorRes colorId: Int){
+        preloadFrameColorId = colorId
+    }
+
     override fun setOnClickProcessor(processor: EmbedWidgetListener?) {
         this.onClickProcessor = processor
     }
@@ -63,6 +71,7 @@ constructor(
         linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl?.prefetchScreenSize(context)
         var currentThumbnail: ImageView? = null
+        flPreloadImage.setBackgroundColor(ContextCompat.getColor(context, preloadFrameColorId))
         if (thumbnailUrl != null) {
             val thumbnailHeight = block.thumbnailHeight
             val thumbnailWidth = block.thumbnailWidth

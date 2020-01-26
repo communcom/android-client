@@ -13,7 +13,7 @@ import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
+import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -300,6 +300,7 @@ constructor(
                     listOf(ParagraphBlock(null, listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
                 } ?: listOf()
                 var imageUri = commentContent.imageUri
+
                 if(imageUri != null){
                     if(!imageUri.toString().startsWith("http") && !imageUri.toString().startsWith("https")){
                         //файл выбран локально и должен быть загружен
@@ -307,14 +308,16 @@ constructor(
                     }
                 }
                 val attachments = imageUri?.let { uri ->
-                    val imageSize = uri.toBitmapOptions()
+                    val localSize = commentContent.imageUri?.localSize()
+                    val widthImage = if (localSize?.x == 0) null else localSize?.x
+                    val heightImage = if (localSize?.y == 0) null else localSize?.y
                     AttachmentsBlock(IdUtil.generateLongId(),
                         listOf(
                             ImageBlock(null,
                                 uri,
                                 null,
-                                imageSize.outWidth,
-                                imageSize.outHeight)
+                                widthImage,
+                                heightImage)
                         ))
                 }
 

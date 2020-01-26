@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
@@ -16,6 +18,7 @@ import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.layout_image_preload.view.*
+import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.flPreloadImage
 
@@ -34,6 +37,7 @@ constructor(
     private var postContentId: ContentId? = null
     private var cornerRadius: Int = 0
     private var widthBlock: Int = 0
+    private @ColorRes var preloadFrameColorId: Int = R.color.post_empty_place_holder
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
@@ -49,6 +53,10 @@ constructor(
 
     fun setWidthBlock(widthBlock: Int){
         this.widthBlock = widthBlock
+    }
+
+    fun setPreloadFrameColor(@ColorRes colorId: Int){
+        preloadFrameColorId = colorId
     }
 
     override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
@@ -74,7 +82,7 @@ constructor(
 
     override fun render(block: ImageBlock) {
         imageUri = block.content.prefetchScreenSize(context)
-
+        flPreloadImage.setBackgroundColor(ContextCompat.getColor(context, preloadFrameColorId))
         if (block.description.isNullOrEmpty()) {
             description.visibility = View.GONE
         } else {

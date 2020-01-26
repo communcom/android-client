@@ -2,19 +2,21 @@ package io.golos.cyber_android.ui.shared.utils
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Point
 import android.net.Uri
 import java.io.File
+
 
 private const val PROXY_PATH = "proxy/"
 private const val IMAGES_PATH = "images/"
 private const val URL_IMG_COMMUN_COM = "img.commun.com"
 private const val DEFAULT_IMAGE_SCREEN_SIZE = "640x0/"
 
-fun Uri.toBitmapOptions(): BitmapFactory.Options {
+fun Uri.localSize(): Point {
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
-    BitmapFactory.decodeFile(File(path).absolutePath, options)
-    return options
+    BitmapFactory.decodeFile(File(this.toString()).absolutePath, options)
+    return Point(options.outWidth, options.outHeight)
 }
 
 fun Uri.prefetchScreenSize(context: Context): Uri{

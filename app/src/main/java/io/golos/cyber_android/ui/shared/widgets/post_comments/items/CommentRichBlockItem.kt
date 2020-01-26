@@ -27,6 +27,7 @@ class CommentRichBlockItem(
         setCornerRadius(cornerRadius)
         val commentImageBlockWidth = resources.getDimension(R.dimen.post_comments_width) - 2 * resources.getDimension(R.dimen.post_comments_text_horizontal_padding)
         setWidthBlock(commentImageBlockWidth.toInt())
+        setPreloadFrameColor(R.color.comment_empty_place_holder)
     }
 
     override fun areItemsTheSame(): Int = richBlock.hashCode()
