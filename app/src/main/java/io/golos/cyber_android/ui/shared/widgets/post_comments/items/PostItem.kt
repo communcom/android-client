@@ -127,9 +127,9 @@ class PostItem(
                 post.contentId
             )
 
-            is RichBlock -> RichBlockItem(block, post.contentId, listener)
+            is RichBlock -> PostRichBlockItem(block, post.contentId, listener)
 
-            is EmbedBlock -> EmbedBlockItem(block, post.contentId, listener)
+            is EmbedBlock -> PostEmbedBlockItem(block, post.contentId, listener)
 
             else -> null
         }

@@ -216,13 +216,13 @@ class ProfileCommentItem(
                 onLongClickListener = longClickListener
             )
 
-            is RichBlock -> RichBlockItem(
+            is RichBlock -> CommentRichBlockItem(
                 block,
                 comment.contentId,
                 listItemEventsProcessor
             )
 
-            is EmbedBlock -> EmbedBlockItem(
+            is EmbedBlock -> PostEmbedBlockItem(
                 block,
                 comment.contentId,
                 listItemEventsProcessor

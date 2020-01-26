@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
@@ -31,6 +33,7 @@ constructor(
 
     private var postContentId: ContentId? = null
     private var cornerRadius: Int = 0
+    private var widthBlock: Int = 0
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
@@ -42,6 +45,10 @@ constructor(
 
     fun setCornerRadius(cornerRadius: Int){
         this.cornerRadius = cornerRadius
+    }
+
+    fun setWidthBlock(widthBlock: Int){
+        this.widthBlock = widthBlock
     }
 
     override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
@@ -75,7 +82,9 @@ constructor(
             description.visibility = View.VISIBLE
         }
         val contentImage: ImageView
-        if(block.width == null || block.height == null){
+        val imageHeight = block.height
+        val imageWidth = block.width
+        if(imageWidth == null || imageHeight == null){
             contentImage = imageAspectRatio
             imageAspectRatio.visibility = View.VISIBLE
             image.visibility = View.GONE
@@ -83,11 +92,19 @@ constructor(
             contentImage = image
             contentImage.visibility = View.VISIBLE
             imageAspectRatio.visibility = View.GONE
+            val layoutParams = image.layoutParams as ConstraintLayout.LayoutParams
+            if(widthBlock == 0){
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            } else{
+                val heightBlock = widthBlock.toFloat() / imageWidth * imageHeight
+                layoutParams.height = heightBlock.toInt()
+            }
+            image.layoutParams = layoutParams
         }
         btnRetry.setOnClickListener {
-            loadImage(contentImage, block.content.toString())
+            loadImage(contentImage, imageUri.toString())
         }
-        loadImage(contentImage, block.content.toString())
+        loadImage(contentImage, imageUri.toString())
     }
 
     private fun loadImage(imageView: ImageView, url: String?){

@@ -1,26 +1,26 @@
 package io.golos.cyber_android.ui.shared.widgets.post_comments.items
 
 import android.content.Context
-import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.utils.getScreenSize
-import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedImageWidget
-import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedImageWidgetListener
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.cyber_android.ui.shared.widgets.post_comments.RichWidget
+import io.golos.cyber_android.ui.shared.widgets.post_comments.RichWidgetListener
+import io.golos.domain.use_cases.post.post_dto.RichBlock
 
-class CommentImageBlockItem(
-    val imageBlock: ImageBlock,
-    val contentId: ContentId? = null,
-    widgetListener: EmbedImageWidgetListener? = null,
-    onLongClickListener: View.OnLongClickListener? = null
-) :
-    BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener) {
+class CommentRichBlockItem(
+    val richBlock: RichBlock,
+    val contentId: ContentId,
+    widgetListener: RichWidgetListener? = null
+) : BaseBlockItem<RichBlock, RichWidgetListener, RichWidget>(
+    richBlock,
+    widgetListener
+) {
 
     override fun createWidget(
         context: Context
-    ): EmbedImageWidget = EmbedImageWidget(context).apply {
+    ): RichWidget = RichWidget(context).apply {
         setContentId(contentId)
         val resources = context.resources
         val cornerRadius = resources.getDimension(R.dimen.comment_image_block_round_corners).toInt()
@@ -29,11 +29,11 @@ class CommentImageBlockItem(
         setWidthBlock(commentImageBlockWidth.toInt())
     }
 
-    override fun areItemsTheSame(): Int = imageBlock.hashCode()
+    override fun areItemsTheSame(): Int = richBlock.hashCode()
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
-        if (item is CommentImageBlockItem) {
-            return imageBlock == item.imageBlock
+        if (item is PostRichBlockItem) {
+            return richBlock == item.richBlock
         }
         return false
     }

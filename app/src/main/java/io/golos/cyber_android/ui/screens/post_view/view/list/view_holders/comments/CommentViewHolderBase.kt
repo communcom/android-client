@@ -243,13 +243,13 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 onLongClickListener = longClickListener
             )
 
-            is RichBlock -> RichBlockItem(
+            is RichBlock -> CommentRichBlockItem(
                 block,
                 contentId,
                 listItemEventsProcessor
             )
 
-            is EmbedBlock -> EmbedBlockItem(
+            is EmbedBlock -> CommentEmbedBlockItem(
                 block,
                 contentId,
                 listItemEventsProcessor

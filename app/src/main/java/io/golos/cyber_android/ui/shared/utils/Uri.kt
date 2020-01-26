@@ -8,7 +8,7 @@ import java.io.File
 private const val PROXY_PATH = "proxy/"
 private const val IMAGES_PATH = "images/"
 private const val URL_IMG_COMMUN_COM = "img.commun.com"
-private const val DEFAULT_IMAGE_SCREEN_SIZE = "640х0/"
+private const val DEFAULT_IMAGE_SCREEN_SIZE = "640x0/"
 
 fun Uri.toBitmapOptions(): BitmapFactory.Options {
     val options = BitmapFactory.Options()
@@ -23,7 +23,7 @@ fun Uri.prefetchScreenSize(context: Context): Uri{
     val urlString = this.toString()
     return if(urlString.contains(URL_IMG_COMMUN_COM, true)){
         val imageSizePath = if(width > 0){
-            "${width}х0/"
+            "${width}x0/"
         } else{
             DEFAULT_IMAGE_SCREEN_SIZE
         }

@@ -4,10 +4,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostBodyListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.utils.getScreenSize
+import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.domain.use_cases.post.post_dto.*
 import kotlinx.android.synthetic.main.item_post_block.view.*
 import timber.log.Timber
@@ -62,6 +63,7 @@ class PostBodyViewHolder constructor(
             }
 
             is ImageBlock -> EmbedImageWidget(itemView.context).apply {
+                setWidthBlock(itemView.context.getScreenSize().x)
                 render(block)
                 setOnClickProcessor(listItemEventsProcessor)
             }
@@ -80,11 +82,13 @@ class PostBodyViewHolder constructor(
             }
 
             is RichBlock -> RichWidget(itemView.context).apply {
+                setWidthBlock(itemView.context.getScreenSize().x)
                 setOnClickProcessor(listItemEventsProcessor)
                 render(block)
             }
 
             is EmbedBlock -> EmbedWidget(itemView.context).apply {
+                setWidthBlock(itemView.context.getScreenSize().x)
                 setOnClickProcessor(listItemEventsProcessor)
                 render(block)
             }
