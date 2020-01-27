@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_photos.model.gallery_items_sou
 
 interface GalleryItemsSource {
     /**
-     * Returns list of images in the phone gallery, sorted by date in descending order
+     * Returns list of images in the phone gallery, sorted by lastItemDate in descending order
      */
     fun getGalleryImagesUrls(): List<String>
 }

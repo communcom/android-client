@@ -14,7 +14,7 @@ constructor(
     private val appContext: Context
 ) : GalleryItemsSource {
     /**
-     * Returns list of images in the phone gallery, sorted by date in descending order
+     * Returns list of images in the phone gallery, sorted by lastItemDate in descending order
      */
     override fun getGalleryImagesUrls(): List<String> = getGalleryItems().sortedByDescending { it.second }.map { it.first }
 

@@ -448,4 +448,8 @@
     <string name="no_posts">No posts</string>
     <string name="no_posts_not_found">Posts not found</string>
     <string name="no_comments_written">You haven\’t written any comments yet</string>
+
+    <!--Notifications-->
+    <string name="new_notifications_label">%1$d new notifications</string>
+
 </resources>

@@ -33,19 +33,50 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginTop="@dimen/margin_default"
-                android:layout_marginBottom="@dimen/margin_default"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_30_sp"/>
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:layout_marginTop="@dimen/gap"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:titleEnabled="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvUnreadCountLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_unread_point"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:drawablePadding="@dimen/gap"
+                        android:textColor="@color/grey"
+                        tools:text="@string/new_notifications_label"/>
+
+                    <!-- Need set notification filters !-->
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvNotifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:ignore="UselessLeaf" />
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:paddingBottom="@dimen/navigation_bottom_menu_height"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
