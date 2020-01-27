@@ -4,25 +4,19 @@ import dagger.Binds
 import dagger.Module
 import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.di_storage.Cyber4JDagger
-import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
-import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.application.shared.display_info.DisplayInfoProvider
 import io.golos.cyber_android.application.shared.display_info.DisplayInfoProviderImpl
-import io.golos.data.encryption.aes.EncryptorAES
-import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManagerImpl
-import io.golos.data.persistence.key_value_storage.storages.Storage
-import io.golos.data.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitorImpl
-import io.golos.data.persistence.user_keys_store.UserKeyStoreImpl
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
-import io.golos.domain.api.AuthApi
 import io.golos.data.api.auth.AuthApiImpl
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.communities.CommunitiesApiImpl
@@ -44,17 +38,20 @@ import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.api.user_metadata.UserMetadataApiImpl
 import io.golos.data.api.vote.VoteApi
 import io.golos.data.api.vote.VoteApiImpl
+import io.golos.data.encryption.aes.EncryptorAES
+import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.data.encryption.rsa.EncryptorRSA
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.errors.CyberToAppErrorMapperImpl
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.network_state.NetworkStateCheckerImpl
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.data.persistence.key_value_storage.KeyValueStorageFacadeImpl
+import io.golos.data.persistence.key_value_storage.storages.Storage
 import io.golos.data.persistence.key_value_storage.storages.StorageOperationsInstance
 import io.golos.data.persistence.key_value_storage.storages.combined.CombinedStorage
 import io.golos.data.persistence.key_value_storage.storages.in_memory.InMemoryStorage
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.data.persistence.user_keys_store.UserKeyStoreImpl
 import io.golos.data.repositories.*
 import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
@@ -66,16 +63,18 @@ import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.data.repositories.vote.VoteRepositoryImpl
 import io.golos.data.repositories.vote.live_data.VoteRepositoryLiveData
+import io.golos.data.strings_converter.StringsConverterImpl
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
+import io.golos.domain.api.AuthApi
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
-import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.mappers.*
 import io.golos.domain.repositories.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import javax.inject.Named
 
 @Suppress("unused")
@@ -318,6 +317,10 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCurrentUserRepositoryRead(repository: CurrentUserRepositoryImpl): CurrentUserRepositoryRead
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideNotificationsRepository(repository: NotificationsRepositoryImpl): NotificationsRepository
 
     @Binds
     abstract fun provideClipboardUtils(utils: ClipboardUtilsImpl): ClipboardUtils
