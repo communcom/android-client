@@ -103,9 +103,10 @@ constructor(
             postDomain.author.username,
             postDomain.author.userId,
 
-            false,
-            postDomain.author.userId == currentUserRepository.userId.userId,
-            postDomain.community.isSubscribed
+            canJoinToCommunity = false,
+            isJoinedToCommunity = postDomain.community.isSubscribed,
+            isBackFeatureEnabled = true,
+            isJoinFeatureEnabled = false
         )
 
     override suspend fun addToFavorite(permlink: String) {

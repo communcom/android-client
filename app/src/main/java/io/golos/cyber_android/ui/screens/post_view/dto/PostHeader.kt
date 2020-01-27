@@ -10,7 +10,7 @@ data class PostHeader(
     val userName: String?,
     val userId: String,
     val canJoinToCommunity: Boolean,
-    val isJoinedToCommunity: Boolean = true,
+    val isJoinedToCommunity: Boolean = false,
     val isBackFeatureEnabled: Boolean = true,
-    val isJoinFeatureEnabled: Boolean = true
+    val isJoinFeatureEnabled: Boolean = false
 )

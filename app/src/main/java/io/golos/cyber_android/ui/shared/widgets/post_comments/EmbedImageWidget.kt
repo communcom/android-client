@@ -4,16 +4,21 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.ColorRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
-import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
+import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.layout_image_preload.view.*
+import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.flPreloadImage
 
@@ -30,6 +35,9 @@ constructor(
     private var imageUri: Uri? = null
 
     private var postContentId: ContentId? = null
+    private var cornerRadius: Int = 0
+    private var widthBlock: Int = 0
+    private @ColorRes var preloadFrameColorId: Int = R.color.post_empty_place_holder
 
     init {
         inflate(context, R.layout.view_post_embed_image, this)
@@ -37,6 +45,18 @@ constructor(
 
     fun setContentId(contentId: ContentId?) {
         postContentId = contentId
+    }
+
+    fun setCornerRadius(cornerRadius: Int){
+        this.cornerRadius = cornerRadius
+    }
+
+    fun setWidthBlock(widthBlock: Int){
+        this.widthBlock = widthBlock
+    }
+
+    fun setPreloadFrameColor(@ColorRes colorId: Int){
+        preloadFrameColorId = colorId
     }
 
     override fun setOnClickProcessor(processor: EmbedImageWidgetListener?) {
@@ -62,7 +82,7 @@ constructor(
 
     override fun render(block: ImageBlock) {
         imageUri = block.content.prefetchScreenSize(context)
-
+        flPreloadImage.setBackgroundColor(ContextCompat.getColor(context, preloadFrameColorId))
         if (block.description.isNullOrEmpty()) {
             description.visibility = View.GONE
         } else {
@@ -70,7 +90,9 @@ constructor(
             description.visibility = View.VISIBLE
         }
         val contentImage: ImageView
-        if(block.width == null || block.height == null){
+        val imageHeight = block.height
+        val imageWidth = block.width
+        if(imageWidth == null || imageHeight == null){
             contentImage = imageAspectRatio
             imageAspectRatio.visibility = View.VISIBLE
             image.visibility = View.GONE
@@ -78,15 +100,23 @@ constructor(
             contentImage = image
             contentImage.visibility = View.VISIBLE
             imageAspectRatio.visibility = View.GONE
+            val layoutParams = image.layoutParams as ConstraintLayout.LayoutParams
+            if(widthBlock == 0){
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            } else{
+                val heightBlock = widthBlock.toFloat() / imageWidth * imageHeight
+                layoutParams.height = heightBlock.toInt()
+            }
+            image.layoutParams = layoutParams
         }
         btnRetry.setOnClickListener {
-            loadImage(contentImage, block.content.toString())
+            loadImage(contentImage, imageUri.toString())
         }
-        loadImage(contentImage, block.content.toString())
+        loadImage(contentImage, imageUri.toString())
     }
 
     private fun loadImage(imageView: ImageView, url: String?){
-        imageView.loadPostAttachment(url) {
+        imageView.loadContentAttachment(url, {
             when(it){
                 ImageProgressLoadState.START -> {
                     pbImageLoad.visibility = View.VISIBLE
@@ -103,7 +133,7 @@ constructor(
                     btnRetry.visibility = View.VISIBLE
                 }
             }
-        }
+        }, cornerRadius)
     }
 
     override fun release() {

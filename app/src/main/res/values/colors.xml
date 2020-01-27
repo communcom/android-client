@@ -72,5 +72,9 @@
     <color name="post_header_user_name_text">@color/blue</color>
     <color name="post_empty_place_holder">#DEE1E8</color>
 
+    <!--Comment-->
+    <color name="comment_user_name">@color/black</color>
+    <color name="comment_empty_place_holder">@color/light_gray</color>
+
 
 </resources>

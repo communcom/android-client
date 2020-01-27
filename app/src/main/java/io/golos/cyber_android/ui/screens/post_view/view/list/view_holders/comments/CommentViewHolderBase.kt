@@ -1,10 +1,9 @@
 package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders.comments
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.SpannableStringBuilder
-import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -34,10 +33,13 @@ import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetLis
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.extensions.appendSpannedText
+import io.golos.domain.extensions.appendText
+import io.golos.domain.extensions.setSpan
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.utils.IdUtil
+import io.golos.utils.SPACE
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -218,7 +220,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 }
             }
 
-            is ImageBlock -> ImageBlockItem(
+            is ImageBlock -> CommentImageBlockItem(
                 imageBlock = block,
                 widgetListener = listItemEventsProcessor,
                 onLongClickListener = longClickListener
@@ -234,20 +236,20 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 listItemEventsProcessor
             )
 
-            is ParagraphBlock -> ParagraphBlockItem(
+            is ParagraphBlock -> CommentParagraphBlockItem(
                 block,
                 listItemEventsProcessor,
                 contentId,
                 onLongClickListener = longClickListener
             )
 
-            is RichBlock -> RichBlockItem(
+            is RichBlock -> CommentRichBlockItem(
                 block,
                 contentId,
                 listItemEventsProcessor
             )
 
-            is EmbedBlock -> EmbedBlockItem(
+            is EmbedBlock -> CommentEmbedBlockItem(
                 block,
                 contentId,
                 listItemEventsProcessor
@@ -260,20 +262,20 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     private fun getAuthorAndText(author: Author, text: String, paragraphWidgetListener: ParagraphWidgetListener): SpannableStringBuilder {
         val result = SpannableStringBuilder()
         author.username?.let {
-            result.appendSpannedText(it, ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.blue)))
-            val startIndexUserName = 0
-            val lastIndexUserName = it.length
-            result.setSpan(object : ClickableSpan(){
-                override fun onClick(widget: View) {
-                    paragraphWidgetListener.onUserClicked(author.userId)
-                }
+            val userNameInterval = result.appendText(it)
+            result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
+            val colorUserName = ContextCompat.getColor(itemView.context, R.color.comment_user_name)
+            result.setSpan(object : ColorTextClickableSpan(author.userId, colorUserName){
 
-            }, startIndexUserName, lastIndexUserName, SPAN_EXCLUSIVE_EXCLUSIVE)
+                override fun onClick(spanData: String) {
+                    super.onClick(spanData)
+                    paragraphWidgetListener.onUserClicked(spanData)
+                }
+            }, userNameInterval)
         }
 
-        result.append(" ")
+        result.append(SPACE)
         result.append(text)
-
         return result
     }
 

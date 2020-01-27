@@ -129,8 +129,8 @@
 
 
     <!--Sign In-->
-    <string name="login">User\'s name</string>
-    <string name="key">Password</string>
+    <string name="login">Login</string>
+    <string name="key">Key</string>
     <string name="ok">Ok</string>
     <string name="sign_in_scan_qr">Scan QR</string>
     <string name="sign_in_scan_qr_hint">Go to commun.com and scan QR</string>

@@ -15,7 +15,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
-import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
+import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
@@ -97,13 +97,15 @@ class ProfileCommentsViewModel @Inject constructor(
                         imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
                     }
                     val attachments = imageUri?.let { uri ->
-                        val imageSize = uri.toBitmapOptions()
+                        val imageSize = commentContent.imageUri?.localSize()
+                        val widthImage = if (imageSize?.x == 0) null else imageSize?.x
+                        val heightImage = if (imageSize?.y == 0) null else imageSize?.y
                         AttachmentsBlock(IdUtil.generateLongId(),
                         listOf(ImageBlock(null,
                             uri,
                             null,
-                            imageSize.outWidth,
-                            imageSize.outHeight))) }
+                            widthImage,
+                            heightImage))) }
                     val contentBlock = commentFromState?.body?.copy(
                         content = content,
                         attachments = attachments

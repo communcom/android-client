@@ -53,8 +53,8 @@
                         android:layout_marginTop="@dimen/dimen_40"
                         android:layout_gravity="start|top"
 
-                        app:imageButton_icon="@drawable/ic_back"
-                        app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
+                        app:imageButton_icon="@drawable/ic_left_arrow"
+                        app:imageButton_iconInscribeSize="21dp"
                         app:imageButton_tint="@color/white"
                         android:background="@null"
 
@@ -72,11 +72,10 @@
                         android:layout_marginTop="@dimen/dimen_40"
                         android:layout_gravity="end|top"
 
-                        app:imageButton_icon="@drawable/ic_profile_menu"
+                        app:imageButton_icon="@drawable/ic_menu_options"
                         app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
                         app:imageButton_tint="@color/white"
                         android:background="@null"
-
                         android:onClick="@{() -> viewModel.onSettingsClick()}"
                     />
 

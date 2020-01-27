@@ -77,12 +77,16 @@ fun ImageView.loadCommentAttachment(url: String?, cornerRadiusInPixels: Int = 0)
         .into(this)
 }
 
-fun ImageView.loadPostAttachment(url: String?, loadStatus: ((ImageProgressLoadState) -> Unit)){
+fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoadState) -> Unit), cornerRadius: Int = 0){
     loadStatus.invoke(ImageProgressLoadState.START)
-    Glide
+    val requestBuilder = Glide
         .with(this)
         .load(url)
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+    if(cornerRadius != 0){
+        requestBuilder.transform(RoundedCorners(cornerRadius))
+    }
+    requestBuilder
         .listener(object: RequestListener<Drawable>{
 
             override fun onLoadFailed(

@@ -4,13 +4,17 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
-import io.golos.cyber_android.ui.shared.glide.loadPostAttachment
+import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.EmbedBlock
@@ -33,12 +37,30 @@ constructor(
 
     private var contentId: ContentId? = null
 
+    private var cornerRadius: Int = 0
+
+    private var widthBlock: Int = 0
+
+    private @ColorRes var preloadFrameColorId: Int = R.color.post_empty_place_holder
+
     init {
         inflate(context, R.layout.view_attachment_rich, this)
     }
 
     fun setContentId(postContentId: ContentId) {
         contentId = postContentId
+    }
+
+    fun setCornerRadius(cornerRadius: Int){
+        this.cornerRadius = cornerRadius
+    }
+
+    fun setWidthBlock(widthBlock: Int){
+        this.widthBlock = widthBlock
+    }
+
+    fun setPreloadFrameColor(@ColorRes colorId: Int){
+        preloadFrameColorId = colorId
     }
 
     override fun setOnClickProcessor(processor: EmbedWidgetListener?) {
@@ -48,23 +70,34 @@ constructor(
     override fun render(block: EmbedBlock) {
         linkUri = block.url
         val thumbnailUrl = block.thumbnailUrl?.prefetchScreenSize(context)
-        var currentThubnail: ImageView? = null
+        var currentThumbnail: ImageView? = null
+        flPreloadImage.setBackgroundColor(ContextCompat.getColor(context, preloadFrameColorId))
         if (thumbnailUrl != null) {
-            currentThubnail = if(block.thumbnailHeight == null || block.thumbnailWidth == null){
+            val thumbnailHeight = block.thumbnailHeight
+            val thumbnailWidth = block.thumbnailWidth
+            currentThumbnail = if(thumbnailHeight == null || thumbnailWidth == null){
                 richImage.visibility = View.GONE
                 richImageAspectRatio.visibility = View.VISIBLE
                 richImageAspectRatio
             } else{
                 richImageAspectRatio.visibility = View.GONE
                 richImage.visibility = View.VISIBLE
+                val layoutParams = richImage.layoutParams as ConstraintLayout.LayoutParams
+                if(widthBlock == 0){
+                    layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                } else{
+                    val heightBlock = widthBlock.toFloat() / thumbnailWidth * thumbnailHeight
+                    layoutParams.height = heightBlock.toInt()
+                }
+                richImage.layoutParams = layoutParams
                 richImage
             }
             richDescription.visibility = View.GONE
 
             btnRetry.setOnClickListener {
-                loadImage(currentThubnail, thumbnailUrl.toString())
+                loadImage(currentThumbnail, thumbnailUrl.toString())
             }
-            loadImage(currentThubnail, thumbnailUrl.toString())
+            loadImage(currentThumbnail, thumbnailUrl.toString())
         } else {
             richImage.visibility = View.GONE
             richImageAspectRatio.visibility = View.GONE
@@ -78,7 +111,7 @@ constructor(
         richUrl.text = block.authorUrl?.authority
 
         if(onClickProcessor != null) {
-            currentThubnail?.setOnClickListener {
+            currentThumbnail?.setOnClickListener {
                 if (contentId != null) {
                     onClickProcessor?.onItemClicked(contentId!!)
                 } else {
@@ -94,12 +127,12 @@ constructor(
             }
         } else {
             llLinkProvider.setOnClickListener(null)
-            currentThubnail?.setOnClickListener(null)
+            currentThumbnail?.setOnClickListener(null)
         }
     }
 
     private fun loadImage(imageView: ImageView, url: String?){
-        imageView.loadPostAttachment(url) {
+        imageView.loadContentAttachment(url, {
             when(it){
                 ImageProgressLoadState.START -> {
                     pbImageLoad.visibility = View.VISIBLE
@@ -116,7 +149,7 @@ constructor(
                     btnRetry.visibility = View.VISIBLE
                 }
             }
-        }
+        }, cornerRadius)
     }
 
     override fun release() {

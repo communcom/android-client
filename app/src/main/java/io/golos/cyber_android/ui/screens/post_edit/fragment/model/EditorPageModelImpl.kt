@@ -12,7 +12,7 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.shared.utils.toBitmapOptions
+import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
@@ -21,7 +21,10 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityPageDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.dto.block.ContentBlockEntity
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
@@ -126,12 +129,12 @@ constructor(
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val imageBlockList = localImagesUri.map { uri ->
                 val imageUri = Uri.parse(uri)
-                val options = imageUri.toBitmapOptions()
+                val imageSize = imageUri.localSize()
                 ImageBlock(IdUtil.generateLongId(),
                     imageUri,
                     null,
-                    options.outWidth,
-                    options.outHeight)
+                    imageSize.x,
+                    imageSize.y)
             }
             contentBlockEntityList.add(ContentBlockEntity(IdUtil.generateLongId(), "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
@@ -156,8 +159,8 @@ constructor(
             val contentBlockEntityList: MutableList<ContentBlockEntity> = listContentBlockEntity!!.content.toMutableList()
             val imageBlockList = localImagesUri.map { uri ->
                 val imageUri = Uri.parse(uri)
-                val options = imageUri.toBitmapOptions()
-                ImageBlock(IdUtil.generateLongId(), Uri.parse(uri), null, options.outWidth, options.outHeight)
+                val imageSize = imageUri.localSize()
+                ImageBlock(IdUtil.generateLongId(), Uri.parse(uri), null, imageSize.x, imageSize.y)
             }
             contentBlockEntityList.add(ContentBlockEntity(IdUtil.generateLongId(), "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)

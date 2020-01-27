@@ -13,6 +13,7 @@
         android:layout_width="@dimen/send_comment_avatar_icon_size"
         android:layout_height="@dimen/send_comment_avatar_icon_size"
         android:layout_marginStart="@dimen/margin_default"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="@+id/comment"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_comment_attachment"

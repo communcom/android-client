@@ -23,11 +23,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCommentContent"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/post_comments_width"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/post_comments_text_margin"
         android:background="@drawable/bcg_post_card_comment"
-        android:padding="@dimen/post_comments_text_padding"
+        android:paddingStart="@dimen/post_comments_text_horizontal_padding"
+        android:paddingEnd="@dimen/post_comments_text_horizontal_padding"
+
         android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

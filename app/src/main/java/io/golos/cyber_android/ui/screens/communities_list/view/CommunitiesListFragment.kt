@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.utils.CommunitiesListDividerDecoration
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_communities.*
 
@@ -89,6 +90,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
             mainList.itemAnimator = null
             mainList.layoutManager = communitiesListLayoutManager
             mainList.adapter = communitiesListAdapter
+            mainList.addItemDecoration(CommunitiesListDividerDecoration(requireContext()))
         }
 
         communitiesListAdapter.update(data)
