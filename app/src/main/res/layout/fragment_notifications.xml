@@ -12,7 +12,7 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@color/window_background_light_gray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.screens.notifications.view.NotificationsFragment">

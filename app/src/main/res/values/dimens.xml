@@ -479,4 +479,8 @@
     <dimen name="sign_up_keys_warning_dialog_text_spacing">@dimen/dimen_3</dimen>
 
     <dimen name="post_top_shadow_threshold">@dimen/dimen_10</dimen>
+
+    <!--Notifications-->
+    <string name="new_notifications_label">%1$d new notifications</string>
+
 </resources>
