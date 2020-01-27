@@ -111,8 +111,6 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
 
     private fun setupCommunUrl() {
         val commun = SpannableStringBuilder(getString(R.string.commun))
-        val slash = SpannableStringBuilder(" /")
-        val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
         val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black))
         commun.setSpan(
             blackColor,
@@ -120,12 +118,6 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
             commun.length,
             Spannable.SPAN_INCLUSIVE_EXCLUSIVE
         )
-        slash.setSpan(
-            blueColor,
-            0,
-            slash.length,
-            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-        tvCommunUrl.text = SpannableStringBuilder(TextUtils.concat(commun, slash))
+        tvCommunUrl.text = commun
     }
 }

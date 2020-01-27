@@ -36,10 +36,10 @@
             android:layout_marginStart="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
-            android:fontFamily="@font/roboto_regular"
             android:text="@string/subscribe_to_3_communities"
             android:textColor="@color/grey"
             android:textSize="@dimen/text_size_17_sp"
+            android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />

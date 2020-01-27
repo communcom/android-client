@@ -4,12 +4,15 @@ import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
+import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
 class FtueCommunityItem(
@@ -37,16 +40,29 @@ class FtueCommunityItem(
             }
         }
 
-        Glide.with(itemView.context)
+        Glide
+            .with(itemView.context.applicationContext)
             .load(listItem.community.coverUrl.checkImageUrl())
-            .transform(CircleCrop())
+            .transform(
+                CenterCrop(),
+                RoundedCorners(itemView.context.resources.getDimension(R.dimen.profile_communities_list_item_bcg_corner).toInt())
+            )
             .into(itemView.coverImage)
 
-        Glide.with(itemView.context)
+        Glide
+            .with(itemView.context.applicationContext)
             .load(listItem.community.avatarUrl.checkImageUrl())
-            .transform(CircleCrop())
+            .transform(
+                CircleCrop(),
+                RoundFrameTransformation(
+                    itemView.context.applicationContext,
+                    R.dimen.stroke_thin,
+                    R.color.white
+                )
+            )
             .override(100, 100)
             .into(itemView.avatarImage)
+
     }
 
     override fun release() {
