@@ -6,10 +6,10 @@ import java.util.*
 
 data class NotificationSubscribeItem(override val version: Long,
                                      override val id: Long,
-                                     val notificationId: String,
+                                     override val notificationId: String,
+                                     override val createTime: Date,
+                                     override val lastNotificationTime: String,
                                      val isNew: Boolean,
-                                     val createTime: Date,
-                                     val lastNotificationsTime: String,
                                      val userId: String,
-                                     val userName: String,
-                                     val userAvatar: String): VersionedListItem
+                                     val userName: String?,
+                                     val userAvatar: String?): BaseNotificationItem(version, id, notificationId, createTime, lastNotificationTime), VersionedListItem

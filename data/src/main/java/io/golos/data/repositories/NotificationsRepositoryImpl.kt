@@ -59,6 +59,6 @@ class NotificationsRepositoryImpl @Inject constructor(
             calendar.time.toString(),
             UserNotificationDomain(UserIdDomain("cmn1kveyyequ"), "inigomontoya", "https://img.commun.com/images/3YFJrdAL9CvaXhAao8v93tsLdsfo.jpg")))
 
-        return emptyList()
+        return notifications
     }
 }

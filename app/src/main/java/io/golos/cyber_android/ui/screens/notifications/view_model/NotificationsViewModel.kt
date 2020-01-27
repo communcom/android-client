@@ -1,12 +1,17 @@
 package io.golos.cyber_android.ui.screens.notifications.view_model
 
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedListItem
 import io.golos.cyber_android.ui.screens.notifications.model.NotificationsModel
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -14,10 +19,11 @@ import javax.inject.Inject
 
 class NotificationsViewModel @Inject constructor(notificationsModel: NotificationsModel,
                                                  dispatchersProvider: DispatchersProvider,
-                                                 private val paginator: Paginator.Store<VersionedListItem>) : ViewModelBase<NotificationsModel>(dispatchersProvider, notificationsModel) {
+                                                 private val paginator: Paginator.Store<VersionedListItem>) : ViewModelBase<NotificationsModel>(dispatchersProvider, notificationsModel),
+    NotificationsViewModelListEventsProcessor {
 
-    private val _commentListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
-    val commentListState = _commentListState.toLiveData()
+    private val _notificationsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
+    val notificationsListState = _notificationsListState.toLiveData()
 
     private var loadCommentsJob: Job? = null
 
@@ -30,19 +36,33 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
             }
         }
         paginator.render = { state ->
-            _commentListState.value = state
+            _notificationsListState.value = state
         }
 
-        loadNotifications(0)
+        loadNotificationsFirstPage()
+    }
+
+    override fun onChangeFollowerStatusClicked(notification: BaseNotificationItem) {
+        if(notification is NotificationSubscribeItem){
+
+        }
     }
 
 
-    fun loadMoreComments() {
+    override fun loadMoreNotifications() {
         paginator.proceed(Paginator.Action.LoadMore)
     }
 
+    override fun onRetryLoadPage() {
+        if(_notificationsListState.value is Paginator.State.PageError<*>){
+            paginator.proceed(Paginator.Action.LoadMore)
+        } else{
+            paginator.proceed(Paginator.Action.Restart)
+        }
+    }
+
     private fun loadNotificationsFirstPage(){
-        val postsListState = _commentListState.value
+        val postsListState = _notificationsListState.value
         if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
             restartLoadComments()
         }
@@ -57,12 +77,10 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         loadCommentsJob?.cancel()
         loadCommentsJob = launch {
             try {
-                /*val commentsDomain = model.getNotifications(PAGINATION_PAGE_SIZE
-                ).map { it.mapToComment() }
-                    .map { ProfileCommentListItem(it) }
+                val notificationItems = model.getNotifications(PAGINATION_PAGE_SIZE).mapNotNull { it.mapToVersionedListItem() }
                 launch(Dispatchers.Main) {
-                    paginator.proceed(Paginator.Action.NewPage(pageCount, commentsDomain))
-                }*/
+                    paginator.proceed(Paginator.Action.NewPage(pageCount, notificationItems))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 paginator.proceed(Paginator.Action.PageError(e))

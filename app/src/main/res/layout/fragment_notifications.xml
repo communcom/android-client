@@ -70,13 +70,43 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvNotifications"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:paddingBottom="@dimen/navigation_bottom_menu_height"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/navigation_bottom_menu_height"
+                tools:listitem="@layout/item_notification"/>
+
+            <Button
+                android:id="@+id/btnRetry"
+                style="@style/FindCommunityButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+                android:text="@string/retry"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                android:onClick="@{() -> viewModel.onRetryLoadPage()}"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/emptyProgressLoading"
+                layout="@layout/item_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                tools:visibility="visible" />
+        </FrameLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
