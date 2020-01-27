@@ -16,7 +16,7 @@ import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFr
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
-import io.golos.cyber_android.ui.screens.notifications.NotificationsFragment
+import io.golos.cyber_android.ui.screens.notifications.view.NotificationsFragment
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment

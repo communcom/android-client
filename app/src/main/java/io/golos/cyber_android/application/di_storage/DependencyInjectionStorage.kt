@@ -42,6 +42,7 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNam
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
+import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
 import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentModule
@@ -383,6 +384,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 getBase<UIComponent>()
                     .profileCommentsFragmentComponent
                     .init(ProfileCommentsModule(args[0] as UserIdDomain))
+                    .build()
+
+            NotificationsFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .notificationsFragmentComponent
                     .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")
