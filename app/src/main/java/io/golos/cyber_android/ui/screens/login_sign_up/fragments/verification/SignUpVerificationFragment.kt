@@ -41,10 +41,10 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
         smsCode.setOnCodeChangedListener { viewModel.onFieldChanged(it) }
         smsCode.setOnDonePressedListener { next.performClick() }
 
-        resend.setOnClickListener {
-            signUpViewModel.resendCode()
-            viewModel.restartResendTimer()
-        }
+//        resend.setOnClickListener {
+//            signUpViewModel.resendCode()
+//            viewModel.restartResendTimer()
+//        }
         next.setOnClickListener { sendCode() }
 
         showKeyboardOnCodeInput()

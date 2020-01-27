@@ -27,8 +27,8 @@ class NavigateToSearchCommunitiesCommand : ViewCommand
 
 class SetLoadingVisibilityCommand(val isVisible: Boolean) : ViewCommand
 
-class ShowMessageResCommand(@StringRes val textResId: Int): ViewCommand
-class ShowMessageTextCommand(val text: String): ViewCommand
+class ShowMessageResCommand(@StringRes val textResId: Int, val isError: Boolean = true): ViewCommand
+class ShowMessageTextCommand(val text: String, val isError: Boolean = true): ViewCommand
 
 class ShowPostFiltersCommand : ViewCommand
 

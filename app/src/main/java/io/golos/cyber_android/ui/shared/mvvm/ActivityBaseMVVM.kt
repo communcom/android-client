@@ -113,7 +113,7 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when (command) {
             is ShowMessageResCommand -> {
-                uiHelper.showMessage(command.textResId)
+                uiHelper.showMessage(command.textResId, command.isError)
                 true
             }
             is SetLoadingVisibilityCommand -> {

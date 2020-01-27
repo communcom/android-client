@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared.clipboard
 
+import android.content.ClipData
 import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
 import android.content.Context
@@ -11,6 +12,10 @@ class ClipboardUtilsImpl
 constructor(
     private val appContext: Context
 ) : ClipboardUtils {
+    override fun putPlainText(value: String) {
+        val manager = getManager()
+        manager.primaryClip = ClipData.newPlainText(value, value)
+    }
 
     override fun getPlainText(): String? {
         val manager = getManager()

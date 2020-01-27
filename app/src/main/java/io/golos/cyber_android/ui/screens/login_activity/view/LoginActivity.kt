@@ -72,7 +72,7 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
     private fun setupViewModel() {
         viewModel.command.observe(this, Observer {
             when(it) {
-                is ShowMessageResCommand -> uiHelper.showMessage(it.textResId)
+                is ShowMessageResCommand -> uiHelper.showMessage(it.textResId, it.isError)
 
                 is ShowSplashAnimationCommand -> splashAnimator.startAnimation(this)
                 is HideSplashAnimationCommand -> splashAnimator.completeAnimation()
@@ -91,7 +91,7 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
 
         val graph = inflater.inflate(R.navigation.graph_login)
         graph.startDestination = when(stage) {
-            AuthStage.WELCOME -> R.id.welcomeFragment
+            AuthStage.WELCOME -> R.id.signUpProtectionKeysFragment //R.id.welcomeFragment
             AuthStage.CONTINUE -> R.id.pinCodeFragment
         }
 

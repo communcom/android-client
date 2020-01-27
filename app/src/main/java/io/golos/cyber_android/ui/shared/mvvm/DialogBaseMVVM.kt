@@ -126,7 +126,7 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when (command) {
             is ShowMessageResCommand -> {
-                uiHelper.showMessage(command.textResId)
+                uiHelper.showMessage(command.textResId, command.isError)
                 true
             }
             else -> false

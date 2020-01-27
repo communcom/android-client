@@ -7,7 +7,7 @@ class UserNameValidatorImpl
 @Inject
 constructor() : UserNameValidator {
     override val minLen: Int
-        get() = 3
+        get() = 5
 
     override val maxLen: Int
         get() = 32

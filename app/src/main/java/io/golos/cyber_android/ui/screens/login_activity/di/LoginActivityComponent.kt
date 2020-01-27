@@ -1,18 +1,16 @@
 package io.golos.cyber_android.ui.screens.login_activity.di
 
 import dagger.Subcomponent
-import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
 import io.golos.cyber_android.ui.screens.login_activity.view.LoginActivity
-import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_countries.view.SignUpCountryFragment
+import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpNameFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment
-import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification.SignUpVerificationFragment
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(modules = [
@@ -26,7 +24,6 @@ interface LoginActivityComponent {
         fun build(): LoginActivityComponent
     }
 
-    val onBoardingFragmentComponent: OnBoardingFragmentComponent.Builder
     val signInUserNameFragmentComponent: SignInUserNameFragmentComponent.Builder
     val signInQrCodeFragmentComponent: SignInQrCodeFragmentComponent.Builder
     val signUpProtectionKeysFragmentComponent: SignUpProtectionKeysFragmentComponent.Builder

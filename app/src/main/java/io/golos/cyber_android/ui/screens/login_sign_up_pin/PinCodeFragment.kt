@@ -81,7 +81,7 @@ class PinCodeFragment : FragmentBase() {
 
         viewModel.command.observe(viewLifecycleOwner, Observer { command ->
             when(command) {
-                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
+                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
 
                 is NavigateToFingerprintCommand -> findNavController().navigate(R.id.action_pinCodeFragment_to_fingerprintFragment)
 

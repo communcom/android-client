@@ -126,37 +126,10 @@
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
-        android:id="@+id/onboardingUserImageFragment"
-        android:name="io.golos.cyber_android.ui.screens.login_sign_up.fragments.onboardingImage.OnboardingUserImageFragment"
-        android:label="onboarding_user_image_fragment"
-        tools:layout="@layout/fragment_onboarding_user_image">
-        <action
-            android:id="@+id/action_onboardingUserImageFragment_to_onboardingBioFragment"
-            app:destination="@id/onboardingBioFragment"
-            app:enterAnim="@anim/nav_slide_in_right"
-            app:exitAnim="@anim/nav_slide_out_left"
-            app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/onboardingBioFragment"
-        android:name="io.golos.cyber_android.ui.screens.login_sign_up_bio.OnboardingBioFragment"
-        android:label="fragment_onboarding_bio"
-        tools:layout="@layout/fragment_onboarding_bio" />
-    <fragment
         android:id="@+id/signUpProtectionKeysFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view.SignUpProtectionKeysFragment"
         android:label="fragment_sign_up_protection_keys"
-        tools:layout="@layout/fragment_sign_up_protection_keys">
-        <action
-            android:id="@+id/action_signUpProtectionKeysFragment_to_onboardingUserImageFragment"
-            app:destination="@id/onboardingUserImageFragment"
-            app:enterAnim="@anim/nav_slide_in_right"
-            app:exitAnim="@anim/nav_slide_out_left"
-            app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right"
-            app:popUpTo="@+id/graph_login" />
-    </fragment>
+        tools:layout="@layout/fragment_sign_up_protection_keys"/>
     <fragment
         android:id="@+id/pinCodeFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment"

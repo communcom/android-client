@@ -3,23 +3,19 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.extensions.safeNavigate
+import io.golos.cyber_android.ui.dialogs.KeysBackupWarningDialog
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
+import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.shared.keys_to_pdf.PdfKeysExporter
 import io.golos.cyber_android.ui.shared.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.dialogs.KeysBackupWarningDialog
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.onboardingImage.OnboardingUserImageFragment
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.NavigateToOnboardingCommand
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
-import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
 
 
@@ -40,6 +36,8 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        explanationLabel.text = this.resources.getText(R.string.need_password)
 
         backup.setOnClickListener { keysExporter.startExport() }
         keysExporter.setOnExportCompletedListener { viewModel.onBackupCompleted() }
@@ -66,22 +64,21 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is NavigateToOnboardingCommand -> navigateToOnboarding(command.user)
+            is NavigateToMainScreenCommand -> navigateToMainScreen()
             is StartExportingCommand -> keysExporter.processDataToExport(command.userName, command.userId, command.keys)
             is ShowBackupWarningDialogCommand -> showBackupWarningCommand()
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }
 
-    private fun navigateToOnboarding(user: UserIdDomain) {
-        findNavController().safeNavigate(
-            R.id.signUpProtectionKeysFragment,
-            R.id.action_signUpProtectionKeysFragment_to_onboardingUserImageFragment,
-            Bundle().apply { putParcelable(Tags.ARGS, OnboardingUserImageFragment.Args(user.userId) )}
-        )
-    }
-
     private fun showBackupWarningCommand() {
         KeysBackupWarningDialog.newInstance(this@SignUpProtectionKeysFragment).show(requireFragmentManager(), "menu")
+    }
+
+    private fun navigateToMainScreen() {
+        if (!requireActivity().isFinishing) {
+            requireActivity().finish()
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
     }
 }

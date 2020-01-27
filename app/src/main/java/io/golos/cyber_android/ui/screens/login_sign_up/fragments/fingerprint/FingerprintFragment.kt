@@ -68,7 +68,7 @@ class FingerprintFragment : FragmentBase() {
     private fun observeViewModel() {
         viewModel.command.observe(viewLifecycleOwner, Observer { command ->
             when (command) {
-                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
+                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
 
                 is NavigateToKeysCommand -> navigateToSignUpProtectionKeysScreen()
 

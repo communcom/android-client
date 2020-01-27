@@ -7,9 +7,10 @@ import io.golos.cyber_android.ui.shared.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.NavigateToOnboardingCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModel
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.UserKeyType
@@ -24,7 +25,8 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: SignUpProtectionKeysModel,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val currentUserRepository: CurrentUserRepositoryRead
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    private val clipboardUtils: ClipboardUtils
 ) : ViewModelBase<SignUpProtectionKeysModel>(dispatchersProvider, model) {
 
     private val _masterKey = MutableLiveData<String>()
@@ -46,7 +48,7 @@ constructor(
             val newAuthState = keyValueStorage.getAuthState()!!.copy(isKeysExported = true)
             keyValueStorage.saveAuthState(newAuthState)
 
-            _command.value = NavigateToOnboardingCommand(currentUserRepository.userId)
+            _command.value = NavigateToMainScreenCommand()
         }
     }
 
@@ -54,7 +56,7 @@ constructor(
         launch {
             try {
                 model.saveKeysExported()
-                _command.value = NavigateToOnboardingCommand(currentUserRepository.userId)
+                _command.value = NavigateToMainScreenCommand()
             } catch (ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
@@ -79,6 +81,13 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
+        }
+    }
+
+    fun onCopyMasterPasswordClick() {
+        masterKey.value?.let {
+            clipboardUtils.putPlainText(it)
+            _command.value = ShowMessageResCommand(R.string.master_password_copied, isError = false)
         }
     }
 }

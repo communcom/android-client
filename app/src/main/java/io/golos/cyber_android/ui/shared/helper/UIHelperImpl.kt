@@ -17,14 +17,14 @@ constructor(
 ) : UIHelper {
     private var lastMessage: Toast? = null
 
-    override fun showMessage(messageResId: Int) =
-        showMessage(appContext.resources.getString(messageResId))
+    override fun showMessage(messageResId: Int, isError: Boolean) =
+        showMessage(appContext.resources.getString(messageResId), isError)
 
     @SuppressLint("InflateParams")
-    override fun showMessage(message: String) {
+    override fun showMessage(message: String, isError: Boolean) {
         val inflater = appContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val popupView = inflater.inflate(R.layout.popup_toast, null)
+        val popupView = inflater.inflate(if(isError) R.layout.popup_toast_error else R.layout.popup_toast_information, null)
 
         val textView = popupView.findViewById<TextView>(R.id.messageText)
         textView.text = message

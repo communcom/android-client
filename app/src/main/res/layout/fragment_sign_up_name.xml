@@ -57,32 +57,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-                android:background="@drawable/bg_login_input_state"
-                android:paddingStart="@dimen/margin_default"
-                android:paddingEnd="@dimen/margin_default"
-                android:id="@+id/usernameInputLayout"
-                android:layout_marginTop="@dimen/margin_top_sign_up_inputs"
-                android:hint="@string/username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputEditText
-                    android:paddingTop="@dimen/padding_top_sign_in_edit_text"
-                    android:maxLines="1"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:background="@android:color/transparent"
-                    android:gravity="bottom"
-                    android:inputType="textNoSuggestions"
-                    android:layout_gravity="bottom"
-                    android:digits="abcdefghijklmnopqrstuvwxyz1234567890.-"
-                    android:id="@+id/username"
-                    android:textSize="@dimen/text_size_16_sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sign_up_field_height"
+
+            android:layout_marginTop="@dimen/dimen_48"
+
+            android:layout_marginStart="@dimen/dimen_26"
+            android:layout_marginEnd="@dimen/dimen_26"
+
+            style="@style/SignIn.InputField.Tips"
+
+            android:hint="@string/login"
+        />
 
         <View
                 android:layout_weight="191"
