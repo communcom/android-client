@@ -30,7 +30,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     init {
         paginator.sideEffectListener = { sideEffect ->
             when (sideEffect) {
-                is Paginator.SideEffect.LoadPage -> loadNotifications(sideEffect.pageCount)
+                is Paginator.SideEffect.LoadPage -> loadNotifications(sideEffect.pageCount, sideEffect.pageKey)
                 is Paginator.SideEffect.ErrorEvent -> {
                 }
             }
@@ -73,13 +73,15 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         paginator.proceed(Paginator.Action.Restart)
     }
 
-    private fun loadNotifications(pageCount: Int){
+    private fun loadNotifications(pageCount: Int, pageKey: String?){
         loadCommentsJob?.cancel()
         loadCommentsJob = launch {
             try {
-                val notificationItems = model.getNotifications(PAGINATION_PAGE_SIZE).mapNotNull { it.mapToVersionedListItem() }
+                val notifications = model.getNotifications(pageKey, PAGINATION_PAGE_SIZE)
+                val notificationItems = notifications.map { it.mapToVersionedListItem() }
+                val newPageKey = notifications.firstOrNull()?.lastNotificationTime
                 launch(Dispatchers.Main) {
-                    paginator.proceed(Paginator.Action.NewPage(pageCount, notificationItems))
+                    paginator.proceed(Paginator.Action.NewPage(pageCount, notificationItems, newPageKey))
                 }
             } catch (e: Exception) {
                 Timber.e(e)

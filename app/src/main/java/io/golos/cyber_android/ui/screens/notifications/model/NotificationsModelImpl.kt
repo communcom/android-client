@@ -9,7 +9,7 @@ import javax.inject.Inject
 class NotificationsModelImpl @Inject constructor(private val repository: NotificationsRepository) : NotificationsModel,
     ModelBaseImpl() {
 
-    override suspend fun getNotifications(limit: Int): List<BaseNotificationDomain> {
-        return repository.getNotifications(limit)
+    override suspend fun getNotifications(pageKey: String?, limit: Int): List<BaseNotificationDomain> {
+        return repository.getNotifications(pageKey, limit)
     }
 }

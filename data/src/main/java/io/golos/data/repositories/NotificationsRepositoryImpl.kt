@@ -14,7 +14,7 @@ class NotificationsRepositoryImpl @Inject constructor(
     private val commun4j: Commun4j
 ) : RepositoryBase(dispatchersProvider, networkStateChecker), NotificationsRepository {
 
-    override suspend fun getNotifications(limit: Int): List<BaseNotificationDomain> {
+    override suspend fun getNotifications(pageKey: String?, limit: Int): List<BaseNotificationDomain> {
         val notifications = mutableListOf<BaseNotificationDomain>()
         val calendar = Calendar.getInstance()
         notifications.add(SubscribeNotificationDomain(UUID.randomUUID().toString(),

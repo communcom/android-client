@@ -208,29 +208,30 @@ object Paginator {
         }
 
         fun getStoredItems(): List<T> {
-            return when (state) {
+            return when (val currentState: State = state) {
                 is State.Empty -> emptyList()
                 is State.EmptyProgress -> emptyList()
                 is State.EmptyError -> emptyList()
-                is State.Data<*> -> state.data as MutableList<T>
-                is State.Refresh<*> -> state.data as MutableList<T>
-                is State.NewPageProgress<*> -> state.data as MutableList<T>
-                is State.SearchProgress<*> -> state.data as MutableList<T>
-                is State.FullData<*> -> state.data as MutableList<T>
-                is State.PageError<*> -> state.data as MutableList<T>
-                is State.SearchPageError<*> -> state.data as MutableList<T>
+                is State.Data<*> -> currentState.data as List<T>
+                is State.Refresh<*> -> currentState.data as List<T>
+                is State.NewPageProgress<*> -> currentState.data as List<T>
+                is State.SearchProgress<*> -> currentState.data as List<T>
+                is State.FullData<*> -> currentState.data as List<T>
+                is State.PageError<*> -> currentState.data as List<T>
+                is State.SearchPageError<*> -> currentState.data as List<T>
             }
         }
 
         fun updateStoredItems(items: List<T>) {
-            when (state) {
-                is State.Data<*> -> state = Paginator.State.Data(items.size, items, state.pageKey)
-                is State.Refresh<*> -> Paginator.State.Refresh(items.size, items, state.pageKey)
-                is State.NewPageProgress<*> -> Paginator.State.NewPageProgress(items.size, items, state.pageKey)
-                is State.SearchProgress<*> -> Paginator.State.SearchProgress(items.size, items, state.pageKey)
-                is State.FullData<*> -> Paginator.State.FullData(items.size, items, state.pageKey)
-                is State.PageError<*> -> Paginator.State.PageError(items.size, items, state.pageKey)
-                is State.SearchPageError<*> -> Paginator.State.SearchPageError(items.size, items, state.pageKey)
+            state = when (val currentState: State = state) {
+                is State.Data<*> -> Paginator.State.Data(currentState.pageCount, items, currentState.pageKey)
+                is State.Refresh<*> -> Paginator.State.Refresh(currentState.pageCount, items, currentState.pageKey)
+                is State.NewPageProgress<*> -> Paginator.State.NewPageProgress(currentState.pageCount, items, currentState.pageKey)
+                is State.SearchProgress<*> -> Paginator.State.SearchProgress(currentState.pageCount, items, currentState.pageKey)
+                is State.FullData<*> -> Paginator.State.FullData(currentState.pageCount, items, currentState.pageKey)
+                is State.PageError<*> -> Paginator.State.PageError(currentState.pageCount, items, currentState.pageKey)
+                is State.SearchPageError<*> -> Paginator.State.SearchPageError(currentState.pageCount, items, currentState.pageKey)
+                else -> currentState
             }
         }
     }
