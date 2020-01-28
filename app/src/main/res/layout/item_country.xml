@@ -32,7 +32,7 @@
             android:paddingEnd="@dimen/margin_default"
             android:layout_gravity="center_vertical"
             tools:text="Russia (+7)"
-            android:theme="@style/PostCardCommunityTextStyle"
+            android:theme="@style/PostCardCommunityTextStyle.Bold"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>

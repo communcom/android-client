@@ -4,9 +4,9 @@ import android.view.View
 import androidx.annotation.StringRes
 
 interface UIHelper {
-    fun showMessage(@StringRes messageResId: Int)
+    fun showMessage(@StringRes messageResId: Int, isError: Boolean = true)
 
-    fun showMessage(message: String)
+    fun showMessage(message: String, isError: Boolean = true)
 
     fun hideMessage()
 

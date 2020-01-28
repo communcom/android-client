@@ -69,7 +69,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible"/>
+            tools:visibility="visible"
+            />
+
+        <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+            android:id="@+id/noDataStub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_followers_no_data_height"
+
+            tools:visibility="visible"
+            android:visibility="@{viewModel.noDataStubVisibility}"
+
+            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_marginEnd="@dimen/dimen_10"
+
+            app:noDataTitle="@{viewModel.noDataStubText}"
+            app:noDataExplanation="@{viewModel.noDataStubExplanation}"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

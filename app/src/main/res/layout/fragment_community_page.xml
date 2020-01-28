@@ -99,7 +99,9 @@
                             android:id="@+id/tvJoinTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/grey"
+
+                            style="@style/Page.Joined.TextStyle"
+
                             app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
                             app:layout_constraintStart_toStartOf="@+id/tvCommunityName"
                             app:layout_constraintTop_toBottomOf="@+id/tvCommunityName"

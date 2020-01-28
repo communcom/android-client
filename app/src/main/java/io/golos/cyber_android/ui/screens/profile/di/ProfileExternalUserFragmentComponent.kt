@@ -7,7 +7,11 @@ import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersEx
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsExternalUserFragmentComponent
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
-@Subcomponent(modules = [ProfileFragmentModuleBinds::class, ProfileFragmentModule::class, ProfileExternalUserFragmentModuleChild::class])
+@Subcomponent(modules = [
+    ProfileFragmentExternalUserModuleBinds::class,
+    ProfileFragmentModule::class,
+    ProfileExternalUserFragmentModuleChild::class
+])
 @FragmentScope
 interface ProfileExternalUserFragmentComponent {
     @Subcomponent.Builder

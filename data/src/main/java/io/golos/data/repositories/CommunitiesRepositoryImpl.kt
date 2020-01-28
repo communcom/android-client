@@ -173,4 +173,8 @@ constructor(
             )
         }.items.map { it.mapToUserDomain() }
     }
+
+    override suspend fun getUserCommunities(userIdDomain: UserIdDomain, offset: Int, pageSizeLimit: Int): List<CommunityDomain> =
+        apiCall { commun4j.getCommunitySubscriptions(CyberName(userIdDomain.userId), pageSizeLimit, offset) }
+        .map { it.mapToCommunityDomain() }
 }

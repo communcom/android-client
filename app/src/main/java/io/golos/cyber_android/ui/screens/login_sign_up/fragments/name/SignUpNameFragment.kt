@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up.fragments.name
 
 import android.os.Bundle
 import android.text.InputFilter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.dialogs.UserNameRestrictionsWarningDialog
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
+import io.golos.cyber_android.ui.shared.extensions.setOnDrawableEndClickListener
 import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.cyber_android.ui.shared.utils.AllLowersInputFilter
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
@@ -40,7 +43,7 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
         super.onActivityCreated(savedInstanceState)
 
         username.filters = arrayOf(
-            InputFilter.LengthFilter(SignUpNameViewModel.MAX_USERNAME_LENGTH),
+            InputFilter.LengthFilter(viewModel.maxUserNameLen),
             AllLowersInputFilter()
         )
 
@@ -48,6 +51,8 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
         next.setOnClickListener {
             signUpViewModel.validateUserName(username.text.toString())
         }
+
+        username.setOnDrawableEndClickListener { showExplanationDialog() }
 
         username?.post {
             ViewUtils.showKeyboard(username)
@@ -120,5 +125,9 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
             else -> R.string.unknown_error
         }
         Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showExplanationDialog() {
+        UserNameRestrictionsWarningDialog.newInstance(this@SignUpNameFragment).show(requireFragmentManager(), "menu")
     }
 }

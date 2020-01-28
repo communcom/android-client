@@ -21,12 +21,32 @@
             android:id="@+id/tvCommunUrl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_marginStart="@dimen/dimen_14"
-            android:layout_marginTop="@dimen/dimen_28"
-            android:fontFamily="@font/roboto_bold"
+
+            android:textSize="@dimen/text_size_19_sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="commun /" />
+
+            app:layout_constraintBottom_toBottomOf="@id/dotsIndicator"
+            app:layout_constraintTop_toTopOf="@id/dotsIndicator"
+            tools:text="commun" />
+        
+        <ImageView
+            android:layout_width="@dimen/dimen_8"
+            android:layout_height="@dimen/dimen_23"
+
+            android:src="@drawable/ic_splash_icon"
+            android:tint="@color/blue"
+
+            android:layout_marginStart="@dimen/dimen_5"
+
+            app:layout_constraintStart_toEndOf="@+id/tvCommunUrl"
+            app:layout_constraintTop_toTopOf="@+id/tvCommunUrl"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCommunUrl"
+            tools:ignore="ContentDescription" />
 
         <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
             android:id="@+id/dotsIndicator"
@@ -38,10 +58,13 @@
             app:dotsSize="6dp"
             app:dotsSpacing="@dimen/dimen_4"
             app:dotsWidthFactor="4.0"
-            app:layout_constraintBottom_toBottomOf="@id/tvCommunUrl"
+
+            android:layout_marginTop="@dimen/dimen_28"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvCommunUrl"
+            app:layout_constraintTop_toTopOf="parent"
+
             app:selectedDotColor="@color/blue" />
 
         <TextView
@@ -65,11 +88,14 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+
+            android:layout_marginTop="@dimen/dimen_10"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCommunUrl"
+            app:layout_constraintTop_toBottomOf="@+id/dotsIndicator"
             app:layout_constraintVertical_bias="0.0" />
 
 

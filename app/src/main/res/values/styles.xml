@@ -102,7 +102,7 @@
         <item name="android:inputType">textCapSentences</item>
     </style>
 
-    <style name="SortingWidgetTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="SortingWidgetTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textColor">@color/clickable_text_color</item>
         <item name="android:textSize">@dimen/text_size_13_sp</item>
         <item name="fontFamily">@font/roboto_medium</item>
@@ -110,7 +110,7 @@
 
 
     <!--Comment-->
-    <style name="CommentsBaseTextStyle" parent="Widget.AppCompat.TextView">
+    <style name="CommentsBaseTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_15_sp</item>
     </style>
 
@@ -167,6 +167,9 @@
 
     <style name="PostCardCommunityTextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_15_sp</item>
+    </style>
+
+    <style name="PostCardCommunityTextStyle.Bold" parent="PostCardCommunityTextStyle">
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -225,7 +228,7 @@
     </style>
 
     <style name="SignInButtonStyle" parent="SignUpButtonStyle">
-        <item name="android:textColor">@color/clickable_text_color</item>
+        <item name="android:textColor">@color/blue</item>
         <item name="android:background">@color/white</item>
     </style>
 
@@ -277,6 +280,11 @@
     <style name="SignIn.InputField" parent="SignUp.InputField">
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="SignIn.InputField.Tips" parent="SignIn.InputField">
+        <item name="android:drawableEnd">@drawable/ic_report_info</item>
+        <item name="android:drawablePadding">@dimen/dimen_10</item>
     </style>
 
     <style name="SignIn.Query" parent="Common.Base.TextStyle">
@@ -582,6 +590,17 @@
         <item name="android:textOff">@string/follow</item>
         <item name="android:layout_width">@dimen/follow_following_button_width</item>
         <item name="android:layout_height">@dimen/follow_following_button_height</item>
+    </style>
+
+    <style name="UserName.Restriction.Dialog.Title.TextStyle" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Page.Joined.TextStyle" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grey</item>
     </style>
     <!--Common-->
 </resources>

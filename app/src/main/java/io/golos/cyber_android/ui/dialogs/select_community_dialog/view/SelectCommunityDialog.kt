@@ -125,7 +125,7 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
     }
     private fun processViewCommand(command: ViewCommand) {
         when(command) {
-            is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
+            is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
             is CommunitySelected -> {
                 closeActionListener(command.community)
                 isCommunitySelected = true

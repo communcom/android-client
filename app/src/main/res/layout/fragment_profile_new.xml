@@ -172,7 +172,9 @@
                             android:id="@+id/joinTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/grey"
+
+                            style="@style/Page.Joined.TextStyle"
+
                             app:joined="@{viewModel.joinDate}"
                             app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
                             app:layout_constraintStart_toStartOf="@+id/userName"

@@ -268,8 +268,9 @@
     <!--SignUp Protection-->
     <string name="back">Back</string>
     <string name="master_password">Master password</string>
-    <string name="has_been_generated">has been generated</string>
-    <string name="need_password">You need the master password to Log in.\nWe don\'t keep and can\'t restore passwords.\nSave it!</string>
+    <string name="you_owner">You owner</string>
+    <string name="of_your_identity">of your identity</string>
+    <string name="need_password">Commun doesn\'t have access to your password, and also in case of loss will not be able to recover it. <b><font color="@color/black">Save it securely!</font></b></string>
 
     <!--Pin code-->
     <string name="create_passcode">Create your passcode</string>
@@ -424,6 +425,7 @@
     <string name="check_connection">Check your Internet connection and try again</string>
     <string name="try_again">Try again</string>
     <string name="something_wrong">Something went wrong</string>
+    <string name="take_a_look">Take a look</string>
     <string name="voting_in_progress">Please wait, voting in progress</string>
     <string name="voting_one_leader">You can vote for one leader only</string>
 
@@ -435,4 +437,15 @@
 
     <string name="no_members">No members</string>
     <string name="no_members_community">There are no members in the community</string>
+
+    <string name="user_name_restriction_title">User name must be</string>
+    <string name="user_name_restriction_explanation">• The number of characters must not exceed 32\n• Uppercase letters in the username are not allowed\n• Valid characters: letters, numbers, hyphen\n• The hyphen character cannot be at the beginning or at the end of the username\n• The user name may contain a \"dot\" character\n• The presence of two \"dot\" characters in a row is not valid</string>
+
+    <string name="understand">Understand</string>
+
+    <string name="master_password_copied">The master password has been copied to a clipboard</string>
+
+    <string name="no_posts">No posts</string>
+    <string name="no_posts_not_found">Posts not found</string>
+    <string name="no_comments_written">You haven\’t written any comments yet</string>
 </resources>

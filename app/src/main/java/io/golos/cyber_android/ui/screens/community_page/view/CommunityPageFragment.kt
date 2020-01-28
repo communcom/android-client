@@ -7,8 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
@@ -21,7 +19,6 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsL
 import io.golos.cyber_android.ui.screens.community_page_members.view.CommunityPageMembersFragment
 import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
-import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.glide.loadCover
@@ -37,12 +34,6 @@ import kotlinx.android.synthetic.main.layout_community_header_members.*
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
     companion object {
         private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
-
-        fun getBundle(communityId: String): Bundle{
-            val bundle = Bundle()
-            bundle.putString(ARG_COMMUNITY_ID, communityId)
-            return bundle
-        }
 
         fun newInstance(communityId: String): CommunityPageFragment {
             val communityPageFragment = CommunityPageFragment()
@@ -115,7 +106,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     @SuppressLint("SetTextI18n")
     private fun observeViewModel() {
-        viewModel.communityPageLiveData.observe(this, Observer {
+        viewModel.communityPageLiveData.observe(viewLifecycleOwner, Observer {
             tvCommunityName.text = it.name
             tvDescription.text = it.description
 
@@ -163,7 +154,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             initViewPager(it)
         })
 
-        viewModel.communityPageIsErrorLiveData.observe(this, Observer {
+        viewModel.communityPageIsErrorLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 noConnection.visibility = View.VISIBLE
             } else {
@@ -171,7 +162,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             }
         })
 
-        viewModel.communityPageIsLoadProgressLiveData.observe(this, Observer {
+        viewModel.communityPageIsLoadProgressLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 emptyPostProgressLoading.visibility = View.VISIBLE
             } else {

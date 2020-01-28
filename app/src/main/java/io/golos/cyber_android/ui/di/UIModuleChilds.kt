@@ -1,9 +1,7 @@
 package io.golos.cyber_android.ui.di
 
 import dagger.Module
-import io.golos.cyber_android.ui.screens.login_sign_up_bio.di.BioFragmentComponent
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
-import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
@@ -14,7 +12,6 @@ import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent
 
 @Module(subcomponents = [
-    BioFragmentComponent::class,
     LoginActivityComponent::class,
     MainActivityComponent::class,
     PostPageFragmentComponent::class,

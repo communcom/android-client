@@ -1,70 +1,62 @@
 package io.golos.cyber_android.application.di_storage
 
 import android.content.Context
-import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.di.AppModule
 import io.golos.cyber_android.application.di.DaggerAppComponent
 import io.golos.cyber_android.ui.di.UIComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_bio.di.BioFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_bio.di.BioFragmentModule
+import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
+import io.golos.cyber_android.ui.dto.*
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
+import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListComponent
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListModule
+import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
 import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAboutFragmentModule
+import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsComponent
+import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsModule
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListComponent
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListModule
+import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersComponent
+import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersModule
+import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentModule
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentModule
-import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
-import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
-import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentModule
+import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
+import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentModule
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentModule
-import io.golos.cyber_android.ui.screens.post_filters.di.PostFilterFragmentModule
-import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
-import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
-import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentModule
-import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentComponent
-import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentModule
-import io.golos.cyber_android.ui.screens.profile_photos.di.ProfilePhotosFragmentComponent
-import io.golos.cyber_android.ui.screens.profile_photos.di.ProfilePhotosFragmentModule
-import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
-import io.golos.cyber_android.ui.dto.*
-import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
-import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
-import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
-import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
-import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsComponent
-import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsModule
-import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersComponent
-import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersModule
-import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
-import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentModule
-import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentComponent
-import io.golos.cyber_android.ui.screens.login_activity.di.on_boarding.OnBoardingFragmentModule
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
-import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
+import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentModule
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
+import io.golos.cyber_android.ui.screens.post_filters.di.PostFilterFragmentModule
+import io.golos.cyber_android.ui.screens.post_filters.di.PostFiltersFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportModule
+import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentModule
 import io.golos.cyber_android.ui.screens.profile.di.ProfileExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentModule
+import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentModule
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentModule
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
@@ -75,10 +67,13 @@ import io.golos.cyber_android.ui.screens.profile_communities.di.ProfileCommuniti
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersFragmentModule
+import io.golos.cyber_android.ui.screens.profile_photos.di.ProfilePhotosFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_photos.di.ProfilePhotosFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsExternalUserFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
+import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
@@ -149,12 +144,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
 
             UIComponent::class -> getBase<AppComponent>().ui.build()
-
-            BioFragmentComponent::class ->
-                getBase<UIComponent>()
-                    .bioFragment
-                    .init(BioFragmentModule(args[0] as CyberName))
-                    .build()
 
             EditorPageActivityComponent::class -> getBase<UIComponent>().editorPageActivity.build()
 
@@ -259,12 +248,6 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .build()
 
             LoginActivityComponent::class -> getBase<UIComponent>().loginActivity.build()
-
-            OnBoardingFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
-                    .onBoardingFragmentComponent
-                    .init(OnBoardingFragmentModule(args[0] as CyberName))
-                    .build()
 
             MainActivityComponent::class -> getBase<UIComponent>().mainActivity.build()
 

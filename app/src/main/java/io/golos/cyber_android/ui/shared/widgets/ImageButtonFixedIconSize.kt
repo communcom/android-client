@@ -53,7 +53,7 @@ constructor(
     private fun retrieveAttributes(attrs: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ImageButtonFixedIconSize)
 
-        icon = typedArray.getDrawable(R.styleable.ImageButtonFixedIconSize_imageButton_icon)!!
+        icon = typedArray.getDrawable(R.styleable.ImageButtonFixedIconSize_imageButton_icon)!!.mutate()
 
         val iconWidthTmp = typedArray.getDimension(R.styleable.ImageButtonFixedIconSize_imageButton_iconWidth, 0f)
         val iconHeightTmp = typedArray.getDimension(R.styleable.ImageButtonFixedIconSize_imageButton_iconHeight, 0f)

@@ -72,7 +72,7 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
     private fun setupViewModel() {
         viewModel.command.observe(this, Observer {
             when(it) {
-                is ShowMessageResCommand -> uiHelper.showMessage(it.textResId)
+                is ShowMessageResCommand -> uiHelper.showMessage(it.textResId, it.isError)
 
                 is ShowSplashAnimationCommand -> splashAnimator.startAnimation(this)
                 is HideSplashAnimationCommand -> splashAnimator.completeAnimation()

@@ -271,7 +271,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             when (command) {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
 
-                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId)
+                is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
 
                 is NavigateToMainScreenCommand -> closeEditor()
 

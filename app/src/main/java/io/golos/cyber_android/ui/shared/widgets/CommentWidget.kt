@@ -10,7 +10,7 @@ import android.widget.FrameLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.loadCommentAttachment
-import io.golos.cyber_android.ui.shared.glide.release
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
@@ -177,13 +177,13 @@ class CommentWidget @JvmOverloads constructor(
         contentId = null
         contentState = ContentState.NEW
         commentEdit.visibility = View.GONE
-        ivAttachment.release()
-        ivEditAttachment.release()
+        ivAttachment.clear()
+        ivEditAttachment.clear()
     }
 
     private fun clearAttachmentState() {
         commentAttachment.visibility = View.GONE
-        ivAttachment.release()
+        ivAttachment.clear()
     }
 
     private fun clearComment() {

@@ -135,11 +135,11 @@ abstract class FragmentBaseMVVM<VDB: ViewDataBinding, VM: ViewModelBase<out Mode
     private fun processViewCommandGeneral(command: ViewCommand): Boolean =
         when(command) {
             is ShowMessageResCommand -> {
-                uiHelper.showMessage(command.textResId)
+                uiHelper.showMessage(command.textResId, command.isError)
                 true
             }
             is ShowMessageTextCommand -> {
-                uiHelper.showMessage(command.text)
+                uiHelper.showMessage(command.text, command.isError)
                 true
             }
             is SetLoadingVisibilityCommand -> {

@@ -14,11 +14,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
 import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
-import io.golos.cyber_android.ui.shared.glide.release
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.layout_image_preload.view.*
-import kotlinx.android.synthetic.main.view_attachment_rich.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.flPreloadImage
 
@@ -137,8 +136,8 @@ constructor(
     }
 
     override fun release() {
-        image.release()
-        imageAspectRatio.release()
+        image.clear()
+        imageAspectRatio.clear()
         setOnClickProcessor(null)
         setOnClickListener(null)
     }
