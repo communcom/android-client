@@ -444,4 +444,8 @@
     <string name="understand">Understand</string>
 
     <string name="master_password_copied">The master password has been copied to a clipboard</string>
+
+    <string name="no_posts">No posts</string>
+    <string name="no_posts_not_found">Posts not found</string>
+    <string name="no_comments_written">You haven\’t written any comments yet</string>
 </resources>

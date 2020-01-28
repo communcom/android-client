@@ -1,6 +1,9 @@
 package io.golos.cyber_android.ui.screens.profile_posts.view_model
 
 import android.net.Uri
+import android.opengl.Visibility
+import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
@@ -32,7 +35,9 @@ import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
-class ProfilePostsViewModel @Inject constructor(
+class ProfilePostsViewModel
+@Inject
+constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
     private val profileUserId: UserIdDomain,
@@ -57,6 +62,12 @@ class ProfilePostsViewModel @Inject constructor(
 
     val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
 
+    val noDataStubText = MutableLiveData<Int>(R.string.no_posts).toLiveData()
+    val noDataStubExplanation = MutableLiveData<Int>(R.string.no_posts_not_found).toLiveData()
+
+    private val _noDataStubVisibility = MutableLiveData<Int>(View.GONE)
+    val noDataStubVisibility: LiveData<Int> get() = _noDataStubVisibility
+
     private var loadPostsJob: Job? = null
 
     init {
@@ -71,6 +82,7 @@ class ProfilePostsViewModel @Inject constructor(
         }
         paginator.render = {
             _postsListState.value = it
+            _noDataStubVisibility.value = if (it == Paginator.State.Empty) View.VISIBLE else View.GONE
         }
     }
 

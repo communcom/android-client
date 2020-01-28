@@ -17,6 +17,13 @@ import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.transformations.GradientTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.PercentageRoundVectorFrameTransformation
+import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
+
+enum class ImageProgressLoadState{
+    START,
+    COMPLETE,
+    ERROR
+}
 
 fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
 
@@ -88,7 +95,6 @@ fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoa
     }
     requestBuilder
         .listener(object: RequestListener<Drawable>{
-
             override fun onLoadFailed(
                 e: GlideException?,
                 model: Any?,
@@ -114,14 +120,33 @@ fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoa
         .into(this)
 }
 
-enum class ImageProgressLoadState{
-    START,
-    COMPLETE,
-    ERROR
-}
+fun ImageView.loadCommunityItemCover(url: String?): Target<*> =
+    Glide
+        .with(this.context.applicationContext)
+        .load(if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url)
+        .transform(
+            CenterCrop(),
+            RoundedCorners(this.context.resources.getDimension(R.dimen.profile_communities_list_item_bcg_corner).toInt())
+        )
+        .placeholder(R.drawable.bcg_community_item_loading_background)
+        .into(this)
 
-fun ImageView.release() {
-    Glide.with(this).clear(this)
-}
+fun ImageView.loadCommunityItemAvatar(url: String?): Target<*> =
+    Glide
+        .with(this.context.applicationContext)
+        .load(if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url)
+        .transform(
+            CircleCrop(),
+            RoundFrameTransformation(
+                this.context.applicationContext,
+                R.dimen.stroke_thin,
+                R.color.white
+            )
+        )
+        .override(100, 100)
+        .into(this)
+
+
+fun ImageView.clear() = Glide.with(this).clear(this)
 
 fun Target<*>.clear(context: Context) = Glide.with(context).clear(this)

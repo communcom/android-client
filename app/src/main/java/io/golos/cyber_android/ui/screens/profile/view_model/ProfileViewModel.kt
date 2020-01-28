@@ -253,6 +253,7 @@ constructor(
                     _followersCount.value = followersCount
                     _followingsCount.value = followingsCount
 
+                    val highlightCommunities = model.getHighlightCommunities()
                     if(highlightCommunities.isNotEmpty()) {
                         _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
                     }

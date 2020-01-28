@@ -12,6 +12,8 @@ import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
+import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
+import io.golos.cyber_android.ui.shared.glide.loadCommunityItemCover
 import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
@@ -40,37 +42,14 @@ class FtueCommunityItem(
             }
         }
 
-        Glide
-            .with(itemView.context.applicationContext)
-            .load(listItem.community.coverUrl.checkImageUrl())
-            .transform(
-                CenterCrop(),
-                RoundedCorners(itemView.context.resources.getDimension(R.dimen.profile_communities_list_item_bcg_corner).toInt())
-            )
-            .into(itemView.coverImage)
-
-        Glide
-            .with(itemView.context.applicationContext)
-            .load(listItem.community.avatarUrl.checkImageUrl())
-            .transform(
-                CircleCrop(),
-                RoundFrameTransformation(
-                    itemView.context.applicationContext,
-                    R.dimen.stroke_thin,
-                    R.color.white
-                )
-            )
-            .override(100, 100)
-            .into(itemView.avatarImage)
-
+        itemView.coverImage.loadCommunityItemCover(listItem.community.coverUrl)
+        itemView.avatarImage.loadCommunityItemAvatar(listItem.community.avatarUrl)
     }
 
     override fun release() {
         itemView.followingButton.setOnClickListener(null)
         itemView.followButton.setOnClickListener(null)
     }
-
-    private fun String?.checkImageUrl() = if (isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else this
 
     private fun getMembersCount(count: Int, resources: Resources): String {
         val formCount = KiloCounterFormatter.format(count)

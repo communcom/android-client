@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view_model
 
 import android.net.Uri
+import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
@@ -62,6 +64,12 @@ class ProfileCommentsViewModel @Inject constructor(
     private val _commentListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
     val commentListState = _commentListState.toLiveData()
 
+    val noDataStubText = MutableLiveData<Int>(R.string.no_comments_title).toLiveData()
+    val noDataStubExplanation = MutableLiveData<Int>(R.string.no_comments_written).toLiveData()
+
+    private val _noDataStubVisibility = MutableLiveData<Int>(View.GONE)
+    val noDataStubVisibility: LiveData<Int> get() = _noDataStubVisibility
+
     init {
         paginator.sideEffectListener = { sideEffect ->
             when (sideEffect) {
@@ -72,6 +80,7 @@ class ProfileCommentsViewModel @Inject constructor(
         }
         paginator.render = { state ->
             _commentListState.value = state
+            _noDataStubVisibility.value = if (state == Paginator.State.Empty) View.VISIBLE else View.GONE
         }
 
         loadInitialComments()

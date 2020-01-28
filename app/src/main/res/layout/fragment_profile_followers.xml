@@ -111,6 +111,7 @@
                     android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
 
                     android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
+
                     android:tag="MUTUALS"
 
                     android:textOff="@string/mutual"
@@ -118,10 +119,6 @@
                     android:textOn="@string/mutual"
                     app:filterFollowers="@{viewModel.filter}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/toggleFollowers"
-                    app:layout_constraintHorizontal_bias="0.5"
-
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
 
                     app:layout_constraintStart_toStartOf="@+id/searchField"
                     app:layout_constraintTop_toBottomOf="@+id/searchField"
@@ -130,40 +127,43 @@
                 <ToggleButton
                     android:id="@+id/toggleFollowers"
                     style="@style/BlueWhite.RoundCorners.Toggle"
-                    android:layout_width="wrap_content"
 
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/profile_followers_filters_button_height"
+
                     android:tag="FOLLOWERS"
+
+                    android:layout_marginStart="@dimen/dimen_10"
 
                     android:textOff="@string/followers"
 
                     android:textOn="@string/followers"
                     app:filterFollowers="@{viewModel.filter}"
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleMutual"
-                    app:layout_constraintEnd_toStartOf="@+id/toggleFollowing"
-                    app:layout_constraintHorizontal_bias="0.5"
 
+                    app:layout_constraintBottom_toBottomOf="@+id/toggleMutual"
                     app:layout_constraintStart_toEndOf="@+id/toggleMutual"
-                    app:layout_constraintTop_toTopOf="@+id/toggleMutual" />
+                    app:layout_constraintTop_toTopOf="@+id/toggleMutual"
+                />
 
                 <ToggleButton
                     android:id="@+id/toggleFollowing"
                     style="@style/BlueWhite.RoundCorners.Toggle"
-                    android:layout_width="wrap_content"
 
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/profile_followers_filters_button_height"
+
+                    android:layout_marginStart="@dimen/dimen_10"
+
                     android:tag="FOLLOWINGS"
 
                     android:textOff="@string/following"
-
                     android:textOn="@string/following"
                     app:filterFollowers="@{viewModel.filter}"
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleFollowers"
-                    app:layout_constraintEnd_toEndOf="@+id/searchField"
-                    app:layout_constraintHorizontal_bias="0.5"
 
+                    app:layout_constraintBottom_toBottomOf="@+id/toggleFollowers"
                     app:layout_constraintStart_toEndOf="@+id/toggleFollowers"
-                    app:layout_constraintTop_toTopOf="@+id/toggleFollowers" />
+                    app:layout_constraintTop_toTopOf="@+id/toggleFollowers"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

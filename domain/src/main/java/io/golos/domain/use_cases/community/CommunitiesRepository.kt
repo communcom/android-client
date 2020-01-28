@@ -38,4 +38,6 @@ interface CommunitiesRepository {
     suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain)
 
     suspend fun getSubscribers(communityId: String, offset: Int, pageSizeLimit: Int): List<UserDomain>
+
+    suspend fun getUserCommunities(userIdDomain: UserIdDomain, offset: Int, pageSizeLimit: Int): List<CommunityDomain>
 }

@@ -4,6 +4,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/profile_communities_list_item_area_corners" />
             <solid android:color="@color/white" />
+            <stroke android:color="@color/light_gray" android:width="@dimen/stroke_normal" />
         </shape>
     </item>
 </selector>

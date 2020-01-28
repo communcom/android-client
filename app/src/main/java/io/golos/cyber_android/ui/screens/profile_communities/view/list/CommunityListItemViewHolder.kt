@@ -15,6 +15,8 @@ import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransfor
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
+import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
+import io.golos.cyber_android.ui.shared.glide.loadCommunityItemCover
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
 class CommunityListItemViewHolder(
@@ -51,34 +53,12 @@ class CommunityListItemViewHolder(
                 itemView.followButton.setOnClickListener { listItemEventsProcessor.onFolllowUnfollowClick(community.communityId) }
             }
 
-            coverGlideTarget = Glide
-                .with(itemView.context.applicationContext)
-                .load(checkImageUrl(community.coverUrl))
-                .transform(
-                    CenterCrop(),
-                    RoundedCorners(itemView.context.resources.getDimension(R.dimen.profile_communities_list_item_bcg_corner).toInt())
-                )
-                .into(itemView.coverImage)
-
-            avatarGlideTarget = Glide
-                .with(itemView.context.applicationContext)
-                .load(checkImageUrl(community.avatarUrl))
-                .transform(
-                    CircleCrop(),
-                    RoundFrameTransformation(
-                        itemView.context.applicationContext,
-                        R.dimen.stroke_thin,
-                        R.color.white
-                    )
-                )
-                .override(100, 100)
-                .into(itemView.avatarImage)
+            coverGlideTarget = itemView.coverImage.loadCommunityItemCover(community.coverUrl)
+            avatarGlideTarget = itemView.avatarImage.loadCommunityItemAvatar(community.avatarUrl)
 
             itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community.communityId) }
         }
     }
-
-    private fun checkImageUrl(url: String?) = if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url
 
     override fun release() {
         itemView.followingButton.setOnClickListener(null)

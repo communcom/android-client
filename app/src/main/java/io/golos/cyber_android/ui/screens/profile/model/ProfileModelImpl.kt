@@ -3,21 +3,24 @@ package io.golos.cyber_android.ui.screens.profile.model
 import dagger.Lazy
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class ProfileModelImpl
+open class ProfileModelImpl
 @Inject
 constructor(
     private val profileUserId: UserIdDomain,
     private val currentUserRepository: CurrentUserRepository,
-    private val  usersRepository: UsersRepository,
+    private val usersRepository: UsersRepository,
+    private val communityRepository: CommunitiesRepository,
     private val logout: Lazy<LogoutUseCase>
 ) : ModelBaseImpl(),
     ProfileModel {
@@ -34,7 +37,7 @@ constructor(
     override val isInBlackList: Boolean
         get() = userProfile.isInBlacklist
 
-    private lateinit var userProfile: UserProfileDomain
+    protected lateinit var userProfile: UserProfileDomain
 
     override val mutualUsers: List<UserDomain>
         get() = userProfile.commonFriends
@@ -49,6 +52,9 @@ constructor(
         userProfile = usersRepository.getUserProfile(profileUserId)
         return userProfile
     }
+
+    override suspend fun getHighlightCommunities(): List<CommunityDomain> =
+        communityRepository.getUserCommunities(currentUserRepository.userId, 0, 10)
 
     /**
      * @return url of an avatar
