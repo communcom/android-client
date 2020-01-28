@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_view.view
 
+import android.animation.AnimatorInflater
+import android.animation.StateListAnimator
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -49,9 +51,7 @@ import kotlinx.android.synthetic.main.fragment_post.*
  * Fragment for single [PostModel] presentation
  */
 class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel>() {
-
     companion object {
-
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41242
 
         const val UPDATED_REQUEST_CODE = 41245
@@ -73,6 +73,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         val scrollToComments: Boolean = false
     ) : Parcelable
 
+    private val topShadow: StateListAnimator by lazy { AnimatorInflater.loadStateListAnimator(context, R.animator.appbar_elevation) }
+    private var isTopShadowSet = false
+    private val topShadowThreshold by lazy { context!!.resources.getDimension(R.dimen.post_top_shadow_threshold) }
+    private var oldStateListAnimator: StateListAnimator? = null
+
     override fun provideViewModelType(): Class<PostPageViewModel> = PostPageViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_post
@@ -92,6 +97,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        oldStateListAnimator = actionBar.stateListAnimator
 
         viewModel.post.observe(viewLifecycleOwner, Observer {
             (postView.adapter as PostPageAdapter).update(it)
@@ -120,6 +127,26 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         val postListLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         postView.layoutManager = postListLayoutManager
         (postView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        postView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val scrollOffset = postView.computeVerticalScrollOffset()
+
+                if(scrollOffset < topShadowThreshold) {
+                    if(isTopShadowSet) {
+                        actionBar.stateListAnimator = oldStateListAnimator      // Remove shadow
+                        isTopShadowSet = false
+                    }
+                } else {
+                    if(!isTopShadowSet) {
+                        actionBar.stateListAnimator = topShadow                 // Add shadow
+                        isTopShadowSet = true
+                    }
+                }
+            }
+        })
     }
 
     override fun onResume() {
