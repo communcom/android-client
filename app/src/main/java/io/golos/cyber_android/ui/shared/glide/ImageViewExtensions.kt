@@ -146,6 +146,14 @@ fun ImageView.loadCommunityItemAvatar(url: String?): Target<*> =
         .override(100, 100)
         .into(this)
 
+fun ImageView.loadNotificationImageContent(url: String?){
+    val roundSize = context.resources.getDimension(R.dimen.notification_content_image_round_size).toInt()
+    Glide.with(context)
+        .load(url.orEmpty())
+        .transform(CenterCrop(), RoundedCorners(roundSize))
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .into(this)
+}
 
 fun ImageView.clear() = Glide.with(this).clear(this)
 

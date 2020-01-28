@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.screens.notifications.view.list.items
 
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.NotificationCommentDomain
+import io.golos.domain.dto.NotificationPostDomain
+import io.golos.domain.dto.UserIdDomain
 import java.util.*
 
 
@@ -13,11 +15,10 @@ data class NotificationMentionItem(override val version: Long,
                                    override val userId: String,
                                    override val userName: String?,
                                    override val userAvatar: String?,
-                                   val commentShortText: String?,
-                                   val imageUrl: String?,
-                                   val commentContentId: ContentId,
-                                   val parentCommentContentId: ContentId?,
-                                   val parentPostContentId: ContentId
+                                   val comment: NotificationCommentDomain?,
+                                   val post: NotificationPostDomain?,
+                                   val currentUserId: UserIdDomain,
+                                   val currentUserName: String
 ) :
     BaseNotificationItem(
         version,

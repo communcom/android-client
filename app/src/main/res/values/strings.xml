@@ -451,9 +451,15 @@
 
     <!--Notifications-->
     <string name="new_notifications_label">%1$d new notifications</string>
-    <string name="subscribed_to_you">subscribed to you</string>
+    <string name="subscribed_to_you">is following you</string>
     <string name="no_notifications">No notification</string>
     <string name="no_notifications_explanation">You haven\’t received any notifications yet</string>
+    <string name="mention_on_comment">mentioned you in a comment:</string>
+    <string name="mention_on_post">mentioned you in a post:</string>
+    <string name="left_comment">left a comment:</string>
+    <string name="liked_your_post">liked your post</string>
+    <string name="liked_your_comment">liked your comment</string>
+    <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
 
 
 
