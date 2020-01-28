@@ -38,10 +38,6 @@
             tools:ignore="ContentDescription" />
     </FrameLayout>
 
-
-
-
-
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="0dp"

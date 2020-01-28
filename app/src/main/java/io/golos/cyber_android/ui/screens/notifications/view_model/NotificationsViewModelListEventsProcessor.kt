@@ -9,4 +9,6 @@ interface NotificationsViewModelListEventsProcessor: BaseListItemEventsProcessor
     fun loadMoreNotifications()
 
     fun onChangeFollowerStatusClicked(notification: BaseNotificationItem)
+
+    fun onUserClicked(userId: String)
 }

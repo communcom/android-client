@@ -42,6 +42,10 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         loadNotificationsFirstPage()
     }
 
+    override fun onUserClicked(userId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun onChangeFollowerStatusClicked(notification: BaseNotificationItem) {
         if(notification is NotificationSubscribeItem){
 
