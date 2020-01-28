@@ -10,11 +10,13 @@ import io.golos.cyber_android.databinding.FragmentNotificationsBinding
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.view.list.NotificationsAdapter
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationEmptyStubItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
+import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, NotificationsViewModel>() {
@@ -87,7 +89,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                     emptyProgressLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.Empty -> {
-                    adapter.update(mutableListOf())
+                    adapter.update(mutableListOf(NotificationEmptyStubItem(0, IdUtil.generateLongId())))
                     adapter.removeProgress()
                     adapter.removeRetry()
                     btnRetry.visibility = View.INVISIBLE

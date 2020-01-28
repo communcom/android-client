@@ -99,7 +99,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                 val notificationItems = notifications.map { it.mapToVersionedListItem() }
                 val newPageKey = notificationsPage.lastNotificationTimeStamp
                 launch(Dispatchers.Main) {
-                    paginator.proceed(Paginator.Action.NewPage(pageCount, notificationItems, newPageKey))
+                    paginator.proceed(Paginator.Action.NewPage(pageCount, emptyList<VersionedListItem>(), newPageKey))
                     _newNotificationsCount.value = notificationsUnreadCount
                 }
             } catch (e: Exception) {

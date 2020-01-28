@@ -452,5 +452,6 @@
     <!--Notifications-->
     <string name="new_notifications_label">%1$d new notifications</string>
     <string name="subscribed_to_you">subscribed to you</string>
+    <string name="no_notifications">No notification</string>
 
 </resources>
