@@ -8,43 +8,49 @@
     android:paddingEnd="@dimen/margin_default"
     android:background="@color/window_background">
 
-    <FrameLayout
-        android:id="@+id/flAvatar"
+    <ImageView
+        android:id="@+id/ivUserAvatar"
+        android:layout_width="@dimen/notification_user_avatar_size"
+        android:layout_height="@dimen/notification_user_avatar_size"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_marginStart="@dimen/margin_default"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@tools:sample/avatars"/>
+
+
+    <ImageView
+        android:id="@+id/ivUnreadIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_7"
-        android:layout_marginStart="@dimen/dimen_13"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:src="@drawable/ic_unread_point"
+        android:layout_gravity="top|start"
+        android:layout_marginBottom="@dimen/dimen_41"
+        android:layout_marginEnd="@dimen/dimen_41"
+        app:layout_constraintEnd_toEndOf="@id/ivUserAvatar"
+        app:layout_constraintBottom_toBottomOf="@+id/ivUserAvatar"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/ivUserAvatar"
-            android:layout_width="@dimen/notification_user_avatar_size"
-            android:layout_height="@dimen/notification_user_avatar_size"
-            android:layout_marginTop="@dimen/dimen_3"
-            android:layout_marginStart="@dimen/dimen_3"
-            tools:ignore="ContentDescription"
-            tools:src="@tools:sample/avatars"/>
-
-
-        <ImageView
-            android:id="@+id/ivUnreadIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_unread_point"
-            android:layout_gravity="top|start"
-            app:layout_constraintBottom_toTopOf="@id/ivUserAvatar"
-            app:layout_constraintEnd_toStartOf="@+id/ivUserAvatar"
-            tools:ignore="ContentDescription" />
-    </FrameLayout>
+    <ImageView
+        android:id="@+id/ivNotificationTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_marginTop="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        app:layout_constraintTop_toTopOf="@id/ivUserAvatar"
+        app:layout_constraintStart_toStartOf="@+id/ivUserAvatar"
+        tools:visibility="visible"
+        tools:src="@drawable/ic_mention_label"/>
 
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_10"
-        app:layout_constraintTop_toTopOf="@+id/flAvatar"
-        app:layout_constraintStart_toEndOf="@id/flAvatar"
+        app:layout_constraintTop_toTopOf="@+id/ivUserAvatar"
+        app:layout_constraintStart_toEndOf="@id/ivUserAvatar"
         app:layout_constraintEnd_toStartOf="@id/flAction"
         tools:text="@tools:sample/lorem/random"/>
 
@@ -53,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/flAvatar"
+        app:layout_constraintTop_toTopOf="@id/ivUserAvatar"
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible">
 

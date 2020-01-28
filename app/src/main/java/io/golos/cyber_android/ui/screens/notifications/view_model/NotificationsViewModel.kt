@@ -25,6 +25,9 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     private val _notificationsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
     val notificationsListState = _notificationsListState.toLiveData()
 
+    private val _newNotificationsCount: MutableLiveData<Int> = MutableLiveData(0)
+    val newNotificationsCount = _newNotificationsCount.toLiveData()
+
     private var loadCommentsJob: Job? = null
 
     init {
@@ -82,10 +85,17 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         loadCommentsJob = launch {
             try {
                 val notifications = model.getNotifications(pageKey, PAGINATION_PAGE_SIZE)
+                var notificationsUnreadCount = _newNotificationsCount.value
+                if(pageCount == 0){
+                    //Need load unread count
+                    notificationsUnreadCount = 10
+                    //Need mark notifications as read
+                }
                 val notificationItems = notifications.map { it.mapToVersionedListItem() }
                 val newPageKey = notifications.firstOrNull()?.lastNotificationTime
                 launch(Dispatchers.Main) {
                     paginator.proceed(Paginator.Action.NewPage(pageCount, notificationItems, newPageKey))
+                    _newNotificationsCount.value = notificationsUnreadCount
                 }
             } catch (e: Exception) {
                 Timber.e(e)

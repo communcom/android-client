@@ -77,5 +77,7 @@
     <color name="comment_user_name">@color/black</color>
     <color name="comment_empty_place_holder">@color/light_gray</color>
 
+    <!--Notifications-->
+    <color name="notification_mention_label">#62C6FF</color>
 
 </resources>

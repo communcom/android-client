@@ -4,15 +4,15 @@ import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationUpVoteItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 
-class NotificationUpVoteViewHolder (
+class NotificationUpVoteViewHolder(
     parentView: ViewGroup
-) : ViewHolderBase<NotificationsViewModelListEventsProcessor, NotificationUpVoteItem>(
-    parentView,
-    R.layout.item_notification
+) : BaseNotificationViewHolder<NotificationUpVoteItem>(
+    parentView
 ) {
-    override fun init(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label
 
+    override fun init(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+        super.init(listItem, listItemEventsProcessor)
     }
 }

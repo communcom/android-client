@@ -10,9 +10,9 @@ import io.golos.domain.utils.IdUtil
 
 fun BaseNotificationDomain.mapToVersionedListItem(): VersionedListItem {
     return when(this){
-        is MentionNotificationDomain -> NotificationMentionItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime)
+        is MentionNotificationDomain -> NotificationMentionItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime, isNew, user.id.userId, user.name, user.avatar)
         is SubscribeNotificationDomain -> NotificationSubscribeItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime, isNew, user.id.userId, user.name, user.avatar)
-        is UpVoteNotificationDomain -> NotificationUpVoteItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime)
-        is ReplyNotificationDomain -> NotificationReplyItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime)
+        is UpVoteNotificationDomain -> NotificationUpVoteItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime, isNew, user.id.userId, user.name, user.avatar)
+        is ReplyNotificationDomain -> NotificationReplyItem(0, IdUtil.generateLongId(), id, createTime, lastNotificationTime, isNew, user.id.userId, user.name, user.avatar)
     }
 }

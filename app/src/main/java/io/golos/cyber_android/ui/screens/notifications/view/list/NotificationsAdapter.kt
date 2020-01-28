@@ -24,7 +24,7 @@ class NotificationsAdapter (
             EMPTY_STUB -> NotificationEmptyStubViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             HEADER_DATE -> NotificationHeaderDateViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             MENTION -> NotificationMentionViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
-            REPLY -> NotificationMentionViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            REPLY -> NotificationReplyViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             SUBSCRIBE -> NotificationSubscribeViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             UP_VOTE -> NotificationUpVoteViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             PROGRESS -> LoadingListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>

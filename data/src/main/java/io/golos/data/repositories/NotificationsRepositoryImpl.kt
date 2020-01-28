@@ -24,22 +24,22 @@ class NotificationsRepositoryImpl @Inject constructor(
             calendar.time.toString(),
             UserNotificationDomain(UserIdDomain("cmn1kveyyequ"), "inigomontoya", "https://img.commun.com/images/3YFJrdAL9CvaXhAao8v93tsLdsfo.jpg")))
 
-        notifications.add(SubscribeNotificationDomain(UUID.randomUUID().toString(),
-            NotificationTypeDomain.SUBSCRIBE,
+        notifications.add(ReplyNotificationDomain(UUID.randomUUID().toString(),
+            NotificationTypeDomain.REPLY,
             true,
             calendar.time,
             calendar.time.toString(),
             UserNotificationDomain(UserIdDomain("cmn1kveyyequ"), "inigomontoya", "https://img.commun.com/images/3YFJrdAL9CvaXhAao8v93tsLdsfo.jpg")))
 
-        notifications.add(SubscribeNotificationDomain(UUID.randomUUID().toString(),
-            NotificationTypeDomain.SUBSCRIBE,
+        notifications.add(MentionNotificationDomain(UUID.randomUUID().toString(),
+            NotificationTypeDomain.MENTION,
             true,
             calendar.time,
             calendar.time.toString(),
             UserNotificationDomain(UserIdDomain("cmn1kveyyequ"), "inigomontoya", "https://img.commun.com/images/3YFJrdAL9CvaXhAao8v93tsLdsfo.jpg")))
 
-        notifications.add(SubscribeNotificationDomain(UUID.randomUUID().toString(),
-            NotificationTypeDomain.SUBSCRIBE,
+        notifications.add(UpVoteNotificationDomain(UUID.randomUUID().toString(),
+            NotificationTypeDomain.UP_VOTE,
             true,
             calendar.time,
             calendar.time.toString(),

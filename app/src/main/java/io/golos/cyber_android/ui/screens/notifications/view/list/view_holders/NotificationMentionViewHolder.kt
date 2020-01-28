@@ -4,15 +4,15 @@ import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationMentionItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 
-class NotificationMentionViewHolder (
+class NotificationMentionViewHolder(
     parentView: ViewGroup
-) : ViewHolderBase<NotificationsViewModelListEventsProcessor, NotificationMentionItem>(
-    parentView,
-    R.layout.item_notification
+) : BaseNotificationViewHolder<NotificationMentionItem>(
+    parentView
 ) {
-    override fun init(listItem: NotificationMentionItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    override val notificationTypeLabelResId: Int = R.drawable.ic_mention_label
 
+    override fun init(listItem: NotificationMentionItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+        super.init(listItem, listItemEventsProcessor)
     }
 }

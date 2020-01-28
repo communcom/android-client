@@ -56,7 +56,8 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                     adapter.removeProgress()
                     adapter.removeRetry()
                     val items = (state.data as MutableList<VersionedListItem>)
-                    adapter.update(items)
+                    val itemsWithDates = addDateSections(items)
+                    adapter.update(itemsWithDates)
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
                 }
@@ -64,7 +65,8 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                     adapter.removeProgress()
                     adapter.removeRetry()
                     val items = (state.data as MutableList<VersionedListItem>)
-                    adapter.update(items)
+                    val itemsWithDates = addDateSections(items)
+                    adapter.update(itemsWithDates)
                     btnRetry.visibility = View.INVISIBLE
                     emptyProgressLoading.visibility = View.INVISIBLE
                 }
@@ -99,5 +101,17 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                 }
             }
         })
+        viewModel.newNotificationsCount.observe(viewLifecycleOwner, Observer {
+            if(it == 0){
+                tvUnreadCountLabel.visibility = View.INVISIBLE
+            } else{
+                tvUnreadCountLabel.visibility = View.VISIBLE
+                tvUnreadCountLabel.text = getString(R.string.new_notifications_label, it)
+            }
+        })
+    }
+
+    private fun addDateSections(items: MutableList<VersionedListItem>): MutableList<VersionedListItem>{
+        return items
     }
 }
