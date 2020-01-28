@@ -47,7 +47,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     }
 
     override fun onUserClicked(userId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onChangeFollowerStatusClicked(notification: BaseNotificationItem) {
@@ -90,8 +90,11 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                 var notificationsUnreadCount = _newNotificationsCount.value
                 if(pageCount == 0){
                     //Need load unread count
-                    notificationsUnreadCount = 10
+                    notificationsUnreadCount = model.getUnreadNotificationsCount()
                     //Need mark notifications as read
+                    notifications.firstOrNull()?.let {
+                        model.markAllNotificationAsViewed(it.createTime)
+                    }
                 }
                 val notificationItems = notifications.map { it.mapToVersionedListItem() }
                 val newPageKey = notificationsPage.lastNotificationTimeStamp

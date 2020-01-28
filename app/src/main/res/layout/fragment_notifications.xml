@@ -27,7 +27,6 @@
 
             <TextView
                 android:id="@+id/toolbarTitle"
-                app:layout_scrollFlags="scroll|enterAlways"
                 android:text="@string/notifications"
                 style="@style/ToolbarTitleTextStyle"
                 android:layout_marginStart="@dimen/margin_default"
@@ -47,6 +46,7 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:drawablePadding="@dimen/gap"
                 android:textColor="@color/grey"
+                app:layout_scrollFlags="scroll|enterAlways"
                 tools:text="@string/new_notifications_label"/>
 
         </com.google.android.material.appbar.AppBarLayout>
