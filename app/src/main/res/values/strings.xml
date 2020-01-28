@@ -453,5 +453,8 @@
     <string name="new_notifications_label">%1$d new notifications</string>
     <string name="subscribed_to_you">subscribed to you</string>
     <string name="no_notifications">No notification</string>
+    <string name="no_notifications_explanation">You haven\’t received any notifications yet</string>
+
+
 
 </resources>

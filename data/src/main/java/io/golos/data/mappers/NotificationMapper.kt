@@ -12,8 +12,7 @@ fun Notification.mapToNotificationDomain(): NotificationDomain? {
                 authorNotification.username,
                 authorNotification.avatarUrl
             )
-            val post = post?.mapToPostNotificationDomain()
-            UpVoteNotificationDomain(id, isNew, timestamp, userNotificationDomain, post)
+            UpVoteNotificationDomain(id, isNew, timestamp, userNotificationDomain, comment!!.mapToNotificationCommentDomain())
         }
         is MentionNotification -> {
             val authorNotification = author
@@ -22,8 +21,7 @@ fun Notification.mapToNotificationDomain(): NotificationDomain? {
                 authorNotification.username,
                 authorNotification.avatarUrl
             )
-            val post = post?.mapToPostNotificationDomain()
-            MentionNotificationDomain(id, isNew, timestamp, userNotificationDomain, post)
+            MentionNotificationDomain(id, isNew, timestamp, userNotificationDomain, comment!!.mapToNotificationCommentDomain())
         }
         is ReplyNotification -> {
             val authorNotification = author
@@ -32,8 +30,7 @@ fun Notification.mapToNotificationDomain(): NotificationDomain? {
                 authorNotification.username,
                 authorNotification.avatarUrl
             )
-            val post = post?.mapToPostNotificationDomain()
-            ReplyNotificationDomain(id, isNew, timestamp, userNotificationDomain, post)
+            ReplyNotificationDomain(id, isNew, timestamp, userNotificationDomain, comment!!.mapToNotificationCommentDomain())
         }
         is SubscribeNotification -> {
             val authorNotification = user

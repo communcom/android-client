@@ -15,5 +15,6 @@ class NotificationEmptyStubViewHolder (
 ) {
     override fun init(listItem: NotificationEmptyStubItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         itemView.commentEmptyHolder.setTitle(R.string.no_notifications)
+        itemView.commentEmptyHolder.setExplanation(R.string.no_notifications_explanation)
     }
 }

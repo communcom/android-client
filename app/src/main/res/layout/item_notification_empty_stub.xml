@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commentEmptyHolder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="0dp"
-    android:layout_marginTop="@dimen/dimen_20"
-    android:layout_marginBottom="@dimen/dimen_20"
+    android:layout_height="@dimen/profile_followers_no_data_height"
     android:layout_marginStart="@dimen/dimen_10"
-    android:layout_marginEnd="@dimen/dimen_10">
-
-    <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
-        android:id="@+id/commentEmptyHolder"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_followers_no_data_height" />
-
-</com.google.android.material.card.MaterialCardView>
+    android:layout_marginTop="@dimen/dimen_20"
+    android:layout_marginEnd="@dimen/dimen_10"
+    android:layout_marginBottom="@dimen/dimen_20" />

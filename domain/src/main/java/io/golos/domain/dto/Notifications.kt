@@ -14,7 +14,7 @@ data class MentionNotificationDomain(
     override val isNew: Boolean,
     override val createTime: Date,
     override val user: UserNotificationDomain,
-    val post: PostNotificationDomain?
+    val comment: NotificationCommentDomain
 ) : NotificationDomain(id, isNew, createTime, user)
 
 data class ReplyNotificationDomain(
@@ -22,7 +22,7 @@ data class ReplyNotificationDomain(
     override val isNew: Boolean,
     override val createTime: Date,
     override val user: UserNotificationDomain,
-    val post: PostNotificationDomain?
+    val comment: NotificationCommentDomain
 ) : NotificationDomain(id, isNew, createTime, user)
 
 data class SubscribeNotificationDomain(
@@ -37,7 +37,7 @@ data class UpVoteNotificationDomain(
     override val isNew: Boolean,
     override val createTime: Date,
     override val user: UserNotificationDomain,
-    val post: PostNotificationDomain?
+    val comment: NotificationCommentDomain
 ) : NotificationDomain(id, isNew, createTime, user)
 
 data class UserNotificationDomain(val id: UserIdDomain, val name: String?, val avatar: String?)

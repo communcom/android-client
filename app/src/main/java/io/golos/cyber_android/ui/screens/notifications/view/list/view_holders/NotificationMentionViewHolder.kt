@@ -15,4 +15,8 @@ class NotificationMentionViewHolder(
     override fun init(listItem: NotificationMentionItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
     }
+
+    fun setMessage(listItem: NotificationMentionItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+
+    }
 }
