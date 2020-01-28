@@ -4,7 +4,6 @@ import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
@@ -27,7 +26,6 @@ class NotificationSubscribeViewHolder(
     override fun init(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
-        setAction(listItem, listItemEventsProcessor)
     }
 
     private fun setMessage(
@@ -54,17 +52,5 @@ class NotificationSubscribeViewHolder(
             result
         }
         itemView.tvMessage.text = message
-    }
-
-    private fun setAction(
-        listItem: NotificationSubscribeItem,
-        listItemEventsProcessor: NotificationsViewModelListEventsProcessor
-    ) {
-        itemView.flAction.visibility = View.VISIBLE
-        itemView.btnFollow.visibility = View.VISIBLE
-        itemView.ivContent.visibility = View.GONE
-        itemView.btnFollow.setOnClickListener {
-            listItemEventsProcessor.onChangeFollowerStatusClicked(listItem)
-        }
     }
 }

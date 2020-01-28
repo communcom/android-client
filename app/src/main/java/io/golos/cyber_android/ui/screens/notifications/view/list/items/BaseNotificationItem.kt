@@ -8,7 +8,6 @@ open class BaseNotificationItem (
     override val id: Long,
     open val notificationId: String,
     open val createTime: Date,
-    open val lastNotificationTime: String,
     open val isNew: Boolean,
     open val userId: String,
     open val userName: String?,

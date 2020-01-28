@@ -1,12 +1,7 @@
 package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders
 
-import android.graphics.Typeface
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
@@ -14,10 +9,6 @@ import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimatio
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
-import io.golos.utils.SPACE
 import kotlinx.android.synthetic.main.item_notification.view.*
 
 abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
@@ -33,7 +24,6 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
         setUserAvatar(listItem, listItemEventsProcessor)
         setUnreadIndicatorVisibility(listItem)
         setCreateTime(listItem)
-        setMessage(listItem, listItemEventsProcessor)
         setNotificationTypeLabel()
     }
 
@@ -57,29 +47,6 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
             val userId = listItem.userId
             listItemEventsProcessor.onUserClicked(userId)
         }
-    }
-
-    private fun setMessage(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
-        val userId = listItem.userId
-        val message = listItem.userName?.let {
-            val result = SpannableStringBuilder()
-            val userNameInterval = result.appendText(it)
-            result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
-            val context = itemView.context
-            val colorMessage = ContextCompat.getColor(context, R.color.black)
-            result.setSpan(object : ColorTextClickableSpan(userId, colorMessage){
-
-                override fun onClick(spanData: String) {
-                    super.onClick(spanData)
-                    listItemEventsProcessor.onUserClicked(spanData)
-                }
-            }, userNameInterval)
-            result.append(SPACE)
-            val messageInterval = result.appendText(context.getString(R.string.subscribed_to_you))
-            result.setSpan(ForegroundColorSpan(colorMessage), messageInterval)
-            result
-        }
-        itemView.tvMessage.text = message
     }
 
     private fun setCreateTime(listItem: BaseNotificationItem){

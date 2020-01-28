@@ -31,6 +31,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     private var loadCommentsJob: Job? = null
 
     init {
+        paginator.pageSize = PAGINATION_PAGE_SIZE
         paginator.sideEffectListener = { sideEffect ->
             when (sideEffect) {
                 is Paginator.SideEffect.LoadPage -> loadNotifications(sideEffect.pageCount, sideEffect.pageKey)
@@ -84,7 +85,8 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         loadCommentsJob?.cancel()
         loadCommentsJob = launch {
             try {
-                val notifications = model.getNotifications(pageKey, PAGINATION_PAGE_SIZE)
+                val notificationsPage = model.getNotifications(pageKey, PAGINATION_PAGE_SIZE)
+                val notifications = notificationsPage.notifications
                 var notificationsUnreadCount = _newNotificationsCount.value
                 if(pageCount == 0){
                     //Need load unread count
@@ -92,7 +94,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                     //Need mark notifications as read
                 }
                 val notificationItems = notifications.map { it.mapToVersionedListItem() }
-                val newPageKey = notifications.firstOrNull()?.lastNotificationTime
+                val newPageKey = notificationsPage.lastNotificationTimeStamp
                 launch(Dispatchers.Main) {
                     paginator.proceed(Paginator.Action.NewPage(pageCount, notificationItems, newPageKey))
                     _newNotificationsCount.value = notificationsUnreadCount

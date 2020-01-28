@@ -35,6 +35,7 @@ object Paginator {
     private fun <T> reducer(
         action: Action,
         state: State,
+        pageSize: Int?,
         sideEffectListener: (SideEffect) -> Unit
     ): State =
         when (action) {
@@ -131,7 +132,7 @@ object Paginator {
                     }
                     is State.NewPageProgress<*> -> {
                         Timber.d("paginator:[NEW_PAGE_PROGRESS]")
-                        if (items.isEmpty()) {
+                        if (items.isEmpty() || (pageSize !== null && items.size < pageSize)) {
                             Timber.d("paginator: items is empty")
                             State.FullData(state.pageCount, state.data as List<T>, pageKey)
                         } else {
@@ -140,7 +141,7 @@ object Paginator {
                         }
                     }
                     is State.SearchProgress<*> -> {
-                        if (items.isEmpty()) {
+                        if (items.isEmpty() || (pageSize !== null && items.size < pageSize)) {
                             State.FullData(0, emptyList<T>(), pageKey)
                         } else {
                             State.Data(0, items, pageKey)
@@ -172,6 +173,8 @@ object Paginator {
     class Store<T> @Inject constructor() {
         private var state: State = State.Empty
 
+        var pageSize: Int? = null
+
         fun initState(state: State) {
             this.state = state
         }
@@ -195,7 +198,7 @@ object Paginator {
 
         fun proceed(action: Action) {
             Timber.d("paginator: [Action: ${action::class.java.simpleName.toUpperCase()}]")
-            val newState = reducer<T>(action, state) { sideEffect ->
+            val newState = reducer<T>(action, state, pageSize) { sideEffect ->
                 sideEffectListener.invoke(sideEffect)
             }
             Timber.d("paginator: current state -> [${state::class.java.simpleName.toUpperCase()}]")
