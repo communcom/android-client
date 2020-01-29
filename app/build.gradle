@@ -20,9 +20,6 @@ android {
         versionName appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        buildConfigField "String", "AUTH_TEST_PASS", properties.getProperty('authtestpass')
 
         manifestPlaceholders = [crashlyticsEnabled: "false"]
         signingConfig signingConfigs.debug
