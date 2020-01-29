@@ -27,7 +27,8 @@ platform :android do
     build_number = number_of_commits(all: true)
 
     build_path = File.join(File.expand_path("..").shellescape, "app/build/outputs/apk/dev/release/app-dev-release.apk")
-
+    UI.success "build_path: #{build_path}"
+    
     gradle(
       task: "dev",
       properties: {
