@@ -1,15 +1,18 @@
 package io.golos.cyber_android.ui.screens.dashboard.view_model
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.utils.toLiveData
+import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class DashboardViewModel
@@ -21,12 +24,16 @@ constructor(
 ) : ViewModelBase<DashboardModel>(dispatchersProvider, dashboardModel),
     NavigationBottomMenuWidget.Listener{
 
-    private val currentTabLiveData = MutableLiveData(NavigationBottomMenuWidget.Tab.FEED)
+    private val _currentTabLiveData = MutableLiveData(NavigationBottomMenuWidget.Tab.FEED)
 
     /**
      * Currently selected tab of a main screen
      */
-    val getCurrentTabLiveData = currentTabLiveData as LiveData<NavigationBottomMenuWidget.Tab>
+    val currentTabLiveData = _currentTabLiveData.toLiveData()
+
+    private val _newNotificationsCounter = MutableLiveData<Int>()
+
+    val newNotificationsCounter = _newNotificationsCounter.toLiveData()
 
     private val _createTabLiveData = MutableLiveData<Any>()
 
@@ -40,6 +47,11 @@ constructor(
 
     init {
         mediator.observeForever(observer)
+        launch {
+            model.getNewNotificationsCounterFlow().collect {
+                _newNotificationsCounter.value = it
+            }
+        }
     }
 
     override fun onFeedClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
@@ -55,11 +67,21 @@ constructor(
     override fun onProfileClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
 
     private fun onTabSelected(tab: NavigationBottomMenuWidget.Tab) {
-        currentTabLiveData.postValue(tab)
+        _currentTabLiveData.postValue(tab)
     }
 
     override fun onCleared() {
         super.onCleared()
         mediator.removeObserver(observer)
+    }
+
+    fun updateUnreadNotificationsCounter() {
+        launch {
+            try {
+                model.updateNewNotificationsCounter()
+            } catch (e: Exception){
+                Timber.e(e)
+            }
+        }
     }
 }

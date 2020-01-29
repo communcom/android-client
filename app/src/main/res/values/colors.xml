@@ -79,5 +79,7 @@
 
     <!--Notifications-->
     <color name="notification_mention_label">#62C6FF</color>
+    <color name="badge_color">#ED2C5B</color>
+
 
 </resources>

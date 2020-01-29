@@ -21,6 +21,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -52,8 +53,18 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         paginator.render = { state ->
             _notificationsListState.value = state
         }
-
+        subscribeToNewNotificationsChanges()
         loadNotificationsFirstPage()
+    }
+
+    private fun subscribeToNewNotificationsChanges(){
+        launch {
+            model.geNewNotificationsCounterFlow().collect {
+                if(it != _newNotificationsCount.value){
+                    restartLoadComments()
+                }
+            }
+        }
     }
 
     override fun onUserClickedById(userId: UserIdDomain) {
@@ -94,7 +105,6 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     }
 
     private fun restartLoadComments() {
-        loadCommentsJob?.cancel()
         paginator.proceed(Paginator.Action.Restart)
     }
 
@@ -109,7 +119,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                     currentUser = model.getCurrentUser().mapToUser()
 
                     //Need load unread count
-                    notificationsUnreadCount = model.getUnreadNotificationsCount()
+                    notificationsUnreadCount = model.getNewNotificationsCounter()
                     //Need mark notifications as read
                     notifications.firstOrNull()?.let {
                         model.markAllNotificationAsViewed(it.createTime)

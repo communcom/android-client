@@ -485,5 +485,5 @@
     <dimen name="notification_user_avatar_size">@dimen/dimen_44</dimen>
     <dimen name="notification_content_image_size">@dimen/dimen_44</dimen>
     <dimen name="notification_content_image_round_size">@dimen/dimen_10</dimen>
-
+    <dimen name="badge_stroke_size">@dimen/dimen_2</dimen>
 </resources>

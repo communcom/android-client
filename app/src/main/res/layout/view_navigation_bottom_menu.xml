@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
     android:background="@drawable/navigation_bottom_menu_background"
@@ -39,15 +39,33 @@
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_union"/>
 
-    <ImageView
-        android:id="@+id/notificationMenu"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/flNotificationMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:padding="@dimen/dimen_8"
-        android:layout_weight="1"
-        android:src="@drawable/selector_notification_menu"
-        android:scaleType="center"
-        tools:ignore="ContentDescription" />
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/notificationMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_notification_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivBadge"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="14dp"
+            android:src="@drawable/ic_badge"
+            app:layout_constraintBottom_toBottomOf="@+id/notificationMenu"
+            app:layout_constraintStart_toStartOf="@+id/notificationMenu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/profileMenu"

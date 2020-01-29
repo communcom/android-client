@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_navigation_bottom_menu.view.*
@@ -22,6 +23,14 @@ class NavigationBottomMenuWidget : LinearLayout {
         init(context)
     }
 
+    fun setNotificationsCounter(count: Int){
+        if(count == 0){
+            ivBadge.visibility = View.INVISIBLE
+        } else{
+            ivBadge.visibility = View.VISIBLE
+        }
+    }
+
     private fun init(context: Context) {
         inflate(context, R.layout.view_navigation_bottom_menu, this)
 
@@ -37,7 +46,7 @@ class NavigationBottomMenuWidget : LinearLayout {
         createPostMenu.setOnClickListener {
             clickListener?.onCreateClick()
         }
-        notificationMenu.setOnClickListener {
+        flNotificationMenu.setOnClickListener {
             clickListener?.onNotificationClick()
             setUpNotificationMenuSelection()
         }

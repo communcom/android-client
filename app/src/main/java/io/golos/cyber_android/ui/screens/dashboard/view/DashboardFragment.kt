@@ -62,12 +62,14 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.updateUnreadNotificationsCounter()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupPager(viewModel.currentUser)
-
-        addNotificationsBadge()
         observeViewModel()
         navigationMenu.clickListener = viewModel
     }
@@ -112,23 +114,10 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
     }
 
     private fun observeViewModel() {
-        viewModel.getCurrentTabLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.currentTabLiveData.observe(viewLifecycleOwner, Observer {
             val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
                 navigationTab.index == it.index
             }
-
-            /*when (tab) {
-                NavigationBottomMenuWidget.Tab.FEED -> {
-                    (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
-                }
-                NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                    (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
-                }
-                NavigationBottomMenuWidget.Tab.PROFILE -> {
-                    //(mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(70.dp)
-                }
-                null -> (mainPager.layoutParams as FrameLayout.LayoutParams).setBottomMargin(0)
-            }*/
             mainPager.setCurrentItem(it.index, false)
         })
 
@@ -137,6 +126,10 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 EditorPageActivity.getIntent(requireContext()),
                 REQUEST_FOR_RESULT_FROM_EDIT
             )
+        })
+
+        viewModel.newNotificationsCounter.observe(viewLifecycleOwner, Observer {
+            navigationMenu.setNotificationsCounter(it)
         })
     }
 
@@ -155,14 +148,6 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 requireActivity().setStatusBarColor(R.color.window_status_bar_background)
             }
         }
-    }
-
-    private fun addNotificationsBadge() {
-//        val menuView = navigationView.getChildAt(0) as BottomNavigationMenuView
-//        val itemView = menuView.getChildAt(Tab.NOTIFICATIONS.index) as BottomNavigationItemView
-//        notificationsBadge = LayoutInflater.from(this).inflate(R.layout.view_notification_badge, menuView, false)
-//        notificationsBadge?.visibility = View.GONE
-//        itemView.addView(notificationsBadge)
     }
 
     private fun setupPager(user: UserIdDomain) {

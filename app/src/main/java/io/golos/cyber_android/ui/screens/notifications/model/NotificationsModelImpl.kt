@@ -5,6 +5,7 @@ import io.golos.domain.dto.NotificationsPageDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
 
@@ -12,6 +13,8 @@ import javax.inject.Inject
 class NotificationsModelImpl @Inject constructor(private val notificationsRepository: NotificationsRepository,
                                                  private val currentUserRepository: CurrentUserRepository) : NotificationsModel,
     ModelBaseImpl() {
+
+    override suspend fun geNewNotificationsCounterFlow(): Flow<Int> = notificationsRepository.getNewNotificationsCounterFlow()
 
     override suspend fun getCurrentUser(): UserDomain {
         return UserDomain(currentUserRepository.userId,
@@ -26,7 +29,7 @@ class NotificationsModelImpl @Inject constructor(private val notificationsReposi
         notificationsRepository.markAllNotificationAsViewed(untilDate)
     }
 
-    override suspend fun getUnreadNotificationsCount(): Int = notificationsRepository.getUnreadNotificationsCount()
+    override suspend fun getNewNotificationsCounter(): Int = notificationsRepository.getNewNotificationsCounter()
 
     override suspend fun getNotifications(pageKey: String?, limit: Int): NotificationsPageDomain {
         return notificationsRepository.getNotifications(pageKey, limit)
