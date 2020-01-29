@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed_my.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel
@@ -65,14 +66,16 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     private fun setupPostsList() {
         val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED)
         myFeedAdapter.click = { item ->
-            item as PostItem
-            val contentId = item.post.contentId
-            val discussionIdModel = DiscussionIdModel(
-                contentId.userId,
-                Permlink(contentId.permlink)
-            )
-
-            openPost(discussionIdModel, contentId)
+            when(item){
+                is PostItem -> {
+                    val contentId = item.post.contentId
+                    viewModel.onPostClicked(contentId)
+                }
+                is CreatePostItem -> {
+                    viewModel.onCreatePostClicked()
+                }
+                else -> Timber.e("Undefined item in adapter {${MyFeedAdapter::class.java}}")
+            }
         }
         val lManager = LinearLayoutManager(context)
 
@@ -119,7 +122,16 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is EditPostCommand -> editPost(command.post)
 
             is ReportPostCommand -> openPostReportDialog(command.post)
+
+            is CreatePostCommand -> createPost()
         }
+    }
+
+    private fun createPost(){
+        startActivityForResult(
+            EditorPageActivity.getIntent(requireContext()),
+            REQUEST_FOR_RESULT_FROM_CREATE_POST
+        )
     }
 
     private fun openUserProfile(userId: UserIdDomain) {
@@ -225,6 +237,24 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 }
             }
             REQUEST_FOR_RESULT_FROM_EDIT -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.action?.let { action ->
+                            when (action) {
+                                Tags.ACTION_EDIT_SUCCESS -> {
+                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val discussionIdModel = DiscussionIdModel(
+                                        contentId.userId,
+                                        Permlink(contentId.permlink)
+                                    )
+                                    openPost(discussionIdModel, contentId)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            REQUEST_FOR_RESULT_FROM_CREATE_POST -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
                         data?.action?.let { action ->
@@ -349,6 +379,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     companion object {
 
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
+
+        private const val REQUEST_FOR_RESULT_FROM_CREATE_POST = 41523
 
         fun newInstance(): Fragment {
 

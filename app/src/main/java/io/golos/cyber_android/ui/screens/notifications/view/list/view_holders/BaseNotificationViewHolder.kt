@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimatio
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.item_notification.view.*
 
 abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
@@ -29,6 +30,7 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
 
     override fun release() {
         itemView.ivUserAvatar.release()
+        itemView.ivContent.release()
         super.release()
     }
 
@@ -45,7 +47,7 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
         itemView.ivUserAvatar.loadAvatar(listItem.userAvatar)
         itemView.ivUserAvatar.setOnClickListener {
             val userId = listItem.userId
-            listItemEventsProcessor.onUserClicked(userId)
+            listItemEventsProcessor.onUserClickedById(UserIdDomain(userId))
         }
     }
 

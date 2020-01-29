@@ -293,7 +293,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             }
         })
 
-        viewModel.loadUserProgressVisibility.observe(this, Observer {
+        viewModel.loadUserProgressVisibility.observe(viewLifecycleOwner, Observer {
             if (it) {
                 userProgressLoading.visibility = View.VISIBLE
             } else {
@@ -301,7 +301,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             }
         })
 
-        viewModel.loadUserErrorVisibility.observe(this, Observer {
+        viewModel.loadUserErrorVisibility.observe(viewLifecycleOwner, Observer {
             if (it) {
                 btnRetry.visibility = View.VISIBLE
             } else {

@@ -77,6 +77,9 @@ class PostItem(
                 listener.onShareClicked(it)
             }
         }
+        view.setOnClickListener {
+            listener.onBodyClicked(post.contentId)
+        }
     }
 
     private fun setUpViewCount(view: View, count: Int?, isNeedToShow: Boolean) {

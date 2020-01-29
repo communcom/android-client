@@ -102,6 +102,10 @@ class MyFeedViewModel @Inject constructor(
         openPost(postContentId)
     }
 
+    fun onPostClicked(postContentId: ContentId?) {
+        openPost(postContentId)
+    }
+
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
@@ -571,5 +575,9 @@ class MyFeedViewModel @Inject constructor(
     override fun onCleared() {
         loadPostsJob?.cancel()
         super.onCleared()
+    }
+
+    fun onCreatePostClicked() {
+        _command.value = CreatePostCommand()
     }
 }

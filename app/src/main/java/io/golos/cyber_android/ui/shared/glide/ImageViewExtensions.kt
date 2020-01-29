@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared.glide
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
@@ -155,6 +156,12 @@ fun ImageView.loadNotificationImageContent(url: String?){
         .into(this)
 }
 
-fun ImageView.clear() = Glide.with(this).clear(this)
+fun ImageView.clear(){
+    val viewContext = context
+    if(viewContext is Activity && viewContext.isDestroyed){
+        return
+    }
+    Glide.with(this).clear(this)
+}
 
 fun Target<*>.clear(context: Context) = Glide.with(context).clear(this)

@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.notifications.view_model
 
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.shared.recycler_view.BaseListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.recycler_view.SupportRetryListItemEventsProcessor
+import io.golos.domain.dto.UserIdDomain
 
 interface NotificationsViewModelListEventsProcessor: BaseListItemEventsProcessor, SupportRetryListItemEventsProcessor {
 
@@ -10,5 +12,7 @@ interface NotificationsViewModelListEventsProcessor: BaseListItemEventsProcessor
 
     fun onChangeFollowerStatusClicked(notification: BaseNotificationItem)
 
-    fun onUserClicked(userId: String)
+    fun onUserClickedById(userId: UserIdDomain)
+
+    fun onPostNavigateClicked(contentId: ContentId)
 }

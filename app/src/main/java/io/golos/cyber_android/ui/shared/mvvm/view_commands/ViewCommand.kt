@@ -5,8 +5,9 @@ import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.domain.dto.UserDomain
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.use_cases.model.DiscussionIdModel
 
 interface ViewCommand
 
@@ -49,3 +50,8 @@ class NavigateToLinkViewCommand(val link: Uri) : ViewCommand
 class NavigateToUserProfileCommand(val userId: UserIdDomain) : ViewCommand
 
 class NavigateToProfileCommentMenuDialogViewCommand(val comment: Comment) : ViewCommand
+
+class NavigateToPostCommand(
+    val discussionIdModel: DiscussionIdModel,
+    val contentId: ContentId
+) : ViewCommand

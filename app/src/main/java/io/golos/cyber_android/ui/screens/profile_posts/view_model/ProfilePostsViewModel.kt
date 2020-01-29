@@ -15,7 +15,10 @@ import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.SharePostCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -161,8 +164,7 @@ constructor(
     private fun openPost(postContentId: ContentId?){
         postContentId?.let {
             val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
-            _command.value =
-                io.golos.cyber_android.ui.screens.feed_my.view.view_commands.NavigateToPostCommand(discussionIdModel, it)
+            _command.value = NavigateToPostCommand(discussionIdModel, it)
         }
     }
 

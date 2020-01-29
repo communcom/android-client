@@ -10,6 +10,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.utils.SPACE
@@ -26,6 +27,7 @@ class NotificationSubscribeViewHolder(
     override fun init(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
+        setAction(listItem, listItemEventsProcessor)
     }
 
     private fun setMessage(
@@ -43,7 +45,7 @@ class NotificationSubscribeViewHolder(
 
                 override fun onClick(spanData: String) {
                     super.onClick(spanData)
-                    listItemEventsProcessor.onUserClicked(spanData)
+                    listItemEventsProcessor.onUserClickedById(UserIdDomain(spanData))
                 }
             }, userNameInterval)
             result.append(SPACE)
@@ -52,5 +54,11 @@ class NotificationSubscribeViewHolder(
             result
         }
         itemView.tvMessage.text = message
+    }
+
+    private fun setAction(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+        itemView.setOnClickListener {
+            listItemEventsProcessor.onUserClickedById(UserIdDomain(listItem.userId))
+        }
     }
 }

@@ -11,13 +11,13 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
+import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.MovementMethod
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
-import timber.log.Timber
 
 /**
  * Header with post info
@@ -85,7 +85,7 @@ constructor(
 
         postHeader.communityAvatarUrl
             ?.let {
-                Glide.with(this)
+                Glide.with(communityAvatar)
                     .load(it)
                     .apply(RequestOptions.circleCropTransform())
                     .into(communityAvatar)
@@ -143,12 +143,7 @@ constructor(
         setOnMenuButtonClickListener(null)
         setOnJoinToCommunityButtonClickListener(null)
         setOnBackButtonClickListener(null)
-        try {
-            Glide.with(this)
-                .clear(communityAvatar)
-        } catch (e: Exception){
-            Timber.e(e)
-        }
+        communityAvatar.release()
     }
 
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {

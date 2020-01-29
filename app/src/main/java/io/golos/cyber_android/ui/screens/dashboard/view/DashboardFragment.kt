@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardViewModel>() {
 
-    companion object {
+    private companion object {
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
     }
 

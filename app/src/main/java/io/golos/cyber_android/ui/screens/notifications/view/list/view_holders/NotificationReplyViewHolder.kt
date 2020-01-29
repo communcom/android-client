@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationReplyItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.utils.SPACE
@@ -27,7 +30,7 @@ class NotificationReplyViewHolder(
 
     override fun init(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
-        setAction(listItem)
+        setAction(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
     }
 
@@ -46,7 +49,7 @@ class NotificationReplyViewHolder(
 
                 override fun onClick(spanData: String) {
                     super.onClick(spanData)
-                    listItemEventsProcessor.onUserClicked(spanData)
+                    listItemEventsProcessor.onUserClickedById(UserIdDomain(spanData))
                 }
             }, userNameInterval)
             messageStringBuilder.append(SPACE)
@@ -91,7 +94,7 @@ class NotificationReplyViewHolder(
         itemView.tvMessage.text = messageStringBuilder
     }
 
-    private fun setAction(listItem: NotificationReplyItem){
+    private fun setAction(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val imageUrl = listItem.comment.imageUrl
         if(!imageUrl.isNullOrEmpty()){
             itemView.ivContent.loadNotificationImageContent(imageUrl)
@@ -100,6 +103,10 @@ class NotificationReplyViewHolder(
         } else{
             itemView.flAction.visibility = View.GONE
             itemView.ivContent.visibility = View.GONE
+        }
+        itemView.setOnClickListener {
+            val postContentId: ContentId = listItem.comment.parents.post.mapToContentId()
+            listItemEventsProcessor.onPostNavigateClicked(postContentId)
         }
     }
 }

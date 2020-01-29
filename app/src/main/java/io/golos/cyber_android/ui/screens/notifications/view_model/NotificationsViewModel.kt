@@ -1,16 +1,24 @@
 package io.golos.cyber_android.ui.screens.notifications.view_model
 
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.dto.User
+import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedListItem
 import io.golos.cyber_android.ui.screens.notifications.model.NotificationsModel
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -30,6 +38,8 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
 
     private var loadCommentsJob: Job? = null
 
+    private lateinit var currentUser: User
+
     init {
         paginator.pageSize = PAGINATION_PAGE_SIZE
         paginator.sideEffectListener = { sideEffect ->
@@ -46,8 +56,15 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         loadNotificationsFirstPage()
     }
 
-    override fun onUserClicked(userId: String) {
+    override fun onUserClickedById(userId: UserIdDomain) {
+        if(currentUser.id != userId.userId){
+            _command.value = NavigateToUserProfileCommand(userId)
+        }
+    }
 
+    override fun onPostNavigateClicked(contentId: ContentId) {
+        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
 
     override fun onChangeFollowerStatusClicked(notification: BaseNotificationItem) {
@@ -89,6 +106,8 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                 val notifications = notificationsPage.notifications
                 var notificationsUnreadCount = _newNotificationsCount.value
                 if(pageCount == 0){
+                    currentUser = model.getCurrentUser().mapToUser()
+
                     //Need load unread count
                     notificationsUnreadCount = model.getUnreadNotificationsCount()
                     //Need mark notifications as read

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentNotificationsBinding
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.view.list.NotificationsAdapter
@@ -14,10 +15,17 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotif
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationEmptyStubItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationHeaderDateItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.*
+import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
@@ -113,6 +121,35 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                 tvUnreadCountLabel.text = getString(R.string.new_notifications_label, it)
             }
         })
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        when(command){
+            is NavigateToUserProfileCommand -> openUserProfile(command.userId)
+            is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
+        }
+    }
+
+    private fun openUserProfile(userId: UserIdDomain) {
+        getDashboardFragment(this)?.showFragment(
+            ProfileExternalUserFragment.newInstance(userId)
+        )
+    }
+
+    private fun openPost(
+        discussionIdModel: DiscussionIdModel,
+        contentId: ContentId
+    ) {
+        getDashboardFragment(this)?.showFragment(
+            PostPageFragment.newInstance(
+                PostPageFragment.Args(
+                    discussionIdModel,
+                    contentId
+                )
+            ),
+            tagFragment = contentId.permlink
+        )
     }
 
     private fun addDateSections(items: MutableList<VersionedListItem>): MutableList<VersionedListItem>{

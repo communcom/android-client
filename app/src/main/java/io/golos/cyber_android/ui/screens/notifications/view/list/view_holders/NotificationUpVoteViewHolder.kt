@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationUpVoteItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
 import io.golos.utils.SPACE
@@ -26,7 +29,7 @@ class NotificationUpVoteViewHolder(
 
     override fun init(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
-        setAction(listItem)
+        setAction(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
     }
 
@@ -43,7 +46,7 @@ class NotificationUpVoteViewHolder(
 
                 override fun onClick(spanData: String) {
                     super.onClick(spanData)
-                    listItemEventsProcessor.onUserClicked(spanData)
+                    listItemEventsProcessor.onUserClickedById(UserIdDomain(spanData))
                 }
             }, userNameInterval)
             messageStringBuilder.append(SPACE)
@@ -73,7 +76,7 @@ class NotificationUpVoteViewHolder(
         itemView.tvMessage.text = messageStringBuilder
     }
 
-    private fun setAction(listItem: NotificationUpVoteItem){
+    private fun setAction(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val imageUrl = listItem.comment?.imageUrl ?: listItem.post?.imageUrl
         if(!imageUrl.isNullOrEmpty()){
             itemView.ivContent.loadNotificationImageContent(imageUrl)
@@ -82,6 +85,13 @@ class NotificationUpVoteViewHolder(
         } else{
             itemView.flAction.visibility = View.GONE
             itemView.ivContent.visibility = View.GONE
+        }
+
+        itemView.setOnClickListener {
+            val postContentId: ContentId? = (listItem.post?.contentId ?: listItem.comment?.parents?.post)?.mapToContentId()
+            postContentId?.let {
+                listItemEventsProcessor.onPostNavigateClicked(it)
+            }
         }
     }
 }
