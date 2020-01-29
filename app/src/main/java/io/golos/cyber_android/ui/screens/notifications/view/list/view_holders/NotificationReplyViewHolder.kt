@@ -111,7 +111,7 @@ class NotificationReplyViewHolder(
     }
 
     private fun onItemClicked(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
-        val postContentId: ContentId = listItem.comment.contentId.mapToContentId()
+        val postContentId: ContentId = listItem.comment.parents.post.mapToContentId()
         listItemEventsProcessor.onPostNavigateClicked(postContentId)
     }
 }
