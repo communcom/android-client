@@ -36,6 +36,7 @@ class NotificationsRepositoryImpl @Inject constructor(
 
     override suspend fun markAllNotificationAsViewed(untilDate: Date) {
         apiCall { commun4j.markAllNotificationAsViewed(untilDate.toServerFormat()) }
+        updateNewNotificationsCounter()
     }
 
     override suspend fun updateNewNotificationsCounter() {
