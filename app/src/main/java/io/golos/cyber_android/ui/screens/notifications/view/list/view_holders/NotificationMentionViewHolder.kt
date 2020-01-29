@@ -41,6 +41,7 @@ class NotificationMentionViewHolder(
         val userId = listItem.userId
         val colorMessage = ContextCompat.getColor(context, R.color.black)
         val colorCurrentUserName =  ContextCompat.getColor(context, R.color.blue)
+
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)
             messageStringBuilder.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
@@ -114,11 +115,15 @@ class NotificationMentionViewHolder(
             itemView.flAction.visibility = View.GONE
             itemView.ivContent.visibility = View.GONE
         }
-        itemView.setOnClickListener {
-            val postContentId: ContentId? = (listItem.post?.contentId ?: listItem.comment?.parents?.post)?.mapToContentId()
-            postContentId?.let {
-                listItemEventsProcessor.onPostNavigateClicked(it)
-            }
+        itemView.setOnClickListener{
+            onItemClicked(listItem, listItemEventsProcessor)
+        }
+    }
+
+    private fun onItemClicked(listItem: NotificationMentionItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+        val postContentId: ContentId? = (listItem.post?.contentId ?: listItem.comment?.parents?.post)?.mapToContentId()
+        postContentId?.let {
+            listItemEventsProcessor.onPostNavigateClicked(it)
         }
     }
 }

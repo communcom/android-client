@@ -35,6 +35,7 @@ class NotificationSubscribeViewHolder(
         listItemEventsProcessor: NotificationsViewModelListEventsProcessor
     ) {
         val userId = listItem.userId
+
         val message = listItem.userName?.let {
             val result = SpannableStringBuilder()
             val userNameInterval = result.appendText(it)
@@ -45,7 +46,7 @@ class NotificationSubscribeViewHolder(
 
                 override fun onClick(spanData: String) {
                     super.onClick(spanData)
-                    listItemEventsProcessor.onUserClickedById(UserIdDomain(spanData))
+                    onItemClicked(listItem, listItemEventsProcessor)
                 }
             }, userNameInterval)
             result.append(SPACE)
@@ -57,8 +58,12 @@ class NotificationSubscribeViewHolder(
     }
 
     private fun setAction(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
-        itemView.setOnClickListener {
-            listItemEventsProcessor.onUserClickedById(UserIdDomain(listItem.userId))
+        itemView.setOnClickListener{
+            onItemClicked(listItem, listItemEventsProcessor)
         }
+    }
+
+    private fun onItemClicked(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+        listItemEventsProcessor.onUserClickedById(UserIdDomain(listItem.userId))
     }
 }

@@ -482,7 +482,6 @@
     <dimen name="post_top_shadow_threshold">@dimen/dimen_10</dimen>
 
     <!--Notifications-->
-    <string name="new_notifications_label">%1$d new notifications</string>
     <dimen name="notification_user_avatar_size">@dimen/dimen_44</dimen>
     <dimen name="notification_content_image_size">@dimen/dimen_44</dimen>
     <dimen name="notification_content_image_round_size">@dimen/dimen_10</dimen>

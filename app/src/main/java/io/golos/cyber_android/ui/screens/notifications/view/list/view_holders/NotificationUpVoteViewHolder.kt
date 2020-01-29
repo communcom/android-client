@@ -39,6 +39,7 @@ class NotificationUpVoteViewHolder(
         val userName = listItem.userName
         val userId = listItem.userId
         val colorMessage = ContextCompat.getColor(context, R.color.black)
+
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)
             messageStringBuilder.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
@@ -86,12 +87,15 @@ class NotificationUpVoteViewHolder(
             itemView.flAction.visibility = View.GONE
             itemView.ivContent.visibility = View.GONE
         }
+        itemView.setOnClickListener{
+            onItemClicked(listItem, listItemEventsProcessor)
+        }
+    }
 
-        itemView.setOnClickListener {
-            val postContentId: ContentId? = (listItem.post?.contentId ?: listItem.comment?.parents?.post)?.mapToContentId()
-            postContentId?.let {
-                listItemEventsProcessor.onPostNavigateClicked(it)
-            }
+    private fun onItemClicked(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+        val postContentId: ContentId? = (listItem.post?.contentId ?: listItem.comment?.parents?.post)?.mapToContentId()
+        postContentId?.let {
+            listItemEventsProcessor.onPostNavigateClicked(it)
         }
     }
 }

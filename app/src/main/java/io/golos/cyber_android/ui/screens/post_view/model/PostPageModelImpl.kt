@@ -28,6 +28,7 @@ import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -63,13 +64,17 @@ constructor(
         get() = commentsProcessing.pageSize
 
     override suspend fun loadPost() {
-        withContext(dispatchersProvider.ioDispatcher) {
-            postDomain = discussionRepository.getPost(
-                contentId?.userId.orEmpty().toCyberName(),
-                contentId?.communityId.orEmpty(),
-                contentId?.permlink.orEmpty()
-            )
-            postListDataSource.createOrUpdatePostData(postDomain)
+        try {
+            withContext(dispatchersProvider.ioDispatcher) {
+                postDomain = discussionRepository.getPost(
+                    contentId?.userId.orEmpty().toCyberName(),
+                    contentId?.communityId.orEmpty(),
+                    contentId?.permlink.orEmpty()
+                )
+                postListDataSource.createOrUpdatePostData(postDomain)
+            }
+        } catch (e: Exception){
+            Timber.e(e)
         }
     }
 

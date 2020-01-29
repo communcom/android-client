@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.cyber_android.ui.shared.glide.release
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.MovementMethod
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
@@ -143,7 +143,7 @@ constructor(
         setOnMenuButtonClickListener(null)
         setOnJoinToCommunityButtonClickListener(null)
         setOnBackButtonClickListener(null)
-        communityAvatar.release()
+        communityAvatar.clear()
     }
 
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {

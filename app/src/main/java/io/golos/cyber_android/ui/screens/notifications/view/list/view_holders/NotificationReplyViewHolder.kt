@@ -42,6 +42,7 @@ class NotificationReplyViewHolder(
         val userId = listItem.userId
         val colorMessage = ContextCompat.getColor(context, R.color.black)
         val colorCurrentUserName =  ContextCompat.getColor(context, R.color.blue)
+
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)
             messageStringBuilder.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
@@ -104,9 +105,13 @@ class NotificationReplyViewHolder(
             itemView.flAction.visibility = View.GONE
             itemView.ivContent.visibility = View.GONE
         }
-        itemView.setOnClickListener {
-            val postContentId: ContentId = listItem.comment.parents.post.mapToContentId()
-            listItemEventsProcessor.onPostNavigateClicked(postContentId)
+        itemView.setOnClickListener{
+            onItemClicked(listItem, listItemEventsProcessor)
         }
+    }
+
+    private fun onItemClicked(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+        val postContentId: ContentId = listItem.comment.contentId.mapToContentId()
+        listItemEventsProcessor.onPostNavigateClicked(postContentId)
     }
 }

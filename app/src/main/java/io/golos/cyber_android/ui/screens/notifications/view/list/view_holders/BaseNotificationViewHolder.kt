@@ -6,9 +6,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimationFormatter
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
-import io.golos.cyber_android.ui.shared.glide.release
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.spans.ClickableMovementMethod
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.item_notification.view.*
 
@@ -22,6 +23,9 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
     abstract val notificationTypeLabelResId: Int
 
     fun init(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+        itemView.tvMessage.movementMethod = object : ClickableMovementMethod(){}
+        itemView.tvMessage.isClickable = false;
+        itemView.tvMessage.isLongClickable = false;
         setUserAvatar(listItem, listItemEventsProcessor)
         setUnreadIndicatorVisibility(listItem)
         setCreateTime(listItem)
@@ -29,8 +33,8 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
     }
 
     override fun release() {
-        itemView.ivUserAvatar.release()
-        itemView.ivContent.release()
+        itemView.ivUserAvatar.clear()
+        itemView.ivContent.clear()
         super.release()
     }
 
