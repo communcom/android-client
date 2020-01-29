@@ -9,9 +9,9 @@ import io.golos.domain.dto.NotificationPostDomain
 fun NotificationEntityContent.mapToNotificationCommentDomain(): NotificationCommentDomain {
     val commentContentId = ContentIdDomain(contentId.communityId?.value ?: "", this.contentId.permlink, contentId.userId.name)
     val entityContentParents = parents!!
-    val parentPostContentId = ContentIdDomain(entityContentParents.post!!.communityId!!.value, entityContentParents.post!!.permlink, entityContentParents.post!!.username!!)
+    val parentPostContentId = ContentIdDomain(entityContentParents.post!!.communityId!!.value, entityContentParents.post!!.permlink, entityContentParents.post!!.userId.name!!)
     val parentCommentContentId = entityContentParents.comment?.let {
-        ContentIdDomain(it.communityId!!.value, it.permlink, it.username!!)
+        ContentIdDomain(it.communityId!!.value, it.permlink, it.userId.name!!)
     }
     val parentsDomain = NotificationCommentParentsDomain(parentPostContentId, parentCommentContentId)
     return NotificationCommentDomain(commentContentId, shortText, imageUrl, parentsDomain)
