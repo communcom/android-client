@@ -12,5 +12,6 @@ data class PostDomain(
     val type: String?,
     val shareUrl: String?,
     val votes: VotesDomain,
-    val isMyPost: Boolean
+    val isMyPost: Boolean,
+    val reward: RewardPostDomain?
 )

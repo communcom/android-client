@@ -31,14 +31,17 @@ import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 import io.golos.utils.fromServerFormat
 import io.golos.utils.toServerFormat
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import javax.inject.Inject
+import kotlin.random.Random
 
 class DiscussionRepositoryImpl
 @Inject
 constructor(
-    dispatchersProvider: DispatchersProvider,
+    private val dispatchersProvider: DispatchersProvider,
     networkStateChecker: NetworkStateChecker,
     private val discussionsApi: DiscussionsApi,
     private val postToEntityMapper: CyberPostToEntityMapper,
@@ -129,9 +132,30 @@ constructor(
             )
         }
 
-        return posts.items.map {
-            val userId = it.author.userId.name
-            it.mapToPostDomain(userId == currentUserRepository.userId.userId)
+        // it's a mock for a while
+        val contentIds = posts.map { it.contentId.mapToContentIdDomain() }
+        val rewards = withContext(dispatchersProvider.ioDispatcher) {
+            delay(1000)
+            contentIds.map {
+                RewardPostDomain(
+                    topCount = Random.nextInt(2, 5),
+                    collectionEnd = Date(),
+                    rewardValue = RewardValueDomain(
+                        value = Random.nextDouble(1.0, 100.0).toFloat(),
+                        communityId = "ANIM"
+                    ),
+                    isClosed = Random.nextBoolean(),
+                    contentId = it
+                )
+            }
+        }
+
+        return withContext(dispatchersProvider.calculationsDispatcher) {
+            posts.items.map { post ->
+                val userId = post.author.userId.name
+                val reward = rewards.first { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
+                post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
+            }
         }
     }
 
