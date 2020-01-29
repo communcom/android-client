@@ -8,7 +8,7 @@ data class CommentDomain(
     var votes: VotesDomain,
     val body: ContentBlock?,
     val childCommentsCount: Int,
-    val community: PostDomain.CommunityDomain,
+    val community: CommunityDomain,
     val meta: MetaDomain,
     val parent: ParentCommentDomain,
     val type: String,

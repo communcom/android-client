@@ -6,7 +6,7 @@ import io.golos.domain.dto.PostDomain
 fun PostDomain.mapToPost(): Post {
     return Post(
         this.author.mapToAuthor(),
-        this.community.mapToCommunity(),
+        this.community.mapToPostCommunity(),
         this.contentId.mapToContentId(),
         this.body,
         this.meta.mapToMeta(),

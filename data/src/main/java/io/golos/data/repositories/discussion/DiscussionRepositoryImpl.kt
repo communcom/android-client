@@ -114,7 +114,8 @@ constructor(
     ): List<PostDomain> {
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
-        return apiCall {
+
+        val posts = apiCall {
             commun4j.getPostsRaw(
                 if (typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
                 postsConfigurationDomain.communityId,
@@ -125,9 +126,10 @@ constructor(
                 timeFrame,
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
-
             )
-        }.items.map {
+        }
+
+        return posts.items.map {
             val userId = it.author.userId.name
             it.mapToPostDomain(userId == currentUserRepository.userId.userId)
         }
@@ -349,7 +351,7 @@ constructor(
             votes = VotesDomain(0, 0, false, false),
             body = content,
             childCommentsCount = 0,
-            community = PostDomain.CommunityDomain(null, postIdDomain.communityId, null, null, false),
+            community = CommunityDomain(postIdDomain.communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(response!!.metadata.fromServerFormat()),
             parent = ParentCommentDomain(null, postIdDomain),
             type = "comment",
@@ -388,7 +390,7 @@ constructor(
             votes = VotesDomain(0, 0, false, false),
             body = content,
             childCommentsCount = 0,
-            community = PostDomain.CommunityDomain(null, communityId, null, null, false),
+            community = CommunityDomain(communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(response!!.metadata.fromServerFormat()),
             parent = ParentCommentDomain(parentCommentId, null),
             type = "comment",

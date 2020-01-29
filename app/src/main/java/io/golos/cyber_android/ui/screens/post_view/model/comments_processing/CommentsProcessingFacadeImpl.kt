@@ -170,7 +170,7 @@ constructor(
             votes = votesDomain,
             body = contentBlock,
             childCommentsCount = oldComment.childTotal.toInt(),
-            community = PostDomain.CommunityDomain(null, postContentId.communityId, null, null, false),
+            community = CommunityDomain(postContentId.communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(oldComment.meta.time),
             parent = parentCommentDomain,
             type = "comment",
