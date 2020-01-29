@@ -86,6 +86,7 @@
             android:layout_marginEnd="@dimen/dimen_42"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
+            android:textFontWeight="500"
             android:textSize="@dimen/text_size_10_sp"
             tools:text="@string/sign_up_description" />
 
@@ -125,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_small"
-
+                android:textFontWeight="600"
                 style="@style/SignIn.Query.Link"
 
                 android:text="@string/sign_in"
