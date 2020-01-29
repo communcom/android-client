@@ -49,6 +49,10 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
             val userId = listItem.userId
             listItemEventsProcessor.onUserClickedById(UserIdDomain(userId))
         }
+        itemView.ivNotificationTypeLabel.setOnClickListener {
+            val userId = listItem.userId
+            listItemEventsProcessor.onUserClickedById(UserIdDomain(userId))
+        }
     }
 
     private fun setCreateTime(listItem: BaseNotificationItem){
