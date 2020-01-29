@@ -17,17 +17,18 @@ SLACK_API_TOKEN = "xoxp-131522248727-816480031911-825767630514-3dc514ecb1a5e8985
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
-  desc "Submit a new Beta Build to Crashlytics Beta"
+  desc "Submit a new Beta Build to Firebase"
   lane :beta do
     build_number = number_of_commits(all: true)
 
     build_path = File.join(File.expand_path("..").shellescape, "app/build/outputs/apk/dev/release/app-dev-release.apk")
     UI.success "build_path: #{build_path}"
+
+    # create local.properties file
+    root_path = File.join(File.expand_path("..").shellescape)
+    out_file = File.new("#{root_path}/local.properties", "w")
+    out_file.puts("sdk.dir=#{ENV["HOME"]}/Library/Android/sdk")
+    out_file.close
     
     gradle(
       task: "dev",
@@ -37,21 +38,18 @@ platform :android do
       task: "clean assembleRelease"
     )
 
+    firebase_app_distribution(
+        app: "1:512725341165:android:3641305e9c5779177a4de4",
+        apk_path: build_path,
+        firebase_cli_token: "1//0cXk-dcR_3jrUCgYIARAAGAwSNwF-L9IrhXqwxufqsZXEHSU2NVA-hQJYM_qAmltWyGKWdeQzf7wvyUZTHI2KiFivklmhk78BuYI",
+        groups: "commun-android"
+    )
+
     slack_upload(
         slack_api_token: SLACK_API_TOKEN,
         title: "Commun-Android-#{build_number}",
         channel: "#commun-mobile-builds",
         file_path: build_path
     ) 
-    # crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
   end
 end
