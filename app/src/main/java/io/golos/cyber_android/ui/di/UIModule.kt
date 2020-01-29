@@ -9,6 +9,6 @@ import io.golos.domain.use_cases.model.TestPassProvider
 class UIModule {
     @Provides
     internal fun provideTestPassProvider(): TestPassProvider = object: TestPassProvider {
-        override fun provide() = BuildConfig.AUTH_TEST_PASS
+        override fun provide() = ""
     }
 }

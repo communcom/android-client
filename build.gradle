@@ -33,9 +33,14 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url 'http://116.203.39.126:34333/repository/commun4j' }   /* aka "archiva" */
+        maven { url 'https://dl.bintray.com/android/android-tools/' }
         mavenLocal()
         mavenCentral()
     }
+}
+
+wrapper {
+    gradleVersion = '6.0'
 }
 
 task clean(type: Delete) {
