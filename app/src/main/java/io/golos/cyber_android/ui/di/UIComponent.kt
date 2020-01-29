@@ -29,7 +29,6 @@ import io.golos.domain.dependency_injection.scopes.UIScope
 
 @Subcomponent(
     modules = [
-        UIModule::class,
         UIModuleBinds::class,
         UIModuleChilds::class
     ]
