@@ -5,6 +5,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.utils.DateUtils.ESTIMATE_COMMON_FORMAT
 import io.golos.cyber_android.ui.shared.utils.DateUtils.ESTIMATE_MONTH_FORMAT
 import io.golos.cyber_android.ui.shared.utils.DateUtils.MMMM_DD_YYYY_FORMAT
+import io.golos.cyber_android.ui.shared.utils.DateUtils.day
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -88,4 +89,37 @@ fun Date.toTimeEstimateFormat(context: Context): String{
 
         else -> SimpleDateFormat(ESTIMATE_COMMON_FORMAT, Locale.getDefault()).format(this)
     }
+}
+
+fun beginToday(): Date{
+    val calendar = Calendar.getInstance()
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.clear(Calendar.MINUTE)
+    calendar.clear(Calendar.SECOND)
+    calendar.clear(Calendar.MILLISECOND)
+    return calendar.time
+}
+
+fun beginYesterday(): Date{
+    return Date(beginToday().time - day)
+}
+
+fun beginWeek(): Date{
+    val calendar = Calendar.getInstance()
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.clear(Calendar.MINUTE)
+    calendar.clear(Calendar.SECOND)
+    calendar.clear(Calendar.MILLISECOND)
+    calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+    return calendar.time
+}
+
+fun beginMonth(): Date{
+    val calendar = Calendar.getInstance()
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.clear(Calendar.MINUTE)
+    calendar.clear(Calendar.SECOND)
+    calendar.clear(Calendar.MILLISECOND)
+    calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
+    return calendar.time
 }

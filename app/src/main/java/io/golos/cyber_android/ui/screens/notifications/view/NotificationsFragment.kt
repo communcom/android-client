@@ -10,12 +10,14 @@ import io.golos.cyber_android.databinding.FragmentNotificationsBinding
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.view.list.NotificationsAdapter
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationEmptyStubItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationHeaderDateItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
+import io.golos.cyber_android.ui.shared.utils.*
 import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
@@ -114,6 +116,60 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
     }
 
     private fun addDateSections(items: MutableList<VersionedListItem>): MutableList<VersionedListItem>{
-        return items
+        val itemsWithSections = mutableListOf<VersionedListItem>()
+        val beginToday = beginToday()
+        val yesterday = beginYesterday()
+        val beginWeek = beginWeek()
+        val beginMonth = beginMonth()
+
+        val currentDayNotifications = mutableListOf<VersionedListItem>()
+        items.filterTo(currentDayNotifications) {
+            val createTime = (it as BaseNotificationItem).createTime
+            beginToday.before(createTime)
+        }
+        val yesterdayNotifications  = mutableListOf<VersionedListItem>()
+        items.filterTo(yesterdayNotifications) {
+            val createTime = (it as BaseNotificationItem).createTime
+            yesterday.before(createTime) && beginToday.after(createTime)
+        }
+
+        val weekNotifications = mutableListOf<VersionedListItem>()
+        items.filterTo(weekNotifications) {
+            val createTime = (it as BaseNotificationItem).createTime
+            beginWeek.before(createTime) && yesterday.after(createTime)
+        }
+        val monthNotifications = mutableListOf<VersionedListItem>()
+        items.filterTo(monthNotifications) {
+            val createTime = (it as BaseNotificationItem).createTime
+            beginMonth.before(createTime) && beginWeek.after(createTime)
+        }
+        val otherNotifications = mutableListOf<VersionedListItem>()
+        items.filterTo(otherNotifications) {
+            val createTime = (it as BaseNotificationItem).createTime
+            beginMonth.after(createTime)
+        }
+
+
+        if(currentDayNotifications.isNotEmpty()){
+            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.today)))
+            itemsWithSections.addAll(currentDayNotifications)
+        }
+        if(yesterdayNotifications.isNotEmpty()){
+            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.yesterday)))
+            itemsWithSections.addAll(yesterdayNotifications)
+        }
+        if(weekNotifications.isNotEmpty()){
+            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.this_week)))
+            itemsWithSections.addAll(weekNotifications)
+        }
+        if(monthNotifications.isNotEmpty()){
+            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.this_month)))
+            itemsWithSections.addAll(monthNotifications)
+        }
+        if(otherNotifications.isNotEmpty()){
+            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.other)))
+            itemsWithSections.addAll(otherNotifications)
+        }
+        return itemsWithSections
     }
 }
