@@ -20,6 +20,7 @@ platform :android do
   desc "Submit a new Beta Build to Firebase"
   lane :beta do
     build_number = number_of_commits(all: true)
+    update_version(build_number: build_number)
 
     build_path = File.join(File.expand_path("..").shellescape, "app/build/outputs/apk/dev/release/app-dev-release.apk")
     UI.success "build_path: #{build_path}"
@@ -52,4 +53,25 @@ platform :android do
         file_path: build_path
     ) 
   end
+
+  private_lane :update_version do |opt| 
+    build_number = opt[:build_number]
+    # android_set_version_code(
+    #   version_code: build_number.to,
+    #   gradle_file: "./android/app/build.gradle"
+    # )
+
+    gradle_file = File.join(File.expand_path("..").shellescape, "build.gradle")
+    gradle_file_path = Helper::VersioningAndroidHelper.get_gradle_file_path(gradle_file)
+    new_version_code = Helper::VersioningAndroidHelper.get_new_version_code(gradle_file_path, build_number)
+
+        saved = Helper::VersioningAndroidHelper.save_key_to_gradle_file(gradle_file_path, "appVesrionCode", new_version_code)
+
+        if saved == -1
+          UI.user_error!("Unable to set the Version Code in build.gradle file at #{gradle_file_path}.")
+        end
+
+        UI.success("☝️  Android Version Code has been set to: #{new_version_code}")
+  end
+
 end
