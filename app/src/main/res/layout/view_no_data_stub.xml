@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/profile_followers_no_data_height"
-    android:background="@drawable/bcg_profile_communities_area">
+    android:layout_height="@dimen/profile_followers_no_data_height">
 
     <ImageView
         android:id="@+id/noDataIcon"
