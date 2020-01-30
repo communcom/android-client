@@ -48,24 +48,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun layoutResId(): Int = R.layout.fragment_community_page
 
-    private var fragmentPagesList: List<Fragment> = ArrayList()
+    private var fragmentPagesList: MutableList<Fragment> = ArrayList()
 
     private val tabTitles by lazy {
         requireContext().resources.getStringArray(R.array.community_page_tab_titles)
-    }
-    private val communityPagerTabAdapter by lazy {
-
-        object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-
-            override fun getPageTitle(position: Int): CharSequence? {
-                return tabTitles.getOrNull(position)
-            }
-
-            override fun getItem(position: Int): Fragment = fragmentPagesList[position]
-
-            override fun getCount(): Int = fragmentPagesList.size
-
-        }
     }
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
@@ -191,10 +177,30 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         }
     }
 
+    override fun onDestroyView() {
+        communityViewPagerRelease()
+        super.onDestroyView()
+    }
+
+    private fun communityViewPagerRelease(){
+        fragmentPagesList.clear()
+        vpContent.adapter = null
+    }
+
     private fun initViewPager(communityPage: CommunityPage) {
         fragmentPagesList = createPageFragmentsList(communityPage)
-        vpContent.adapter = communityPagerTabAdapter
-        vpContent.offscreenPageLimit = 4
+        vpContent.adapter = object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+            override fun getPageTitle(position: Int): CharSequence? {
+                return tabTitles.getOrNull(position)
+            }
+
+            override fun getItem(position: Int): Fragment = fragmentPagesList[position]
+
+            override fun getCount(): Int = fragmentPagesList.size
+
+        }
+        vpContent.offscreenPageLimit = fragmentPagesList.size
     }
 
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
