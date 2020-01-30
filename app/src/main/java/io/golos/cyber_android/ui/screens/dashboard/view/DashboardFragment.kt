@@ -71,6 +71,16 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         navigationMenu.clickListener = viewModel
     }
 
+    override fun onDestroyView() {
+        releasePager()
+        super.onDestroyView()
+    }
+
+    private fun releasePager(){
+        viewPagerFragmentsList.clear()
+        mainPager.adapter = null
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -155,12 +165,6 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 currentActivity.setStatusBarColor(R.color.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
-        }
-    }
-
-    private fun getCurrentTab(): NavigationBottomMenuWidget.Tab? {
-        return NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
-            navigationTab.index == mainPager.currentItem
         }
     }
 
