@@ -22,9 +22,13 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class NotificationsViewModel @Inject constructor(notificationsModel: NotificationsModel,
                                                  dispatchersProvider: DispatchersProvider,
@@ -40,6 +44,20 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     private var loadCommentsJob: Job? = null
 
     private lateinit var currentUser: User
+
+    private var isPendingMarkNotifications: Boolean = false
+
+    private var isVisible by Delegates.observable(false) { _, oldVisibleStatus, newVisibleStatus ->
+        if(oldVisibleStatus != newVisibleStatus){
+            if(oldVisibleStatus && isPendingMarkNotifications){
+                //Need mark notifications as read
+                val notifications = paginator.getStoredItems() as MutableList<BaseNotificationItem>
+                notifications.firstOrNull()?.let {
+                    markAllNotificationsAsShowed(it.createTime)
+                }
+            }
+        }
+    }
 
     init {
         paginator.pageSize = PAGINATION_PAGE_SIZE
@@ -57,11 +75,14 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         loadNotificationsFirstPage()
     }
 
-    private fun subscribeToNewNotificationsChanges(){
+    private fun subscribeToNewNotificationsChanges() {
         launch {
-            model.geNewNotificationsCounterFlow().collect {
-                if(it != _newNotificationsCount.value){
-                    restartLoadComments()
+            model.geNewNotificationsCounterFlow()
+                .distinctUntilChanged()
+                .debounce(DEBOUNCE_INTERVAL_UPDATE_NOTIFICATIONS_IN_MILLIS)
+                .collect {
+                if (it != _newNotificationsCount.value) {
+                    restartLoadNotifications()
                 }
             }
         }
@@ -100,16 +121,16 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     private fun loadNotificationsFirstPage(){
         val postsListState = _notificationsListState.value
         if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {
-            restartLoadComments()
+            restartLoadNotifications()
         }
     }
 
-    private fun restartLoadComments() {
+    private fun restartLoadNotifications() {
+        loadCommentsJob?.cancel()
         paginator.proceed(Paginator.Action.Restart)
     }
 
     private fun loadNotifications(pageCount: Int, pageKey: String?){
-        loadCommentsJob?.cancel()
         loadCommentsJob = launch {
             try {
                 val notificationsPage = model.getNotifications(pageKey, PAGINATION_PAGE_SIZE)
@@ -117,13 +138,9 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                 var notificationsUnreadCount = _newNotificationsCount.value
                 if(pageCount == 0){
                     currentUser = model.getCurrentUser().mapToUser()
-
                     //Need load unread count
                     notificationsUnreadCount = model.getNewNotificationsCounter()
-                    //Need mark notifications as read
-                    notifications.firstOrNull()?.let {
-                        model.markAllNotificationAsViewed(it.createTime)
-                    }
+                    isPendingMarkNotifications = true
                 }
                 val notificationItems = notifications.map { it.mapToVersionedListItem() }
                 val newPageKey = notificationsPage.lastNotificationTimeStamp
@@ -141,5 +158,27 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     override fun onCleared() {
         loadCommentsJob?.cancel()
         super.onCleared()
+    }
+
+    fun onVisibilityChanged(visible: Boolean, changeStackPage: Boolean) {
+        if(!changeStackPage){
+            isVisible = visible
+        }
+    }
+
+    private fun markAllNotificationsAsShowed(date: Date){
+        launch {
+            try{
+                model.markAllNotificationAsViewed(date)
+                isPendingMarkNotifications = false
+            } catch (e: Exception){
+                Timber.e(e)
+            }
+        }
+    }
+
+    private companion object{
+
+        private const val DEBOUNCE_INTERVAL_UPDATE_NOTIFICATIONS_IN_MILLIS = 500L
     }
 }

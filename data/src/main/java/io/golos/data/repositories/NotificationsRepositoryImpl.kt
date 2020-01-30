@@ -5,6 +5,7 @@ import io.golos.data.mappers.mapToNotificationDomain
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.NotificationsPageDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
@@ -16,6 +17,7 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
+@ApplicationScope
 class NotificationsRepositoryImpl @Inject constructor(
     private val dispatchersProvider: DispatchersProvider,
     networkStateChecker: NetworkStateChecker,
@@ -27,26 +29,32 @@ class NotificationsRepositoryImpl @Inject constructor(
     private val notificationsCountChannel = ConflatedBroadcastChannel(0)
 
     override suspend fun getNewNotificationsCounterFlow(): Flow<Int>{
-        val unreadCountNotifications = withContext(dispatchersProvider.ioDispatcher){
+        val newNotificationsCounter = withContext(dispatchersProvider.ioDispatcher){
             sharedPreferencesStorage.createReadOperationsInstance().readInt(PREF_UNREAD_NOTIFICATIONS_COUNT)
         } ?: 0
-        notificationsCountChannel.send(unreadCountNotifications)
+        notificationsCountChannel.send(newNotificationsCounter)
         return notificationsCountChannel.asFlow()
     }
 
     override suspend fun markAllNotificationAsViewed(untilDate: Date) {
         apiCall { commun4j.markAllNotificationAsViewed(untilDate.toServerFormat()) }
-        updateNewNotificationsCounter()
+        updateNewNotificationsCounter(untilDate)
     }
 
     override suspend fun updateNewNotificationsCounter() {
-        val notificationsCounter = getNewNotificationsCounter()
-        notificationsCountChannel.send(notificationsCounter)
+        updateNewNotificationsCounter(null)
+    }
+
+    private suspend fun updateNewNotificationsCounter(lastNotificationMarkDate: Date?){
+        val newNotificationsCounter = getNewNotificationsCounter()
+        notificationsCountChannel.send(newNotificationsCounter)
     }
 
     override suspend fun getNewNotificationsCounter(): Int {
         val unseenCount = apiCall { commun4j.getNotificationsStatus() }.unseenCount
-        sharedPreferencesStorage.createWriteOperationsInstance().putInt(PREF_UNREAD_NOTIFICATIONS_COUNT, unseenCount)
+        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
+        createWriteOperationsInstance.putInt(PREF_UNREAD_NOTIFICATIONS_COUNT, unseenCount)
+        createWriteOperationsInstance.commit()
         return unseenCount
     }
 

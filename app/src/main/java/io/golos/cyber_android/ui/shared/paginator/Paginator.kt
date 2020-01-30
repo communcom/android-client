@@ -211,7 +211,7 @@ object Paginator {
         }
 
         fun getStoredItems(): List<T> {
-            return when (val currentState: State = state) {
+            val items = when (val currentState: State = state) {
                 is State.Empty -> emptyList()
                 is State.EmptyProgress -> emptyList()
                 is State.EmptyError -> emptyList()
@@ -222,6 +222,9 @@ object Paginator {
                 is State.FullData<*> -> currentState.data as List<T>
                 is State.PageError<*> -> currentState.data as List<T>
                 is State.SearchPageError<*> -> currentState.data as List<T>
+            }
+            return mutableListOf<T>().apply {
+                addAll(items)
             }
         }
 
@@ -236,6 +239,10 @@ object Paginator {
                 is State.SearchPageError<*> -> Paginator.State.SearchPageError(currentState.pageCount, items, currentState.pageKey)
                 else -> currentState
             }
+        }
+
+        fun renderCurrentState(){
+            render.invoke(state)
         }
     }
 }

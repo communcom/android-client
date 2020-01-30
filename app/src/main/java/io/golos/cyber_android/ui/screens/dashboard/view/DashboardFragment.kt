@@ -35,6 +35,8 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
     }
 
+    private val viewPagerFragmentsList = mutableListOf<Fragment>()
+
     override fun provideViewModelType(): Class<DashboardViewModel> = DashboardViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_dashboard
@@ -50,21 +52,16 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.updateUnreadNotificationsCounter()
         childFragmentManager.addOnBackStackChangedListener {
             val backStackEntryCount = childFragmentManager.backStackEntryCount
             if(backStackEntryCount == 0){
                 //In DashboardFragment
-                changeStatusBarColorByTabPosition(mainPager.currentItem)
-
+                handleNavigationTabPosition(mainPager.currentItem, true)
             } else{
-                changeStatusBarColorByTabPosition(-1)
+                handleNavigationTabPosition(-1, true)
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.updateUnreadNotificationsCounter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -133,47 +130,57 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
-    private fun changeStatusBarColorByTabPosition(position: Int) {
+    private fun handleNavigationTabPosition(position: Int, changeStackPage: Boolean) {
+        val currentActivity = requireActivity()
+        val notificationPageIndex = NavigationBottomMenuWidget.Tab.NOTIFICATIONS.index
+        val notificationsFragment = viewPagerFragmentsList[notificationPageIndex] as NotificationsFragment
         when (position) {
             NavigationBottomMenuWidget.Tab.FEED.index -> {
-                requireActivity().setStatusBarColor(R.color.window_status_bar_second_background)
+                currentActivity.setStatusBarColor(R.color.window_status_bar_second_background)
+                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
             NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
-                requireActivity().setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
             NavigationBottomMenuWidget.Tab.PROFILE.index -> {
-                requireActivity().setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
+            }
+            notificationPageIndex -> {
+                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                notificationsFragment.onVisibilityChanged(visible = true, changeStackPage = changeStackPage)
             }
             else -> {
-                requireActivity().setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
+        }
+    }
+
+    private fun getCurrentTab(): NavigationBottomMenuWidget.Tab? {
+        return NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
+            navigationTab.index == mainPager.currentItem
         }
     }
 
     private fun setupPager(user: UserIdDomain) {
         mainPager.isUserInputEnabled = false
         mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size - 1
-
+        viewPagerFragmentsList.apply {
+            add(NavigationBottomMenuWidget.Tab.FEED.index, FeedFragment.newInstance("gls", user.userId))
+            add(NavigationBottomMenuWidget.Tab.COMMUNITIES.index, CommunitiesListFragmentTab.newInstance(UserIdDomain(user.userId)))
+            add(NavigationBottomMenuWidget.Tab.NOTIFICATIONS.index, NotificationsFragment.newInstance())
+            add(NavigationBottomMenuWidget.Tab.PROFILE.index, ProfileFragment.newInstance(UserIdDomain(user.userId)))
+        }
         mainPager.adapter = object : FragmentStateAdapter(childFragmentManager, this.lifecycle) {
             override fun createFragment(position: Int): Fragment {
                 val tab = NavigationBottomMenuWidget.Tab.values().find { navigationTab ->
                     navigationTab.index == position
                 }
-                return when (tab) {
-                    NavigationBottomMenuWidget.Tab.FEED -> {
-                        FeedFragment.newInstance("gls", user.userId)
-                    }
-                    NavigationBottomMenuWidget.Tab.COMMUNITIES -> {
-                        CommunitiesListFragmentTab.newInstance(UserIdDomain(user.userId))
-                    }
-                    NavigationBottomMenuWidget.Tab.NOTIFICATIONS -> {
-                        NotificationsFragment.newInstance()
-                    }
-                    NavigationBottomMenuWidget.Tab.PROFILE -> {
-                        ProfileFragment.newInstance(UserIdDomain(user.userId))
-                    }
-                    null -> throw IndexOutOfBoundsException("page index is not in supported tabs range")
-                }
+                return tab?.index?.let {
+                    viewPagerFragmentsList.get(it)
+                } ?: throw IndexOutOfBoundsException("page index is not in supported tabs range")
             }
 
             override fun getItemCount() = NavigationBottomMenuWidget.Tab.values().size
@@ -182,7 +189,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                changeStatusBarColorByTabPosition(position)
+                handleNavigationTabPosition(position, false)
             }
         })
     }

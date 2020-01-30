@@ -11,6 +11,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -48,7 +49,9 @@ constructor(
     init {
         mediator.observeForever(observer)
         launch {
-            model.getNewNotificationsCounterFlow().collect {
+            model.getNewNotificationsCounterFlow()
+                .distinctUntilChanged()
+                .collect {
                 _newNotificationsCounter.value = it
             }
         }
