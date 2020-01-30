@@ -17,5 +17,5 @@ fun LeaderItem.mapToCommunityLeaderDomain() =
         url = url,
         username = username ?: "",
         votesCount = votesCount ?: 0,
-        isTop = true
+        isTop = inTop
     )
