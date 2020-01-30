@@ -10,4 +10,4 @@ fun String.fromServerFormat(): Date{
     return dateFormat.parse(this)
 }
 
-private const val DATE_SERVER_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.ssZ"
+private const val DATE_SERVER_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"

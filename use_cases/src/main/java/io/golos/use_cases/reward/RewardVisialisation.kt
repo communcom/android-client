@@ -4,7 +4,7 @@ import io.golos.domain.dto.RewardPostDomain
 
 fun RewardPostDomain?.isRewarded(): Boolean =
     this?.let {
-        if(it.isClosed) {
+        if(it.isClosed && it.rewardValue.value > 0.0) {
             return@let true
         }
 
@@ -17,7 +17,7 @@ fun RewardPostDomain?.isRewarded(): Boolean =
 
 fun RewardPostDomain?.getRewardValue(): Double? =
     this?.let {
-        if(it.isClosed) {
+        if(it.isClosed && it.rewardValue.value > 0.0) {
             return@let it.rewardValue.value
         }
 

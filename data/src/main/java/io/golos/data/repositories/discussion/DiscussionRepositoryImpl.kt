@@ -8,6 +8,7 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.model.FeedTimeFrame
 import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.services.model.CommentsSortBy
+import io.golos.commun4j.services.model.UserAndPermlinkPair
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
@@ -132,22 +133,12 @@ constructor(
             )
         }
 
-        // it's a mock for a while
-        val contentIds = posts.map { it.contentId.mapToContentIdDomain() }
-        val rewards = withContext(dispatchersProvider.ioDispatcher) {
-            delay(1000)
-            contentIds.map {
-                RewardPostDomain(
-                    topCount = Random.nextInt(2, 5),
-                    collectionEnd = Date(),
-                    rewardValue = RewardValueDomain(
-                        value = Random.nextDouble(1.0, 999.0),
-                        communityId = "ANIM"
-                    ),
-                    isClosed = Random.nextBoolean(),
-                    contentId = it
-                )
-            }
+        val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
+
+        val rewards = apiCall {
+            commun4j.getStateBulk(contentIds) }
+            .flatMap { it.value }
+            .map { it.mapToRewardPostDomain()
         }
 
         return withContext(dispatchersProvider.calculationsDispatcher) {
@@ -333,21 +324,15 @@ constructor(
     override suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain {
         val post = apiCall { commun4j.getPostRaw(user, communityId, permlink) }
 
-        val reward = withContext(dispatchersProvider.ioDispatcher) {
-            delay(1000)
-            RewardPostDomain(
-                topCount = Random.nextInt(2, 5),
-                collectionEnd = Date(),
-                rewardValue = RewardValueDomain(
-                    value = Random.nextDouble(1.0, 999.0),
-                    communityId = "ANIM"
-                ),
-                isClosed = Random.nextBoolean(),
-                contentId = post.contentId.mapToContentIdDomain()
-            )
+        val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
+
+        val rewards = apiCall {
+            commun4j.getStateBulk(contentIds) }
+            .flatMap { it.value }
+            .map { it.mapToRewardPostDomain()
         }
 
-        return post.mapToPostDomain(user.name, reward)
+        return post.mapToPostDomain(user.name, rewards.firstOrNull())
     }
 
     override fun getPost(user: CyberName, permlink: Permlink): PostModel {
