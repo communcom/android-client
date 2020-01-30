@@ -47,13 +47,21 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
 
     private var isPendingMarkNotifications: Boolean = false
 
+    private var isPendingReloadNotifications: Boolean = false
+
     private var isVisible by Delegates.observable(false) { _, oldVisibleStatus, newVisibleStatus ->
         if(oldVisibleStatus != newVisibleStatus){
-            if(oldVisibleStatus && isPendingMarkNotifications){
-                //Need mark notifications as read
-                val notifications = paginator.getStoredItems() as MutableList<BaseNotificationItem>
-                notifications.firstOrNull()?.let {
-                    markAllNotificationsAsShowed(it.createTime)
+            if(newVisibleStatus){
+                if(isPendingMarkNotifications){
+                    //Need mark notifications as read when notifications is visible on screen user
+                    val notifications = paginator.getStoredItems() as MutableList<BaseNotificationItem>
+                    notifications.firstOrNull()?.let {
+                        markAllNotificationsAsShowed(it.createTime)
+                    }
+                }
+            } else{
+                if(isPendingReloadNotifications){
+                    restartLoadNotifications()
                 }
             }
         }
@@ -81,7 +89,8 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                 .distinctUntilChanged()
                 .debounce(DEBOUNCE_INTERVAL_UPDATE_NOTIFICATIONS_IN_MILLIS)
                 .collect {
-                if (it != _newNotificationsCount.value) {
+                if (it.newNotificationsCounter != _newNotificationsCount.value && it.lastNotificationDateMarked == null) {
+                    //Update from backend
                     restartLoadNotifications()
                 }
             }
@@ -133,6 +142,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
     private fun loadNotifications(pageCount: Int, pageKey: String?){
         loadCommentsJob = launch {
             try {
+                isPendingReloadNotifications = false
                 val notificationsPage = model.getNotifications(pageKey, PAGINATION_PAGE_SIZE)
                 val notifications = notificationsPage.notifications
                 var notificationsUnreadCount = _newNotificationsCount.value
@@ -140,7 +150,15 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                     currentUser = model.getCurrentUser().mapToUser()
                     //Need load unread count
                     notificationsUnreadCount = model.getNewNotificationsCounter()
-                    isPendingMarkNotifications = true
+                    if(notificationsUnreadCount != 0){
+                        if(isVisible){
+                            notifications.firstOrNull()?.let {
+                                markAllNotificationsAsShowed(it.createTime)
+                            }
+                        } else{
+                            isPendingMarkNotifications = true
+                        }
+                    }
                 }
                 val notificationItems = notifications.map { it.mapToVersionedListItem() }
                 val newPageKey = notificationsPage.lastNotificationTimeStamp
@@ -171,6 +189,7 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
             try{
                 model.markAllNotificationAsViewed(date)
                 isPendingMarkNotifications = false
+                isPendingReloadNotifications = true
             } catch (e: Exception){
                 Timber.e(e)
             }

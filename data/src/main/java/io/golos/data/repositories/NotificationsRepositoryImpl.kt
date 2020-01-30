@@ -7,6 +7,7 @@ import io.golos.data.persistence.key_value_storage.storages.shared_preferences.S
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.NotificationsPageDomain
+import io.golos.domain.dto.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
 import io.golos.utils.toServerFormat
@@ -26,13 +27,13 @@ class NotificationsRepositoryImpl @Inject constructor(
     private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : RepositoryBase(dispatchersProvider, networkStateChecker), NotificationsRepository {
 
-    private val notificationsCountChannel = ConflatedBroadcastChannel(0)
+    private val notificationsCountChannel = ConflatedBroadcastChannel(NotificationsStatusDomain(0, null))
 
-    override suspend fun getNewNotificationsCounterFlow(): Flow<Int>{
+    override suspend fun getNewNotificationsCounterFlow(): Flow<NotificationsStatusDomain>{
         val newNotificationsCounter = withContext(dispatchersProvider.ioDispatcher){
             sharedPreferencesStorage.createReadOperationsInstance().readInt(PREF_UNREAD_NOTIFICATIONS_COUNT)
         } ?: 0
-        notificationsCountChannel.send(newNotificationsCounter)
+        notificationsCountChannel.send(NotificationsStatusDomain(newNotificationsCounter, null))
         return notificationsCountChannel.asFlow()
     }
 
@@ -47,7 +48,7 @@ class NotificationsRepositoryImpl @Inject constructor(
 
     private suspend fun updateNewNotificationsCounter(lastNotificationMarkDate: Date?){
         val newNotificationsCounter = getNewNotificationsCounter()
-        notificationsCountChannel.send(newNotificationsCounter)
+        notificationsCountChannel.send(NotificationsStatusDomain(newNotificationsCounter, lastNotificationMarkDate))
     }
 
     override suspend fun getNewNotificationsCounter(): Int {

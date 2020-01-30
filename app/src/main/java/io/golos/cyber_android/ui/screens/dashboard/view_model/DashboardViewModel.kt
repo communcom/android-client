@@ -52,7 +52,7 @@ constructor(
             model.getNewNotificationsCounterFlow()
                 .distinctUntilChanged()
                 .collect {
-                _newNotificationsCounter.value = it
+                _newNotificationsCounter.value = it.newNotificationsCounter
             }
         }
     }
