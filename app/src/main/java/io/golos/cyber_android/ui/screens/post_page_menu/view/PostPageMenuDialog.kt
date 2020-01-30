@@ -131,7 +131,8 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
                     userId = menu.authorUserId,
                     canJoinToCommunity = false,
                     isBackFeatureEnabled = false,
-                    isJoinFeatureEnabled = false
+                    isRewarded = false,
+                    rewardValue = null
                 )
             )
             postMenuHeader.hideActionMenu()

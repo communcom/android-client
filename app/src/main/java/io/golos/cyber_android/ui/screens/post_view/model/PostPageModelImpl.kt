@@ -31,6 +31,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import io.golos.use_cases.reward.*
 
 class PostPageModelImpl
 @Inject
@@ -98,8 +99,8 @@ constructor(
         )
     }
 
-    override fun getPostHeader(): PostHeader =
-        PostHeader(
+    override fun getPostHeader(): PostHeader {
+        return PostHeader(
             postDomain.community.name,
             postDomain.community.avatarUrl,
             postDomain.community.communityId,
@@ -111,8 +112,10 @@ constructor(
             canJoinToCommunity = false,
             isJoinedToCommunity = postDomain.community.isSubscribed,
             isBackFeatureEnabled = true,
-            isJoinFeatureEnabled = false
+            isRewarded = postDomain.reward.isRewarded(),
+            rewardValue = postDomain.reward.getRewardValue()
         )
+    }
 
     override suspend fun addToFavorite(permlink: String) {
         delay(100)
@@ -247,4 +250,6 @@ constructor(
         }
         postListDataSource.createOrUpdatePostData(postDomain)
     }
+
+    override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()
 }

@@ -23,10 +23,12 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.dto.TypeObjectDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -166,6 +168,14 @@ class MyFeedViewModel @Inject constructor(
 
     override fun onMenuClicked(postMenu: PostMenu) {
         _command.value = NavigationToPostMenuViewCommand(postMenu)
+    }
+
+    override fun onRewardClick(reward: RewardPostDomain?) {
+        reward.isTopReward()?.let {
+            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
+            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
+            _command.value = ShowPostRewardDialog(title, text)
+        }
     }
 
     override fun onCommentsClicked(postContentId: ContentId) {

@@ -1,5 +1,6 @@
-package io.golos.cyber_android.ui.screens.post_view.view_commands
+package io.golos.cyber_android.ui.screens.post_view.dto
 
+import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand

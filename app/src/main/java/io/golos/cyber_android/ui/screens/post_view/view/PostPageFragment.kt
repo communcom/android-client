@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,8 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
+import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
@@ -26,8 +29,8 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
-import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
@@ -108,6 +111,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         postHeader.setOnBackButtonClickListener { back() }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
+        postHeader.setOnRewardButtonClickListener { viewModel.onPostRewardClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
         postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
 
@@ -191,6 +195,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is DeletePostCommand -> deletePost()
 
             is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
+
+            is ShowPostRewardDialog -> showPostRewardDialog(command.titleResId, command.textResId)
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
@@ -400,4 +406,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             setTargetFragment(this@PostPageFragment, CommentsActionsDialog.REQUEST)
         }.show(requireFragmentManager(), "menu")
     }
+
+    private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
+        PostRewardBottomSheetDialog
+            .newInstance(this@PostPageFragment, titleResId, textResId)
+            .show(requireFragmentManager(), "menu")
 }

@@ -14,6 +14,7 @@ fun PostDomain.mapToPost(): Post {
         null,
         this.shareUrl,
         this.votes.mapToVotes(),
-        this.isMyPost
+        this.isMyPost,
+        this.reward
     )
 }

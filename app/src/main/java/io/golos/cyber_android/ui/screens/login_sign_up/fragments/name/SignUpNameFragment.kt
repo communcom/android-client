@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.login_sign_up.fragments.name
 
 import android.os.Bundle
 import android.text.InputFilter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.dialogs.UserNameRestrictionsWarningDialog
+import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
@@ -127,7 +126,11 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
         Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showExplanationDialog() {
-        UserNameRestrictionsWarningDialog.newInstance(this@SignUpNameFragment).show(requireFragmentManager(), "menu")
-    }
+    private fun showExplanationDialog() =
+        SimpleTextBottomSheetDialog.newInstance(
+            this@SignUpNameFragment,
+            R.string.user_name_restriction_title,
+            R.string.user_name_restriction_explanation,
+            R.string.understand
+        ).show(requireFragmentManager(), "menu")
 }

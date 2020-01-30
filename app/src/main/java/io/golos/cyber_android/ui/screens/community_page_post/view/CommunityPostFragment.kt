@@ -4,12 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
+import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
+import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
@@ -27,6 +30,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowPostRewardDialog
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -107,6 +111,8 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     }
                 postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
             }
+
+            is ShowPostRewardDialog -> showPostRewardDialog(command.titleResId, command.textResId)
         }
     }
 
@@ -362,6 +368,11 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             dialog.show(childFragmentManager, tag)
         }
     }
+
+    private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
+        PostRewardBottomSheetDialog
+            .newInstance(this@CommunityPostFragment, titleResId, textResId)
+            .show(requireFragmentManager(), "menu")
 
     companion object {
 

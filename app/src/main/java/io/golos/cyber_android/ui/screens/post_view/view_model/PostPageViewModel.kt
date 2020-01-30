@@ -7,9 +7,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
-import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
@@ -175,7 +174,16 @@ constructor(
 
     fun onPostMenuClick() {
         val postMenu: PostMenu = model.getPostMenu()
-        _command.value = NavigationToPostMenuViewCommand(postMenu)
+        _command.value =
+            NavigationToPostMenuViewCommand(postMenu)
+    }
+
+    fun onPostRewardClick() {
+        model.isTopReward()?.let {
+            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
+            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
+            _command.value = ShowPostRewardDialog(title, text)
+        }
     }
 
     override fun onCommentsTitleMenuClick() {
@@ -213,7 +221,8 @@ constructor(
     }
 
     fun editPost(contentId: ContentId) {
-        _command.value = NavigationToEditPostViewCommand(contentId)
+        _command.value =
+            NavigationToEditPostViewCommand(contentId)
     }
 
     fun reportPost(contentId: ContentId) {
@@ -285,7 +294,8 @@ constructor(
     override fun onCommentLongClick(commentId: DiscussionIdModel) {
         val comment = model.getComment(commentId)
         if(comment?.isMyComment == true){
-            _command.value = ShowCommentMenuViewCommand(commentId)
+            _command.value =
+                ShowCommentMenuViewCommand(commentId)
         }
     }
 
@@ -356,7 +366,10 @@ constructor(
             val contentBlock = comment.body
             val discussionIdModel = comment.contentId
             val commentContentId = ContentId(postContentId.communityId, discussionIdModel.permlink.value, discussionIdModel.userId)
-            _command.value = NavigateToEditComment(commentContentId, contentBlock)
+            _command.value = NavigateToEditComment(
+                commentContentId,
+                contentBlock
+            )
         }
     }
 
@@ -365,7 +378,10 @@ constructor(
         comment?.let {
             val contentBlock = comment.body
             val parentContentId = ContentId(postContentId.communityId, commentToReplyId.permlink.value, commentToReplyId.userId)
-            _command.value = NavigateToReplyCommentViewCommand(parentContentId, contentBlock)
+            _command.value = NavigateToReplyCommentViewCommand(
+                parentContentId,
+                contentBlock
+            )
         }
     }
 

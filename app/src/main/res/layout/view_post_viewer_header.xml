@@ -40,7 +40,7 @@
         android:layout_marginTop="@dimen/post_viewer_header_vertical_margin"
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin_large"
         app:layout_constraintBottom_toTopOf="@+id/authorAndTime"
-        app:layout_constraintEnd_toStartOf="@+id/joinToCommunityButton"
+        app:layout_constraintEnd_toStartOf="@+id/rewardButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/communityAvatar"
         app:layout_constraintTop_toTopOf="parent"
@@ -61,14 +61,17 @@
         tools:text="12:45 &#8226; Ivan Ivanov" />
 
 
-    <ToggleButton
-        android:id="@+id/joinToCommunityButton"
+    <Button
+        android:id="@+id/rewardButton"
 
-        style="@style/BlueWhite.RoundCorners.Toggle.Follow"
+        tools:text="Top"
+
+        style="@style/Post.Reward.Button"
 
         android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
 
-        tools:checked="true"
+        tools:visibility="visible"
+        android:visibility="gone"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/menuButton"

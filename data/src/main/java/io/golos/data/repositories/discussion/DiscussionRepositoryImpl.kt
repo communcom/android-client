@@ -141,7 +141,7 @@ constructor(
                     topCount = Random.nextInt(2, 5),
                     collectionEnd = Date(),
                     rewardValue = RewardValueDomain(
-                        value = Random.nextDouble(1.0, 100.0).toFloat(),
+                        value = Random.nextDouble(1.0, 999.0),
                         communityId = "ANIM"
                     ),
                     isClosed = Random.nextBoolean(),
@@ -153,7 +153,7 @@ constructor(
         return withContext(dispatchersProvider.calculationsDispatcher) {
             posts.items.map { post ->
                 val userId = post.author.userId.name
-                val reward = rewards.first { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
+                val reward = rewards.firstOrNull { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
                 post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
             }
         }
@@ -331,9 +331,23 @@ constructor(
         createOrUpdateDiscussion(params)
 
     override suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain {
-        return apiCall {
-            commun4j.getPostRaw(user, communityId, permlink)
-        }.mapToPostDomain(user.name)
+        val post = apiCall { commun4j.getPostRaw(user, communityId, permlink) }
+
+        val reward = withContext(dispatchersProvider.ioDispatcher) {
+            delay(1000)
+            RewardPostDomain(
+                topCount = Random.nextInt(2, 5),
+                collectionEnd = Date(),
+                rewardValue = RewardValueDomain(
+                    value = Random.nextDouble(1.0, 999.0),
+                    communityId = "ANIM"
+                ),
+                isClosed = Random.nextBoolean(),
+                contentId = post.contentId.mapToContentIdDomain()
+            )
+        }
+
+        return post.mapToPostDomain(user.name, reward)
     }
 
     override fun getPost(user: CyberName, permlink: Permlink): PostModel {

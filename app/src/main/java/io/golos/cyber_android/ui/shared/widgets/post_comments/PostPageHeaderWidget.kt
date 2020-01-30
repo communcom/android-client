@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.glide.clear
+import io.golos.cyber_android.ui.shared.formatters.reward.RewardFormatter
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.MovementMethod
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
@@ -31,19 +32,20 @@ constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private var onBackButtonClickListener: (() -> Unit)? = null
-    private var onJoinToCommunityButtonClickListener: (() -> Unit)? = null
     private var onMenuButtonClickListener: (() -> Unit)? = null
     private var onUserClickListener: ((String) -> Unit)? = null   // UserId as param
     private var onCommunityClickListener: ((String) -> Unit)? = null //CommunityId as param
+    private var onRewardClickListener: (() -> Unit)? = null     //CommunityId as param
 
     private lateinit var userId: String
 
     init {
         inflate(getContext(), R.layout.view_post_viewer_header, this)
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
-        joinToCommunityButton.setOnClickListener { onJoinToCommunityButtonClickListener?.invoke() }
-        menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
 
+        rewardButton.setOnClickListener { onRewardClickListener?.invoke() }
+
+        menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
     }
 
     fun setHeader(postHeader: PostHeader) {
@@ -97,13 +99,13 @@ constructor(
             }
         }
 
-        if (postHeader.isJoinFeatureEnabled) {
-            joinToCommunityButton.visibility = View.VISIBLE
-            joinToCommunityButton.isEnabled = postHeader.canJoinToCommunity
-            joinToCommunityButton.isChecked = postHeader.isJoinedToCommunity
+        if (postHeader.isRewarded) {
+            rewardButton.visibility = View.VISIBLE
+            rewardButton.text = postHeader.rewardValue?.let { RewardFormatter.format(it) } ?: context.getString(R.string.post_reward_top)
         } else {
-            joinToCommunityButton.visibility = View.GONE
+            rewardButton.visibility = View.GONE
         }
+
         if (postHeader.isBackFeatureEnabled) {
             backButton.visibility = View.VISIBLE
         } else {
@@ -119,8 +121,8 @@ constructor(
         onBackButtonClickListener = listener
     }
 
-    fun setOnJoinToCommunityButtonClickListener(listener: (() -> Unit)?) {
-        onJoinToCommunityButtonClickListener = listener
+    fun setOnRewardButtonClickListener(listener: (() -> Unit)?) {
+        onRewardClickListener = listener
     }
 
     fun setOnMenuButtonClickListener(listener: (() -> Unit)?) {
@@ -141,7 +143,7 @@ constructor(
     fun release(){
         setOnUserClickListener(null)
         setOnMenuButtonClickListener(null)
-        setOnJoinToCommunityButtonClickListener(null)
+        setOnRewardButtonClickListener(null)
         setOnBackButtonClickListener(null)
         communityAvatar.clear()
     }

@@ -85,4 +85,6 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 
     suspend fun uploadAttachmentContent(file: File): String
+
+    fun isTopReward(): Boolean?
 }

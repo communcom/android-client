@@ -17,6 +17,8 @@ import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.use_cases.reward.getRewardValue
+import io.golos.use_cases.reward.isRewarded
 import io.golos.utils.positiveValue
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
@@ -150,8 +152,10 @@ class PostItem(
             author.userId,
             canJoinToCommunity = false,
             isBackFeatureEnabled = false,
-            isJoinFeatureEnabled = false
+            isRewarded = post.reward.isRewarded(),
+            rewardValue = post.reward.getRewardValue()
         )
+
         view.postHeader.setHeader(postHeader)
         view.postHeader.setOnUserClickListener {
             listener.onUserClicked(it)
@@ -183,6 +187,7 @@ class PostItem(
         view.postHeader.setOnClickListener{
             listener.onBodyClicked(post.contentId)
         }
+        view.postHeader.setOnRewardButtonClickListener { listener.onRewardClick(post.reward) }
     }
 
     override fun onViewRecycled(view: View) {

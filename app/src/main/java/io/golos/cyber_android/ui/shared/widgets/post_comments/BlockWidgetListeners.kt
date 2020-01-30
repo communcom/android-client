@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 import android.net.Uri
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.domain.dto.RewardPostDomain
 
 interface BasePostBlockWidgetListener
 
@@ -64,6 +65,9 @@ interface SeeMoreListener {
 }
 
 interface BlockBodyListener {
-
     fun onBodyClicked(postContentId: ContentId?)
+}
+
+interface RewardListener {
+    fun onRewardClick(reward: RewardPostDomain?)
 }

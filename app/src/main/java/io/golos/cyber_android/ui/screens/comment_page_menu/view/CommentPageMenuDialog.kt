@@ -36,7 +36,8 @@ class CommentPageMenuDialog : BottomSheetDialogFragmentBase(), CommentMenuModelL
                 userId = commentMenu.authorUserId,
                 canJoinToCommunity = false,
                 isBackFeatureEnabled = false,
-                isJoinFeatureEnabled = false
+                isRewarded = false,
+                rewardValue = null
             )
         )
         commentMenuHeader.hideActionMenu()

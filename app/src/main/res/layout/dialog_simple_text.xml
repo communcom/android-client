@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/explanationText"
 
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginTop="@dimen/dimen_13"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <TextView
-            android:id="@+id/understandButton"
+            android:id="@+id/mainButton"
 
             style="@style/BlueWhite.RoundCorners.Button"
 
@@ -83,6 +83,7 @@
             android:layout_marginTop="@dimen/dimen_20"
 
             android:text="@string/understand"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.825"
 

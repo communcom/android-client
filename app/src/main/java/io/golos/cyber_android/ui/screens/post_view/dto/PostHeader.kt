@@ -12,5 +12,7 @@ data class PostHeader(
     val canJoinToCommunity: Boolean,
     val isJoinedToCommunity: Boolean = false,
     val isBackFeatureEnabled: Boolean = true,
-    val isJoinFeatureEnabled: Boolean = false
+
+    val isRewarded: Boolean = true,
+    val rewardValue: Double?
 )
