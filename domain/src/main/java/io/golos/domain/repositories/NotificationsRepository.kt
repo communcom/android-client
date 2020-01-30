@@ -16,4 +16,8 @@ interface NotificationsRepository {
     suspend fun getNewNotificationsCounterFlow(): Flow<NotificationsStatusDomain>
 
     suspend fun getNewNotificationsCounter(): Int
+
+    suspend fun subscribeOnNotificationsChanges()
+
+    suspend fun unsubscribeOnNotificationsChanges()
 }
