@@ -12,6 +12,6 @@ data class LeaderListItem(
     val username: String,
     val rating: Double,
     val ratingPercent: Double,
-
-    val isVoted: Boolean
+    val isVoted: Boolean,
+    val isTop: Boolean
 ): VersionedListItem

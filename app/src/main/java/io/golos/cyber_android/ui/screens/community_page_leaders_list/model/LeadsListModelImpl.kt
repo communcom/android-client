@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.screens.community_page_leaders_list.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.UserIdDomain
@@ -134,9 +134,23 @@ constructor(
                data = listOf(EmptyListItem(IdUtil.generateLongId(), 0))
            }
 
-            updateData {
-                it.removeAt(0)
-                it.addAll(data)
+            updateData { leadersList ->
+                leadersList.removeAt(0)
+                leadersList.addAll(data)
+                leadersList.removeIf{
+                    it is LeadersHeaderItem || it is NomineesHeaderItem
+                }
+                val firstTopLeader = leadersList.find { it is LeaderListItem && it.isTop}
+                val firstTopLeaderPosition = firstTopLeader?.let { leadersList.indexOf(it) } ?: 0
+                leadersList.add(firstTopLeaderPosition, LeadersHeaderItem(0, IdUtil.generateLongId()))
+                val firstNominees = leadersList.find { it is LeaderListItem && !it.isTop}
+                firstNominees?.let {
+                    val firstNomineesPosition = leadersList.indexOf(it)
+                    if(firstNomineesPosition != -1){
+                        leadersList.add(firstNomineesPosition, NomineesHeaderItem(0, IdUtil.generateLongId()))
+                    }
+                }
+
             }
 
             LoadingState.ALL_DATA_LOADED
@@ -175,6 +189,7 @@ constructor(
             username = username,
             rating = rating,
             ratingPercent = ratingPercent,
-            isVoted = isVoted
+            isVoted = isVoted,
+            isTop = isTop
     )
 }
