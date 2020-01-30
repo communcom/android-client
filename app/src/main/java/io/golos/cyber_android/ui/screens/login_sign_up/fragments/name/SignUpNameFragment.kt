@@ -51,7 +51,10 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
             signUpViewModel.validateUserName(username.text.toString())
         }
 
-        username.setOnDrawableEndClickListener { showExplanationDialog() }
+        username.setOnDrawableEndClickListener {
+            uiHelper.setSoftKeyboardVisibility(username, false)
+            showExplanationDialog()
+        }
 
         username?.post {
             ViewUtils.showKeyboard(username)

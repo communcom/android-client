@@ -269,7 +269,7 @@
         <item name="android:background">@drawable/bg_input_field</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">false</item>
-        <item name="android:inputType">none</item>
+        <item name="android:inputType">textNoSuggestions</item>
         <item name="android:maxLines">1</item>
         <item name="android:paddingStart">@dimen/margin_default</item>
         <item name="android:paddingEnd">@dimen/margin_default</item>
