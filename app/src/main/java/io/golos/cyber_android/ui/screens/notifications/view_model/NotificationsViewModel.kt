@@ -189,7 +189,11 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
             try{
                 model.markAllNotificationAsViewed(date)
                 isPendingMarkNotifications = false
-                isPendingReloadNotifications = true
+                if(isVisible){
+                    isPendingReloadNotifications = true
+                } else{
+                    restartLoadNotifications()
+                }
             } catch (e: Exception){
                 Timber.e(e)
             }
