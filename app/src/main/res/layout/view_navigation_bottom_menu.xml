@@ -28,16 +28,22 @@
         android:scaleType="center"
         tools:ignore="ContentDescription" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/createPostMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_union"/>
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/createPostMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_union"
+            app:maxImageSize="@dimen/navigation_bottom_menu_fab_icon_size"
+            app:fabCustomSize="@dimen/navigation_bottom_menu_fab_size"/>
+    </FrameLayout>
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/flNotificationMenu"
