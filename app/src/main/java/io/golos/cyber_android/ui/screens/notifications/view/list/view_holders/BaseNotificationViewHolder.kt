@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimatio
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.spans.ClickableMovementMethod
+import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.item_notification.view.*
 
@@ -23,9 +23,7 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
     abstract val notificationTypeLabelResId: Int
 
     fun init(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
-        itemView.tvMessage.movementMethod = ClickableMovementMethod
-        itemView.tvMessage.isClickable = false
-        itemView.tvMessage.isLongClickable = false
+        itemView.tvMessage.adjustSpannableClicks()
         setUserAvatar(listItem, listItemEventsProcessor)
         setUnreadIndicatorVisibility(listItem)
         setCreateTime(listItem)
