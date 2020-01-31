@@ -6,6 +6,8 @@ import androidx.annotation.LayoutRes
 
 interface RecyclerItem {
 
+    var adapterPosition: Int
+
     @LayoutRes
     fun getLayoutId(): Int
 

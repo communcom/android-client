@@ -18,4 +18,6 @@ abstract class BaseRecyclerItem : RecyclerItem {
             initView(context, view)
         }
     }
+
+    override var adapterPosition: Int = -1
 }

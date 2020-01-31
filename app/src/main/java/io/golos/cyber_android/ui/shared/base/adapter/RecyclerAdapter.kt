@@ -23,6 +23,7 @@ open class RecyclerAdapter(
         val item = getItem(position)
         val renderFirstTime = holder.holderItem == null || holder.holderItem != item
         holder.holderItem = item
+        holder.holderItem?.adapterPosition = position
         val holderView = holder.itemView
         val context = holderView.context
         if (renderFirstTime) {
