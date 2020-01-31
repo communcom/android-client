@@ -40,8 +40,10 @@ constructor(
     private var onClickProcessor: ParagraphWidgetListener? = null
     private var isSeeMoreEnabled: Boolean = false
     private var contentId: ContentId? = null
-    private var topPadding: Int = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
+    private var topPadding = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
     private var bottomPadding = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
+    private var startPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
+    private var endPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
 
     @ColorInt
     private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
@@ -72,9 +74,7 @@ constructor(
         val spacing = context.resources.getDimension(R.dimen.text_size_post_spacing)
         setLineSpacing(spacing, 0f)
         setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.text_size_post_normal))
-        context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
-            setPadding(it, topPadding, it, bottomPadding)
-        }
+        setPadding(startPadding, topPadding, endPadding, bottomPadding)
         adjustSpannableClicks()
     }
 
@@ -82,6 +82,8 @@ constructor(
         val params = this.layoutParams as? ViewGroup.MarginLayoutParams
         topPadding = top
         bottomPadding = bottom
+        startPadding = left
+        endPadding = right
         params?.let {
             super.setPadding(left, top, right, bottom)
         }

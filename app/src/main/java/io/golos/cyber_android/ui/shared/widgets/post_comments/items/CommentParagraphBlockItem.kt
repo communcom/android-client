@@ -24,9 +24,9 @@ data class CommentParagraphBlockItem(
     ): ParagraphWidget = ParagraphWidget(context).apply {
         setSeeMoreEnabled(true)
         setContentId(contentId)
-        val verticalMargin = context.resources.getDimension(R.dimen.comment_paragraph_block_horizontal_margin).toInt()
-        val horizontalPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
-        setPadding(horizontalPadding, verticalMargin, horizontalPadding, verticalMargin)
+        val verticalMargin = context.resources.getDimension(R.dimen.post_comments_text_vertical_padding).toInt()
+        val horizontalPadding = context.resources.getDimension(R.dimen.post_comments_text_horizontal_padding).toInt()
+        setPadding(0, 0, 0, 0)
     }
 
     override fun areItemsTheSame(): Int = paragraphBlock.hashCode()

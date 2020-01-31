@@ -19,30 +19,35 @@
         app:srcCompat="@drawable/ic_empty_user"
         tools:ignore="ContentDescription" />
 
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCommentContent"
-        android:layout_width="@dimen/post_comments_width"
+    <FrameLayout
+        android:id="@+id/flCommentContent"
+        android:layout_width="@dimen/post_comments_width_max"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/post_comments_text_margin"
-        android:background="@drawable/bcg_post_card_comment"
-        android:paddingStart="@dimen/post_comments_text_horizontal_padding"
-        android:paddingEnd="@dimen/post_comments_text_horizontal_padding"
-
-        android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivAvatar"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCommentContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_comment"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/post_comments_text_horizontal_padding"
+            android:paddingEnd="@dimen/post_comments_text_horizontal_padding"/>
+
+    </FrameLayout>
+
 
     <io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
         android:id="@+id/voting"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/post_controls_vote_area_height"
         android:layout_marginTop="@dimen/post_comments_voting_margin"
-        app:layout_constraintStart_toStartOf="@+id/rvCommentContent"
-        app:layout_constraintTop_toBottomOf="@+id/rvCommentContent" />
+        app:layout_constraintStart_toStartOf="@+id/flCommentContent"
+        app:layout_constraintTop_toBottomOf="@+id/flCommentContent" />
 
     <TextView
         android:id="@+id/replyAndTimeText"

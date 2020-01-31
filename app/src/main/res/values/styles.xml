@@ -133,7 +133,7 @@
     <!--Comment Input-->
     <style name="CommentsInputField" parent="CommentsBaseTextStyle">
         <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/bcg_post_card_comment</item>
+        <item name="android:background">@drawable/bg_input_comment</item>
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
         <item name="android:inputType">none</item>

@@ -29,7 +29,10 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
         widget.setOnClickProcessor(widgetListener)
         val widgetView = widget as View
         widgetView.id = widgetViewId
+        //Handle long click all widgets except [io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget]
         widget.setOnLongClickListener(onLongClickLister)
+        //only work on [io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget]
+        view.postWidgetContainer.setOnLongClickListener(onLongClickLister)
         view.postWidgetContainer.addView(widgetView)
     }
 
