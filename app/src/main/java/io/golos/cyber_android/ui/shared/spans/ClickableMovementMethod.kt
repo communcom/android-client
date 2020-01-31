@@ -6,7 +6,6 @@ import android.text.method.BaseMovementMethod
 import android.text.style.ClickableSpan
 import android.view.MotionEvent
 import android.widget.TextView
-import timber.log.Timber
 
 /**
  * A movement method that traverses links in the text buffer and fires clicks. Unlike
@@ -33,14 +32,12 @@ object ClickableMovementMethod : BaseMovementMethod() {
             val paddingTop = widget.totalPaddingTop
             val paddingLeft = widget.totalPaddingLeft
             val paddingBottom = widget.totalPaddingBottom
-            val totalPaddingRight = widget.totalPaddingRight
+            val paddingRight = widget.totalPaddingRight
 
             val height = widget.height
             val width = widget.width
 
-            Timber.d("click")
-
-            if (eventX > width - totalPaddingRight ||
+            if (eventX > width - paddingRight ||
                 eventX < paddingLeft ||
                 eventY > height - paddingBottom ||
                 eventY < paddingTop
