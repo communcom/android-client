@@ -19,6 +19,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.transformations.GradientTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.PercentageRoundVectorFrameTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
+import io.golos.cyber_android.ui.shared.glide.transformations.TopRoundedCornersTransformation
+import kotlinx.android.synthetic.main.view_post_embed_website.view.*
 
 enum class ImageProgressLoadState{
     START,
@@ -119,6 +121,30 @@ fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoa
 
         })
         .into(this)
+}
+
+fun ImageView.loadWebsiteContent(url: String?){
+    val radius = context.resources.getDimension(R.dimen.radius_corner_embed_website)
+    Glide
+        .with(this)
+        .load(url)
+        .transform(CenterCrop(),
+            TopRoundedCornersTransformation(radius)
+        )
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .error(R.drawable.widget_epmty_place_holder)
+        .placeholder(R.drawable.widget_epmty_place_holder)
+        .into(image)
+}
+
+fun ImageView.loadVideoContent(url: String?){
+    Glide
+        .with(this)
+        .load(url)
+        .centerCrop()
+        .error(R.drawable.widget_epmty_place_holder)
+        .placeholder(R.drawable.widget_epmty_place_holder)
+        .into(image)
 }
 
 fun ImageView.loadCommunityItemCover(url: String?): Target<*> =
