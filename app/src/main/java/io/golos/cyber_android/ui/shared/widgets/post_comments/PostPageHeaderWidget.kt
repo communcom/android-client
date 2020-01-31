@@ -11,10 +11,10 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.formatters.reward.RewardFormatter
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.spans.MovementMethod
+import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
@@ -50,13 +50,7 @@ constructor(
 
     fun setHeader(postHeader: PostHeader) {
         userId = postHeader.userId
-        communityTitle.movementMethod = object: MovementMethod(){
-
-            override fun onEmptyClicked(): Boolean {
-                callOnClick()
-                return super.onEmptyClicked()
-            }
-        }
+        communityTitle.adjustSpannableClicks()
         val builder = SpannableStringBuilder()
         postHeader.communityName?.let {
             val textInterval = builder.appendText(it)
@@ -75,13 +69,7 @@ constructor(
 
         communityTitle.text = builder
 
-        authorAndTime.movementMethod = object: MovementMethod(){
-
-            override fun onEmptyClicked(): Boolean {
-                callOnClick()
-                return super.onEmptyClicked()
-            }
-        }
+        authorAndTime.adjustSpannableClicks()
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 

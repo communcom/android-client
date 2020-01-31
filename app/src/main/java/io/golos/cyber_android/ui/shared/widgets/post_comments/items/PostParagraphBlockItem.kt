@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
+import kotlinx.android.synthetic.main.item_post_block.view.*
 
 data class PostParagraphBlockItem(
     val paragraphBlock: ParagraphBlock,
@@ -27,6 +28,13 @@ data class PostParagraphBlockItem(
         val verticalPadding = context.resources.getDimension(R.dimen.post_paragraph_block_horizontal_margin).toInt()
         val horizontalPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
         setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding)
+    }
+
+    override fun initView(context: Context, view: View) {
+        super.initView(context, view)
+        view.postWidgetContainer.setOnClickListener {
+            widgetListener?.onBodyClicked(contentId)
+        }
     }
 
     override fun areItemsTheSame(): Int = paragraphBlock.hashCode()

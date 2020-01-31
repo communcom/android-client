@@ -20,8 +20,7 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
-import io.golos.cyber_android.ui.shared.spans.MovementMethod
+import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.domain.extensions.appendSpannable
 import io.golos.domain.extensions.appendText
 import io.golos.domain.extensions.setSpan
@@ -76,17 +75,7 @@ constructor(
         context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
             setPadding(it, topPadding, it, bottomPadding)
         }
-
-        movementMethod = object : MovementMethod(){
-
-            override fun onEmptyClicked(): Boolean {
-                onClickProcessor?.onBodyClicked(contentId)
-                return true
-            }
-        }
-        setOnClickListener {
-            onClickProcessor?.onBodyClicked(contentId)
-        }
+        adjustSpannableClicks()
     }
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
@@ -180,9 +169,9 @@ constructor(
 
         // Click on the link
 
-        builder.setSpan(object : LinkClickableSpan(block.url, spansColor, underlineShow = false) {
-            override fun onClick(spanData: Uri) {
-                onClickProcessor?.onLinkClicked(spanData)
+        builder.setSpan(object : ColorTextClickableSpan(block.content, spansColor) {
+            override fun onClick(spanData: String) {
+                onClickProcessor?.onLinkClicked(Uri.parse(spanData))
             }
         }, textInterval)
     }

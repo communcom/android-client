@@ -6,12 +6,13 @@ import android.text.method.BaseMovementMethod
 import android.text.style.ClickableSpan
 import android.view.MotionEvent
 import android.widget.TextView
+import timber.log.Timber
 
 /**
  * A movement method that traverses links in the text buffer and fires clicks. Unlike
  * {@link LinkMovementMethod}, this will not consume touch events outside {@link ClickableSpan}s.
  */
-open class ClickableMovementMethod : BaseMovementMethod() {
+object ClickableMovementMethod : BaseMovementMethod() {
 
     override fun canSelectArbitrarily(): Boolean {
         return false
@@ -22,10 +23,34 @@ open class ClickableMovementMethod : BaseMovementMethod() {
         val action = event.actionMasked
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_DOWN) {
 
-            var x = event.x.toInt()
-            var y = event.y.toInt()
-            x -= widget.totalPaddingLeft
-            y -= widget.totalPaddingTop
+            val eventX = event.x.toInt()
+            var x = eventX
+
+            val eventY = event.y.toInt()
+            var y = eventY
+
+
+            val paddingTop = widget.totalPaddingTop
+            val paddingLeft = widget.totalPaddingLeft
+            val paddingBottom = widget.totalPaddingBottom
+            val totalPaddingRight = widget.totalPaddingRight
+
+            val height = widget.height
+            val width = widget.width
+
+            Timber.d("click")
+
+            if (eventX > width - totalPaddingRight ||
+                eventX < paddingLeft ||
+                eventY > height - paddingBottom ||
+                eventY < paddingTop
+            ) {
+                //Click on paddings
+                return false
+            }
+
+            x -= paddingLeft
+            y -= paddingTop
             x += widget.scrollX
             y += widget.scrollY
 
@@ -33,6 +58,10 @@ open class ClickableMovementMethod : BaseMovementMethod() {
             val line = layout.getLineForVertical(y)
             val off = layout.getOffsetForHorizontal(line, x.toFloat())
 
+            if (off >= widget.text.length) {
+                //Click on empty space
+                return false
+            }
             val link = buffer.getSpans(off, off, ClickableSpan::class.java)
             if (link.size > 0) {
                 if (action == MotionEvent.ACTION_UP) {
@@ -55,17 +84,4 @@ open class ClickableMovementMethod : BaseMovementMethod() {
     override fun initialize(widget: TextView, text: Spannable) {
         Selection.removeSelection(text)
     }
-
-    /*companion object {
-
-        private var sInstance: ClickableMovementMethod? = null
-
-        val instance: ClickableMovementMethod
-            get() {
-                if (sInstance == null) {
-                    sInstance = ClickableMovementMethod()
-                }
-                return sInstance
-            }
-    }*/
 }

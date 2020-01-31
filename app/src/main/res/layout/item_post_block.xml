@@ -2,10 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/dimen_5"
-    android:layout_marginBottom="@dimen/dimen_5"
-    >
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/errorHolder"
@@ -15,10 +12,13 @@
         android:text=""
         tools:text="Some error" />
 
+    <!--Clickable area for post content it postWidgetContainer. Need all paddings setup in this container!-->
     <LinearLayout
         android:id="@+id/postWidgetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_5"
+        android:paddingBottom="@dimen/dimen_5"/>
 
 </FrameLayout>

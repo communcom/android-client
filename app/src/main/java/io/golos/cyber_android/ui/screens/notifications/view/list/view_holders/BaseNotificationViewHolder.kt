@@ -23,9 +23,9 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
     abstract val notificationTypeLabelResId: Int
 
     fun init(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
-        itemView.tvMessage.movementMethod = object : ClickableMovementMethod(){}
-        itemView.tvMessage.isClickable = false;
-        itemView.tvMessage.isLongClickable = false;
+        itemView.tvMessage.movementMethod = ClickableMovementMethod
+        itemView.tvMessage.isClickable = false
+        itemView.tvMessage.isLongClickable = false
         setUserAvatar(listItem, listItemEventsProcessor)
         setUnreadIndicatorVisibility(listItem)
         setCreateTime(listItem)
