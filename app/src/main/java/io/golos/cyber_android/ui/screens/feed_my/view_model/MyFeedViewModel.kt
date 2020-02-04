@@ -56,12 +56,13 @@ class MyFeedViewModel @Inject constructor(
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain
 
     private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
     val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
 
     private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
     val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
+
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
     private var loadPostsJob: Job? = null
 
@@ -81,19 +82,6 @@ class MyFeedViewModel @Inject constructor(
             _postsListState.value = it
         }
         applyAvatarChangeListener()
-    }
-
-    private fun applyAvatarChangeListener(){
-        launch {
-            try {
-                model.userAvatarFlow.collect{
-                    val userUpdated = _user.value?.copy(avatarUrl = it)
-                    userUpdated?.let {_user.value = it}
-                }
-            } catch (e: Exception){
-                Timber.e(e)
-            }
-        }
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -273,6 +261,28 @@ class MyFeedViewModel @Inject constructor(
         val post = getPostFromPostsListState(permlink)
         post?.let {
             _command.value = ReportPostCommand(post)
+        }
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            paginator.initState(Paginator.State.Empty)
+            restartLoadPosts()
+
+            _swipeRefreshing.value = false
+        }
+    }
+
+    private fun applyAvatarChangeListener(){
+        launch {
+            try {
+                model.userAvatarFlow.collect{
+                    val userUpdated = _user.value?.copy(avatarUrl = it)
+                    userUpdated?.let {_user.value = it}
+                }
+            } catch (e: Exception){
+                Timber.e(e)
+            }
         }
     }
 
