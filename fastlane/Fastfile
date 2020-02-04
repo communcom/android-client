@@ -46,6 +46,15 @@ platform :android do
         groups: "commun-android"
     )
 
+    appcenter_upload(
+      api_token: "5544f8df69750ae5a545f4b1bb8f9c5a4040c8f5",
+      owner_name: "antihype",
+      owner_type: "user",
+      app_name: "commun-android",
+      file: build_path,
+      notify_testers: true
+    ) 
+
     slack_upload(
         slack_api_token: SLACK_API_TOKEN,
         title: "Commun-Android-#{build_number}",
