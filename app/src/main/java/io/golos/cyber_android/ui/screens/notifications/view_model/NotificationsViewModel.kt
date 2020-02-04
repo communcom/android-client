@@ -76,8 +76,8 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
                 }
             }
         }
-        paginator.render = { state ->
-            _notificationsListState.value = state
+        paginator.render = { newState, _ ->
+            _notificationsListState.value = newState
         }
         subscribeToNewNotificationsChanges()
         loadNotificationsFirstPage()

@@ -70,8 +70,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = { state ->
-            _communityListState.value = state
+        paginator.render = { newState, _ ->
+            _communityListState.value = newState
         }
 
         loadCommunitySubscriptions()

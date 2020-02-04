@@ -78,9 +78,14 @@ class ProfileCommentsViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = { state ->
-            _commentListState.value = state
-            _noDataStubVisibility.value = if (state == Paginator.State.Empty) View.VISIBLE else View.GONE
+        paginator.render = { newState, oldState ->
+            _commentListState.value = newState
+            _noDataStubVisibility.value = if (newState == Paginator.State.Empty && oldState == Paginator.State.EmptyProgress) {
+                View.VISIBLE
+            }
+            else {
+                View.GONE
+            }
         }
 
         loadInitialComments()

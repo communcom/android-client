@@ -71,9 +71,9 @@ class SubscriptionsViewModel @Inject constructor(
                 }
             }
         }
-        paginatorSubscriptions.render = {
-            _subscriptionsListStateLiveData.value = it
-            _searchProgressVisibilityLiveData.value = it is Paginator.State.SearchProgress<*>
+        paginatorSubscriptions.render = { newState, _ ->
+            _subscriptionsListStateLiveData.value = newState
+            _searchProgressVisibilityLiveData.value = newState is Paginator.State.SearchProgress<*>
         }
 
         paginatorRecommendedCommunities.sideEffectListener = {
@@ -81,8 +81,8 @@ class SubscriptionsViewModel @Inject constructor(
                 is Paginator.SideEffect.LoadPage -> loadRecommendedCommunities(it.pageCount)
             }
         }
-        paginatorRecommendedCommunities.render = {
-            _recommendedSubscriptionsListStateLiveData.value = it
+        paginatorRecommendedCommunities.render = { newState, _ ->
+            _recommendedSubscriptionsListStateLiveData.value = newState
         }
     }
 

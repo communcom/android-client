@@ -85,9 +85,14 @@ constructor(
                 }
             }
         }
-        paginator.render = {
-            _postsListState.value = it
-            _noDataStubVisibility.value = if (it == Paginator.State.Empty) View.VISIBLE else View.GONE
+        paginator.render = { newState, oldState ->
+            _postsListState.value = newState
+            _noDataStubVisibility.value = if (newState == Paginator.State.Empty && oldState == Paginator.State.EmptyProgress) {
+                View.VISIBLE
+            }
+            else {
+                View.GONE
+            }
         }
     }
 

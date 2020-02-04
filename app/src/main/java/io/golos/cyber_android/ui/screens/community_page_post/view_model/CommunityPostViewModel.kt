@@ -71,8 +71,8 @@ class CommunityPostViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = {
-            _postsListState.value = it
+        paginator.render = { newState, _ ->
+            _postsListState.value = newState
         }
 
         updateFilterAndLoadPosts()

@@ -171,6 +171,7 @@ object Paginator {
         }
 
     class Store<T> @Inject constructor() {
+        private var oldState: State? = null
         private var state: State = State.Empty
 
         var pageSize: Int? = null
@@ -179,10 +180,14 @@ object Paginator {
             this.state = state
         }
 
-        var render: (State) -> Unit = {}
+
+        /**
+         * Arguments: old state and a new one
+         */
+        var render: (State, State?) -> Unit = { _, _ -> Unit }
             set(value) {
                 field = value
-                value(state)
+                value(state, oldState)
             }
 
         var sideEffectListener: (SideEffect) -> Unit = {
@@ -203,10 +208,12 @@ object Paginator {
             }
             Timber.d("paginator: current state -> [${state::class.java.simpleName.toUpperCase()}]")
             Timber.d("paginator: new state -> [${newState::class.java.simpleName.toUpperCase()}]")
+
+            oldState = state
             if (newState != state) {
                 state = newState
                 Timber.d("[New state: $state]")
-                render.invoke(state)
+                render.invoke(state, oldState)
             }
         }
 
@@ -242,7 +249,7 @@ object Paginator {
         }
 
         fun renderCurrentState(){
-            render.invoke(state)
+            render.invoke(state, oldState)
         }
     }
 }
