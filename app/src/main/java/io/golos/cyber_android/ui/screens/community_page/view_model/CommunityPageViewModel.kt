@@ -35,6 +35,9 @@ class CommunityPageViewModel @Inject constructor(
 
     val communityPageIsLoadProgressLiveData = communityPageIsLoadProgressMutableLiveData.toLiveData()
 
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
+
     private var communityId: String = io.golos.utils.EMPTY
 
     fun start(communityId: String) {
@@ -98,6 +101,13 @@ class CommunityPageViewModel @Inject constructor(
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
+        }
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            loadCommunityPage()
+            _swipeRefreshing.value = false
         }
     }
 }

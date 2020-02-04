@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -66,7 +66,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initTabLayout()
         observeViewModel()
 
         ivBack.setOnClickListener {
@@ -169,14 +168,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         ctvJoin.isChecked = isSubscribed
     }
 
-    private fun initTabLayout() {
-        tabLayout.apply {
-            setupWithViewPager(vpContent)
-            setSelectedTabIndicator(TabLineDrawable(requireContext()))
-            setSelectedTabIndicatorColor(ContextCompat.getColor(requireContext(), R.color.blue))
-        }
-    }
-
     override fun onDestroyView() {
         communityViewPagerRelease()
         super.onDestroyView()
@@ -188,8 +179,14 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     private fun initViewPager(communityPage: CommunityPage) {
+        tabLayout.apply {
+            setupWithViewPager(vpContent)
+            setSelectedTabIndicator(TabLineDrawable(requireContext()))
+            setSelectedTabIndicatorColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        }
+
         fragmentPagesList = createPageFragmentsList(communityPage)
-        vpContent.adapter = object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        vpContent.adapter = object : FragmentStatePagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
             override fun getPageTitle(position: Int): CharSequence? {
                 return tabTitles.getOrNull(position)
