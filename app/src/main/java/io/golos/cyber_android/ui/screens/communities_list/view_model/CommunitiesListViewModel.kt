@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModel
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
@@ -29,6 +30,9 @@ constructor(
 
     private val _backButtonVisibility = MutableLiveData<Int>(if(isBackButtonVisible) View.VISIBLE else View.INVISIBLE)
     val backButtonVisibility: LiveData<Int> get() = _backButtonVisibility
+
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
     val items: LiveData<List<VersionedListItem>>
         get()  = model.items
@@ -59,6 +63,16 @@ constructor(
 
     fun onBackButtonClick() {
         _command.value = NavigateBackwardCommand()
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            _swipeRefreshing.value = false
+
+            if(model.clear()) {
+                model.loadPage()
+            }
+        }
     }
 
     private fun loadPage() {

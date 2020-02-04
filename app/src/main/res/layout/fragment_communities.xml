@@ -65,18 +65,26 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mainList"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/list_corners_round_background"
-            android:paddingTop="@dimen/dimen_27"
-            android:paddingStart="@dimen/general_list_padding"
-            android:paddingEnd="@dimen/general_list_padding"
-            android:paddingBottom="97dp"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
+            app:refreshing = "@{viewModel.swipeRefreshing}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mainList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_corners_round_background"
+                android:paddingTop="@dimen/dimen_27"
+                android:paddingStart="@dimen/general_list_padding"
+                android:paddingEnd="@dimen/general_list_padding"
+                android:paddingBottom="97dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+            />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

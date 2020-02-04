@@ -44,9 +44,7 @@ constructor(
     private var loadedItems: MutableList<VersionedListItem> = mutableListOf()
 
     private val _items = MutableLiveData<List<VersionedListItem>>(listOf())
-
-    override val items: LiveData<List<VersionedListItem>>
-        get() = _items
+    override val items: LiveData<List<VersionedListItem>> get() = _items
 
     override val pageSize = 25
 
@@ -58,6 +56,16 @@ constructor(
             LoadingState.IN_ERROR,
             LoadingState.ALL_DATA_LOADED -> { /* do nothing */ }
         }
+    }
+
+    override fun clear(): Boolean {
+        if(currentLoadingState == LoadingState.LOADING || currentLoadingState == LoadingState.IN_ERROR) {
+            return false
+        }
+
+        loadedItems.clear()
+
+        return true
     }
 
     override suspend fun retry() {
