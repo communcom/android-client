@@ -9,8 +9,11 @@
     </data>
 
     <com.google.android.material.appbar.SwipeCoordinatorLayout
+        android:id="@+id/swiprRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
+        app:refreshing = "@{viewModel.swipeRefreshing}">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/root"

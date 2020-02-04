@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -75,6 +76,9 @@ constructor(
 
     private val _followButtonState = MutableLiveData<Boolean>()
     val followButtonState get() = _followButtonState.toLiveData()
+
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
     private var bioUpdateInProgress = false
 
@@ -238,6 +242,13 @@ constructor(
 
                 _followButtonState.value = model.isSubscribed
             }
+        }
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            delay(1000)
+            _swipeRefreshing.value = false
         }
     }
 
