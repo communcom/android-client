@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile_comments.view.ProfileCommentsFragment
 import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsFragment
@@ -14,7 +16,7 @@ class ProfilePagesAdapter(
     fragmentManager: FragmentManager,
     userId: UserIdDomain,
     private val collapseListener: () -> Unit
-) : FragmentPagerAdapter(
+) : FragmentStatePagerAdapter(
     fragmentManager,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {
@@ -29,7 +31,9 @@ class ProfilePagesAdapter(
 
     override fun getPageTitle(position: Int): CharSequence? = tabTitles.getOrNull(position)
 
-    override fun getItem(position: Int): Fragment = pagesList[position]
+    override fun getItem(position: Int): Fragment {
+        return pagesList[position]
+    }
 
     override fun getCount(): Int = pagesList.size
 }

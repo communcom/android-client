@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.profile.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
@@ -39,7 +39,7 @@ class ProfileExternalUserFragment : ProfileFragment() {
     override fun provideFollowersFragment(filter: FollowersFilter, mutualUsers: List<UserDomain>): Fragment =
         ProfileFollowersExternalUserFragment.newInstance(filter, mutualUsers)
 
-    override fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesExternalUserAdapter(
+    override fun providePagesAdapter(): FragmentStatePagerAdapter = ProfilePagesExternalUserAdapter(
         context!!.applicationContext,
         childFragmentManager,
         arguments?.getParcelable(Tags.USER_ID)!!

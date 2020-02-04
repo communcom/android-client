@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile_comments.view.ProfileCommentsFragment
 import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsExternalUserFragment
@@ -13,7 +14,7 @@ open class ProfilePagesExternalUserAdapter(
     context: Context,
     fragmentManager: FragmentManager,
     userId: UserIdDomain
-) : FragmentPagerAdapter(
+) : FragmentStatePagerAdapter(
     fragmentManager,
     BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {

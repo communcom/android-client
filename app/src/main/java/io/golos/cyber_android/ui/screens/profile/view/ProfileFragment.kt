@@ -7,17 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.ProfileExternalUserSettingsDialog
 import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
@@ -37,6 +30,13 @@ import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommuni
 import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
 import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
@@ -67,10 +67,15 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         with(viewModel) {
             communities.observe({ viewLifecycleOwner.lifecycle }) {
                 it?.let {
-                    childFragmentManager
-                        .beginTransaction()
-                        .add(R.id.communitiesContainer, provideCommunitiesFragment(it))
-                        .commit()
+                    val fragmentTag = "COMMUNITIES_FRAGMENT"
+                    val oldFragment = childFragmentManager.findFragmentByTag(fragmentTag)
+
+                    val transaction = childFragmentManager.beginTransaction()
+
+                    oldFragment?.let { transaction.remove(it) }
+
+                    transaction.add(R.id.communitiesContainer, provideCommunitiesFragment(it), fragmentTag)
+                    transaction.commit()
                 }
             }
         }
@@ -80,7 +85,6 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initPages()
         noConnection.setOnReconnectClickListener { viewModel.onRetryClick() }
         viewModel.start()
     }
@@ -99,6 +103,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is MoveToBlackListPageCommand -> moveToBlackListPage()
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is RestartAppCommand -> restartApp()
+            is LoadPostsAndCommentsCommand -> initPages()
         }
     }
 
@@ -151,7 +156,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     protected open fun provideFollowersFragment(filter: FollowersFilter, mutualUsers: List<UserDomain>): Fragment =
         ProfileFollowersFragment.newInstance(filter, mutualUsers)
 
-    protected open fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesAdapter(
+    protected open fun providePagesAdapter(): FragmentStatePagerAdapter = ProfilePagesAdapter(
         context!!.applicationContext,
         getDashboardFragment(this)?.childFragmentManager!!,
         arguments?.getParcelable(Tags.USER_ID)!!) { appbar.setExpanded(false, true) }

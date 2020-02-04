@@ -247,44 +247,52 @@ constructor(
 
     fun onSwipeRefresh() {
         launch {
-            delay(1000)
+            _loadingProgressVisibility.value = View.VISIBLE
+            loadPageInternal()
+
             _swipeRefreshing.value = false
         }
     }
 
     private fun loadPage() {
         launch {
-            try {
-                with(model.loadProfileInfo()) {
-                    _coverUrl.value = coverUrl
-                    _avatarUrl.value = avatarUrl
-                    _name.value = name
-                    _joinDate.value = joinDate
-                    _bio.value = bio
-                    _followersCount.value = followersCount
-                    _followingsCount.value = followingsCount
-
-                    val highlightCommunities = model.getHighlightCommunities()
-                    if(highlightCommunities.isNotEmpty()) {
-                        _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
-                    }
-
-                    _followButtonState.value = isSubscribed
-                }
-
-                _pageContentVisibility.value = View.VISIBLE
-
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _retryButtonVisibility.value = View.VISIBLE
-            } finally {
-                _loadingProgressVisibility.value = View.INVISIBLE
-            }
+            loadPageInternal()
         }
     }
 
     fun onBackButtonClick() {
         _command.value = NavigateBackwardCommand()
+    }
+
+    private suspend fun loadPageInternal() {
+        try {
+            with(model.loadProfileInfo()) {
+                _command.value = LoadPostsAndCommentsCommand()
+
+                _coverUrl.value = coverUrl
+                _avatarUrl.value = avatarUrl
+                _name.value = name
+                _joinDate.value = joinDate
+                _bio.value = bio
+                _followersCount.value = followersCount
+                _followingsCount.value = followingsCount
+
+                val highlightCommunities = model.getHighlightCommunities()
+                if(highlightCommunities.isNotEmpty()) {
+                    _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
+                }
+
+                _followButtonState.value = isSubscribed
+            }
+
+            _pageContentVisibility.value = View.VISIBLE
+
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            _retryButtonVisibility.value = View.VISIBLE
+        } finally {
+            _loadingProgressVisibility.value = View.INVISIBLE
+        }
     }
 
     private suspend fun updateAvatar(avatarFile: File) {
