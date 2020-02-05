@@ -1,11 +1,16 @@
 package io.golos.cyber_android.ui.screens.wallet.view
 
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletBinding
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import kotlinx.android.synthetic.main.fragment_wallet.*
 
 class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>() {
 
@@ -24,6 +29,19 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
     override fun linkViewModel(binding: FragmentWalletBinding, viewModel: WalletViewModel) {
         binding.viewModel = viewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBar, offset ->
+            totalSumText.visibility = if(offset < -1330) {
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
+            }
+//            Log.d("APP_BAR_TEST", offset.toString())
+        })
     }
 
 //    override fun processViewCommand(command: ViewCommand) {

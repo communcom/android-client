@@ -24,3 +24,11 @@ fun Resources.getFormattedString(string: String, vararg args: Any): String = Mes
 fun Resources.getLocale(): String = getString(R.string.locale)
 
 fun Resources.getDrawableRes(@DrawableRes id: Int) = getDrawable(id, null)
+
+/**
+ * @return in pixels
+ */
+fun Resources.getStatusBarHeight(): Int {
+    val resourceId = getIdentifier("status_bar_height", "dimen", "android")
+    return getDimensionPixelSize(resourceId)
+}
