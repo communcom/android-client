@@ -27,3 +27,5 @@ class RestartAppCommand : ViewCommand
 
 class LoadPostsAndCommentsCommand : ViewCommand
 
+class MoveToWalletCommand : ViewCommand
+

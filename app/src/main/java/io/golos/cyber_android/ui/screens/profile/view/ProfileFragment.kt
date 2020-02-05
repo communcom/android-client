@@ -30,6 +30,7 @@ import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommuni
 import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
 import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
+import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -104,6 +105,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is RestartAppCommand -> restartApp()
             is LoadPostsAndCommentsCommand -> initPages()
+            is MoveToWalletCommand -> moveToWallet()
         }
     }
 
@@ -216,4 +218,6 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         startActivity(loginIntent)
         activity!!.finish()
     }
+
+    private fun moveToWallet() = getDashboardFragment(this)?.showFragment(WalletFragment.newInstance())
 }

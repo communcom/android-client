@@ -75,6 +75,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentCo
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
@@ -272,6 +273,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 getBase<MainActivityComponent>()
                     .communitiesFragmentTabComponent
                     .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
+                    .build()
+
+            WalletFragmentComponent::class ->
+                getBase<MainActivityComponent>()
+                    .walletFragmentComponent
                     .build()
 
             FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()

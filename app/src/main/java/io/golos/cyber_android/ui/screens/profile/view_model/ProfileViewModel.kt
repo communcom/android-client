@@ -266,7 +266,7 @@ constructor(
     }
 
     fun onWalletButtonClick() {
-        _command.value = ShowMessageTextCommand("The wallet'll be shown here", false)
+        _command.value = MoveToWalletCommand()
     }
 
     private suspend fun loadPageInternal() {
