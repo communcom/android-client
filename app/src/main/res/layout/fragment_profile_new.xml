@@ -251,6 +251,26 @@
                                     android:visibility="@{viewModel.addBioVisibility}"
                                     tools:visibility="visible" />
                             </FrameLayout>
+                            
+                            <io.golos.cyber_android.ui.screens.profile.view.widgets.ProfileWalletView
+                                android:id="@+id/profile_wallet"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen_80"
+
+                                android:layout_marginTop="@dimen/dimen_15"
+                                android:layout_marginStart="@dimen/dimen_15"
+                                android:layout_marginEnd="@dimen/dimen_15"
+
+                                app:layout_constraintEnd_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/bioContainer"
+
+                                tools:visibility="visible"
+                                android:visibility="@{viewModel.walletVisibility}"
+                                app:profile_wallet_view_value = "@{viewModel.walletValue}"
+                                app:onWalletClickListener = "@{() -> viewModel.onWalletButtonClick() }"
+                            />
 
                             <!--Followers, Following-->
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -262,7 +282,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/bioContainer">
+                                app:layout_constraintTop_toBottomOf="@+id/profile_wallet">
 
                                 <TextView
                                     android:id="@+id/followersCount"

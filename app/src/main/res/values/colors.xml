@@ -81,5 +81,9 @@
     <color name="notification_mention_label">#62C6FF</color>
     <color name="badge_color">#ED2C5B</color>
 
+    <!--Wallet-->
+    <color name="profile_wallet_bcg_start">#A4B1F9</color>
+    <color name="profile_wallet_bcg_end">#6A80F5</color>
+
 
 </resources>

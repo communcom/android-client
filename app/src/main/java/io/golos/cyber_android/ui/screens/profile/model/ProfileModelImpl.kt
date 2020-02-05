@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.profile.model
 import dagger.Lazy
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
@@ -21,6 +22,7 @@ constructor(
     private val currentUserRepository: CurrentUserRepository,
     private val usersRepository: UsersRepository,
     private val communityRepository: CommunitiesRepository,
+    private val walletRepository: WalletRepository,
     private val logout: Lazy<LogoutUseCase>
 ) : ModelBaseImpl(),
     ProfileModel {
@@ -36,6 +38,9 @@ constructor(
 
     override val isInBlackList: Boolean
         get() = userProfile.isInBlacklist
+
+    override val isBalanceVisible: Boolean
+        get() = true
 
     protected lateinit var userProfile: UserProfileDomain
 
@@ -119,4 +124,6 @@ constructor(
             isBlockingInProgress = false
         }
     }
+
+    override suspend fun getTotalBalance(): Double = walletRepository.getTotalBalanceInCommuns()
 }

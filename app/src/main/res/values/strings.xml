@@ -468,12 +468,12 @@
     <string name="this_month">This month</string>
     <string name="other">Other</string>
 
-
-
     <string name="post_reward_top">Top</string>
     <string name="post_reward_top_title">This post is featured in Top</string>
     <string name="post_reward_top_text">After a given time, it will get the reward</string>
     <string name="post_reward_not_top_title">This post has been rewarded</string>
     <string name="post_reward_not_top_text">This publication was interesting for Community members</string>
     <string name="post_reward_main_button_text">Learn more about reward</string>
+
+    <string name="profile_wallet_title">Equity Value Commun</string>
 </resources>

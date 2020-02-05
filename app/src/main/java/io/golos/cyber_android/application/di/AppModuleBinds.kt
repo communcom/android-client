@@ -63,6 +63,8 @@ import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.vote.VoteRepository
 import io.golos.data.repositories.vote.VoteRepositoryImpl
 import io.golos.data.repositories.vote.live_data.VoteRepositoryLiveData
+import io.golos.data.repositories.wallet.WalletRepository
+import io.golos.data.repositories.wallet.WalletRepositoryImpl
 import io.golos.data.strings_converter.StringsConverterImpl
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
@@ -291,6 +293,9 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideUserRepository(repository: UsersRepositoryImpl): UsersRepository
+
+    @Binds
+    abstract fun provideWalletRepository(repository: WalletRepositoryImpl): WalletRepository
 
     @Binds
     abstract fun provideAuthRepository(repository: AuthRepositoryImpl): AuthRepository

@@ -13,6 +13,8 @@ interface ProfileModel: ModelBase {
 
     val isInBlackList: Boolean
 
+    val isBalanceVisible: Boolean
+
     val mutualUsers: List<UserDomain>
 
     val avatarUrl: String?
@@ -46,4 +48,6 @@ interface ProfileModel: ModelBase {
     suspend fun subscribeUnsubscribe()
 
     suspend fun moveToBlackList()
+
+    suspend fun getTotalBalance(): Double
 }

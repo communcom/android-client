@@ -5,19 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -79,6 +75,11 @@ constructor(
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing get() = _swipeRefreshing.toLiveData()
+
+    val walletVisibility = if(model.isBalanceVisible) View.VISIBLE else View.GONE
+
+    private val _walletValue = MutableLiveData<Double>(0.0)
+    val walletValue: LiveData<Double> get() = _walletValue
 
     private var bioUpdateInProgress = false
 
@@ -264,6 +265,10 @@ constructor(
         _command.value = NavigateBackwardCommand()
     }
 
+    fun onWalletButtonClick() {
+        _command.value = ShowMessageTextCommand("The wallet'll be shown here", false)
+    }
+
     private suspend fun loadPageInternal() {
         try {
             with(model.loadProfileInfo()) {
@@ -286,6 +291,10 @@ constructor(
             }
 
             _pageContentVisibility.value = View.VISIBLE
+
+            if (model.isBalanceVisible) {
+                _walletValue.value = model.getTotalBalance()
+            }
 
         } catch (ex: Exception) {
             Timber.e(ex)
