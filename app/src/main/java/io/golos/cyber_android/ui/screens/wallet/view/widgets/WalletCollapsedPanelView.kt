@@ -1,13 +1,13 @@
-package io.golos.cyber_android.ui.screens.profile.view.widgets
+package io.golos.cyber_android.ui.screens.wallet.view.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
-import kotlinx.android.synthetic.main.view_profile_wallet.view.*
+import kotlinx.android.synthetic.main.view_wallet_collapsed_panel.view.*
 
-class ProfileWalletView
+class WalletCollapsedPanelView
 @JvmOverloads
 constructor(
     context: Context,
@@ -15,19 +15,19 @@ constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var onWalletClickListener: (() -> Unit)? = null
+    private var onBackClickListener: (() -> Unit)? = null
 
     init {
-        inflate(context, R.layout.view_profile_wallet, this)
+        inflate(context, R.layout.view_wallet_collapsed_panel, this)
 
-        walletButton.setOnClickListener { onWalletClickListener?.invoke() }
+        backButton.setOnClickListener { onBackClickListener?.invoke() }
     }
 
     fun setValue(value: Double) {
         textValue.text = CurrencyFormatter.format(value)
     }
 
-    fun setOnWalletClickListener(listener: (() -> Unit)?) {
-        onWalletClickListener = listener
+    fun setOnBackClickListener(listener: (() -> Unit)?) {
+        onBackClickListener = listener
     }
 }

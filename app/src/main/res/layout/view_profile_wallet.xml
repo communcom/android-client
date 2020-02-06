@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@drawable/bcg_profile_wallet"
+    android:background="@drawable/bcg_wallet_profile"
 
     android:paddingStart="@dimen/dimen_15"
     android:paddingEnd="@dimen/dimen_15">
@@ -15,7 +15,7 @@
         android:layout_width="@dimen/dimen_50"
         android:layout_height="@dimen/dimen_50"
 
-        android:background="@drawable/bcg_profile_wallet_icon"
+        android:background="@drawable/bcg_wallet_profile_icon"
         app:imageButton_icon="@drawable/ic_wallet"
         app:imageButton_iconInscribeSize="@dimen/dimen_26"
         app:imageButton_tint="@color/white"

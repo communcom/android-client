@@ -13,33 +13,35 @@
         app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
         app:refreshing = "@{viewModel.swipeRefreshing}">
 
-        <io.golos.cyber_android.ui.screens.wallet.view.CollapsedPanelCoordinatorLayout
+        <io.golos.cyber_android.ui.screens.wallet.view.widgets.CollapsedPanelCoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            android:background="@color/grey">
+            android:background="@color/grey"
+
+            app:prime_panel="@id/primePanel"
+            app:toolbar="@id/toolbar"
+            app:toolbar_content="@id/toolbarContent"
+            app:collapsing_toolbar="@id/collapsingToolbar"
+            app:appbar="@id/appbar">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="456dp"
+                android:layout_height="500dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:background="@color/transparent"
-                android:fitsSystemWindows="true"
-
-                android:tag="APPBAR">
+                android:fitsSystemWindows="true">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/collapsing"
+                    android:id="@+id/collapsingToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
                     app:contentScrim="@drawable/bcg_wallet_secondary_panel"
 
-                    android:fitsSystemWindows="true"
-
-                    android:tag="COLLAPSING_TOOLBAR">
+                    android:fitsSystemWindows="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -47,34 +49,16 @@
                         android:orientation="vertical"
                         app:layout_collapseMode="pin">
 
-                        <FrameLayout
+                        <io.golos.cyber_android.ui.screens.wallet.view.widgets.WalletPrimePanelView
+                            android:id="@+id/primePanel"
                             android:layout_width="match_parent"
-                            android:layout_height="216dp"
-
-                            android:background="@drawable/bcg_wallet_primary_panel"
+                            android:layout_height="@dimen/wallet_prime_panel_height"
 
                             android:fitsSystemWindows="true"
                             app:layout_collapseMode="none"
 
-                            android:tag="PRIME_PANEL">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Some top text"
-                                android:textColor="@color/white"
-
-                                android:layout_gravity="top|center"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Some bottom text"
-                                android:textColor="@color/white"
-
-                                android:layout_gravity="bottom|center_horizontal"
-                                />
-                        </FrameLayout>
+                            app:wallet_prime_panel_view_value="@{viewModel.totalValue}"
+                            />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -96,31 +80,31 @@
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="75dp"
+                        android:layout_height="@dimen/wallet_collapsed_panel_height"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
-                        app:layout_collapseMode="pin"
+                        android:contentInsetLeft="@dimen/dimen_0"
+                        android:contentInsetStart="@dimen/dimen_0"
+                        app:contentInsetLeft="@dimen/dimen_0"
+                        app:contentInsetStart="@dimen/dimen_0"
+                        android:contentInsetRight="@dimen/dimen_0"
+                        android:contentInsetEnd="@dimen/dimen_0"
+                        app:contentInsetRight="@dimen/dimen_0"
+                        app:contentInsetEnd="@dimen/dimen_0"
 
-                        android:tag="COLLAPSED_PANEL">
-                        <FrameLayout
+                        app:layout_collapseMode="pin">
+
+                        <io.golos.cyber_android.ui.screens.wallet.view.widgets.WalletCollapsedPanelView
+                            android:id="@+id/toolbarContent"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
 
                             android:alpha="0"
                             tools:alpha="1"
 
-                            android:tag="COLLAPSED_PANEL_CONTENT">
-                            <TextView
-                                android:id="@+id/totalSumText"
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="42.42"
-                                android:textStyle="bold"
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                            />
-                        </FrameLayout>
+                            app:wallet_collapsed_panel_view_value="@{viewModel.totalValue}"
+                            app:onBackClickListener="@{() -> viewModel.onBackClick() }"
+                        />
                     </androidx.appcompat.widget.Toolbar>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -535,6 +519,6 @@
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
-        </io.golos.cyber_android.ui.screens.wallet.view.CollapsedPanelCoordinatorLayout>
+        </io.golos.cyber_android.ui.screens.wallet.view.widgets.CollapsedPanelCoordinatorLayout>
     </com.google.android.material.appbar.SwipeCoordinatorLayout>
 </layout>

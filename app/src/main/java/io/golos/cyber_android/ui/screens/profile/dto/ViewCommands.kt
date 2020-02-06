@@ -27,5 +27,5 @@ class RestartAppCommand : ViewCommand
 
 class LoadPostsAndCommentsCommand : ViewCommand
 
-class MoveToWalletCommand : ViewCommand
+class MoveToWalletCommand(val totalValue: Double) : ViewCommand
 

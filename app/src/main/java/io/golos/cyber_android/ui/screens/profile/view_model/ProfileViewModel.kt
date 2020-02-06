@@ -266,7 +266,7 @@ constructor(
     }
 
     fun onWalletButtonClick() {
-        _command.value = MoveToWalletCommand()
+        _command.value = MoveToWalletCommand(_walletValue.value!!)
     }
 
     private suspend fun loadPageInternal() {

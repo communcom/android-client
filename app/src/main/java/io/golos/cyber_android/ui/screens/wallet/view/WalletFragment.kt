@@ -10,12 +10,19 @@ import io.golos.cyber_android.databinding.FragmentWalletBinding
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
 class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>() {
 
     companion object {
-        fun newInstance() = WalletFragment()
+        private const val TOTAL_COMMUN = "TOTAL_COMMUN"
+        fun newInstance(totalCommun: Double) = WalletFragment().apply {
+            arguments = Bundle().apply {
+                putDouble(TOTAL_COMMUN, totalCommun)
+            }
+        }
     }
 
     override fun provideViewModelType(): Class<WalletViewModel> = WalletViewModel::class.java
@@ -23,7 +30,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     override fun layoutResId(): Int = R.layout.fragment_wallet
 
     override fun inject(key: String) =
-        App.injections.get<WalletFragmentComponent>(key).inject(this)
+        App.injections.get<WalletFragmentComponent>(key, arguments!!.getDouble(TOTAL_COMMUN)).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<WalletFragmentComponent>(key)
 
@@ -31,21 +38,9 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         binding.viewModel = viewModel
     }
 
-//    override fun processViewCommand(command: ViewCommand) {
-//        when (command) {
-//            is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
-//            is ShowEditBioDialogCommand -> showEditBioDialog()
-//            is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
-//            is MoveToBioPageCommand -> moveToBioPage(command.text)
-//            is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
-//            is ShowSettingsDialogCommand -> showSettingsDialog()
-//            is ShowExternalUserSettingsDialogCommand -> showExternalUserSettingsDialog(command.isBlocked)
-//            is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
-//            is MoveToLikedPageCommand -> moveToLikedPage()
-//            is MoveToBlackListPageCommand -> moveToBlackListPage()
-//            is NavigateBackwardCommand -> requireActivity().onBackPressed()
-//            is RestartAppCommand -> restartApp()
-//            is LoadPostsAndCommentsCommand -> initPages()
-//        }
-//    }
+    override fun processViewCommand(command: ViewCommand) {
+        when (command) {
+            is NavigateBackwardCommand -> requireActivity().onBackPressed()
+        }
+    }
 }

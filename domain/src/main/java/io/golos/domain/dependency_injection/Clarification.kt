@@ -9,6 +9,7 @@ object Clarification {
 
     const val COMMUNITY_ID = "COMMUNITY_ID"
     const val COMMUNITY_ALIAS = "COMMUNITY_ALIAS"
+
     const val FILTER_GLOBAL = "FILTER_GLOBAL"
     const val FILTER_TIME = "FILTER_TIME"
     const val FILTER_PERIOD = "FILTER_PERIOD"
@@ -23,4 +24,6 @@ object Clarification {
     const val MUTUAL = "MUTUAL"
     const val FOLLOWING = "FOLLOWING"
     const val FOLLOWERS = "FOLLOWERS"
+
+    const val TOTAL_COMMUN = "TOTAL_COMMUN"
 }

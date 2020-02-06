@@ -105,7 +105,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is RestartAppCommand -> restartApp()
             is LoadPostsAndCommentsCommand -> initPages()
-            is MoveToWalletCommand -> moveToWallet()
+            is MoveToWalletCommand -> moveToWallet(command.totalValue)
         }
     }
 
@@ -219,5 +219,5 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         activity!!.finish()
     }
 
-    private fun moveToWallet() = getDashboardFragment(this)?.showFragment(WalletFragment.newInstance())
+    private fun moveToWallet(totalValue: Double) = getDashboardFragment(this)?.showFragment(WalletFragment.newInstance(totalValue))
 }

@@ -60,7 +60,7 @@
                             android:layout_gravity="start|top"
 
                             app:imageButton_icon="@drawable/ic_left_arrow"
-                            app:imageButton_iconInscribeSize="21dp"
+                            app:imageButton_iconInscribeSize="@dimen/size_back_icon"
                             app:imageButton_tint="@color/white"
                             android:background="@null"
 

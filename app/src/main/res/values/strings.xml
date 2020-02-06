@@ -4,7 +4,6 @@
     <string name="action_settings">Settings</string>
 
     <!--Digits-->
-    <string name="digit0">0</string>
     <string name="digit1">1</string>
     <string name="digit2">2</string>
     <string name="digit3">3</string>
@@ -14,6 +13,7 @@
     <string name="digit7">7</string>
     <string name="digit8">8</string>
     <string name="digit9">9</string>
+    <string name="digit0">0</string>
 
     <!--Size formatting - begin -->
     <string name="formatter_files_none">B</string>
@@ -82,7 +82,7 @@
     <string name="filter_time_all">All time</string>
 
     <!--Report Widget-->
-    <string name="report_send">Send</string>
+    <string name="report_send">@string/send</string>
     <string name="report_title">Please select a problem</string>
     <string name="report_spam">Spam</string>
     <string name="report_harassment">Harassment</string>
@@ -293,7 +293,7 @@
 
     <!--Feedback-->
     <string name="feedback_request">Tell us, what\'s happened?</string>
-    <string name="feedback_send">Send</string>
+    <string name="feedback_send">@string/send</string>
     <string name="feedback_title">Feedback</string>
 
     <!--Communities Page-->
@@ -476,4 +476,8 @@
     <string name="post_reward_main_button_text">Learn more about reward</string>
 
     <string name="profile_wallet_title">Equity Value Commun</string>
+
+    <string name="send">Send</string>
+    <string name="buy">Buy</string>
+    <string name="convert">Convert</string>
 </resources>

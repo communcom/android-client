@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/wallet_prime_panel_height"
+    android:background="@drawable/bcg_wallet_primary_panel">
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/backButton"
+
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_left_arrow"
+
+        app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/communIcon"
+        android:layout_width="@dimen/size_image_button"
+
+        android:layout_height="@dimen/size_image_button"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:background="@drawable/bcg_wallet_profile_icon"
+        android:padding="@dimen/dimen_12"
+        android:src="@drawable/ic_splash_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:layout_constraintStart_toEndOf="@+id/backButton"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/bottomArea"
+        android:layout_width="match_parent"
+
+        android:layout_height="@dimen/dimen_76"
+
+        android:layout_marginStart="@dimen/dimen_15"
+        android:layout_marginEnd="@dimen/dimen_15"
+        android:layout_marginBottom="@dimen/dimen_25"
+
+        android:background="@drawable/bcg_wallet_prime_panel_bottom_area"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/sendButton"
+
+        android:layout_width="@dimen/wallet_prime_panel_button_size"
+        android:layout_height="@dimen/wallet_prime_panel_button_size"
+
+        android:layout_marginStart="@dimen/wallet_prime_panel_button_side_margin"
+
+        android:layout_marginTop="@dimen/dimen_10"
+
+        android:background="@drawable/bcg_wallet_profile_button"
+        app:imageButton_icon="@drawable/ic_send"
+
+        app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintStart_toStartOf="@+id/bottomArea"
+        app:layout_constraintTop_toTopOf="@+id/bottomArea" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/buyButton"
+
+        android:layout_width="@dimen/wallet_prime_panel_button_size"
+        android:layout_height="@dimen/wallet_prime_panel_button_size"
+
+        android:background="@drawable/bcg_wallet_profile_button"
+
+        app:imageButton_icon="@drawable/ic_buy"
+
+        app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintEnd_toStartOf="@+id/convertButton"
+        app:layout_constraintStart_toEndOf="@+id/sendButton"
+        app:layout_constraintTop_toTopOf="@+id/sendButton" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/convertButton"
+
+        android:layout_width="@dimen/wallet_prime_panel_button_size"
+        android:layout_height="@dimen/wallet_prime_panel_button_size"
+
+        android:layout_marginEnd="@dimen/wallet_prime_panel_button_side_margin"
+
+        android:background="@drawable/bcg_wallet_profile_button"
+
+        app:imageButton_icon="@drawable/ic_convert"
+        app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
+
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintEnd_toEndOf="@+id/bottomArea"
+        app:layout_constraintTop_toTopOf="@+id/sendButton" />
+
+    <TextView
+        android:id="@+id/sendLabel"
+        style="@style/Wallet.PrimePanel.Label"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/dimen_7"
+
+        android:text="@string/send"
+        app:layout_constraintEnd_toEndOf="@+id/sendButton"
+        app:layout_constraintStart_toStartOf="@+id/sendButton"
+        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
+
+    <TextView
+        style="@style/Wallet.PrimePanel.Label"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="@string/buy"
+
+        app:layout_constraintEnd_toEndOf="@+id/buyButton"
+        app:layout_constraintStart_toStartOf="@+id/buyButton"
+        app:layout_constraintTop_toTopOf="@+id/sendLabel" />
+
+    <TextView
+        style="@style/Wallet.PrimePanel.Label"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="@string/convert"
+
+        app:layout_constraintEnd_toEndOf="@+id/convertButton"
+        app:layout_constraintStart_toStartOf="@+id/convertButton"
+        app:layout_constraintTop_toTopOf="@+id/sendLabel" />
+
+    <TextView
+        android:id="@+id/title"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/profile_wallet_title"
+
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_15_sp"
+        android:textStyle="bold"
+
+        android:layout_marginTop="@dimen/dimen_20"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/communIcon" />
+
+    <TextView
+        android:id="@+id/textValue"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="167 500.23"
+
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_30_sp"
+        android:textStyle="bold"
+
+        android:layout_marginBottom="@dimen/dimen_15"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomArea" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
