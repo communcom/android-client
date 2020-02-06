@@ -31,19 +31,6 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         binding.viewModel = viewModel
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBar, offset ->
-            totalSumText.visibility = if(offset < -1330) {
-                View.VISIBLE
-            } else {
-                View.INVISIBLE
-            }
-//            Log.d("APP_BAR_TEST", offset.toString())
-        })
-    }
-
 //    override fun processViewCommand(command: ViewCommand) {
 //        when (command) {
 //            is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
