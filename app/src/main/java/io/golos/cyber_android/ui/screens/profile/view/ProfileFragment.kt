@@ -40,6 +40,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
 
@@ -105,7 +106,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is RestartAppCommand -> restartApp()
             is LoadPostsAndCommentsCommand -> initPages()
-            is MoveToWalletCommand -> moveToWallet(command.totalValue)
+            is MoveToWalletCommand -> moveToWallet(command.balance)
         }
     }
 
@@ -219,5 +220,6 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         activity!!.finish()
     }
 
-    private fun moveToWallet(totalValue: Double) = getDashboardFragment(this)?.showFragment(WalletFragment.newInstance(totalValue))
+    private fun moveToWallet(balance: List<WalletCommunityBalanceRecordDomain>) =
+        getDashboardFragment(this)?.showFragment(WalletFragment.newInstance(balance))
 }

@@ -24,6 +24,4 @@ object Clarification {
     const val MUTUAL = "MUTUAL"
     const val FOLLOWING = "FOLLOWING"
     const val FOLLOWERS = "FOLLOWERS"
-
-    const val TOTAL_COMMUN = "TOTAL_COMMUN"
 }

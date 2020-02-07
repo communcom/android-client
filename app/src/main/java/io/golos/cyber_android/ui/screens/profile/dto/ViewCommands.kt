@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 class ShowSelectPhotoDialogCommand(val place: ProfileItem): ViewCommand
 
@@ -27,5 +28,5 @@ class RestartAppCommand : ViewCommand
 
 class LoadPostsAndCommentsCommand : ViewCommand
 
-class MoveToWalletCommand(val totalValue: Double) : ViewCommand
+class MoveToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
 

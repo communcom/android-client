@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserProfileDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import java.io.File
 
 interface ProfileModel: ModelBase {
@@ -20,6 +21,8 @@ interface ProfileModel: ModelBase {
     val avatarUrl: String?
 
     val coverUrl: String?
+
+    val balanceData: List<WalletCommunityBalanceRecordDomain>
 
     suspend fun loadProfileInfo(): UserProfileDomain
 

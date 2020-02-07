@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@drawable/bcg_wallet_my_points_item"
+
+    android:padding="@dimen/dimen_15"
+    android:layout_marginEnd="@dimen/dimen_5"
+
+    android:layout_width="@dimen/wallet_my_points_item_width"
+    android:layout_height="match_parent"
+    tools:layout_height="190dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:src="@drawable/ic_splash_icon"
+        android:background="@drawable/bg_circle_blue"
+
+        android:padding="@dimen/dimen_15"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Wallet.MyPoints.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/commun_group"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        />
+
+    <TextView
+        android:id="@+id/pointsLabel"
+        style="@style/Wallet.MyPoints.Second"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tokens"
+
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginBottom="@dimen/dimen_2"
+
+        app:layout_constraintBottom_toBottomOf="@+id/pointsValue"
+
+        app:layout_constraintStart_toEndOf="@+id/pointsValue"
+         />
+
+    <TextView
+        android:id="@+id/pointsValue"
+        style="@style/Wallet.MyPoints.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:text=""
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="21 000" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

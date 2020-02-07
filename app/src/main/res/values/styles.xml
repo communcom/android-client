@@ -23,6 +23,13 @@
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
+    <style name="Common.Base.TextStyle.Single.Line" parent="Common.Base.TextStyle">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <!--Bottom sheet dialog-->
     <style name="BottomSheetMenuTitle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_15_sp</item>
@@ -55,10 +62,7 @@
     <style name="BottomSheetMenuItem.Dangerous" parent="BottomSheetMenuItem"></style>
     <!--Bottom sheet dialog END-->
 
-    <style name="Post.Image.Description.TextStyle" parent="Common.Base.TextStyle">
-        <item name="android:ellipsize">end</item>
-        <item name="android:lines">1</item>
-        <item name="android:maxLines">1</item>
+    <style name="Post.Image.Description.TextStyle" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">@dimen/text_size_post_less_normal</item>
     </style>
 
@@ -263,17 +267,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="SignUp.InputField" parent="Common.Base.TextStyle">
+    <style name="SignUp.InputField" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:layout_marginStart">@dimen/dimen_42</item>
         <item name="android:layout_marginEnd">@dimen/dimen_42</item>
         <item name="android:background">@drawable/bg_input_field</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">false</item>
         <item name="android:inputType">textNoSuggestions</item>
-        <item name="android:maxLines">1</item>
         <item name="android:paddingStart">@dimen/margin_default</item>
         <item name="android:paddingEnd">@dimen/margin_default</item>
-        <item name="android:singleLine">true</item>
         <item name="android:textSize">@dimen/text_size_17_sp</item>
     </style>
 
@@ -311,12 +313,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="ToolbarTitleTextStyle" parent="Common.Base.TextStyle">
+    <style name="ToolbarTitleTextStyle" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">@dimen/text_size_15_sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
     </style>
 
     <style name="EditorPostTitleTextStyle" parent="SearchBarTextStyle">
@@ -335,10 +335,9 @@
         <item name="android:textSize">@dimen/text_size_editor_preview</item>
     </style>
 
-    <style name="SmsCodeDigitTextStyle" parent="Common.Base.TextStyle">
+    <style name="SmsCodeDigitTextStyle" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">@dimen/text_size_sms_code</item>
         <item name="android:inputType">number</item>
-        <item name="android:maxLines">1</item>
         <item name="android:gravity">center</item>
         <item name="android:focusableInTouchMode">true</item>
         <item name="android:focusable">true</item>
@@ -379,11 +378,9 @@
         <item name="android:textSize">@dimen/text_size_12_sp</item>
     </style>
 
-    <style name="CommunityListItemTitleText" parent="Common.Base.TextStyle">
+    <style name="CommunityListItemTitleText" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">@dimen/text_size_14_sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
     </style>
 
     <style name="CommunityListItemFollowersText" parent="CommunityListItemTitleText">
@@ -526,10 +523,8 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="Profile.Community.Name" parent="Common.Base.TextStyle">
+    <style name="Profile.Community.Name" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">@dimen/text_size_20_sp</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
         <item name="fontFamily">@font/roboto_bold</item>
     </style>
 
@@ -548,6 +543,27 @@
     <style name="Wallet.PrimePanel.Label" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_12_sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Wallet.Section.Title" parent="Common.Base.TextStyle.Single.Line">
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Wallet.MyPoints.Title" parent="Common.Base.TextStyle.Single.Line">
+        <item name="android:textSize">@dimen/text_size_17_sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Wallet.MyPoints.Second" parent="Common.Base.TextStyle.Single.Line">
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="Wallet.MyPoints.Value" parent="Common.Base.TextStyle.Single.Line">
+        <item name="android:textSize">@dimen/text_size_18_sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!--Common-->

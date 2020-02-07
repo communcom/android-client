@@ -266,7 +266,7 @@ constructor(
     }
 
     fun onWalletButtonClick() {
-        _command.value = MoveToWalletCommand(_walletValue.value!!)
+        _command.value = MoveToWalletCommand(model.balanceData)
     }
 
     private suspend fun loadPageInternal() {

@@ -4,10 +4,7 @@ import dagger.Lazy
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
 import io.golos.data.repositories.wallet.WalletRepository
-import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.UserDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.UserProfileDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -52,6 +49,8 @@ constructor(
 
     override val coverUrl: String?
         get() = userProfile.coverUrl
+
+    override var balanceData: List<WalletCommunityBalanceRecordDomain> = listOf()
 
     override suspend fun loadProfileInfo(): UserProfileDomain {
         userProfile = usersRepository.getUserProfile(profileUserId)
@@ -125,5 +124,8 @@ constructor(
         }
     }
 
-    override suspend fun getTotalBalance(): Double = walletRepository.getTotalBalanceInCommuns()
+    override suspend fun getTotalBalance(): Double {
+        balanceData = walletRepository.getBalance()
+        return balanceData.sumByDouble { it.communs ?: 0.0 }
+    }
 }

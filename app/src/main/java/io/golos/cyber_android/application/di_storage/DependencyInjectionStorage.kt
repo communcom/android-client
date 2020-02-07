@@ -80,6 +80,7 @@ import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentModule
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.utils.IdUtil
 import kotlin.reflect.KClass
@@ -279,7 +280,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
             WalletFragmentComponent::class ->
                 getBase<MainActivityComponent>()
                     .walletFragmentComponent
-                    .init(WalletFragmentModule(args[0] as Double))
+                    .init(WalletFragmentModule(args[0] as List<WalletCommunityBalanceRecordDomain>))
                     .build()
 
             FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()

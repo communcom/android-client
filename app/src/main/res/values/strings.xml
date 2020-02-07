@@ -51,6 +51,12 @@
     <string name="date_time_format_weeks_ago">{0} weeks ago</string>
     <!--Time formatting - end-->
 
+    <!--Currency formatting - start-->
+    <string name="currency_kilo">K</string>
+    <string name="currency_mega">M</string>
+    <string name="currency_giga">G</string>
+    <!--Currency formatting - end-->
+
     <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
     <string name="export_general_error">An error occurred during the export process.</string>
     <string name="post_edit_invalid_url">The link is not valid.</string>
@@ -377,7 +383,7 @@
 
     <string name="profile_photos_storage_permissions_denied">You can\'s select a photo without granted permissions, sorry…</string>
 
-    <string name="see_all">see all</string>
+    <string name="see_all">See all</string>
     <string name="see_more">See More</string>
     <string name="communities_count">{0} ({1} Mutual)</string>
 
@@ -480,4 +486,11 @@
     <string name="send">Send</string>
     <string name="buy">Buy</string>
     <string name="convert">Convert</string>
+    <string name="my_points">My points</string>
+    <string name="points">Points</string>
+    <string name="tokens">Tokens</string>
+
+    <string name="on_hold_format">{0} on hold</string>
+    <string name="commun_format">= {0} Commun</string>
+    <string name="commun_group">Commun</string>
 </resources>
