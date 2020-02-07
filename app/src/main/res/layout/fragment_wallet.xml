@@ -11,15 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
+
+        android:fitsSystemWindows="true"
+
         app:refreshing = "@{viewModel.swipeRefreshing}">
 
         <io.golos.cyber_android.ui.screens.wallet.view.widgets.CollapsedPanelCoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             android:background="@color/grey"
 
-            app:prime_panel="@id/primePanel"
             app:toolbar="@id/toolbar"
             app:toolbar_content="@id/toolbarContent"
             app:collapsing_toolbar="@id/collapsingToolbar"

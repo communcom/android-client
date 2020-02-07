@@ -41,7 +41,6 @@
     </declare-styleable>
 
     <declare-styleable name="CollapsedPanelCoordinatorLayout">
-        <attr name="prime_panel" format="reference" />
         <attr name="toolbar" format="reference" />
         <attr name="toolbar_content" format="reference" />
         <attr name="collapsing_toolbar" format="reference" />
