@@ -4,6 +4,7 @@ import android.os.Bundle
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.di.ProfileFollowersExternalUserFragmentComponent
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserDomain
 
 class ProfileFollowersExternalUserFragment : ProfileFollowersFragment(){
@@ -24,7 +25,7 @@ class ProfileFollowersExternalUserFragment : ProfileFollowersFragment(){
             .get<ProfileFollowersExternalUserFragmentComponent>(
                 key,
                 FollowersFilter.create(arguments!!.getInt(FILTER)),
-                25,         // Page size
+                GlobalConstants.PAGE_SIZE,
                 arguments!!.getParcelableArray(MUTUAL_USERS)!!.toList())
             .inject(this)
 

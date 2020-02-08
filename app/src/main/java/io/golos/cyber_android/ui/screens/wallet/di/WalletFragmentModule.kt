@@ -7,7 +7,11 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Named
 
 @Module
-class WalletFragmentModule(private val balance: List<WalletCommunityBalanceRecordDomain>) {
+class WalletFragmentModule(private val pageSize: Int, private val balance: List<WalletCommunityBalanceRecordDomain>) {
+    @Provides
+    @Named(Clarification.PAGE_SIZE)
+    fun providePageSize(): Int = pageSize
+
     @Provides
     fun provideBalance(): List<WalletCommunityBalanceRecordDomain> = balance
 }

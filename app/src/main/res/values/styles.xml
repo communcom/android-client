@@ -566,6 +566,20 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Wallet.SendPoints.Name" parent="Common.Base.TextStyle">
+        <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Wallet.SendPoints.Retry" parent="FindCommunityButton">
+        <item name="android:textSize">@dimen/text_size_14_sp</item>
+    </style>
+
     <!--Common-->
     <style name="Middle.Bold.Title.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">@dimen/text_size_15_sp</item>

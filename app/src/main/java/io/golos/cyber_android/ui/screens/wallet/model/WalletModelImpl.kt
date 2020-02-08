@@ -1,21 +1,29 @@
 package io.golos.cyber_android.ui.screens.wallet.model
 
+import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.ListWorkerSendPoints
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
+import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.utils.IdUtil
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
 class WalletModelImpl
 @Inject
 constructor(
+    @Named(Clarification.PAGE_SIZE)
+    override val pageSize: Int,
     private val sourceBalance: List<WalletCommunityBalanceRecordDomain>,
     private val dispatchersProvider: DispatchersProvider,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val listWorkerSendPoints: ListWorkerSendPoints
 ) : ModelBaseImpl(),
     WalletModel {
 
@@ -23,6 +31,9 @@ constructor(
 
     override val totalBalance: Double
         get() = balance.sumByDouble { it.communs ?: 0.0 }
+
+    override val sendPointItems: LiveData<List<VersionedListItem>>
+        get() = listWorkerSendPoints.items
 
     override suspend fun initBalance(needReload: Boolean) {
         balance = if(needReload) {
@@ -49,4 +60,8 @@ constructor(
 
             result
         }
+
+    override suspend fun loadSendPointsPage() = listWorkerSendPoints.loadPage()
+
+    override suspend fun retrySendPointsPage() = listWorkerSendPoints.retry()
 }

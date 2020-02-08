@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:background="@drawable/bcg_wallet_my_points_item"
+    android:background="@drawable/bcg_white_round_rect_15"
 
     android:padding="@dimen/dimen_15"
     android:layout_marginEnd="@dimen/dimen_5"
@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/wallet_my_points_icon_size"
+        android:layout_height="@dimen/wallet_my_points_icon_size"
 
         android:src="@drawable/ic_splash_icon"
         android:background="@drawable/bg_circle_blue"

@@ -6,9 +6,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.wallet.view.send_points.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.delay
@@ -23,7 +25,8 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: WalletModel
 ) : ViewModelBase<WalletModel>(dispatchersProvider, model),
-    WalletMyPointsListItemEventsProcessor {
+    WalletMyPointsListItemEventsProcessor,
+    WalletSendPointsListItemEventsProcessor {
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing: LiveData<Boolean> get() = _swipeRefreshing
@@ -33,6 +36,10 @@ constructor(
 
     private val _myPointsItems = MutableLiveData<List<MyPointsListItem>>(listOf())
     val myPointsItems: LiveData<List<MyPointsListItem>> = _myPointsItems
+
+    val sendPointItems: LiveData<List<VersionedListItem>> = model.sendPointItems
+
+    val pageSize = model.pageSize
 
     init {
         loadPage(false)
@@ -51,6 +58,18 @@ constructor(
         _command.value = NavigateBackwardCommand()
     }
 
+    override fun onSendPointsNextPageReached() {
+        launch {
+            model.loadSendPointsPage()
+        }
+    }
+
+    override fun onSendPointsRetryClick() {
+        launch {
+            model.retrySendPointsPage()
+        }
+    }
+
     private fun loadPage(needReload: Boolean) {
         // use a Job as result here in case of refresh
         launch {
@@ -59,6 +78,8 @@ constructor(
 
                 _totalValue.value = model.totalBalance
                 _myPointsItems.value = model.getMyPointsItems()
+
+                onSendPointsNextPageReached()       // To load the very first page
             } catch (ex: Exception) {
                 Timber.e(ex)
 

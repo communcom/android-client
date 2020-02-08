@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
@@ -31,7 +32,11 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     override fun layoutResId(): Int = R.layout.fragment_wallet
 
     override fun inject(key: String) =
-        App.injections.get<WalletFragmentComponent>(key, arguments!!.getParcelableArray(BALANCE)!!.toList()).inject(this)
+        App.injections.get<WalletFragmentComponent>(
+            key,
+            GlobalConstants.PAGE_SIZE,
+            arguments!!.getParcelableArray(BALANCE)!!.toList())
+            .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<WalletFragmentComponent>(key)
 
@@ -41,6 +46,10 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.myPointsItems.observe({ viewLifecycleOwner.lifecycle }) { myPointsArea.setItems(it, viewModel) }
+
+        viewModel.sendPointItems.observe({ viewLifecycleOwner.lifecycle }) {
+            sendPointsArea.setItems(viewModel.pageSize, it, viewModel) }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:background="@drawable/bcg_wallet_my_points_item"
+    android:background="@drawable/bcg_white_round_rect_15"
 
     android:padding="@dimen/dimen_15"
 

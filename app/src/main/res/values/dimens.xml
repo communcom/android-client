@@ -504,4 +504,6 @@
     <dimen name="wallet_my_points_height">227dp</dimen>
     <dimen name="wallet_my_points_item_width">140dp</dimen>
     <dimen name="wallet_my_points_icon_size">50dp</dimen>
+    <dimen name="wallet_send_points_height">159dp</dimen>
+    <dimen name="wallet_send_points_item_width">90dp</dimen>
 </resources>

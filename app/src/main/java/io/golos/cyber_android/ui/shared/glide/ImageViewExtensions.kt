@@ -68,7 +68,7 @@ fun ImageView.loadCover(url: String?) {
         .into(this)
 }
 
-fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
+fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) =
     Glide
         .with(this)
         .load(url)
@@ -77,7 +77,6 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
         .error(defaultRes)
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
-}
 
 fun ImageView.loadCommentAttachment(url: String?, cornerRadiusInPixels: Int = 0) {
     Glide.with(context)

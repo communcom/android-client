@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@drawable/bcg_white_round_rect_10"
+
+    android:padding="@dimen/dimen_5"
+
+    android:layout_marginStart="@dimen/dimen_3"
+    android:layout_marginEnd="@dimen/dimen_3"
+
+    android:layout_width="@dimen/wallet_send_points_item_width"
+    android:layout_height="match_parent"
+    tools:layout_height="122dp">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+
+        android:layout_gravity="center"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</FrameLayout>

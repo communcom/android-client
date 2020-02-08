@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.domain.GlobalConstants
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog_list.view.*
 
 @Suppress("unused")
@@ -20,7 +21,7 @@ constructor(
 
     private var hasPages = true
 
-    private var pageSize = 25
+    private var pageSize = GlobalConstants.PAGE_SIZE
 
     private lateinit var listAdapter: CommunityListAdapterDialog
     private lateinit var listLayoutManager: LinearLayoutManager

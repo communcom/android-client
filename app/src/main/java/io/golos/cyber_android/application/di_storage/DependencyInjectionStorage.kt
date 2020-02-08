@@ -280,7 +280,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
             WalletFragmentComponent::class ->
                 getBase<MainActivityComponent>()
                     .walletFragmentComponent
-                    .init(WalletFragmentModule(args[0] as List<WalletCommunityBalanceRecordDomain>))
+                    .init(WalletFragmentModule(args[0] as Int, args[1] as List<WalletCommunityBalanceRecordDomain>))
                     .build()
 
             FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()

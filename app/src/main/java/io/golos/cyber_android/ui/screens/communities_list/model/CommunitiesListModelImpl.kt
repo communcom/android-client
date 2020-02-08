@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListIte
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserIdDomain
@@ -46,7 +47,7 @@ constructor(
     private val _items = MutableLiveData<List<VersionedListItem>>(listOf())
     override val items: LiveData<List<VersionedListItem>> get() = _items
 
-    override val pageSize = 25
+    override val pageSize = GlobalConstants.PAGE_SIZE
 
     override suspend fun loadPage() {
         when(currentLoadingState) {
