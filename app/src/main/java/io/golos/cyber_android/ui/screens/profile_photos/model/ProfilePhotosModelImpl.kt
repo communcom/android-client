@@ -38,12 +38,12 @@ constructor(
         val photoItems = withContext(dispatchersProvider.ioDispatcher) {
             galleryItemsSource.getGalleryImagesUrls()
         }
-        .map { PhotoGridItem(IdUtil.generateLongId(), 0, it, false) }
+        .map { PhotoGridItem(IdUtil.generateLongId(), 0, false, false, it, false) }
 
-        galleryItems.add(CameraGridItem(IdUtil.generateLongId(), 0))
+        galleryItems.add(CameraGridItem())
 
         if(imageUrl != null) {
-            galleryItems.add(PhotoGridItem(IdUtil.generateLongId(), 0, imageUrl, false))
+            galleryItems.add(PhotoGridItem(IdUtil.generateLongId(), 0, false, false, imageUrl, false))
         }
 
         galleryItems.addAll(photoItems)
@@ -52,7 +52,7 @@ constructor(
     }
 
     override fun addCameraImageToGallery(cameraImageUri: Uri): List<VersionedListItem> {
-        galleryItems.add(1, PhotoGridItem(IdUtil.generateLongId(), 0, cameraImageUri.toString(), true))
+        galleryItems.add(1, PhotoGridItem(IdUtil.generateLongId(), 0, false, false, cameraImageUri.toString(), true))
         return galleryItems
     }
 

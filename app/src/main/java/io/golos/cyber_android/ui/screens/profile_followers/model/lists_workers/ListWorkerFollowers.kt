@@ -9,9 +9,7 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.FollowingUserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.UsersRepository
-import io.golos.domain.utils.IdUtil
 import io.golos.domain.utils.MurmurHash
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -27,33 +25,35 @@ constructor(
     userRepository
 ), UsersListWorker {
 
-    override suspend fun getData(offset: Int): List<FollowersListItem>? =
-        try {
-            userRepository
-                .getUserFollowers(userId, offset, pageSize)
-                .let { list ->
-                    list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
-                }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            null
-        }
+    override suspend fun getData(offset: Int): List<FollowersListItem> =
+        userRepository
+            .getUserFollowers(userId, offset, pageSize)
+            .let { list ->
+                list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
+            }
 
     override fun isUserWithId(userId: UserIdDomain, item: Any): Boolean =
         item is FollowersListItem && item.follower.userId == userId
 
     override fun createLoadingListItem(): VersionedListItem =
-        LoadingListItem(IdUtil.generateLongId(), 0, FollowersFilter.FOLLOWERS)
+        LoadingListItem(FollowersFilter.FOLLOWERS)
 
     override fun createRetryListItem(): VersionedListItem =
-        RetryListItem(IdUtil.generateLongId(), 0, FollowersFilter.FOLLOWERS)
+        RetryListItem(FollowersFilter.FOLLOWERS)
+
+    override fun markAsFirst(item: FollowersListItem) = item.copy(isFirstItem = true)
+
+    override fun markAsLast(item: FollowersListItem) = item.copy(isLastItem = true)
+
+    override fun unMarkAsLast(item: FollowersListItem) = item.copy(isLastItem = false)
 
     private fun FollowingUserDomain.map(index: Int, lastIndex: Int) =
         FollowersListItem(
             id = MurmurHash.hash64(this.user.userId.userId),
             version = 0,
+            isFirstItem = false,
+            isLastItem = index == lastIndex,
             follower = user,
             isFollowing = user.isSubscribed,
-            filter = FollowersFilter.FOLLOWERS,
-            isLastItem = index == lastIndex)
+            filter = FollowersFilter.FOLLOWERS)
 }

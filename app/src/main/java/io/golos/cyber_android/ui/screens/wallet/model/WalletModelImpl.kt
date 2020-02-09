@@ -50,12 +50,12 @@ constructor(
 
             val result = mutableListOf<MyPointsListItem>()
 
-            result.add(MyPointsListItem(IdUtil.generateLongId(), 0, true, communItem))
+            result.add(MyPointsListItem(IdUtil.generateLongId(), 0, false, false, true, communItem))
 
             result.addAll(
                 balance
                     .filter { it.communityId != GlobalConstants.COMMUN_CODE }
-                    .map { MyPointsListItem(IdUtil.generateLongId(), 0, false, it) }
+                    .map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false, false, it) }
             )
 
             result

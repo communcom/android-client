@@ -6,6 +6,8 @@ import io.golos.domain.dto.UserIdDomain
 data class SendPointsListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
 
     val userId: UserIdDomain,
     val name: String,

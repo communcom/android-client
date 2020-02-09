@@ -115,9 +115,11 @@ constructor(
         CommunityListItem(
             MurmurHash.hash64(this.communityId),
             0,
-            this,
-            this.isSubscribed,
-            false
+            isFirstItem = false,
+            isLastItem = false,
+            community = this,
+            isInPositiveState = this.isSubscribed,
+            isProgress = false
         )
 
     private suspend fun loadData(isRetry: Boolean) {

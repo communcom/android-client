@@ -17,6 +17,8 @@ object CommentsMapper {
         return FirstLevelCommentListItem(
             id = IdUtil.generateLongId(),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             externalId = model.contentId,
             author = model.author,
             currentUserId = currentUserId,
@@ -56,6 +58,8 @@ object CommentsMapper {
         return SecondLevelCommentListItem(
             id = IdUtil.generateLongId(),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             externalId = model.contentId,
             author = model.author,
             repliedAuthor = repliedAuthor,

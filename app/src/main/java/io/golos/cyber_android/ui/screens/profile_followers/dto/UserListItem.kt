@@ -4,7 +4,6 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 
 interface UserListItem<T : UserListItem<T>> : VersionedListItem {
     val isFollowing: Boolean
-    val isLastItem: Boolean
 
     fun updateIsFollowing(value: Boolean): T
 

@@ -102,6 +102,8 @@ constructor(
                         SecondLevelCommentCollapsedListItem(
                             id = IdUtil.generateLongId(),
                             version = 0,
+                            isFirstItem = false,
+                            isLastItem = false,
                             totalChild = rawComment.childTotal,
                             parentCommentId = commentListItem.externalId
                         )
@@ -195,7 +197,7 @@ constructor(
             }
 
             postList[parentCommentIndex + commentsAdded + 1] =
-                SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0, parentCommentId)
+                SecondLevelCommentRetryListItem(IdUtil.generateLongId(), 0, false, false, parentCommentId)
             sortPostItems()
         }
 
@@ -234,6 +236,8 @@ constructor(
                             SecondLevelCommentCollapsedListItem(     // Collapsed comments
                                 IdUtil.generateLongId(),
                                 0,
+                                false,
+                                false,
                                 (totalComments - commentsAdded - comments.size).toLong(),
                                 parentCommentId
                             )
@@ -270,7 +274,7 @@ constructor(
         updateSafe {
             val titleItem = postList.find { it is CommentsTitleListItem }
             if (titleItem == null) {
-                postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, SortingType.INTERESTING_FIRST))
+                postList.add(CommentsTitleListItem(IdUtil.generateLongId(), 0, false, false, SortingType.INTERESTING_FIRST))
                 sortPostItems()
             }
         }
@@ -399,7 +403,7 @@ constructor(
         val oldTitle = postList.singleOrNull { it is PostTitleListItem }
 
         val newTitle = postDomain.body?.title?.let {
-            PostTitleListItem(IdUtil.generateLongId(), 0, it)
+            PostTitleListItem(IdUtil.generateLongId(), 0, false, false, it)
         }
 
         when {
@@ -420,6 +424,8 @@ constructor(
                 PostBodyListItem(
                     IdUtil.generateLongId(),
                     0,
+                    false,
+                    false,
                     postDomain.body!!
                 )
             )
@@ -428,6 +434,8 @@ constructor(
             postList[oldBodyIndex] = PostBodyListItem(
                 oldBody.id,
                 oldBody.version + 1,
+                false,
+                false,
                 postDomain.body!!
             )
         }
@@ -439,6 +447,8 @@ constructor(
         val controls = PostControlsListItem(
             IdUtil.generateLongId(),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             voteBalance = postDomain.votes.upCount - postDomain.votes.downCount,
             isUpVoteActive = postDomain.votes.hasUpVote,
             isDownVoteActive = postDomain.votes.hasDownVote,
@@ -460,6 +470,8 @@ constructor(
             val newTitle = CommentsTitleListItem(
                 IdUtil.generateLongId(),
                 0,
+                false,
+                false,
                 SortingType.INTERESTING_FIRST
             )
             postList.add(newTitle)

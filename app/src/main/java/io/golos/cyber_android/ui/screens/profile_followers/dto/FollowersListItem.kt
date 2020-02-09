@@ -6,12 +6,13 @@ import io.golos.domain.dto.UserDomain
 data class FollowersListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
+
     val follower: UserDomain,
 
     override val isFollowing: Boolean,
-    val filter: FollowersFilter,
-
-    override val isLastItem: Boolean
+    val filter: FollowersFilter
 ) : UserListItem<FollowersListItem> {
 
     override fun updateIsFollowing(value: Boolean): FollowersListItem = copy(version = this.version + 1, isFollowing = value )

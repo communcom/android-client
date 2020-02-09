@@ -7,6 +7,8 @@ import io.golos.domain.use_cases.post.post_dto.ContentBlock
 data class PostBodyListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
     val post: ContentBlock,
     override val groupId: Int = 1
-    ) : GroupListItem, VersionedListItem
+) : GroupListItem, VersionedListItem

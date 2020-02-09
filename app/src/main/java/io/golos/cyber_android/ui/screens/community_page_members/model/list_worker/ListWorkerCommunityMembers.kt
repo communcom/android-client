@@ -31,16 +31,11 @@ constructor(
     userRepository
 ), UsersListWorker {
 
-    override suspend fun getData(offset: Int): List<CommunityUserListItem>? =
-        try {
-            communitiesRepository.getSubscribers(communityId, offset, pageSize)
-                .let { list ->
-                    list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
-                }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            null
-        }
+    override suspend fun getData(offset: Int): List<CommunityUserListItem> =
+        communitiesRepository.getSubscribers(communityId, offset, pageSize)
+            .let { list ->
+                list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
+            }
 
     override fun isUserWithId(userId: UserIdDomain, item: Any): Boolean =
         item is CommunityUserListItem && item.user.userId == userId
@@ -48,6 +43,12 @@ constructor(
     override fun createLoadingListItem(): VersionedListItem = LoadingListItem(IdUtil.generateLongId(), 0)
 
     override fun createRetryListItem(): VersionedListItem = RetryListItem(IdUtil.generateLongId(), 0)
+
+    override fun markAsFirst(item: CommunityUserListItem) = item.copy(isFirstItem = true)
+
+    override fun markAsLast(item: CommunityUserListItem) = item.copy(isLastItem = true)
+
+    override fun unMarkAsLast(item: CommunityUserListItem) = item.copy(isLastItem = false)
 
     private fun UserDomain.map(index: Int, lastIndex: Int) =
         CommunityUserListItem(

@@ -78,6 +78,8 @@ constructor(
         CommunityListItem(
             id = IdUtil.generateLongId(),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             community = this,
             isJoined = this.isSubscribed,
             isProgress = false

@@ -57,6 +57,8 @@ constructor(
         UserListItem(
             id = MurmurHash.hash64(this.userId.userId),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             user = this,
             isInPositiveState = true,
             isProgress = false

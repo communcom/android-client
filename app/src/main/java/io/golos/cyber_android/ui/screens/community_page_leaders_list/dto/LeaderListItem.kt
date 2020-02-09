@@ -6,6 +6,8 @@ import io.golos.domain.dto.UserIdDomain
 data class LeaderListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean = false,
+    override val isLastItem: Boolean = false,
 
     val userId: UserIdDomain,
     val avatarUrl: String?,

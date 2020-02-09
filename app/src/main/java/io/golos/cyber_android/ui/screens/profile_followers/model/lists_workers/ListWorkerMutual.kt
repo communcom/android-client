@@ -22,7 +22,7 @@ constructor(
     userRepository
 ) , UsersListWorker {
 
-    override suspend fun getData(offset: Int): List<FollowersListItem>? =
+    override suspend fun getData(offset: Int): List<FollowersListItem> =
         mutualUsers
             .let { list ->
                 list.mapIndexed { index, item -> item.map(index, list.lastIndex) }
@@ -31,18 +31,23 @@ constructor(
     override fun isUserWithId(userId: UserIdDomain, item: Any): Boolean =
         item is FollowersListItem && item.follower.userId == userId
 
-    override fun createLoadingListItem(): VersionedListItem =
-        LoadingListItem(IdUtil.generateLongId(), 0, FollowersFilter.MUTUALS)
+    override fun createLoadingListItem() = LoadingListItem(FollowersFilter.MUTUALS)
 
-    override fun createRetryListItem(): VersionedListItem =
-        RetryListItem(IdUtil.generateLongId(), 0, FollowersFilter.MUTUALS)
+    override fun createRetryListItem() = RetryListItem(FollowersFilter.MUTUALS)
+
+    override fun markAsFirst(item: FollowersListItem) = item.copy(isFirstItem = true)
+
+    override fun markAsLast(item: FollowersListItem) = item.copy(isLastItem = true)
+
+    override fun unMarkAsLast(item: FollowersListItem) = item.copy(isLastItem = false)
 
     private fun UserDomain.map(index: Int, lastIndex: Int) =
         FollowersListItem(
             id = MurmurHash.hash64(this.userId.userId),
             version = 0,
+            isFirstItem = false,
+            isLastItem = index == lastIndex,
             follower = this,
             isFollowing = true,
-            filter = FollowersFilter.MUTUALS,
-            isLastItem = index == lastIndex)
+            filter = FollowersFilter.MUTUALS)
 }

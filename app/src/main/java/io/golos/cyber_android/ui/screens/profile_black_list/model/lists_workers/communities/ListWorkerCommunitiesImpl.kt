@@ -58,6 +58,8 @@ constructor(
         CommunityListItem(
             id = MurmurHash.hash64(this.communityId),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             community = this,
             isInPositiveState = true,
             isProgress = false
