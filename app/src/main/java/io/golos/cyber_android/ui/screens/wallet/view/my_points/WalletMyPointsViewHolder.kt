@@ -42,12 +42,12 @@ class WalletMyPointsViewHolder(
             itemView.communsLabel.text =
                 context.resources.getFormattedString(R.string.commun_format, CurrencyFormatter.formatShort(context, communs ?: 0.0))
 
-//            itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community.communityId) }
+            itemView.setOnClickListener { listItemEventsProcessor.onMyPointItemClick(listItem.data.communityId) }
         }
     }
 
     override fun release() {
-//        itemView.setOnClickListener(null)
+        itemView.setOnClickListener(null)
 
         logoGlideTarget?.clear(itemView.context.applicationContext)
     }

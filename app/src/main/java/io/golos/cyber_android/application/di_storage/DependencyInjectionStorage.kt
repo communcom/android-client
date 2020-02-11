@@ -77,6 +77,8 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragm
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentModule
+import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentModule
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
@@ -281,6 +283,15 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 getBase<MainActivityComponent>()
                     .walletFragmentComponent
                     .init(WalletFragmentModule(args[0] as Int, args[1] as List<WalletCommunityBalanceRecordDomain>))
+                    .build()
+
+            WalletPointFragmentComponent::class ->
+                getBase<WalletFragmentComponent>()
+                    .pointFragment
+                    .init(WalletPointFragmentModule(
+                        args[0] as Int,
+                        args[1] as String,
+                        args[2] as List<WalletCommunityBalanceRecordDomain>))
                     .build()
 
             FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()

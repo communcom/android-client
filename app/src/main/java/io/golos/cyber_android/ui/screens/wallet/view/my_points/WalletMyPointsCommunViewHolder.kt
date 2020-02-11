@@ -23,12 +23,6 @@ class WalletMyPointsCommunViewHolder(
 
         with(listItem.data) {
             itemView.pointsValue.text = CurrencyFormatter.formatShort(context, points)
-
-//            itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community.communityId) }
         }
-    }
-
-    override fun release() {
-//        itemView.setOnClickListener(null)
     }
 }

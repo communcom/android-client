@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletPoint
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.view.history.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
@@ -13,6 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -80,6 +82,14 @@ constructor(
         launch {
             model.retryHistoryPage()
         }
+    }
+
+    override fun onMyPointItemClick(communityId: String) {
+        if(communityId == GlobalConstants.COMMUN_CODE) {
+            return
+        }
+
+        _command.value = NavigateToWalletPoint(communityId, model.getBalanceRecords())
     }
 
     private fun loadPage(needReload: Boolean) {

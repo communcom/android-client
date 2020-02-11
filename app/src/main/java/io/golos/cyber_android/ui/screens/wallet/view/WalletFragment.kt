@@ -9,9 +9,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletBinding
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletPoint
 import io.golos.cyber_android.ui.screens.wallet.view.history.WalletHistoryAdapter
 import io.golos.cyber_android.ui.screens.wallet.view.history.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
+import io.golos.cyber_android.ui.screens.wallet_point.view.WalletPointFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
@@ -64,6 +66,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+            is NavigateToWalletPoint -> moveToWalletPoint(command.selectedCommunityId, command.balance)
         }
     }
 
@@ -82,4 +85,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
         historyAdapter.update(items)
     }
+
+    private fun moveToWalletPoint(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) =
+        getDashboardFragment(this)?.showFragment(WalletPointFragment.newInstance(selectedCommunityId, balance))
 }
