@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.profile_followers.dto.NoDataListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
@@ -36,11 +37,11 @@ constructor(
     override fun isUserWithId(userId: UserIdDomain, item: Any): Boolean =
         item is FollowersListItem && item.follower.userId == userId
 
-    override fun createLoadingListItem(): VersionedListItem =
-        LoadingListItem(FollowersFilter.FOLLOWINGS)
+    override fun createLoadingListItem(): VersionedListItem = LoadingListItem(FollowersFilter.FOLLOWINGS)
 
-    override fun createRetryListItem(): VersionedListItem =
-        RetryListItem(FollowersFilter.FOLLOWINGS)
+    override fun createRetryListItem(): VersionedListItem = RetryListItem(FollowersFilter.FOLLOWINGS)
+
+    override fun createNoDataListItem(): VersionedListItem = NoDataListItem(FollowersFilter.FOLLOWINGS)
 
     override fun markAsFirst(item: FollowersListItem) = item.copy(isFirstItem = true)
 

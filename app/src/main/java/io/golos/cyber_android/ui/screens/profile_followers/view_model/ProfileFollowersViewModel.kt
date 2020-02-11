@@ -47,75 +47,32 @@ constructor(
     private val _mutualsVisibility = MutableLiveData<Int>((startFilter == FollowersFilter.MUTUALS).toVisibility())
     val mutualsVisibility: LiveData<Int> get() = _mutualsVisibility
 
-    private val _noDataStubVisibility = MutableLiveData<Int>(false.toVisibility())
-    val noDataStubVisibility: LiveData<Int> get() = _noDataStubVisibility
-
-    private val _noDataStubText = MutableLiveData<Int>()
-    val noDataStubText: LiveData<Int> get() = _noDataStubText
-
-    private val _noDataStubExplanation = MutableLiveData<Int>(if(model.isCurrentUser) R.string.no_followers_yet else R.string.no_followers_yet_external_user)
-    val noDataStubExplanation: LiveData<Int> get() = _noDataStubExplanation
-
     val pageSize = model.pageSize
-
-    private var hasFollowersData: Boolean? = null
-    private var hasFollowingsData: Boolean? = null
-    private var hasMutualData: Boolean? = null
 
     init {
         filter.observeForever {
             switchTab(filter.value!!)
             loadPage(it)
         }
-
-        followersItems.observeForever {
-            hasFollowersData = it.isNotEmpty()
-            switchTab(filter.value!!)
-        }
-
-        followingsItems.observeForever {
-            hasFollowingsData = it.isNotEmpty()
-            switchTab(filter.value!!)
-        }
-
-        mutualsItems.observeForever {
-            hasMutualData = it.isNotEmpty()
-            switchTab(filter.value!!)
-        }
     }
 
     private fun switchTab(filter: FollowersFilter) {
         when(filter) {
-            FollowersFilter.FOLLOWERS ->
-                hasFollowersData?.let {
-                    if(it) {
-                        _followersVisibility.value = it.toVisibility()
-                        _followingsVisibility.value = (!it).toVisibility()
-                        _mutualsVisibility.value = (!it).toVisibility()
-                    }
-                    _noDataStubVisibility.value = (!it).toVisibility()
-                    _noDataStubText.value = R.string.no_followers
-                }
-            FollowersFilter.FOLLOWINGS ->
-                hasFollowingsData?.let {
-                    if(it) {
-                        _followingsVisibility.value = it.toVisibility()
-                        _followersVisibility.value = (!it).toVisibility()
-                        _mutualsVisibility.value = (!it).toVisibility()
-                    }
-                    _noDataStubVisibility.value = (!it).toVisibility()
-                    _noDataStubText.value = R.string.no_following
-                }
-            FollowersFilter.MUTUALS ->
-                hasMutualData?.let {
-                    if(it) {
-                        _mutualsVisibility.value = it.toVisibility()
-                        _followersVisibility.value = (!it).toVisibility()
-                        _followingsVisibility.value = (!it).toVisibility()
-                    }
-                    _noDataStubVisibility.value = (!it).toVisibility()
-                    _noDataStubText.value = R.string.no_mutual
-                }
+            FollowersFilter.FOLLOWERS -> {
+                _followersVisibility.value = View.VISIBLE
+                _followingsVisibility.value = View.INVISIBLE
+                _mutualsVisibility.value = View.INVISIBLE
+            }
+            FollowersFilter.FOLLOWINGS -> {
+                _followersVisibility.value = View.INVISIBLE
+                _followingsVisibility.value = View.VISIBLE
+                _mutualsVisibility.value = View.INVISIBLE
+            }
+            FollowersFilter.MUTUALS -> {
+                _followersVisibility.value = View.INVISIBLE
+                _followingsVisibility.value = View.INVISIBLE
+                _mutualsVisibility.value = View.VISIBLE
+            }
         }
     }
 

@@ -404,10 +404,9 @@
     <string name="done">Done</string>
 
 
-    <string name="no_followers_yet">You have no followers yet</string>
+    <string name="no_followers_yet">There are no users in the list</string>
     <string name="no_followers_yet_external_user">This user has no followers yet</string>
     <string name="no_followers">No Followers</string>
-    <string name="no_following">No Following</string>
     <string name="no_mutual">No Mutual</string>
     <string name="no_users">No users</string>
     <string name="no_users_explanation">You have no users in the black list</string>
@@ -506,4 +505,7 @@
 
     <string name="no_history">No history</string>
     <string name="no_history_explanation">You haven\'t got any payment history items yet</string>
+
+    <string name="no_followings">No followings</string>
+    <string name="no_followings_explanation">You haven\'t got any followings yet</string>
 </resources>

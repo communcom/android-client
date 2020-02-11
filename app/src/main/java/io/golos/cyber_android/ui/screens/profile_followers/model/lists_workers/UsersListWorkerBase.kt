@@ -13,7 +13,7 @@ import timber.log.Timber
  * [TLI] type of user list item
  */
 abstract class UsersListWorkerBase<TLI : UserListItem<*>>(
-    private val pageSize: Int,
+    pageSize: Int,
     private val userRepository: UsersRepository
 ) : LoadedItemsPagedListBase<TLI>(pageSize),
     UsersListWorker {

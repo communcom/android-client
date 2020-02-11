@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.LoadingListItem
+import io.golos.cyber_android.ui.screens.profile_followers.dto.NoDataListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.UserDomain
@@ -34,6 +35,8 @@ constructor(
     override fun createLoadingListItem() = LoadingListItem(FollowersFilter.MUTUALS)
 
     override fun createRetryListItem() = RetryListItem(FollowersFilter.MUTUALS)
+
+    override fun createNoDataListItem(): VersionedListItem = NoDataListItem(FollowersFilter.MUTUALS)
 
     override fun markAsFirst(item: FollowersListItem) = item.copy(isFirstItem = true)
 
