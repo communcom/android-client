@@ -503,4 +503,7 @@
     <string name="history">History</string>
     <string name="refill">Refill</string>
     <string name="on_hold">On hold</string>
+
+    <string name="no_history">No history</string>
+    <string name="no_history_explanation">You haven\'t got any payment history items yet</string>
 </resources>

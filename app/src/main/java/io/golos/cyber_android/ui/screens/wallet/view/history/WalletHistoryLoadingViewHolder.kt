@@ -9,7 +9,6 @@ class WalletHistoryLoadingViewHolder(
     parentView: ViewGroup
 ) : ViewHolderBase<WalletHistoryListItemEventsProcessor, VersionedListItem>(
     parentView,
-
     R.layout.view_wallet_history_loading_list_item
 ) {
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: WalletHistoryListItemEventsProcessor) {

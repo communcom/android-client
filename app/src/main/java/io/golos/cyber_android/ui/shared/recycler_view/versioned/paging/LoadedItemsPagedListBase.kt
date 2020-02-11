@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.shared.recycler_view.versioned.paging
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.NoDataListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import timber.log.Timber
@@ -73,7 +74,7 @@ abstract class LoadedItemsPagedListBase<T: VersionedListItem>(private val pageSi
         currentLoadingState = if(data != null) {
             addLoadedData(data)
 
-        if(data.size < pageSize) LoadingState.ALL_DATA_LOADED else LoadingState.READY_TO_LOAD
+            if(data.size < pageSize) LoadingState.ALL_DATA_LOADED else LoadingState.READY_TO_LOAD
         } else {
             replaceLoadingByRetry()
             LoadingState.IN_ERROR
@@ -107,6 +108,10 @@ abstract class LoadedItemsPagedListBase<T: VersionedListItem>(private val pageSi
                 loadedItems[lastIndex] = unMarkAsLast(loadedItems[lastIndex] as T)
             }
             loadedItems[loadedItems.lastIndex] = markAsLast(loadedItems[loadedItems.lastIndex] as T)
+        } else {
+            if(loadedItems.isEmpty()) {
+                loadedItems.add(createNoDataListItem())
+            }
         }
     }
 
@@ -117,6 +122,8 @@ abstract class LoadedItemsPagedListBase<T: VersionedListItem>(private val pageSi
     protected open fun createLoadingListItem(): VersionedListItem = LoadingListItem()
 
     protected open fun createRetryListItem(): VersionedListItem = RetryListItem()
+
+    protected open fun createNoDataListItem(): VersionedListItem = NoDataListItem()
 
     protected fun updateData(updateAction: (MutableList<VersionedListItem>) -> Unit) {
         updateAction(loadedItems)

@@ -4,19 +4,16 @@ import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import kotlinx.android.synthetic.main.view_wallet_history_retry_list_item.view.*
+import kotlinx.android.synthetic.main.view_no_data_stub.view.*
 
-class WalletHistoryRetryViewHolder(
-    parentView: ViewGroup
+class WalletHistoryNoDataViewHolder(
+    private val parentView: ViewGroup
 ) : ViewHolderBase<WalletHistoryListItemEventsProcessor, VersionedListItem>(
     parentView,
-    R.layout.view_wallet_history_retry_list_item
+    R.layout.view_no_data_stub
 ) {
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: WalletHistoryListItemEventsProcessor) {
-        itemView.btnRetry.setOnClickListener { listItemEventsProcessor.onHistoryRetryClick() }
-    }
-
-    override fun release() {
-        itemView.btnRetry.setOnClickListener(null)
+        itemView.noDataTitle.text = parentView.context.resources.getText(R.string.no_history)
+        itemView.noDataExplanation.text = parentView.context.resources.getText(R.string.no_history_explanation)
     }
 }
