@@ -20,7 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_embed_website_bottom_view"
-        android:background="@drawable/bg_post_embed_website_bottom"
+        android:background="@drawable/bcg_post_embed_website_bottom"
         android:paddingStart="@dimen/post_content_border_horizontal"
         android:paddingEnd="@dimen/post_content_border_horizontal">
 

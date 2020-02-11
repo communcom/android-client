@@ -6,8 +6,10 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.ListWorkerSendPoints
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.ListWorkerSendPointsImpl
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.history.ListWorkerHistory
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.history.ListWorkerHistoryImpl
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.send_points.ListWorkerSendPoints
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.send_points.ListWorkerSendPointsImpl
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
@@ -28,4 +30,7 @@ abstract class WalletFragmentModuleBinds {
 
     @Binds
     abstract fun provideListWorkerSendPoints(worker: ListWorkerSendPointsImpl): ListWorkerSendPoints
+
+    @Binds
+    abstract fun provideListWorkerHistory(worker: ListWorkerHistoryImpl): ListWorkerHistory
 }

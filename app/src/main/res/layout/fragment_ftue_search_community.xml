@@ -51,7 +51,7 @@
             android:layout_marginStart="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
-            android:background="@drawable/bg_input_field"
+            android:background="@drawable/bcg_input_field"
             android:drawableStart="@drawable/ic_search_small"
             android:drawablePadding="@dimen/dimen_14"
             android:hint="@string/hint_search"
@@ -128,7 +128,7 @@
             android:id="@+id/clCommunitiesBoard"
             android:layout_width="match_parent"
             android:layout_height="@dimen/communities_board_height"
-            android:background="@drawable/bg_top_round_corners"
+            android:background="@drawable/bcg_top_round_corners"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -155,7 +155,7 @@
                 android:layout_height="@dimen/communities_board_next_btn_size"
                 android:layout_marginTop="@dimen/dimen_20"
                 android:layout_marginEnd="@dimen/margin_default"
-                android:background="@drawable/bg_circle_btn"
+                android:background="@drawable/bcg_circle_btn"
                 android:src="@drawable/ic_right_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

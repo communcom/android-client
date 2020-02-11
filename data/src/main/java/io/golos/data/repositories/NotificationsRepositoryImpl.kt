@@ -14,7 +14,7 @@ import io.golos.domain.dto.NotificationsPageDomain
 import io.golos.domain.dto.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
-import io.golos.utils.toServerFormat
+import io.golos.utils.dates.toServerFormat
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow

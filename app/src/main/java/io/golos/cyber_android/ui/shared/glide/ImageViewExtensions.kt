@@ -68,7 +68,7 @@ fun ImageView.loadCover(url: String?) {
         .into(this)
 }
 
-fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) =
+fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): Target<*> =
     Glide
         .with(this)
         .load(url)

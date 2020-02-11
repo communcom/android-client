@@ -30,14 +30,12 @@ import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
-import io.golos.utils.fromServerFormat
-import io.golos.utils.toServerFormat
-import kotlinx.coroutines.delay
+import io.golos.utils.dates.fromServerFormat
+import io.golos.utils.dates.toServerFormat
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import javax.inject.Inject
-import kotlin.random.Random
 
 class DiscussionRepositoryImpl
 @Inject

@@ -19,7 +19,7 @@
         android:layout_height="@dimen/wallet_my_points_icon_size"
 
         android:src="@drawable/ic_splash_icon"
-        android:background="@drawable/bg_circle_blue"
+        android:background="@drawable/bcg_circle_blue"
 
         android:padding="@dimen/dimen_15"
 

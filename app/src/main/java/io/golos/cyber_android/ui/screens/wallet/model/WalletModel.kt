@@ -12,6 +12,8 @@ interface WalletModel : ModelBase {
 
     val sendPointItems: LiveData<List<VersionedListItem>>
 
+    val historyItems: LiveData<List<VersionedListItem>>
+
     suspend fun initBalance(needReload: Boolean)
 
     suspend fun getMyPointsItems(): List<MyPointsListItem>
@@ -19,4 +21,8 @@ interface WalletModel : ModelBase {
     suspend fun loadSendPointsPage()
 
     suspend fun retrySendPointsPage()
+
+    suspend fun loadHistoryPage()
+
+    suspend fun retryHistoryPage()
 }

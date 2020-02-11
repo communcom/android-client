@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
+import io.golos.cyber_android.ui.screens.wallet.view.history.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view.send_points.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
@@ -26,7 +27,8 @@ constructor(
     model: WalletModel
 ) : ViewModelBase<WalletModel>(dispatchersProvider, model),
     WalletMyPointsListItemEventsProcessor,
-    WalletSendPointsListItemEventsProcessor {
+    WalletSendPointsListItemEventsProcessor,
+    WalletHistoryListItemEventsProcessor {
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing: LiveData<Boolean> get() = _swipeRefreshing
@@ -38,6 +40,8 @@ constructor(
     val myPointsItems: LiveData<List<MyPointsListItem>> = _myPointsItems
 
     val sendPointItems: LiveData<List<VersionedListItem>> = model.sendPointItems
+
+    val historyItems: LiveData<List<VersionedListItem>> = model.historyItems
 
     val pageSize = model.pageSize
 
@@ -70,6 +74,18 @@ constructor(
         }
     }
 
+    override fun onHistoryNextPageReached() {
+        launch {
+            model.loadHistoryPage()
+        }
+    }
+
+    override fun onHistoryRetryClick() {
+        launch {
+            model.retryHistoryPage()
+        }
+    }
+
     private fun loadPage(needReload: Boolean) {
         // use a Job as result here in case of refresh
         launch {
@@ -79,7 +95,9 @@ constructor(
                 _totalValue.value = model.totalBalance
                 _myPointsItems.value = model.getMyPointsItems()
 
-                onSendPointsNextPageReached()       // To load the very first page
+                // To load the very first page
+                onSendPointsNextPageReached()
+                onHistoryNextPageReached()
             } catch (ex: Exception) {
                 Timber.e(ex)
 

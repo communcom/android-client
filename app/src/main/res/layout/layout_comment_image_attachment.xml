@@ -19,6 +19,6 @@
         android:layout_gravity="top|end"
         android:src="@drawable/ic_close_gray"
         android:scaleType="center"
-        android:background="@drawable/bg_circle_white"/>
+        android:background="@drawable/bcg_circle_white"/>
 
 </FrameLayout>

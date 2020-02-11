@@ -66,6 +66,14 @@ fun Date.toMMMM_DD_YYYY_Format(): String {
     return SimpleDateFormat(MMMM_DD_YYYY_FORMAT, Locale.US).format(this)
 }
 
+fun Date.toDayShort(): String {
+    return SimpleDateFormat("MM.dd.yyyy", Locale.getDefault()).format(this)
+}
+
+fun Date.toTimeShort(): String {
+    return SimpleDateFormat("HH.mm", Locale.getDefault()).format(this)
+}
+
 fun Date.toTimeEstimateFormat(context: Context): String{
     val now = Date().time
     val estimated = this.time

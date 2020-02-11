@@ -468,10 +468,14 @@
     <string name="liked_your_post">liked your post</string>
     <string name="liked_your_comment">liked your comment</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
+
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="this_week">This weak</string>
+    <string name="days_ago">{0} days ago</string>
+    <string name="month_ago">a month ago</string>
     <string name="this_month">This month</string>
+    <string name="previously">Previously</string>
     <string name="other">Other</string>
 
     <string name="post_reward_top">Top</string>
@@ -490,8 +494,13 @@
     <string name="send_points">Send points</string>
     <string name="points">Points</string>
     <string name="tokens">Tokens</string>
+    <string name="reward">Reward</string>
+    <string name="transfer">Transfer</string>
 
     <string name="on_hold_format">{0} on hold</string>
     <string name="commun_format">= {0} Commun</string>
     <string name="commun_group">Commun</string>
+    <string name="history">History</string>
+    <string name="refill">Refill</string>
+    <string name="on_hold">On hold</string>
 </resources>

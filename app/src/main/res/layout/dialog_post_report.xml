@@ -370,7 +370,7 @@
                 android:layout_marginTop="@dimen/dimen_20"
                 android:layout_marginEnd="@dimen/margin_default"
                 android:layout_marginBottom="@dimen/dimen_45"
-                android:background="@drawable/bg_blue_button_round"
+                android:background="@drawable/bcg_blue_button_round"
                 android:text="@string/report_send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

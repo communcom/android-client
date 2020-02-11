@@ -113,7 +113,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/community_page_margin_top"
-                            android:background="@drawable/bg_top_round_corners"
+                            android:background="@drawable/bcg_top_round_corners"
                             android:clipToPadding="false">
 
                             <ImageView

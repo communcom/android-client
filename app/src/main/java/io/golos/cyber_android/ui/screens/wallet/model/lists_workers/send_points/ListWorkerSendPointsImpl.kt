@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet.model.lists_workers
+package io.golos.cyber_android.ui.screens.wallet.model.lists_workers.send_points
 
 import io.golos.cyber_android.ui.screens.wallet.dto.SendPointsListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsPagedListBase
@@ -17,7 +17,8 @@ constructor(
     @Named(Clarification.PAGE_SIZE)
     private val pageSize: Int,
     private val userRepository: UsersRepository
-) : LoadedItemsPagedListBase<SendPointsListItem>(pageSize), ListWorkerSendPoints {
+) : LoadedItemsPagedListBase<SendPointsListItem>(pageSize),
+    ListWorkerSendPoints {
     
     override suspend fun getData(offset: Int): List<SendPointsListItem> =
         userRepository

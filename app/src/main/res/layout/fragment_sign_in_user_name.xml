@@ -152,7 +152,7 @@
                     android:layout_width="@dimen/dimen_56"
                     android:layout_height="@dimen/dimen_56"
 
-                    android:background="@drawable/bg_sign_up_button"
+                    android:background="@drawable/bcg_sign_up_button"
                     android:drawableStart="@drawable/ic_qr_code"
 
                     android:paddingStart="18dp"

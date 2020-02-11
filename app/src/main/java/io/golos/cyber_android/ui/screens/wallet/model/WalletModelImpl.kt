@@ -2,7 +2,8 @@ package io.golos.cyber_android.ui.screens.wallet.model
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.ListWorkerSendPoints
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.history.ListWorkerHistory
+import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.send_points.ListWorkerSendPoints
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.data.repositories.wallet.WalletRepository
@@ -23,7 +24,8 @@ constructor(
     private val sourceBalance: List<WalletCommunityBalanceRecordDomain>,
     private val dispatchersProvider: DispatchersProvider,
     private val walletRepository: WalletRepository,
-    private val listWorkerSendPoints: ListWorkerSendPoints
+    private val listWorkerSendPoints: ListWorkerSendPoints,
+    private val listWorkerHistory: ListWorkerHistory
 ) : ModelBaseImpl(),
     WalletModel {
 
@@ -34,6 +36,9 @@ constructor(
 
     override val sendPointItems: LiveData<List<VersionedListItem>>
         get() = listWorkerSendPoints.items
+
+    override val historyItems: LiveData<List<VersionedListItem>>
+        get() = listWorkerHistory.items
 
     override suspend fun initBalance(needReload: Boolean) {
         balance = if(needReload) {
@@ -64,4 +69,8 @@ constructor(
     override suspend fun loadSendPointsPage() = listWorkerSendPoints.loadPage()
 
     override suspend fun retrySendPointsPage() = listWorkerSendPoints.retry()
+
+    override suspend fun loadHistoryPage() = listWorkerHistory.loadPage()
+
+    override suspend fun retryHistoryPage() = listWorkerHistory.retry()
 }

@@ -13,7 +13,7 @@
 
         android:layout_marginStart="@dimen/margin_size_editor_common"
 
-        android:src="@drawable/bg_circle_blue"
+        android:src="@drawable/bcg_circle_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
