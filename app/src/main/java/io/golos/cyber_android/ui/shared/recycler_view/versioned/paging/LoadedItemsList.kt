@@ -9,4 +9,6 @@ interface LoadedItemsList {
     suspend fun loadPage()
 
     suspend fun retry()
+
+    suspend fun clear()
 }

@@ -47,6 +47,13 @@ abstract class LoadedItemsPagedListBase<T: VersionedListItem>(private val pageSi
         }
     }
 
+    override suspend fun clear() {
+        currentLoadingState = LoadingState.READY_TO_LOAD
+        updateData {
+            loadedItems.clear()
+        }
+    }
+
     private suspend fun loadData(isRetry: Boolean) {
         currentLoadingState = LoadingState.LOADING
 

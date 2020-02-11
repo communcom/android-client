@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -45,18 +46,13 @@ constructor(
 
     val pageSize = model.pageSize
 
+    private var loadPageJob: Job? = null
+
     init {
         loadPage(false)
     }
 
-    fun onSwipeRefresh() {
-        launch {
-            delay(1000)
-            _swipeRefreshing.value = false
-
-            // loadPage(true)
-        }
-    }
+    fun onSwipeRefresh() = loadPage(true)
 
     fun onBackClick() {
         _command.value = NavigateBackwardCommand()
@@ -87,9 +83,14 @@ constructor(
     }
 
     private fun loadPage(needReload: Boolean) {
-        // use a Job as result here in case of refresh
-        launch {
+        loadPageJob?.cancel()
+        loadPageJob = launch {
             try {
+                if(needReload) {
+                    model.clearSendPoints()
+                    model.clearHistory()
+                }
+
                 model.initBalance(needReload)
 
                 _totalValue.value = model.totalBalance
@@ -103,6 +104,10 @@ constructor(
 
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
                 _command.value = NavigateBackwardCommand()
+            } finally {
+                if(needReload) {
+                    _swipeRefreshing.value = false
+                }
             }
         }
     }

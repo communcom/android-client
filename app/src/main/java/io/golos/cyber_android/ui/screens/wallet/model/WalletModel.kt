@@ -22,7 +22,11 @@ interface WalletModel : ModelBase {
 
     suspend fun retrySendPointsPage()
 
+    suspend fun clearSendPoints()
+
     suspend fun loadHistoryPage()
 
     suspend fun retryHistoryPage()
+
+    suspend fun clearHistory()
 }

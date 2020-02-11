@@ -70,7 +70,11 @@ constructor(
 
     override suspend fun retrySendPointsPage() = listWorkerSendPoints.retry()
 
+    override suspend fun clearSendPoints() = listWorkerSendPoints.clear()
+
     override suspend fun loadHistoryPage() = listWorkerHistory.loadPage()
 
     override suspend fun retryHistoryPage() = listWorkerHistory.retry()
+
+    override suspend fun clearHistory() = listWorkerHistory.clear()
 }
