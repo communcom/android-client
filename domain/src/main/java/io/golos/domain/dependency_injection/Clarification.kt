@@ -24,4 +24,7 @@ object Clarification {
     const val MUTUAL = "MUTUAL"
     const val FOLLOWING = "FOLLOWING"
     const val FOLLOWERS = "FOLLOWERS"
+
+    const val WALLET_BALANCE = "WALLET_BALANCE"
+    const val WALLET_POINT_BALANCE = "WALLET_POINT_BALANCE"
 }

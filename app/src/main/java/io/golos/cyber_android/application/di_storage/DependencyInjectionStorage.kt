@@ -289,9 +289,8 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 getBase<WalletFragmentComponent>()
                     .pointFragment
                     .init(WalletPointFragmentModule(
-                        args[0] as Int,
-                        args[1] as String,
-                        args[2] as List<WalletCommunityBalanceRecordDomain>))
+                        communityId = args[0] as String,
+                        balance = args[1] as List<WalletCommunityBalanceRecordDomain>))
                     .build()
 
             FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()

@@ -31,7 +31,6 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
     override fun inject(key: String) =
         App.injections.get<WalletPointFragmentComponent>(
             key,
-            GlobalConstants.PAGE_SIZE,
             arguments!!.getString(COMMUNITY_ID),
             arguments!!.getParcelableArray(BALANCE)!!.toList())
             .inject(this)
@@ -42,36 +41,9 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
         binding.viewModel = viewModel
     }
 
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        viewModel.myPointsItems.observe({ viewLifecycleOwner.lifecycle }) { myPointsArea.setItems(it, viewModel) }
-//
-//        viewModel.sendPointItems.observe({ viewLifecycleOwner.lifecycle }) {
-//            sendPointsArea.setItems(viewModel.pageSize, it, viewModel) }
-//
-//        viewModel.historyItems.observe({ viewLifecycleOwner.lifecycle }) { setHistoryItems(viewModel.pageSize, it, viewModel) }
-//
-//        return super.onCreateView(inflater, container, savedInstanceState)
-//    }
-
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
         }
     }
-
-//    private fun setHistoryItems(pageSize: Int, items: List<VersionedListItem>, listItemEventsProcessor: WalletHistoryListItemEventsProcessor) {
-//        if(!::historyAdapter.isInitialized) {
-//            historyLayoutManager = LinearLayoutManager(context)
-//
-//            historyAdapter = WalletHistoryAdapter(listItemEventsProcessor, pageSize)
-//            historyAdapter.setHasStableIds(true)
-//
-//            historyList.isSaveEnabled = false
-//            historyList.itemAnimator = null
-//            historyList.layoutManager = historyLayoutManager
-//            historyList.adapter = historyAdapter
-//        }
-//
-//        historyAdapter.update(items)
-//    }
 }

@@ -1,14 +1,14 @@
-package io.golos.cyber_android.ui.screens.wallet.view.my_points
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.view
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import kotlinx.android.synthetic.main.view_wallet_my_points.view.*
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import kotlinx.android.synthetic.main.view_wallet_send_points.view.*
 
-class WalletMyPointsView
+class WalletSendPointsView
 @JvmOverloads
 constructor(
     context: Context,
@@ -16,25 +16,33 @@ constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private lateinit var adapter: WalletMyPointsAdapter
+    private lateinit var adapter: WalletSendPointsAdapter
     private lateinit var layoutManager: LinearLayoutManager
 
-    private lateinit var listItemEventsProcessor: WalletMyPointsListItemEventsProcessor
+    private var pageSize: Int = 0
+    private lateinit var listItemEventsProcessor: WalletSendPointsListItemEventsProcessor
 
     init {
-        inflate(context, R.layout.view_wallet_my_points, this)
+        inflate(context, R.layout.view_wallet_send_points, this)
     }
 
-    fun setEventsProcessor(listItemEventsProcessor: WalletMyPointsListItemEventsProcessor) {
+    fun setPageSize(pageSize: Int) {
+        this.pageSize = pageSize
+    }
+
+    fun setEventsProcessor(listItemEventsProcessor: WalletSendPointsListItemEventsProcessor) {
         this.listItemEventsProcessor = listItemEventsProcessor
     }
 
-    fun setItems(items: List<MyPointsListItem>) {
+    fun setItems(items: List<VersionedListItem>) {
         if(!::adapter.isInitialized) {
             layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = LinearLayoutManager.HORIZONTAL
 
-            adapter = WalletMyPointsAdapter(listItemEventsProcessor)
+            adapter = WalletSendPointsAdapter(
+                listItemEventsProcessor,
+                pageSize
+            )
             adapter.setHasStableIds(true)
 
             itemsList.isSaveEnabled = false

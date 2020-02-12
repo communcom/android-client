@@ -6,10 +6,10 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.history.ListWorkerHistory
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.history.ListWorkerHistoryImpl
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.send_points.ListWorkerSendPoints
-import io.golos.cyber_android.ui.screens.wallet.model.lists_workers.send_points.ListWorkerSendPointsImpl
+import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
+import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSourceImpl
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.SendPointsDataSource
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.SendPointsDataSourceImpl
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
@@ -29,8 +29,8 @@ abstract class WalletFragmentModuleBinds {
     abstract fun provideWalletModel(model: WalletModelImpl): WalletModel
 
     @Binds
-    abstract fun provideListWorkerSendPoints(worker: ListWorkerSendPointsImpl): ListWorkerSendPoints
+    abstract fun provideListWorkerSendPoints(worker: SendPointsDataSourceImpl): SendPointsDataSource
 
     @Binds
-    abstract fun provideListWorkerHistory(worker: ListWorkerHistoryImpl): ListWorkerHistory
+    abstract fun provideListWorkerHistory(worker: HistoryDataSourceImpl): HistoryDataSource
 }

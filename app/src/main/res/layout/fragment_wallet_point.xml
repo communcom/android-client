@@ -7,11 +7,122 @@
         <variable name="viewModel" type="io.golos.cyber_android.ui.screens.wallet_point.view_model.WalletPointViewModel" />
     </data>
 
-    <FrameLayout
-        android:orientation="vertical"
+    <com.google.android.material.appbar.SwipeCoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/red">
+        app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
 
-    </FrameLayout>
+        android:fitsSystemWindows="true"
+
+        app:refreshing = "@{viewModel.swipeRefreshing}">
+
+        <io.golos.cyber_android.ui.screens.wallet.view.panels_layout.CollapsedPanelCoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray"
+
+            app:toolbar="@id/toolbar"
+            app:toolbar_content="@id/toolbarContent"
+            app:collapsing_toolbar="@id/collapsingToolbar"
+            app:appbar="@id/appbar">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="445dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:background="@color/transparent"
+                android:fitsSystemWindows="true">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/collapsingToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+
+                    app:contentScrim="@drawable/bcg_wallet_secondary_panel"
+
+                    android:fitsSystemWindows="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_collapseMode="pin">
+
+                        <FrameLayout
+                            android:id="@+id/primePanel"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/wallet_prime_panel_height"
+
+                            android:background="@color/blue"
+
+                            android:fitsSystemWindows="true"
+                            app:layout_collapseMode="none"
+                            />
+
+                        <io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsView
+                            android:id="@+id/sendPointsArea"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/wallet_send_points_height"
+
+                            android:layout_marginTop="@dimen/wallet_header_margin_top"
+                            android:layout_marginStart="@dimen/wallet_header_margin_side"
+                            android:layout_marginEnd="@dimen/wallet_header_margin_side"
+
+                            app:wallet_send_points_page_size = "@{viewModel.pageSize}"
+                            app:wallet_send_points_events_processor = "@{viewModel}"
+                            app:wallet_send_points_items = "@{viewModel.sendPointItems}"
+                        />
+                    </LinearLayout>
+
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/wallet_collapsed_panel_height"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
+                        android:contentInsetLeft="@dimen/dimen_0"
+                        android:contentInsetStart="@dimen/dimen_0"
+                        app:contentInsetLeft="@dimen/dimen_0"
+                        app:contentInsetStart="@dimen/dimen_0"
+                        android:contentInsetRight="@dimen/dimen_0"
+                        android:contentInsetEnd="@dimen/dimen_0"
+                        app:contentInsetRight="@dimen/dimen_0"
+                        app:contentInsetEnd="@dimen/dimen_0"
+
+                        app:layout_collapseMode="pin">
+
+                        <FrameLayout
+                            android:id="@+id/toolbarContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:alpha="0"
+                            tools:alpha="1"
+                        />
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginTop="@dimen/wallet_header_margin_top"
+                android:layout_marginStart="@dimen/wallet_header_margin_side"
+                android:layout_marginEnd="@dimen/wallet_header_margin_side"
+                android:layout_marginBottom="@dimen/wallet_header_margin_top"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+                app:wallet_history_page_size = "@{viewModel.pageSize}"
+                app:wallet_history_events_processor = "@{viewModel}"
+                app:wallet_history_items = "@{viewModel.historyItems}"
+            />
+        </io.golos.cyber_android.ui.screens.wallet.view.panels_layout.CollapsedPanelCoordinatorLayout>
+    </com.google.android.material.appbar.SwipeCoordinatorLayout>
 </layout>
