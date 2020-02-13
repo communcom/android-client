@@ -23,6 +23,8 @@ interface WalletPointModel : ModelBase {
 
     fun getCarouselStartData(): CarouselStartData
 
+    fun switchBalanceRecord(communityId: String): Boolean
+
     suspend fun loadSendPointsPage()
 
     suspend fun retrySendPointsPage()

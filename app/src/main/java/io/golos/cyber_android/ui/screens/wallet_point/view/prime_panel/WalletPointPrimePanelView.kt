@@ -63,6 +63,10 @@ constructor(
         onBackButtonClickListener = listener
     }
 
+    fun setOnItemSelectedListener(listener: ((String) -> Unit)?) {
+        onItemSelectedListener = listener
+    }
+
     fun setOnSendClickListener(listener: (() -> Unit)?) = bottomArea.setOnSendClickListener(listener)
 
     fun setOnBuyClickListener(listener: (() -> Unit)?) = bottomArea.setOnBuyClickListener(listener)

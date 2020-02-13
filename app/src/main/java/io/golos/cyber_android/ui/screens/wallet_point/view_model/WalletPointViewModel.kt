@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -67,6 +66,12 @@ constructor(
         _command.value = NavigateBackwardCommand()
     }
 
+    fun onCommunitySelected(communityId: String) {
+        if(model.switchBalanceRecord(communityId)) {
+            updateHeaders(false)
+        }
+    }
+
     fun onSwipeRefresh() = loadPage(true)
 
     override fun onSendPointsNextPageReached() {
@@ -103,13 +108,7 @@ constructor(
 //                }
 //
                 model.initBalance(needReload)
-                _balanceInPoints.value = model.balanceInPoints
-                _availablePoints.value = model.balanceInPoints - model.holdPoints
-                _holdPoints.value = model.holdPoints
-                _availableHoldFactor.value = _holdPoints.value!! / _availablePoints.value!!
-                _title.value = model.title
-                _balanceInCommuns.value = model.balanceInCommuns
-                _carouselStartData.value = model.getCarouselStartData()
+                updateHeaders(true)
 
                 // To load the very first page
                 onSendPointsNextPageReached()
@@ -124,6 +123,19 @@ constructor(
                     _swipeRefreshing.value = false
                 }
             }
+        }
+    }
+
+    private fun updateHeaders(initCarousel: Boolean) {
+        _balanceInPoints.value = model.balanceInPoints
+        _availablePoints.value = model.balanceInPoints - model.holdPoints
+        _holdPoints.value = model.holdPoints
+        _availableHoldFactor.value = _holdPoints.value!! / _availablePoints.value!!
+        _title.value = model.title
+        _balanceInCommuns.value = model.balanceInCommuns
+
+        if(initCarousel) {
+            _carouselStartData.value = model.getCarouselStartData()
         }
     }
 }

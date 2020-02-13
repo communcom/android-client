@@ -66,6 +66,15 @@ constructor(
             items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
         )
 
+    override fun switchBalanceRecord(communityId: String): Boolean =
+        if(communityId == currentCommunityId) {
+            false
+        } else {
+            currentCommunityId = communityId
+            currentBalanceRecord = balance.first { it.communityId == currentCommunityId }
+            true
+        }
+
     override suspend fun loadSendPointsPage() = sendPointsDataSource.loadPage()
 
     override suspend fun retrySendPointsPage() = sendPointsDataSource.retry()

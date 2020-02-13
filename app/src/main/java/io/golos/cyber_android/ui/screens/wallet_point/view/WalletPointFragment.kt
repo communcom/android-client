@@ -44,7 +44,9 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
+        primePanel.setOnItemSelectedListener { viewModel.onCommunitySelected(it) }
         toolbarContent.setOnBackButtonClickListener { viewModel.onBackClick() }
     }
 
