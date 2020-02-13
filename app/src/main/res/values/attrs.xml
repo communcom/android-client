@@ -46,4 +46,11 @@
         <attr name="collapsing_toolbar" format="reference" />
         <attr name="appbar" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="AvailableHoldView">
+        <attr name="outer_color" format="color" />
+        <attr name="inner_color_start" format="color" />
+        <attr name="inner_color_end" format="color" />
+        <attr name="stroke_width" format="dimension"/>
+    </declare-styleable>
 </resources>
