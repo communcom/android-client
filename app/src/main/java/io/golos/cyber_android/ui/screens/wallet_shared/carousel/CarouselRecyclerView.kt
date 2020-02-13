@@ -26,7 +26,7 @@ class CarouselRecyclerView(
     private var onItemSelectedListener: ((String) -> Unit)? = null
     private var lastPostId: String? = null
 
-    fun <T : ViewHolder> initialize(newAdapter: Adapter<T>) {
+    fun <T : ViewHolder> addAdapter(newAdapter: Adapter<T>) {
         layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
         newAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
@@ -67,10 +67,11 @@ class CarouselRecyclerView(
         adapter = newAdapter
     }
 
-    fun scrollToStartIndex(index: Int) {
+    fun setUp(index: Int, onItemSelectedListener: ((String) -> Unit)?) {
         post{
             val startPosition = (adapter as CarouselAdapter).calculateStartPosition(index)
             (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(startPosition, offsetToCenterScroll)
+            setOnItemSelectedListener(onItemSelectedListener)
         }
     }
 
@@ -98,7 +99,7 @@ class CarouselRecyclerView(
 
     private fun onScrollChanged() {
         post {
-            val parentCenterX = (left + right) / 2
+            val parentCenterX = width / 2
 
             var maxScale = Float.MIN_VALUE
             var maxScaleChildTag: CarouselItemTag? = null
@@ -106,7 +107,7 @@ class CarouselRecyclerView(
             (0 until childCount).forEach { position ->
                 val child = getChildAt(position)
 
-                val childCenterX = (child.left + child.right) / 2
+                val childCenterX = child.left + child.width/2
                 val scaleValue = getGaussianScale(childCenterX, parentCenterX)
 
                 val alpha = scaleValue - 1f
@@ -134,7 +135,7 @@ class CarouselRecyclerView(
     private fun getGaussianScale(childCenterX: Int, parentCenterX: Int): Float {
         val minScaleOffset = 1f
         val scaleFactor = 1f
-        val spreadFactor = 300.0
+        val spreadFactor = 200.0
 
         return (Math.E.pow(
             -(childCenterX - parentCenterX.toDouble()).pow(2.0) / (2 * spreadFactor.pow(2.0))

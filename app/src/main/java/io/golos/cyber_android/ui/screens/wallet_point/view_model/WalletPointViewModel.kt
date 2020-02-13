@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_point.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_point.model.WalletPointModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsListItemEventsProcessor
@@ -26,6 +27,27 @@ constructor(
     WalletSendPointsListItemEventsProcessor,
     WalletHistoryListItemEventsProcessor {
 
+    private val _balanceInPoints = MutableLiveData<Double>(0.0)
+    val balanceInPoints: LiveData<Double> = _balanceInPoints
+
+    private val _availablePoints = MutableLiveData<Double>(0.0)
+    val availablePoints: LiveData<Double> = _availablePoints
+
+    private val _holdPoints = MutableLiveData<Double>(0.0)
+    val holdPoints: LiveData<Double> = _holdPoints
+
+    private val _availableHoldFactor = MutableLiveData<Double>(0.0)
+    val availableHoldFactor: LiveData<Double> = _availableHoldFactor
+
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String> = _title
+
+    private val _balanceInCommuns = MutableLiveData<Double>(0.0)
+    val balanceInCommuns: LiveData<Double> = _balanceInCommuns
+
+    private val _carouselStartData = MutableLiveData<CarouselStartData>()
+    val carouselStartData: LiveData<CarouselStartData> = _carouselStartData
+
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing: LiveData<Boolean> get() = _swipeRefreshing
 
@@ -39,6 +61,10 @@ constructor(
 
     init {
         loadPage(false)
+    }
+
+    fun onBackClick() {
+        _command.value = NavigateBackwardCommand()
     }
 
     fun onSwipeRefresh() = loadPage(true)
@@ -76,10 +102,14 @@ constructor(
 //                    model.clearHistory()
 //                }
 //
-//                model.initBalance(needReload)
-//
-//                _totalValue.value = model.totalBalance
-//                _myPointsItems.value = model.getMyPointsItems()
+                model.initBalance(needReload)
+                _balanceInPoints.value = model.balanceInPoints
+                _availablePoints.value = model.balanceInPoints - model.holdPoints
+                _holdPoints.value = model.holdPoints
+                _availableHoldFactor.value = _holdPoints.value!! / _availablePoints.value!!
+                _title.value = model.title
+                _balanceInCommuns.value = model.balanceInCommuns
+                _carouselStartData.value = model.getCarouselStartData()
 
                 // To load the very first page
                 onSendPointsNextPageReached()

@@ -1,9 +1,10 @@
-package io.golos.cyber_android.ui.screens.wallet.view.panels_layout
+package io.golos.cyber_android.ui.screens.wallet_shared
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.IdRes
+import androidx.annotation.Px
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -27,6 +28,9 @@ constructor(
     @IdRes
     private var appbarId: Int = 0
 
+    @Px
+    private var toolbarHeight = 0f
+
     private lateinit var toolbar: View
     private var collapsedPanelThreshold = 0
 
@@ -42,6 +46,7 @@ constructor(
             toolbarContentId = typedArray.getResourceId(R.styleable.CollapsedPanelCoordinatorLayout_toolbar_content, 0)
             collapsingToolbarId = typedArray.getResourceId(R.styleable.CollapsedPanelCoordinatorLayout_collapsing_toolbar, 0)
             appbarId = typedArray.getResourceId(R.styleable.CollapsedPanelCoordinatorLayout_appbar, 0)
+            toolbarHeight = typedArray.getDimension(R.styleable.CollapsedPanelCoordinatorLayout_toolbar_height, 0f)
 
             typedArray.recycle()
         }
@@ -66,6 +71,8 @@ constructor(
         // Setting of a top margin for the panels
         toolbar = findViewById<View>(toolbarId)
 
+        toolbar.translationY = -toolbarHeight
+
         // Setting up collapsed panel content animation
         val appbar = findViewById<AppBarLayout>(appbarId)
 
@@ -74,11 +81,24 @@ constructor(
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBar, offset ->
             val startCollapsingOffset = (collapsedPanelThreshold-collapsingToolbarHeight).toFloat()
 
+
+            val translationFactor =  if(offset < startCollapsingOffset) {           // [0; 1]
+                abs((startCollapsingOffset-offset) / (startCollapsingOffset - maxCollapsingOffset))
+            } else {
+                0f
+            }
+
+            toolbarContent.alpha = translationFactor
+            toolbar.translationY = -toolbarHeight*(1f-translationFactor)
+
+/*
             toolbarContent.alpha = if(offset < startCollapsingOffset) {
                 abs((startCollapsingOffset-offset) / (startCollapsingOffset - maxCollapsingOffset))
             } else {
                 0f
             }
+*/
+
         })
     }
 }

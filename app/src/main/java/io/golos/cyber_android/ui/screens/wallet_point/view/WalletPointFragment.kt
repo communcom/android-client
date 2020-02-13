@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet_point.view
 
 import android.os.Bundle
+import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletPointBinding
@@ -9,8 +10,8 @@ import io.golos.cyber_android.ui.screens.wallet_point.view_model.WalletPointView
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.android.synthetic.main.fragment_wallet_point.*
 
 class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletPointViewModel>() {
     companion object {
@@ -39,6 +40,12 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
 
     override fun linkViewModel(binding: FragmentWalletPointBinding, viewModel: WalletPointViewModel) {
         binding.viewModel = viewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
+        toolbarContent.setOnBackButtonClickListener { viewModel.onBackClick() }
     }
 
     override fun processViewCommand(command: ViewCommand) {

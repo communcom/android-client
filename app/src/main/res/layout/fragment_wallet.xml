@@ -16,7 +16,7 @@
 
         app:refreshing = "@{viewModel.swipeRefreshing}">
 
-        <io.golos.cyber_android.ui.screens.wallet.view.panels_layout.CollapsedPanelCoordinatorLayout
+        <io.golos.cyber_android.ui.screens.wallet_shared.CollapsedPanelCoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_gray"
@@ -24,7 +24,8 @@
             app:toolbar="@id/toolbar"
             app:toolbar_content="@id/toolbarContent"
             app:collapsing_toolbar="@id/collapsingToolbar"
-            app:appbar="@id/appbar">
+            app:appbar="@id/appbar"
+            app:toolbar_height="@dimen/wallet_collapsed_panel_height">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
@@ -50,7 +51,7 @@
                         android:orientation="vertical"
                         app:layout_collapseMode="pin">
 
-                        <io.golos.cyber_android.ui.screens.wallet.view.panels_layout.WalletPrimePanelView
+                        <io.golos.cyber_android.ui.screens.wallet.view.prime_panel.WalletPrimePanelView
                             android:id="@+id/primePanel"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/wallet_prime_panel_height"
@@ -108,7 +109,7 @@
 
                         app:layout_collapseMode="pin">
 
-                        <io.golos.cyber_android.ui.screens.wallet.view.panels_layout.WalletCollapsedPanelView
+                        <io.golos.cyber_android.ui.screens.wallet_shared.collapsed_panel.WalletCollapsedPanelView
                             android:id="@+id/toolbarContent"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -117,7 +118,7 @@
                             tools:alpha="1"
 
                             app:wallet_collapsed_panel_view_value="@{viewModel.totalValue}"
-                            app:onBackClickListener="@{() -> viewModel.onBackClick() }"
+                            app:wallet_collapsed_panel_view_title="@{viewModel.collapsedPanelTitle}"
                         />
                     </androidx.appcompat.widget.Toolbar>
 
@@ -139,6 +140,6 @@
                 app:wallet_history_events_processor = "@{viewModel}"
                 app:wallet_history_items = "@{viewModel.historyItems}"
             />
-        </io.golos.cyber_android.ui.screens.wallet.view.panels_layout.CollapsedPanelCoordinatorLayout>
+        </io.golos.cyber_android.ui.screens.wallet_shared.CollapsedPanelCoordinatorLayout>
     </com.google.android.material.appbar.SwipeCoordinatorLayout>
 </layout>

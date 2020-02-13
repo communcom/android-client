@@ -16,7 +16,7 @@
 
         app:refreshing = "@{viewModel.swipeRefreshing}">
 
-        <io.golos.cyber_android.ui.screens.wallet.view.panels_layout.CollapsedPanelCoordinatorLayout
+        <io.golos.cyber_android.ui.screens.wallet_shared.CollapsedPanelCoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_gray"
@@ -24,12 +24,13 @@
             app:toolbar="@id/toolbar"
             app:toolbar_content="@id/toolbarContent"
             app:collapsing_toolbar="@id/collapsingToolbar"
-            app:appbar="@id/appbar">
+            app:appbar="@id/appbar"
+            app:toolbar_height="@dimen/wallet_collapsed_panel_height">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="445dp"
+                android:layout_height="529dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:background="@color/transparent"
                 android:fitsSystemWindows="true">
@@ -50,16 +51,22 @@
                         android:orientation="vertical"
                         app:layout_collapseMode="pin">
 
-                        <FrameLayout
+                        <io.golos.cyber_android.ui.screens.wallet_point.view.prime_panel.WalletPointPrimePanelView
                             android:id="@+id/primePanel"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/wallet_prime_panel_height"
-
-                            android:background="@color/blue"
+                            android:layout_height="@dimen/wallet_points_prime_panel_height"
 
                             android:fitsSystemWindows="true"
                             app:layout_collapseMode="none"
-                            />
+
+                            app:wallet_point_prime_panel_title="@{viewModel.title}"
+                            app:wallet_point_prime_panel_value="@{viewModel.balanceInPoints}"
+                            app:wallet_point_prime_panel_value_communs="@{viewModel.balanceInCommuns}"
+                            app:wallet_point_prime_panel_available_hold_bar="@{viewModel.availableHoldFactor}"
+                            app:wallet_point_prime_panel_available="@{viewModel.availablePoints}"
+                            app:wallet_point_prime_panel_hold="@{viewModel.holdPoints}"
+                            app:wallet_point_prime_panel_carousel_start="@{viewModel.carouselStartData}"
+                        />
 
                         <io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsView
                             android:id="@+id/sendPointsArea"
@@ -76,7 +83,6 @@
                             app:wallet_send_points_items = "@{viewModel.sendPointItems}"
                         />
                     </LinearLayout>
-
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
@@ -95,13 +101,16 @@
 
                         app:layout_collapseMode="pin">
 
-                        <FrameLayout
+                        <io.golos.cyber_android.ui.screens.wallet_shared.collapsed_panel.WalletCollapsedPanelView
                             android:id="@+id/toolbarContent"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
 
                             android:alpha="0"
                             tools:alpha="1"
+
+                            app:wallet_collapsed_panel_view_value="@{viewModel.balanceInPoints}"
+                            app:wallet_collapsed_panel_view_title="@{viewModel.title}"
                         />
                     </androidx.appcompat.widget.Toolbar>
 
@@ -123,6 +132,6 @@
                 app:wallet_history_events_processor = "@{viewModel}"
                 app:wallet_history_items = "@{viewModel.historyItems}"
             />
-        </io.golos.cyber_android.ui.screens.wallet.view.panels_layout.CollapsedPanelCoordinatorLayout>
+        </io.golos.cyber_android.ui.screens.wallet_shared.CollapsedPanelCoordinatorLayout>
     </com.google.android.material.appbar.SwipeCoordinatorLayout>
 </layout>

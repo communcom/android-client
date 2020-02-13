@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet.view.panels_layout
+package io.golos.cyber_android.ui.screens.wallet.view.prime_panel
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData

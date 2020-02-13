@@ -501,6 +501,7 @@
     <dimen name="wallet_prime_panel_button_size">@dimen/dimen_35</dimen>
     <dimen name="wallet_prime_panel_button_icon_size">@dimen/dimen_20</dimen>
     <dimen name="wallet_prime_panel_button_side_margin">@dimen/dimen_42</dimen>
+    <dimen name="wallet_prime_panel_bottom_area_height">76dp</dimen>
     <dimen name="wallet_my_points_height">227dp</dimen>
     <dimen name="wallet_my_points_item_width">140dp</dimen>
     <dimen name="wallet_my_points_icon_size">50dp</dimen>
@@ -512,4 +513,6 @@
     <dimen name="wallet_history_transfer_small_icon_size">24dp</dimen>
     <dimen name="wallet_header_margin_top">30dp</dimen>
     <dimen name="wallet_header_margin_side">10dp</dimen>
+
+    <dimen name="wallet_points_prime_panel_height">340dp</dimen>
 </resources>

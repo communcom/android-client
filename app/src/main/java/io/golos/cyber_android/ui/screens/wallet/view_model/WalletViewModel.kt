@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.wallet.view_model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class WalletViewModel
 @Inject
 constructor(
+    appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: WalletModel
 ) : ViewModelBase<WalletModel>(dispatchersProvider, model),
@@ -35,6 +37,9 @@ constructor(
 
     private val _totalValue = MutableLiveData<Double>(0.0)
     val totalValue: LiveData<Double> = _totalValue
+
+    private val _collapsedPanelTitle = MutableLiveData<String>(appContext.resources.getString(R.string.profile_wallet_title))
+    val collapsedPanelTitle: LiveData<String> = _collapsedPanelTitle
 
     private val _myPointsItems = MutableLiveData<List<MyPointsListItem>>(listOf())
     val myPointsItems: LiveData<List<MyPointsListItem>> = _myPointsItems

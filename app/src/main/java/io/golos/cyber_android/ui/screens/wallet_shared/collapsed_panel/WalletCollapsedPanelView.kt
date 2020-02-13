@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet.view.panels_layout
+package io.golos.cyber_android.ui.screens.wallet_shared.collapsed_panel
 
 import android.content.Context
 import android.util.AttributeSet
@@ -23,11 +23,15 @@ constructor(
         backButton.setOnClickListener { onBackClickListener?.invoke() }
     }
 
+    fun setTitle(value: String) {
+        title.text = value
+    }
+
     fun setValue(value: Double) {
         textValue.text = CurrencyFormatter.format(value)
     }
 
-    fun setOnBackClickListener(listener: (() -> Unit)?) {
+    fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
         onBackClickListener = listener
     }
 }

@@ -508,4 +508,7 @@
 
     <string name="no_followings">No followings</string>
     <string name="no_followings_explanation">You haven\'t got any followings yet</string>
+
+    <string name="available">Available</string>
+    <string name="hold_value_point">\u00A0/\u00A0Hold</string>
 </resources>

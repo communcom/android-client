@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet.view.panels_layout
+package io.golos.cyber_android.ui.screens.wallet.view.prime_panel
 
 import android.content.Context
 import android.util.AttributeSet
@@ -15,27 +15,24 @@ constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private var onSendClickListener: (() -> Unit)? = null
-    private var onBuyClickListener: (() -> Unit)? = null
-    private var onConvertClickListener: (() -> Unit)? = null
+    private var onBackButtonClickListener: (() -> Unit)? = null
 
     init {
         inflate(context, R.layout.view_wallet_prime_panel, this)
+        backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
     }
 
     fun setValue(value: Double) {
         textValue.text = CurrencyFormatter.format(value)
     }
 
-    fun setOnSendClickListener(listener: (() -> Unit)?) {
-        onSendClickListener = listener
+    fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
+        onBackButtonClickListener = listener
     }
 
-    fun setOnBuyClickListener(listener: (() -> Unit)?) {
-        onBuyClickListener = listener
-    }
+    fun setOnSendClickListener(listener: (() -> Unit)?) = bottomArea.setOnSendClickListener(listener)
 
-    fun setOnConvertClickListener(listener: (() -> Unit)?) {
-        onConvertClickListener = listener
-    }
+    fun setOnBuyClickListener(listener: (() -> Unit)?) = bottomArea.setOnBuyClickListener(listener)
+
+    fun setOnConvertClickListener(listener: (() -> Unit)?) = bottomArea.setOnConvertClickListener(listener)
 }

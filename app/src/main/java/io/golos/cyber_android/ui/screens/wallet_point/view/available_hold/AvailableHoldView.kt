@@ -30,7 +30,7 @@ constructor(
     @Px
     private var strokeWidth = 0f
 
-    private var innerSizeFactor = 0.5f        // [0f; 1f]
+    private var innerSizeFactor = 0f        // [0f; 1f]
 
     init {
         attrs?.let { retrieveAttributes(attrs) }
@@ -48,7 +48,6 @@ constructor(
         super.onDraw(canvas)
 
         outerPaint.style = Paint.Style.FILL
-        outerPaint.color = Color.RED
 
         canvas?.drawRoundRect(drawingRectOuter, drawingRectOuter.height()/2, drawingRectOuter.height()/2, outerPaint)
 
@@ -57,8 +56,11 @@ constructor(
 
     fun setInnerSizeFactor(value: Float) {
         innerSizeFactor = value
-        calculateInner()
-        invalidate()
+
+        if(::drawingRectInner.isInitialized) {
+            calculateInner()
+            invalidate()
+        }
     }
 
     private fun retrieveAttributes(attrs: AttributeSet) {

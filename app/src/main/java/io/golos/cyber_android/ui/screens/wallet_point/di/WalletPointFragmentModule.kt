@@ -12,6 +12,7 @@ class WalletPointFragmentModule(
     private val communityId: String,
     private val balance: List<WalletCommunityBalanceRecordDomain>) {
 
+    @Provides
     @Named(Clarification.COMMUNITY_ID)
     fun provideCommunityId(): String = communityId
 

@@ -43,114 +43,20 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <View
+    <io.golos.cyber_android.ui.screens.wallet_shared.WalletPrimePanelBottomArea
         android:id="@+id/bottomArea"
         android:layout_width="match_parent"
-
-        android:layout_height="@dimen/dimen_76"
+        android:layout_height="@dimen/wallet_prime_panel_bottom_area_height"
 
         android:layout_marginStart="@dimen/dimen_15"
         android:layout_marginEnd="@dimen/dimen_15"
         android:layout_marginBottom="@dimen/dimen_25"
 
-        android:background="@drawable/bcg_wallet_prime_panel_bottom_area"
+        tools:background="@drawable/bcg_wallet_prime_panel_bottom_area"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-        android:id="@+id/sendButton"
-
-        android:layout_width="@dimen/wallet_prime_panel_button_size"
-        android:layout_height="@dimen/wallet_prime_panel_button_size"
-
-        android:layout_marginStart="@dimen/wallet_prime_panel_button_side_margin"
-
-        android:layout_marginTop="@dimen/dimen_10"
-
-        android:background="@drawable/bcg_wallet_profile_button"
-        app:imageButton_icon="@drawable/ic_send"
-
-        app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
-        app:imageButton_tint="@color/white"
-
-        app:layout_constraintStart_toStartOf="@+id/bottomArea"
-        app:layout_constraintTop_toTopOf="@+id/bottomArea" />
-
-    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-        android:id="@+id/buyButton"
-
-        android:layout_width="@dimen/wallet_prime_panel_button_size"
-        android:layout_height="@dimen/wallet_prime_panel_button_size"
-
-        android:background="@drawable/bcg_wallet_profile_button"
-
-        app:imageButton_icon="@drawable/ic_buy"
-
-        app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
-        app:imageButton_tint="@color/white"
-
-        app:layout_constraintEnd_toStartOf="@+id/convertButton"
-        app:layout_constraintStart_toEndOf="@+id/sendButton"
-        app:layout_constraintTop_toTopOf="@+id/sendButton" />
-
-    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-        android:id="@+id/convertButton"
-
-        android:layout_width="@dimen/wallet_prime_panel_button_size"
-        android:layout_height="@dimen/wallet_prime_panel_button_size"
-
-        android:layout_marginEnd="@dimen/wallet_prime_panel_button_side_margin"
-
-        android:background="@drawable/bcg_wallet_profile_button"
-
-        app:imageButton_icon="@drawable/ic_convert"
-        app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
-
-        app:imageButton_tint="@color/white"
-
-        app:layout_constraintEnd_toEndOf="@+id/bottomArea"
-        app:layout_constraintTop_toTopOf="@+id/sendButton" />
-
-    <TextView
-        android:id="@+id/sendLabel"
-        style="@style/Wallet.PrimePanel.Label"
-
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="@dimen/dimen_7"
-
-        android:text="@string/send"
-        app:layout_constraintEnd_toEndOf="@+id/sendButton"
-        app:layout_constraintStart_toStartOf="@+id/sendButton"
-        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
-
-    <TextView
-        style="@style/Wallet.PrimePanel.Label"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-
-        android:text="@string/buy"
-
-        app:layout_constraintEnd_toEndOf="@+id/buyButton"
-        app:layout_constraintStart_toStartOf="@+id/buyButton"
-        app:layout_constraintTop_toTopOf="@+id/sendLabel" />
-
-    <TextView
-        style="@style/Wallet.PrimePanel.Label"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-
-        android:text="@string/convert"
-
-        app:layout_constraintEnd_toEndOf="@+id/convertButton"
-        app:layout_constraintStart_toStartOf="@+id/convertButton"
-        app:layout_constraintTop_toTopOf="@+id/sendLabel" />
-
     <TextView
         android:id="@+id/title"
 

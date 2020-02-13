@@ -664,7 +664,7 @@
     </style>
 
     <style name="Text12.Black.Bold.SingleLine" parent="Common.Base.TextStyle.Single.Line">
-        <item name="android:textSize">@dimen/text_size_12_sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
@@ -673,8 +673,20 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
+    <style name="Text12.White.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="Text15.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
-        <item name="android:textSize">@dimen/text_size_15_sp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Text15.White.Bold.SingleLine" parent="Text12.White.Bold.SingleLine">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Text30.White.Bold.SingleLine" parent="Text12.White.Bold.SingleLine">
+        <item name="android:textSize">30sp</item>
     </style>
     <!--Common-->
 </resources>

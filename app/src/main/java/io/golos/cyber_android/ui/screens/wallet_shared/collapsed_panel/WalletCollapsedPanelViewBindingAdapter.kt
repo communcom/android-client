@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet.view.panels_layout
+package io.golos.cyber_android.ui.screens.wallet_shared.collapsed_panel
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
@@ -10,6 +10,15 @@ fun setCollapsedPanelValueDateBinding(view: WalletCollapsedPanelView, valueToBin
     valueToBind?.let { liveValue ->
         view.parentActivity?.let { activity ->
             liveValue.observe(activity, Observer { view.setValue(it) })
+        }
+    }
+}
+
+@BindingAdapter("wallet_collapsed_panel_view_title")
+fun setCollapsedPanelTitleDateBinding(view: WalletCollapsedPanelView, valueToBind: LiveData<String>?) {
+    valueToBind?.let { liveValue ->
+        view.parentActivity?.let { activity ->
+            liveValue.observe(activity, Observer { view.setTitle(it) })
         }
     }
 }

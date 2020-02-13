@@ -45,6 +45,7 @@
         <attr name="toolbar_content" format="reference" />
         <attr name="collapsing_toolbar" format="reference" />
         <attr name="appbar" format="reference" />
+        <attr name="toolbar_height" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="AvailableHoldView">
