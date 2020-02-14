@@ -77,7 +77,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragm
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentModule
-import io.golos.cyber_android.ui.screens.wallet_choose_friend_dialog.di.WalletChooseFriendDialogComponent
+import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.di.WalletChooseFriendDialogComponent
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentModule
 import io.golos.domain.dto.PostsConfigurationDomain

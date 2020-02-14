@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet_choose_friend_dialog.list
+package io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.list
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsAdapterBase

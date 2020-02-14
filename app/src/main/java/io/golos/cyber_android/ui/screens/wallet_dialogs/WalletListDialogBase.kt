@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet_choose_points_dialog
+package io.golos.cyber_android.ui.screens.wallet_dialogs
 
 import android.app.Dialog
 import android.os.Bundle
@@ -9,52 +9,41 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.cyber_android.ui.screens.wallet_choose_points_dialog.list.WalletChoosePointsDialogAdapter
-import io.golos.cyber_android.ui.screens.wallet_choose_points_dialog.list.WalletChoosePointsDialogItemEventsProcessor
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.cyber_android.ui.shared.recycler_view.ListAdapterBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.dialog_wallet_items_list.*
 
-class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePointsDialogItemEventsProcessor {
-    companion object {
-        private const val BALANCE = "BALANCE"
+/**
+ * @param [TResult] is type of selected item key
+ */
+abstract class WalletListDialogBase<TResult, TAdapter: ListAdapterBase<*, VersionedListItem>> : BottomSheetDialogFragment() {
 
-        fun show(parent: Fragment, balance: List<WalletCommunityBalanceRecordDomain>, closeAction: (String?) -> Unit) =
-            WalletChoosePointsDialog()
-                .apply {
-                    closeActionListener = closeAction
-                    arguments = Bundle().apply {
-                        putParcelableArray(BALANCE, balance.toTypedArray())
-                    }
-                }
-                .show(parent.parentFragmentManager, "CHOOSE_POINTS")
-    }
+    protected lateinit var closeActionListener: (TResult?) -> Unit
 
-    private lateinit var  closeActionListener: (String?) -> Unit
+    protected var isItemSelected = false
 
-    private var isCommunitySelected = false
-
-    private lateinit var listAdapter: WalletChoosePointsDialogAdapter
+    private lateinit var listAdapter: TAdapter
     private lateinit var listLayoutManager: LinearLayoutManager
+
+    private val injectionKey = IdUtil.generateStringId()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogFragment_RoundCorners)
+
+        inject(injectionKey)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-
         setupDialog(dialog)
-
         return dialog
     }
 
@@ -66,22 +55,29 @@ class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePoints
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ivClose.setOnClickListener { dismiss() }
-        updateList(arguments!!.getParcelableArray(BALANCE)!!.toList() as List<WalletCommunityBalanceRecordDomain>)
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        if(!isCommunitySelected) {
+        if(!isItemSelected) {
             closeActionListener(null)
         }
+
+        releaseInjection(injectionKey)
     }
 
-    private fun updateList(balance: List<WalletCommunityBalanceRecordDomain>) {
+    protected abstract fun provideAdapter(): TAdapter
+
+    protected open fun inject(injectionKey: String) {}
+
+    protected open fun releaseInjection(injectionKey: String) {}
+
+    protected fun updateListData(items: List<VersionedListItem>) {
         if(!::listAdapter.isInitialized) {
             listLayoutManager = LinearLayoutManager(context)
 
-            listAdapter = WalletChoosePointsDialogAdapter(this)
+            listAdapter = provideAdapter()
             listAdapter.setHasStableIds(true)
 
             itemsList.isSaveEnabled = false
@@ -90,8 +86,7 @@ class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePoints
             itemsList.adapter = listAdapter
         }
 
-        val listData = balance.map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false, false, it) }
-        listAdapter.update(listData)
+        listAdapter.update(items)
     }
 
     private fun setupDialog(dialog: Dialog) {
@@ -104,11 +99,5 @@ class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePoints
                 }
             }
         }
-    }
-
-    override fun onItemClick(communityId: String) {
-        closeActionListener(communityId)
-        isCommunitySelected = true
-        dismiss()
     }
 }

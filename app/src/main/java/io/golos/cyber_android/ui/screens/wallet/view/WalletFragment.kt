@@ -10,8 +10,8 @@ import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletPoint
 import io.golos.cyber_android.ui.screens.wallet.dto.ShowMyPointsDialog
 import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
-import io.golos.cyber_android.ui.screens.wallet_choose_friend_dialog.WalletChooseFriendDialog
-import io.golos.cyber_android.ui.screens.wallet_choose_points_dialog.WalletChoosePointsDialog
+import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
+import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_point.view.WalletPointFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand

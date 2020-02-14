@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet_choose_points_dialog.list
+package io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list
 
 import android.view.View
 import android.view.ViewGroup
