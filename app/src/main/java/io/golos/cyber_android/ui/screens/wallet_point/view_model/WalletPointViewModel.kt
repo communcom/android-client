@@ -130,7 +130,9 @@ constructor(
         _balanceInPoints.value = model.balanceInPoints
         _availablePoints.value = model.balanceInPoints - model.holdPoints
         _holdPoints.value = model.holdPoints
-        _availableHoldFactor.value = _holdPoints.value!! / _availablePoints.value!!
+
+        _availableHoldFactor.value = if(_availablePoints.value!! != 0.0) _holdPoints.value!! / _availablePoints.value!! else 0.0
+
         _title.value = model.title
         _balanceInCommuns.value = model.balanceInCommuns
 
