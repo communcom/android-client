@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -57,6 +58,7 @@ constructor(
     val pageSize = model.pageSize
 
     private var loadPageJob: Job? = null
+    private var loadHistoryJob: Job? = null
 
     init {
         loadPage(false)
@@ -69,6 +71,13 @@ constructor(
     fun onCommunitySelected(communityId: String) {
         if(model.switchBalanceRecord(communityId)) {
             updateHeaders(false)
+
+            loadHistoryJob?.cancel()
+            loadHistoryJob = launch {
+                delay(1500)
+                model.clearHistory()
+                onHistoryNextPageReached()
+            }
         }
     }
 
@@ -100,15 +109,17 @@ constructor(
 
     private fun loadPage(needReload: Boolean) {
         loadPageJob?.cancel()
+        loadHistoryJob?.cancel()
+
         loadPageJob = launch {
             try {
-//                if(needReload) {
-//                    model.clearSendPoints()
-//                    model.clearHistory()
-//                }
-//
+                if(needReload) {
+                    model.clearSendPoints()
+                    model.clearHistory()
+                }
+
                 model.initBalance(needReload)
-                updateHeaders(true)
+                updateHeaders(!needReload)
 
                 // To load the very first page
                 onSendPointsNextPageReached()

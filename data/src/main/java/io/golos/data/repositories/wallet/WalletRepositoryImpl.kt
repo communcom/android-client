@@ -49,12 +49,12 @@ constructor(
         return callResult.balances.map { it.mapToWalletCommunityBalanceRecordDomain() }
     }
 
-    override suspend fun getTransferHistory(offset: Int, limit: Int): List<WalletTransferHistoryRecordDomain> =
+    override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: String): List<WalletTransferHistoryRecordDomain> =
         apiCall {commun4j.getTransferHistory(
             userId = CyberName(currentUserRepository.userId.userId),
             direction = TransferHistoryDirection.ALL,
             transferType = TransferHistoryTransferType.ALL,
-            symbol = CyberSymbolCode("all"),
+            symbol = CyberSymbolCode(communityId),
             rewards = "all",
             limit = limit,
             offset = offset

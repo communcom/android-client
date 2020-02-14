@@ -29,6 +29,10 @@ constructor(
     private val historyDataSource: HistoryDataSource
 ) : ModelBaseImpl(), WalletPointModel {
 
+    init {
+        historyDataSource.communityId = currentCommunityId
+    }
+
     private lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
     private lateinit var currentBalanceRecord: WalletCommunityBalanceRecordDomain
@@ -72,6 +76,8 @@ constructor(
         } else {
             currentCommunityId = communityId
             currentBalanceRecord = balance.first { it.communityId == currentCommunityId }
+
+            historyDataSource.communityId = communityId
             true
         }
 
