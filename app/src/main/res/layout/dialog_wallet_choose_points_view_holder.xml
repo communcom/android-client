@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/bcg_white_round_rect_10"
+
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:srcCompat="@drawable/img_example_flag" />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/Text15.Black.Bold.SingleLine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="10dp"
+
+        android:text=""
+        tools:text="Phoenix point"
+
+        app:layout_constraintBottom_toTopOf="@+id/onHold"
+        app:layout_constraintEnd_toStartOf="@+id/points"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/onHold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="4000 on hold"
+
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+
+        style="@style/Text12.Grey.Bold.SingleLine"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/commun"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="4dp"
+
+        style="@style/Text15.Black.Bold.SingleLine"
+
+        android:text=""
+        tools:text="21000 Points"
+
+        app:layout_constraintBottom_toTopOf="@+id/commun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/commun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+
+        android:text=""
+        tools:text="150 Commun"
+
+        style="@style/Text12.Grey.Bold.SingleLine"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/points"
+        app:layout_constraintTop_toBottomOf="@+id/points" />
+</androidx.constraintlayout.widget.ConstraintLayout>
