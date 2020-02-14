@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -25,18 +26,15 @@ class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePoints
     companion object {
         private const val BALANCE = "BALANCE"
 
-        /**
-         * @param closeAction null if a community was not selected, communityId otherwise
-         */
-        fun newInstance(balance: List<WalletCommunityBalanceRecordDomain>, closeAction: (String?) -> Unit): WalletChoosePointsDialog {
-            return WalletChoosePointsDialog()
+        fun show(parent: Fragment, balance: List<WalletCommunityBalanceRecordDomain>, closeAction: (String?) -> Unit) =
+            WalletChoosePointsDialog()
                 .apply {
                     closeActionListener = closeAction
                     arguments = Bundle().apply {
                         putParcelableArray(BALANCE, balance.toTypedArray())
                     }
                 }
-        }
+                .show(parent.parentFragmentManager, "CHOOSE_POINTS")
     }
 
     private lateinit var  closeActionListener: (String?) -> Unit

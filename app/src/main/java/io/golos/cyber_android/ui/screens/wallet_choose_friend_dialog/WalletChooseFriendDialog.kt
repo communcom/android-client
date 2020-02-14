@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -33,12 +34,11 @@ import kotlin.coroutines.CoroutineContext
 
 class WalletChooseFriendDialog : BottomSheetDialogFragment(), WalletChooseFriendDialogItemEventsProcessor, CoroutineScope {
     companion object {
-        fun newInstance(closeAction: (UserIdDomain?) -> Unit) =
+        fun show(parent: Fragment, closeAction: (UserIdDomain?) -> Unit) =
             WalletChooseFriendDialog()
-                .apply {
-                    closeActionListener = closeAction
-                }
-        }
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "CHOOSE_FRIENDS")
+    }
 
     private lateinit var  closeActionListener: (UserIdDomain?) -> Unit
 

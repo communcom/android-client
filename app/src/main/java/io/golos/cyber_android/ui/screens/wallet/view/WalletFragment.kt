@@ -67,15 +67,13 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     private fun moveToWalletPoint(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.showFragment(WalletPointFragment.newInstance(selectedCommunityId, balance))
 
-    private fun showMyPointsDialog(balance: List<WalletCommunityBalanceRecordDomain>) {
-        WalletChoosePointsDialog.newInstance(balance) { communityId ->
+    private fun showMyPointsDialog(balance: List<WalletCommunityBalanceRecordDomain>) =
+        WalletChoosePointsDialog.show(this, balance) { communityId ->
             communityId?.let { viewModel.onMyPointItemClick(it) }
-        }.show(parentFragmentManager, "CHOOSE_POINTS")
-    }
+        }
 
-    private fun showSendPointsDialog() {
-        WalletChooseFriendDialog.newInstance() { userId ->
+    private fun showSendPointsDialog() =
+        WalletChooseFriendDialog.show(this) { userId ->
             //communityId?.let { viewModel.onMyPointItemClick(it) }
-        }.show(parentFragmentManager, "CHOOSE_FRIENDS")
-    }
+        }
 }
