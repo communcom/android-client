@@ -22,8 +22,12 @@ constructor(
     private var pageSize: Int = 0
     private lateinit var listItemEventsProcessor: WalletSendPointsListItemEventsProcessor
 
+    private var onSeeAllClickListener: (() -> Unit)? = null
+
     init {
         inflate(context, R.layout.view_wallet_send_points, this)
+
+        seeAllLabel.setOnClickListener { onSeeAllClickListener?.invoke() }
     }
 
     fun setPageSize(pageSize: Int) {
@@ -52,5 +56,9 @@ constructor(
         }
 
         adapter.update(items)
+    }
+
+    fun setOnSeeAllClickListener(listener: (() -> Unit)?) {
+        onSeeAllClickListener = listener
     }
 }

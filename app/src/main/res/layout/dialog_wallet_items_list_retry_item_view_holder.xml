@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/wallet_dialog_select_item_view_holder_height"
 
     android:background="@drawable/bcg_white_round_rect_10"
+    android:layout_marginTop="@dimen/wallet_dialog_select_item_view_holder_margin"
+    android:layout_marginBottom="@dimen/wallet_dialog_select_item_view_holder_margin">
 
-    android:padding="@dimen/dimen_10"
-
-    android:layout_marginStart="@dimen/dimen_3"
-    android:layout_marginEnd="@dimen/dimen_3"
-
-    android:layout_width="@dimen/wallet_send_points_item_width"
-    android:layout_height="match_parent"
-    tools:layout_height="122dp">
 
     <Button
         android:id="@+id/btnRetry"
 
         style="@style/Wallet.SendPoints.Retry"
 
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="@dimen/dimen_35"
 
         android:layout_gravity="center"

@@ -5,4 +5,6 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 class NavigateToWalletPoint(val selectedCommunityId: String, val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
 
-class ShowPointsDialog(val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
+class ShowMyPointsDialog(val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
+
+class ShowSendPointsDialog(): ViewCommand

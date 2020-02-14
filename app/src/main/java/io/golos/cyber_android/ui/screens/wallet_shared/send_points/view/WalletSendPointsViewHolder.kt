@@ -24,8 +24,6 @@ class WalletSendPointsViewHolder(
             return
         }
 
-        val context = itemView.context
-
         with(listItem) {
             logoGlideTarget = itemView.avatar.loadAvatar(avatarUrl)
 

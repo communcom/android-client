@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import kotlinx.android.synthetic.main.dialog_wallet_choose_points_view_holder.view.*
+import kotlinx.android.synthetic.main.dialog_wallet_items_list_general_item_view_holder.view.*
 import com.bumptech.glide.request.target.Target as GlideTarget
 
 
@@ -19,7 +19,7 @@ class WalletChoosePointsDialogViewHolder(
     parentView: ViewGroup
 ) : ViewHolderBase<WalletChoosePointsDialogItemEventsProcessor, VersionedListItem>(
     parentView,
-    R.layout.dialog_wallet_choose_points_view_holder
+    R.layout.dialog_wallet_items_list_general_item_view_holder
 ) {
     private var logoGlideTarget: GlideTarget<*>? = null
 

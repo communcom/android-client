@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.screens.wallet_choose_points_dialog.list.Wallet
 import io.golos.cyber_android.ui.screens.wallet_choose_points_dialog.list.WalletChoosePointsDialogItemEventsProcessor
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.utils.IdUtil
-import kotlinx.android.synthetic.main.dialog_wallet_choose_points.*
+import kotlinx.android.synthetic.main.dialog_wallet_items_list.*
 
 class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePointsDialogItemEventsProcessor {
     companion object {
@@ -61,7 +61,7 @@ class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePoints
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_wallet_choose_points, container, false)
+        return inflater.inflate(R.layout.dialog_wallet_items_list, container, false)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -86,10 +86,10 @@ class WalletChoosePointsDialog : BottomSheetDialogFragment(), WalletChoosePoints
             listAdapter = WalletChoosePointsDialogAdapter(this)
             listAdapter.setHasStableIds(true)
 
-            pointsList.isSaveEnabled = false
-            pointsList.itemAnimator = null
-            pointsList.layoutManager = listLayoutManager
-            pointsList.adapter = listAdapter
+            itemsList.isSaveEnabled = false
+            itemsList.itemAnimator = null
+            itemsList.layoutManager = listLayoutManager
+            itemsList.adapter = listAdapter
         }
 
         val listData = balance.map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false, false, it) }

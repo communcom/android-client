@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="@dimen/wallet_dialog_select_item_view_holder_height"
     android:background="@drawable/bcg_white_round_rect_10"
 
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginTop="@dimen/wallet_dialog_select_item_view_holder_margin"
+    android:layout_marginBottom="@dimen/wallet_dialog_select_item_view_holder_margin">
 
     <ImageView
         android:id="@+id/logo"
@@ -20,7 +20,8 @@
 
         app:layout_constraintTop_toTopOf="parent"
 
-        tools:srcCompat="@drawable/img_example_flag" />
+        tools:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/name"

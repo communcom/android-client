@@ -66,7 +66,7 @@
         tools:ignore="Autofill,LabelFor" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pointsList"
+        android:id="@+id/itemsList"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
