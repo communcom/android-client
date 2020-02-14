@@ -21,8 +21,11 @@ constructor(
 
     private lateinit var listItemEventsProcessor: WalletMyPointsListItemEventsProcessor
 
+    private var onSeeAllClickListener: (() -> Unit)? = null
+
     init {
         inflate(context, R.layout.view_wallet_my_points, this)
+        seeAllLabel.setOnClickListener { onSeeAllClickListener?.invoke() }
     }
 
     fun setEventsProcessor(listItemEventsProcessor: WalletMyPointsListItemEventsProcessor) {
@@ -44,5 +47,9 @@ constructor(
         }
 
         adapter.update(items)
+    }
+
+    fun setOnSeeAllClickListener(listener: (() -> Unit)?) {
+        onSeeAllClickListener = listener
     }
 }

@@ -19,7 +19,7 @@ interface WalletModel : ModelBase {
 
     suspend fun getMyPointsItems(): List<MyPointsListItem>
 
-    fun getBalanceRecords(): List<WalletCommunityBalanceRecordDomain>
+    fun getBalanceRecords(excludeCommun: Boolean = true): List<WalletCommunityBalanceRecordDomain>
 
     suspend fun loadSendPointsPage()
 

@@ -67,8 +67,12 @@ constructor(
             result
         }
 
-    override fun getBalanceRecords(): List<WalletCommunityBalanceRecordDomain> =
-        balance.filter { it.communityId != GlobalConstants.COMMUN_CODE }
+    override fun getBalanceRecords(excludeCommun: Boolean): List<WalletCommunityBalanceRecordDomain> =
+        if(excludeCommun) {
+            balance.filter { it.communityId != GlobalConstants.COMMUN_CODE }
+        } else {
+            balance
+        }
 
     override suspend fun loadSendPointsPage() = sendPointsDataSource.loadPage()
 

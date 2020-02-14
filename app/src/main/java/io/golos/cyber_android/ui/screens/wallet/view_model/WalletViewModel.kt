@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletPoint
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowPointsDialog
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
@@ -60,6 +61,10 @@ constructor(
 
     fun onBackClick() {
         _command.value = NavigateBackwardCommand()
+    }
+
+    fun onSeeAllPointsClick() {
+        _command.value = ShowPointsDialog(model.getBalanceRecords(false))
     }
 
     override fun onSendPointsNextPageReached() {

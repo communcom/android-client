@@ -498,6 +498,8 @@
 
     <string name="on_hold_format">{0} on hold</string>
     <string name="commun_format">= {0} Commun</string>
+    <string name="points_format">= {0} Points</string>
+    <string name="tokens_format">= {0} Tokens</string>
     <string name="commun_group">Commun</string>
     <string name="history">History</string>
     <string name="refill">Refill</string>
