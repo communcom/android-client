@@ -50,7 +50,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_marginTop="@dimen/scan_qr_label_margin"
             android:layout_gravity="center_horizontal"
 
-            android:textSize="@dimen/text_size_30_sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="@color/white"
 
@@ -65,7 +65,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_gravity="center_horizontal"
 
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_17_sp"
+            android:textSize="17sp"
 
             android:text="@string/sign_in_scan_qr_hint" />
 

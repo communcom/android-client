@@ -10,7 +10,7 @@
         style="@style/Wallet.SendPoints.Retry"
 
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_35"
+        android:layout_height="35dp"
 
         android:layout_gravity="center"
 

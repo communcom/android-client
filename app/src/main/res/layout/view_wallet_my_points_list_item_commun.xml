@@ -6,8 +6,8 @@
 
     android:background="@drawable/bcg_white_round_rect_15"
 
-    android:padding="@dimen/dimen_15"
-    android:layout_marginEnd="@dimen/dimen_5"
+    android:padding="15dp"
+    android:layout_marginEnd="5dp"
 
     android:layout_width="@dimen/wallet_my_points_item_width"
     android:layout_height="match_parent"
@@ -21,7 +21,7 @@
         android:src="@drawable/ic_splash_icon"
         android:background="@drawable/bcg_circle_blue"
 
-        android:padding="@dimen/dimen_15"
+        android:padding="15dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -48,8 +48,8 @@
         android:layout_height="wrap_content"
         android:text="@string/tokens"
 
-        android:layout_marginStart="@dimen/dimen_5"
-        android:layout_marginBottom="@dimen/dimen_2"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="2dp"
 
         app:layout_constraintBottom_toBottomOf="@+id/pointsValue"
 

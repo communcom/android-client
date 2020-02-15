@@ -42,7 +42,7 @@
         style="@style/BottomSheetMenuItem"
 
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="55dp"
 
         android:layout_marginTop="20dp"
 
@@ -61,7 +61,7 @@
 
         style="@style/BottomSheetMenuItem"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="55dp"
 
         android:text="@string/blacklist"
 
@@ -75,7 +75,7 @@
 
         style="@style/BottomSheetMenuItem.Dangerous"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="55dp"
 
         android:text="@string/log_out"
 

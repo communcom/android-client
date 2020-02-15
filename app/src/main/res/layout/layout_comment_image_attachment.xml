@@ -8,8 +8,8 @@
         android:id="@+id/ivAttachment"
         android:layout_width="@dimen/send_comment_attachment_image_size"
         android:layout_height="@dimen/send_comment_attachment_image_size"
-        android:layout_marginTop="@dimen/dimen_4"
-        android:layout_marginEnd="@dimen/dimen_4"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         tools:src="@tools:sample/backgrounds/scenic" />
 
     <ImageView

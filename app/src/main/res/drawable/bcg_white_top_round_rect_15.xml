@@ -6,8 +6,8 @@
             <corners
                 android:bottomLeftRadius="0dp"
                 android:bottomRightRadius="0dp"
-                android:topRightRadius="@dimen/dimen_15"
-                android:topLeftRadius="@dimen/dimen_15" />
+                android:topRightRadius="15dp"
+                android:topLeftRadius="15dp" />
         </shape>
     </item>
 </selector>

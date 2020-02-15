@@ -37,7 +37,7 @@
 
             android:layout_gravity="bottom"
 
-            android:textSize="@dimen/text_size_16_sp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -73,7 +73,7 @@
 
             android:layout_gravity="bottom"
 
-            android:textSize="@dimen/text_size_16_sp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>

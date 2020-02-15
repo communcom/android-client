@@ -39,9 +39,9 @@
                         android:id="@+id/close"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_5"
+                        android:layout_marginStart="5dp"
                         android:src="@drawable/ic_close_gray"
-                        android:padding="@dimen/dimen_10"
+                        android:padding="10dp"
                         android:background="?selectableItemBackgroundBorderless"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +152,7 @@
                 android:textColor="@color/tint_editor_tool_button_adult"
 
                 android:text="@string/adult_only"
-                android:textSize="@dimen/text_size_13_sp"
+                android:textSize="13sp"
                 android:visibility="gone"
                 tools:visibility="visible"/>
 

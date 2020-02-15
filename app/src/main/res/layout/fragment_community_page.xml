@@ -54,7 +54,7 @@
                             android:layout_height="@dimen/post_viewer_header_tool_button_size"
 
                             android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
-                            android:layout_marginTop="@dimen/dimen_40"
+                            android:layout_marginTop="40dp"
 
                             android:background="@null"
                             app:imageButton_icon="@drawable/ic_left_arrow"
@@ -87,7 +87,7 @@
                                 android:layout_marginStart="@dimen/margin_small"
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_20_sp"
+                                android:textSize="20sp"
 
                                 android:layout_marginEnd="@dimen/margin_default"
 
@@ -190,7 +190,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/margin_default"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_size_20_sp"
+                                        android:textSize="20sp"
                                         app:layout_constraintBottom_toTopOf="@+id/tvCommunCurrencyLabel"
                                         app:layout_constraintStart_toEndOf="@+id/ivBalance"
                                         app:layout_constraintTop_toTopOf="@+id/ivBalance"
@@ -203,7 +203,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/gap"
                                         android:textColor="@color/blue_light"
-                                        android:textSize="@dimen/text_size_12_sp"
+                                        android:textSize="12sp"
                                         app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentCommunRate"
                                         app:layout_constraintBottom_toBottomOf="@+id/tvCurrentCommunRate"
                                         app:layout_constraintStart_toEndOf="@+id/tvCurrentCommunRate"
@@ -216,7 +216,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/commun_description"
                                         android:textColor="@color/blue_light"
-                                        android:textSize="@dimen/text_size_12_sp"
+                                        android:textSize="12sp"
                                         app:layout_constraintStart_toStartOf="@+id/tvCurrentCommunRate"
                                         app:layout_constraintTop_toBottomOf="@+id/tvCurrentCommunRate" />
 

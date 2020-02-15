@@ -45,7 +45,7 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
         } else{
             postWidgetContainer.setPadding(
                 postWidgetContainer.paddingLeft,
-                postWidgetContainer.context.resources.getDimension(R.dimen.dimen_5).toInt(),
+                postWidgetContainer.context.resources.getDimension(R.dimen.post_widget_padding_top).toInt(),
                 postWidgetContainer.paddingRight,
                 postWidgetContainer.paddingBottom
             )

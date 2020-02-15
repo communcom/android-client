@@ -48,7 +48,7 @@ class CommentWidget @JvmOverloads constructor(
             } else {
                 commentAttachment.visibility = View.VISIBLE
                 sendButton.visibility = View.VISIBLE
-                ivAttachment.loadCommentAttachment(newUrl, resources.getDimension(R.dimen.dimen_15).toInt())
+                ivAttachment.loadCommentAttachment(newUrl, resources.getDimension(R.dimen.comment_attachment_corner).toInt())
             }
         }
     }
@@ -164,7 +164,7 @@ class CommentWidget @JvmOverloads constructor(
             ivEditAttachment.visibility = View.GONE
         } else {
             ivEditAttachment.visibility = View.VISIBLE
-            ivEditAttachment.loadCommentAttachment(attachmentImageUrl, resources.getDimension(R.dimen.dimen_4).toInt())
+            ivEditAttachment.loadCommentAttachment(attachmentImageUrl, resources.getDimension(R.dimen.comment_attachment_corner_small).toInt())
         }
         if(contentState == ContentState.EDIT){
             editCommentLabel.text = context.getString(R.string.edit_comment_send)

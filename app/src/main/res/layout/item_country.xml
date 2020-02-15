@@ -11,7 +11,7 @@
     android:paddingStart="@dimen/margin_default"
     android:paddingEnd="@dimen/padding_sign_up_end_country"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimen_60">
+    android:layout_height="60dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countryFlag"
@@ -20,7 +20,7 @@
 
         android:gravity="center"
 
-        android:textSize="@dimen/text_size_36_sp"
+        android:textSize="36sp"
         android:textColor="@color/black"
 
         android:layout_width="wrap_content"

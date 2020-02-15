@@ -17,20 +17,20 @@
         android:layout_height="wrap_content"
 
         android:background="@drawable/bcg_dialog_round_corners_white"
-        android:paddingStart="@dimen/dimen_20"
-        android:paddingEnd="@dimen/dimen_20"
-        android:paddingBottom="@dimen/dimen_20">
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp">
 
         <ImageView
             android:id="@+id/closeButton"
             android:layout_width="@dimen/tool_button_size"
             android:layout_height="@dimen/tool_button_size"
 
-            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginTop="15dp"
 
             android:background="?selectableItemBackgroundBorderless"
 
-            android:padding="@dimen/dimen_5"
+            android:padding="5dp"
             android:src="@drawable/ic_close_gray"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,12 +59,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="@dimen/dimen_13"
+            android:layout_marginTop="13dp"
 
-            android:lineSpacingExtra="@dimen/dimen_7"
+            android:lineSpacingExtra="7dp"
             android:text="@string/user_name_restriction_explanation"
             android:textColor="@color/grey"
-            android:textSize="@dimen/text_size_15_sp"
+            android:textSize="15sp"
             android:gravity="start"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,9 +78,9 @@
             style="@style/BlueWhite.RoundCorners.Button"
 
             android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_50"
+            android:layout_height="50dp"
 
-            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_marginTop="20dp"
 
             android:text="@string/understand"
 

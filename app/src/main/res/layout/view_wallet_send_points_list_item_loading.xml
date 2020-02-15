@@ -5,10 +5,10 @@
 
     android:background="@drawable/bcg_white_round_rect_10"
 
-    android:padding="@dimen/dimen_5"
+    android:padding="5dp"
 
-    android:layout_marginStart="@dimen/dimen_3"
-    android:layout_marginEnd="@dimen/dimen_3"
+    android:layout_marginStart="3dp"
+    android:layout_marginEnd="3dp"
 
     android:layout_width="@dimen/wallet_send_points_item_width"
     android:layout_height="match_parent"

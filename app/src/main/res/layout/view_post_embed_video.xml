@@ -41,7 +41,7 @@
             android:paddingEnd="10dp"
             android:paddingBottom="5dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_12_sp"
+            android:textSize="12sp"
             tools:text="youtube" />
 
     </FrameLayout>
@@ -63,7 +63,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15_sp"
+            android:textSize="15sp"
             tools:text="Title" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/blue_button_disabled"
-            android:textSize="@dimen/text_size_12_sp"
+            android:textSize="12sp"
             tools:text="Link" />
     </LinearLayout>
 

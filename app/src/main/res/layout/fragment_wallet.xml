@@ -98,14 +98,14 @@
                         android:layout_height="@dimen/wallet_collapsed_panel_height"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
-                        android:contentInsetLeft="@dimen/dimen_0"
-                        android:contentInsetStart="@dimen/dimen_0"
-                        app:contentInsetLeft="@dimen/dimen_0"
-                        app:contentInsetStart="@dimen/dimen_0"
-                        android:contentInsetRight="@dimen/dimen_0"
-                        android:contentInsetEnd="@dimen/dimen_0"
-                        app:contentInsetRight="@dimen/dimen_0"
-                        app:contentInsetEnd="@dimen/dimen_0"
+                        android:contentInsetLeft="0dp"
+                        android:contentInsetStart="0dp"
+                        app:contentInsetLeft="0dp"
+                        app:contentInsetStart="0dp"
+                        android:contentInsetRight="0dp"
+                        android:contentInsetEnd="0dp"
+                        app:contentInsetRight="0dp"
+                        app:contentInsetEnd="0dp"
 
                         app:layout_collapseMode="pin">
 

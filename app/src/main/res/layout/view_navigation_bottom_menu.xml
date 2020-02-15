@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/navigation_bottom_menu_height"
         android:src="@drawable/selector_home_menu"
-        android:padding="@dimen/dimen_8"
+        android:padding="8dp"
         android:layout_weight="1"
         android:scaleType="center"
         tools:ignore="ContentDescription" />
@@ -22,7 +22,7 @@
         android:id="@+id/communityMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:padding="@dimen/dimen_8"
+        android:padding="8dp"
         android:layout_weight="1"
         android:src="@drawable/selector_community_menu"
         android:scaleType="center"
@@ -79,7 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:src="@drawable/selector_profile_menu"
-        android:padding="@dimen/dimen_8"
+        android:padding="8dp"
         android:layout_weight="1"
         android:scaleType="center"
         tools:ignore="ContentDescription" />

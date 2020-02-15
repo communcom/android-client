@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_corners_round_background"
-                android:paddingTop="@dimen/dimen_27"
+                android:paddingTop="27dp"
                 android:paddingStart="@dimen/general_list_padding"
                 android:paddingEnd="@dimen/general_list_padding"
                 android:paddingBottom="97dp"

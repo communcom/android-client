@@ -13,13 +13,13 @@
         android:text="@string/history"
         android:background="@drawable/bcg_white_top_round_rect_15"
 
-        android:textSize="@dimen/text_size_17_sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:textColor="@color/black"
 
         android:gravity="center_vertical|start"
-        android:paddingStart="@dimen/dimen_15"
-        android:paddingEnd="@dimen/dimen_15"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

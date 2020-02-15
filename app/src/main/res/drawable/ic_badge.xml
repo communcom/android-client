@@ -4,5 +4,5 @@
     <solid android:color="@color/badge_color"/>
     <stroke
         android:color="@color/white"
-        android:width="@dimen/dimen_1"/>
+        android:width="1dp"/>
 </shape>

@@ -19,74 +19,10 @@
 
     <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
 
-    <dimen name="size_image_button">@dimen/dimen_40</dimen>
-    <dimen name="size_back_icon">@dimen/dimen_21</dimen>
+    <dimen name="size_image_button">40dp</dimen>
+    <dimen name="size_back_icon">21dp</dimen>
 
     <dimen name="size_splash_icon">100dp</dimen>
-
-    <dimen name="text_size_7sp">7sp</dimen>
-    <dimen name="text_size_36_sp">36sp</dimen>
-    <dimen name="text_size_34_sp">34sp</dimen>
-    <dimen name="text_size_30_sp">30sp</dimen>
-    <dimen name="text_size_32_sp">32sp</dimen>
-    <dimen name="text_size_26_sp">26sp</dimen>
-    <dimen name="text_size_22_sp">22sp</dimen>
-    <dimen name="text_size_21_sp">21sp</dimen>
-    <dimen name="text_size_20_sp">20sp</dimen>
-    <dimen name="text_size_19_sp">19sp</dimen>
-    <dimen name="text_size_18_sp">18sp</dimen>
-    <dimen name="text_size_17_sp">17sp</dimen>
-    <dimen name="text_size_16_sp">16sp</dimen>
-    <dimen name="text_size_15_sp">15sp</dimen>
-    <dimen name="text_size_14_sp">14sp</dimen>
-    <dimen name="text_size_13_sp">13sp</dimen>
-    <dimen name="text_size_12_sp">12sp</dimen>
-    <dimen name="text_size_10_sp">10sp</dimen>
-
-    <dimen name="dimen_0">0dp</dimen>
-    <dimen name="dimen_1">1dp</dimen>
-    <dimen name="dimen_2">2dp</dimen>
-    <dimen name="dimen_3">3dp</dimen>
-    <dimen name="dimen_4">4dp</dimen>
-    <dimen name="dimen_5">5dp</dimen>
-    <dimen name="dimen_7">7dp</dimen>
-    <dimen name="dimen_8">8dp</dimen>
-    <dimen name="dimen_10">10dp</dimen>
-    <dimen name="dimen_12">12dp</dimen>
-    <dimen name="dimen_13">13dp</dimen>
-    <dimen name="dimen_14">14dp</dimen>
-    <dimen name="dimen_15">15dp</dimen>
-    <dimen name="dimen_17">17dp</dimen>
-    <dimen name="dimen_20">20dp</dimen>
-    <dimen name="dimen_21">21dp</dimen>
-    <dimen name="dimen_22">22dp</dimen>
-    <dimen name="dimen_23">23dp</dimen>
-    <dimen name="dimen_24">24dp</dimen>
-    <dimen name="dimen_25">25dp</dimen>
-    <dimen name="dimen_26">26dp</dimen>
-    <dimen name="dimen_28">28dp</dimen>
-    <dimen name="dimen_27">27dp</dimen>
-    <dimen name="dimen_30">30dp</dimen>
-    <dimen name="dimen_32">32dp</dimen>
-    <dimen name="dimen_34">34dp</dimen>
-    <dimen name="dimen_35">35dp</dimen>
-    <dimen name="dimen_42">42dp</dimen>
-    <dimen name="dimen_45">45dp</dimen>
-    <dimen name="dimen_48">48dp</dimen>
-    <dimen name="dimen_40">40dp</dimen>
-    <dimen name="dimen_41">41dp</dimen>
-    <dimen name="dimen_44">44dp</dimen>
-    <dimen name="dimen_50">50dp</dimen>
-    <dimen name="dimen_55">55dp</dimen>
-    <dimen name="dimen_56">56dp</dimen>
-    <dimen name="dimen_60">60dp</dimen>
-    <dimen name="dimen_64">64dp</dimen>
-    <dimen name="dimen_65">65dp</dimen>
-    <dimen name="dimen_70">70dp</dimen>
-    <dimen name="dimen_76">76dp</dimen>
-    <dimen name="dimen_80">80dp</dimen>
-    <dimen name="dimen_88">88dp</dimen>
-    <dimen name="dimen_90">90dp</dimen>
 
     <dimen name="elevation_search_bar">4dp</dimen>
 
@@ -97,9 +33,10 @@
     <dimen name="margin_bottom_pin_keypad">16dp</dimen>
     <dimen name="margin_bottom_code_label">30dp</dimen>
     <dimen name="margin_bottom_pin_code">8dp</dimen>
-    <dimen name="text_size_pin_keypad">@dimen/text_size_36_sp</dimen>
+    <dimen name="text_size_pin_keypad">36sp</dimen>
     <dimen name="width_pin_code">228dp</dimen>
     <dimen name="height_pin_code">56dp</dimen>
+    <dimen name="pin_digit_font_size">12sp</dimen>
 
 
     <!--ButtonWithHintWidget-->
@@ -124,8 +61,11 @@
     <!--Post Card-->
     <dimen name="input_comment_background_corners">17dp</dimen>
     <dimen name="divider_post_card_height">8dp</dimen>
+    <dimen name="comment_attachment_corner">15dp</dimen>
+    <dimen name="comment_attachment_corner_small">4dp</dimen>
 
     <dimen name="post_content_border_horizontal">15dp</dimen>
+    <dimen name="post_widget_padding_top">5dp</dimen>
 
     <dimen name="content_block_default_margin">6dp</dimen>
     <dimen name="post_paragraph_block_horizontal_margin">20dp</dimen>
@@ -139,11 +79,11 @@
     <dimen name="gap_title_website">2dp</dimen>
     <dimen name="size_post_attachments">50dp</dimen>
     <dimen name="gap_post_attachments">5dp</dimen>
-    <dimen name="text_size_post_normal">@dimen/text_size_14_sp</dimen>
-    <dimen name="text_size_post_spacing">@dimen/text_size_26_sp</dimen>
-    <dimen name="text_size_post_less_normal">@dimen/text_size_15_sp</dimen>
-    <dimen name="text_size_post_small">@dimen/text_size_12_sp</dimen>
-    <dimen name="text_size_post_tiny">@dimen/text_size_10_sp</dimen>
+    <dimen name="text_size_post_normal">14sp</dimen>
+    <dimen name="text_size_post_spacing">26sp</dimen>
+    <dimen name="text_size_post_less_normal">15sp</dimen>
+    <dimen name="text_size_post_small">12sp</dimen>
+    <dimen name="text_size_post_tiny">10sp</dimen>
 
     <dimen name="post_viewer_header_height">56dp</dimen>
     <dimen name="post_viewer_header_tool_button_size">@dimen/tool_button_size</dimen>
@@ -209,7 +149,7 @@
     <dimen name="margin_bottom_login_next_button">24dp</dimen>
     <dimen name="margin_top_primary_image_text">32dp</dimen>
     <dimen name="margin_top_primary_secondary_text">16dp</dimen>
-    <dimen name="text_size_editor_preview">@dimen/text_size_16_sp</dimen>
+    <dimen name="text_size_editor_preview">16sp</dimen>
 
     <!--Welcome-->
     <dimen name="margin_horizontal_welcome_sign_up">35dp</dimen>
@@ -219,7 +159,7 @@
     <dimen name="corners_welcome_pager_indicator">2dp</dimen>
     <dimen name="padding_welcome_pager_indicator">4dp</dimen>
     <dimen name="margin_top_sign_in_caption">8dp</dimen>
-    <dimen name="buttons_text_size_welcome_slide">@dimen/text_size_17_sp</dimen>
+    <dimen name="buttons_text_size_welcome_slide">17sp</dimen>
     <dimen name="scale_factor_welcome_image">1.0</dimen>
 
     <!--Sign In-->
@@ -279,12 +219,12 @@
     <dimen name="height_sign_up_sms_code_digit">56dp</dimen>
     <dimen name="margin_vertical_sign_up_sms_code_digit">6dp</dimen>
     <dimen name="margin_top_sign_up_sms_code">32dp</dimen>
-    <dimen name="text_size_sms_code">@dimen/text_size_26_sp</dimen>
+    <dimen name="text_size_sms_code">26sp</dimen>
 
 
     <dimen name="sign_up_keys_image_size">180dp</dimen>
-    <dimen name="sign_up_keys_explanation_text_size">@dimen/text_size_15_sp</dimen>
-    <dimen name="sign_up_keys_title_text_size">@dimen/text_size_30_sp</dimen>
+    <dimen name="sign_up_keys_explanation_text_size">15sp</dimen>
+    <dimen name="sign_up_keys_title_text_size">30sp</dimen>
 
 
     <dimen name="sign_up_password_margin_top">13dp</dimen>
@@ -470,37 +410,37 @@
     <dimen name="follow_following_button_height">35dp</dimen>
     <dimen name="follow_following_button_width">85dp</dimen>
 
-    <dimen name="search_bar_height">@dimen/dimen_34</dimen>
+    <dimen name="search_bar_height">34dp</dimen>
 
     <!--Navigation bottom menu -->
-    <dimen name="navigation_bottom_menu_round_size">@dimen/dimen_32</dimen>
+    <dimen name="navigation_bottom_menu_round_size">32dp</dimen>
     <dimen name="navigation_bottom_menu_height">70dp</dimen>
     <dimen name="navigation_bottom_menu_list_bottom_margin">80dp</dimen>
     <dimen name="navigation_bottom_menu_height_with_bottom_padding">78dp</dimen>
     <dimen name="navigation_bottom_menu_fab_size">45dp</dimen>
     <dimen name="navigation_bottom_menu_fab_icon_size">18dp</dimen>
 
-    <dimen name="sign_up_warning_dialog_padding_side">@dimen/dimen_10</dimen>
-    <dimen name="sign_up_warning_dialog_padding_bottom">@dimen/dimen_34</dimen>
-    <dimen name="sign_up_keys_warning_dialog_padding_top">@dimen/dimen_34</dimen>
-    <dimen name="sign_up_keys_warning_dialog_icon_size">@dimen/dimen_60</dimen>
-    <dimen name="sign_up_keys_warning_dialog_icon_padding">@dimen/dimen_15</dimen>
-    <dimen name="sign_up_keys_warning_dialog_text_spacing">@dimen/dimen_3</dimen>
+    <dimen name="sign_up_warning_dialog_padding_side">10dp</dimen>
+    <dimen name="sign_up_warning_dialog_padding_bottom">34dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_padding_top">34dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_icon_size">60dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_icon_padding">15dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_text_spacing">3dp</dimen>
 
-    <dimen name="post_top_shadow_threshold">@dimen/dimen_10</dimen>
+    <dimen name="post_top_shadow_threshold">10dp</dimen>
 
     <!--Notifications-->
-    <dimen name="notification_user_avatar_size">@dimen/dimen_44</dimen>
-    <dimen name="notification_content_image_size">@dimen/dimen_44</dimen>
-    <dimen name="notification_content_image_round_size">@dimen/dimen_10</dimen>
-    <dimen name="badge_stroke_size">@dimen/dimen_2</dimen>
+    <dimen name="notification_user_avatar_size">44dp</dimen>
+    <dimen name="notification_content_image_size">44dp</dimen>
+    <dimen name="notification_content_image_round_size">10dp</dimen>
+    <dimen name="badge_stroke_size">2dp</dimen>
 
     <!--Wallet-->
-    <dimen name="wallet_collapsed_panel_height">@dimen/dimen_55</dimen>
+    <dimen name="wallet_collapsed_panel_height">55dp</dimen>
     <dimen name="wallet_prime_panel_height">256dp</dimen>
-    <dimen name="wallet_prime_panel_button_size">@dimen/dimen_35</dimen>
-    <dimen name="wallet_prime_panel_button_icon_size">@dimen/dimen_20</dimen>
-    <dimen name="wallet_prime_panel_button_side_margin">@dimen/dimen_42</dimen>
+    <dimen name="wallet_prime_panel_button_size">35dp</dimen>
+    <dimen name="wallet_prime_panel_button_icon_size">20dp</dimen>
+    <dimen name="wallet_prime_panel_button_side_margin">42dp</dimen>
     <dimen name="wallet_prime_panel_bottom_area_height">76dp</dimen>
     <dimen name="wallet_my_points_height">227dp</dimen>
     <dimen name="wallet_my_points_item_width">140dp</dimen>

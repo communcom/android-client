@@ -63,10 +63,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/sign_up_field_height"
 
-            android:layout_marginTop="@dimen/dimen_48"
+            android:layout_marginTop="48dp"
 
-            android:layout_marginStart="@dimen/dimen_26"
-            android:layout_marginEnd="@dimen/dimen_26"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="26dp"
 
             style="@style/SignIn.InputField.Tips"
 

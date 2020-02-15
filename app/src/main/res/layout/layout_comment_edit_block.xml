@@ -60,8 +60,8 @@
 
     <ImageButton
         android:id="@+id/closeButton"
-        android:layout_width="@dimen/dimen_20"
-        android:layout_height="@dimen/dimen_20"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:background="@null"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/oldText"

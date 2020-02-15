@@ -25,8 +25,8 @@ constructor(
 
     private val digitVisibilityDelay = 500L      // ms
 
-    private val emptyTextSize = context.resources.getDimension(R.dimen.text_size_12_sp)
-    private val fillTextSize = context.resources.getDimension(R.dimen.text_size_12_sp)
+    private val emptyTextSize = context.resources.getDimension(R.dimen.pin_digit_font_size)
+    private val fillTextSize = context.resources.getDimension(R.dimen.pin_digit_font_size)
 
     enum class DrawableState(@AttrRes val resId: Int) {
         EMPTY(R.attr.state_empty),

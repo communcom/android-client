@@ -12,8 +12,8 @@
         android:layout_width="@dimen/size_image_button"
         android:layout_height="@dimen/size_image_button"
 
-        android:layout_marginStart="@dimen/dimen_5"
-        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
         android:background="@null"
 
         app:imageButton_icon="@drawable/ic_left_arrow"
@@ -117,9 +117,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/wallet_prime_panel_bottom_area_height"
 
-        android:layout_marginStart="@dimen/dimen_15"
-        android:layout_marginEnd="@dimen/dimen_15"
-        android:layout_marginBottom="@dimen/dimen_25"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="25dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
 

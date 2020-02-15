@@ -12,8 +12,8 @@
         android:layout_width="@dimen/size_image_button"
         android:layout_height="@dimen/size_image_button"
 
-        android:layout_marginStart="@dimen/dimen_5"
-        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
         android:background="@null"
 
         app:imageButton_icon="@drawable/ic_left_arrow"
@@ -29,9 +29,9 @@
         android:layout_width="@dimen/size_image_button"
 
         android:layout_height="@dimen/size_image_button"
-        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginTop="15dp"
         android:background="@drawable/bcg_wallet_profile_icon"
-        android:padding="@dimen/dimen_12"
+        android:padding="12dp"
         android:src="@drawable/ic_splash_icon"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -48,9 +48,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/wallet_prime_panel_bottom_area_height"
 
-        android:layout_marginStart="@dimen/dimen_15"
-        android:layout_marginEnd="@dimen/dimen_15"
-        android:layout_marginBottom="@dimen/dimen_25"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="25dp"
 
         tools:background="@drawable/bcg_wallet_prime_panel_bottom_area"
 
@@ -66,10 +66,10 @@
         android:text="@string/profile_wallet_title"
 
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_15_sp"
+        android:textSize="15sp"
         android:textStyle="bold"
 
-        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginTop="20dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,10 +85,10 @@
         tools:text="167 500.23"
 
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_30_sp"
+        android:textSize="30sp"
         android:textStyle="bold"
 
-        android:layout_marginBottom="@dimen/dimen_15"
+        android:layout_marginBottom="15dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
