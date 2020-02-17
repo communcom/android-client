@@ -13,6 +13,8 @@ import io.golos.cyber_android.ui.shared.countries.CountriesRepository
 import io.golos.cyber_android.ui.shared.countries.CountriesRepositoryImpl
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.helper.UIHelperImpl
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListenerImpl
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.dependency_injection.scopes.UIScope
@@ -62,4 +64,8 @@ abstract class UIModuleBinds {
     @Binds
     @UIScope
     abstract fun provideCountriesRepository(repository: CountriesRepositoryImpl): CountriesRepository
+
+    @Binds
+    @UIScope
+    abstract fun provideKeyboardVisibilityListener(listener: KeyboardVisibilityListenerImpl): KeyboardVisibilityListener
 }

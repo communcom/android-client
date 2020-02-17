@@ -12,8 +12,6 @@
         android:layout_height="match_parent"
         app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
 
-        android:fitsSystemWindows="true"
-
         app:refreshing = "@{viewModel.swipeRefreshing}">
 
         <io.golos.cyber_android.ui.screens.wallet_shared.CollapsedPanelCoordinatorLayout

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared.utils
+package io.golos.cyber_android.ui.shared.animation
 
 import android.view.animation.Animation
 

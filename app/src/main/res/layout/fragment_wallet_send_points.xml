@@ -7,9 +7,87 @@
         <variable name="viewModel" type="io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel" />
     </data>
 
-    <FrameLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/green"
-        />
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:id="@+id/topPanel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/bottomPanel"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <FrameLayout
+                android:id="@+id/primaryPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0000ff"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Primary panel"
+                    android:textColor="@color/white"
+
+                    android:layout_gravity="center"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/secondaryPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFA200"
+
+                android:visibility="invisible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Secondary panel"
+
+                    android:layout_gravity="center"
+                />
+
+            </FrameLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/bottomPanel"
+            android:layout_width="0dp"
+
+            android:layout_height="300dp"
+
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center" />
+
+            <Button
+                android:id="@+id/testButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="bottom|center"
+
+                android:text="Press me!" />
+
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
