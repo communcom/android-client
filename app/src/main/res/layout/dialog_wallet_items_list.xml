@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/root"
     android:animateLayoutChanges="true"
-    android:background="@drawable/bcg_top_round_corners"
+    android:background="@drawable/bcg_white_bottom_round_rect_30"
 
     android:focusableInTouchMode="true"
     android:focusable="true"

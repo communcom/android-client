@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.wallet_send_points.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -79,7 +78,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
 
     private fun onKeyboardOpened(keyboardHeight: Int) {
         AnimationUtils.getFloatAnimator(
-            duration = 400,
+            duration = 200,
             startListener = {
                 secondaryPanel.alpha = 0f
                 secondaryPanel.visibility = View.VISIBLE
@@ -100,7 +99,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
     private fun onKeyboardClosed(keyboardHeight: Int) {
         AnimationUtils.getFloatAnimator(
             forward = false,
-            duration = 400,
+            duration = 200,
             startListener = {
                 primaryPanel.visibility = View.VISIBLE
                 secondaryPanel.alpha = 1f

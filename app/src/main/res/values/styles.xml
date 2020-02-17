@@ -509,7 +509,7 @@
     </style>
 
     <style name="BaseBottomSheetModalDialog" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bcg_top_round_corners</item>
+        <item name="android:background">@drawable/bcg_white_bottom_round_rect_30</item>
     </style>
 
     <style name="BaseCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
@@ -679,6 +679,10 @@
 
     <style name="Text15.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Text17.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="Text15.White.Bold.SingleLine" parent="Text12.White.Bold.SingleLine">

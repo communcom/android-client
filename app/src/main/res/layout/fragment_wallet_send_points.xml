@@ -10,7 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        >
 
         <FrameLayout
             android:id="@+id/topPanel"
@@ -26,9 +28,7 @@
             <FrameLayout
                 android:id="@+id/primaryPanel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#0000ff"
-                >
+                android:layout_height="match_parent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -44,7 +44,6 @@
                 android:id="@+id/secondaryPanel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FFA200"
 
                 android:visibility="invisible">
 
@@ -59,34 +58,194 @@
             </FrameLayout>
         </FrameLayout>
 
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottomPanel"
             android:layout_width="0dp"
-
             android:layout_height="300dp"
 
-            android:background="@color/white"
+            android:background="@drawable/bcg_white_top_round_rect_25"
+
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="20dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <EditText
-                android:layout_width="match_parent"
+            <!-- region Selected user panel - Start-->
+            <View
+                android:id="@+id/selectedUserPanel"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+
+                android:background="@drawable/bcg_thin_gray_stroke"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/userLogo"
+
+                android:layout_width="@dimen/size_image_button"
+                android:layout_height="@dimen/size_image_button"
+
+                app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
+                app:layout_constraintStart_toStartOf="@+id/selectedUserPanel"
+                app:layout_constraintTop_toTopOf="@+id/selectedUserPanel"
+
+                android:layout_marginStart="15dp"
+
+                app:srcCompat="@drawable/img_example_avatar"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|center" />
 
-            <Button
-                android:id="@+id/testButton"
+                android:text=""
+                tools:text="Photographers"
 
+                style="@style/Text15.Black.Bold.SingleLine"
+
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+
+                app:layout_constraintBottom_toBottomOf="@+id/userLogo"
+                app:layout_constraintEnd_toStartOf="@+id/findFriendButton"
+                app:layout_constraintStart_toEndOf="@+id/userLogo"
+                app:layout_constraintTop_toTopOf="@+id/userLogo" />
+
+            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                android:id="@+id/findFriendButton"
+                android:layout_width="@dimen/size_image_button"
+                android:layout_height="@dimen/size_image_button"
+                android:layout_marginEnd="7dp"
+                android:background="@null"
+
+                app:imageButton_icon="@drawable/ic_find_friend"
+
+                app:imageButton_iconInscribeSize="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
+                app:layout_constraintEnd_toEndOf="@+id/selectedUserPanel"
+                app:layout_constraintTop_toTopOf="@+id/selectedUserPanel" />
+            <!-- endregion Selected user panel - End-->
+
+            <!-- region Amount panel - Start-->
+            <View
+                android:id="@+id/amountPanel"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+
+                android:background="@drawable/bcg_thin_gray_stroke"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectedUserPanel"
+
+                android:layout_marginTop="10dp"
+                />
+
+            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                android:id="@+id/clearAmountButton"
+                android:layout_width="@dimen/size_image_button"
+
+                android:layout_height="@dimen/size_image_button"
+                android:layout_marginEnd="7dp"
+                android:background="@null"
+
+                app:imageButton_icon="@drawable/ic_close_dark_gray"
+
+                app:imageButton_iconInscribeSize="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/amountPanel"
+                app:layout_constraintEnd_toEndOf="@+id/amountPanel"
+                app:layout_constraintTop_toTopOf="@+id/amountPanel" />
+
+            <TextView
+                android:id="@+id/amountLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_gravity="bottom|center"
+                android:text="@string/amount"
 
-                android:text="Press me!" />
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
 
+                style="@style/Text12.Grey.Bold.SingleLine"
 
-        </FrameLayout>
+                app:layout_constraintStart_toStartOf="@+id/amountPanel"
+
+                app:layout_constraintTop_toTopOf="@+id/amountPanel" />
+
+            <EditText
+                android:id="@+id/amountText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:inputType="numberDecimal"
+
+                style="@style/Text17.Black.Bold.SingleLine"
+                android:background="@null"
+
+                android:layout_marginBottom="6dp"
+
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+
+                android:hint="@string/points_0"
+
+                app:layout_constraintBottom_toBottomOf="@+id/amountPanel"
+                app:layout_constraintEnd_toStartOf="@+id/clearAmountButton"
+                app:layout_constraintStart_toStartOf="@+id/amountLabel"
+                tools:ignore="Autofill" />
+            <!-- endregion Amount panel - End-->
+
+            <!-- region Send button - Start-->
+            <View
+                android:id="@+id/sendButton"
+                android:layout_width="0dp"
+
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bcg_blue_round_corners_button"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/sendButtonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text=""
+                tools:text="Send: 100 Overwatch"
+
+                android:layout_marginTop="6dp"
+
+                style="@style/Text15.White.Bold.SingleLine"
+
+                app:layout_constraintEnd_toEndOf="@+id/sendButton"
+                app:layout_constraintStart_toStartOf="@+id/sendButton"
+                app:layout_constraintTop_toTopOf="@+id/sendButton" />
+
+            <TextView
+                android:id="@+id/sendButtonExplanation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                tools:text="@string/send_burned"
+
+                android:layout_marginBottom="6dp"
+                style="@style/Text12.White.Bold.SingleLine"
+
+                app:layout_constraintBottom_toBottomOf="@+id/sendButton"
+                app:layout_constraintEnd_toEndOf="@+id/sendButtonLabel"
+                app:layout_constraintStart_toStartOf="@+id/sendButtonLabel" />
+            <!-- endregion Send button - Start-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

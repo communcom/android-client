@@ -128,7 +128,7 @@
             android:id="@+id/clCommunitiesBoard"
             android:layout_width="match_parent"
             android:layout_height="@dimen/communities_board_height"
-            android:background="@drawable/bcg_top_round_corners"
+            android:background="@drawable/bcg_white_bottom_round_rect_30"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

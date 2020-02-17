@@ -513,4 +513,7 @@
 
     <string name="available">Available</string>
     <string name="hold_value_point">\u00A0/\u00A0Hold</string>
+    <string name="amount">Amount</string>
+    <string name="points_0">0 Points</string>
+    <string name="send_burned">0.1% will be burned 🔥</string>
 </resources>
