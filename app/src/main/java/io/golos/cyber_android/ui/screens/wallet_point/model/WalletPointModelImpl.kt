@@ -33,9 +33,9 @@ constructor(
         historyDataSource.communityId = currentCommunityId
     }
 
-    private lateinit var balance: List<WalletCommunityBalanceRecordDomain>
+    override lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
-    private lateinit var currentBalanceRecord: WalletCommunityBalanceRecordDomain
+    override lateinit var currentBalanceRecord: WalletCommunityBalanceRecordDomain
 
     override val title: String?
         get() = currentBalanceRecord.communityName

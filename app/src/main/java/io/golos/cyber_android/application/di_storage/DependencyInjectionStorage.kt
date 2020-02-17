@@ -302,7 +302,8 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(
                         WalletSendPointsFragmentModule(
                         communityId = args[0] as String,
-                        balance = args[1] as List<WalletCommunityBalanceRecordDomain>)
+                        sendToUserId = args[1] as UserIdDomain,
+                        balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
                     )
                     .build()
 

@@ -10,16 +10,19 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSen
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBinding, WalletSendPointsViewModel>() {
     companion object {
-        private const val BALANCE = "BALANCE"
         private const val COMMUNITY_ID = "COMMUNITY_ID"
-        fun newInstance(communityId: String, balance: List<WalletCommunityBalanceRecordDomain>) =
+        private const val USER_ID = "USER_ID"
+        private const val BALANCE = "BALANCE"
+        fun newInstance(communityId: String, sendToUserId: UserIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) =
             WalletSendPointsFragment().apply {
                 arguments = Bundle().apply {
                     putString(COMMUNITY_ID, communityId)
+                    putParcelable(USER_ID, sendToUserId)
                     putParcelableArray(BALANCE, balance.toTypedArray())
                 }
             }
@@ -33,6 +36,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         App.injections.get<WalletSendPointsFragmentComponent>(
             key,
             arguments!!.getString(COMMUNITY_ID),
+            arguments!!.getParcelable<UserIdDomain>(USER_ID),
             arguments!!.getParcelableArray(BALANCE)!!.toList())
             .inject(this)
 

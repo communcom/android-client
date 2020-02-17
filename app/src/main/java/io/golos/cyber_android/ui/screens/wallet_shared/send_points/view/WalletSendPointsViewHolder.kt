@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.wallet_shared.send_points.view
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.dto.SendPointsListItem
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
@@ -29,13 +28,12 @@ class WalletSendPointsViewHolder(
 
             itemView.name.text = name
 
-//            itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community.communityId) }
+            itemView.setOnClickListener { listItemEventsProcessor.onSendPointsItemClick(listItem.userId) }
         }
     }
 
     override fun release() {
-//        itemView.setOnClickListener(null)
-
+        itemView.setOnClickListener(null)
         logoGlideTarget?.clear(itemView.context.applicationContext)
     }
 }

@@ -3,6 +3,7 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletPointModel : ModelBase {
     val title: String?
@@ -18,6 +19,10 @@ interface WalletPointModel : ModelBase {
     val sendPointItems: LiveData<List<VersionedListItem>>
 
     val historyItems: LiveData<List<VersionedListItem>>
+
+    val balance: List<WalletCommunityBalanceRecordDomain>
+
+    val currentBalanceRecord: WalletCommunityBalanceRecordDomain
 
     suspend fun initBalance(needReload: Boolean)
 

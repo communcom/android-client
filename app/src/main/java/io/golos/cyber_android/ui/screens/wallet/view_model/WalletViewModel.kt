@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletPoint
-import io.golos.cyber_android.ui.screens.wallet.dto.ShowMyPointsDialog
-import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
+import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
@@ -18,6 +15,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -102,6 +100,12 @@ constructor(
         }
 
         _command.value = NavigateToWalletPoint(communityId, model.getBalanceRecords())
+    }
+
+    override fun onSendPointsItemClick(userId: UserIdDomain) {
+        model.getBalanceRecords().let {
+            _command.value = NavigateToWalletSendPoints(it.first().communityId, userId, model.getBalanceRecords())
+        }
     }
 
     private fun loadPage(needReload: Boolean) {

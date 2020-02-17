@@ -3,6 +3,8 @@ package io.golos.cyber_android.ui.screens.wallet_point.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_point.model.WalletPointModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
@@ -12,6 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -83,6 +86,10 @@ constructor(
 
     fun onSwipeRefresh() = loadPage(true)
 
+    override fun onSendPointsItemClick(userId: UserIdDomain) {
+        _command.value = NavigateToWalletSendPoints(model.currentBalanceRecord.communityId, userId, model.balance)
+    }
+
     override fun onSendPointsNextPageReached() {
         launch {
             model.loadSendPointsPage()
@@ -105,6 +112,10 @@ constructor(
         launch {
             model.retryHistoryPage()
         }
+    }
+
+    fun onSeeAllSendPointsClick() {
+        _command.value = ShowSendPointsDialog()
     }
 
     private fun loadPage(needReload: Boolean) {

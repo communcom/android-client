@@ -5,13 +5,22 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletPointBinding
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
+import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet_point.view_model.WalletPointViewModel
+import io.golos.cyber_android.ui.screens.wallet_send_points.view.WalletSendPointsFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.fragment_wallet_point.*
+import kotlinx.android.synthetic.main.fragment_wallet_point.primePanel
+import kotlinx.android.synthetic.main.fragment_wallet_point.sendPointsArea
+import kotlinx.android.synthetic.main.fragment_wallet_point.toolbarContent
 
 class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletPointViewModel>() {
     companion object {
@@ -48,11 +57,26 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
         primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
         primePanel.setOnItemSelectedListener { viewModel.onCommunitySelected(it) }
         toolbarContent.setOnBackButtonClickListener { viewModel.onBackClick() }
+        sendPointsArea.setOnSeeAllClickListener { viewModel.onSeeAllSendPointsClick() }
     }
 
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+
+            is NavigateToWalletSendPoints ->
+                moveToWalletSendPoints(command.selectedCommunityId, command.sendToUserId, command.balance)
+
+            is ShowSendPointsDialog -> showSendPointsDialog()
         }
     }
+
+    private fun moveToWalletSendPoints(
+        selectedCommunityId: String,
+        sendToUserId: UserIdDomain,
+        balance: List<WalletCommunityBalanceRecordDomain>) =
+        getDashboardFragment(this)?.showFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUserId, balance))
+
+    private fun showSendPointsDialog() =
+        WalletChooseFriendDialog.show(this) { userId -> userId?.let { viewModel.onSendPointsItemClick(it) } }
 }
