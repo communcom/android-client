@@ -80,6 +80,8 @@ import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentModule
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.di.WalletChooseFriendDialogComponent
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentModule
+import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentModule
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
@@ -292,6 +294,16 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(WalletPointFragmentModule(
                         communityId = args[0] as String,
                         balance = args[1] as List<WalletCommunityBalanceRecordDomain>))
+                    .build()
+
+            WalletSendPointsFragmentComponent::class ->
+                getBase<WalletFragmentComponent>()
+                    .sendPointsFragment
+                    .init(
+                        WalletSendPointsFragmentModule(
+                        communityId = args[0] as String,
+                        balance = args[1] as List<WalletCommunityBalanceRecordDomain>)
+                    )
                     .build()
 
             WalletChooseFriendDialogComponent::class -> getBase<WalletFragmentComponent>().chooseFriendDialog.build()
