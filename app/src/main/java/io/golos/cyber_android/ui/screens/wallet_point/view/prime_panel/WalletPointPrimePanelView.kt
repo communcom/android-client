@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.BindingMethod
+import androidx.databinding.BindingMethods
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
@@ -53,7 +55,7 @@ constructor(
     }
 
     fun setCarouselStartData(data: CarouselStartData) {
-        val adapter = CarouselAdapter()
+        val adapter = CarouselAdapter(R.layout.view_wallet_carousel)
         carousel.addAdapter(adapter)
         adapter.setItems(data.items)
         carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(it) }

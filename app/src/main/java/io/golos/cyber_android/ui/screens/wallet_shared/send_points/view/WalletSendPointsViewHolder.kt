@@ -24,11 +24,11 @@ class WalletSendPointsViewHolder(
         }
 
         with(listItem) {
-            logoGlideTarget = itemView.avatar.loadAvatar(avatarUrl)
+            logoGlideTarget = itemView.avatar.loadAvatar(user.userAvatar)
 
-            itemView.name.text = name
+            itemView.name.text = user.userName
 
-            itemView.setOnClickListener { listItemEventsProcessor.onSendPointsItemClick(listItem.userId) }
+            itemView.setOnClickListener { listItemEventsProcessor.onSendPointsItemClick(user) }
         }
     }
 

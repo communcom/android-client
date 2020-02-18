@@ -5,13 +5,16 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletSendPointsBinding
+import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectUserDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel
 import io.golos.cyber_android.ui.shared.animation.AnimationUtils
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_send_points.*
@@ -20,13 +23,13 @@ import javax.inject.Inject
 class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBinding, WalletSendPointsViewModel>() {
     companion object {
         private const val COMMUNITY_ID = "COMMUNITY_ID"
-        private const val USER_ID = "USER_ID"
+        private const val USER = "USER"
         private const val BALANCE = "BALANCE"
-        fun newInstance(communityId: String, sendToUserId: UserIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) =
+        fun newInstance(communityId: String, sendToUser: UserDomain?, balance: List<WalletCommunityBalanceRecordDomain>) =
             WalletSendPointsFragment().apply {
                 arguments = Bundle().apply {
                     putString(COMMUNITY_ID, communityId)
-                    putParcelable(USER_ID, sendToUserId)
+                    putParcelable(USER, sendToUser)
                     putParcelableArray(BALANCE, balance.toTypedArray())
                 }
             }
@@ -43,7 +46,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         App.injections.get<WalletSendPointsFragmentComponent>(
             key,
             arguments!!.getString(COMMUNITY_ID),
-            arguments!!.getParcelable<UserIdDomain>(USER_ID),
+            arguments!!.getParcelable<UserDomain>(USER),
             arguments!!.getParcelableArray(BALANCE)!!.toList())
             .inject(this)
 
@@ -60,9 +63,8 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         keyboardVisibilityListener.setOnKeyboardOpenedListener { onKeyboardOpened(it) }
         keyboardVisibilityListener.setOnKeyboardClosedListener { onKeyboardClosed(it) }
 
-//        primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
-//        primePanel.setOnItemSelectedListener { viewModel.onCommunitySelected(it) }
-//        toolbarContent.setOnBackButtonClickListener { viewModel.onBackClick() }
+        bottomPanel.setOnSelectUserClickListener { viewModel.onSelectUserClick() }
+
     }
 
     override fun onDestroyView() {
@@ -73,6 +75,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+            is ShowSelectUserDialog -> showSelectUserDialog()
         }
     }
 
@@ -90,10 +93,6 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
                 primaryPanel.visibility = View.INVISIBLE
             }
         ).start()
-
-//        val bottomLayoutParams = bottomPanel.layoutParams
-//        bottomLayoutParams.height = bottomLayoutParams.height - keyboardHeight
-//        bottomPanel.layoutParams = bottomLayoutParams
     }
 
     private fun onKeyboardClosed(keyboardHeight: Int) {
@@ -112,9 +111,8 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
                 secondaryPanel.visibility = View.INVISIBLE
             }
         ).start()
-
-//        val bottomLayoutParams = bottomPanel.layoutParams
-//        bottomLayoutParams.height = bottomLayoutParams.height + keyboardHeight
-//        bottomPanel.layoutParams = bottomLayoutParams
     }
+
+    private fun showSelectUserDialog() =
+        WalletChooseFriendDialog.show(this) { userId -> userId?.let { viewModel.onUserSelected(it) } }
 }

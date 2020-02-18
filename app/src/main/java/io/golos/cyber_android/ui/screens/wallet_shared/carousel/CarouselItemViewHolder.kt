@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import kotlinx.android.synthetic.main.view_wallet_carousel.view.*
 
-class CarouselItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var iconGlideTarget: Target<*>? = null
 
     fun bind(item: CarouselListItem, position: Int) {

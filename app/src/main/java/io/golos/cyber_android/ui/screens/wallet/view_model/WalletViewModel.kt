@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
-import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
@@ -15,7 +15,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.UserDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -102,9 +102,9 @@ constructor(
         _command.value = NavigateToWalletPoint(communityId, model.getBalanceRecords())
     }
 
-    override fun onSendPointsItemClick(userId: UserIdDomain) {
+    override fun onSendPointsItemClick(user: UserDomain?) {
         model.getBalanceRecords().let {
-            _command.value = NavigateToWalletSendPoints(it.first().communityId, userId, model.getBalanceRecords())
+            _command.value = NavigateToWalletSendPoints(it.first().communityId, user, model.getBalanceRecords())
         }
     }
 

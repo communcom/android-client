@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.UserDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -86,8 +86,8 @@ constructor(
 
     fun onSwipeRefresh() = loadPage(true)
 
-    override fun onSendPointsItemClick(userId: UserIdDomain) {
-        _command.value = NavigateToWalletSendPoints(model.currentBalanceRecord.communityId, userId, model.balance)
+    override fun onSendPointsItemClick(user: UserDomain?) {
+        _command.value = NavigateToWalletSendPoints(model.currentBalanceRecord.communityId, user, model.balance)
     }
 
     override fun onSendPointsNextPageReached() {

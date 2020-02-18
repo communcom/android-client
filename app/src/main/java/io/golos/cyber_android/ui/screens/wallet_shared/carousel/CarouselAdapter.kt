@@ -2,16 +2,20 @@ package io.golos.cyber_android.ui.screens.wallet_shared.carousel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 
 
-class CarouselAdapter : RecyclerView.Adapter<CarouselItemViewHolder>() {
+class CarouselAdapter(
+    @LayoutRes
+    private val layoutId: Int
+) : RecyclerView.Adapter<CarouselItemViewHolder>() {
 
     private var items: List<CarouselListItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder =
-        CarouselItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_wallet_carousel, parent, false))
+        CarouselItemViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
         val index = getItemIndexByPosition(position)

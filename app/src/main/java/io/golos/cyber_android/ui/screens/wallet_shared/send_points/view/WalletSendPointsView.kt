@@ -3,6 +3,8 @@ package io.golos.cyber_android.ui.screens.wallet_shared.send_points.view
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.BindingMethod
+import androidx.databinding.BindingMethods
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem

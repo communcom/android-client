@@ -15,16 +15,16 @@ import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.S
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.UserDomain
 import kotlinx.android.synthetic.main.dialog_wallet_items_list.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class WalletChooseFriendDialog : WalletListDialogBase<UserIdDomain, WalletChooseFriendDialogAdapter>(), WalletChooseFriendDialogItemEventsProcessor, CoroutineScope {
+class WalletChooseFriendDialog : WalletListDialogBase<UserDomain, WalletChooseFriendDialogAdapter>(), WalletChooseFriendDialogItemEventsProcessor, CoroutineScope {
     companion object {
-        fun show(parent: Fragment, closeAction: (UserIdDomain?) -> Unit) =
+        fun show(parent: Fragment, closeAction: (UserDomain?) -> Unit) =
             WalletChooseFriendDialog()
                 .apply { closeActionListener = closeAction }
                 .show(parent.parentFragmentManager, "CHOOSE_FRIENDS")
@@ -80,8 +80,8 @@ class WalletChooseFriendDialog : WalletListDialogBase<UserIdDomain, WalletChoose
         }
     }
 
-    override fun onItemClick(userId: UserIdDomain) {
-        closeActionListener(userId)
+    override fun onItemClick(user: UserDomain) {
+        closeActionListener(user)
         isItemSelected = true
         dismiss()
     }

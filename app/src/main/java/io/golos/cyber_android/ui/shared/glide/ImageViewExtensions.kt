@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.shared.glide
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
@@ -28,7 +29,11 @@ enum class ImageProgressLoadState{
     ERROR
 }
 
-fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
+fun ImageView.loadAvatar(avatarUrl: String?, @DrawableRes defaultRes: Int = R.drawable.ic_empty_user) =
+    this.load(avatarUrl, defaultRes)
+
+fun ImageView.loadAvatar(avatarUri: Uri?, @DrawableRes defaultRes: Int = R.drawable.ic_empty_user) =
+    this.load(avatarUri, defaultRes)
 
 fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.drawable.ic_group_temporary)
 
@@ -72,6 +77,16 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): Target<*> =
     Glide
         .with(this)
         .load(url)
+        .apply(RequestOptions.circleCropTransform())
+        .fallback(defaultRes)
+        .error(defaultRes)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .into(this)
+
+fun ImageView.load(uri: Uri?, @DrawableRes defaultRes: Int): Target<*> =
+    Glide
+        .with(this)
+        .load(uri)
         .apply(RequestOptions.circleCropTransform())
         .fallback(defaultRes)
         .error(defaultRes)

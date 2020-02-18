@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
 import android.util.AttributeSet
 import android.widget.ImageButton
+import androidx.annotation.DrawableRes
 import androidx.annotation.Px
 import io.golos.cyber_android.R
 
@@ -104,5 +105,4 @@ constructor(
         val top = (targetSize - rectHeight)/2
         return Rect(0, top, targetSize, top + rectHeight)
     }
-
 }

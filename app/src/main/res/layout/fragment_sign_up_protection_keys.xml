@@ -86,7 +86,7 @@
             android:layout_height="64dp"
 
             android:layout_marginTop="@dimen/sign_up_password_block_margin_top"
-            android:background="@drawable/bcg_thin_gray_stroke"
+            android:background="@drawable/bcg_thin_gray_stroke_ripple"
 
             android:orientation="vertical"
 

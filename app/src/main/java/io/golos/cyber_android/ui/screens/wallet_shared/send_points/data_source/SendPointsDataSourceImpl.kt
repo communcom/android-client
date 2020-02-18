@@ -33,9 +33,7 @@ constructor(
             version = 0,
             isFirstItem = false,
             isLastItem = false,
-            userId = user.userId,
-            name = user.userName,
-            avatarUrl = user.userAvatar
+            user = user
         )
 
     override fun markAsFirst(item: SendPointsListItem) = item.copy(isFirstItem = true)

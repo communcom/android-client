@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
@@ -53,6 +53,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
+        primePanel.setOnSendClickListener { viewModel.onSendPointsItemClick(null) }
         toolbarContent.setOnBackButtonClickListener { viewModel.onBackClick() }
         myPointsArea.setOnSeeAllClickListener { viewModel.onSeeAllMyPointsClick() }
         sendPointsArea.setOnSeeAllClickListener { viewModel.onSeeAllSendPointsClick() }
@@ -65,7 +66,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
             is NavigateToWalletPoint -> moveToWalletPoint(command.selectedCommunityId, command.balance)
 
             is NavigateToWalletSendPoints ->
-                moveToWalletSendPoints(command.selectedCommunityId, command.sendToUserId, command.balance)
+                moveToWalletSendPoints(command.selectedCommunityId, command.sendToUser, command.balance)
 
             is ShowMyPointsDialog -> showMyPointsDialog(command.balance)
 
@@ -78,9 +79,9 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
     private fun moveToWalletSendPoints(
         selectedCommunityId: String,
-        sendToUserId: UserIdDomain,
+        sendToUser: UserDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
-        getDashboardFragment(this)?.showFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUserId, balance))
+        getDashboardFragment(this)?.showFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 
     private fun showMyPointsDialog(balance: List<WalletCommunityBalanceRecordDomain>) =
         WalletChoosePointsDialog.show(this, balance) { communityId ->

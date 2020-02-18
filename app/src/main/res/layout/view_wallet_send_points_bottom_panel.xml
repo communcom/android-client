@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="70dp"
 
-        android:background="@drawable/bcg_thin_gray_stroke"
+        android:background="@drawable/bcg_thin_gray_stroke_ripple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +71,23 @@
         app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
         app:layout_constraintEnd_toEndOf="@+id/selectedUserPanel"
         app:layout_constraintTop_toTopOf="@+id/selectedUserPanel" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/friendFoundButton"
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+        android:layout_marginEnd="7dp"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_check_ok"
+
+        app:imageButton_iconInscribeSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
+        app:layout_constraintEnd_toEndOf="@+id/selectedUserPanel"
+        app:layout_constraintTop_toTopOf="@+id/selectedUserPanel"
+
+        android:visibility="invisible"
+        />
     <!-- endregion Selected user panel - End-->
 
     <!-- region Amount panel - Start-->
@@ -79,7 +96,7 @@
         android:layout_width="0dp"
         android:layout_height="64dp"
 
-        android:background="@drawable/bcg_thin_gray_stroke"
+        android:background="@drawable/bcg_thin_gray_stroke_ripple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectedUserPanel"

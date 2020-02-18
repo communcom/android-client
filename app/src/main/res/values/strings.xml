@@ -38,7 +38,6 @@
     </plurals>
     <plurals name="formatter_points_formatted">
         <item quantity="zero">{0}{1} points</item>
-        <item quantity="one">{0}{1} point</item>
         <item quantity="other">{0}{1} points</item>
     </plurals>
     <!--Size formatting - end -->
@@ -404,7 +403,7 @@
     <string name="done">Done</string>
 
 
-    <string name="no_followers_yet">There are no users in the list</string>
+    <string name="no_followers_yet">There are no users in the `list</string>
     <string name="no_followers_yet_external_user">This user has no followers yet</string>
     <string name="no_followers">No Followers</string>
     <string name="no_mutual">No Mutual</string>
@@ -516,4 +515,6 @@
     <string name="amount">Amount</string>
     <string name="points_0">0 Points</string>
     <string name="send_burned">0.1% will be burned 🔥</string>
+
+    <string name="select_user">Select user</string>
 </resources>
