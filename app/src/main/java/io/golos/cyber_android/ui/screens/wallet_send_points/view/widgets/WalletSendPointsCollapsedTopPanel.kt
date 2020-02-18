@@ -3,8 +3,12 @@ package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.animation.AnimationUtils
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
@@ -30,6 +34,24 @@ constructor(
 
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
         selectCommunityButton.setOnClickListener { onSelectCommunityButtonClickListener?.invoke() }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        if(oldh == 0) {
+            return
+        }
+
+        AnimationUtils.getFloatAnimator(
+            duration = 400,
+            forward = h < oldh,
+            updateListener = { alpha ->
+                children.forEach {
+                    it.alpha = alpha
+                }
+            }
+        ).start()
+
+        super.onSizeChanged(w, h, oldw, oldh)
     }
 
     @SuppressLint("SetTextI18n")

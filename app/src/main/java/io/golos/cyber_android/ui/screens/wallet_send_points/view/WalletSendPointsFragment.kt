@@ -12,7 +12,6 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommun
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectUserDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel
-import io.golos.cyber_android.ui.shared.animation.AnimationUtils
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
@@ -90,37 +89,13 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
     }
 
     private fun onKeyboardOpened(keyboardHeight: Int) {
-        AnimationUtils.getFloatAnimator(
-            duration = 200,
-            startListener = {
-                collapsedPanel.alpha = 0f
-                collapsedPanel.visibility = View.VISIBLE
-            },
-            updateListener = {
-                collapsedPanel.alpha = it
-            },
-            completeListener = {
-                expandedPanel.visibility = View.INVISIBLE
-            }
-        ).start()
+        expandedPanel.visibility = View.INVISIBLE
+        collapsedPanel.visibility = View.VISIBLE
     }
 
     private fun onKeyboardClosed(keyboardHeight: Int) {
-        AnimationUtils.getFloatAnimator(
-            forward = false,
-            duration = 200,
-            startListener = {
-                expandedPanel.visibility = View.VISIBLE
-                collapsedPanel.alpha = 1f
-                collapsedPanel.visibility = View.VISIBLE
-            },
-            updateListener = {
-                collapsedPanel.alpha = it
-            },
-            completeListener = {
-                collapsedPanel.visibility = View.INVISIBLE
-            }
-        ).start()
+        expandedPanel.visibility = View.VISIBLE
+        collapsedPanel.visibility = View.INVISIBLE
     }
 
     private fun showSelectUserDialog() =

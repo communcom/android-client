@@ -3,13 +3,14 @@ package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
+import io.golos.cyber_android.ui.shared.animation.AnimationUtils
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.*
-import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.carousel
 
 class WalletSendPointsExpandedTopPanel
 @JvmOverloads
@@ -30,6 +31,24 @@ constructor(
         selectCommunityButton.setOnClickListener { onSelectCommunityButtonClickListener?.invoke() }
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        if(oldh == 0) {
+            return
+        }
+
+        AnimationUtils.getFloatAnimator(
+            duration = 400,
+            forward = h > oldh,
+            updateListener = { alpha ->
+                children.forEach {
+                    it.alpha = alpha
+                }
+            }
+        ).start()
+
+        super.onSizeChanged(w, h, oldw, oldh)
+    }
+
     fun setData(data: WalletCommunityBalanceRecordDomain) {
         name.text = data.communityName ?: data.communityId
         amount.text = CurrencyFormatter.format(data.points)
@@ -47,7 +66,6 @@ constructor(
     fun setOnItemSelectedListener(listener: ((String) -> Unit)?) {
         onItemSelectedListener = listener
     }
-
 
     fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
         onBackButtonClickListener = listener
