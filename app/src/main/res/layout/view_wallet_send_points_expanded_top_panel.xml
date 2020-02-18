@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-        android:id="@+id/menuButton"
+        android:id="@+id/selectCommunityButton"
 
         android:layout_width="@dimen/size_image_button"
         android:layout_height="@dimen/size_image_button"
@@ -56,14 +56,14 @@
 
         android:text="@string/send_points"
         app:layout_constraintBottom_toBottomOf="@+id/backButton"
-        app:layout_constraintEnd_toStartOf="@+id/menuButton"
+        app:layout_constraintEnd_toStartOf="@+id/selectCommunityButton"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="@+id/backButton" />
 
     <io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselRecyclerView
         android:id="@+id/carousel"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="110dp"
 
         tools:background="@color/green"
 
@@ -73,14 +73,14 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintBottom_toTopOf="@+id/name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/name"
 
         style="@style/Text17.White.Bold.SingleLine"
 
@@ -90,7 +90,7 @@
 
         android:layout_marginBottom="10dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintBottom_toTopOf="@+id/amount"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -98,7 +98,7 @@
         tools:text="Owerwatch" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/amount"
 
         style="@style/Text30.White.Bold.SingleLine"
 

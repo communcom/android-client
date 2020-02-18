@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-        android:id="@+id/menuButton"
+        android:id="@+id/selectCommunityButton"
 
         android:layout_width="@dimen/size_image_button"
         android:layout_height="@dimen/size_image_button"
@@ -75,7 +75,7 @@
 
         style="@style/Text17.White.Bold.SingleLine"
 
-        app:layout_constraintEnd_toStartOf="@+id/menuButton"
+        app:layout_constraintEnd_toStartOf="@+id/selectCommunityButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/pointsLogo"
         app:layout_constraintTop_toTopOf="@+id/backButton"

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber_android.R
 
 
 class CarouselAdapter(
@@ -33,13 +32,14 @@ class CarouselAdapter(
     }
 
     /**
-     * Calculate start scroll position by index of an item in the list
+     * Calculates scroll position by index of an item in the list
+     * [position] an index in the list of items
      */
-    fun calculateStartPosition(index: Int): Int {
+    fun recalculatePosition(position: Int): Int {
         val basePosition = Int.MAX_VALUE /2
         val baseIndex = getItemIndexByPosition(basePosition)
 
-        return basePosition - (baseIndex - index)
+        return basePosition - (baseIndex - position)
     }
 
     private fun getItemIndexByPosition(position: Int) = position % items.size

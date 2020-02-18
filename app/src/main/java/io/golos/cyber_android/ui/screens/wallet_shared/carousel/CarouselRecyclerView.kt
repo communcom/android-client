@@ -38,7 +38,7 @@ class CarouselRecyclerView(
 
                     val sidePadding = (width / 2) - (getChildAt(0).width / 2)
                     setPadding(sidePadding, 0, sidePadding, 0)
-                    scrollToPosition(0)
+                    scrollToAbsolutePosition(0)
 
                     addOnScrollListener(object : OnScrollListener() {
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -51,7 +51,7 @@ class CarouselRecyclerView(
 
                             if(newState == SCROLL_END) {
                                 lastItemTag?.let {
-                                    scrollToPosition(it.position)
+                                    scrollToAbsolutePosition(it.position)
 
                                     if(currentScrollState == SCROLLING_FAST || currentScrollState == SCROLL_START) {
                                         postOnItemSelectedEvent(it.id)
@@ -67,19 +67,20 @@ class CarouselRecyclerView(
         adapter = newAdapter
     }
 
-    fun setUp(index: Int, onItemSelectedListener: ((String) -> Unit)?) {
+    fun setUp(position: Int, onItemSelectedListener: ((String) -> Unit)?) {
         post{
-            val startPosition = (adapter as CarouselAdapter).calculateStartPosition(index)
-            (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(startPosition, offsetToCenterScroll)
+            val startPosition = (adapter as CarouselAdapter).recalculatePosition(position)
+            scrollToAbsolutePosition(startPosition)
             setOnItemSelectedListener(onItemSelectedListener)
         }
     }
 
-    override fun scrollToPosition(position: Int) {
-        (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, offsetToCenterScroll)
-    }
+    override fun scrollToPosition(position: Int) =
+        scrollToAbsolutePosition((adapter as CarouselAdapter).recalculatePosition(position))
 
     override fun smoothScrollToPosition(position: Int) {
+        val recalculatedPosition = (adapter as CarouselAdapter).recalculatePosition(position)
+
         val scroller = object : LinearSmoothScroller(context) {
             override fun getHorizontalSnapPreference(): Int {
                 return SNAP_TO_START
@@ -89,7 +90,7 @@ class CarouselRecyclerView(
                 return 0
             }
         }
-        scroller.targetPosition = position
+        scroller.targetPosition = recalculatedPosition
         (layoutManager as LinearLayoutManager).startSmoothScroll(scroller)
     }
 
@@ -149,5 +150,9 @@ class CarouselRecyclerView(
         lastPostId = id
 
         onItemSelectedListener?.invoke(id)
+    }
+
+    private fun scrollToAbsolutePosition(position: Int) {
+        (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, offsetToCenterScroll)
     }
 }

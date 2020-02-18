@@ -7,12 +7,12 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.shared.extensions.getFormattedString
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.dialog_wallet_items_list_general_item_view_holder.view.*
-import com.bumptech.glide.request.target.Target as GlideTarget
 
 
 class WalletChoosePointsDialogViewHolder(
@@ -21,7 +21,7 @@ class WalletChoosePointsDialogViewHolder(
     parentView,
     R.layout.dialog_wallet_items_list_general_item_view_holder
 ) {
-    private var logoGlideTarget: GlideTarget<*>? = null
+    private var logoGlideTarget: GlideTarget? = null
 
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: WalletChoosePointsDialogItemEventsProcessor) {
         if (listItem !is MyPointsListItem) {
@@ -69,7 +69,7 @@ class WalletChoosePointsDialogViewHolder(
         logoGlideTarget?.clear(itemView.context.applicationContext)
     }
 
-    private fun loadIcon(placeholder: ImageView, item: MyPointsListItem):GlideTarget<*>? =
+    private fun loadIcon(placeholder: ImageView, item: MyPointsListItem): GlideTarget? =
         if(item.isCommun) {
             placeholder.setImageResource(R.drawable.ic_commun)
             null

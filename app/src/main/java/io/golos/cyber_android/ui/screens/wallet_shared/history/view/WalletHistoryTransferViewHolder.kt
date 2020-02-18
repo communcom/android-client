@@ -11,12 +11,12 @@ import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistory
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferType
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_wallet_history_transfer_list_item.view.*
-import com.bumptech.glide.request.target.Target as GlideTarget
 
 class WalletHistoryTransferViewHolder(
     private val parentView: ViewGroup
@@ -24,8 +24,8 @@ class WalletHistoryTransferViewHolder(
     parentView,
     R.layout.view_wallet_history_transfer_list_item
 ) {
-    private var smallIconGlideTarget: GlideTarget<*>? = null
-    private var mainIconGlideTarget: GlideTarget<*>? = null
+    private var smallIconGlideTarget: GlideTarget? = null
+    private var mainIconGlideTarget: GlideTarget? = null
 
 
     @SuppressLint("SetTextI18n")
@@ -73,7 +73,7 @@ class WalletHistoryTransferViewHolder(
         mainIconGlideTarget?.clear(itemView.context.applicationContext)
     }
 
-    private fun loadIcon(placeholder: ImageView, icon: String?):GlideTarget<*>? =
+    private fun loadIcon(placeholder: ImageView, icon: String?): GlideTarget? =
         if(icon.isNullOrEmpty() || icon == WalletHistoryConstants.ICON_COMMUN) {
             placeholder.setImageResource(R.drawable.ic_commun)
             null

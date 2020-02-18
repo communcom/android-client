@@ -3,20 +3,15 @@ package io.golos.cyber_android.ui.screens.profile_communities.view.list
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
-import io.golos.cyber_android.ui.shared.glide.clear
-import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
+import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.cyber_android.ui.shared.glide.GlideTarget
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemCover
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
 class CommunityListItemViewHolder(
@@ -25,8 +20,8 @@ class CommunityListItemViewHolder(
     parentView,
     R.layout.view_profile_communities_community_list_item
 ) {
-    private var avatarGlideTarget: Target<*>? = null
-    private var coverGlideTarget: Target<*>? = null
+    private var avatarGlideTarget: GlideTarget? = null
+    private var coverGlideTarget: GlideTarget? = null
 
     @SuppressLint("SetTextI18n")
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: CommunityListItemEventsProcessor) {

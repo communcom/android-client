@@ -23,7 +23,6 @@ constructor(
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     private val sourceBalance: List<WalletCommunityBalanceRecordDomain>,
-    private val dispatchersProvider: DispatchersProvider,
     private val walletRepository: WalletRepository,
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource

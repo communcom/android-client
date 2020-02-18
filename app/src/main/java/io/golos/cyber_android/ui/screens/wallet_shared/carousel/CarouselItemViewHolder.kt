@@ -2,14 +2,14 @@ package io.golos.cyber_android.ui.screens.wallet_shared.carousel
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import kotlinx.android.synthetic.main.view_wallet_carousel.view.*
 
 class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private var iconGlideTarget: Target<*>? = null
+    private var iconGlideTarget: GlideTarget? = null
 
     fun bind(item: CarouselListItem, position: Int) {
 

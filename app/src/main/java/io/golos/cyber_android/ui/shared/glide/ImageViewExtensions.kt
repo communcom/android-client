@@ -23,6 +23,8 @@ import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransfor
 import io.golos.cyber_android.ui.shared.glide.transformations.TopRoundedCornersTransformation
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
 
+typealias GlideTarget = Target<*>
+
 enum class ImageProgressLoadState{
     START,
     COMPLETE,
@@ -73,7 +75,7 @@ fun ImageView.loadCover(url: String?) {
         .into(this)
 }
 
-fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): Target<*> =
+fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): GlideTarget =
     Glide
         .with(this)
         .load(url)
@@ -83,7 +85,7 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): Target<*> =
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
 
-fun ImageView.load(uri: Uri?, @DrawableRes defaultRes: Int): Target<*> =
+fun ImageView.load(uri: Uri?, @DrawableRes defaultRes: Int): GlideTarget =
     Glide
         .with(this)
         .load(uri)
@@ -161,7 +163,7 @@ fun ImageView.loadVideoContent(url: String?){
         .into(image)
 }
 
-fun ImageView.loadCommunityItemCover(url: String?): Target<*> =
+fun ImageView.loadCommunityItemCover(url: String?): GlideTarget =
     Glide
         .with(this.context.applicationContext)
         .load(if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url)
@@ -172,7 +174,7 @@ fun ImageView.loadCommunityItemCover(url: String?): Target<*> =
         .placeholder(R.drawable.bcg_community_item_loading_background)
         .into(this)
 
-fun ImageView.loadCommunityItemAvatar(url: String?): Target<*> =
+fun ImageView.loadCommunityItemAvatar(url: String?): GlideTarget =
     Glide
         .with(this.context.applicationContext)
         .load(if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url)
@@ -204,4 +206,4 @@ fun ImageView.clear(){
     Glide.with(this).clear(this)
 }
 
-fun Target<*>.clear(context: Context) = Glide.with(context).clear(this)
+fun GlideTarget.clear(context: Context) = Glide.with(context).clear(this)
