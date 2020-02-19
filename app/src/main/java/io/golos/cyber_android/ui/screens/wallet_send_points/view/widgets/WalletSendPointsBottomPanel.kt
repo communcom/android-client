@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UserInfo
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import kotlinx.android.synthetic.main.view_wallet_send_points_bottom_panel.view.*
 
 class WalletSendPointsBottomPanel
@@ -23,6 +24,16 @@ constructor(
         inflate(context, R.layout.view_wallet_send_points_bottom_panel, this)
 
         selectedUserPanel.setOnClickListener { onSelectUserClickListener?.invoke() }
+
+        amountPanel.setOnClickListener {
+            if(!amountText.isFocused) {
+                amountText.requestFocus()
+            }
+
+            if(!KeyboardUtils.isKeyboardVisible(amountText)) {
+                KeyboardUtils.showKeyboard(amountText)
+            }
+        }
     }
 
     fun setUserInfo(userInfo: UserInfo) {
@@ -37,4 +48,14 @@ constructor(
     fun setOnSelectUserClickListener(listener: (() -> Unit)?) {
         onSelectUserClickListener = listener
     }
+
+    fun clearFocusOnAmountField() = amountText.clearFocus()
+
+    fun hideKeyboard(): Boolean =
+        if(KeyboardUtils.isKeyboardVisible(amountText)) {
+            KeyboardUtils.hideKeyboard(amountText)
+            true
+        } else {
+            false
+        }
 }

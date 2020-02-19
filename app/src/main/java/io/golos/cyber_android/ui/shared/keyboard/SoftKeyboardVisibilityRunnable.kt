@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared.helper
+package io.golos.cyber_android.ui.shared.keyboard
 
 import android.content.Context
 import android.view.View

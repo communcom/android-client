@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
+import io.golos.cyber_android.ui.shared.keyboard.SoftKeyboardVisibilityRunnable
 import javax.inject.Inject
 
 class UIHelperImpl
@@ -43,7 +45,6 @@ constructor(
         lastMessage?.cancel()
     }
 
-    override fun setSoftKeyboardVisibility(someViewInWindow: View, isVisible: Boolean) {
-        someViewInWindow.post(SoftKeyboardVisibilityRunnable(appContext, someViewInWindow, isVisible))
-    }
+    override fun setSoftKeyboardVisibility(someViewInWindow: View, isVisible: Boolean) =
+        KeyboardUtils.setKeyboardVisibility(someViewInWindow, isVisible)
 }

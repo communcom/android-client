@@ -88,6 +88,11 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        bottomPanel.hideKeyboard()
+    }
+
     private fun onKeyboardOpened(keyboardHeight: Int) {
         expandedPanel.visibility = View.INVISIBLE
         collapsedPanel.visibility = View.VISIBLE
@@ -96,13 +101,19 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
     private fun onKeyboardClosed(keyboardHeight: Int) {
         expandedPanel.visibility = View.VISIBLE
         collapsedPanel.visibility = View.INVISIBLE
+        bottomPanel.clearFocusOnAmountField()
     }
 
-    private fun showSelectUserDialog() =
+    private fun showSelectUserDialog() = showDialog {
         WalletChooseFriendDialog.show(this) { userId -> userId?.let { viewModel.onUserSelected(it) } }
+    }
 
-    private fun showSelectCommunityDialog(balance: List<WalletCommunityBalanceRecordDomain>) =
+    private fun showSelectCommunityDialog(balance: List<WalletCommunityBalanceRecordDomain>) = showDialog {
         WalletChoosePointsDialog.show(this, balance) { communityId ->
             communityId?.let { viewModel.onCommunitySelected(it) }
         }
+    }
+
+    private fun showDialog(dialogAction: () -> Unit) =
+        bottomPanel.postDelayed( { dialogAction() } , if(bottomPanel.hideKeyboard()) 300L else 0L)
 }
