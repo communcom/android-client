@@ -25,4 +25,6 @@ interface WalletSendPointsModel : ModelBase {
     fun updateCurrentCommunity(communityId: String): Int?
 
     fun validateAmount(): AmountValidationResult
+
+    suspend fun makeTransfer()
 }

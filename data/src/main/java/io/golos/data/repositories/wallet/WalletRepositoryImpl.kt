@@ -14,10 +14,13 @@ import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.UserKeyStore
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
 import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.utils.amount.toServerFormat
+import java.util.*
 import javax.inject.Inject
 
 class WalletRepositoryImpl
@@ -60,4 +63,21 @@ constructor(
             offset = offset
         )}
         .items.map { it.mapToWalletTransferHistoryRecordDomain() }
+
+    override suspend fun makeTransfer(toUser: UserIdDomain, amount: Double, communityId: String) {
+        apiCallChain {
+            commun4j.transfer(
+                to = CyberName(toUser.userId),
+                amount = amount.toServerFormat(),
+                currency = communityId,
+                memo = "",
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE),
+                from = CyberName(currentUserRepository.userId.userId)
+            )
+        }
+        .let {
+            apiCall { commun4j.waitForTransaction(it.transaction_id) }
+        }
+    }
 }

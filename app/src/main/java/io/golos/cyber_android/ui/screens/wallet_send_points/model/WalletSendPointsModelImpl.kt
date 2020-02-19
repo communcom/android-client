@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.UserDomain
@@ -24,7 +25,8 @@ constructor(
     @Named(Clarification.COMMUNITY_ID)
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
-    override var balance: List<WalletCommunityBalanceRecordDomain>
+    override var balance: List<WalletCommunityBalanceRecordDomain>,
+    private val walletRepository: WalletRepository
 ) : ModelBaseImpl(), WalletSendPointsModel {
 
     private var amount: Double? = null
@@ -83,6 +85,8 @@ constructor(
             else -> AmountValidationResult.SUCCESS
         }
     }
+
+    override suspend fun makeTransfer() = walletRepository.makeTransfer(sendToUser!!.userId, amount!!, currentCommunityId)
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }
 }

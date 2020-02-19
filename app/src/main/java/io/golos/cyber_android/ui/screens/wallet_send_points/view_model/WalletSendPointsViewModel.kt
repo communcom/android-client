@@ -107,8 +107,13 @@ constructor(
 
             if(validationResult == AmountValidationResult.SUCCESS) {
                 _command.value = SetLoadingVisibilityCommand(true)
-                delay(1000)
-                _command.value = SetLoadingVisibilityCommand(false)
+                try {
+                    model.makeTransfer()
+                } catch(ex: Exception) {
+                    _command.value = ShowMessageResCommand(R.string.common_general_error)
+                } finally {
+                    _command.value = SetLoadingVisibilityCommand(false)
+                }
             } else {
                 showAmountValidationResult(validationResult)
             }
