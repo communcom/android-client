@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_send_points.model
 import android.content.Context
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.GlobalConstants
@@ -46,6 +47,8 @@ constructor(
         startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
         items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
     )
+    override val hasFee: Boolean
+        get() = currentBalanceRecord.communityId != GlobalConstants.COMMUN_CODE
 
     override fun updateAmount(amountAsString: String?): Boolean =
         try {
@@ -68,6 +71,17 @@ constructor(
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
         return balance.indexOf(currentBalanceRecord)
+    }
+
+    override fun validateAmount(): AmountValidationResult {
+        val fee = if(hasFee) currentBalanceRecord.points/1000 else 0.0
+
+        return when {
+            amount == null -> AmountValidationResult.INVALID_VALUE
+            amount == 0.0 -> AmountValidationResult.CANT_BE_ZERO
+            amount!! > currentBalanceRecord.points - fee -> AmountValidationResult.TOO_LARGE
+            else -> AmountValidationResult.SUCCESS
+        }
     }
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }

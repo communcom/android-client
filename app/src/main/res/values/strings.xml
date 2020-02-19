@@ -519,4 +519,8 @@
 
     <string name="select_user">Select user</string>
     <string name="wallet_send_format">Send: {0} {1}</string>
+
+    <string name="wallet_amount_validation_too_large">The value of amount is too large</string>
+    <string name="wallet_amount_validation_invalid_value">Invalid amount value</string>
+    <string name="wallet_amount_validation_zero">The value of amount can\'t be zero</string>
 </resources>

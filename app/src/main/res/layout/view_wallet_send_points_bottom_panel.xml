@@ -144,6 +144,8 @@
 
         android:hint="@string/points_0"
 
+        android:imeOptions="actionNone"
+
         android:inputType="numberDecimal"
 
         android:maxLength="20"

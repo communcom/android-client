@@ -9,12 +9,17 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.utils.debounce
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.capitalize
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -95,7 +100,19 @@ constructor(
     }
 
     fun onSendClick() {
-        _command.value = HideKeyboardCommand()
+        launch {
+            _command.value = HideKeyboardCommand()
+
+            val validationResult = model.validateAmount()
+
+            if(validationResult == AmountValidationResult.SUCCESS) {
+                _command.value = SetLoadingVisibilityCommand(true)
+                delay(1000)
+                _command.value = SetLoadingVisibilityCommand(false)
+            } else {
+                showAmountValidationResult(validationResult)
+            }
+        }
     }
 
     private fun getUserInfo(user: UserDomain?) =
@@ -122,13 +139,21 @@ constructor(
                 appContext.getString(R.string.commun).capitalize(Locale.getDefault())
             }
 
-            val showFee = model.currentBalanceRecord.communityId != GlobalConstants.COMMUN_CODE
-
-            val isEnabled = !amountString.isNullOrBlank() && model.sendToUser != null
+            val isEnabled = model.validateAmount() == AmountValidationResult.SUCCESS && model.sendToUser != null
 
             val sendText = appContext.resources.getFormattedString(R.string.wallet_send_format, amount, name)
 
-            return SendButtonInfo(showFee = showFee, isEnabled = isEnabled, sendText = sendText)
+            return SendButtonInfo(showFee = model.hasFee, isEnabled = isEnabled, sendText = sendText)
         }
+    }
+
+    private fun showAmountValidationResult(validationResult: AmountValidationResult) {
+        val resourceId = when(validationResult) {
+            AmountValidationResult.TOO_LARGE -> R.string.wallet_amount_validation_too_large
+            AmountValidationResult.CANT_BE_ZERO -> R.string.wallet_amount_validation_zero
+            AmountValidationResult.INVALID_VALUE -> R.string.wallet_amount_validation_invalid_value
+            else -> throw UnsupportedOperationException("This value is not supported: $validationResult")
+        }
+        _command.value = ShowMessageResCommand(resourceId)
     }
 }
