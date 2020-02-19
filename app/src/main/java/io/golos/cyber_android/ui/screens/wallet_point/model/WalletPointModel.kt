@@ -6,6 +6,8 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletPointModel : ModelBase {
+    val sourceBalance: List<WalletCommunityBalanceRecordDomain>
+
     val title: String?
 
     val balanceInPoints: Double

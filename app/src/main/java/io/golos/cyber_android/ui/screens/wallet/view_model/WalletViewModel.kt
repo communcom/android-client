@@ -63,7 +63,7 @@ constructor(
     }
 
     fun onSeeAllMyPointsClick() {
-        _command.value = ShowMyPointsDialog(model.getBalanceRecords(false))
+        _command.value = ShowMyPointsDialog(model.balance)
     }
 
     fun onSeeAllSendPointsClick() {
@@ -99,12 +99,12 @@ constructor(
             return
         }
 
-        _command.value = NavigateToWalletPoint(communityId, model.getBalanceRecords())
+        _command.value = NavigateToWalletPoint(communityId, model.balance)
     }
 
     override fun onSendPointsItemClick(user: UserDomain?) {
-        model.getBalanceRecords().let {
-            _command.value = NavigateToWalletSendPoints(it.first().communityId, user, model.getBalanceRecords())
+        model.balance.let {
+            _command.value = NavigateToWalletSendPoints(it.first().communityId, user, it)
         }
     }
 

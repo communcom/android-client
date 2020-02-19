@@ -87,7 +87,7 @@ constructor(
     fun onSwipeRefresh() = loadPage(true)
 
     override fun onSendPointsItemClick(user: UserDomain?) {
-        _command.value = NavigateToWalletSendPoints(model.currentBalanceRecord.communityId, user, model.balance)
+        _command.value = NavigateToWalletSendPoints(model.currentBalanceRecord.communityId, user, model.sourceBalance)
     }
 
     override fun onSendPointsNextPageReached() {

@@ -7,6 +7,8 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletModel : ModelBase {
+    val balance: List<WalletCommunityBalanceRecordDomain>
+
     val totalBalance: Double
 
     val pageSize: Int
@@ -18,8 +20,6 @@ interface WalletModel : ModelBase {
     suspend fun initBalance(needReload: Boolean)
 
     suspend fun getMyPointsItems(): List<MyPointsListItem>
-
-    fun getBalanceRecords(excludeCommun: Boolean = true): List<WalletCommunityBalanceRecordDomain>
 
     suspend fun loadSendPointsPage()
 

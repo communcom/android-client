@@ -30,7 +30,7 @@ constructor(
 ) : ModelBaseImpl(),
     WalletModel {
 
-    private lateinit var balance: List<WalletCommunityBalanceRecordDomain>
+    override lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
     override val totalBalance: Double
         get() = balance.sumByDouble { it.communs ?: 0.0 }
@@ -65,13 +65,6 @@ constructor(
             )
 
             result
-        }
-
-    override fun getBalanceRecords(excludeCommun: Boolean): List<WalletCommunityBalanceRecordDomain> =
-        if(excludeCommun) {
-            balance.filter { it.communityId != GlobalConstants.COMMUN_CODE }
-        } else {
-            balance
         }
 
     override suspend fun loadSendPointsPage() = sendPointsDataSource.loadPage()
