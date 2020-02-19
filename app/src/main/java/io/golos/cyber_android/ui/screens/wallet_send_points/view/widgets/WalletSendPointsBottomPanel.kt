@@ -1,14 +1,14 @@
 package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
 
 import android.content.Context
-import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountFieldInfo
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.SendButtonInfo
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UserInfo
+import io.golos.cyber_android.ui.shared.extensions.setTextChangeListener
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import io.golos.cyber_android.ui.shared.text.CurrencyInputFilter
@@ -23,11 +23,21 @@ constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private var onSelectUserClickListener: (() -> Unit)? = null
+    private var onAmountChangeListener: ((String) -> Unit)? = null
+    private var onAmountClearListener: (() -> Unit)? = null
+    private var onSendButtonClickListener: (() -> Unit)? = null
+
+    var amount: String
+    get() = amountText.text.toString()
+    set(value) {
+        amountText.setText(value)
+    }
 
     init {
         inflate(context, R.layout.view_wallet_send_points_bottom_panel, this)
 
         selectedUserPanel.setOnClickListener { onSelectUserClickListener?.invoke() }
+        findFriendButton.setOnClickListener { onSelectUserClickListener?.invoke() }
 
         amountPanel.setOnClickListener {
             if(!amountText.isFocused) {
@@ -39,9 +49,10 @@ constructor(
             }
         }
 
-        amountText.filters = arrayOf(
-            CurrencyInputFilter(22, 4)
-        )
+        amountText.setTextChangeListener { onAmountChangeListener?.invoke(it) }
+
+        clearAmountButton.setOnClickListener { onAmountClearListener?.invoke() }
+        sendButton.setOnClickListener { onSendButtonClickListener?.invoke() }
     }
 
     fun setUserInfo(userInfo: UserInfo) {
@@ -55,6 +66,18 @@ constructor(
 
     fun setOnSelectUserClickListener(listener: (() -> Unit)?) {
         onSelectUserClickListener = listener
+    }
+
+    fun setOnAmountChangeListener(listener: ((String) -> Unit)?) {
+        onAmountChangeListener = listener
+    }
+
+    fun setOnAmountClearListener(listener: (() -> Unit)?) {
+        onAmountClearListener = listener
+    }
+
+    fun setOnSendButtonClickListener(listener: (() -> Unit)?) {
+        onSendButtonClickListener = listener
     }
 
     fun clearFocusOnAmountField() = amountText.clearFocus()
@@ -71,7 +94,13 @@ constructor(
         amountText.setHint(amountFieldInfo.hintResId)
 
         amountText.filters = arrayOf(
-            CurrencyInputFilter(22, amountFieldInfo.decimalPointsQuantity)
+            CurrencyInputFilter(7+amountFieldInfo.decimalPointsQuantity, amountFieldInfo.decimalPointsQuantity)
         )
+    }
+
+    fun setSendButtonInfo(sendButtonInfo: SendButtonInfo) {
+        sendButtonExplanation.visibility = if(sendButtonInfo.showFee) View.VISIBLE else View.GONE
+        sendButtonLabel.text = sendButtonInfo.sendText
+        sendButton.isEnabled = sendButtonInfo.isEnabled
     }
 }

@@ -10,6 +10,7 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.capitalize
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -24,6 +25,8 @@ constructor(
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>
 ) : ModelBaseImpl(), WalletSendPointsModel {
+
+    private var amount: Double? = null
 
     init {
         // Move Commun community to the first
@@ -43,6 +46,16 @@ constructor(
         startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
         items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
     )
+
+    override fun updateAmount(amountAsString: String?): Boolean =
+        try {
+            amount = if(amountAsString.isNullOrBlank()) null else amountAsString.toDouble()
+            true
+        } catch (ex: NumberFormatException) {
+            Timber.e(ex)
+            amount = null
+            false
+        }
 
     /**
      * @return Index of the community in the balance list

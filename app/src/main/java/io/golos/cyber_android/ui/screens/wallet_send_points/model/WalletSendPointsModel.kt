@@ -14,6 +14,8 @@ interface WalletSendPointsModel : ModelBase {
 
     val carouselItemsData: CarouselStartData
 
+    fun updateAmount(amountAsString: String?): Boolean
+
     /**
      * @return Index of the community in the balance list
      */

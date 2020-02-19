@@ -8,3 +8,5 @@ class ShowSelectUserDialogCommand: ViewCommand
 class ShowSelectCommunityDialogCommand(val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
 
 class UpdateCarouselPositionCommand(val position: Int): ViewCommand
+
+class HideKeyboardCommand(): ViewCommand

@@ -8,6 +8,7 @@ import io.golos.cyber_android.databinding.FragmentWalletSendPointsBinding
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.HideKeyboardCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectUserDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
@@ -65,6 +66,8 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         keyboardVisibilityListener.setOnKeyboardClosedListener { onKeyboardClosed(it) }
 
         bottomPanel.setOnSelectUserClickListener { viewModel.onSelectUserClick() }
+        bottomPanel.setOnAmountClearListener { viewModel.onClearAmountClick() }
+        bottomPanel.setOnSendButtonClickListener { viewModel.onSendClick() }
 
         expandedPanel.setOnItemSelectedListener { viewModel.onCarouselItemSelected(it) }
         expandedPanel.setOnBackButtonClickListener { viewModel.onBackClick() }
@@ -85,6 +88,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
             is ShowSelectUserDialogCommand -> showSelectUserDialog()
             is ShowSelectCommunityDialogCommand -> showSelectCommunityDialog(command.balance)
             is UpdateCarouselPositionCommand -> expandedPanel.setCarouselPosition(command.position)
+            is HideKeyboardCommand -> bottomPanel.hideKeyboard()
         }
     }
 
