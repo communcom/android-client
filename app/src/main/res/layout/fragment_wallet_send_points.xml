@@ -51,6 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:wallet_send_points_bottom_user_info="@{viewModel.selectedUser}"
+            app:wallet_send_points_bottom_amount_info="@{viewModel.amountFieldInfo}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

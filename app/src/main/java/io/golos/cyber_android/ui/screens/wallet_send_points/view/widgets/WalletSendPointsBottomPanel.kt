@@ -1,13 +1,17 @@
 package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
 
 import android.content.Context
+import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountFieldInfo
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UserInfo
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
+import io.golos.cyber_android.ui.shared.text.CurrencyInputFilter
 import kotlinx.android.synthetic.main.view_wallet_send_points_bottom_panel.view.*
 
 class WalletSendPointsBottomPanel
@@ -34,6 +38,10 @@ constructor(
                 KeyboardUtils.showKeyboard(amountText)
             }
         }
+
+        amountText.filters = arrayOf(
+            CurrencyInputFilter(22, 4)
+        )
     }
 
     fun setUserInfo(userInfo: UserInfo) {
@@ -58,4 +66,12 @@ constructor(
         } else {
             false
         }
+
+    fun setAmountFieldInfo(amountFieldInfo: AmountFieldInfo) {
+        amountText.setHint(amountFieldInfo.hintResId)
+
+        amountText.filters = arrayOf(
+            CurrencyInputFilter(22, amountFieldInfo.decimalPointsQuantity)
+        )
+    }
 }

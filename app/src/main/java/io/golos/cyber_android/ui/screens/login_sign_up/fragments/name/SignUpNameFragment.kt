@@ -17,7 +17,7 @@ import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
 import io.golos.cyber_android.ui.shared.extensions.setOnDrawableEndClickListener
 import io.golos.cyber_android.ui.shared.utils.asEvent
-import io.golos.cyber_android.ui.shared.utils.AllLowersInputFilter
+import io.golos.cyber_android.ui.shared.text.AllLowersInputFilter
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import io.golos.data.errors.AppError
 import io.golos.domain.use_cases.model.*
