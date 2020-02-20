@@ -11,6 +11,8 @@ class NavigateToWalletSendPoints(
     val sendToUser: UserDomain?,
     val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
 
+class NavigateToWalletConvertCommand(): ViewCommand
+
 class ShowMyPointsDialog(val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
 
 class ShowSendPointsDialog(): ViewCommand

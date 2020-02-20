@@ -6,11 +6,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletBinding
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
-import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletPoint
-import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
-import io.golos.cyber_android.ui.screens.wallet.dto.ShowMyPointsDialog
-import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
+import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
+import io.golos.cyber_android.ui.screens.wallet_convert.view.WalletConvertFragment
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_point.view.WalletPointFragment
@@ -54,24 +52,29 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
         primePanel.setOnSendClickListener { viewModel.onSendPointsItemClick(null) }
+        primePanel.setOnConvertClickListener { viewModel.onConvertClick() }
+
         toolbarContent.setOnBackButtonClickListener { viewModel.onBackClick() }
+
         myPointsArea.setOnSeeAllClickListener { viewModel.onSeeAllMyPointsClick() }
+
         sendPointsArea.setOnSeeAllClickListener { viewModel.onSeeAllSendPointsClick() }
     }
 
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
-
             is NavigateToWalletPoint -> moveToWalletPoint(command.selectedCommunityId, command.balance)
 
             is NavigateToWalletSendPoints ->
                 moveToWalletSendPoints(command.selectedCommunityId, command.sendToUser, command.balance)
 
-            is ShowMyPointsDialog -> showMyPointsDialog(command.balance)
+            is NavigateToWalletConvertCommand -> moveToWalletConvert()
 
+            is ShowMyPointsDialog -> showMyPointsDialog(command.balance)
             is ShowSendPointsDialog -> showSendPointsDialog()
         }
     }
@@ -84,6 +87,10 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         sendToUser: UserDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
+
+    private fun moveToWalletConvert() {
+        getDashboardFragment(this)?.navigateToFragment(WalletConvertFragment.newInstance("", listOf()))
+    }
 
     private fun showMyPointsDialog(balance: List<WalletCommunityBalanceRecordDomain>) =
         WalletChoosePointsDialog.show(this, balance) { communityId ->

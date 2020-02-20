@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_point.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletConvertCommand
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
 import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
@@ -116,6 +117,10 @@ constructor(
 
     fun onSeeAllSendPointsClick() {
         _command.value = ShowSendPointsDialog()
+    }
+
+    fun onConvertClick() {
+        _command.value = NavigateToWalletConvertCommand()
     }
 
     private fun loadPage(needReload: Boolean) {

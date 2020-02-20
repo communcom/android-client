@@ -108,6 +108,10 @@ constructor(
         }
     }
 
+    fun onConvertClick() {
+        _command.value = NavigateToWalletConvertCommand()
+    }
+
     private fun loadPage(needReload: Boolean) {
         loadPageJob?.cancel()
         loadPageJob = launch {

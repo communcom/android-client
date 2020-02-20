@@ -77,6 +77,8 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragm
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentModule
+import io.golos.cyber_android.ui.screens.wallet_convert.di.WalletConvertFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_convert.di.WalletConvertFragmentModule
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.di.WalletChooseFriendDialogComponent
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentModule
@@ -304,6 +306,16 @@ class DependencyInjectionStorage(private val appContext: Context) {
                         communityId = args[0] as String,
                         sendToUser = args[1] as UserDomain?,
                         balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
+                    )
+                    .build()
+
+            WalletConvertFragmentComponent::class ->
+                getBase<WalletFragmentComponent>()
+                    .convertFragment
+                    .init(
+                        WalletConvertFragmentModule(
+                            communityId = args[0] as String,
+                            balance = args[1] as List<WalletCommunityBalanceRecordDomain>)
                     )
                     .build()
 
