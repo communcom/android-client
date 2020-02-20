@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@drawable/bcg_wallet_profile"
@@ -14,6 +15,8 @@
 
         android:layout_width="50dp"
         android:layout_height="50dp"
+
+        android:clickable="false"
 
         android:background="@drawable/bcg_wallet_profile_icon"
         app:imageButton_icon="@drawable/ic_wallet"
@@ -42,6 +45,8 @@
         android:layout_height="wrap_content"
         android:text="@string/profile_wallet_title"
 
+        android:clickable="false"
+
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
 
@@ -57,6 +62,8 @@
         android:id="@+id/textValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+
+        android:clickable="false"
 
         android:text=""
         tools:text="167 500.23"

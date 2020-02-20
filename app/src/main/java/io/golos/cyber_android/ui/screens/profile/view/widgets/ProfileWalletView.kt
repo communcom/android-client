@@ -20,6 +20,7 @@ constructor(
     init {
         inflate(context, R.layout.view_profile_wallet, this)
 
+        root.setOnClickListener { walletButton.performClick() }
         walletButton.setOnClickListener { onWalletClickListener?.invoke() }
     }
 
