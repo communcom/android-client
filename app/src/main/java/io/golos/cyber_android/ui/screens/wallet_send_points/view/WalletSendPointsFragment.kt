@@ -126,7 +126,9 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
     private fun showWalletTransferCompletedDialog(data: TransferCompletedInfo) {
         WalletTransferCompletedDialog.show(this, data) {
             when(it) {
+                null,
                 WalletTransferCompletedDialog.Action.BACK_TO_WALLET -> viewModel.onBackToWalletSelected()
+
                 WalletTransferCompletedDialog.Action.BACK_TO_HOME -> viewModel.onBackToHomeSelected()
             }
         }

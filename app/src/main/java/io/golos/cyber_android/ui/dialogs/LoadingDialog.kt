@@ -14,6 +14,11 @@ import io.golos.cyber_android.R
  * Undissmisable dialog which displays only Progress bar
  */
 class LoadingDialog: DialogFragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.DialogFragment_Loading)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_loading, container)
     }
