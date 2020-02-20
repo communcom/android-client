@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.wallet_send_points.model
 
 import android.content.Context
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
@@ -31,12 +32,14 @@ constructor(
 
     private var amount: Double? = null
 
+    private val communName: String by lazy { appContext.getString(R.string.commun).capitalize(Locale.getDefault()) }
+
     init {
         // Move Commun community to the first
         balance =
             mutableListOf(
                 balance.first { it.communityId == GlobalConstants.COMMUN_CODE }
-                    .copy(communityName = appContext.getString(R.string.commun).capitalize(Locale.getDefault()))
+                    .copy(communityName = communName)
             )
             .also {
                 it.addAll(balance.filter { it.communityId != GlobalConstants.COMMUN_CODE })
@@ -88,5 +91,26 @@ constructor(
 
     override suspend fun makeTransfer() = walletRepository.makeTransfer(sendToUser!!.userId, amount!!, currentCommunityId)
 
+    override fun getTransferCompletedInfo(): TransferCompletedInfo {
+        val pointsName = if(currentCommunityId != GlobalConstants.COMMUN_CODE) {
+            currentBalanceRecord.communityName ?: currentBalanceRecord.communityId
+        } else {
+            communName
+        }
+
+        return TransferCompletedInfo(
+            date = Date(),
+            amountTransfered = amount!!,
+            amountRemain = currentBalanceRecord.points - calculateFee() - amount!!,
+            userLogoUrl = sendToUser!!.userAvatar,
+            userName = sendToUser!!.userName,
+            pointsLogoUrl = currentBalanceRecord.communityLogoUrl,
+            pointsName = pointsName,
+            showFee = hasFee
+        )
+    }
+
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }
+
+    private fun calculateFee(): Double = if(hasFee) currentBalanceRecord.points/1000 else 0.0
 }

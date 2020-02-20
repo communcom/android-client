@@ -7,11 +7,10 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletSendPointsBinding
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
+import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
+import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.WalletTransferCompletedDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.HideKeyboardCommand
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectUserDialogCommand
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -89,6 +88,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
             is ShowSelectCommunityDialogCommand -> showSelectCommunityDialog(command.balance)
             is UpdateCarouselPositionCommand -> expandedPanel.setCarouselPosition(command.position)
             is HideKeyboardCommand -> bottomPanel.hideKeyboard()
+            is ShowWalletTransferCompletedDialog -> showWalletTransferCompletedDialog(command.data)
         }
     }
 
@@ -108,16 +108,22 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         bottomPanel.clearFocusOnAmountField()
     }
 
-    private fun showSelectUserDialog() = showDialog {
+    private fun showSelectUserDialog() = showListDialog {
         WalletChooseFriendDialog.show(this) { userId -> userId?.let { viewModel.onUserSelected(it) } }
     }
 
-    private fun showSelectCommunityDialog(balance: List<WalletCommunityBalanceRecordDomain>) = showDialog {
+    private fun showSelectCommunityDialog(balance: List<WalletCommunityBalanceRecordDomain>) = showListDialog {
         WalletChoosePointsDialog.show(this, balance) { communityId ->
             communityId?.let { viewModel.onCommunitySelected(it) }
         }
     }
 
-    private fun showDialog(dialogAction: () -> Unit) =
+    private fun showWalletTransferCompletedDialog(data: TransferCompletedInfo) {
+        WalletTransferCompletedDialog.show(this, data) {
+
+        }
+    }
+
+    private fun showListDialog(dialogAction: () -> Unit) =
         bottomPanel.postDelayed( { dialogAction() } , if(bottomPanel.hideKeyboard()) 300L else 0L)
 }

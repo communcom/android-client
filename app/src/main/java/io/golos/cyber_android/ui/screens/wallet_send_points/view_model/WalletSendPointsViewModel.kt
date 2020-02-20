@@ -108,7 +108,8 @@ constructor(
             if(validationResult == AmountValidationResult.SUCCESS) {
                 _command.value = SetLoadingVisibilityCommand(true)
                 try {
-                    model.makeTransfer()
+//                    model.makeTransfer()
+                    _command.value = ShowWalletTransferCompletedDialog(model.getTransferCompletedInfo())
                 } catch(ex: Exception) {
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
                 } finally {

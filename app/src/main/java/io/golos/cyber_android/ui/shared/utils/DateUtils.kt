@@ -63,7 +63,11 @@ object DateUtils {
 }
 
 fun Date.toMMMM_DD_YYYY_Format(): String {
-    return SimpleDateFormat(MMMM_DD_YYYY_FORMAT, Locale.US).format(this)
+    return SimpleDateFormat(MMMM_DD_YYYY_FORMAT, Locale.getDefault()).format(this)
+}
+
+fun Date.toDD_MMMM_YYYY_Format(): String {
+    return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(this)
 }
 
 fun Date.toDayShort(): String {

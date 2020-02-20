@@ -516,6 +516,7 @@
     <string name="points_0">0 Points</string>
     <string name="commun_0">0 Commun</string>
     <string name="send_burned">0.1% will be burned 🔥</string>
+    <string name="send_complete_burned">0.1% was burned 🔥</string>
 
     <string name="select_user">Select user</string>
     <string name="wallet_send_format">Send: {0} {1}</string>
@@ -523,4 +524,11 @@
     <string name="wallet_amount_validation_too_large">The value of amount is too large</string>
     <string name="wallet_amount_validation_invalid_value">Invalid amount value</string>
     <string name="wallet_amount_validation_zero">The value of amount can\'t be zero</string>
+
+    <string name="home">Home</string>
+    <string name="back_to_wallet">Back to wallet</string>
+
+    <string name="transaction_completed">Transaction completed</string>
+    <string name="payee">Payee</string>
+    <string name="debited_from">Debited from</string>
 </resources>

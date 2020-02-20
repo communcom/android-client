@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">@color/blue</color>
 
+    <color name="toolsBackground">#9C27B0</color>
+
     <color name="blue">#6A80F5</color>
     <color name="red">#FF5959</color>
     <color name="yellow">#FFE066</color>
@@ -85,6 +87,4 @@
     <!--Wallet-->
     <color name="profile_wallet_bcg_start">#A4B1F9</color>
     <color name="profile_wallet_bcg_end">#6A80F5</color>
-
-
 </resources>
