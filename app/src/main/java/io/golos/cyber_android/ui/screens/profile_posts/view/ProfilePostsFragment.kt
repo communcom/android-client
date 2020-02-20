@@ -12,7 +12,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
@@ -99,13 +98,13 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openUserProfile(userId: UserIdDomain){
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             ProfileExternalUserFragment.newInstance(userId)
         )
     }
 
     private fun openCommunityPage(communityId: String) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )
     }
@@ -352,14 +351,14 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            tagFragment = contentId.permlink
+            tag = contentId.permlink
         )
     }
 

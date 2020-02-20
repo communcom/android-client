@@ -72,7 +72,7 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
         selectedCommunityId: String,
         sendToUser: UserDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
-        getDashboardFragment(this)?.showFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
+        getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 
     private fun showSendPointsDialog() =
         WalletChooseFriendDialog.show(this) { userId -> userId?.let { viewModel.onSendPointsItemClick(it) } }

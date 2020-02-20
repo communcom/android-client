@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed
 import android.view.View
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.dialogs.base.DialogFragmentBase
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.load
@@ -12,7 +11,7 @@ import kotlinx.android.synthetic.main.dialog_wallet_transfer_completed.*
 
 class WalletTransferCompletedDialog : DialogFragmentBase() {
     enum class Action {
-        HOME,
+        BACK_TO_HOME,
         BACK_TO_WALLET
     }
 
@@ -49,7 +48,7 @@ class WalletTransferCompletedDialog : DialogFragmentBase() {
         userLogo.load(sourceData.userLogoUrl, R.drawable.ic_commun)
         remainLogo.load(sourceData.pointsLogoUrl, R.drawable.ic_commun)
 
-        homeButton.setOnClickListener { closePositive(Action.HOME) }
+        homeButton.setOnClickListener { closePositive(Action.BACK_TO_HOME) }
 
         backToWalletButton.setOnClickListener { closePositive(Action.BACK_TO_WALLET) }
     }

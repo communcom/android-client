@@ -14,8 +14,8 @@ import io.golos.cyber_android.ui.screens.login_activity.shared.validators.passwo
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.visializer.PasswordValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
-import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToQrCodeCommand
-import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.MoveToSignUpCommand
+import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.NavigateToQrCodeCommand
+import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.NavigateToSignUpCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.model.SignInUserNameModel
@@ -111,11 +111,11 @@ constructor(
     }
 
     fun onMoveToSignUpClick() {
-        _command.value = MoveToSignUpCommand()
+        _command.value = NavigateToSignUpCommand()
     }
 
     fun onQrCodeClick() {
-        _command.value = MoveToQrCodeCommand()
+        _command.value = NavigateToQrCodeCommand()
     }
 
     fun onQrCodeCameraPermissionsDenied() {

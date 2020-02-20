@@ -5,6 +5,9 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletSendPointsBinding
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
+import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
@@ -89,6 +92,8 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
             is UpdateCarouselPositionCommand -> expandedPanel.setCarouselPosition(command.position)
             is HideKeyboardCommand -> bottomPanel.hideKeyboard()
             is ShowWalletTransferCompletedDialog -> showWalletTransferCompletedDialog(command.data)
+            is NavigateToWalletBackCommand -> { getDashboardFragment(this)?.navigateBack(WalletFragment.tag) }
+            is NavigateToHomeBackCommand -> { getDashboardFragment(this)?.navigateHome() }
         }
     }
 
@@ -120,7 +125,10 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
 
     private fun showWalletTransferCompletedDialog(data: TransferCompletedInfo) {
         WalletTransferCompletedDialog.show(this, data) {
-
+            when(it) {
+                WalletTransferCompletedDialog.Action.BACK_TO_WALLET -> viewModel.onBackToWalletSelected()
+                WalletTransferCompletedDialog.Action.BACK_TO_HOME -> viewModel.onBackToHomeSelected()
+            }
         }
     }
 

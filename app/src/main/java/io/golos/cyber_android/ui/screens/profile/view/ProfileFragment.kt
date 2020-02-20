@@ -95,18 +95,18 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         when (command) {
             is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
             is ShowEditBioDialogCommand -> showEditBioDialog()
-            is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
-            is MoveToBioPageCommand -> moveToBioPage(command.text)
-            is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
+            is NavigateToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
+            is NavigateToBioPageCommand -> moveToBioPage(command.text)
+            is NavigateToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
             is ShowSettingsDialogCommand -> showSettingsDialog()
             is ShowExternalUserSettingsDialogCommand -> showExternalUserSettingsDialog(command.isBlocked)
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
-            is MoveToLikedPageCommand -> moveToLikedPage()
-            is MoveToBlackListPageCommand -> moveToBlackListPage()
+            is NavigateToLikedPageCommand -> moveToLikedPage()
+            is NavigateToBlackListPageCommand -> moveToBlackListPage()
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is RestartAppCommand -> restartApp()
             is LoadPostsAndCommentsCommand -> initPages()
-            is MoveToWalletCommand -> moveToWallet(command.balance)
+            is NavigateToWalletCommand -> moveToWallet(command.balance)
         }
     }
 
@@ -194,7 +194,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
         getDashboardFragment(this)
-            ?.showFragment(
+            ?.navigateToFragment(
                 ProfilePhotosFragment.newInstance(
                     place,
                     imageUrl,
@@ -203,16 +203,16 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             )
 
     private fun moveToBioPage(text: String?) =
-        getDashboardFragment(this)?.showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
+        getDashboardFragment(this)?.navigateToFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 
     private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
-        getDashboardFragment(this)?.showFragment(provideFollowersFragment(filter, mutualUsers))
+        getDashboardFragment(this)?.navigateToFragment(provideFollowersFragment(filter, mutualUsers))
     }
 
-    private fun moveToLikedPage() = getDashboardFragment(this)?.showFragment(ProfileLikedFragment.newInstance())
+    private fun moveToLikedPage() = getDashboardFragment(this)?.navigateToFragment(ProfileLikedFragment.newInstance())
 
     private fun moveToBlackListPage() =
-        getDashboardFragment(this)?.showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
+        getDashboardFragment(this)?.navigateToFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 
     private fun restartApp() {
         val loginIntent = Intent(requireContext(), LoginActivity::class.java)
@@ -221,5 +221,5 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     }
 
     private fun moveToWallet(balance: List<WalletCommunityBalanceRecordDomain>) =
-        getDashboardFragment(this)?.showFragment(WalletFragment.newInstance(balance))
+        getDashboardFragment(this)?.navigateToFragment(WalletFragment.newInstance(balance), tag = WalletFragment.tag)
 }

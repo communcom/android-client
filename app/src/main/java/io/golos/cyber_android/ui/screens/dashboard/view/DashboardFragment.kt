@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -109,14 +110,14 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        showFragment(
+        navigateToFragment(
             PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            tagFragment = contentId.permlink
+            tag = contentId.permlink
         )
     }
 
@@ -198,12 +199,12 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
-    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true, tagFragment: String? = null) {
-        val tag = tagFragment ?: "${fragment::class.simpleName}_${fragment.hashCode()}"
-        if (childFragmentManager.findFragmentByTag(tag) == null) {
+    fun navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = true, tag: String? = null) {
+        val tagToUse = tag ?: "${fragment::class.simpleName}_${fragment.hashCode()}"
+        if (childFragmentManager.findFragmentByTag(tagToUse) == null) {
             val beginTransaction = childFragmentManager.beginTransaction()
             if (isAddToBackStack) {
-                beginTransaction.addToBackStack(tag)
+                beginTransaction.addToBackStack(tagToUse)
             }
 
             beginTransaction.setCustomAnimations(
@@ -214,8 +215,20 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
             )
 
             beginTransaction
-                .add(R.id.rootContainer, fragment, tag)
+                .add(R.id.rootContainer, fragment, tagToUse)
                 .commit()
         }
+    }
+
+    fun navigateBack(tag: String?) {
+        if(tag == null) {
+            childFragmentManager.popBackStack()
+        } else {
+            childFragmentManager.popBackStack(tag, 0)
+        }
+    }
+
+    fun navigateHome() {
+        childFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }

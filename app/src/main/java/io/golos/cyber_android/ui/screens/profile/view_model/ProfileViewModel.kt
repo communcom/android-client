@@ -113,9 +113,9 @@ constructor(
 
     fun onSelectMenuChosen(item: ProfileItem) {
         _command.value = when(item) {
-            ProfileItem.AVATAR -> MoveToSelectPhotoPageCommand(item, model.avatarUrl)
-            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item, model.coverUrl)
-            ProfileItem.BIO -> MoveToBioPageCommand(_bio.value)
+            ProfileItem.AVATAR -> NavigateToSelectPhotoPageCommand(item, model.avatarUrl)
+            ProfileItem.COVER -> NavigateToSelectPhotoPageCommand(item, model.coverUrl)
+            ProfileItem.BIO -> NavigateToBioPageCommand(_bio.value)
             else -> return
         }
     }
@@ -132,7 +132,7 @@ constructor(
     }
 
     fun onAddBioClick() {
-        _command.value = MoveToBioPageCommand(null)
+        _command.value = NavigateToBioPageCommand(null)
     }
 
     fun updatePhoto(imageFile: File, item: ProfileItem) {
@@ -174,11 +174,11 @@ constructor(
     }
 
     fun onFollowersClick() {
-        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWERS, model.mutualUsers)
+        _command.value = NavigateToFollowersPageCommand(FollowersFilter.FOLLOWERS, model.mutualUsers)
     }
 
     fun onFollowingsClick() {
-        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
+        _command.value = NavigateToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
     }
 
     fun onSettingsClick() {
@@ -194,11 +194,11 @@ constructor(
     }
 
     fun onLikedSelected() {
-        _command.value = MoveToLikedPageCommand()
+        _command.value = NavigateToLikedPageCommand()
     }
 
     fun onBlackListSelected() {
-        _command.value = MoveToBlackListPageCommand()
+        _command.value = NavigateToBlackListPageCommand()
     }
 
     fun onMoveToBlackListSelected() {
@@ -266,7 +266,7 @@ constructor(
     }
 
     fun onWalletButtonClick() {
-        _command.value = MoveToWalletCommand(model.balanceData)
+        _command.value = NavigateToWalletCommand(model.balanceData)
     }
 
     private suspend fun loadPageInternal() {

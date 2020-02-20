@@ -90,8 +90,8 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
     }
 
     private fun moveToCommunity(communityId: String) =
-        getDashboardFragment(this)?.showFragment(CommunityPageFragment.newInstance(communityId))
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageFragment.newInstance(communityId))
 
     private fun moveToCommunitiesList(userId: UserIdDomain) =
-        getDashboardFragment(this)?.showFragment(CommunitiesListFragment.newInstance(userId))
+        getDashboardFragment(this)?.navigateToFragment(CommunitiesListFragment.newInstance(userId))
 }

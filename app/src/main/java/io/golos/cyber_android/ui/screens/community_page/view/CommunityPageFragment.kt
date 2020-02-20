@@ -222,8 +222,8 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
 
     private fun navigateToMembers(communityId: String) =
-        getDashboardFragment(this)?.showFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
 
     private fun navigateToFriends(friends: List<CommunityFriend>) =
-        getDashboardFragment(this)?.showFragment(CommunityPageFriendsFragment.newInstance(friends), true, null)
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageFriendsFragment.newInstance(friends), true, null)
 }

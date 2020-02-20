@@ -59,6 +59,6 @@ open class CommunityPageFriendsFragment : FragmentBaseMVVM<FragmentCommunityPage
     }
 
     private fun navigateToUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(userId))
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(userId))
     }
 }

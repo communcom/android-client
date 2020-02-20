@@ -12,7 +12,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
@@ -329,14 +328,14 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            tagFragment = contentId.permlink
+            tag = contentId.permlink
         )
     }
 

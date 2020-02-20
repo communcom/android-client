@@ -136,7 +136,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
     }
 
     private fun openUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             ProfileExternalUserFragment.newInstance(userId)
         )
     }
@@ -145,14 +145,14 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(
                 PostPageFragment.Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            tagFragment = contentId.permlink
+            tag = contentId.permlink
         )
     }
 

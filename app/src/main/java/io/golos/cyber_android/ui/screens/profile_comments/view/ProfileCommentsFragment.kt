@@ -118,7 +118,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
     private fun openSelectPhotoView(imageUrl: String?) {
         getDashboardFragment(this)
-            ?.showFragment(
+            ?.navigateToFragment(
                 ProfilePhotosFragment.newInstance(
                     ProfileItem.COMMENT,
                     imageUrl,
@@ -128,7 +128,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
     private fun openCommunityPage(communityId: String) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )
     }

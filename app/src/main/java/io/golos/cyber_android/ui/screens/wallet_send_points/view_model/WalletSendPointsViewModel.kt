@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
@@ -108,7 +111,7 @@ constructor(
             if(validationResult == AmountValidationResult.SUCCESS) {
                 _command.value = SetLoadingVisibilityCommand(true)
                 try {
-//                    model.makeTransfer()
+                    model.makeTransfer()
                     _command.value = ShowWalletTransferCompletedDialog(model.getTransferCompletedInfo())
                 } catch(ex: Exception) {
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
@@ -119,6 +122,14 @@ constructor(
                 showAmountValidationResult(validationResult)
             }
         }
+    }
+
+    fun onBackToWalletSelected() {
+        _command.value = NavigateToWalletBackCommand()
+    }
+
+    fun onBackToHomeSelected() {
+        _command.value = NavigateToHomeBackCommand()
     }
 
     private fun getUserInfo(user: UserDomain?) =

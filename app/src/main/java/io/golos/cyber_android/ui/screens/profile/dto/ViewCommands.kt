@@ -10,15 +10,15 @@ class ShowSelectPhotoDialogCommand(val place: ProfileItem): ViewCommand
 
 class ShowEditBioDialogCommand : ViewCommand
 
-class MoveToSelectPhotoPageCommand(val place: ProfileItem, val imageUrl: String?): ViewCommand
+class NavigateToSelectPhotoPageCommand(val place: ProfileItem, val imageUrl: String?): ViewCommand
 
-class MoveToBioPageCommand(val text: String?): ViewCommand
+class NavigateToBioPageCommand(val text: String?): ViewCommand
 
-class MoveToFollowersPageCommand(val filter: FollowersFilter, val mutualUsers: List<UserDomain>): ViewCommand
+class NavigateToFollowersPageCommand(val filter: FollowersFilter, val mutualUsers: List<UserDomain>): ViewCommand
 
-class MoveToLikedPageCommand : ViewCommand
+class NavigateToLikedPageCommand : ViewCommand
 
-class MoveToBlackListPageCommand : ViewCommand
+class NavigateToBlackListPageCommand : ViewCommand
 
 class ShowSettingsDialogCommand : ViewCommand
 
@@ -28,5 +28,9 @@ class RestartAppCommand : ViewCommand
 
 class LoadPostsAndCommentsCommand : ViewCommand
 
-class MoveToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
+class NavigateToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
+
+class NavigateToWalletBackCommand() : ViewCommand
+
+class NavigateToHomeBackCommand() : ViewCommand
 

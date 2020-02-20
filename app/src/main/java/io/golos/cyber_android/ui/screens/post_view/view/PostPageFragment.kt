@@ -19,7 +19,6 @@ import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
@@ -209,7 +208,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun openSelectPhotoView(imageUrl: String?) {
         getDashboardFragment(this)
-            ?.showFragment(
+            ?.navigateToFragment(
                 ProfilePhotosFragment.newInstance(
                     ProfileItem.COMMENT,
                     imageUrl,
@@ -219,13 +218,13 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun openUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             ProfileExternalUserFragment.newInstance(userId)
         )
     }
 
     private fun openCommunityPage(communityId: String) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )
     }
@@ -342,14 +341,14 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             newInstance(
                 Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            tagFragment = contentId.permlink
+            tag = contentId.permlink
         )
     }
 
@@ -369,7 +368,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             .show(requireFragmentManager(), "menu")
 
     private fun moveToUserProfile(userId: String) =
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
 
     private fun moveToImageView(imageUri: Uri) =
         startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))

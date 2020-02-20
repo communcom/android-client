@@ -25,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_wallet.*
 
 class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>() {
     companion object {
+        const val  tag = "WALLET_FRAGMENT_TAG"
+
         private const val BALANCE = "BALANCE"
         fun newInstance(sourceBalance: List<WalletCommunityBalanceRecordDomain>) = WalletFragment().apply {
             arguments = Bundle().apply {
@@ -75,13 +77,13 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     }
 
     private fun moveToWalletPoint(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) =
-        getDashboardFragment(this)?.showFragment(WalletPointFragment.newInstance(selectedCommunityId, balance))
+        getDashboardFragment(this)?.navigateToFragment(WalletPointFragment.newInstance(selectedCommunityId, balance))
 
     private fun moveToWalletSendPoints(
         selectedCommunityId: String,
         sendToUser: UserDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
-        getDashboardFragment(this)?.showFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
+        getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 
     private fun showMyPointsDialog(balance: List<WalletCommunityBalanceRecordDomain>) =
         WalletChoosePointsDialog.show(this, balance) { communityId ->
