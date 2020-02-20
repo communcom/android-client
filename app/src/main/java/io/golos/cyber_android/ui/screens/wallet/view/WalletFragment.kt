@@ -72,7 +72,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
             is NavigateToWalletSendPoints ->
                 moveToWalletSendPoints(command.selectedCommunityId, command.sendToUser, command.balance)
 
-            is NavigateToWalletConvertCommand -> moveToWalletConvert()
+            is NavigateToWalletConvertCommand -> moveToWalletConvert(command.selectedCommunityId, command.balance)
 
             is ShowMyPointsDialog -> showMyPointsDialog(command.balance)
             is ShowSendPointsDialog -> showSendPointsDialog()
@@ -88,8 +88,8 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 
-    private fun moveToWalletConvert() {
-        getDashboardFragment(this)?.navigateToFragment(WalletConvertFragment.newInstance("", listOf()))
+    private fun moveToWalletConvert(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) {
+        getDashboardFragment(this)?.navigateToFragment(WalletConvertFragment.newInstance(selectedCommunityId, balance))
     }
 
     private fun showMyPointsDialog(balance: List<WalletCommunityBalanceRecordDomain>) =

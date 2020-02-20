@@ -120,7 +120,7 @@ constructor(
     }
 
     fun onConvertClick() {
-        _command.value = NavigateToWalletConvertCommand()
+        _command.value = NavigateToWalletConvertCommand(model.currentBalanceRecord.communityId, model.sourceBalance)
     }
 
     private fun loadPage(needReload: Boolean) {

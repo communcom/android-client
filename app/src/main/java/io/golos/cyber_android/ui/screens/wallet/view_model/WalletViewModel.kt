@@ -109,7 +109,11 @@ constructor(
     }
 
     fun onConvertClick() {
-        _command.value = NavigateToWalletConvertCommand()
+        model.balance.let { balance ->
+            _command.value = NavigateToWalletConvertCommand(
+                balance.first { it.communityId != GlobalConstants.COMMUN_CODE}.communityId,
+                balance)
+        }
     }
 
     private fun loadPage(needReload: Boolean) {
