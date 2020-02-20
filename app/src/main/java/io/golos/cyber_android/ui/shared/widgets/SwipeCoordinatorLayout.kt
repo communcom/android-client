@@ -16,6 +16,10 @@ constructor(
     attrs: AttributeSet? = null
 ) : SwipeRefreshLayout(context, attrs) {
 
+    init {
+        setDistanceToTriggerSync(300)
+    }
+
     private val offsetHelper: ViewOffsetHelper? by lazy { findOffsetHelper() }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
