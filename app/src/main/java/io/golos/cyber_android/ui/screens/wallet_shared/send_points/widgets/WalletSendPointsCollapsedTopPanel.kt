@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import io.golos.cyber_android.R
@@ -58,6 +59,10 @@ constructor(
         loadTarget = pointsLogo.load(data.communityLogoUrl, R.drawable.ic_commun)
 
         pointsName.text = "${data.communityName ?: data.communityId} ${CurrencyFormatter.format(data.points)}"
+    }
+
+    fun setMenuVisibility(isVisible: Boolean) {
+        selectCommunityButton.visibility = if(isVisible) View.VISIBLE else View.INVISIBLE
     }
 
     fun setOnBackButtonClickListener(listener: (() -> Unit)?) {

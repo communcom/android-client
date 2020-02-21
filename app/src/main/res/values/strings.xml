@@ -532,4 +532,9 @@
     <string name="payee">Payee</string>
     <string name="debited_from">Debited from</string>
     <string name="balance">Balance</string>
+    <string name="sell_format">Sell {0}</string>
+    <string name="buy_format">Buy {0}</string>
+
+    <string name="wallet_convert_rate_format">Rate: {0} {1} = {2} {3}</string>
+    <string name="wallet_convert_convert_format">Convert: {0} {1}</string>
 </resources>

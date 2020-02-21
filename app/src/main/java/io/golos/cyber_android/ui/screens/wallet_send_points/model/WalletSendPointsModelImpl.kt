@@ -52,6 +52,7 @@ constructor(
         startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
         items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
     )
+
     override val hasFee: Boolean
         get() = currentBalanceRecord.communityId != GlobalConstants.COMMUN_CODE
 

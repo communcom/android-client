@@ -12,7 +12,10 @@ import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
 import io.golos.cyber_android.ui.shared.animation.AnimationUtils
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.android.synthetic.main.view_wallet_send_points_collapsed_top_panel.view.*
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.*
+import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.backButton
+import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.selectCommunityButton
 
 class WalletSendPointsExpandedTopPanel
 @JvmOverloads
@@ -68,6 +71,10 @@ constructor(
     fun switchMode(isInCarouselMode: Boolean) {
         carousel.visibility = if(isInCarouselMode) View.VISIBLE else View.GONE
         communSymbol.visibility = if(isInCarouselMode) View.GONE else View.VISIBLE
+    }
+
+    fun setMenuVisibility(isVisible: Boolean) {
+        selectCommunityButton.visibility = if(isVisible) View.VISIBLE else View.INVISIBLE
     }
 
     fun setCarouselPosition(position: Int) = carousel.scrollToPosition(position)

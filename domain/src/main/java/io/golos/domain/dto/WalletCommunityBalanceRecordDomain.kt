@@ -12,6 +12,10 @@ data class WalletCommunityBalanceRecordDomain (
     val communityName: String?,
     val communityId: String,
 
+    /**
+     * How many points we can buy for one Commun
+     */
     val communs: Double?,
+
     val transferFee: Int?
 ): Parcelable

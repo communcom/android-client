@@ -41,3 +41,12 @@ fun setWalletSendPointsExpandedTopPanelMode(view: WalletSendPointsExpandedTopPan
         }
     }
 }
+
+@BindingAdapter("wallet_send_points_expanded_menu")
+fun setWalletSendPointsExpandedTopPanelMenu(view: WalletSendPointsExpandedTopPanel, valueToBind: LiveData<Boolean>?) {
+    valueToBind?.let { liveValue ->
+        view.parentActivity?.let { activity ->
+            liveValue.observe(activity, Observer { view.setMenuVisibility(it) })
+        }
+    }
+}

@@ -16,3 +16,12 @@ fun setWalletSendPointsCollapsedTopPanelData(
         }
     }
 }
+
+@BindingAdapter("wallet_send_points_collapsed_menu")
+fun setWalletSendPointsCollapsedTopPanelMenu(view: WalletSendPointsCollapsedTopPanel, valueToBind: LiveData<Boolean>?) {
+    valueToBind?.let { liveValue ->
+        view.parentActivity?.let { activity ->
+            liveValue.observe(activity, Observer { view.setMenuVisibility(it) })
+        }
+    }
+}

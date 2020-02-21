@@ -14,7 +14,7 @@
 
     <!-- region Selected user panel - Start-->
     <View
-        android:id="@+id/selectedUserPanel"
+        android:id="@+id/selectedPointPanel"
         android:layout_width="0dp"
         android:layout_height="70dp"
 
@@ -24,22 +24,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/userLogo"
+        android:id="@+id/pointLogo"
 
         android:layout_width="@dimen/size_image_button"
         android:layout_height="@dimen/size_image_button"
 
         android:layout_marginStart="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
-        app:layout_constraintStart_toStartOf="@+id/selectedUserPanel"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
+        app:layout_constraintStart_toStartOf="@+id/selectedPointPanel"
 
-        app:layout_constraintTop_toTopOf="@+id/selectedUserPanel"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel"
 
         app:srcCompat="@drawable/img_example_avatar"
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/buyLabel"
+        android:id="@+id/buyLabelTop"
         style="@style/Text12.Grey.Bold.SingleLine"
         android:layout_width="wrap_content"
 
@@ -48,13 +48,13 @@
 
         android:text="@string/buy"
 
-        app:layout_constraintBottom_toTopOf="@+id/userName"
-        app:layout_constraintStart_toStartOf="@+id/userName"
-        app:layout_constraintTop_toTopOf="@+id/selectedUserPanel"
+        app:layout_constraintBottom_toTopOf="@+id/pointName"
+        app:layout_constraintStart_toStartOf="@+id/pointName"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/pointName"
         style="@style/Text15.Black.Bold.SingleLine"
         android:layout_width="0dp"
 
@@ -65,10 +65,10 @@
         android:layout_marginEnd="10dp"
         android:text=""
 
-        app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
         app:layout_constraintEnd_toStartOf="@+id/balanceValue"
-        app:layout_constraintStart_toEndOf="@+id/userLogo"
-        app:layout_constraintTop_toBottomOf="@+id/buyLabel"
+        app:layout_constraintStart_toEndOf="@+id/pointLogo"
+        app:layout_constraintTop_toBottomOf="@+id/buyLabelTop"
         tools:text="Owerwatch" />
 
     <TextView
@@ -83,7 +83,7 @@
 
         app:layout_constraintBottom_toTopOf="@+id/balanceValue"
         app:layout_constraintEnd_toEndOf="@+id/balanceValue"
-        app:layout_constraintTop_toTopOf="@+id/selectedUserPanel"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
@@ -95,9 +95,10 @@
         android:layout_marginTop="1dp"
 
         android:layout_marginEnd="10dp"
+        app:layout_goneMarginEnd="15dp"
 
         android:text=""
-        app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
 
         app:layout_constraintEnd_toStartOf="@+id/selectPointButton"
         app:layout_constraintTop_toBottomOf="@+id/balanceLabel"
@@ -113,14 +114,14 @@
         app:imageButton_icon="@drawable/ic_editor_arrow"
 
         app:imageButton_iconInscribeSize="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/selectedUserPanel"
-        app:layout_constraintEnd_toEndOf="@+id/selectedUserPanel"
-        app:layout_constraintTop_toTopOf="@+id/selectedUserPanel" />
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
+        app:layout_constraintEnd_toEndOf="@+id/selectedPointPanel"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel" />
     <!-- endregion Selected user panel - End-->
 
     <!-- region Amount panel - Start-->
     <View
-        android:id="@+id/amountPanel"
+        android:id="@+id/sellPanel"
         android:layout_width="0dp"
         android:layout_height="64dp"
 
@@ -128,15 +129,15 @@
         android:layout_marginEnd="6dp"
 
         android:background="@drawable/bcg_thin_gray_stroke_ripple"
-        app:layout_constraintEnd_toStartOf="@+id/buySumPanel"
+        app:layout_constraintEnd_toStartOf="@+id/buyPanel"
 
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedUserPanel" />
+        app:layout_constraintTop_toBottomOf="@id/selectedPointPanel" />
 
     <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-        android:id="@+id/clearAmountButton"
+        android:id="@+id/clearSellButton"
         android:layout_width="@dimen/size_image_button"
 
         android:layout_height="@dimen/size_image_button"
@@ -146,12 +147,12 @@
         app:imageButton_icon="@drawable/ic_close_dark_gray"
 
         app:imageButton_iconInscribeSize="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/amountPanel"
-        app:layout_constraintEnd_toEndOf="@+id/amountPanel"
-        app:layout_constraintTop_toTopOf="@+id/amountPanel" />
+        app:layout_constraintBottom_toBottomOf="@+id/sellPanel"
+        app:layout_constraintEnd_toEndOf="@+id/sellPanel"
+        app:layout_constraintTop_toTopOf="@+id/sellPanel" />
 
     <TextView
-        android:id="@+id/amountLabel"
+        android:id="@+id/sellLabel"
         style="@style/Text12.Grey.Bold.SingleLine"
         android:layout_width="wrap_content"
 
@@ -160,14 +161,15 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
 
-        android:text="@string/amount"
+        android:text=""
+        tools:text="Sell Commun"
 
-        app:layout_constraintStart_toStartOf="@+id/amountPanel"
+        app:layout_constraintStart_toStartOf="@+id/sellPanel"
 
-        app:layout_constraintTop_toTopOf="@+id/amountPanel" />
+        app:layout_constraintTop_toTopOf="@+id/sellPanel" />
 
     <EditText
-        android:id="@+id/amountText"
+        android:id="@+id/sellInputField"
         style="@style/Text17.Black.Bold.SingleLine"
         android:layout_width="0dp"
 
@@ -176,7 +178,7 @@
         android:layout_marginBottom="6dp"
         android:background="@null"
 
-        android:hint="@string/points_0"
+        android:hint="0"
 
         android:imeOptions="actionNone"
 
@@ -187,26 +189,84 @@
 
         android:paddingBottom="2dp"
 
-        app:layout_constraintBottom_toBottomOf="@+id/amountPanel"
-        app:layout_constraintEnd_toStartOf="@+id/clearAmountButton"
-        app:layout_constraintStart_toStartOf="@+id/amountLabel"
-        tools:ignore="Autofill" />
+        app:layout_constraintBottom_toBottomOf="@+id/sellPanel"
+        app:layout_constraintEnd_toStartOf="@+id/clearSellButton"
+        app:layout_constraintStart_toStartOf="@+id/sellLabel"
+        tools:ignore="Autofill,HardcodedText" />
     <!-- endregion Amount panel - End-->
 
     <View
-        android:id="@+id/buySumPanel"
+        android:id="@+id/buyPanel"
         android:layout_width="0dp"
         android:layout_height="64dp"
 
         android:layout_marginStart="6dp"
 
         android:background="@drawable/bcg_thin_gray_stroke_ripple"
-        app:layout_constraintBottom_toBottomOf="@+id/amountPanel"
+        app:layout_constraintBottom_toBottomOf="@+id/sellPanel"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/amountPanel"
-        app:layout_constraintTop_toTopOf="@+id/amountPanel" />
+        app:layout_constraintStart_toEndOf="@+id/sellPanel"
+        app:layout_constraintTop_toTopOf="@+id/sellPanel" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/clearBuyButton"
+        android:layout_width="@dimen/size_image_button"
+
+        android:layout_height="@dimen/size_image_button"
+        android:layout_marginEnd="7dp"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_close_dark_gray"
+
+        app:imageButton_iconInscribeSize="24dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/buyPanel"
+        app:layout_constraintEnd_toEndOf="@+id/buyPanel"
+        app:layout_constraintTop_toTopOf="@+id/buyPanel" />
+
+    <TextView
+        android:id="@+id/buyLabel"
+        style="@style/Text12.Grey.Bold.SingleLine"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/buyPanel"
+
+        app:layout_constraintTop_toTopOf="@+id/buyPanel"
+        tools:text="Buy Overwatch" />
+
+    <EditText
+        android:id="@+id/buyInputField"
+        style="@style/Text17.Black.Bold.SingleLine"
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="6dp"
+        android:background="@null"
+
+        android:hint="0"
+
+        android:imeOptions="actionNone"
+
+        android:inputType="numberDecimal"
+
+        android:maxLength="20"
+        android:paddingTop="2dp"
+
+        android:paddingBottom="2dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/buyPanel"
+        app:layout_constraintEnd_toStartOf="@+id/clearBuyButton"
+        app:layout_constraintStart_toStartOf="@+id/buyLabel"
+        tools:ignore="Autofill,HardcodedText" />
 
     <Button
         android:id="@+id/sendButton"
@@ -225,52 +285,6 @@
         tools:text="Convert: 100 Overwatch" />
 
     <TextView
-        android:id="@+id/buyTargetLabel"
-        style="@style/Text12.Grey.Bold.SingleLine"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
-
-        android:text=""
-        app:layout_constraintStart_toStartOf="@+id/buySumPanel"
-
-        app:layout_constraintTop_toTopOf="@+id/buySumPanel"
-        tools:text="Buy Overwatch" />
-
-    <TextView
-        android:id="@+id/buyValue"
-        style="@style/Text17.Black.Bold.SingleLine"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-
-        android:text=""
-
-        app:layout_constraintBottom_toBottomOf="@+id/equalsLabel"
-
-        app:layout_constraintStart_toEndOf="@+id/equalsLabel"
-        app:layout_constraintTop_toTopOf="@+id/equalsLabel"
-        tools:text="100" />
-
-    <TextView
-        android:id="@+id/equalsLabel"
-        style="@style/Text17.Grey.Bold.SingleLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginBottom="6dp"
-
-        android:text="="
-
-        app:layout_constraintBottom_toBottomOf="@+id/buySumPanel"
-        app:layout_constraintStart_toStartOf="@+id/buyTargetLabel"
-        tools:ignore="HardcodedText" />
-
-    <TextView
         android:id="@+id/rateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -285,5 +299,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amountPanel" />
+        app:layout_constraintTop_toBottomOf="@+id/sellPanel" />
 </androidx.constraintlayout.widget.ConstraintLayout>
