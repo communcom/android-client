@@ -464,4 +464,5 @@
     <dimen name="wallet_dialog_select_item_view_holder_margin">5dp</dimen>
 
     <dimen name="wallet_send_points_bottom_panel_height">300dp</dimen>
+    <dimen name="wallet_send_points_carousel_height">110dp</dimen>
 </resources>

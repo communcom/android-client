@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_point.model.WalletPointModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand

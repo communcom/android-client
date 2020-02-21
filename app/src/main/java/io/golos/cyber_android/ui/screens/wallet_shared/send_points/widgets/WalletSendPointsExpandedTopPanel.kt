@@ -1,7 +1,9 @@
-package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
+import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import io.golos.cyber_android.R
@@ -59,6 +61,13 @@ constructor(
         carousel.addAdapter(adapter)
         adapter.setItems(data.items)
         carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(it) }
+    }
+
+    fun setTitle(@StringRes titleResId: Int) = title.setText(titleResId)
+
+    fun switchMode(isInCarouselMode: Boolean) {
+        carousel.visibility = if(isInCarouselMode) View.VISIBLE else View.GONE
+        communSymbol.visibility = if(isInCarouselMode) View.GONE else View.VISIBLE
     }
 
     fun setCarouselPosition(position: Int) = carousel.scrollToPosition(position)

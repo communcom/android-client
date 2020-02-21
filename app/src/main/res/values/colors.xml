@@ -86,5 +86,5 @@
 
     <!--Wallet-->
     <color name="profile_wallet_bcg_start">#A4B1F9</color>
-    <color name="profile_wallet_bcg_end">#6A80F5</color>
+    <color name="profile_wallet_bcg_end">@color/blue</color>
 </resources>

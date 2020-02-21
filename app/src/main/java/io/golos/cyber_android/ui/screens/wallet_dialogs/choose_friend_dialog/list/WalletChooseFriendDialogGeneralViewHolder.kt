@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.li
 import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.dto.SendPointsListItem
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.dto.SendPointsListItem
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar

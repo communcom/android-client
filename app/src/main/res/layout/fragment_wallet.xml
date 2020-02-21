@@ -75,7 +75,7 @@
                             app:wallet_my_points_items = "@{viewModel.myPointsItems}"
                         />
 
-                        <io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsView
+                        <io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsView
                             android:id="@+id/sendPointsArea"
 
                             android:layout_width="match_parent"

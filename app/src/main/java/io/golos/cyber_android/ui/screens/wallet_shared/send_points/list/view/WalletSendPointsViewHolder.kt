@@ -1,8 +1,8 @@
-package io.golos.cyber_android.ui.screens.wallet_shared.send_points.view
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.dto.SendPointsListItem
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.dto.SendPointsListItem
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar

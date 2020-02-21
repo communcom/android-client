@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData

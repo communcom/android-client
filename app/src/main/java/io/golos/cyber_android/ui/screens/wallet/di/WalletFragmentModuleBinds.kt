@@ -8,8 +8,8 @@ import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSourceImpl
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.SendPointsDataSource
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.SendPointsDataSourceImpl
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSourceImpl
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl

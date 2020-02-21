@@ -65,7 +65,7 @@
                             app:wallet_point_prime_panel_carousel_start="@{viewModel.carouselStartData}"
                         />
 
-                        <io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsView
+                        <io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsView
                             android:id="@+id/sendPointsArea"
 
                             android:layout_width="match_parent"

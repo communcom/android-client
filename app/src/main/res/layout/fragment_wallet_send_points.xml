@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets.WalletSendPointsExpandedTopPanel
+            <io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets.WalletSendPointsExpandedTopPanel
                 android:id="@+id/expandedPanel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -33,7 +33,7 @@
                 app:wallet_send_points_expanded_panel_carousel_start="@{viewModel.carouselItems}"
                 />
 
-            <io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets.WalletSendPointsCollapsedTopPanel
+            <io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets.WalletSendPointsCollapsedTopPanel
                 android:id="@+id/collapsedPanel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

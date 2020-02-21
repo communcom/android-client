@@ -1,10 +1,8 @@
-package io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import io.golos.cyber_android.R

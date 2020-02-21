@@ -1,8 +1,7 @@
-package io.golos.cyber_android.ui.screens.wallet_shared.send_points.view
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.view.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_wallet_send_points_list_item_retry.view.*

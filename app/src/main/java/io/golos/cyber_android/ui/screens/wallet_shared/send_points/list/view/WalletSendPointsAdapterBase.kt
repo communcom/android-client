@@ -1,6 +1,6 @@
-package io.golos.cyber_android.ui.screens.wallet_shared.send_points.view
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view
 
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.dto.SendPointsListItem
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.dto.SendPointsListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.NoDataListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem

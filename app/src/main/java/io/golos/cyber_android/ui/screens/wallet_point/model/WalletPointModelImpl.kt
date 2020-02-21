@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.SendPointsDataSource
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.data.repositories.wallet.WalletRepository
-import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain

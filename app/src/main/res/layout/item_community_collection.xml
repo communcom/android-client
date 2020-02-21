@@ -24,7 +24,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_gravity="end"
-        android:background="@drawable/bcg_collection_delete"
+        android:background="@drawable/bcg_blue_white_oval_ripple"
         android:scaleType="centerInside"
         app:srcCompat="@drawable/ic_close_community" />
 

@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletListDialogBase
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.di.WalletChooseFriendDialogComponent
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.list.WalletChooseFriendDialogAdapter
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.list.WalletChooseFriendDialogItemEventsProcessor
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source.SendPointsDataSource
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants

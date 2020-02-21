@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsList
 

@@ -531,4 +531,5 @@
     <string name="transaction_completed">Transaction completed</string>
     <string name="payee">Payee</string>
     <string name="debited_from">Debited from</string>
+    <string name="balance">Balance</string>
 </resources>

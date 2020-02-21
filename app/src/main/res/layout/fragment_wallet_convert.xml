@@ -6,9 +6,70 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     <variable name="viewModel" type="io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel" />
 </data>
 
-<FrameLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/green"
-    >
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        android:clickable="true"
+        tools:ignore="KeyboardInaccessibleWidget">
+
+        <FrameLayout
+            android:id="@+id/topPanel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/bottomPanel"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets.WalletSendPointsExpandedTopPanel
+                android:id="@+id/expandedPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+            />
+
+            <io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets.WalletSendPointsCollapsedTopPanel
+                android:id="@+id/collapsedPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+             />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/bottomPanel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/wallet_send_points_bottom_panel_height"
+            android:background="@color/white"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:inputType="number" />
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/excangeButton"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+
+            android:background="@drawable/bcg_blue_white_oval_ripple"
+            android:src="@drawable/ic_convert"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottomPanel"
+            app:layout_constraintTop_toBottomOf="@id/topPanel"
+            tools:ignore="ContentDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/title"
         style="@style/Text15.White.Bold.SingleLine"
 
         android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
     <io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselRecyclerView
         android:id="@+id/carousel"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="@dimen/wallet_send_points_carousel_height"
 
         tools:background="@color/green"
 
@@ -77,7 +77,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <ImageView
+        android:id="@+id/communSymbol"
+
+        android:layout_width="@dimen/wallet_send_points_carousel_height"
+        android:layout_height="@dimen/wallet_send_points_carousel_height"
+
+        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+
+        android:src="@drawable/ic_commun"
+        android:background="@drawable/bcg_circle_white"
+        android:padding="2dp"
+        android:alpha="0.85"
+
+        tools:visibility="visible"
+        android:visibility="gone"
+
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/name"

@@ -1,6 +1,6 @@
-package io.golos.cyber_android.ui.screens.wallet_shared.send_points.data_source
+package io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source
 
-import io.golos.cyber_android.ui.screens.wallet_shared.send_points.dto.SendPointsListItem
+import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.dto.SendPointsListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsPagedListBase
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.FollowingUserDomain
