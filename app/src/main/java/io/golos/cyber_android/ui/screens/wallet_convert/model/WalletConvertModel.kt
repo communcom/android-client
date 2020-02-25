@@ -16,4 +16,9 @@ interface WalletConvertModel : ModelBase {
     fun getSellerRecord(): WalletCommunityBalanceRecordDomain
 
     fun getBuyerRecord(): WalletCommunityBalanceRecordDomain
+
+    /**
+     * @return Index of the community in the balance list
+     */
+    fun updateCurrentCommunity(communityId: String): Int?
 }

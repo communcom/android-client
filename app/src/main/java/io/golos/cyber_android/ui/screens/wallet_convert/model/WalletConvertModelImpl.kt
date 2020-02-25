@@ -21,7 +21,7 @@ constructor(
     @Suppress("JoinDeclarationAndAssignment")
     private val communBalanceRecord: WalletCommunityBalanceRecordDomain
 
-    override val currentBalanceRecord = calculateCurrentBalanceRecord()
+    override var currentBalanceRecord = calculateCurrentBalanceRecord()
 
     override val carouselItemsData: CarouselStartData = CarouselStartData(
         startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
@@ -41,6 +41,19 @@ constructor(
 
     override fun getBuyerRecord(): WalletCommunityBalanceRecordDomain =
         if(isInSellPointMode) communBalanceRecord else currentBalanceRecord
+
+    /**
+     * @return Index of the community in the balance list
+     */
+    override fun updateCurrentCommunity(communityId: String): Int? {
+        if(communityId == currentCommunityId) {
+            return null
+        }
+
+        currentCommunityId = communityId
+        currentBalanceRecord = calculateCurrentBalanceRecord()
+        return balance.indexOf(currentBalanceRecord)
+    }
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }
 }

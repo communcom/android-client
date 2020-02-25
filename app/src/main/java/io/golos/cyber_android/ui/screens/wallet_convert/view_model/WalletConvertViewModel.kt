@@ -9,8 +9,11 @@ import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.model.WalletConvertModel
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
@@ -40,17 +43,43 @@ constructor(
     private val _inputFieldInfo = MutableLiveData<InputFieldsInfo>(getInputFieldsInfo())
     val inputFieldInfo: LiveData<InputFieldsInfo> = _inputFieldInfo
 
-    private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>(getConvertButtonInfo())
-    val convertButtonInfo: LiveData<ConvertButtonInfo> = _convertButtonInfo
-
     val sellInputField = MutableLiveData<String>()
     val buyInputField = MutableLiveData<String>()
+
+    private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>(getConvertButtonInfo())
+    val convertButtonInfo: LiveData<ConvertButtonInfo> = _convertButtonInfo
 
     private val _pointInfo = MutableLiveData<PointInfo>(getPointInfo())
     val pointInfo: LiveData<PointInfo> = _pointInfo
 
     private val _isMenuVisible = MutableLiveData<Boolean>(model.isInSellPointMode)
     val isMenuVisible: LiveData<Boolean> = _isMenuVisible
+
+    fun onBackClick() {
+        _command.value = NavigateBackwardCommand()
+    }
+
+    fun onSelectCommunityClick() {
+        _command.value = ShowSelectCommunityDialogCommand(model.balance)
+    }
+
+    fun onCommunitySelected(communityId: String) {
+        model.updateCurrentCommunity(communityId)
+            ?.let {
+                sellInputField.value = ""
+                buyInputField.value = ""
+
+                _sellerBalanceRecord.value = model.getSellerRecord()
+
+                _inputFieldInfo.value = getInputFieldsInfo()
+                _convertButtonInfo.value = getConvertButtonInfo()
+
+                _pointInfo.value = getPointInfo()
+
+                _command.value = UpdateCarouselPositionCommand(it)
+            }
+    }
+
 
     private fun getInputFieldsInfo() =
         InputFieldsInfo(
