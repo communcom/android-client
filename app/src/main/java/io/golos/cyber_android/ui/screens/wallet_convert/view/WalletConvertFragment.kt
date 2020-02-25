@@ -63,7 +63,7 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
 //        bottomPanel.setOnAmountClearListener { viewModel.onClearAmountClick() }
 //        bottomPanel.setOnSendButtonClickListener { viewModel.onSendClick() }
 //
-//        expandedPanel.setOnItemSelectedListener { viewModel.onCarouselItemSelected(it) }
+        expandedPanel.setOnItemSelectedListener { viewModel.onCarouselItemSelected(it) }
         expandedPanel.setOnBackButtonClickListener { viewModel.onBackClick() }
         expandedPanel.setOnSelectCommunityButtonClickListener { viewModel.onSelectCommunityClick() }
 

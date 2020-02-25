@@ -80,12 +80,12 @@ constructor(
     }
 
     fun setPointInfo(pointInfo: PointInfo) {
-        pointName.text = pointInfo.buyerName
         sellLabel.text = context.resources.getFormattedString(R.string.sell_format, pointInfo.sellerName)
         buyLabel.text = context.resources.getFormattedString(R.string.buy_format, pointInfo.buyerName)
 
-        pointLogo.loadAvatar(pointInfo.sellerLogoUrl, R.drawable.ic_commun)
-        balanceValue.text = CurrencyFormatter.format(pointInfo.sellerBalance)
+        pointName.text = pointInfo.buyerName
+        pointLogo.loadAvatar(pointInfo.buyerLogoUrl, R.drawable.ic_commun)
+        balanceValue.text = CurrencyFormatter.format(pointInfo.buyerBalance)
 
         selectPointButton.visibility = if(pointInfo.canSelectPoint) View.VISIBLE else View.GONE
 

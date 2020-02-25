@@ -23,10 +23,8 @@ constructor(
 
     override var currentBalanceRecord = calculateCurrentBalanceRecord()
 
-    override val carouselItemsData: CarouselStartData = CarouselStartData(
-        startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
-        items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
-    )
+    override val carouselItemsData: CarouselStartData
+
     override var isInSellPointMode: Boolean = true
 
     init {
@@ -34,6 +32,11 @@ constructor(
 
         // Remove Commun record from the balance
         balance = balance.filter { it.communityId != GlobalConstants.COMMUN_CODE }
+
+        carouselItemsData = CarouselStartData(
+            startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
+            items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
+        )
     }
 
     override fun getSellerRecord(): WalletCommunityBalanceRecordDomain =

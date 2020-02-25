@@ -17,8 +17,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import io.golos.utils.capitalize
-import java.util.*
 import javax.inject.Inject
 
 class WalletConvertViewModel
@@ -63,7 +61,11 @@ constructor(
         _command.value = ShowSelectCommunityDialogCommand(model.balance)
     }
 
-    fun onCommunitySelected(communityId: String) {
+    fun onCommunitySelected(communityId: String) = updateCurrentCommunity(communityId, updateCarousel = true)
+
+    fun onCarouselItemSelected(communityId: String) = updateCurrentCommunity(communityId, updateCarousel = false)
+
+    private fun updateCurrentCommunity(communityId: String, updateCarousel: Boolean) {
         model.updateCurrentCommunity(communityId)
             ?.let {
                 sellInputField.value = ""
@@ -76,10 +78,11 @@ constructor(
 
                 _pointInfo.value = getPointInfo()
 
-                _command.value = UpdateCarouselPositionCommand(it)
+                if(updateCarousel) {
+                    _command.value = UpdateCarouselPositionCommand(it)
+                }
             }
     }
-
 
     private fun getInputFieldsInfo() =
         InputFieldsInfo(
@@ -112,8 +115,8 @@ constructor(
         return PointInfo(
             sellerName = seller.communityName ?: seller.communityId,
             buyerName = buyer.communityName ?: buyer.communityId,
-            sellerLogoUrl = seller.communityLogoUrl,
-            sellerBalance = seller.points,
+            buyerLogoUrl = buyer.communityLogoUrl,
+            buyerBalance = buyer.points,
             canSelectPoint = !model.isInSellPointMode,
             rateInfo = rate
         )
@@ -128,6 +131,8 @@ constructor(
                 sellValue,
                 seller.getDisplayName(appContext)),
             isButtonEnabled = true
-        )
+        ).let {
+            it
+        }
     }
 }

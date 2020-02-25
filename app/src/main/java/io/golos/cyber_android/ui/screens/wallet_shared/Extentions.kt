@@ -7,10 +7,9 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.capitalize
 import java.util.*
 
-fun WalletCommunityBalanceRecordDomain.getDisplayName(context: Context) {
+fun WalletCommunityBalanceRecordDomain.getDisplayName(context: Context): String =
     if(communityId != GlobalConstants.COMMUN_CODE) {
         communityName ?: communityId
     } else {
         context.getString(R.string.commun).capitalize(Locale.getDefault())
     }
-}
