@@ -64,7 +64,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         />
 
         <ImageButton
-            android:id="@+id/excangeButton"
+            android:id="@+id/swapButton"
             android:layout_width="42dp"
             android:layout_height="42dp"
 

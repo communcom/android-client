@@ -27,7 +27,7 @@ constructor(
     model: WalletConvertModel
 ) : ViewModelBase<WalletConvertModel>(dispatchersProvider, model) {
 
-    private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>(model.getSellerRecord())
+    private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>(getSellerRecord())
     val sellerBalanceRecord: LiveData<WalletCommunityBalanceRecordDomain> = _sellerBalanceRecord
 
     private val _carouselItems = MutableLiveData<CarouselStartData>(model.carouselItemsData)
@@ -41,8 +41,8 @@ constructor(
     private val _inputFieldInfo = MutableLiveData<InputFieldsInfo>(getInputFieldsInfo())
     val inputFieldInfo: LiveData<InputFieldsInfo> = _inputFieldInfo
 
-    val sellInputField = MutableLiveData<String>()
-    val buyInputField = MutableLiveData<String>()
+    val sellInputField = MutableLiveData<String>("")
+    val buyInputField = MutableLiveData<String>("")
 
     private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>(getConvertButtonInfo())
     val convertButtonInfo: LiveData<ConvertButtonInfo> = _convertButtonInfo
@@ -65,13 +65,29 @@ constructor(
 
     fun onCarouselItemSelected(communityId: String) = updateCurrentCommunity(communityId, updateCarousel = false)
 
+    fun onSwapClick() {
+        model.swipeSellMode()
+
+        _sellerBalanceRecord.value = getSellerRecord()
+        _isInCarouselMode.value = model.isInSellPointMode
+        _inputFieldInfo.value = getInputFieldsInfo()
+
+        val sellInputFieldValue = sellInputField.value
+        sellInputField.value = buyInputField.value
+        buyInputField.value = sellInputFieldValue
+
+        _convertButtonInfo.value = getConvertButtonInfo()
+        _pointInfo.value = getPointInfo()
+        _isMenuVisible.value = model.isInSellPointMode
+    }
+
     private fun updateCurrentCommunity(communityId: String, updateCarousel: Boolean) {
         model.updateCurrentCommunity(communityId)
             ?.let {
                 sellInputField.value = ""
                 buyInputField.value = ""
 
-                _sellerBalanceRecord.value = model.getSellerRecord()
+                _sellerBalanceRecord.value = getSellerRecord()
 
                 _inputFieldInfo.value = getInputFieldsInfo()
                 _convertButtonInfo.value = getConvertButtonInfo()
@@ -93,28 +109,28 @@ constructor(
         )
 
     private fun getPointInfo(): PointInfo {
-        val seller = model.getSellerRecord()
-        val buyer = model.getBuyerRecord()
+        val seller = getSellerRecord()
+        val buyer = getBuyerRecord()
 
         val rate = if(model.isInSellPointMode) {
             appContext.resources.getFormattedString(
                 R.string.wallet_convert_rate_format,
                 seller.communs!! * 10.0,
-                seller.getDisplayName(appContext),
+                seller.communityName!!,
                 10,
                 buyer.getDisplayName(appContext))
         } else {
             appContext.resources.getFormattedString(
                 R.string.wallet_convert_rate_format,
                 10,
-                seller.getDisplayName(appContext),
+                seller.communityName!!,
                 buyer.communs!! * 10.0,
-                buyer.getDisplayName(appContext))
+                buyer.communityName!!)
         }
 
         return PointInfo(
-            sellerName = seller.communityName ?: seller.communityId,
-            buyerName = buyer.communityName ?: buyer.communityId,
+            sellerName = seller.getDisplayName(appContext),
+            buyerName = buyer.getDisplayName(appContext),
             buyerLogoUrl = buyer.communityLogoUrl,
             buyerBalance = buyer.points,
             canSelectPoint = !model.isInSellPointMode,
@@ -123,16 +139,18 @@ constructor(
     }
 
     private fun getConvertButtonInfo(): ConvertButtonInfo {
-        val seller = model.getSellerRecord()
+        val seller = getSellerRecord()
         val sellValue = if(sellInputField.value.isNullOrBlank()) "0" else sellInputField.value!!
         return ConvertButtonInfo (
             buttonText = appContext.resources.getFormattedString(
                 R.string.wallet_convert_convert_format,
                 sellValue,
-                seller.getDisplayName(appContext)),
+                seller.communityName!!),
             isButtonEnabled = true
-        ).let {
-            it
-        }
+        )
     }
+
+    private fun getSellerRecord() = model.getSellerRecord().let { it.copy(communityName = it.getDisplayName(appContext)) }
+
+    private fun getBuyerRecord() = model.getBuyerRecord().let { it.copy(communityName = it.getDisplayName(appContext)) }
 }

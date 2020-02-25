@@ -69,6 +69,8 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
 
         collapsedPanel.setOnBackButtonClickListener { viewModel.onBackClick() }
         collapsedPanel.setOnSelectCommunityButtonClickListener { viewModel.onSelectCommunityClick() }
+
+        swapButton.setOnClickListener { viewModel.onSwapClick() }
     }
 
     override fun onDestroyView() {
@@ -112,21 +114,21 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
     }
 
     private fun setExchangeButtonVisibility(isVisible: Boolean) {
-        if(excangeButton != null) {
+        if(swapButton != null) {
             AnimationUtils.getFloatAnimator(
                 duration = 400,
                 forward = isVisible,
                 startListener = {
                     if (isVisible) {
-                        excangeButton.visibility = View.VISIBLE
+                        swapButton.visibility = View.VISIBLE
                     }
                 },
                 updateListener = { alpha ->
-                    excangeButton.alpha = alpha
+                    swapButton.alpha = alpha
                 },
                 completeListener = {
                     if (!isVisible) {
-                        excangeButton.visibility = View.INVISIBLE
+                        swapButton.visibility = View.INVISIBLE
                     }
                 }
             ).start()

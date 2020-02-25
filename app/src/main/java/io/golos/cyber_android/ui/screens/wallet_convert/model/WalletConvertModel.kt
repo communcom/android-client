@@ -21,4 +21,6 @@ interface WalletConvertModel : ModelBase {
      * @return Index of the community in the balance list
      */
     fun updateCurrentCommunity(communityId: String): Int?
+
+    fun swipeSellMode()
 }

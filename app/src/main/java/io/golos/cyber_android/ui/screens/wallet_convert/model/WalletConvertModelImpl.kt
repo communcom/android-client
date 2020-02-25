@@ -18,6 +18,9 @@ constructor(
     override var balance: List<WalletCommunityBalanceRecordDomain>
 ): WalletConvertModel, ModelBaseImpl() {
 
+    private var sellAmount: Double? = null
+    private var buyAmount: Double? = null
+
     @Suppress("JoinDeclarationAndAssignment")
     private val communBalanceRecord: WalletCommunityBalanceRecordDomain
 
@@ -56,6 +59,10 @@ constructor(
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
         return balance.indexOf(currentBalanceRecord)
+    }
+
+    override fun swipeSellMode() {
+        isInSellPointMode = !isInSellPointMode
     }
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }
