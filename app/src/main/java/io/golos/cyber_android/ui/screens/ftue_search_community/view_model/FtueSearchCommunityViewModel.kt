@@ -114,7 +114,11 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 model.onUnFollowFromCommunity(community.communityId)
                 val updatedCommunity = community.copy(isSubscribed = false)
                 changeFollowingStatus(updatedCommunity)
-                removeCommunityFromCollection(community)
+
+                val communityForDelete = communitySubscriptions.find { it.communityId == community.communityId }
+                communitySubscriptions.remove(communityForDelete)
+                updateCommunityCollection(communitySubscriptions)
+
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.loading_error)
@@ -174,11 +178,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
         loadInitialCommunities()
     }
 
-    override fun removeCommunityFromCollection(community: Community) {
-        val communityForDelete = communitySubscriptions.find { it.communityId == community.communityId }
-        communitySubscriptions.remove(communityForDelete)
-        updateCommunityCollection(communitySubscriptions)
-    }
+    override fun removeCommunityFromCollection(community: Community) = onUnFollowFromCommunity(community)
 
     fun loadMoreCommunities() {
         paginator.proceed(Paginator.Action.LoadMore)
