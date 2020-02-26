@@ -21,8 +21,6 @@ import io.golos.domain.dto.WalletTransferHistoryRecordDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.utils.amount.toServerPoints
 import io.golos.utils.amount.toServerTokens
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class WalletRepositoryImpl
@@ -100,13 +98,32 @@ constructor(
         }
     }
 
-    override suspend fun convert(amount: Double, communityId: String) {
+    override suspend fun convertPointsToCommun(amount: Double, communityId: String) {
+        val amountAsString = amount.toServerPoints()
+
+        apiCallChain {
+            commun4j.transfer(
+                to = CyberName(GlobalConstants.C_POINT_USER_ID),
+                amount = amountAsString,
+                currency = communityId,
+                memo = "$amountAsString $communityId",
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE),
+                from = CyberName(currentUserRepository.userId.userId)
+            )
+        }
+        .let {
+            apiCall { commun4j.waitForTransaction(it.transaction_id) }
+        }
+    }
+
+    override suspend fun convertCommunToPoints(amount: Double, communityId: String) {
         apiCallChain {
             commun4j.exchange(
                 to = CyberName(GlobalConstants.C_POINT_USER_ID),
-                amount = if(communityId == GlobalConstants.COMMUN_CODE) amount.toServerTokens() else amount.toServerPoints(),
-                currency = communityId,
-                memo = "",
+                amount = amount.toServerTokens(),
+                currency = GlobalConstants.COMMUN_CODE,
+                memo = communityId,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE),
                 from = CyberName(currentUserRepository.userId.userId)

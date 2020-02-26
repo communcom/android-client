@@ -96,7 +96,13 @@ constructor(
         )
     }
 
-    override suspend fun convert() = walletRepository.convert(_amountCalculator.sellAmount!!, getSellerRecord().communityId)
+    override suspend fun convert() {
+        if(isInSellPointMode) {
+            walletRepository.convertPointsToCommun(_amountCalculator.sellAmount!!, getSellerRecord().communityId)
+        } else {
+            walletRepository.convertCommunToPoints(_amountCalculator.sellAmount!!, getBuyerRecord().communityId)
+        }
+    }
 
     override fun getConversionCompletedInfo(): ConversionCompletedInfo {
         val seller = getSellerRecord()

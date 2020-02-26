@@ -16,5 +16,7 @@ interface WalletRepository {
 
     suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: String)
 
-    suspend fun convert(amount: Double, communityId: String)
+    suspend fun convertPointsToCommun(amount: Double, communityId: String)
+
+    suspend fun convertCommunToPoints(amount: Double, communityId: String)
 }
