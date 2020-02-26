@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertAmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertButtonInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
@@ -11,10 +12,12 @@ import io.golos.cyber_android.ui.screens.wallet_convert.model.WalletConvertModel
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
+import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
@@ -109,6 +112,15 @@ constructor(
         _convertButtonInfo.value = getConvertButtonInfo()
     }
 
+    fun onSendButtonClickListener() {
+        val validationResult = model.validateAmount()
+        if(validationResult.isValid) {
+            showAmountValidationResult(validationResult)
+        } else {
+            //send()
+        }
+    }
+
     private fun updateCurrentCommunity(communityId: String, updateCarousel: Boolean) {
         model.updateCurrentCommunity(communityId)
             ?.let {
@@ -170,11 +182,11 @@ constructor(
         val seller = getSellerRecord()
         val sellValue = model.amountCalculator.sellAmount?.let { amount -> CurrencyFormatter.format(amount)} ?: "0"
         return ConvertButtonInfo (
-            buttonText = appContext.resources.getFormattedString(
+            text = appContext.resources.getFormattedString(
                 R.string.wallet_convert_convert_format,
                 sellValue,
                 seller.communityName!!),
-            isButtonEnabled = true
+            isEnabled = model.validateAmount().isValid
         )
     }
 
@@ -187,4 +199,21 @@ constructor(
     private fun getBuyAmount() = amountToString( model.amountCalculator.buyAmount)
 
     private fun amountToString(value: Double?): String = value?.toString() ?: ""
+
+    private fun showAmountValidationResult(validationResult: ConvertAmountValidationResult) {
+        val resourceId = when(validationResult.buyAmount) {
+            AmountValidationResult.TOO_LARGE -> R.string.wallet_amount_validation_buy_too_large
+            AmountValidationResult.CANT_BE_ZERO -> R.string.wallet_amount_validation_buy_zero
+            AmountValidationResult.INVALID_VALUE -> R.string.wallet_amount_validation_buy_invalid_value
+            else -> {
+                when(validationResult.sellAmount) {
+                    AmountValidationResult.TOO_LARGE -> R.string.wallet_amount_validation_sell_too_large
+                    AmountValidationResult.CANT_BE_ZERO -> R.string.wallet_amount_validation_sell_zero
+                    AmountValidationResult.INVALID_VALUE -> R.string.wallet_amount_validation_sell_invalid_value
+                    else -> throw UnsupportedOperationException("This value is not supported: $validationResult")
+                }
+            }
+        }
+        _command.value = ShowMessageResCommand(resourceId)
+    }
 }

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.wallet_send_points.dto
+package io.golos.cyber_android.ui.screens.wallet_shared.dto
 
 enum class AmountValidationResult {
     SUCCESS,

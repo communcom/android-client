@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.dto
 
 data class ConvertButtonInfo(
-    val buttonText: String,
-    val isButtonEnabled: Boolean
+    val text: String,
+    val isEnabled: Boolean
 )

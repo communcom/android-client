@@ -1,13 +1,17 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.model
 
+import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertAmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculator
 import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculatorBrief
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
+import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidator
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
+import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -18,7 +22,8 @@ constructor(
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
-    private val _amountCalculator: AmountCalculator
+    private val _amountCalculator: AmountCalculator,
+    private val amountValidator: AmountValidator
 ): WalletConvertModel, ModelBaseImpl() {
 
     @Suppress("JoinDeclarationAndAssignment")
@@ -71,6 +76,17 @@ constructor(
     override fun swipeSellMode() {
         isInSellPointMode = !isInSellPointMode
         _amountCalculator.inverse()
+    }
+
+    override fun validateAmount(): ConvertAmountValidationResult {
+        val sellValidationResult = amountValidator.validate(_amountCalculator.sellAmount, getSellerRecord().points, 0.0)
+        val buyValidationResult = amountValidator.validate(_amountCalculator.buyAmount, getBuyerRecord().points, 0.0)
+
+        return ConvertAmountValidationResult(
+            sellValidationResult,
+            buyValidationResult,
+            isValid = sellValidationResult == AmountValidationResult.SUCCESS && buyValidationResult == AmountValidationResult.SUCCESS
+        )
     }
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }

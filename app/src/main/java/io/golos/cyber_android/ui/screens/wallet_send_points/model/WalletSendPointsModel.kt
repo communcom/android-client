@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.wallet_send_points.model
 
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountValidationResult
+import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain

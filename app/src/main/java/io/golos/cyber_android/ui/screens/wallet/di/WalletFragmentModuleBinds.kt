@@ -11,6 +11,8 @@ import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.Histo
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSourceImpl
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
+import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidator
+import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidatorImpl
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
@@ -33,4 +35,7 @@ abstract class WalletFragmentModuleBinds {
 
     @Binds
     abstract fun provideListWorkerHistory(worker: HistoryDataSourceImpl): HistoryDataSource
+
+    @Binds
+    abstract fun provideAmountValidator(validator: AmountValidatorImpl): AmountValidator
 }

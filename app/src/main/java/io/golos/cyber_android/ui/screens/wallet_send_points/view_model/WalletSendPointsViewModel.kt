@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
+import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand

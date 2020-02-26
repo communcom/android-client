@@ -4,7 +4,8 @@ import android.content.Context
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.AmountValidationResult
+import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidator
+import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.data.repositories.wallet.WalletRepository
@@ -27,7 +28,8 @@ constructor(
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val amountValidator: AmountValidator
 ) : ModelBaseImpl(), WalletSendPointsModel {
 
     private var amount: Double? = null
@@ -81,13 +83,7 @@ constructor(
 
     override fun validateAmount(): AmountValidationResult {
         val fee = if(hasFee) currentBalanceRecord.points/1000 else 0.0
-
-        return when {
-            amount == null -> AmountValidationResult.INVALID_VALUE
-            amount == 0.0 -> AmountValidationResult.CANT_BE_ZERO
-            amount!! > currentBalanceRecord.points - fee -> AmountValidationResult.TOO_LARGE
-            else -> AmountValidationResult.SUCCESS
-        }
+        return amountValidator.validate(amount, currentBalanceRecord.points, fee)
     }
 
     override suspend fun makeTransfer() = walletRepository.makeTransfer(sendToUser!!.userId, amount!!, currentCommunityId)

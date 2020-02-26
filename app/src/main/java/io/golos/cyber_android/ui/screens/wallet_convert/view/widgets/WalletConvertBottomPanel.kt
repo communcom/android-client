@@ -122,8 +122,8 @@ constructor(
     }
 
     fun setConvertButtonInfo(convertButtonInfo: ConvertButtonInfo) {
-        sendButton.text = convertButtonInfo.buttonText
-        sendButton.isEnabled = convertButtonInfo.isButtonEnabled
+        sendButton.text = convertButtonInfo.text
+        sendButton.isEnabled = convertButtonInfo.isEnabled
     }
 
     fun setOnSelectPointClickListener(listener: (() -> Unit)?) {

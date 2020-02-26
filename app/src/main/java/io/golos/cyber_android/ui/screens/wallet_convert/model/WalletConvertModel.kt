@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.model
 
+import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertAmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculatorBrief
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
@@ -26,4 +27,6 @@ interface WalletConvertModel : ModelBase {
     fun updateCurrentCommunity(communityId: String): Int?
 
     fun swipeSellMode()
+
+    fun validateAmount(): ConvertAmountValidationResult
 }
