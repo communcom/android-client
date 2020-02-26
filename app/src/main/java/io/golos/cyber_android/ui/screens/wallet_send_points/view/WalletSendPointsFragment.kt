@@ -91,7 +91,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
             is ShowSelectCommunityDialogCommand -> showSelectCommunityDialog(command.balance)
             is UpdateCarouselPositionCommand -> expandedPanel.setCarouselPosition(command.position)
             is HideKeyboardCommand -> bottomPanel.hideKeyboard()
-            is ShowWalletTransferCompletedDialog -> showWalletTransferCompletedDialog(command.data)
+            is ShowWalletTransferCompletedDialogCommand -> showWalletTransferCompletedDialog(command.data)
             is NavigateToWalletBackCommand -> { getDashboardFragment(this)?.navigateBack(WalletFragment.tag) }
             is NavigateToHomeBackCommand -> { getDashboardFragment(this)?.navigateHome() }
         }

@@ -465,4 +465,15 @@
 
     <dimen name="wallet_send_points_bottom_panel_height">300dp</dimen>
     <dimen name="wallet_send_points_carousel_height">110dp</dimen>
+
+    <dimen name="wallet_dialog_transfer_card_width">335dp</dimen>
+    <dimen name="wallet_dialog_transfer_card_height">497dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline0">0dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline1">100dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline2">165dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline3">387dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline4">497dp</dimen>
+    <dimen name="wallet_dialog_transfer_day_margin">8dp</dimen>
+    <dimen name="wallet_dialog_transfer_points_margin_top">24dp</dimen>
+    <dimen name="wallet_dialog_transfer_points_margin_end">3dp</dimen>
 </resources>

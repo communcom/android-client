@@ -498,6 +498,7 @@
     <string name="on_hold_format">{0} on hold</string>
     <string name="commun_format">= {0} Commun</string>
     <string name="points_format">= {0} Points</string>
+    <string name="points_format2">{0} Points</string>
     <string name="tokens_format">= {0} Tokens</string>
     <string name="commun_group">Commun</string>
     <string name="history">History</string>
@@ -545,4 +546,6 @@
 
     <string name="wallet_convert_rate_format">Rate: {0} {1} = {2} {3}</string>
     <string name="wallet_convert_convert_format">Convert: {0} {1}</string>
+
+    <string name="conversion_completed">Conversion completed</string>
 </resources>

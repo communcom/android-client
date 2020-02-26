@@ -8,7 +8,7 @@ class ShowSelectUserDialogCommand: ViewCommand
 
 class ShowSelectCommunityDialogCommand(val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
 
-class ShowWalletTransferCompletedDialog(val data: TransferCompletedInfo): ViewCommand
+class ShowWalletTransferCompletedDialogCommand(val data: TransferCompletedInfo): ViewCommand
 
 class UpdateCarouselPositionCommand(val position: Int): ViewCommand
 

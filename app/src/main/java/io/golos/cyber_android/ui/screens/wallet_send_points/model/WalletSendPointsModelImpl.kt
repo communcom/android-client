@@ -86,7 +86,7 @@ constructor(
         return amountValidator.validate(amount, currentBalanceRecord.points, fee)
     }
 
-    override suspend fun makeTransfer() = walletRepository.makeTransfer(sendToUser!!.userId, amount!!, currentCommunityId)
+    override suspend fun makeTransfer() = walletRepository.sendToUser(sendToUser!!.userId, amount!!, currentCommunityId)
 
     override fun getTransferCompletedInfo(): TransferCompletedInfo {
         val pointsName = if(currentCommunityId != GlobalConstants.COMMUN_CODE) {

@@ -1,29 +1,36 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.model
 
+import android.content.Context
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertAmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculator
 import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculatorBrief
+import io.golos.cyber_android.ui.screens.wallet_dialogs.convert_completed.ConversionCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidator
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
+import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import java.lang.UnsupportedOperationException
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
 class WalletConvertModelImpl
 @Inject
 constructor(
+    private val appContext: Context,
     @Named(Clarification.COMMUNITY_ID)
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
     private val _amountCalculator: AmountCalculator,
-    private val amountValidator: AmountValidator
+    private val amountValidator: AmountValidator,
+    private val walletRepository: WalletRepository
 ): WalletConvertModel, ModelBaseImpl() {
 
     @Suppress("JoinDeclarationAndAssignment")
@@ -86,6 +93,27 @@ constructor(
             sellValidationResult,
             buyValidationResult,
             isValid = sellValidationResult == AmountValidationResult.SUCCESS && buyValidationResult == AmountValidationResult.SUCCESS
+        )
+    }
+
+    override suspend fun convert() = walletRepository.convert(_amountCalculator.sellAmount!!, getSellerRecord().communityId)
+
+    override fun getConversionCompletedInfo(): ConversionCompletedInfo {
+        val seller = getSellerRecord()
+        val buyer = getBuyerRecord()
+
+        return ConversionCompletedInfo(
+            date = Date(),
+
+            coins = _amountCalculator.buyAmount!!,
+
+            sellerAvatarUrl = seller.communityLogoUrl,
+            sellerName = seller.getDisplayName(appContext),
+            sellerPointsTotal = seller.points - _amountCalculator.fee - _amountCalculator.sellAmount!!,
+
+            buyerAvatarUrl = buyer.communityLogoUrl,
+            buyerName = buyer.getDisplayName(appContext),
+            buyerPointsTotal = buyer.points + _amountCalculator.buyAmount!!
         )
     }
 

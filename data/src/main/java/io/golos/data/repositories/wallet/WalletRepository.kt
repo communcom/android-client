@@ -14,5 +14,7 @@ interface WalletRepository {
         communityId: String = GlobalConstants.ALL_COMMUNITIES_CODE
     ): List<WalletTransferHistoryRecordDomain>
 
-    suspend fun makeTransfer(toUser: UserIdDomain, amount: Double, communityId: String)
+    suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: String)
+
+    suspend fun convert(amount: Double, communityId: String)
 }

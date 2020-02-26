@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertAmountValidationResult
-import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertButtonInfo
-import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
-import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
+import io.golos.cyber_android.ui.screens.wallet_convert.dto.*
 import io.golos.cyber_android.ui.screens.wallet_convert.model.WalletConvertModel
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.HideKeyboardCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
@@ -17,10 +17,12 @@ import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WalletConvertViewModel
@@ -113,12 +115,33 @@ constructor(
     }
 
     fun onSendButtonClickListener() {
-        val validationResult = model.validateAmount()
-        if(validationResult.isValid) {
-            showAmountValidationResult(validationResult)
-        } else {
-            //send()
+        launch {
+            _command.value = HideKeyboardCommand()
+
+            val validationResult = model.validateAmount()
+
+            if(validationResult.isValid) {
+                _command.value = SetLoadingVisibilityCommand(true)
+                try {
+                    model.convert()
+                    _command.value = ShowWalletConversionCompletedDialogCommand(model.getConversionCompletedInfo())
+                } catch(ex: Exception) {
+                    _command.value = ShowMessageResCommand(R.string.common_general_error)
+                } finally {
+                    _command.value = SetLoadingVisibilityCommand(false)
+                }
+            } else {
+                showAmountValidationResult(validationResult)
+            }
         }
+    }
+
+    fun onBackToWalletSelected() {
+        _command.value = NavigateToWalletBackCommand()
+    }
+
+    fun onBackToHomeSelected() {
+        _command.value = NavigateToHomeBackCommand()
     }
 
     private fun updateCurrentCommunity(communityId: String, updateCarousel: Boolean) {

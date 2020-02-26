@@ -5,6 +5,11 @@ interface AmountCalculatorBrief {
     val buyAmount: Double?
 
     /**
+     * In sold coins
+     */
+    val fee: Double
+
+    /**
      * How many points is in one Commun
      */
     val pointsInCommun: Double

@@ -9,6 +9,11 @@ constructor(): AmountCalculator {
     override var sellAmount: Double? = null
     override var buyAmount: Double? = null
 
+    /**
+     * In sold coins
+     */
+    override val fee: Double = 0.0
+
     private var rate: Double = 1.0
 
     /**
