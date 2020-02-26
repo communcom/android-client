@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_shared.history.data_source
 import android.annotation.SuppressLint
 import android.content.Context
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsPagedListBase
@@ -124,7 +125,7 @@ constructor(
 
         val displayName = when(serverActionType) {
             WalletHistoryConstants.ACTION_REWARD,
-            WalletHistoryConstants.ACTION_UNHOLD -> serverItem.communityName
+            WalletHistoryConstants.ACTION_UNHOLD -> serverItem.getDisplayName(appContext)
 
             WalletHistoryConstants.ACTION_TRANSFER ->
                 when(direction) {

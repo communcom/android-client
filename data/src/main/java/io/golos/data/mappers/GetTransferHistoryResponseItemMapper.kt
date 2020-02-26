@@ -20,9 +20,9 @@ fun GetTransferHistoryResponseItem.mapToWalletTransferHistoryRecordDomain() =
         coinsQuantity = quantity,
         coinsSymbol = symbol.value,
 
-        communityName = point.name,
-        communityAvatarUrl = point.logo,
-        communitySymbol = point.symbol.value,
+        communityName = point?.name,
+        communityAvatarUrl = point?.logo,
+        communitySymbol = point?.symbol?.value ?: symbol.value,
 
         timeStamp = timestamp,
 

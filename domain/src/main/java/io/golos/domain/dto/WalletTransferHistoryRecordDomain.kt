@@ -17,7 +17,7 @@ data class WalletTransferHistoryRecordDomain(
     val coinsQuantity: Double,
     val coinsSymbol: String,            // Name of the coin
 
-    val communityName: String,
+    val communityName: String?,
     val communityAvatarUrl: String?,
     val communitySymbol: String,         // Name of the community coin
 
