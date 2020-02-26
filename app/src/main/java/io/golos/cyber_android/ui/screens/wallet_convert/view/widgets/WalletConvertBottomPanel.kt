@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet_convert.view.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertButtonInfo
@@ -33,16 +34,23 @@ constructor(
     private var onBuyChangeListener: ((String) -> Unit)? = null
     private var onBuyClearListener: (() -> Unit)? = null
 
+    private var isSellFieldUpdating = false
+    private var isBuyFieldUpdating = false
+
     var sellInputText: String
         get() = sellInputField.text.toString()
         set(value) {
-            sellInputField.setText(value)
+            isSellFieldUpdating = true
+            setAmount(value, sellInputField)
+            isSellFieldUpdating = false
         }
 
     var buyInputText: String
         get() = buyInputField.text.toString()
         set(value) {
-            buyInputField.setText(value)
+            isBuyFieldUpdating = true
+            setAmount(value, buyInputField)
+            isBuyFieldUpdating = false
         }
 
     init {
@@ -70,8 +78,16 @@ constructor(
             }
         }
 
-        sellInputField.setTextChangeListener { onSellChangeListener?.invoke(it) }
-        buyInputField.setTextChangeListener { onBuyChangeListener?.invoke(it) }
+        sellInputField.setTextChangeListener {
+            if(!isSellFieldUpdating) {
+                onSellChangeListener?.invoke(it)
+            }
+        }
+        buyInputField.setTextChangeListener {
+            if(!isBuyFieldUpdating) {
+                onBuyChangeListener?.invoke(it)
+            }
+        }
 
         clearSellButton.setOnClickListener { onSellClearListener?.invoke() }
         clearBuyButton.setOnClickListener { onBuyClearListener?.invoke() }
@@ -122,6 +138,14 @@ constructor(
         onSellClearListener = listener
     }
 
+    fun setOnBuyChangeListener(listener: ((String) -> Unit)?) {
+        onBuyChangeListener = listener
+    }
+
+    fun setOnBuyClearListener(listener: (() -> Unit)?) {
+        onBuyClearListener = listener
+    }
+
     fun setOnSendButtonClickListener(listener: (() -> Unit)?) {
         onSendButtonClickListener = listener
     }
@@ -141,4 +165,8 @@ constructor(
                 false
             }
         }
+
+    private fun setAmount(value: String, field: EditText) {
+        field.setText((field.filters[0] as CurrencyInputFilter).format(value))
+    }
 }

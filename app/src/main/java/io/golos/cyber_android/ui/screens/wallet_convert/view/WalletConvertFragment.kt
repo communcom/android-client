@@ -59,6 +59,12 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
         keyboardVisibilityListener.setOnKeyboardOpenedListener { onKeyboardOpened(it) }
         keyboardVisibilityListener.setOnKeyboardClosedListener { onKeyboardClosed(it) }
 
+        bottomPanel.setOnSellChangeListener { viewModel.onSellInputFieldUpdated(it) }
+        bottomPanel.setOnBuyChangeListener { viewModel.onBuyInputFieldUpdated(it) }
+        bottomPanel.setOnBuyClearListener { viewModel.onClearInputField() }
+        bottomPanel.setOnSellClearListener { viewModel.onClearInputField() }
+        bottomPanel.setOnSelectPointClickListener { viewModel.onSelectCommunityClick() }
+
 //        bottomPanel.setOnSelectUserClickListener { viewModel.onSelectUserClick() }
 //        bottomPanel.setOnAmountClearListener { viewModel.onClearAmountClick() }
 //        bottomPanel.setOnSendButtonClickListener { viewModel.onSendClick() }

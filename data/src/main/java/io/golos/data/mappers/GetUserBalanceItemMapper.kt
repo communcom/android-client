@@ -12,6 +12,9 @@ fun GetUserBalanceItem.mapToWalletCommunityBalanceRecordDomain() =
         communityName = name,
         communityId = symbol.value,
 
+        /**
+         * Price of all points in Communs
+         */
         communs = price,
         transferFee = transferFee
 )

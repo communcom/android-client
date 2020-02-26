@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
-import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
@@ -14,14 +13,12 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.utils.debounce
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.capitalize
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -46,17 +43,17 @@ constructor(
     private val _amountFieldInfo = MutableLiveData<AmountFieldInfo>(getAmountFieldInfo())
     val amountFieldInfo: LiveData<AmountFieldInfo> = _amountFieldInfo
 
-    val amountAsString = MutableLiveData<String>()
+    val amountInputField = MutableLiveData<String>()
 
-    private val _sendButtonInfo = MutableLiveData<SendButtonInfo>(getSendButtonInfo(amountAsString.value))
+    private val _sendButtonInfo = MutableLiveData<SendButtonInfo>(getSendButtonInfo(amountInputField.value))
     val sendButtonInfo: LiveData<SendButtonInfo> = _sendButtonInfo
 
     init {
-        amountAsString.observeForever {
+        amountInputField.observeForever {
             if(model.updateAmount(it)) {
                 _sendButtonInfo.value = getSendButtonInfo(it)
             } else {
-                amountAsString.value = ""
+                amountInputField.value = ""
             }
         }
     }
@@ -70,7 +67,7 @@ constructor(
     }
 
     fun onClearAmountClick() {
-        amountAsString.value = ""
+        amountInputField.value = ""
     }
 
     fun onSelectCommunityClick() {
@@ -80,13 +77,13 @@ constructor(
     fun onUserSelected(user: UserDomain) {
         model.sendToUser = user
         _selectedUser.value = getUserInfo(user)
-        _sendButtonInfo.value = getSendButtonInfo(amountAsString.value)
+        _sendButtonInfo.value = getSendButtonInfo(amountInputField.value)
     }
 
     fun onCommunitySelected(communityId: String) {
         model.updateCurrentCommunity(communityId)
             ?.let {
-                amountAsString.value = ""
+                amountInputField.value = ""
                 _selectedBalanceRecord.value = model.currentBalanceRecord
                 _amountFieldInfo.value = getAmountFieldInfo()
                 _command.value = UpdateCarouselPositionCommand(it)
@@ -96,7 +93,7 @@ constructor(
     fun onCarouselItemSelected(communityId: String) {
         model.updateCurrentCommunity(communityId)
             ?.let {
-                amountAsString.value = ""
+                amountInputField.value = ""
                 _selectedBalanceRecord.value = model.currentBalanceRecord
                 _amountFieldInfo.value = getAmountFieldInfo()
             }

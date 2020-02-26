@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.model
 
+import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculator
+import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculatorBrief
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
@@ -15,11 +17,9 @@ constructor(
     @Named(Clarification.COMMUNITY_ID)
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
-    override var balance: List<WalletCommunityBalanceRecordDomain>
+    override var balance: List<WalletCommunityBalanceRecordDomain>,
+    private val _amountCalculator: AmountCalculator
 ): WalletConvertModel, ModelBaseImpl() {
-
-    private var sellAmount: Double? = null
-    private var buyAmount: Double? = null
 
     @Suppress("JoinDeclarationAndAssignment")
     private val communBalanceRecord: WalletCommunityBalanceRecordDomain
@@ -30,7 +30,11 @@ constructor(
 
     override var isInSellPointMode: Boolean = true
 
+    override val amountCalculator: AmountCalculatorBrief = _amountCalculator
+
     init {
+        _amountCalculator.init(currentBalanceRecord.points, currentBalanceRecord.communs!!, false)
+
         communBalanceRecord = balance.first { it.communityId == GlobalConstants.COMMUN_CODE }
 
         // Remove Commun record from the balance
@@ -58,11 +62,15 @@ constructor(
 
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
+
+        _amountCalculator.init(currentBalanceRecord.points, currentBalanceRecord.communs!!, !isInSellPointMode)
+
         return balance.indexOf(currentBalanceRecord)
     }
 
     override fun swipeSellMode() {
         isInSellPointMode = !isInSellPointMode
+        _amountCalculator.inverse()
     }
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }

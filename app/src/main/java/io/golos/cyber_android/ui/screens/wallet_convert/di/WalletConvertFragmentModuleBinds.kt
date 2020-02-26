@@ -6,6 +6,8 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.wallet_convert.model.WalletConvertModel
 import io.golos.cyber_android.ui.screens.wallet_convert.model.WalletConvertModelImpl
+import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculator
+import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.AmountCalculatorImpl
 import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 
@@ -18,4 +20,7 @@ abstract class WalletConvertFragmentModuleBinds {
 
     @Binds
     abstract fun provideWalletConvertModel(model: WalletConvertModelImpl): WalletConvertModel
+
+    @Binds
+    abstract fun provideAmountCalculator(calculator: AmountCalculatorImpl): AmountCalculator
 }

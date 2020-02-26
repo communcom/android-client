@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
+import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
@@ -41,8 +42,11 @@ constructor(
     private val _inputFieldInfo = MutableLiveData<InputFieldsInfo>(getInputFieldsInfo())
     val inputFieldInfo: LiveData<InputFieldsInfo> = _inputFieldInfo
 
-    val sellInputField = MutableLiveData<String>("")
-    val buyInputField = MutableLiveData<String>("")
+    private val _sellInputField = MutableLiveData<String>(getSellAmount())
+    val sellInputField: LiveData<String> = _sellInputField
+
+    private val _buyInputField = MutableLiveData<String>(getBuyAmount())
+    val buyInputField: LiveData<String> = _buyInputField
 
     private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>(getConvertButtonInfo())
     val convertButtonInfo: LiveData<ConvertButtonInfo> = _convertButtonInfo
@@ -52,6 +56,24 @@ constructor(
 
     private val _isMenuVisible = MutableLiveData<Boolean>(model.isInSellPointMode)
     val isMenuVisible: LiveData<Boolean> = _isMenuVisible
+
+    fun onSellInputFieldUpdated(value: String) {
+        if(!model.amountCalculator.updateSellAmount(value)) {
+            _sellInputField.value = getSellAmount()
+        }
+
+        _buyInputField.value = getBuyAmount()
+        _convertButtonInfo.value = getConvertButtonInfo()
+    }
+
+    fun onBuyInputFieldUpdated(value: String) {
+        if(!model.amountCalculator.updateBuyAmount(value)) {
+            _buyInputField.value = getBuyAmount()
+        }
+
+        _sellInputField.value = getSellAmount()
+        _convertButtonInfo.value = getConvertButtonInfo()
+    }
 
     fun onBackClick() {
         _command.value = NavigateBackwardCommand()
@@ -72,20 +94,26 @@ constructor(
         _isInCarouselMode.value = model.isInSellPointMode
         _inputFieldInfo.value = getInputFieldsInfo()
 
-        val sellInputFieldValue = sellInputField.value
-        sellInputField.value = buyInputField.value
-        buyInputField.value = sellInputFieldValue
+        _sellInputField.value = getSellAmount()
+        _buyInputField.value = getBuyAmount()
 
         _convertButtonInfo.value = getConvertButtonInfo()
         _pointInfo.value = getPointInfo()
         _isMenuVisible.value = model.isInSellPointMode
     }
 
+    fun onClearInputField() {
+        model.amountCalculator.updateSellAmount("")
+        _sellInputField.value = getSellAmount()
+        _buyInputField.value = getBuyAmount()
+        _convertButtonInfo.value = getConvertButtonInfo()
+    }
+
     private fun updateCurrentCommunity(communityId: String, updateCarousel: Boolean) {
         model.updateCurrentCommunity(communityId)
             ?.let {
-                sellInputField.value = ""
-                buyInputField.value = ""
+                _sellInputField.value = getSellAmount()
+                _buyInputField.value = getBuyAmount()
 
                 _sellerBalanceRecord.value = getSellerRecord()
 
@@ -112,19 +140,19 @@ constructor(
         val seller = getSellerRecord()
         val buyer = getBuyerRecord()
 
-        val rate = if(model.isInSellPointMode) {
+        val rateText = if(model.isInSellPointMode) {
             appContext.resources.getFormattedString(
                 R.string.wallet_convert_rate_format,
-                seller.communs!! * 10.0,
+                model.amountCalculator.pointsInCommun,
                 seller.communityName!!,
-                10,
+                1,
                 buyer.getDisplayName(appContext))
         } else {
             appContext.resources.getFormattedString(
                 R.string.wallet_convert_rate_format,
-                10,
+                1,
                 seller.communityName!!,
-                buyer.communs!! * 10.0,
+                model.amountCalculator.pointsInCommun,
                 buyer.communityName!!)
         }
 
@@ -134,13 +162,13 @@ constructor(
             buyerLogoUrl = buyer.communityLogoUrl,
             buyerBalance = buyer.points,
             canSelectPoint = !model.isInSellPointMode,
-            rateInfo = rate
+            rateInfo = rateText
         )
     }
 
     private fun getConvertButtonInfo(): ConvertButtonInfo {
         val seller = getSellerRecord()
-        val sellValue = if(sellInputField.value.isNullOrBlank()) "0" else sellInputField.value!!
+        val sellValue = model.amountCalculator.sellAmount?.let { amount -> CurrencyFormatter.format(amount)} ?: "0"
         return ConvertButtonInfo (
             buttonText = appContext.resources.getFormattedString(
                 R.string.wallet_convert_convert_format,
@@ -153,4 +181,10 @@ constructor(
     private fun getSellerRecord() = model.getSellerRecord().let { it.copy(communityName = it.getDisplayName(appContext)) }
 
     private fun getBuyerRecord() = model.getBuyerRecord().let { it.copy(communityName = it.getDisplayName(appContext)) }
+
+    private fun getSellAmount() = amountToString(model.amountCalculator.sellAmount)
+
+    private fun getBuyAmount() = amountToString( model.amountCalculator.buyAmount)
+
+    private fun amountToString(value: Double?): String = value?.toString() ?: ""
 }

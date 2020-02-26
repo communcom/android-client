@@ -53,7 +53,7 @@
 
             app:wallet_send_points_bottom_user_info="@{viewModel.selectedUser}"
             app:wallet_send_points_bottom_amount_info="@{viewModel.amountFieldInfo}"
-            app:wallet_send_points_bottom_amount="@{viewModel.amountAsString}"
+            app:wallet_send_points_bottom_amount="@{viewModel.amountInputField}"
             app:wallet_send_points_bottom_send_info="@{viewModel.sendButtonInfo}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
