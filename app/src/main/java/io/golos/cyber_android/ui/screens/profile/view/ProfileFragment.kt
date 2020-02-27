@@ -86,8 +86,6 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        noConnection.setOnReconnectClickListener { viewModel.onRetryClick() }
         viewModel.start()
     }
 

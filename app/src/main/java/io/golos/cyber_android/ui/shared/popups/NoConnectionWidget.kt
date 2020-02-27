@@ -1,8 +1,11 @@
-package io.golos.cyber_android.ui.shared.widgets
+package io.golos.cyber_android.ui.shared.popups
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_no_connection.view.*
@@ -19,9 +22,9 @@ class NoConnectionWidget
 
     private var onReconnectClickListener: (() -> Unit)? = null
 
-    init {
-        inflate(getContext(), R.layout.view_no_connection, this)
+    private val view: View = inflate(getContext(), R.layout.view_no_connection, this)
 
+    init {
         reconnectButton.setOnClickListener {
             onReconnectClickListener?.invoke()
         }
@@ -32,6 +35,9 @@ class NoConnectionWidget
     }
 
     fun setReconnectingState(isReconnecting: Boolean) {
+        val reconnectButton = view.findViewById<Button>(R.id.reconnectButton)
+        val reconnectingProgress = view.findViewById<ProgressBar>(R.id.reconnectingProgress)
+
         reconnectButton.isEnabled = !isReconnecting
         reconnectingProgress.visibility = if(isReconnecting) View.VISIBLE else View.INVISIBLE
     }

@@ -427,16 +427,6 @@
 
                 android:visibility="@{viewModel.loadingProgressVisibility}"
                 tools:visibility="visible"/>
-
-            <io.golos.cyber_android.ui.shared.widgets.NoConnectionWidget
-                android:id="@+id/noConnection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-
-                android:visibility="@{viewModel.retryButtonVisibility}"
-                tools:visibility="invisible"
-                />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </com.google.android.material.appbar.SwipeCoordinatorLayout>
 </layout>

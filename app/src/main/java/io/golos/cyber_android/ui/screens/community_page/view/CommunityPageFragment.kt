@@ -25,6 +25,7 @@ import io.golos.cyber_android.ui.shared.glide.loadCover
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.popups.NoConnectionPopup
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.utils.toPluralInt
@@ -70,9 +71,6 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
         ivBack.setOnClickListener {
             viewModel.onBackPressed()
-        }
-        noConnection.setOnReconnectClickListener {
-            viewModel.loadCommunityPage()
         }
 
         viewModel.start(getCommunityId())
@@ -141,9 +139,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
         viewModel.communityPageIsErrorLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
-                noConnection.visibility = View.VISIBLE
+                NoConnectionPopup.show(this, root) { viewModel.loadCommunityPage() }
             } else {
-                noConnection.visibility = View.INVISIBLE
+                NoConnectionPopup.hide(this)
             }
         })
 
