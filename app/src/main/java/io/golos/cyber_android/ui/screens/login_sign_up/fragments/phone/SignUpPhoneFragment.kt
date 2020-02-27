@@ -113,7 +113,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         } else {
             launch {
                 val currentCountry = countriesRepository.getCurrentCountry()
-                if(currentCountry != null) {
+                if(currentCountry != null && currentCountry.available) {
                     dataPass.putSelectedCountry(currentCountry)
                     onCountrySelected(currentCountry)
                 }
