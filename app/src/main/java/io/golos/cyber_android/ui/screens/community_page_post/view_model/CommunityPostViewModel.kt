@@ -118,7 +118,7 @@ class CommunityPostViewModel @Inject constructor(
         reward.isTopReward()?.let {
             val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
             val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
-            _command.value = ShowPostRewardDialog(title, text)
+            _command.value = ShowPostRewardDialogCommand(title, text)
         }
     }
 

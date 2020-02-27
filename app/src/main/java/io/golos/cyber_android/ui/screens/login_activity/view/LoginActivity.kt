@@ -17,8 +17,11 @@ import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.shared.base.ActivityBase
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideNoConnectionDialogCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowNoConnectionDialogCommand
+import io.golos.cyber_android.ui.shared.popups.NoConnectionPopup
 import io.golos.domain.utils.IdUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -80,6 +83,8 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
                 is NavigateToWelcomeScreenCommand -> initAuthFlow(AuthStage.WELCOME)
                 is NavigateToContinueSetupScreenCommand -> initAuthFlow(AuthStage.CONTINUE)
                 is NavigateToMainScreenCommand -> navigateToMainScreen()
+                is ShowNoConnectionDialogCommand -> NoConnectionPopup.show(this, root) { viewModel.processLogin() }
+                is HideNoConnectionDialogCommand -> NoConnectionPopup.hide(this)
             }
         })
     }

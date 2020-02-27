@@ -29,7 +29,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowPostRewardDialog
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowPostRewardDialogCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -111,7 +111,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                 postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
             }
 
-            is ShowPostRewardDialog -> showPostRewardDialog(command.titleResId, command.textResId)
+            is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
         }
     }
 

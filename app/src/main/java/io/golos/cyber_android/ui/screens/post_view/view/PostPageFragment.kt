@@ -195,7 +195,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
 
-            is ShowPostRewardDialog -> showPostRewardDialog(command.titleResId, command.textResId)
+            is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }

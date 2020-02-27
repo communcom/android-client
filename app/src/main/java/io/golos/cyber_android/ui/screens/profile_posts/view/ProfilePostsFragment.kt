@@ -93,7 +93,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
             is ReportPostCommand -> openPostReport(command.post)
 
-            is ShowPostRewardDialog -> showPostRewardDialog(command.titleResId, command.textResId)
+            is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
         }
     }
 
