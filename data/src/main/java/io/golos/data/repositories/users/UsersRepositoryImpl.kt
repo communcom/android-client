@@ -81,7 +81,7 @@ class UsersRepositoryImpl
     }
 
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
-        apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
+        apiCall { commun4j.getUserProfile(CyberName(userId.userId), userId.userId) }.mapToUserProfileDomain()
 
     override suspend fun getUserProfile(userName: String): UserProfileDomain =
         apiCall { commun4j.getUserProfile(null, userName) }.mapToUserProfileDomain()
