@@ -131,20 +131,24 @@ constructor(
             )
         }
 
-        val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
+        return if(posts.isNotEmpty()) {
+            val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
 
-        val rewards = apiCall {
-            commun4j.getStateBulk(contentIds) }
-            .flatMap { it.value }
-            .map { it.mapToRewardPostDomain()
-        }
+            val rewards = apiCall {
+                commun4j.getStateBulk(contentIds) }
+                .flatMap { it.value }
+                .map { it.mapToRewardPostDomain() }
 
-        return withContext(dispatchersProvider.calculationsDispatcher) {
-            posts.items.map { post ->
-                val userId = post.author.userId.name
-                val reward = rewards.firstOrNull { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
-                post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
+            return withContext(dispatchersProvider.calculationsDispatcher) {
+                posts.items.map { post ->
+                    val userId = post.author.userId.name
+                    val reward = rewards.firstOrNull { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
+                    post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
+                }
             }
+
+        } else {
+            listOf()
         }
     }
 
