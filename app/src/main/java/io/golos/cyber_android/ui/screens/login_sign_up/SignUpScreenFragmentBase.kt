@@ -66,7 +66,7 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
 
     @CallSuper
     protected open fun observeViewModel() {
-        viewModel.getValidnessLiveData.observe(this, Observer {
+        viewModel.getValidnessLiveData.observe(viewLifecycleOwner, Observer {
             continueButton.isEnabled = it
         })
     }

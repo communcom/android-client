@@ -108,6 +108,11 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
                 signUpViewModel.updateRegisterState()
             }
         })
+
+        viewModel.validationResult.observe(this, Observer { validationResult ->
+            errorText.visibility = if(validationResult.isValid) View.INVISIBLE else View.VISIBLE
+            errorText.text = validationResult.erroText
+        })
     }
 
     override fun inject() = App.injections.getBase<LoginActivityComponent>().inject(this)
