@@ -15,7 +15,7 @@ import javax.inject.Inject
 open class ProfileModelImpl
 @Inject
 constructor(
-    private val profileUserId: UserIdDomain,
+    private var profileUserId: UserIdDomain,
     private val currentUserRepository: CurrentUserRepository,
     private val usersRepository: UsersRepository,
     private val communityRepository: CommunitiesRepository,
@@ -54,6 +54,11 @@ constructor(
 
     override suspend fun loadProfileInfo(): UserProfileDomain {
         userProfile = usersRepository.getUserProfile(profileUserId)
+
+        // It's dirty trick - in case if we pass user's name in "profileUserId" instead of user's id
+        // It's possible if we move to a profile by link to user in a post
+        profileUserId = userProfile.userId
+
         return userProfile
     }
 
