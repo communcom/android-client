@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet.view_model
 
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -12,6 +13,8 @@ import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.Wal
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.NoDataListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
@@ -46,6 +49,9 @@ constructor(
 
     val sendPointItems: LiveData<List<VersionedListItem>> = model.sendPointItems
 
+    private val _sendPointsVisibility = MutableLiveData<Int>(View.GONE)
+    val sendPointsVisibility: LiveData<Int> = _sendPointsVisibility
+
     val historyItems: LiveData<List<VersionedListItem>> = model.historyItems
 
     val pageSize = model.pageSize
@@ -53,6 +59,10 @@ constructor(
     private var loadPageJob: Job? = null
 
     init {
+        sendPointItems.observeForever {
+            _sendPointsVisibility.value = if(isSendPointsListEmpty(it)) View.GONE else View.VISIBLE
+        }
+
         loadPage(false)
     }
 
@@ -145,4 +155,9 @@ constructor(
             }
         }
     }
+
+    private fun isSendPointsListEmpty(items: List<VersionedListItem>) =
+        items.isEmpty() ||
+        (items.size == 1 && (items[0] is NoDataListItem || items[0] is LoadingListItem))
+
 }
