@@ -53,25 +53,25 @@
         />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/subHeaderText"
+            android:id="@+id/subHeaderText"
 
-                style="@style/SubHeaderTextStyle"
+            style="@style/SubHeaderTextStyle"
 
-                android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-                tools:text = "@string/authEnterPinCode"
-                android:text="@{viewModel.messageText}"
+            android:layout_marginBottom="10dp"
 
-                android:textColor="@{viewModel.messageColor}"
+            android:gravity="center"
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:text="@{viewModel.messageText}"
+            android:textColor="@{viewModel.messageColor}"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/margin_top_image_text_fingerprint_fragment"
-                app:layout_constraintTop_toBottomOf="@+id/pinCode"
-        />
+            app:layout_constraintBottom_toTopOf="@+id/keypad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pinCode"
+            tools:text="@string/authEnterPinCode" />
 
         <io.golos.cyber_android.ui.shared.widgets.pin.PinKeypad
                 android:layout_height = "@dimen/height_pin_keypad"

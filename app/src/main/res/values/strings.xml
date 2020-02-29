@@ -561,4 +561,7 @@
     <string name="username_validation_dot_dashes">The username can\'t contain dot and dashes in a row</string>
 
     <string name="username_validation_invalid_characters">There are some invalid characters in the username</string>
+
+    <string name="wallet_fingerprint">Use the fingerprint to send the payment</string>
+    <string name="wallet_pin">Use your PIN code to send the payment</string>
 </resources>

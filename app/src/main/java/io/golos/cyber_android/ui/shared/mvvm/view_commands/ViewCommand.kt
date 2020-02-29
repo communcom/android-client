@@ -18,7 +18,11 @@ data class NavigateToCommunityPageCommand(val communityId: String) : ViewCommand
 
 class NavigateToCommunitiesListPageCommand(val userId: UserIdDomain) : ViewCommand
 
-class NavigateToInAppAuthScreenCommand : ViewCommand
+class NavigateToInAppAuthScreenCommand(
+    val isPinCodeUnlockEnabled: Boolean,
+    @StringRes val pinCodeHeaderText: Int? = null,
+    @StringRes val fingerprintHeaderText: Int? = null
+) : ViewCommand
 
 class NavigateToMainScreenCommand : ViewCommand
 

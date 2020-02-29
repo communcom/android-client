@@ -52,6 +52,7 @@ class PinCodeAuthFragment : FragmentBaseMVVM<FragmentPinCodeAuthBinding, PinCode
         super.onViewCreated(view, savedInstanceState)
 
         keypad.setOnDigitKeyPressListener { viewModel.onDigitPressed(it) }
+        keypad.setOnClearKeyPressListener { viewModel.onClearKeyPressed() }
     }
 
     override fun onPause() {

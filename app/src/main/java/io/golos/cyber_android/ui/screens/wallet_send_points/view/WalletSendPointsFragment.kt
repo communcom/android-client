@@ -1,10 +1,13 @@
 package io.golos.cyber_android.ui.screens.wallet_send_points.view
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletSendPointsBinding
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
 import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
@@ -18,6 +21,7 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSen
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
@@ -94,12 +98,21 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
             is ShowWalletTransferCompletedDialogCommand -> showWalletTransferCompletedDialog(command.data)
             is NavigateToWalletBackCommand -> { getDashboardFragment(this)?.navigateBack(WalletFragment.tag) }
             is NavigateToHomeBackCommand -> { getDashboardFragment(this)?.navigateHome() }
+            is NavigateToInAppAuthScreenCommand ->
+                showInAppAuthScreen(command.isPinCodeUnlockEnabled, command.pinCodeHeaderText!!, command.fingerprintHeaderText!!)
         }
     }
 
     override fun onPause() {
         super.onPause()
         bottomPanel.hideKeyboard()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == InAppAuthActivity.REQUEST_CODE) {
+            viewModel.onSendConfirmed()
+        }
     }
 
     private fun onKeyboardOpened(keyboardHeight: Int) {
@@ -136,4 +149,10 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
 
     private fun showListDialog(dialogAction: () -> Unit) =
         bottomPanel.postDelayed( { dialogAction() } , if(bottomPanel.hideKeyboard()) 300L else 0L)
+
+    private fun showInAppAuthScreen(
+        isPinCodeUnlockEnabled: Boolean,
+        pinCodeHeaderText: Int,
+        fingerprintHeaderText: Int) =
+        InAppAuthActivity.start(this, isPinCodeUnlockEnabled, pinCodeHeaderText, fingerprintHeaderText)
 }

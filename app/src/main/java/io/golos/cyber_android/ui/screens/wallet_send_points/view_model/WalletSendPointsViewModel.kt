@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPoin
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
@@ -101,6 +102,10 @@ constructor(
     }
 
     fun onSendClick() {
+        _command.value = NavigateToInAppAuthScreenCommand(true, R.string.wallet_pin, R.string.wallet_fingerprint)
+    }
+
+    fun onSendConfirmed() {
         launch {
             _command.value = HideKeyboardCommand()
 

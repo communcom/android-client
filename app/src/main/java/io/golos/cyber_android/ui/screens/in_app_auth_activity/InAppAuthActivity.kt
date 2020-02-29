@@ -43,7 +43,7 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
         const val REQUEST_CODE = 4263
 
         const val PIN_CODE_HEADER_ID = "PIN_CODE_HEADER_ID"
-        const val FINGERPRINT_HEADER_ID = "PIN_CODE_HEADER_ID"
+        const val FINGERPRINT_HEADER_ID = "FINGERPRINT_CODE_HEADER_ID"
         const val PIN_CODE_UNLOCK_ENABLED = "PIN_CODE_UNLOCK_ENABLED"
 
         fun start(activity: ActivityBase,

@@ -69,4 +69,9 @@ constructor(
             else -> {}
         }
     }
+
+    fun onClearKeyPressed() {
+        model.reset()
+        _command.value = ResetPinCommand()
+    }
 }
