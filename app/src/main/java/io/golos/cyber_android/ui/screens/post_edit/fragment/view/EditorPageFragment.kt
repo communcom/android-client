@@ -35,6 +35,7 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.Update
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeFragment
 import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -133,15 +134,26 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         // Show followers selection dialog
         postCommunity.setOnShowCommunitiesClickListener {
-            SelectCommunityDialog.newInstance(uiHelper, postCommunity) { community ->
-                community?.let { viewModel.setCommunity(it) }
-            }.show(requireFragmentManager(), "followers")
+            showDialog {
+                SelectCommunityDialog.show(this) { community ->
+                    community?.let { viewModel.setCommunity(it) }
+                }
+            }
         }
 
         leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
         leaderName.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
+    }
+
+    private fun showDialog(showDialogAction: () -> Unit) {
+        if(KeyboardUtils.isKeyboardVisible(leaderName)) {
+            KeyboardUtils.hideKeyboard(leaderName)
+            leaderName.postDelayed({ showDialogAction() }, 300)
+        } else {
+            showDialogAction()
+        }
     }
 
     private fun setupEditorToolButtons() {

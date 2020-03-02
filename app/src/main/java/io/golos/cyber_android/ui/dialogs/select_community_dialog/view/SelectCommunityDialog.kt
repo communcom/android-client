@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -40,10 +41,10 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
         /**
          * @param closeAction null if a community was not selected
          */
-        fun newInstance(uiHelper: UIHelper, someViewInWindow: View, closeAction: (CommunityDomain?) -> Unit): SelectCommunityDialog {
-            uiHelper.setSoftKeyboardVisibility(someViewInWindow, false)
-            return SelectCommunityDialog()
+        fun show(parent: Fragment, closeAction: (CommunityDomain?) -> Unit) {
+            SelectCommunityDialog()
                 .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "SELECT_COMMUNITY")
         }
     }
 
