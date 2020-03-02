@@ -40,6 +40,9 @@
         app:imageButton_iconInscribeSize="@dimen/wallet_prime_panel_button_icon_size"
         app:imageButton_tint="@color/white"
 
+        android:visibility="invisible"
+
+
         app:layout_constraintEnd_toStartOf="@+id/convertButton"
         app:layout_constraintStart_toEndOf="@+id/sendButton"
         app:layout_constraintTop_toTopOf="@+id/sendButton" />
@@ -84,6 +87,8 @@
         android:layout_height="wrap_content"
 
         android:text="@string/buy"
+
+        android:visibility="invisible"
 
         app:layout_constraintEnd_toEndOf="@+id/buyButton"
         app:layout_constraintStart_toStartOf="@+id/buyButton"
