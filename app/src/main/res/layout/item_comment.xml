@@ -16,7 +16,7 @@
         android:layout_height="@dimen/post_comments_user_icon_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_empty_user"
+        app:srcCompat="@drawable/ic_avatar"
         tools:ignore="ContentDescription" />
 
     <FrameLayout
