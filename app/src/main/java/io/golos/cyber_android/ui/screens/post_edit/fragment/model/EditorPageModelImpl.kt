@@ -50,10 +50,8 @@ class EditorPageModelImpl
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val embedApi: EmbedApi,
-    private val communitiesRepository: CommunitiesRepository,
     private val imageUploadRepository: ImageUploadRepository,
     private val discussionRepository: DiscussionRepository,
-    private val keyValueStorage: KeyValueStorageFacade,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val moshi: Moshi
 ) : ModelBaseImpl(), EditorPageModel {
@@ -167,19 +165,6 @@ constructor(
             body = adapter.toJson(listContentBlockEntity)
         }
         return discussionRepository.updatePost(contentIdDomain, body, tags)
-    }
-
-    override suspend fun getLastUsedCommunity(): CommunityPageDomain? =
-        withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.getLastUsedCommunityId()?.let {
-                communitiesRepository.getCommunityPageById(it)
-            }
-        }
-
-    override suspend fun saveLastUsedCommunity(communityId: String) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.saveLastUsedCommunityId(communityId)
-        }
     }
 
     override suspend fun getPostToEdit(permlink: Permlink): PostModel =

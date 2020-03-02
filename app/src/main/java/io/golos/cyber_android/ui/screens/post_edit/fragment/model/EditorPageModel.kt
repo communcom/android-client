@@ -37,10 +37,6 @@ interface EditorPageModel : ModelBase {
         localImagesUri: List<String> = emptyList()
     ): ContentIdDomain
 
-    suspend fun getLastUsedCommunity(): CommunityPageDomain?
-
-    suspend fun saveLastUsedCommunity(communityId: String)
-
     suspend fun getPostToEdit(contentId: ContentId): PostDomain
 
     @Deprecated("Use getPostToEdit with contentId param")

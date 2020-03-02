@@ -22,7 +22,6 @@ constructor(
             keyValueStorage.removeAuthState()
             keyValueStorage.removePinCode()
             keyValueStorage.removeAppUnlockWay()
-            keyValueStorage.removeLastUsedCommunityId()
             usersRepository.clearCurrentUserData()
         }
     }

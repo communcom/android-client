@@ -29,10 +29,6 @@ interface KeyValueStorageFacade {
     fun getAppUnlockWay(): AppUnlockWay?
     fun removeAppUnlockWay()
 
-    fun getLastUsedCommunityId(): String?
-    fun saveLastUsedCommunityId(communityId: String)
-    fun removeLastUsedCommunityId()
-
     fun saveFtueBoardStage(stage: FtueBoardStageEntity)
     fun getFtueBoardStage(): FtueBoardStageEntity
 

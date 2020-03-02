@@ -98,22 +98,6 @@ constructor(
             it.remove("APP_UNLOCK_WAY")
         }
 
-    override fun getLastUsedCommunityId(): String? =
-        keyValueStorage.read {
-            it.readString("LAST_USED_COMMUNITY_ID")
-        }
-
-    override fun saveLastUsedCommunityId(communityId: String) {
-        keyValueStorage.update {
-            it.putString("LAST_USED_COMMUNITY_ID", communityId)
-        }
-    }
-
-    override fun removeLastUsedCommunityId() =
-        keyValueStorage.update {
-            it.remove("LAST_USED_COMMUNITY_ID")
-        }
-
     override fun saveFtueBoardStage(stage: FtueBoardStageEntity) =
         keyValueStorage.update {
             it.putString("KEY_FTUE_BOARD_STAGE", stage.name)
