@@ -399,11 +399,11 @@
     <string name="subscribe_to_3_communities">Subscribe to at least 3 communities and get your first Community Points</string>
     <string name="ftue_finish_description_1">Authorize on web\n</string>
     <string name="ftue_finish_description_2">Triple your points</string>
-    <string name="ftue_finish_sub_description">Right after you authorize on the Website\n We triple your welcome points</string>
+    <string name="ftue_finish_sub_description">Right after you authorize on the Website\nWe triple your welcome points</string>
     <string name="done">Done</string>
 
 
-    <string name="no_followers_yet">There are no users in the `list</string>
+    <string name="no_followers_yet">There are no users in the list</string>
     <string name="no_followers_yet_external_user">This user has no followers yet</string>
     <string name="no_followers">No Followers</string>
     <string name="no_mutual">No Mutual</string>
