@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_in_username.view
 
 import android.Manifest
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
@@ -19,6 +20,8 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.NavigateToSi
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetUserNameFocusCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.view_model.SignInUserNameViewModel
+import io.golos.cyber_android.ui.shared.text.AllLowersInputFilter
+import io.golos.cyber_android.ui.shared.text.ExcludeCharactersFilter
 import kotlinx.android.synthetic.main.fragment_sign_in_user_name.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
@@ -42,6 +45,11 @@ class SignInUserNameFragment : FragmentBaseMVVM<FragmentSignInUserNameBinding, S
         super.onViewCreated(view, savedInstanceState)
 
         // Done action on a soft keyboard
+        login.filters = arrayOf(
+            InputFilter.LengthFilter(viewModel.maxUserNameLen),
+            AllLowersInputFilter(),
+            ExcludeCharactersFilter(' ', ignoreCase = false)
+        )
         password.setSoftDoneButtonListener { viewModel.onSignInClick() }
     }
 
