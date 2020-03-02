@@ -549,17 +549,15 @@
 
     <string name="conversion_completed">Conversion completed</string>
 
-    <string name="username_validation_len">The username must be between {0}-{1} characters</string>
-    <string name="username_validation_dot_start">The username can\'t start with a dot character</string>
-    <string name="username_validation_dot_end">The username can\'t end with a dot character</string>
-    <string name="username_validation_two_dots">The username can\'t contain two dots in a row</string>
-    <string name="username_validation_dash_start">The username can\'t start with a dash character</string>
-    <string name="username_validation_dash_end">The username can\'t end with a dash character</string>
-    <string name="username_validation_two_dashes">The username can\'t contain two dashes in a row</string>
-    <string name="username_validation_dot_dashes">The username can\'t contain dot and dashes in a row</string>
-    <string name="username_validation_start_digit">The username can\'t start with a digit</string>
-    <string name="username_validation_invalid_characters">There are some invalid characters in the username</string>
-    <string name="username_validation_short_segment">One of the segments in the username is too short</string>
+    <string name="username_validation_is_empty">Username is empty</string>
+    <string name="username_validation_invalid_character">Username may contain only lower case letters, digits, dots or dashes</string>
+    <string name="username_validation_start_with_letter">Username should start with a letter</string>
+    <string name="username_validation_is_too_short">Username should contain at least {0} symbols</string>
+    <string name="username_validation_is_too_long">Username is too long. {0} symbols are maximum</string>
+    <string name="username_validation_two_dash_in_row">Username may contain only one dash in a row</string>
+    <string name="username_validation_two_dot_in_row">Username may contain only one dot in a row</string>
+    <string name="username_validation_dash_dot_in_row">Username may contain only one dot or one dash in a row</string>
+    <string name="username_validation_end_with_letter_or_digit">Username should end with a letter or a digit</string>
 
     <string name="wallet_fingerprint">Use the fingerprint to send the payment</string>
     <string name="wallet_pin">Use your PIN code to send the payment</string>

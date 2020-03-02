@@ -7,31 +7,30 @@ class UserNameValidatorImpl
 @Inject
 constructor() : UserNameValidator {
     override val minLen: Int
-        get() = 5
+        get() = 3
 
     override val maxLen: Int
         get() = 32
 
     override fun validate(validatedValue: String): UserNameValidationResult =
         when {
-            validatedValue.length < minLen -> UserNameValidationResult.LEN_IS_TOO_SHORT
-            validatedValue.length > maxLen -> UserNameValidationResult.LEN_IS_TOO_LONG
+            validatedValue.isEmpty() -> UserNameValidationResult.IS_EMPTY
 
-            validatedValue.startsWith(".") -> UserNameValidationResult.CANT_START_WITH_DOT
-            validatedValue.endsWith(".") -> UserNameValidationResult.CANT_END_WITH_DOT
-            validatedValue.contains("..") -> UserNameValidationResult.CANT_CONTAIN_TWO_DOT_IN_ROW
+            !"""^[a-z0-9-.]+$""".isMatch(validatedValue) -> UserNameValidationResult.INVALID_CHARACTER
 
-            validatedValue.startsWith("-") -> UserNameValidationResult.CANT_START_WITH_DASH
-            validatedValue.endsWith("-") -> UserNameValidationResult.CANT_END_WITH_DASH
-            validatedValue.contains("--") -> UserNameValidationResult.CANT_CONTAIN_TWO_DASH_IN_ROW
+            !"""^[a-z]{1}""".isMatch(validatedValue) -> UserNameValidationResult.START_WITH_LETTER
 
-            validatedValue.contains(".-") || validatedValue.contains("-.") -> UserNameValidationResult.CANT_CONTAIN_DASH_DOT_IN_ROW
+            validatedValue.length < minLen -> UserNameValidationResult.IS_TOO_SHORT
 
-            validatedValue[0].isDigit() -> UserNameValidationResult.CANT_START_WITH_DIGIT
+            validatedValue.length > maxLen -> UserNameValidationResult.IS_TOO_LONG
 
-            validatedValue.split(".").any {it.length < minLen} -> UserNameValidationResult.SEGMENT_IS_TOO_SHORT
+            validatedValue.contains("--") -> UserNameValidationResult.TWO_DASH_IN_ROW
 
-            !"^[a-z0-9.-]+$".isMatch(validatedValue) -> UserNameValidationResult.INVALID_CHARACTER
+            validatedValue.contains("..") -> UserNameValidationResult.TWO_DOT_IN_ROW
+
+            validatedValue.contains(".-") || validatedValue.contains("-.") -> UserNameValidationResult.DASH_DOT_IN_ROW
+
+            !"""[a-z0-9]{1}$""".isMatch(validatedValue) -> UserNameValidationResult.END_WITH_LETTER_OR_DIGIT
 
             else -> UserNameValidationResult.SUCCESS
         }
