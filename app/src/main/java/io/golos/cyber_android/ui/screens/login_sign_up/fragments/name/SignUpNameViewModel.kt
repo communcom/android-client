@@ -63,6 +63,12 @@ constructor(
             UserNameValidationResult.CANT_CONTAIN_DASH_DOT_IN_ROW ->
                 ValidationResult(false, appContext.getString(R.string.username_validation_dot_dashes))
 
+            UserNameValidationResult.CANT_START_WITH_DIGIT ->
+                ValidationResult(false, appContext.getString(R.string.username_validation_start_digit))
+
+            UserNameValidationResult.SEGMENT_IS_TOO_SHORT ->
+                ValidationResult(false, appContext.getString(R.string.username_validation_short_segment))
+
             UserNameValidationResult.INVALID_CHARACTER ->
                 ValidationResult(false, appContext.getString(R.string.username_validation_invalid_characters))
         }

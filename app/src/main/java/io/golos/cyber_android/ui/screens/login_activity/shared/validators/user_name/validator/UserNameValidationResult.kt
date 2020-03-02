@@ -16,5 +16,9 @@ enum class UserNameValidationResult {
 
     CANT_CONTAIN_DASH_DOT_IN_ROW,
 
+    CANT_START_WITH_DIGIT,
+
+    SEGMENT_IS_TOO_SHORT,
+
     INVALID_CHARACTER
 }

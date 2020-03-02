@@ -553,14 +553,13 @@
     <string name="username_validation_dot_start">The username can\'t start with a dot character</string>
     <string name="username_validation_dot_end">The username can\'t end with a dot character</string>
     <string name="username_validation_two_dots">The username can\'t contain two dots in a row</string>
-
     <string name="username_validation_dash_start">The username can\'t start with a dash character</string>
     <string name="username_validation_dash_end">The username can\'t end with a dash character</string>
     <string name="username_validation_two_dashes">The username can\'t contain two dashes in a row</string>
-
     <string name="username_validation_dot_dashes">The username can\'t contain dot and dashes in a row</string>
-
+    <string name="username_validation_start_digit">The username can\'t start with a digit</string>
     <string name="username_validation_invalid_characters">There are some invalid characters in the username</string>
+    <string name="username_validation_short_segment">One of the segments in the username is too short</string>
 
     <string name="wallet_fingerprint">Use the fingerprint to send the payment</string>
     <string name="wallet_pin">Use your PIN code to send the payment</string>

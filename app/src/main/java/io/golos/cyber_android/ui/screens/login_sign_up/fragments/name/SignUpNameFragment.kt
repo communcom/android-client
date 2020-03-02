@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
@@ -20,6 +21,7 @@ import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.cyber_android.ui.shared.text.AllLowersInputFilter
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import io.golos.data.errors.AppError
+import io.golos.data.errors.CyberServicesError
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_name.*
@@ -127,11 +129,17 @@ class SignUpNameFragment : SignUpScreenFragmentBase<SignUpNameViewModel>(
 
     private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
         hideLoading()
-        val errorMsg = when (errorResult.error) {
-            is AppError.NameIsAlreadyInUseError -> R.string.name_already_taken_error
-            else -> R.string.unknown_error
+        when (errorResult.error) {
+            is AppError.NameIsAlreadyInUseError -> uiHelper.showMessage(R.string.name_already_taken_error)
+            else -> {
+                val sysMessage = ((errorResult.error.cause as? CyberServicesError)?.error?.value as? ApiResponseError)?.error?.message
+                if(sysMessage != null) {
+                    uiHelper.showMessage(sysMessage)
+                } else {
+                    uiHelper.showMessage(R.string.unknown_error)
+                }
+            }
         }
-        Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
     }
 
     private fun showExplanationDialog() =

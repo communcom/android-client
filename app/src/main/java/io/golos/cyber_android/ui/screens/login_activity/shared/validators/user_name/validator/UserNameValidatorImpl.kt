@@ -27,6 +27,10 @@ constructor() : UserNameValidator {
 
             validatedValue.contains(".-") || validatedValue.contains("-.") -> UserNameValidationResult.CANT_CONTAIN_DASH_DOT_IN_ROW
 
+            validatedValue[0].isDigit() -> UserNameValidationResult.CANT_START_WITH_DIGIT
+
+            validatedValue.split(".").any {it.length < minLen} -> UserNameValidationResult.SEGMENT_IS_TOO_SHORT
+
             !"^[a-z0-9.-]+$".isMatch(validatedValue) -> UserNameValidationResult.INVALID_CHARACTER
 
             else -> UserNameValidationResult.SUCCESS
