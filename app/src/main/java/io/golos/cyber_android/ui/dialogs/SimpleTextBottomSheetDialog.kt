@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.dialogs
 
-import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
@@ -13,32 +12,32 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_simple_text.*
 
+open class SimpleTextBottomSheetDialog(
+    @StringRes private val titleResId: Int,
+    @StringRes private val textResId: Int,
+    @StringRes private val mainButtonText: Int
+) : BottomSheetDialogFragmentBase<SimpleTextBottomSheetDialog.Result>() {
 
-open class SimpleTextBottomSheetDialog : BottomSheetDialogFragmentBase() {
-    companion object {
-        const val REQUEST = 5634
-
-        const val TITLE_KEY = "TITLE_KEY"
-        const val TEXT_KEY = "TEXT_KEY"
-        const val MAIN_BUTTON_TEXT_KEY = "MAIN_BUTTON_TEXT_KEY"
-
-        const val RESULT_CANCEL = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_MAIN_ACTION = Activity.RESULT_FIRST_USER + 2
-
-        fun newInstance(
-            target: Fragment,
-            @StringRes titleResId: Int,
-            @StringRes textResId: Int,
-            @StringRes mainButtonText: Int) =
-            SimpleTextBottomSheetDialog().apply {
-                arguments = Bundle().apply {
-                    putInt(TITLE_KEY, titleResId)
-                    putInt(TEXT_KEY, textResId)
-                    putInt(MAIN_BUTTON_TEXT_KEY, mainButtonText)
-                }
-                setTargetFragment(target, REQUEST)
-            }
+    sealed class Result {
+        object Ok: Result()
     }
+
+    companion object {
+        fun show(parent: Fragment,
+                 @StringRes titleResId: Int,
+                 @StringRes textResId: Int,
+                 @StringRes mainButtonText: Int,
+                 closeAction: (Result?) -> Unit) =
+            SimpleTextBottomSheetDialog(titleResId, textResId, mainButtonText)
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "SIMPLE_TEXT_BOTTOM_SHEET_DIALOG")
+    }
+
+    override val closeButton: View?
+        get() = buttonClose
+
+    override val layout: Int
+        get() = R.layout.dialog_simple_text
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -54,14 +53,11 @@ open class SimpleTextBottomSheetDialog : BottomSheetDialogFragmentBase() {
         return dialog
     }
 
-    override fun provideLayout(): Int = R.layout.dialog_simple_text
-
     override fun setupView() {
-        title.setText(arguments!!.getInt(TITLE_KEY))
-        explanationText.setText(arguments!!.getInt(TEXT_KEY))
-        mainButton.setText(arguments!!.getInt(MAIN_BUTTON_TEXT_KEY))
+        title.setText(titleResId)
+        explanationText.setText(textResId)
+        mainButton.setText(mainButtonText)
 
-        closeButton.setSelectAction(RESULT_CANCEL)
-        mainButton.setSelectAction(RESULT_MAIN_ACTION)
+        mainButton.setOnClickListener { closeOnItemSelected(Result.Ok) }
     }
 }

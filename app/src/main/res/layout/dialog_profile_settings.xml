@@ -18,13 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/profile_settings"
-        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+        app:layout_constraintEnd_toStartOf="@+id/buttonClose"
 
         app:layout_constraintStart_toStartOf="@+id/liked"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/closeButton"
+        android:id="@+id/buttonClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackgroundBorderless"

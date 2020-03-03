@@ -113,35 +113,12 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            ProfileMenuDialog.REQUEST -> {
-                val item = ProfileItem.create(data!!.extras.getInt(ProfileMenuDialog.ITEM))
-                when (resultCode) {
-                    ProfileMenuDialog.RESULT_SELECT -> {
-                        viewModel.onSelectMenuChosen(item)
-                    }
-                    ProfileMenuDialog.RESULT_DELETE -> {
-                        viewModel.onDeleteMenuChosen(item)
-                    }
-                }
-            }
             ProfilePhotosFragment.REQUEST -> {
                 val result = data!!.extras.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 viewModel.updatePhoto(File(result.photoFilePath), result.place)
             }
             ProfileBioFragment.REQUEST -> {
                 viewModel.updateBio(data!!.extras.getString(ProfileBioFragment.RESULT)!!)
-            }
-            ProfileSettingsDialog.REQUEST -> {
-                when (resultCode) {
-                    ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
-                    ProfileSettingsDialog.RESULT_LIKED -> viewModel.onLikedSelected()
-                    ProfileSettingsDialog.RESULT_BLACK_LIST -> viewModel.onBlackListSelected()
-                }
-            }
-            ProfileExternalUserSettingsDialog.REQUEST -> {
-                when (resultCode) {
-                    ProfileExternalUserSettingsDialog.RESULT_BLACK_LIST -> viewModel.onMoveToBlackListSelected()
-                }
             }
             ConfirmationDialog.REQUEST -> {
                 if (resultCode == ConfirmationDialog.RESULT_OK) {
@@ -176,16 +153,30 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     }
 
     private fun showPhotoDialog(place: ProfileItem) =
-        ProfileMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
+        ProfileMenuDialog.show(this@ProfileFragment, place) {
+            when(it) {
+                is ProfileMenuDialog.Result.Select -> viewModel.onSelectMenuChosen(it.place)
+                is ProfileMenuDialog.Result.Delete -> viewModel.onDeleteMenuChosen(it.place)
+            }
+        }
 
-    private fun showEditBioDialog() =
-        ProfileMenuDialog.newInstance(ProfileItem.BIO, this@ProfileFragment).show(requireFragmentManager(), "menu")
+    private fun showEditBioDialog() = showPhotoDialog(ProfileItem.BIO)
 
     private fun showSettingsDialog() =
-        ProfileSettingsDialog.newInstance(this@ProfileFragment).show(requireFragmentManager(), "menu")
+        ProfileSettingsDialog.show(this@ProfileFragment) {
+            when(it) {
+                is ProfileSettingsDialog.Result.Logout -> viewModel.onLogoutSelected()
+                is ProfileSettingsDialog.Result.Liked -> viewModel.onLikedSelected()
+                is ProfileSettingsDialog.Result.BlackList -> viewModel.onBlackListSelected()
+            }
+        }
 
     private fun showExternalUserSettingsDialog(isBlocked: Boolean) =
-        ProfileExternalUserSettingsDialog.newInstance(this@ProfileFragment, isBlocked).show(requireFragmentManager(), "menu")
+        ProfileExternalUserSettingsDialog.show(this@ProfileFragment, isBlocked) {
+            when(it) {
+                is ProfileExternalUserSettingsDialog.Result.BlackList -> viewModel.onMoveToBlackListSelected()
+            }
+        }
 
     private fun showConfirmationDialog(@StringRes textResId: Int) =
         ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")

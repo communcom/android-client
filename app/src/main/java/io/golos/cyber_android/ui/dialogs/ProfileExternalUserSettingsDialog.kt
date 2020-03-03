@@ -1,42 +1,35 @@
 package io.golos.cyber_android.ui.dialogs
 
-import android.app.Activity
-import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_profile_settings_external_user.*
 
-class ProfileExternalUserSettingsDialog : BottomSheetDialogFragmentBase() {
-    companion object {
-        const val REQUEST = 4048
+class ProfileExternalUserSettingsDialog(
+    private val isBlocked: Boolean
+) : BottomSheetDialogFragmentBase<ProfileExternalUserSettingsDialog.Result>() {
 
-        private const val IS_BLOCKED = "IS_BLOCKED"
-
-        const val RESULT_BLACK_LIST = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_CANCEL = Activity.RESULT_FIRST_USER + 2
-
-        fun newInstance(target: Fragment, isBlocked: Boolean): ProfileExternalUserSettingsDialog {
-            return ProfileExternalUserSettingsDialog().apply {
-                setTargetFragment(target, REQUEST)
-                arguments = Bundle().apply {
-                    putBoolean(IS_BLOCKED, isBlocked)
-                }
-            }
-        }
+    sealed class Result {
+        object BlackList: Result()
     }
 
-    override fun provideLayout(): Int = R.layout.dialog_profile_settings_external_user
+    companion object {
+        fun show(parent: Fragment, isBlocked: Boolean, closeAction: (Result?) -> Unit) =
+            ProfileExternalUserSettingsDialog(isBlocked)
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "PROFILE_EXTERNAL_USER_SETTINGS_DIALOG")
+    }
+
+    override val closeButton: View?
+        get() = buttonClose
+
+    override val layout: Int
+        get() = R.layout.dialog_profile_settings_external_user
 
     override fun setupView() {
-        if(arguments!!.getBoolean(IS_BLOCKED)) {
-            blockUser.setText(R.string.unblock_user)
+        blockUser.setText(if(isBlocked) R.string.unblock_user else R.string.block_user)
 
-        } else {
-            blockUser.setText(R.string.block_user)
-        }
-
-        blockUser.setSelectAction(RESULT_BLACK_LIST)
-        closeButton.setSelectAction(RESULT_CANCEL)
+        blockUser.setOnClickListener { closeOnItemSelected(Result.BlackList) }
     }
 }

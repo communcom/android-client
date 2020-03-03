@@ -232,80 +232,12 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            PostPageMenuDialog.REQUEST -> {
-                when (resultCode) {
-                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.addToFavorite(it.permlink)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.removeFromFavorite(it.permlink)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_SHARE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        val shareUrl = postMenu?.shareUrl
-                        shareUrl?.let {
-                            viewModel.onShareClicked(it)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_EDIT -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let { menu ->
-                            menu.contentId?.let { contentId ->
-                                viewModel.editPost(contentId)
-                            }
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_DELETE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.deletePost()
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_SUBSCRIBE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        val communityId = postMenu?.communityId
-                        communityId?.let {
-                            viewModel.subscribeToCommunity(it)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_UNSUBSCRIBE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.communityId?.let {
-                            viewModel.unsubscribeToCommunity(it)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_REPORT -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let { menu ->
-                            menu.contentId?.let { contentId ->
-                                viewModel.reportPost(contentId)
-                            }
-                        }
-                    }
-                }
-
-            }
-
             ProfilePhotosFragment.REQUEST -> {
                 val result =
                     data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 commentWidget.updateImageAttachment(result?.photoFilePath)
             }
 
-            CommentsActionsDialog.REQUEST -> {
-                when (resultCode) {
-                    CommentsActionsDialog.RESULT_EDIT ->
-                        viewModel.startEditComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
-                    CommentsActionsDialog.RESULT_DELETE ->
-                        viewModel.deleteComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
-                }
-            }
             ConfirmationDialog.REQUEST -> {
                 if (resultCode == ConfirmationDialog.RESULT_OK) {
                     viewModel.deletePost()
@@ -395,19 +327,29 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) {
-        PostPageMenuDialog.newInstance(postMenu).apply {
-            setTargetFragment(this@PostPageFragment, PostPageMenuDialog.REQUEST)
-        }.show(requireFragmentManager(), "show")
+        PostPageMenuDialog.show(this, postMenu) {
+            when (it) {
+                is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
+                is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
+                is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }
+                is PostPageMenuDialog.Result.Edit -> it.postMenu.contentId?.let { viewModel.editPost(it) }
+                is PostPageMenuDialog.Result.Delete -> viewModel.deletePost()
+                is PostPageMenuDialog.Result.Subscribe -> viewModel.subscribeToCommunity(it.postMenu.communityId)
+                is PostPageMenuDialog.Result.Unsubscribe -> viewModel.unsubscribeToCommunity(it.postMenu.communityId)
+                is PostPageMenuDialog.Result.Report -> it.postMenu.contentId?.let { viewModel.reportPost(it) }
+            }
+        }
     }
 
     private fun showCommentMenu(commentId: DiscussionIdModel) {
-        CommentsActionsDialog.newInstance(commentId).apply {
-            setTargetFragment(this@PostPageFragment, CommentsActionsDialog.REQUEST)
-        }.show(requireFragmentManager(), "menu")
+        CommentsActionsDialog.show(this@PostPageFragment, commentId) {
+            when(it) {
+                is CommentsActionsDialog.Result.Edit -> viewModel.startEditComment(it.commentId)
+                is CommentsActionsDialog.Result.Delete -> viewModel.deleteComment(it.commentId)
+            }
+        }
     }
 
     private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
-        PostRewardBottomSheetDialog
-            .newInstance(this@PostPageFragment, titleResId, textResId)
-            .show(requireFragmentManager(), "menu")
+        PostRewardBottomSheetDialog.show(this@PostPageFragment, titleResId, textResId) {}
 }

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.dialogs
 
-import android.app.Activity
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
@@ -9,20 +10,29 @@ import kotlinx.android.synthetic.main.dialog_comments_sorting_menu.*
 /**
  * [BottomSheetDialogFragment] that shows comments sorting menu
  */
-class PostPageSortingComments : BottomSheetDialogFragmentBase() {
-    companion object {
-        const val REQUEST = 5045
-
-        const val RESULT_INTERESTING_FIRST = Activity.RESULT_FIRST_USER + 3
-        const val RESULT_BY_TIME = Activity.RESULT_FIRST_USER + 4
-
-        fun newInstance(): PostPageSortingComments = PostPageSortingComments()
+class PostPageSortingComments : BottomSheetDialogFragmentBase<PostPageSortingComments.Result>() {
+    sealed class Result {
+        object InterestingFirst : Result()
+        object ByTime : Result()
     }
 
-    override fun provideLayout(): Int = R.layout.dialog_comments_sorting_menu
+    companion object {
+        fun show(parent: Fragment, closeAction: (Result?) -> Unit) =
+            PostPageSortingComments()
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "POST_PAGE_SORTING_COMMENTS_DIALOG")
+
+
+    }
+
+    override val closeButton: Button?
+        get() = null
+
+    override val layout: Int
+        get() = R.layout.dialog_comments_sorting_menu
 
     override fun setupView() {
-        interestingFirst.setSelectAction(RESULT_INTERESTING_FIRST)
-        byTime.setSelectAction(RESULT_BY_TIME)
+        interestingFirst.setOnClickListener { closeOnItemSelected(Result.InterestingFirst) }
+        byTime.setOnClickListener { closeOnItemSelected(Result.ByTime) }
     }
 }

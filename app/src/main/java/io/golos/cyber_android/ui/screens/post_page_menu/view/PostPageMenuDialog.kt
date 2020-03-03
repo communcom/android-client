@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_page_menu.view
 
-import android.app.Activity
-import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
@@ -9,113 +9,59 @@ import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.screens.post_page_menu.model.*
 import io.golos.cyber_android.ui.screens.post_page_menu.view.list.PostMenuAdapter
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
-import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.use_cases.post.post_dto.DocumentFormatVersion
-import io.golos.domain.use_cases.post.post_dto.PostType
 import kotlinx.android.synthetic.main.dialog_post_menu.*
 
 /**
  * [BottomSheetDialogFragment] that shows post menu
  */
-class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEventProcessor {
+class PostPageMenuDialog(
+    private val postMenu: PostMenu
+) : BottomSheetDialogFragmentBase<PostPageMenuDialog.Result>(),
+    PostMenuModelListEventProcessor {
+
+    sealed class Result {
+        data class AddFavorite(val postMenu: PostMenu): Result()
+        data class RemoveFavorite(val postMenu: PostMenu): Result()
+        data class Share(val postMenu: PostMenu): Result()
+        data class Edit(val postMenu: PostMenu): Result()
+        data class Delete(val postMenu: PostMenu): Result()
+        data class Subscribe(val postMenu: PostMenu): Result()
+        data class Unsubscribe(val postMenu: PostMenu): Result()
+        data class Report(val postMenu: PostMenu): Result()
+    }
+
     companion object {
-        const val REQUEST = 9303
-
-        const val RESULT_ADD_FAVORITE = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_REMOVE_FAVORITE = Activity.RESULT_FIRST_USER + 2
-        const val RESULT_SHARE = Activity.RESULT_FIRST_USER + 3
-        const val RESULT_EDIT = Activity.RESULT_FIRST_USER + 4
-        const val RESULT_DELETE = Activity.RESULT_FIRST_USER + 5
-        const val RESULT_SUBSCRIBE = Activity.RESULT_FIRST_USER + 6
-        const val RESULT_UNSUBSCRIBE = Activity.RESULT_FIRST_USER + 7
-        const val RESULT_REPORT = Activity.RESULT_FIRST_USER + 8
-
-        private const val POST_MENU = "POST_MENU"
-
-        private lateinit var postMenu: PostMenu
-
-        @Deprecated("Need use another method newInstance")
-        fun newInstance(
-            isMyPost: Boolean,
-            type: PostType,
-            formatVersion: DocumentFormatVersion,
-            payload: String = ""
-        ): PostPageMenuDialog {
-            return PostPageMenuDialog().apply {
-                arguments = Bundle().apply {
-                    putSerializable("", isMyPost)
-                    putString("", payload)
-                    putInt("", type.value)
-                    putParcelable("", formatVersion)
-                }
-            }
-        }
-
-        fun newInstance(
-            postMenu: PostMenu
-        ): PostPageMenuDialog {
-            return PostPageMenuDialog().apply {
-                arguments = Bundle().apply {
-                    putParcelable(POST_MENU, postMenu)
-                }
-            }
-        }
+        fun show(parent: Fragment, postMenu: PostMenu, closeAction: (Result?) -> Unit) =
+            PostPageMenuDialog(postMenu)
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "POST_PAGE_MENU_DIALOG")
     }
 
-    override fun onAddToFavoriteItemClick() {
-        setSelectAction(RESULT_ADD_FAVORITE) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
 
-    override fun onRemoveFromFavoriteItemClick() {
-        setSelectAction(RESULT_REMOVE_FAVORITE) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override val closeButton: View?
+        get() = ivClose
 
-    override fun onShareItemClick() {
-        setSelectAction(RESULT_SHARE) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override val layout: Int
+        get() = R.layout.dialog_post_menu
 
-    override fun onEditItemClick() {
-        setSelectAction(RESULT_EDIT) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override fun onAddToFavoriteItemClick() = closeOnItemSelected(Result.AddFavorite(postMenu))
 
-    override fun onDeleteItemClick() {
-        setSelectAction(RESULT_DELETE) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override fun onRemoveFromFavoriteItemClick() = closeOnItemSelected(Result.RemoveFavorite(postMenu))
 
-    override fun onJoinItemClick() {
-        setSelectAction(RESULT_SUBSCRIBE) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override fun onShareItemClick() = closeOnItemSelected(Result.Share(postMenu))
 
-    override fun onJoinedItemClick() {
-        setSelectAction(RESULT_UNSUBSCRIBE) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override fun onEditItemClick() = closeOnItemSelected(Result.Edit(postMenu))
 
-    override fun onReportItemClick() {
-        setSelectAction(RESULT_REPORT) {
-            putExtra(Tags.POST_MENU, postMenu)
-        }
-    }
+    override fun onDeleteItemClick() = closeOnItemSelected(Result.Delete(postMenu))
 
-    override fun provideLayout(): Int = R.layout.dialog_post_menu
+    override fun onJoinItemClick() = closeOnItemSelected(Result.Subscribe(postMenu))
+
+    override fun onJoinedItemClick() = closeOnItemSelected(Result.Unsubscribe(postMenu))
+
+    override fun onReportItemClick() = closeOnItemSelected(Result.Report(postMenu))
 
     override fun setupView() {
-        postMenu = arguments!!.getParcelable(POST_MENU)
-
         postMenu.let { menu ->
             val adapter = PostMenuAdapter(this)
             rvMenu.layoutManager = LinearLayoutManager(requireContext())
@@ -143,8 +89,6 @@ class PostPageMenuDialog : BottomSheetDialogFragmentBase(), PostMenuModelListEve
                 else generateNotMyPostMenu(menu)
             adapter.update(listOfItems)
         }
-
-        ivClose.setOnClickListener { dismiss() }
     }
 
     private fun generateMyPostMenu(postMenu: PostMenu): List<VersionedListItem> {

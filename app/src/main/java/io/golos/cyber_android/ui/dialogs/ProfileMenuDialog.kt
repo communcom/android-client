@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.dialogs
 
-import android.app.Activity
-import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
@@ -9,31 +8,27 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.shared.utils.setDrawableToEnd
 import kotlinx.android.synthetic.main.dialog_profile_menu.*
 
-class ProfileMenuDialog : BottomSheetDialogFragmentBase() {
-    companion object {
-        const val REQUEST = 1548
-
-        const val RESULT_SELECT = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_DELETE = Activity.RESULT_FIRST_USER + 2
-        const val RESULT_CANCEL = Activity.RESULT_FIRST_USER + 3
-
-        const val ITEM = "ITEM"
-
-        fun newInstance(place: ProfileItem, target: Fragment): ProfileMenuDialog {
-            return ProfileMenuDialog().apply {
-                arguments = Bundle().apply {
-                    putInt(ITEM, place.value)
-                }
-                setTargetFragment(target, REQUEST)
-            }
-        }
+class ProfileMenuDialog(private val place: ProfileItem) : BottomSheetDialogFragmentBase<ProfileMenuDialog.Result>() {
+    sealed class Result {
+        data class Select (val place: ProfileItem): Result()
+        data class Delete (val place: ProfileItem): Result()
     }
 
-    override fun provideLayout(): Int = R.layout.dialog_profile_menu
+    companion object {
+        fun show(parent: Fragment, place: ProfileItem, closeAction: (Result?) -> Unit) =
+            ProfileMenuDialog(place)
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "PROFILE_MENU_DIALOG")
+    }
+
+    override val closeButton: View?
+        get() = buttonClose
+
+    override val layout: Int
+        get() = R.layout.dialog_profile_menu
+
 
     override fun setupView() {
-        val place = ProfileItem.create(arguments!!.getInt(ITEM))
-
         when(place) {
             ProfileItem.COVER -> {
                 title.text = context!!.resources.getString(R.string.change_profile_cover)
@@ -56,18 +51,11 @@ class ProfileMenuDialog : BottomSheetDialogFragmentBase() {
 
                 select.setDrawableToEnd(R.drawable.ic_edit)
             }
+
+            else -> {}
         }
 
-        select.setSelectAction(RESULT_SELECT) {
-            putExtra(ITEM, place.value)
-        }
-
-        delete.setSelectAction(RESULT_DELETE) {
-            putExtra(ITEM, place.value)
-        }
-
-        closeButton.setSelectAction(RESULT_CANCEL) {
-            putExtra(ITEM, place.value)
-        }
+        select.setOnClickListener { closeOnItemSelected(Result.Select(place)) }
+        delete.setOnClickListener { closeOnItemSelected(Result.Delete(place)) }
     }
 }

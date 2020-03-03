@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.comment_page_menu.view
 
-import android.app.Activity
-import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
@@ -11,17 +11,33 @@ import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentDel
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentEditListItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.list.CommentMenuAdapter
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
-import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.dialog_profile_comment_menu.*
 
-class CommentPageMenuDialog : BottomSheetDialogFragmentBase(), CommentMenuModelListEventProcessor {
+class CommentPageMenuDialog(
+    private val commentMenu: CommentMenu
+) : BottomSheetDialogFragmentBase<CommentPageMenuDialog.Result>(),
+    CommentMenuModelListEventProcessor {
 
-    override fun provideLayout(): Int = R.layout.dialog_profile_comment_menu
+    sealed class Result {
+        data class Edit (val commentMenu: CommentMenu): Result()
+        data class Delete (val commentMenu: CommentMenu): Result()
+    }
+
+    companion object {
+        fun show(parent: Fragment, commentMenu: CommentMenu, closeAction: (Result?) -> Unit) =
+            CommentPageMenuDialog(commentMenu)
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "COMMENT_PAGE_MENU_DIALOG")
+    }
+
+    override val closeButton: View?
+        get() = ivClose
+
+    override val layout: Int
+        get() = R.layout.dialog_profile_comment_menu
 
     override fun setupView() {
-        commentMenu = arguments?.getParcelable(COMMENT_MENU)!!
-
         val adapter = CommentMenuAdapter(this)
         rvMenu.layoutManager = LinearLayoutManager(requireContext())
         rvMenu.adapter = adapter
@@ -48,40 +64,9 @@ class CommentPageMenuDialog : BottomSheetDialogFragmentBase(), CommentMenuModelL
             add(CommentDeleteListItem())
         }
         adapter.update(items)
-
-        ivClose.setOnClickListener { dismiss() }
     }
 
-    override fun onEditCommentEvent() {
-        setSelectAction(RESULT_EDIT) {
-            putExtra(Tags.COMMENT_MENU, commentMenu)
-        }
-    }
+    override fun onEditCommentEvent() = closeOnItemSelected(Result.Edit(commentMenu))
 
-    override fun onDeleteCommentEvent() {
-        setSelectAction(RESULT_DELETE) {
-            putExtra(Tags.COMMENT_MENU, commentMenu)
-        }
-    }
-
-    companion object {
-        const val REQUEST = 98377
-
-        const val RESULT_EDIT = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_DELETE = Activity.RESULT_FIRST_USER + 2
-
-        private const val COMMENT_MENU = "COMMENT_MENU"
-
-        private lateinit var commentMenu: CommentMenu
-
-        fun newInstance(
-            commentMenu: CommentMenu
-        ): CommentPageMenuDialog {
-            return CommentPageMenuDialog().apply {
-                arguments = Bundle().apply {
-                    putParcelable(COMMENT_MENU, commentMenu)
-                }
-            }
-        }
-    }
+    override fun onDeleteCommentEvent() = closeOnItemSelected(Result.Delete(commentMenu))
 }

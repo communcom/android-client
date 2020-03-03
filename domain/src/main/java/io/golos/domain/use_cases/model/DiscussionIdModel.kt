@@ -5,7 +5,6 @@ import io.golos.domain.Model
 import io.golos.domain.commun_entities.Permlink
 import kotlinx.android.parcel.Parcelize
 
-@Deprecated("Not need use, use Domain model")
 @Parcelize
 data class DiscussionIdModel constructor(
     val userId: String,
