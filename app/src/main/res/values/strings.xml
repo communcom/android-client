@@ -199,6 +199,7 @@
 
     <!--Settings-->
 
+    <string name="select_image">Select image</string>
     <string name="choose_from_gallery">Choose from gallery</string>
     <string name="make_a_photo">Make a photo</string>
 

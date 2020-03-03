@@ -245,10 +245,12 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 EditorAction.LOCAL_IMAGE -> {
                     photoButton.visibility = View.VISIBLE
                     photoButton.setOnClickListener {
-                        ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
-                            setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
+                        ImagePickerDialog.show(this) {
+                            when(it) {
+                                ImagePickerDialog.Result.Camera -> takeCameraPhoto()
+                                ImagePickerDialog.Result.Gallery -> pickGalleryPhoto()
+                            }
                         }
-                            .show(requireFragmentManager(), "cover")
                     }
                 }
             }
@@ -352,12 +354,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
-            GALLERY_REQUEST -> {
-                when (resultCode) {
-                    ImagePickerDialog.RESULT_GALLERY -> pickGalleryPhoto()
-                    ImagePickerDialog.RESULT_CAMERA -> takeCameraPhoto()
-                }
-            }
             ConfirmationDialog.REQUEST -> {
                 if (resultCode == ConfirmationDialog.RESULT_OK) {
                     viewModel.close()
