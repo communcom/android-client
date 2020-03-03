@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.profile.model
 import dagger.Lazy
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
@@ -20,7 +21,8 @@ constructor(
     private val usersRepository: UsersRepository,
     private val communityRepository: CommunitiesRepository,
     private val walletRepository: WalletRepository,
-    private val logout: Lazy<LogoutUseCase>
+    private val logout: Lazy<LogoutUseCase>,
+    private val balanceCalculator: BalanceCalculator
 ) : ModelBaseImpl(),
     ProfileModel {
 
@@ -131,6 +133,6 @@ constructor(
 
     override suspend fun getTotalBalance(): Double {
         balanceData = walletRepository.getBalance()
-        return balanceData.sumByDouble { it.communs ?: 0.0 }
+        return balanceCalculator.getTotalBalance(balanceData)
     }
 }

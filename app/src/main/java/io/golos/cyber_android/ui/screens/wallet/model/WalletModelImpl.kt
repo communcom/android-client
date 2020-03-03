@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.wallet.model
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
@@ -26,14 +27,15 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val walletRepository: WalletRepository,
     private val sendPointsDataSource: SendPointsDataSource,
-    private val historyDataSource: HistoryDataSource
+    private val historyDataSource: HistoryDataSource,
+    private val balanceCalculator: BalanceCalculator
 ) : ModelBaseImpl(),
     WalletModel {
 
     override lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
     override val totalBalance: Double
-        get() = balance.sumByDouble { it.communs ?: 0.0 }
+        get() = balanceCalculator.getTotalBalance(balance)
 
     override val sendPointItems: LiveData<List<VersionedListItem>>
         get() = sendPointsDataSource.items

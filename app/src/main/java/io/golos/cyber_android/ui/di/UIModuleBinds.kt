@@ -3,6 +3,8 @@ package io.golos.cyber_android.ui.di
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculatorImpl
 import io.golos.cyber_android.ui.shared.bitmaps.BitmapsUtilsImpl
 import io.golos.cyber_android.ui.shared.camera.CameraHelper
 import io.golos.cyber_android.ui.shared.camera.CameraHelperImpl
@@ -68,4 +70,7 @@ abstract class UIModuleBinds {
     @Binds
     @UIScope
     abstract fun provideKeyboardVisibilityListener(listener: KeyboardVisibilityListenerImpl): KeyboardVisibilityListener
+
+    @Binds
+    abstract fun provideBalanceCalculator(calculator: BalanceCalculatorImpl): BalanceCalculator
 }

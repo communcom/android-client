@@ -6,6 +6,7 @@ import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
 import javax.inject.Inject
 import dagger.Lazy
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -18,14 +19,16 @@ constructor(
     usersRepository: UsersRepository,
     communityRepository: CommunitiesRepository,
     walletRepository: WalletRepository,
-    logout: Lazy<LogoutUseCase>
+    logout: Lazy<LogoutUseCase>,
+    balanceCalculator: BalanceCalculator
 ) : ProfileModelImpl(
     profileUserId,
     currentUserRepository,
     usersRepository,
     communityRepository,
     walletRepository,
-    logout
+    logout,
+    balanceCalculator
 ), ProfileModel {
     override val isBalanceVisible: Boolean
         get() = false
