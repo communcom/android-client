@@ -102,13 +102,10 @@ constructor(
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
+                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -116,13 +113,10 @@ constructor(
     override fun onDownVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
+                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

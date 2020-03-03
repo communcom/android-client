@@ -33,5 +33,5 @@ interface CommentsProcessingFacade {
 
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 
-    suspend fun vote(commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun vote(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean)
 }

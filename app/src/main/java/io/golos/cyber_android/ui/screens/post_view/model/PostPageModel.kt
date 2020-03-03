@@ -56,7 +56,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         reason: String
     )
 
-    suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun voteForComment(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
 

@@ -181,14 +181,11 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onCommentUpVoteClick(commentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.commentUpVote(commentId.mapToContentIdDomain())
                 _commentListState.value = updateUpVoteCountOfVotes(_commentListState.value, commentId)
-                _command.value = SetLoadingVisibilityCommand(false)
+                model.commentUpVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -196,14 +193,11 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onCommentDownVoteClick(commentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.commentDownVote(commentId.mapToContentIdDomain())
                 _commentListState.value = updateDownVoteCountOfVotes(_commentListState.value, commentId)
-                _command.value = SetLoadingVisibilityCommand(false)
+                model.commentDownVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

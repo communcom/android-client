@@ -25,7 +25,6 @@ import kotlinx.coroutines.*
 abstract class AbstractFeedUseCase<Q : FeedUpdateRequest, E : DiscussionEntity, M : DiscussionModel>
 constructor(
     protected val discussionsFeedRepository: DiscussionsFeedRepository<E, Q>,
-    protected val voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     protected val feedMapper: EntityToModelMapper<FeedRelatedEntities<E>, DiscussionsFeed<M>>,
     protected val dispatchersProvider: DispatchersProvider
 ) : UseCase<DiscussionsFeed<M>> {
@@ -61,7 +60,6 @@ constructor(
         lastFeedJob?.cancel()
         lastFeedJob = useCaseScope.launch {
             val feedEntity = getLastFeedData()
-            val votes = getLastVoteData()
 
             if (feedEntity == null) {
                 postFeedLiveData.value = DiscussionsFeed(emptyList())
@@ -70,18 +68,18 @@ constructor(
             }
             //TODO empty feed state
 
-            val resultFeed = withContext(dispatchersProvider.calculationsDispatcher) {
-                feedMapper.map(FeedRelatedEntities(feedEntity, votes))
-            }
+//            val resultFeed = withContext(dispatchersProvider.calculationsDispatcher) {
+//                feedMapper.map(FeedRelatedEntities(feedEntity, votes))
+//            }
 
             val lastFeedItems = postFeedLiveData.value?.items.orEmpty()
-            val resultFeedItems = resultFeed.items
+//            val resultFeedItems = resultFeed.items
 
-            postFeedLiveData.value = resultFeed
+//            postFeedLiveData.value = resultFeed
 
-            if (feedEntity.pageId == null) lastFetchedChunkLiveData.value = resultFeedItems
-            else if (lastFeedItems.size != resultFeed.items.size) lastFetchedChunkLiveData.value =
-                resultFeedItems - lastFeedItems
+//            if (feedEntity.pageId == null) lastFetchedChunkLiveData.value = resultFeedItems
+//            else if (lastFeedItems.size != resultFeed.items.size) lastFetchedChunkLiveData.value =
+//                resultFeedItems - lastFeedItems
         }
     }
 
@@ -90,18 +88,9 @@ constructor(
         return result
     }
 
-    private fun getLastVoteData(): Map<Identifiable.Id, QueryResult<VoteRequestEntity>> {
-        return voteRepository.updateStates.value.orEmpty()
-    }
-
     override fun subscribe() {
 
         mediatorLiveData.addSource(discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest))
-        {
-            onFeedRelatedDataChanges()
-        }
-
-        mediatorLiveData.addSource(voteRepository.updateStates)
         {
             onFeedRelatedDataChanges()
         }
@@ -138,7 +127,7 @@ constructor(
 
     override fun unsubscribe() {
         mediatorLiveData.removeSource(discussionsFeedRepository.getAsLiveData(baseFeedUpdateRequest))
-        mediatorLiveData.removeSource(voteRepository.updateStates)
+//        mediatorLiveData.removeSource(voteRepository.updateStates)
         mediatorLiveData.removeSource(discussionsFeedRepository.updateStates)
         mediatorLiveData.removeObserver(observer)
     }

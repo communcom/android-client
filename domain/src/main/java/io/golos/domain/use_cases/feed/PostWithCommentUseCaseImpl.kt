@@ -34,13 +34,11 @@ constructor (
     private val postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     private val toModelMapper: PostEntitiesToModelMapper,
     commentsFeedRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
-    voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     feedMapper: CommentsFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : PostCommentsFeedUseCase(
     postId,
     commentsFeedRepository,
-    voteRepository,
     feedMapper,
     dispatchersProvider
 ), PostWithCommentUseCase {
@@ -58,21 +56,21 @@ constructor (
         job?.cancel()
         job = useCaseScope.launch {
             val postEntity = getPostEntity() ?: return@launch
-            val votes = getVotes()
+//            val votes = getVotes()
 
             Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl content: ${postEntity.content.body.postBlock}")
 
-            postLiveData.value = withContext(dispatchersProvider.calculationsDispatcher) {
-                val mappedPost = toModelMapper.map(
-                    DiscussionRelatedEntities(
-                        postEntity,
-                        votes.orEmpty().values.find { it.originalQuery.discussionIdEntity.asModel == postId })
-                )
-
-                Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl mapped: ${mappedPost.content.body.postBlock}")
-
-                mappedPost
-            }
+//            postLiveData.value = withContext(dispatchersProvider.calculationsDispatcher) {
+//                val mappedPost = toModelMapper.map(
+//                    DiscussionRelatedEntities(
+//                        postEntity,
+//                        votes.orEmpty().values.find { it.originalQuery.discussionIdEntity.asModel == postId })
+//                )
+//
+//                Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl mapped: ${mappedPost.content.body.postBlock}")
+//
+//                mappedPost
+//            }
         }
     }
 
@@ -84,23 +82,23 @@ constructor (
         mediator.addSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId))) {
             onRelatedDataChanges()
         }
-        mediator.addSource(voteRepository.updateStates) {
-            onRelatedDataChanges()
-        }
+//        mediator.addSource(voteRepository.updateStates) {
+//            onRelatedDataChanges()
+//        }
         mediator.observeForever(observer)
         postFeedRepository.requestDiscussionUpdate(DiscussionIdEntity.fromModel(postId))
     }
 
     private fun getPostEntity() = postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)).value
 
-    private fun getVotes() = voteRepository.updateStates.value
+//    private fun getVotes() = voteRepository.updateStates.value
 
     override fun unsubscribe() {
         Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl unsubscribe()")
 
         super.unsubscribe()
         mediator.removeSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)))
-        mediator.removeSource(voteRepository.updateStates)
+//        mediator.removeSource(voteRepository.updateStates)
         mediator.removeObserver(observer)
     }
 }

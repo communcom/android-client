@@ -23,12 +23,10 @@ class CommunityFeedUseCase
 constructor(
     private val communityId: CommunityId,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-    voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     feedMapper: PostFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
     postFeedRepository,
-    voteRepository,
     feedMapper,
     dispatchersProvider
 ) {

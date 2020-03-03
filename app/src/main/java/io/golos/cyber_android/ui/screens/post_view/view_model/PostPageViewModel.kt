@@ -128,17 +128,13 @@ constructor(
     override fun onUpVoteClick() {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
                 model.upVote(
-                    postContentId?.communityId.orEmpty(),
-                    postContentId?.userId.orEmpty(),
-                    postContentId?.permlink.orEmpty()
+                    postContentId.communityId,
+                    postContentId.userId,
+                    postContentId.permlink
                 )
             } catch (e: java.lang.Exception) {
-                Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -146,17 +142,13 @@ constructor(
     override fun onDownVoteClick() {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
                 model.downVote(
-                    postContentId?.communityId.orEmpty(),
-                    postContentId?.userId.orEmpty(),
-                    postContentId?.permlink.orEmpty()
+                    postContentId.communityId,
+                    postContentId.userId,
+                    postContentId.permlink
                 )
             } catch (e: java.lang.Exception) {
-                Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -386,7 +378,7 @@ constructor(
     }
 
     private fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
-        processSimple { model.voteForComment(commentId, isUpVote) }
+        processSimple { model.voteForComment(postContentId.communityId, commentId, isUpVote) }
 
     private fun processSimple(action: suspend () -> Unit) {
         launch {

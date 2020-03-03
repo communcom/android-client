@@ -20,12 +20,10 @@ class UserPostFeedUseCase
 constructor(
     private val userId: CyberUser,
     postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-    voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     feedMapper: PostFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
 ) : AbstractFeedUseCase<PostFeedUpdateRequest, PostEntity, PostModel>(
     postFeedRepository,
-    voteRepository,
     feedMapper,
     dispatchersProvider
 ) {

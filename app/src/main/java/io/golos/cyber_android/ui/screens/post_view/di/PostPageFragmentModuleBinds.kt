@@ -19,8 +19,8 @@ import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.P
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceImpl
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourcePostControls
-import io.golos.cyber_android.ui.screens.post_view.model.voting.PostVotingMachineImpl
-import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
+import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCase
+import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCaseImpl
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -59,10 +59,6 @@ abstract class PostPageFragmentModuleBinds {
     abstract fun bindPostListDataSourceForComments(dataSource: PostListDataSourceImpl): PostListDataSourceComments
 
     @Binds
-    @FragmentScope
-    abstract fun bindVotingMachine(machine: PostVotingMachineImpl): VotingMachine
-
-    @Binds
     abstract fun bindCommentsLoadingFacade(facade: CommentsProcessingFacadeImpl): CommentsProcessingFacade
 
     @Binds
@@ -76,4 +72,7 @@ abstract class PostPageFragmentModuleBinds {
 
     @Binds
     abstract fun provideUnsubscribeToCommunityUseCase(useCase: UnsubscribeToCommunityUseCaseImpl): UnsubscribeToCommunityUseCase
+
+    @Binds
+    abstract fun providePostVotingUseCase(useCase: PostPageVotingUseCaseImpl): PostPageVotingUseCase
 }
