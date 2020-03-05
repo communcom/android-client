@@ -1,1 +1,1 @@
-include ':app', ':domain', ':data', ':posts_editor', ':utils', ':use_cases'
+include ':app', ':domain', ':data', ':posts_editor', ':utils', ':use_cases', ':pdf_renderer'

@@ -27,6 +27,7 @@ ext.versions = [
         fabric                : '2.10.1',
         fabricPlugin          : '1.29.0',
         protobuf              : "3.9.1",
+        zxing                 : "3.4.0",
 
         //Architecture components
         lifecycle             : '2.2.0',
@@ -115,7 +116,8 @@ ext.deps = [
                 timber    : "com.jakewharton.timber:timber:$versions.timber",
                 leakCanary: "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
                 fabric    : "com.crashlytics.sdk.android:crashlytics:$versions.fabric",
-                protobuf  : "com.google.protobuf:protobuf-java:$versions.protobuf"
+                protobuf  : "com.google.protobuf:protobuf-java:$versions.protobuf",
+                zxing     : "com.google.zxing:core:$versions.zxing"
         ],
 
         'architectureComponents': [

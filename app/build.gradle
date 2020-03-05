@@ -104,6 +104,7 @@ dependencies {
     implementation project(':use_cases')
     implementation project(':posts_editor')
     implementation project(':utils')
+    implementation project(':pdf_renderer')
 
     deps.groups.kotlin dependencies
     deps.groups.ui dependencies

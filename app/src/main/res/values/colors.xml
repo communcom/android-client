@@ -87,4 +87,9 @@
     <!--Wallet-->
     <color name="profile_wallet_bcg_start">#A4B1F9</color>
     <color name="profile_wallet_bcg_end">@color/blue</color>
+
+    <color name="pdf_blue">#6a80f5</color>
+    <color name="pdf_blue_light">#f0f2ff</color>
+    <color name="pdf_gray_dark">#9b9eb6</color>
+    <color name="pdf_white">@android:color/white</color>
 </resources>

@@ -9,10 +9,10 @@ import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding
 import io.golos.cyber_android.ui.dialogs.KeysBackupWarningDialog
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.shared.keys_to_pdf.PdfKeysExporter
-import io.golos.cyber_android.ui.shared.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
