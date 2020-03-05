@@ -5,3 +5,5 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 class ShowBackupWarningDialogCommand: ViewCommand
 
 class StartExportingKeyCommand(val exportData: PdfPageExportData) : ViewCommand
+
+class ShowSaveDialogCommand() : ViewCommand

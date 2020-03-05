@@ -274,9 +274,8 @@
     <!--SignUp Protection-->
     <string name="back">Back</string>
     <string name="master_password">Master password</string>
-    <string name="you_owner">You owner</string>
-    <string name="of_your_identity">of your identity</string>
-    <string name="need_password">Commun doesn\'t have access to your password, and also in case of loss will not be able to recover it. <b><font color="@color/black">Save it securely!</font></b></string>
+    <string name="master_password_generated">has been generated</string>
+    <string name="need_password">You need the master password to Log in. We don\’t keep and can\’t restore passwords. Save it!</string>
 
     <!--Pin code-->
     <string name="create_passcode">Create your passcode</string>
@@ -421,7 +420,7 @@
     <string name="choose_community">Choose a community</string>
     <string name="clear">Clear</string>
     <string name="save_it">I save it</string>
-    <string name="download_pdf">Download PDF</string>
+    <string name="backup_password">Backup password</string>
     <string name="continue_without_backup">Continue without backup</string>
     <string name="attention">Attention</string>
     <string name="master_pass_backup_sub_header">We do not keep master passwords and have no opportunity to restore them.</string>
@@ -583,4 +582,7 @@
         <item>rd</item>
         <item>th</item>
     </string-array>
+    <string name="pdf_save_dialog_title">Backup to…</string>
+    <string name="pdf_save_dialog_device">Device</string>
+    <string name="pdf_save_dialog_google">Google Drive</string>
 </resources>

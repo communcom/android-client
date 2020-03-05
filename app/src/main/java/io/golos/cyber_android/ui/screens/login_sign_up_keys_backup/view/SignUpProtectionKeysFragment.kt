@@ -7,8 +7,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding
 import io.golos.cyber_android.ui.dialogs.KeysBackupWarningDialog
+import io.golos.cyber_android.ui.dialogs.SavePdfActionDialog
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowSaveDialogCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingKeyCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
@@ -39,7 +41,7 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
 
         explanationLabel.text = this.resources.getText(R.string.need_password)
 
-        backup.setOnClickListener { keysExporter.startExport() }
+        backup.setOnClickListener { viewModel.onBackupClick() /*keysExporter.startExport()*/ }
         keysExporter.setOnExportCompletedListener { viewModel.onBackupCompleted() }
         keysExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected() }
         keysExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
@@ -67,6 +69,7 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
             is NavigateToMainScreenCommand -> navigateToMainScreen()
             is StartExportingKeyCommand -> keysExporter.processDataToExport(requireContext(), command.exportData)
             is ShowBackupWarningDialogCommand -> showBackupWarningCommand()
+            is ShowSaveDialogCommand -> showSaveDialog()
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }
@@ -79,6 +82,15 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
         if (!requireActivity().isFinishing) {
             requireActivity().finish()
             startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
+    }
+
+    private fun showSaveDialog() {
+        SavePdfActionDialog.show(this) {
+            when(it) {
+                SavePdfActionDialog.Result.Device -> keysExporter.startExport()
+                SavePdfActionDialog.Result.GoogleDrive -> {}
+            }
         }
     }
 }

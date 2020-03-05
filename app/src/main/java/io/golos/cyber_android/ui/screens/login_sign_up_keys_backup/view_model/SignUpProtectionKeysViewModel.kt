@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowSaveDialogCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingKeyCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModel
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
@@ -35,6 +36,10 @@ constructor(
             model.loadKeys()
             _masterKey.value = model.allKeys.first { it.keyType == UserKeyType.MASTER }.key
         }
+    }
+
+    fun onBackupClick() {
+        _command.value = ShowSaveDialogCommand()
     }
 
     fun onSavedClick() {

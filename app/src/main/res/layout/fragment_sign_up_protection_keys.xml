@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="@string/you_owner"
+            android:text="@string/master_password"
 
             android:textSize="@dimen/sign_up_keys_title_text_size"
             android:textStyle="bold"
@@ -50,7 +50,7 @@
             android:id="@+id/generatedLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/of_your_identity"
+            android:text="@string/master_password_generated"
 
             android:textSize="@dimen/sign_up_keys_title_text_size"
             android:textColor="@color/black"
@@ -176,7 +176,7 @@
             android:paddingTop="@dimen/sign_up_password_download_button_padding_vertical"
             android:paddingBottom="@dimen/sign_up_password_download_button_padding_vertical"
 
-            android:text="@string/download_pdf"
+            android:text="@string/backup_password"
             app:layout_constraintBottom_toTopOf="@+id/savedItButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
