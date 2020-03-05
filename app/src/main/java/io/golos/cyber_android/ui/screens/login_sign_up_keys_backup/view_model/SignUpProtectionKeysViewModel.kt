@@ -7,14 +7,13 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingKeyCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModel
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.UserKeyType
-import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +24,6 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: SignUpProtectionKeysModel,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val currentUserRepository: CurrentUserRepositoryRead,
     private val clipboardUtils: ClipboardUtils
 ) : ViewModelBase<SignUpProtectionKeysModel>(dispatchersProvider, model) {
 
@@ -68,14 +66,8 @@ constructor(
             _command.value = SetLoadingVisibilityCommand(true)
 
             try {
-                val keys = model.allKeys
-
                 _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = StartExportingCommand(
-                    currentUserRepository.userName,
-                    currentUserRepository.userId,
-                    keys
-                )
+                _command.value = StartExportingKeyCommand(model.getDataForExporting())
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = SetLoadingVisibilityCommand(false)

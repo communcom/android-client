@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.UserNameValidator
 import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.domain.DispatchersProvider
@@ -26,7 +27,8 @@ class SignUpViewModel
 @Inject
 constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val dataPass: LoginActivityFragmentsDataPass
 ) : ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
@@ -152,6 +154,7 @@ constructor(
         selectedPhoneLiveData.postValue(phone)
 
         currentPhone = getNormalizedPhone(phone)
+        dataPass.putPhone(currentPhone)
 
         launch {
             signUpUseCase.userName = currentName

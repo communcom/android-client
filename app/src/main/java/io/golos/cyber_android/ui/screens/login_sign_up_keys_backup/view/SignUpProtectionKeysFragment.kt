@@ -9,10 +9,10 @@ import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding
 import io.golos.cyber_android.ui.dialogs.KeysBackupWarningDialog
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingKeyCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.shared.keys_to_pdf.PdfKeysExporter
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.pdf_export.PdfKeysExporter
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
@@ -65,7 +65,7 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateToMainScreenCommand -> navigateToMainScreen()
-            is StartExportingCommand -> keysExporter.processDataToExport(command.userName, command.userId, command.keys)
+            is StartExportingKeyCommand -> keysExporter.processDataToExport(requireContext(), command.exportData)
             is ShowBackupWarningDialogCommand -> showBackupWarningCommand()
             else -> throw UnsupportedOperationException("This command is not supported")
         }

@@ -1,13 +1,20 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model
 
+import android.util.Base64
+import com.squareup.moshi.Moshi
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.PdfPageExportData
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.QrCodeData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.UserKey
 import io.golos.domain.dto.UserKeyType
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class SignUpProtectionKeysModelImpl
@@ -15,7 +22,10 @@ class SignUpProtectionKeysModelImpl
 constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val userKeyStore: UserKeyStore,
-    private val keyValueStorage: KeyValueStorageFacade
+    private val keyValueStorage: KeyValueStorageFacade,
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    private val dataPass: LoginActivityFragmentsDataPass,
+    private val moshi: Moshi
 ) : ModelBaseImpl(), SignUpProtectionKeysModel {
 
     private lateinit var _allKeys: List<UserKey>
@@ -47,5 +57,29 @@ constructor(
                 throw ex
             }
         }
+    }
+
+    override fun getDataForExporting(): PdfPageExportData {
+        val userId = currentUserRepository.userId.userId
+        val userName = currentUserRepository.userName
+        val password = allKeys.single { it.keyType == UserKeyType.MASTER }.key
+
+        @Suppress("SimpleRedundantLet")
+        val qrCode = QrCodeData(userId, userName, password)
+            .let { moshi.adapter(QrCodeData::class.java).toJson(it) }
+            .let { it.toByteArray(Charsets.UTF_8) }
+            .let { Base64.encodeToString(it, Base64.DEFAULT) }
+
+
+        return  PdfPageExportData(
+            userName = userName,
+            userId = userId,
+            createDate = Date(),
+            phoneNumber = dataPass.getPhonePhone()!!,
+            password = password,
+            activeKey = allKeys.single { it.keyType == UserKeyType.ACTIVE }.key,
+            ownerKey = allKeys.single { it.keyType == UserKeyType.OWNER }.key,
+            qrText = qrCode
+        )
     }
 }

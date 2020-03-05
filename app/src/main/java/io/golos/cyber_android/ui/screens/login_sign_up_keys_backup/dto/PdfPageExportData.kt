@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto
 
 import java.util.*
 
-data class PdfPageData(
+data class PdfPageExportData(
     val userName: String,
     val userId: String,
 

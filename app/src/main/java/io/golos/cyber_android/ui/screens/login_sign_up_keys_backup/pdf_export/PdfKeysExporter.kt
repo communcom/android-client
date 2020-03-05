@@ -1,7 +1,8 @@
-package io.golos.cyber_android.ui.shared.keys_to_pdf
+package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.pdf_export
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,8 +13,7 @@ import com.obsez.android.lib.filechooser.ChooserDialog
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.NotificationDialog
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.UserKey
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.PdfPageExportData
 import timber.log.Timber
 import java.io.File
 
@@ -49,12 +49,11 @@ class PdfKeysExporter(private val fragment: Fragment) {
         }
     }
 
-    fun processDataToExport(userName: String, userId: UserIdDomain, keys: List<UserKey>) {
-        val keysSummary = PdfKeysUtils.getKeysSummary(fragment.requireContext(), userName, userId.userId, keys)
-        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(keysSummary, selectedPath)
+    fun processDataToExport(context: Context, dataToExport: PdfPageExportData) {
+        val saveResult = PdfKeysUtils.saveTextAsPdfDocument(context, dataToExport, selectedPath)
 
         if (saveResult) {
-            onSaveSuccess(PdfKeysUtils.getKeysSavePathInDir(selectedPath))
+            onSaveSuccess(PdfKeysUtils.getKeysSavePathInDir(dataToExport.userName, selectedPath))
         } else {
             onExportErrorListener?.invoke()
         }

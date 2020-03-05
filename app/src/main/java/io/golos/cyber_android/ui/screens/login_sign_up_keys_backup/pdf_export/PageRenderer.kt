@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model
+package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.pdf_export
 
 import android.content.Context
 import android.graphics.Typeface
@@ -6,7 +6,7 @@ import android.text.Layout
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.PdfPageData
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.PdfPageExportData
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
 import io.golos.pdf_renderer.document.DocumentPage
 import io.golos.pdf_renderer.document_params.*
@@ -31,7 +31,7 @@ class PageRenderer(private val context: Context) {
 
 
     @Suppress("NAME_SHADOWING")
-    fun render(pdfPage: DocumentPage, sourceData: PdfPageData) {
+    fun render(pdfPage: DocumentPage, sourceData: PdfPageExportData) {
         // Page
         scope(PageParams(margin = 25f)) { page ->
             // commun /
