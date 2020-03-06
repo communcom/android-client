@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.pdf_export
+package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.page_renderer
 
 import android.content.Context
 import android.graphics.Typeface
@@ -8,16 +8,29 @@ import androidx.annotation.StringRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.PdfPageExportData
 import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.domain.DispatchersProvider
+import io.golos.pdf_renderer.document.DocumentImpl
 import io.golos.pdf_renderer.document.DocumentPage
 import io.golos.pdf_renderer.document_params.*
+import io.golos.pdf_renderer.page_size.A4PageSize
 import io.golos.utils.scope
+import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Renders page with keys
  */
-class PageRenderer(private val context: Context) {
+class PageRendererImpl
+@Inject
+constructor (
+    private val appContext: Context,
+    private val dispatchersProvider: DispatchersProvider
+): PageRenderer {
     private val colorBlue = R.color.pdf_blue.getColor()
     private val colorBlueLight = R.color.pdf_blue_light.getColor()
     private val colorGrayDark = R.color.pdf_gray_dark.getColor()
@@ -29,6 +42,48 @@ class PageRenderer(private val context: Context) {
     private val text20Bold = text14Bold.copy(size = 20f)
     private val text25Bold = TextParams(size = 25f, typeFace = Typeface.BOLD)
 
+    /**
+     * Saved document
+     */
+    override var document: File? = null
+
+    /**
+     * Render the document and save it to a file
+     */
+    override suspend fun render(sourceData: PdfPageExportData) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            if(document != null) {
+                return@withContext
+            }
+
+            try {
+                val resultFile = getResultFile(sourceData.userName)
+
+                val pageInfo = A4PageSize()
+
+                DocumentImpl.create(appContext, pageInfo).use { doc ->
+                    doc.addPage().use { page ->
+                        render(page, sourceData)
+                    }
+
+                    FileOutputStream(resultFile).use { stream ->
+                        doc.writeTo(stream)
+                    }
+
+                    document = resultFile
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+            }
+        }
+    }
+
+    /**
+     * Remove the file
+     */
+    override fun remove() {
+        document?.delete()
+    }
 
     @Suppress("NAME_SHADOWING")
     fun render(pdfPage: DocumentPage, sourceData: PdfPageExportData) {
@@ -159,13 +214,13 @@ class PageRenderer(private val context: Context) {
     }
 
     @ColorInt
-    private fun Int.getColor(): Int = context.resources.getColorRes(this)
+    private fun Int.getColor(): Int = appContext.resources.getColorRes(this)
 
-    private fun Int.getString(): String = context.getString(this)
+    private fun Int.getString(): String = appContext.getString(this)
 
     private fun Date.getString(): String {
         val locale = Locale.getDefault()
-        val suffixes = context.resources.getStringArray(R.array.pdf_day_end)
+        val suffixes = appContext.resources.getStringArray(R.array.pdf_day_end)
 
         val day = SimpleDateFormat("d", Locale.getDefault()).format(this)
         val daySuffix = (day.toInt() % 10).let { if(it in 1..3) suffixes[it-1] else suffixes[3] }
@@ -174,32 +229,6 @@ class PageRenderer(private val context: Context) {
 
         return "${R.string.pdf_on.getString()} $month $day$daySuffix, $year"
     }
-}
 
-// Export example
-//private fun export() {
-//    val pageInfo = A4PageSize()
-//
-//    val pageData = PageData(
-//        userName = "fasdscdsacsd3",
-//        userId = "tst5utqchjpd",
-//        createDate = Date(),
-//        phoneNumber = "+19854344433",
-//        password = "P5JPDqyFMs3cjHApwmCStBiCow6DLQRHABKo1GZNmNFQm92WGfHR",
-//        activeKey = "5HqxtFTMWiiSF7eU5idX5Kujj5ggUa5tHiRVwAxHHuJLv7gUjFa",
-//        ownerKey = "5K2QS5FTZ3rXSNyeXrgm443imZASVfUuQ36sXJBUnHr3nBRbb8M",
-//        qrText = "Phew! We now know the basics of what StaticLayout is and how we can use it to draw multiline text to Canvas."
-//    )
-//
-//    DocumentImpl.create(this, pageInfo).use { doc ->
-//        doc.addPage().use { page ->
-//            val renderer = PageRenderer(this)
-//            renderer.render(page, pageData)
-//        }
-//
-//        val file = File(selectedPath, "1.pdf")
-//        FileOutputStream(file).use { stream ->
-//            doc.writeTo(stream)
-//        }
-//    }
-//}
+    private fun getResultFile(userName: String) = File(appContext.cacheDir, "Commun-private-keys($userName).pdf")
+}

@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowSaveDialogCommand
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportingKeyCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportToGoogleDriveCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModel
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
@@ -46,15 +46,6 @@ constructor(
         _command.value = ShowBackupWarningDialogCommand()
     }
 
-    fun onBackupCompleted() {
-        launch {
-            val newAuthState = keyValueStorage.getAuthState()!!.copy(isKeysExported = true)
-            keyValueStorage.saveAuthState(newAuthState)
-
-            _command.value = NavigateToMainScreenCommand()
-        }
-    }
-
     fun onWarningContinueClick() {
         launch {
             try {
@@ -66,13 +57,19 @@ constructor(
         }
     }
 
-    fun onExportPathSelected() {
+    fun onExportPathSelected(exportPath: String) {
         launch {
-            _command.value = SetLoadingVisibilityCommand(true)
-
             try {
-                _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = StartExportingKeyCommand(model.getDataForExporting())
+                _command.value = SetLoadingVisibilityCommand(true)
+
+                model.pageRenderer.render(model.getDataForExporting())
+                model.copyExportedDocumentTo(exportPath)
+
+                model.saveKeysExported()
+
+                _command.value = ShowMessageResCommand(R.string.pdf_save_completed, isError = false)
+
+                _command.value = NavigateToMainScreenCommand()
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = SetLoadingVisibilityCommand(false)
@@ -81,10 +78,48 @@ constructor(
         }
     }
 
+    fun onExportToGoogleDriveSelected() {
+        launch {
+            try {
+                model.pageRenderer.render(model.getDataForExporting())
+                _command.value = StartExportToGoogleDriveCommand(model.pageRenderer.document!!)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            }
+        }
+    }
+
+    fun onExportToGoogleDriveStarted() {
+        _command.value = SetLoadingVisibilityCommand(true)
+    }
+
+    fun onExportToGoogleDriveSuccess() {
+        launch {
+            model.saveKeysExported()
+
+            _command.value = SetLoadingVisibilityCommand(false)
+
+            _command.value = ShowMessageResCommand(R.string.pdf_save_completed, isError = false)
+
+            _command.value = NavigateToMainScreenCommand()
+        }
+    }
+
+    fun onExportToGoogleDriveFail() {
+        _command.value = SetLoadingVisibilityCommand(false)
+        _command.value = ShowMessageResCommand(R.string.common_general_error)
+    }
+
     fun onCopyMasterPasswordClick() {
         masterKey.value?.let {
             clipboardUtils.putPlainText(it)
             _command.value = ShowMessageResCommand(R.string.master_password_copied, isError = false)
         }
+    }
+
+    override fun onCleared() {
+        model.pageRenderer.remove()
+        super.onCleared()
     }
 }

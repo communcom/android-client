@@ -56,6 +56,10 @@ ext.versions = [
         playServicesMap       : '16.1.0',
         googleMapsUtils       : '0.5',
         playServicesVision    : '18.0.0',
+        playServicesAuth      : '17.0.0',
+        googleDriveApi        : 'v3-rev136-1.25.0',
+        googleApiClient       : '1.26.0',
+        googleGsonClient      : '1.26.0',
 
         //Firebase
         firebaseMessaging     : '19.0.1',
@@ -151,7 +155,11 @@ ext.deps = [
                 googleServicesLocation: "com.google.android.gms:play-services-location:$versions.playServicesLocation",
                 googleServicesMap     : "com.google.android.gms:play-services-maps:$versions.playServicesMap",
                 googleMapsUtils       : "com.google.maps.android:android-maps-utils:$versions.googleMapsUtils",
-                playServicesVision    : "com.google.android.gms:play-services-vision:$versions.playServicesVision"
+                playServicesVision    : "com.google.android.gms:play-services-vision:$versions.playServicesVision",
+                playServicesAuth      : "com.google.android.gms:play-services-auth:$versions.playServicesAuth",
+                googleDriveApi        : "com.google.apis:google-api-services-drive:$versions.googleDriveApi",
+                googleApiClient       : "com.google.api-client:google-api-client-android:$versions.googleApiClient",
+                googleGsonClient      : "com.google.http-client:google-http-client-gson:$versions.googleGsonClient",
         ],
 
         'firebase'              : [
