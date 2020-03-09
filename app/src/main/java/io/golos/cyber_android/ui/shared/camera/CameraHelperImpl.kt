@@ -9,7 +9,7 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.BuildConfig
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import java.io.File
 import javax.inject.Inject
 

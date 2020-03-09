@@ -13,7 +13,7 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors

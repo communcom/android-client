@@ -5,9 +5,9 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.extensions.getFormattedString
+import io.golos.utils.getFormattedString
 import io.golos.cyber_android.ui.shared.extensions.parentActivity
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunitiesCount
 
 @BindingAdapter("communitiesCount")

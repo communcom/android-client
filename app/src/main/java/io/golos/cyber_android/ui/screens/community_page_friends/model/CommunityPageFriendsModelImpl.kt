@@ -11,8 +11,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.extensions.map
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.MurmurHash
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

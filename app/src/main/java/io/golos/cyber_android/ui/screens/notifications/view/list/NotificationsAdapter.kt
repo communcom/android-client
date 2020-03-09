@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsV
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentErrorListItem
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.*
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 
 class NotificationsAdapter (

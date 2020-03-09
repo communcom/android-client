@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
-import io.golos.cyber_android.ui.shared.formatters.size.PluralSizeFormatter
+import io.golos.utils.format.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem

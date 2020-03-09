@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet_shared.history.dto
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 data class WalletHistorySeparatorListItem(
     override val id: Long = IdUtil.generateLongId(),

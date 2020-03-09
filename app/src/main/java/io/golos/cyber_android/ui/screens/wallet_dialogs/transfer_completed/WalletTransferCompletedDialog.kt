@@ -4,7 +4,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.DialogFragmentBase
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.utils.toDD_MMMM_YYYY_Format
 import kotlinx.android.synthetic.main.dialog_wallet_transfer_completed.*

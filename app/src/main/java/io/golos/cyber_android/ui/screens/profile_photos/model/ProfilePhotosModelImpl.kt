@@ -13,7 +13,7 @@ import io.golos.domain.BitmapsUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject

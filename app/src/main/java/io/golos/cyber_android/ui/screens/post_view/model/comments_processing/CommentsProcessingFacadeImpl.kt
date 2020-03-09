@@ -25,7 +25,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

@@ -24,22 +24,22 @@ import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelL
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
-import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimationFormatter
+import io.golos.utils.getColorRes
+import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
-import io.golos.domain.extensions.appendSpannedText
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.utils.helpers.appendSpannedText
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
 import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.utils.IdUtil
-import io.golos.utils.SPACE
+import io.golos.utils.id.IdUtil
+import io.golos.utils.helpers.SPACE
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -300,7 +300,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         result.appendSpannedText(context.resources.getString(R.string.reply), replySpan)
 
         // Time
-        val time = TimeEstimationFormatter(context).format(metadata.time)
+        val time = TimeEstimationFormatter.format(metadata.time, context)
         result.append(" ${SpecialChars.BULLET} ")
         result.append(time)
 

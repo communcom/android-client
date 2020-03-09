@@ -9,8 +9,8 @@ import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistory
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferDirection
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferType
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.getColorRes
+import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load

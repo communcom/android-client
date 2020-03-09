@@ -23,7 +23,7 @@ import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
 import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
 import io.golos.domain.use_cases.post.post_dto.TextBlock
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber

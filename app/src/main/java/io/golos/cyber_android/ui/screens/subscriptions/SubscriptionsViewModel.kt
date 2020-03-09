@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -58,7 +59,7 @@ class SubscriptionsViewModel @Inject constructor(
 
     val searchProgressVisibilityLiveData = _searchProgressVisibilityLiveData.toLiveData()
 
-    private var communitySearchQuery: String = io.golos.utils.EMPTY
+    private var communitySearchQuery: String = EMPTY
 
     private var getCommunitiesJob: Job? = null
 

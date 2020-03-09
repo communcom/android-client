@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragm
 import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeActivity
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.base.ActivityBase
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import javax.inject.Inject
 
 class EditorPageActivity : ActivityBase() {

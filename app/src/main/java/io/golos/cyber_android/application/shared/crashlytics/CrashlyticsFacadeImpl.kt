@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import com.crashlytics.android.Crashlytics
 import io.golos.cyber_android.BuildConfig
+import io.golos.cyber_android.R
 import io.golos.cyber_android.application.shared.display_info.DisplayInfoProvider
-import io.golos.cyber_android.ui.shared.extensions.getLocale
 import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DeviceInfoProvider
 import javax.inject.Inject
@@ -26,7 +26,7 @@ constructor(
             Crashlytics.setString("BUILD_FLAVOR", BuildConfig.FLAVOR)
             Crashlytics.setBool("IS_DEBUG_BUILD", BuildConfig.DEBUG)
 
-            Crashlytics.setString("LOCALE", appContext.resources.getLocale())
+            Crashlytics.setString("LOCALE", appContext.resources.getString(R.string.locale))
 
             Crashlytics.setString("COUNTRY", deviceInfoProvider.getCountryCode() ?: "")
 

@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor

@@ -16,13 +16,12 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dialogs.LoadingDialog
 import io.golos.domain.LogTags
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

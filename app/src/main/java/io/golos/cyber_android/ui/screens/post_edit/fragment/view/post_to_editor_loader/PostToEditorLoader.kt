@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.post_edit.fragment.view.post_to_editor
 
 import android.net.Uri
 import android.text.SpannableStringBuilder
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.post.editor_output.EmbedType
 import io.golos.domain.use_cases.post.editor_output.LinkInfo
 import io.golos.domain.use_cases.post.post_dto.*

@@ -20,7 +20,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import io.golos.utils.capitalize
+import io.golos.utils.helpers.capitalize
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject

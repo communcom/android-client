@@ -18,10 +18,8 @@ import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
@@ -32,11 +30,10 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

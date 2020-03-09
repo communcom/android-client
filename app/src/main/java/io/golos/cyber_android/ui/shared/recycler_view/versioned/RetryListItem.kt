@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.shared.recycler_view.versioned
 
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 /**
  * List item for loading indicator

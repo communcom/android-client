@@ -9,8 +9,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.UsersRepository
-import io.golos.domain.utils.IdUtil
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.MurmurHash
 import javax.inject.Inject
 
 class ListWorkerMutual

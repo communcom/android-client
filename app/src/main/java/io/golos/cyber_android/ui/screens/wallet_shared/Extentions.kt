@@ -5,7 +5,7 @@ import io.golos.cyber_android.R
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
-import io.golos.utils.capitalize
+import io.golos.utils.helpers.capitalize
 import java.util.*
 
 fun WalletCommunityBalanceRecordDomain.getDisplayName(context: Context): String =

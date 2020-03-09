@@ -10,9 +10,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
 import io.golos.cyber_android.ui.shared.animation.AnimationUtils
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import kotlinx.android.synthetic.main.view_wallet_send_points_collapsed_top_panel.view.*
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.*
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.backButton
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.selectCommunityButton

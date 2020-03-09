@@ -22,7 +22,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowNoConnectionDialogCommand
 import io.golos.cyber_android.ui.shared.popups.NoConnectionPopup
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 

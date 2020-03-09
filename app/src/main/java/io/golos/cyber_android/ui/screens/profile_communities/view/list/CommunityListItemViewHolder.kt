@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar

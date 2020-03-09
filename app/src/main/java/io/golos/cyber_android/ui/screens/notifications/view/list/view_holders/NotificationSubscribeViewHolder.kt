@@ -11,9 +11,9 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.Notificat
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
-import io.golos.utils.SPACE
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
+import io.golos.utils.helpers.SPACE
 import kotlinx.android.synthetic.main.item_notification.view.*
 
 class NotificationSubscribeViewHolder(

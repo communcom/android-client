@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletListDialogBase
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list.WalletChoosePointsDialogAdapter
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list.WalletChoosePointsDialogItemEventsProcessor
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 class WalletChoosePointsDialog : WalletListDialogBase<String, WalletChoosePointsDialogAdapter>(), WalletChoosePointsDialogItemEventsProcessor {
     companion object {

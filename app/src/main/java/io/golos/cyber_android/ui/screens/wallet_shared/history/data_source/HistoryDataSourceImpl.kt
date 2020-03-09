@@ -13,14 +13,14 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
-import io.golos.domain.utils.toLongId
-import io.golos.utils.dates.DateCommonBase
-import io.golos.utils.dates.ServerLocalNowDatesCalculator
+import io.golos.utils.id.toLongId
+import io.golos.utils.dates_local_now_calculator.DateCommonBase
+import io.golos.utils.dates_local_now_calculator.ServerLocalNowDatesCalculator
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
-import io.golos.utils.capitalize
+import io.golos.utils.helpers.capitalize
 
 class HistoryDataSourceImpl
 @Inject

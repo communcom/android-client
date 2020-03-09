@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.wallet.view.my_points
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar

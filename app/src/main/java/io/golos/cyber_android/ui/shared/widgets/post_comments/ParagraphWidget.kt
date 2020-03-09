@@ -21,9 +21,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
-import io.golos.domain.extensions.appendSpannable
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.utils.helpers.appendSpannable
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.use_cases.post.toTypeface
 

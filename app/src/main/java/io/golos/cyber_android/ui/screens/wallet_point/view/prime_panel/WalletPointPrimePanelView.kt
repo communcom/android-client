@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.BindingMethod
-import androidx.databinding.BindingMethods
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import kotlinx.android.synthetic.main.view_wallet_point_prime_panel.view.*
 

@@ -9,11 +9,10 @@ import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.domain.utils.MurmurHash
-import timber.log.Timber
+import io.golos.utils.id.MurmurHash
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import javax.inject.Inject
 import javax.inject.Named
 

@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommun
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand

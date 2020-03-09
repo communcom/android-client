@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_followers.dto
 
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 data class NoDataListItem(
     val filter: FollowersFilter,

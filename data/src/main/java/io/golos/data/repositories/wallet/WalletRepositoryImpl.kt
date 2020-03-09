@@ -19,8 +19,7 @@ import io.golos.domain.dto.UserKeyType
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
 import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.utils.amount.toServerPoints
-import io.golos.utils.amount.toServerTokens
+import io.golos.utils.format.DoubleFormatter
 import javax.inject.Inject
 
 class WalletRepositoryImpl
@@ -69,7 +68,7 @@ constructor(
             apiCallChain {
                 commun4j.transfer(
                     to = CyberName(toUser.userId),
-                    amount = amount.toServerPoints(),
+                    amount = DoubleFormatter.formatToServerPoints(amount),
                     currency = communityId,
                     memo = "",
                     bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -84,7 +83,7 @@ constructor(
             apiCallChain {
                 commun4j.exchange(
                     to = CyberName(toUser.userId),
-                    amount = amount.toServerTokens(),
+                    amount = DoubleFormatter.formatToServerTokens(amount),
                     currency = communityId,
                     memo = "",
                     bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -99,7 +98,7 @@ constructor(
     }
 
     override suspend fun convertPointsToCommun(amount: Double, communityId: String) {
-        val amountAsString = amount.toServerPoints()
+        val amountAsString = DoubleFormatter.formatToServerPoints(amount)
 
         apiCallChain {
             commun4j.transfer(
@@ -121,7 +120,7 @@ constructor(
         apiCallChain {
             commun4j.exchange(
                 to = CyberName(GlobalConstants.C_POINT_USER_ID),
-                amount = amount.toServerTokens(),
+                amount = DoubleFormatter.formatToServerTokens(amount),
                 currency = GlobalConstants.COMMUN_CODE,
                 memo = communityId,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,

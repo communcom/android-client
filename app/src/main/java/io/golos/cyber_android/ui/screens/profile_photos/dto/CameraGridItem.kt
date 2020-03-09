@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile_photos.dto
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 data class CameraGridItem(
     override val id: Long = IdUtil.generateLongId(),

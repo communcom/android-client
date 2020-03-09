@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

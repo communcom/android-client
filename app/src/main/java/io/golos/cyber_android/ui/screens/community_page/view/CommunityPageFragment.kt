@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsL
 import io.golos.cyber_android.ui.screens.community_page_members.view.CommunityPageMembersFragment
 import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.glide.loadCover
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -28,7 +28,8 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.popups.NoConnectionPopup
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
-import io.golos.utils.toPluralInt
+import io.golos.utils.helpers.EMPTY
+import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
@@ -204,7 +205,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             CommunityPostFragment.newInstance(communityPage.communityId, communityPage.alias)
         )
         fragmentPagesList.add(
-            LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))
+            LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
         )
         fragmentPagesList.add(
             CommunityPageAboutFragment.newInstance(communityPage.description)
@@ -215,7 +216,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         return fragmentPagesList
     }
 
-    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)
+    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)
 
     private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
 

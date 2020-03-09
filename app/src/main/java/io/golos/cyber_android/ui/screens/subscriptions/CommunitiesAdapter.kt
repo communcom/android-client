@@ -8,7 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.paginator.PaginalAdapter
-import io.golos.utils.toPluralInt
+import io.golos.utils.helpers.SPACE
+import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.item_subscription.view.*
 import java.text.NumberFormat
 import java.util.*
@@ -89,7 +90,7 @@ class CommunitiesAdapter : PaginalAdapter<Community>() {
         private fun setFollowersCount(followersCount: Int) {
             val followersCountFormatted = NumberFormat.getNumberInstance(Locale.US).format(followersCount)
             val followersLabel = itemView.context.resources.getQuantityString(R.plurals.plural_followers, followersCount.toPluralInt())
-            itemView.tvFollowers.text = followersCountFormatted.plus(io.golos.utils.SPACE).plus(followersLabel)
+            itemView.tvFollowers.text = followersCountFormatted.plus(SPACE).plus(followersLabel)
         }
 
         private fun setFollowingStatus(following: Boolean) {

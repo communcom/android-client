@@ -26,7 +26,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.shared.utils.*
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.fragment_notifications.*
 
 class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, NotificationsViewModel>() {

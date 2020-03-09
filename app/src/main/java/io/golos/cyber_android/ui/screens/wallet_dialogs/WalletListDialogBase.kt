@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.recycler_view.ListAdapterBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.dialog_wallet_items_list.*
 
 /**

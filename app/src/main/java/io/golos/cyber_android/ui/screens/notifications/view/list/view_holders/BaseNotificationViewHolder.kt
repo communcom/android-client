@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
-import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimationFormatter
+import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
@@ -58,7 +58,7 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
     }
 
     private fun setCreateTime(listItem: BaseNotificationItem){
-        val estimationTime = TimeEstimationFormatter(itemView.context).format(listItem.createTime)
+        val estimationTime = TimeEstimationFormatter.format(listItem.createTime, itemView.context)
         itemView.tvCreateTime.text = estimationTime
     }
 

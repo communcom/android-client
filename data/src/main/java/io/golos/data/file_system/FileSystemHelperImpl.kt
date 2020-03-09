@@ -5,7 +5,7 @@ import android.net.Uri
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FileSystemHelper
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File

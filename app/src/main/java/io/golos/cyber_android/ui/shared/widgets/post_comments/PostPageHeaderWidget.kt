@@ -11,13 +11,13 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.cyber_android.ui.shared.formatters.reward.RewardFormatter
+import io.golos.utils.format.RewardFormatter
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
 
 /**

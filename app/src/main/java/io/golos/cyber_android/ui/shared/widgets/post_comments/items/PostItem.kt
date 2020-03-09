@@ -14,12 +14,12 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded
-import io.golos.utils.positiveValue
+import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*

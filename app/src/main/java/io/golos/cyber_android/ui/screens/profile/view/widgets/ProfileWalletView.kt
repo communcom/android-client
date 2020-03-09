@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_profile_wallet.view.*
 
 class ProfileWalletView

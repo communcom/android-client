@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.Notificat
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationUpVoteItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.*
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
     return when(this){

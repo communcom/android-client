@@ -3,10 +3,8 @@ package io.golos.cyber_android.ui.screens.wallet_shared.collapsed_panel
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import androidx.databinding.BindingMethod
-import androidx.databinding.BindingMethods
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.formatters.currency.CurrencyFormatter
+import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_wallet_collapsed_panel.view.*
 
 class WalletCollapsedPanelView

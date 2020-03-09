@@ -12,7 +12,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named

@@ -8,7 +8,7 @@ import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Util
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.utils.getColorRes
 import java.nio.ByteBuffer
 import java.security.MessageDigest
 

@@ -14,8 +14,8 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.domain.utils.IdUtil
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.IdUtil
+import io.golos.utils.id.MurmurHash
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

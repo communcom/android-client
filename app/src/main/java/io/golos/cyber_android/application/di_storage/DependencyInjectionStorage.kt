@@ -89,7 +89,7 @@ import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */
