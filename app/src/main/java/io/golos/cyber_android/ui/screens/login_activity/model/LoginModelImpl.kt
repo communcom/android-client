@@ -6,7 +6,9 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.AuthStateDomain
+import io.golos.domain.dto.AuthType
 import io.golos.domain.dto.UserKeyType
+import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.use_cases.auth.AuthUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -20,7 +22,8 @@ constructor(
     private val authUseCase: AuthUseCase,
     private val userKeyStore: UserKeyStore,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val networkStateChecker: NetworkStateChecker
+    private val networkStateChecker: NetworkStateChecker,
+    private val currentUserRepository: CurrentUserRepository
 ) : ModelBaseImpl(),
     LoginModel {
 
@@ -34,9 +37,19 @@ constructor(
 
     override suspend fun hasAuthState(): Boolean =
         withContext(dispatchersProvider.ioDispatcher) {
+            val isAuthStateSavedFromNativeApp = keyValueStorage.isAuthStateSavedFromNativeApp()
+
             keyValueStorage.getAuthState()
                 ?.let {
-                    authState = it
+                    // Data correction for compatibility with WebView users
+                    var correctedState = it
+                    if(it.isKeysExported && !isAuthStateSavedFromNativeApp) {
+                        correctedState = it.copy(isKeysExported = false, type = AuthType.SIGN_UP)
+                        keyValueStorage.saveAuthState(correctedState)
+                    }
+
+                    authState = correctedState
+                    currentUserRepository.authState = correctedState
                     true
                 } ?: false
         }

@@ -13,7 +13,7 @@ buildscript {
     }
 
     ext {
-        appVesrionCode = 28
+        appVesrionCode = 30
         appVersionName = "1.0"
 
         archCoreTesting = "2.0.0"
@@ -26,10 +26,6 @@ buildscript {
         classpath gradlePlugins.fabric
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-
-    
-
-
 }
 
 allprojects {

@@ -17,6 +17,8 @@ interface KeyValueStorageFacade {
     fun getAuthState(): AuthStateDomain?
     fun removeAuthState()
 
+    fun isAuthStateSavedFromNativeApp(): Boolean
+
     fun saveUserKey(key: ByteArray, keyType: UserKeyType)
     fun getUserKey(keyType: UserKeyType): ByteArray?
     fun removeUserKey(keyType: UserKeyType)

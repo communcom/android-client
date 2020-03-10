@@ -39,7 +39,6 @@ constructor(
                 _command.value = HideNoConnectionDialogCommand()
             }
 
-
             if(!model.hasAuthState()) {
                 hideSplashAnimation()
                 _command.value = NavigateToWelcomeScreenCommand()
